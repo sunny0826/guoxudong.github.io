@@ -1,8 +1,8 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Guo Xudong&#39;s Blog·郭旭东的博客 – Service Mesh</title>
+    <title>Guo Xudong&#39;s Blog·郭旭东的博客 – service mesh</title>
     <link>/tags/service-mesh/</link>
-    <description>Recent content in Service Mesh on Guo Xudong&#39;s Blog·郭旭东的博客</description>
+    <description>Recent content in service mesh on Guo Xudong&#39;s Blog·郭旭东的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <lastBuildDate>Wed, 08 Jul 2020 15:08:09 +0800</lastBuildDate>
