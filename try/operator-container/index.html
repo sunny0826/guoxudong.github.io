@@ -7,6 +7,7 @@
 
 <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
 
+<link rel="alternate" type="application/rss&#43;xml" href="/try/operator-container/index.xml">
 
 
 <link rel="shortcut icon" href="/favicons/favicon.ico" >
@@ -28,41 +29,36 @@
            "@type": "WebPage",
            "@id": "\/"
       },
-      "articleSection" : "post",
-      "name" : "Istio 升级新方式：金丝雀升级",
-      "headline" : "Istio 升级新方式：金丝雀升级",
-      "description" : "Istio 1.6 推出了渐进式的升级方式：金丝雀升级，为相对头疼的 Istio 升级问题提供了一种解决方案。",
+      "articleSection" : "try",
+      "name" : "Container 实验场景",
+      "headline" : "Container 实验场景",
+      "description" : "chaosblade operator container 实验场景\n",
       "inLanguage" : "en-US",
       "author" : "",
       "creator" : "",
       "publisher": "",
       "accountablePerson" : "",
       "copyrightHolder" : "",
-      "copyrightYear" : "2020",
-      "datePublished": "2020-07-08 15:08:09 \x2b0800 \x2b0800",
-      "dateModified" : "2020-07-08 15:08:09 \x2b0800 \x2b0800",
-      "url" : "\/post\/istio-upgrade\/",
-      "wordCount" : "184",
-      "keywords" : [ "istio","service mesh","Kubeflow" ]
+      "copyrightYear" : "0001",
+      "datePublished": "0001-01-01 00:00:00 \x2b0000 UTC",
+      "dateModified" : "0001-01-01 00:00:00 \x2b0000 UTC",
+      "url" : "\/try\/operator-container\/",
+      "wordCount" : "0",
+      "keywords" : [ "Kubeflow" ]
   }
   </script>
-<title>Istio 升级新方式：金丝雀升级 | Guo Xudong&#39;s Blog·郭旭东的博客</title><meta property="og:title" content="Istio 升级新方式：金丝雀升级" />
-<meta property="og:description" content="Istio 1.6 推出了渐进式的升级方式：金丝雀升级，为相对头疼的 Istio 升级问题提供了一种解决方案。" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="/post/istio-upgrade/" />
-<meta property="article:published_time" content="2020-07-08T15:08:09+08:00" />
-<meta property="article:modified_time" content="2020-08-05T15:15:38+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
-<meta itemprop="name" content="Istio 升级新方式：金丝雀升级">
-<meta itemprop="description" content="Istio 1.6 推出了渐进式的升级方式：金丝雀升级，为相对头疼的 Istio 升级问题提供了一种解决方案。">
-<meta itemprop="datePublished" content="2020-07-08T15:08:09&#43;08:00" />
-<meta itemprop="dateModified" content="2020-08-05T15:15:38&#43;08:00" />
-<meta itemprop="wordCount" content="184">
-
-
-
-<meta itemprop="keywords" content="istio,service mesh," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Istio 升级新方式：金丝雀升级"/>
-<meta name="twitter:description" content="Istio 1.6 推出了渐进式的升级方式：金丝雀升级，为相对头疼的 Istio 升级问题提供了一种解决方案。"/>
+<title>Container 实验场景 | Guo Xudong&#39;s Blog·郭旭东的博客</title><meta property="og:title" content="Container 实验场景" />
+<meta property="og:description" content="chaosblade operator container 实验场景
+" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="/try/operator-container/" />
+<meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
+<meta itemprop="name" content="Container 实验场景">
+<meta itemprop="description" content="chaosblade operator container 实验场景
+"><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Container 实验场景"/>
+<meta name="twitter:description" content="chaosblade operator container 实验场景
+"/>
 
 
 
@@ -79,8 +75,9 @@
   
   
 
+    <title>Container 实验场景 | Guo Xudong&#39;s Blog·郭旭东的博客</title>
   </head>
-  <body class="td-page td-blog">
+  <body class="td-section">
     <header>
       
 <nav
@@ -113,10 +110,10 @@
 				
 				
 				
-				<a class="nav-link active"
+				<a class="nav-link"
 					href="/post/"
 					>
-					<span class="active" >博客</span>
+					<span>博客</span>
 				</a>
 			</li>
 			
@@ -141,10 +138,10 @@
 				
 				
 				
-				<a class="nav-link"
+				<a class="nav-link active"
 					href="/try/"
 					>
-					<span>互动教程</span>
+					<span class="active" >互动教程</span>
 				</a>
 			</li>
 			
@@ -158,282 +155,158 @@
 </div>
 </nav>
     </header>
-    <div class="container-fluid td-outer" style="margin-top: 30px;">
+    <div class="container-fluid td-outer">
       <div class="td-main">
         <div class="row flex-xl-nowrap">
-          <div class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none"></div>
-          <div class="d-none d-xl-block col-xl-3 td-toc d-print-none mt-5">
+          <div class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
             
 
 
 
 
+<div id="td-sidebar-menu" class="td-sidebar__inner">
+  <form class="td-sidebar__search d-flex align-items-center">
+    
+    <button class="btn btn-link td-sidebar__toggle d-md-none p-0 ml-3 fas fa-bars" type="button" data-toggle="collapse" data-target="#td-section-nav" aria-controls="td-docs-nav" aria-expanded="false" aria-label="Toggle section navigation">
+    </button>
+  </form>
+  <nav class="collapse td-sidebar-nav pt-2 pl-4" id="td-section-nav">
+    
+    
 
 
 
 
 
 
-
-<nav id="TableOfContents">
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/try/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">互动教程</a>
+  </li>
   <ul>
-    <li><a href="#前言">前言</a></li>
-    <li><a href="#金丝雀升级">金丝雀升级</a>
-      <ul>
-        <li><a href="#控制平面升级">控制平面升级</a></li>
-        <li><a href="#数据平面升级">数据平面升级</a></li>
-      </ul>
+    <li class="collapse show" id="try">
+      
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/try/operator-pod/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Pod 实验场景</a>
+  </li>
+  <ul>
+    <li class="collapse " id="tryoperator-pod">
+      
+      
+      
     </li>
-    <li><a href="#原地升级--降级">原地升级 & 降级</a></li>
-    <li><a href="#总结">总结</a></li>
-    <li><a href="#参考">参考</a></li>
   </ul>
-</nav>
+</ul>
+
+      
+      
+      
+      
 
 
 
-            <hr>
-            
-            
-                
-            <div class="article-widget">
-              <div class="hr-light"></div>
-              <h5>最新博客</h5>
-              <ul>
-                
-                <li><a href="/post/the-cloud-native-architecture-white-paper-oam/">读完《云原生架构白皮书》，我们来谈谈开放应用模型（OAM）</a></li>
-                
-                <li><a href="/post/start-chaosblade-3/">ChaosBlade：从零开始的混沌工程（四）</a></li>
-                
-                <li><a href="/post/istio-upgrade/">Istio 升级新方式：金丝雀升级</a></li>
-                
-                <li><a href="/post/flagger-nginx-ingress/">基于 Flagger 和 Nginx-Ingress 实现金丝雀发布</a></li>
-                
-                <li><a href="/post/start-oam/">以应用为中心：开放应用模型（OAM）初探</a></li>
-                
-              </ul>
-            </div>
-            
-            
-            <hr>
-            <div class="article-widget">
-              <div class="hr-light"></div>
-              <h5>相关阅读</h5>
-              <ul>
-                
-                <li><a href="/post/istio-bookinfo-demo/">Istio初探之Bookinfo样例部署</a></li>
-                
-                <li><a href="/post/istio-share/">浅析ServiceMesh &amp; Istio</a></li>
-                
-                <li><a href="/post/istio-demo/">阿里云环境Istio初探</a></li>
-                
-                <li><a href="/post/whats-a-service-mesh-and-why-do-i-need-one/">Service Mesh是什么，我们又为什么需要它</a></li>
-                
-              </ul>
-            </div>
-            
-            <hr>
-            <h5>分类</h5>
-            <div>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/devops" style="display: inline-block;">devops</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/go" style="display: inline-block;">go</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/istio" style="display: inline-block;">istio</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/kubernetes" style="display: inline-block;">kubernetes</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/kustomize" style="display: inline-block;">kustomize</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/oam" style="display: inline-block;">oam</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/%e5%85%ac%e7%9b%8a" style="display: inline-block;">公益</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/%e5%ba%94%e7%94%a8%e7%a8%8b%e5%ba%8f%e5%bc%80%e5%8f%91" style="display: inline-block;">应用程序开发</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/%e5%bc%80%e6%ba%90" style="display: inline-block;">开源</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/%e6%95%88%e7%8e%87" style="display: inline-block;">效率</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/%e6%9c%8d%e5%8a%a1%e7%bd%91%e6%a0%bc" style="display: inline-block;">服务网格</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/%e6%b7%b7%e6%b2%8c%e5%b7%a5%e7%a8%8b" style="display: inline-block;">混沌工程</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/%e7%a8%8b%e5%ba%8f%e5%91%98%e8%b6%a3%e9%97%bb" style="display: inline-block;">程序员趣闻</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/%e7%b3%bb%e7%bb%9f" style="display: inline-block;">系统</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/%e7%bf%bb%e8%af%91" style="display: inline-block;">翻译</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/%e8%82%ba%e7%82%8e%e7%96%ab%e6%83%85" style="display: inline-block;">肺炎疫情</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/%e8%be%b9%e7%bc%98%e8%ae%a1%e7%ae%97" style="display: inline-block;">边缘计算</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/%e9%83%a8%e7%bd%b2%e5%ae%89%e8%a3%85" style="display: inline-block;">部署安装</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/%e9%97%ae%e9%a2%98%e8%a7%a3%e5%86%b3" style="display: inline-block;">问题解决</a>
-              
-            </div>
-            <hr>
-            <h5>标签</h5>
-            <div>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/ci/cd" style="display: inline-block;">ci/cd</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/devops" style="display: inline-block;">devops</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/docker" style="display: inline-block;">docker</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/drone" style="display: inline-block;">drone</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/github" style="display: inline-block;">github</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/go" style="display: inline-block;">go</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/grafana" style="display: inline-block;">grafana</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/helm" style="display: inline-block;">helm</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/ingress" style="display: inline-block;">ingress</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/istio" style="display: inline-block;">istio</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/jenkins" style="display: inline-block;">jenkins</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/k3d" style="display: inline-block;">k3d</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/k3s" style="display: inline-block;">k3s</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/kubecm" style="display: inline-block;">kubecm</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/kubernetes" style="display: inline-block;">kubernetes</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/kustomize" style="display: inline-block;">kustomize</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/linux" style="display: inline-block;">linux</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/oam" style="display: inline-block;">oam</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/prometheus" style="display: inline-block;">prometheus</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/python" style="display: inline-block;">python</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/rancher" style="display: inline-block;">rancher</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/service-mesh" style="display: inline-block;">service-mesh</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/sonar" style="display: inline-block;">sonar</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/velero" style="display: inline-block;">velero</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e4%ba%91%e5%8e%9f%e7%94%9f" style="display: inline-block;">云原生</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e5%85%ac%e7%9b%8a" style="display: inline-block;">公益</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e5%8d%8e%e4%b8%ba%e4%ba%91" style="display: inline-block;">华为云</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e5%ae%89%e5%85%a8" style="display: inline-block;">安全</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e5%ae%89%e5%85%a8%e5%8a%9e%e5%85%ac" style="display: inline-block;">安全办公</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e5%ae%b9%e5%99%a8" style="display: inline-block;">容器</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e5%b7%a5%e5%85%b7" style="display: inline-block;">工具</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e5%bc%80%e6%ba%90" style="display: inline-block;">开源</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e5%be%ae%e6%9c%8d%e5%8a%a1" style="display: inline-block;">微服务</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e6%97%a5%e5%bf%97" style="display: inline-block;">日志</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e6%97%a5%e5%bf%97%e6%9c%8d%e5%8a%a1" style="display: inline-block;">日志服务</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e6%b5%81%e9%87%8f" style="display: inline-block;">流量</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e6%b7%b7%e6%b2%8c%e5%b7%a5%e7%a8%8b" style="display: inline-block;">混沌工程</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e7%bf%bb%e8%af%91" style="display: inline-block;">翻译</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e8%82%ba%e7%82%8e%e7%96%ab%e6%83%85" style="display: inline-block;">肺炎疫情</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e8%bd%af%e4%bb%b6%e8%ae%be%e8%ae%a1" style="display: inline-block;">软件设计</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e8%bf%9c%e7%a8%8b%e5%8a%9e%e5%85%ac" style="display: inline-block;">远程办公</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e9%98%bf%e9%87%8c%e4%ba%91" style="display: inline-block;">阿里云</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e9%ab%98%e6%95%88%e5%8a%9e%e5%85%ac" style="display: inline-block;">高效办公</a>
-              
-            </div>
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/try/operatoe-node/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Node 实验场景</a>
+  </li>
+  <ul>
+    <li class="collapse " id="tryoperatoe-node">
+      
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/try/tekton-dashboard/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Tekton Dashboad</a>
+  </li>
+  <ul>
+    <li class="collapse " id="trytekton-dashboard">
+      
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="/try/operator-container/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Container 实验场景</a>
+  </li>
+  <ul>
+    <li class="collapse show" id="tryoperator-container">
+      
+      
+      
+    </li>
+  </ul>
+</ul>
+
+      
+      
+    </li>
+  </ul>
+</ul>
+
+  </nav>
+</div>
+
+
+
           </div>
+          <div class="d-none d-xl-block col-xl-2 td-toc d-print-none">
+            
 
-          <main class="col-12 col-md-6 col-xl-7 pl-md-5 pr-md-4" role="main">
-            <a class="button button-glow button-border button-rounded button-primary td-rss-button d-none d-lg-block" href="/post/index.xml" target="_blank">
-              RSS <i class="fa fa-rss ml-2 "></i>
-            </a>
+
+
+
+
+
+
+
+
+
+
+
+
+          </div>
+          <main class="col-12 col-md-9 col-xl-8 pl-md-5" role="main">
             
   
 
@@ -448,198 +321,57 @@
 
 
 <li class="breadcrumb-item" >
-	<a href="/post/">博客</a>
+	<a href="/try/">互动教程</a>
 </li>
 
 
 
 
 <li class="breadcrumb-item active" aria-current="page">
-	<a href="/post/istio-upgrade/">Istio 升级新方式：金丝雀升级</a>
+	<a href="/try/operator-container/">Container 实验场景</a>
 </li>
 
 	</ol>
 </nav	>
 
             
-
-<div class="td-content" id="road">
-	<h1>Istio 升级新方式：金丝雀升级</h1>
+<div class="td-content">
+	<h1>Container 实验场景</h1>
+	<div class="lead">chaosblade operator container 实验场景</div>
 	
-	<div class="td-byline mb-4">
-		<span>By  <b>guoxudong</b> </span> ·
-		<span>
-			1 分钟阅读时间
-		</span> ·
-		<span>最近更新于 </span><time datetime="2020-08-05"
-			class="text-muted">2020年07月08日</time> ·
-		
-		<a href="/categories/istio">
-			Istio</a>
-		
+		<div class="section-index">
+    
+    
+    
+    
+    <hr class="panel-line">
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    
+</div>
+
+	
+	<div class="mx-auto text-right">
+	  <a class="button button-raised button-primary button-pill mr-3 mb-4" href="https://katacoda.com/guoxudong/scenarios/chaosblade-container-experiment" target="view_window">
+		在 katacoda 中打开 <i class="fas fa-arrow-alt-circle-right ml-2"></i>
+	  </a>
 	</div>
-
+	<div id="katacoda-scenario-1"
+    data-katacoda-id="guoxudong/chaosblade-container-experiment"
+    data-katacoda-color="004d7f"
+	style="height: 800px; padding-top: 20px;"></div>
 	
-
-<div class="share-box" aria-hidden="true">
-  <ul class="share">
-    <li>
-      <a href="https://twitter.com/intent/tweet?url=%2fpost%2fistio-upgrade%2f&amp;text=Istio%20%e5%8d%87%e7%ba%a7%e6%96%b0%e6%96%b9%e5%bc%8f%ef%bc%9a%e9%87%91%e4%b8%9d%e9%9b%80%e5%8d%87%e7%ba%a7" target="_blank" rel="noopener" class="share-btn-twitter">
-        <i class="fab fa-twitter"></i>
-      </a>
-    </li>
-    <li>
-      <a href="https://www.facebook.com/sharer.php?u=%2fpost%2fistio-upgrade%2f&amp;t=Istio%20%e5%8d%87%e7%ba%a7%e6%96%b0%e6%96%b9%e5%bc%8f%ef%bc%9a%e9%87%91%e4%b8%9d%e9%9b%80%e5%8d%87%e7%ba%a7" target="_blank" rel="noopener" class="share-btn-facebook">
-        <i class="fab fa-facebook-f"></i>
-      </a>
-    </li>
-    <li>
-      <a href="mailto:?subject=Istio%20%e5%8d%87%e7%ba%a7%e6%96%b0%e6%96%b9%e5%bc%8f%ef%bc%9a%e9%87%91%e4%b8%9d%e9%9b%80%e5%8d%87%e7%ba%a7&amp;body=%2fpost%2fistio-upgrade%2f" target="_blank" rel="noopener" class="share-btn-email">
-        <i class="fas fa-envelope"></i>
-      </a>
-    </li>
-    <li>
-      <a href="https://www.linkedin.com/shareArticle?url=%2fpost%2fistio-upgrade%2f&amp;title=Istio%20%e5%8d%87%e7%ba%a7%e6%96%b0%e6%96%b9%e5%bc%8f%ef%bc%9a%e9%87%91%e4%b8%9d%e9%9b%80%e5%8d%87%e7%ba%a7" target="_blank" rel="noopener" class="share-btn-linkedin">
-        <i class="fab fa-linkedin-in"></i>
-      </a>
-    </li>
-    <li>
-      <a href="https://web.whatsapp.com/send?text=Istio%20%e5%8d%87%e7%ba%a7%e6%96%b0%e6%96%b9%e5%bc%8f%ef%bc%9a%e9%87%91%e4%b8%9d%e9%9b%80%e5%8d%87%e7%ba%a7%2fpost%2fistio-upgrade%2f/" target="_blank" rel="noopener" class="share-btn-whatsapp">
-        <i class="fab fa-whatsapp"></i>
-      </a>
-    </li>
-    <li>
-      <a href="https://service.weibo.com/share/share.php?url=%2fpost%2fistio-upgrade%2f&amp;title=Istio%20%e5%8d%87%e7%ba%a7%e6%96%b0%e6%96%b9%e5%bc%8f%ef%bc%9a%e9%87%91%e4%b8%9d%e9%9b%80%e5%8d%87%e7%ba%a7" target="_blank" rel="noopener" class="share-btn-weibo">
-        <i class="fab fa-weibo"></i>
-      </a>
-    </li>
-    <li>
-      <a href="https://reddit.com/submit?url=%2fpost%2fistio-upgrade%2f&amp;title=Istio%20%e5%8d%87%e7%ba%a7%e6%96%b0%e6%96%b9%e5%bc%8f%ef%bc%9a%e9%87%91%e4%b8%9d%e9%9b%80%e5%8d%87%e7%ba%a7" target="_blank" rel="noopener" class="share-btn-reddit">
-        <i class="fab fa-reddit-alien"></i>
-      </a>
-    </li>
-    <li>
-      <a href=# onClick="javascript:window.open('/wechart?url=\/post\/istio-upgrade\/','weixin','height=560, width=470, top=100, location=no, toolbar=no, menubar=no, status=no')" target="_blank" rel="noopener" class="share-btn-weixin">
-        <i class="fab fa-weixin"></i>
-      </a>
-    </li>
-</ul>
-</div>
-
-
-	<div class="alert alert-primary mb-4" role="alert">
-		<h4 class="alert-heading">摘要</h4>
-		<span class="text-muted">Istio 1.6 推出了渐进式的升级方式：金丝雀升级，为相对头疼的 Istio 升级问题提供了一种解决方案。</span>
-	</div>
-	<img src="https://tva3.sinaimg.cn/large/ad5fbf65ly1ggjn49yrfgj228011bjuj.jpg" alt="" style="max-width: 80%;">
-
-	<h2 id="前言">前言</h2>
-<p>自 1.5 版本开始，Istio 就弃用了之前使用 <code>Helm</code> 的安装方式。而 1.6 发布也有一段时间了，目前都已经到了 <code>1.6.4</code> 版本，就升级部分，Istio 1.6 推出了渐进式的升级方式：金丝雀升级，为相对头疼的 Istio 升级问题提供了一种解决方案。</p>
-<blockquote>
-<p>Istio 不支持跨版本升级。本文仅讲解从 1.5 版本升级到 1.6 版本。如果您使用的是旧版本，请先升级到 1.5 版本。</p>
-</blockquote>
-<h2 id="金丝雀升级">金丝雀升级</h2>
-<p>顾名思义，金丝雀升级可以让新老版本的 <code>istiod</code> 同时存在，并允许将所有流量在由新版控制平面 <code>istiod-canary</code> 控制之前，先将一小部分工作负载交由新版本 <code>istiod-canary</code> 控制，并进行监控，渐进式的完成升级。该方式比原地升级安全的多，也是现在推荐的升级方式。</p>
-<h3 id="控制平面升级">控制平面升级</h3>
-<p>首先需要<a href="https://github.com/istio/istio/releases">下载新版本 Istio</a> 并切换目录为新版本目录。</p>
-<p>安装<code>canary</code>版本，将<code>revision</code>字段设置为<code>canary</code>：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ istioctl install --set <span style="color:#40ffff">revision</span>=canary
-</code></pre></div><p>这里会部署新的 <code>istiod-canary</code>，但并不会对原有的控制平面造成影响，部署成功后会看到两个并行的 <code>istiod</code>：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get pods -n istio-system
-NAME                                        READY   STATUS    RESTARTS   AGE
-pod/istiod-85745c747b-knlwb                 1/1     Running   <span style="color:#3677a9">0</span>          33m
-pod/istiod-canary-865f754fdd-gx7dh          1/1     Running   <span style="color:#3677a9">0</span>          3m25s
-</code></pre></div><p>这里还可以看到新版的 <code>sidecar injector</code> 配置：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get mutatingwebhookconfigurations
-NAME                            CREATED AT
-istio-sidecar-injector          2020-07-07T08:39:37Z
-istio-sidecar-injector-canary   2020-07-07T09:06:24Z
-</code></pre></div><h3 id="数据平面升级">数据平面升级</h3>
-<p>只安装 <code>canary</code> 版本的控制平面并不会对现有的代理造成影响，要升级数据平面，并将他们指向新的控制平面，就需要在 namespace 中插入 <code>istio.io/rev</code> 标签。</p>
-<p>例如，想要要升级 <code>default</code> namespace 的数据平面，需要添加 <code>istio.io/rev</code> 标签并删除<code>istio-injection</code>标签，以指向 <code>canary</code> 版本的控制平面：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl label namespace default istio-injection- istio.io/rev=canary
-</code></pre></div><p>注意：<code>istio-injection</code> 标签必须删除，因为该标签的优先级高于 <code>istio.io/rev</code> 标签，保留该标签将导致无法升级数据平面。</p>
-<p>在 namespace 更新成功后，需要重启 Pod 来重新注入 Sidecar：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl rollout restart deployment -n default
-</code></pre></div><p>当重启成功后，该 namespace 的 pod 将被配置指向新的<code>istiod-canary</code>控制平面，使用如下命令查看启用新代理的 Pod：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get pods -n default -l istio.io/rev=canary
-</code></pre></div><p>同时可以使用如下命令验证新 Pod 的控制平面为<code>istiod-canary</code>：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ istioctl proxy-config endpoints <span style="color:#ed9d13">${</span><span style="color:#40ffff">pod_name</span><span style="color:#ed9d13">}</span>.default --cluster xds-grpc -ojson | grep hostname
-    <span style="color:#ed9d13">&#34;hostname&#34;</span>: <span style="color:#ed9d13">&#34;istiod-canary.istio-system.svc&#34;</span>
-</code></pre></div><p>这时 <code>default</code> namespace 内的 Pod 就完成了金丝雀升级，接下来就可以进行验证，确定这些 Pod 有没有因为 Istio 升级而导致功能异常。</p>
-<h2 id="原地升级--降级">原地升级 &amp; 降级</h2>
-<p>目前原地升级有很大的概率通不过升级检测，导致无法升级，不推荐这种升级方式，这里就不做介绍了，详情见<a href="https://istio.io/latest/docs/setup/upgrade/">官方文档</a>。</p>
-<p>并且虽然 Istio 提供了降级方式，但是经过测试降级的体验并不好，并且出现了由于不支持的 CRD <code>apiVersion</code> 导致无法降级的情况，所以请谨慎升级。</p>
-<h2 id="总结">总结</h2>
-<p>总体来说，金丝雀升级的出现很好的解决了控制平面渐进式升级的需求，但是由于<code>istioctl upgrade</code>命令支持的场景和版本太少以及 Istio 整体架构的更改，目前的原地升级体验很差。最近还爆出了谷歌将把 Istio 捐给一个新成立基金会的消息，看来 Istio 要走的路还很长。</p>
-<h2 id="参考">参考</h2>
-<ul>
-<li><a href="https://istio.io/latest/docs/setup/upgrade/">Upgrade Istio - istio.io</a></li>
-</ul>
-
-	<br>
-	
-	
-	<a class="button button-glow button-rounded button-royal button-tiny mb-2"
-		href="/tags/istio">#istio</a>
-	
-	<a class="button button-glow button-rounded button-royal button-tiny mb-2"
-		href="/tags/service-mesh">#service mesh</a>
-	
-	
-	
-<br>
-<div class="entry-shang text-center">
-    <p>「一键投喂 小鱼干/小骨头」</p>
-    <button class="zs show-zs button button-glow button-rounded button-caution button-small">投喂</button>
-</div>
-<div class="zs-modal-bg"></div>
-<div class="zs-modal-box">
-    <div class="zs-modal-head">
-        <button type="button" class="close">×</button>
-        <p class="author">
-            <a href="https://blog.maoxianplay.com">
-                <img src="https://wx3.sinaimg.cn/square/ad5fbf65gy1g2o621gcs6j20m80m8gng.jpg"/>
-            小助手毛线</a>
-        </p>
-        <p class="tip"><i></i><span>感谢投喂 <a href="/maoxian">毛线</a> & <a href="/sunny">Sunny</a> </span></p>
-    </div>
-    <div class="zs-modal-body">
-        <div class="zs-modal-btns">
-            <button class="btn btn-blink" data-num="2">2元</button>
-            <button class="btn btn-blink" data-num="5">5元</button>
-            <button class="btn btn-blink" data-num="10">10元</button>
-            <button class="btn btn-blink" data-num="50">50元</button>
-            <button class="btn btn-blink" data-num="100">100元</button>
-            <button class="btn btn-blink" data-num="any">任意金额</button>
-        </div>
-        <div class="zs-modal-pay">
-            <button class="btn btn-bred" id="pay-text">2元</button>
-            <p>使用<span id="pay-type">微信</span>扫描二维码完成支付</p>
-            <img id="pay-image" src="/favicons/alipay-2.png">
-        </div>
-    </div>
-    <div class="zs-modal-footer">
-        <label style="float: left;width: 130px;">
-            <input type="radio" name="zs-type" value="alipay" class="zs-type" checked="checked" style="float: left;">
-            <span class="zs-alipay">
-                <img src="/favicons/alipay-btn.png">
-            </span>
-        </label>
-        <label style="float: left;width: 130px;">
-            <input type="radio" name="zs-type" value="wechat" class="zs-type" style="float: left;">
-            <span class="zs-wechat">
-                <img src="/favicons/wechat-btn.png">
-            </span>
-        </label>
-    </div>
-    <br>
-</div>
-
-
-	
-	<br />
-	<div class="page-blank">
+		<br />
+		<div class="page-blank">
 
 <div id="disqus_thread"></div>
 <script>
@@ -658,29 +390,15 @@ s.setAttribute('data-timestamp', +new Date());
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
 
-	<br />
 	
-
-	<div class="entry-shang pt-5">
-  <a href="/post/flagger-nginx-ingress/" class="button button-glow button-rounded button-raised button-primary  float-left"><span class="mr-1">←</span> 上一页</a>
-  <a href="/post/start-chaosblade-3/" class="button button-glow button-rounded button-raised button-primary  float-right">下一页 <span class="ml-1">→</span></a>  
+	
+	
+	
+	<div class="text-muted mt-5 pt-3 border-top">最后修改 2020年08月05日: <a  href="/commit/dabc2b035778d3201a8d65cd6fb1c8ce88f8bee1">add container exp (dabc2b0)</a>
 </div>
-
-	<script src="https://my.openwrite.cn/js/readmore.js" type="text/javascript"></script>
-	<script>
-		const btw = new BTWPlugin();
-		btw.init({
-			id: 'road',
-			blogId: '18752-1575602900012-529',
-			name: '云原生之路',
-			qrcode: 'https://tva1.sinaimg.cn/large/ad5fbf65ly1ghelpfjpb8j205005074d.jpg',
-			keyword: 'road',
-		});
-	</script>
 </div>
 
           </main>
-
         </div>
       </div>
       
@@ -749,5 +467,6 @@ s.setAttribute('data-timestamp', +new Date());
 
 
 
+    <script src="//katacoda.com/embed.js"></script>
   </body>
 </html>
