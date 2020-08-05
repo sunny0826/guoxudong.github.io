@@ -1,13 +1,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Guo Xudong&#39;s Blog·郭旭东的博客 – Linux</title>
-    <link>/tags/linux/</link>
+    <link>https://guoxudong.io/tags/linux/</link>
     <description>Recent content in Linux on Guo Xudong&#39;s Blog·郭旭东的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <lastBuildDate>Fri, 15 Mar 2019 09:53:02 +0800</lastBuildDate>
     
-	  <atom:link href="/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="https://guoxudong.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
     
     
       
@@ -17,10 +17,10 @@
     
     <item>
       <title>Post: Alpine Linux详解</title>
-      <link>/post/alpine-linux/</link>
+      <link>https://guoxudong.io/post/alpine-linux/</link>
       <pubDate>Fri, 15 Mar 2019 09:53:02 +0800</pubDate>
       
-      <guid>/post/alpine-linux/</guid>
+      <guid>https://guoxudong.io/post/alpine-linux/</guid>
       <description>
         
         
@@ -160,10 +160,10 @@ bash-4.3# apk add &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;mongodb&amp
     
     <item>
       <title>Post: Docker容器启动退出解决方案</title>
-      <link>/post/docker-quit/</link>
+      <link>https://guoxudong.io/post/docker-quit/</link>
       <pubDate>Thu, 27 Sep 2018 19:27:03 +0800</pubDate>
       
-      <guid>/post/docker-quit/</guid>
+      <guid>https://guoxudong.io/post/docker-quit/</guid>
       <description>
         
         
@@ -211,10 +211,10 @@ bash-4.3# apk add &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;mongodb&amp
     
     <item>
       <title>Post: centos7安装指定版本的docker</title>
-      <link>/post/install-docker/</link>
+      <link>https://guoxudong.io/post/install-docker/</link>
       <pubDate>Tue, 14 Aug 2018 20:05:21 +0800</pubDate>
       
-      <guid>/post/install-docker/</guid>
+      <guid>https://guoxudong.io/post/install-docker/</guid>
       <description>
         
         

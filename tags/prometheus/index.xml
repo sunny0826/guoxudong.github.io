@@ -1,13 +1,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Guo Xudong&#39;s Blog·郭旭东的博客 – prometheus</title>
-    <link>/tags/prometheus/</link>
+    <link>https://guoxudong.io/tags/prometheus/</link>
     <description>Recent content in prometheus on Guo Xudong&#39;s Blog·郭旭东的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <lastBuildDate>Thu, 18 Apr 2019 17:46:08 +0800</lastBuildDate>
     
-	  <atom:link href="/tags/prometheus/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="https://guoxudong.io/tags/prometheus/index.xml" rel="self" type="application/rss+xml" />
     
     
       
@@ -17,10 +17,10 @@
     
     <item>
       <title>Post: Rancher 2.2.1 解决工作负载监控为空问题</title>
-      <link>/post/rancher-prometheus-fix-question/</link>
+      <link>https://guoxudong.io/post/rancher-prometheus-fix-question/</link>
       <pubDate>Thu, 18 Apr 2019 17:46:08 +0800</pubDate>
       
-      <guid>/post/rancher-prometheus-fix-question/</guid>
+      <guid>https://guoxudong.io/post/rancher-prometheus-fix-question/</guid>
       <description>
         
         

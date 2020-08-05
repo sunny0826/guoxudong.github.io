@@ -1,13 +1,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Guo Xudong&#39;s Blog·郭旭东的博客 – 肺炎疫情</title>
-    <link>/tags/%E8%82%BA%E7%82%8E%E7%96%AB%E6%83%85/</link>
+    <link>https://guoxudong.io/tags/%E8%82%BA%E7%82%8E%E7%96%AB%E6%83%85/</link>
     <description>Recent content in 肺炎疫情 on Guo Xudong&#39;s Blog·郭旭东的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <lastBuildDate>Fri, 14 Feb 2020 10:12:52 +0800</lastBuildDate>
     
-	  <atom:link href="/tags/%E8%82%BA%E7%82%8E%E7%96%AB%E6%83%85/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="https://guoxudong.io/tags/%E8%82%BA%E7%82%8E%E7%96%AB%E6%83%85/index.xml" rel="self" type="application/rss+xml" />
     
     
       
@@ -17,10 +17,10 @@
     
     <item>
       <title>Post: 使用 Grafana 展示肺炎疫情动态</title>
-      <link>/post/feiyan-grafana/</link>
+      <link>https://guoxudong.io/post/feiyan-grafana/</link>
       <pubDate>Fri, 14 Feb 2020 10:12:52 +0800</pubDate>
       
-      <guid>/post/feiyan-grafana/</guid>
+      <guid>https://guoxudong.io/post/feiyan-grafana/</guid>
       <description>
         
         

@@ -1,13 +1,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Guo Xudong&#39;s Blog·郭旭东的博客 – 云原生</title>
-    <link>/tags/%E4%BA%91%E5%8E%9F%E7%94%9F/</link>
+    <link>https://guoxudong.io/tags/%E4%BA%91%E5%8E%9F%E7%94%9F/</link>
     <description>Recent content in 云原生 on Guo Xudong&#39;s Blog·郭旭东的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <lastBuildDate>Sat, 06 Jul 2019 09:40:42 +0800</lastBuildDate>
     
-	  <atom:link href="/tags/%E4%BA%91%E5%8E%9F%E7%94%9F/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="https://guoxudong.io/tags/%E4%BA%91%E5%8E%9F%E7%94%9F/index.xml" rel="self" type="application/rss+xml" />
     
     
       
@@ -17,10 +17,10 @@
     
     <item>
       <title>Post: 语义化版本控制规范（SemVer）</title>
-      <link>/post/semver/</link>
+      <link>https://guoxudong.io/post/semver/</link>
       <pubDate>Sat, 06 Jul 2019 09:40:42 +0800</pubDate>
       
-      <guid>/post/semver/</guid>
+      <guid>https://guoxudong.io/post/semver/</guid>
       <description>
         
         
@@ -98,10 +98,10 @@
     
     <item>
       <title>Post: Kubecon 2019 见闻：云原生未来可期</title>
-      <link>/post/kubecon-2019/</link>
+      <link>https://guoxudong.io/post/kubecon-2019/</link>
       <pubDate>Tue, 02 Jul 2019 10:18:18 +0800</pubDate>
       
-      <guid>/post/kubecon-2019/</guid>
+      <guid>https://guoxudong.io/post/kubecon-2019/</guid>
       <description>
         
         
@@ -138,10 +138,10 @@
     
     <item>
       <title>Post: 容器技术概述</title>
-      <link>/post/con-in/</link>
+      <link>https://guoxudong.io/post/con-in/</link>
       <pubDate>Thu, 30 Aug 2018 18:45:22 +0800</pubDate>
       
-      <guid>/post/con-in/</guid>
+      <guid>https://guoxudong.io/post/con-in/</guid>
       <description>
         
         
@@ -158,7 +158,7 @@
 &lt;h1 id=&#34;容器技术概述&#34;&gt;容器技术概述&lt;/h1&gt;
 &lt;p&gt;容器是一种轻量级、可移植、自包含的软件打包技术，它使得应用程序可以在几乎任何地方以相同的方式运行。&lt;/p&gt;
 &lt;p&gt;容器有应用程序本身和它的环境依赖（库和其他应用程序）两部分组成，并在宿主机（Host）操作系统的用户空间中运行，但与操作系统的其他进程互相隔离，他们的实现机制有别于VMWare、KVM、Xen等实现方案的虚拟化技术。容器与虚拟机的对比关系如下图
-&lt;img src=&#34;/images/source/vs.png&#34; alt=&#34;image&#34;&gt;
+&lt;img src=&#34;https://guoxudong.io/images/source/vs.png&#34; alt=&#34;image&#34;&gt;
 由于同一个宿主机上的所有容器都共享其底层操作系统（内核空间），这就使得容器在体积上要比传统的虚拟机小很多。另外，启动容器无须启动整个操作系统，所以容器部署和启动的速度更快，开销更小，也更容易迁移。事实上，容器赋予了应用程序超强的可移植能力。&lt;/p&gt;
 &lt;h1 id=&#34;容器技术的优势&#34;&gt;容器技术的优势&lt;/h1&gt;
 &lt;ul&gt;

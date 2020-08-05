@@ -1,13 +1,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Guo Xudong&#39;s Blog·郭旭东的博客 – velero</title>
-    <link>/tags/velero/</link>
+    <link>https://guoxudong.io/tags/velero/</link>
     <description>Recent content in velero on Guo Xudong&#39;s Blog·郭旭东的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <lastBuildDate>Wed, 13 Nov 2019 09:13:22 +0800</lastBuildDate>
     
-	  <atom:link href="/tags/velero/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="https://guoxudong.io/tags/velero/index.xml" rel="self" type="application/rss+xml" />
     
     
       
@@ -17,10 +17,10 @@
     
     <item>
       <title>Post: 使用 Velero 进行集群备份与迁移</title>
-      <link>/post/aliyun-velero/</link>
+      <link>https://guoxudong.io/post/aliyun-velero/</link>
       <pubDate>Wed, 13 Nov 2019 09:13:22 +0800</pubDate>
       
-      <guid>/post/aliyun-velero/</guid>
+      <guid>https://guoxudong.io/post/aliyun-velero/</guid>
       <description>
         
         

@@ -1,13 +1,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Guo Xudong&#39;s Blog·郭旭东的博客 – jenkins</title>
-    <link>/tags/jenkins/</link>
+    <link>https://guoxudong.io/tags/jenkins/</link>
     <description>Recent content in jenkins on Guo Xudong&#39;s Blog·郭旭东的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <lastBuildDate>Thu, 07 Mar 2019 09:14:39 +0800</lastBuildDate>
     
-	  <atom:link href="/tags/jenkins/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="https://guoxudong.io/tags/jenkins/index.xml" rel="self" type="application/rss+xml" />
     
     
       
@@ -17,10 +17,10 @@
     
     <item>
       <title>Post: Jenkins Pipeline集成Sonar进行代码质量检测</title>
-      <link>/post/sonar-pipline/</link>
+      <link>https://guoxudong.io/post/sonar-pipline/</link>
       <pubDate>Thu, 07 Mar 2019 09:14:39 +0800</pubDate>
       
-      <guid>/post/sonar-pipline/</guid>
+      <guid>https://guoxudong.io/post/sonar-pipline/</guid>
       <description>
         
         

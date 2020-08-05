@@ -1,13 +1,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Guo Xudong&#39;s Blog·郭旭东的博客 – 程序员趣闻</title>
-    <link>/categories/%E7%A8%8B%E5%BA%8F%E5%91%98%E8%B6%A3%E9%97%BB/</link>
+    <link>https://guoxudong.io/categories/%E7%A8%8B%E5%BA%8F%E5%91%98%E8%B6%A3%E9%97%BB/</link>
     <description>Recent content in 程序员趣闻 on Guo Xudong&#39;s Blog·郭旭东的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <lastBuildDate>Tue, 02 Jul 2019 10:18:18 +0800</lastBuildDate>
     
-	  <atom:link href="/categories/%E7%A8%8B%E5%BA%8F%E5%91%98%E8%B6%A3%E9%97%BB/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="https://guoxudong.io/categories/%E7%A8%8B%E5%BA%8F%E5%91%98%E8%B6%A3%E9%97%BB/index.xml" rel="self" type="application/rss+xml" />
     
     
       
@@ -17,10 +17,10 @@
     
     <item>
       <title>Post: Kubecon 2019 见闻：云原生未来可期</title>
-      <link>/post/kubecon-2019/</link>
+      <link>https://guoxudong.io/post/kubecon-2019/</link>
       <pubDate>Tue, 02 Jul 2019 10:18:18 +0800</pubDate>
       
-      <guid>/post/kubecon-2019/</guid>
+      <guid>https://guoxudong.io/post/kubecon-2019/</guid>
       <description>
         
         
@@ -57,10 +57,10 @@
     
     <item>
       <title>Post: 炫酷的终端软件 eDEX-UI</title>
-      <link>/post/edex-ui/</link>
+      <link>https://guoxudong.io/post/edex-ui/</link>
       <pubDate>Mon, 29 Apr 2019 11:55:47 +0800</pubDate>
       
-      <guid>/post/edex-ui/</guid>
+      <guid>https://guoxudong.io/post/edex-ui/</guid>
       <description>
         
         
@@ -97,10 +97,10 @@
     
     <item>
       <title>Post: GitHub 黑话指南</title>
-      <link>/post/cant/</link>
+      <link>https://guoxudong.io/post/cant/</link>
       <pubDate>Mon, 22 Apr 2019 09:11:24 +0800</pubDate>
       
-      <guid>/post/cant/</guid>
+      <guid>https://guoxudong.io/post/cant/</guid>
       <description>
         
         

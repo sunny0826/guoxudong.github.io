@@ -1,13 +1,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Guo Xudong&#39;s Blog·郭旭东的博客 – helm</title>
-    <link>/tags/helm/</link>
+    <link>https://guoxudong.io/tags/helm/</link>
     <description>Recent content in helm on Guo Xudong&#39;s Blog·郭旭东的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <lastBuildDate>Fri, 08 May 2020 11:20:01 +0800</lastBuildDate>
     
-	  <atom:link href="/tags/helm/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="https://guoxudong.io/tags/helm/index.xml" rel="self" type="application/rss+xml" />
     
     
       
@@ -17,10 +17,10 @@
     
     <item>
       <title>Post: 告别手写 Helm Chart README</title>
-      <link>/post/helm-docs/</link>
+      <link>https://guoxudong.io/post/helm-docs/</link>
       <pubDate>Fri, 08 May 2020 11:20:01 +0800</pubDate>
       
-      <guid>/post/helm-docs/</guid>
+      <guid>https://guoxudong.io/post/helm-docs/</guid>
       <description>
         
         

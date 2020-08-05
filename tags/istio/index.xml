@@ -1,13 +1,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Guo Xudong&#39;s Blog·郭旭东的博客 – istio</title>
-    <link>/tags/istio/</link>
+    <link>https://guoxudong.io/tags/istio/</link>
     <description>Recent content in istio on Guo Xudong&#39;s Blog·郭旭东的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <lastBuildDate>Wed, 08 Jul 2020 15:08:09 +0800</lastBuildDate>
     
-	  <atom:link href="/tags/istio/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="https://guoxudong.io/tags/istio/index.xml" rel="self" type="application/rss+xml" />
     
     
       
@@ -17,10 +17,10 @@
     
     <item>
       <title>Post: Istio 升级新方式：金丝雀升级</title>
-      <link>/post/istio-upgrade/</link>
+      <link>https://guoxudong.io/post/istio-upgrade/</link>
       <pubDate>Wed, 08 Jul 2020 15:08:09 +0800</pubDate>
       
-      <guid>/post/istio-upgrade/</guid>
+      <guid>https://guoxudong.io/post/istio-upgrade/</guid>
       <description>
         
         
@@ -73,10 +73,10 @@ istio-sidecar-injector-canary   2020-07-07T09:06:24Z
     
     <item>
       <title>Post: Istio初探之Bookinfo样例部署</title>
-      <link>/post/istio-bookinfo-demo/</link>
+      <link>https://guoxudong.io/post/istio-bookinfo-demo/</link>
       <pubDate>Thu, 21 Mar 2019 09:42:18 +0800</pubDate>
       
-      <guid>/post/istio-bookinfo-demo/</guid>
+      <guid>https://guoxudong.io/post/istio-bookinfo-demo/</guid>
       <description>
         
         
@@ -292,10 +292,10 @@ http:
     
     <item>
       <title>Post: 浅析ServiceMesh &amp; Istio</title>
-      <link>/post/istio-share/</link>
+      <link>https://guoxudong.io/post/istio-share/</link>
       <pubDate>Wed, 20 Mar 2019 09:12:28 +0800</pubDate>
       
-      <guid>/post/istio-share/</guid>
+      <guid>https://guoxudong.io/post/istio-share/</guid>
       <description>
         
         
@@ -382,10 +382,10 @@ http:
     
     <item>
       <title>Post: 阿里云环境Istio初探</title>
-      <link>/post/istio-demo/</link>
+      <link>https://guoxudong.io/post/istio-demo/</link>
       <pubDate>Wed, 13 Mar 2019 15:45:43 +0800</pubDate>
       
-      <guid>/post/istio-demo/</guid>
+      <guid>https://guoxudong.io/post/istio-demo/</guid>
       <description>
         
         

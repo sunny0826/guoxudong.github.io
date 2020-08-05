@@ -1,13 +1,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Guo Xudong&#39;s Blog·郭旭东的博客 – devops</title>
-    <link>/tags/devops/</link>
+    <link>https://guoxudong.io/tags/devops/</link>
     <description>Recent content in devops on Guo Xudong&#39;s Blog·郭旭东的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <lastBuildDate>Wed, 13 May 2020 09:55:51 +0800</lastBuildDate>
     
-	  <atom:link href="/tags/devops/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="https://guoxudong.io/tags/devops/index.xml" rel="self" type="application/rss+xml" />
     
     
       
@@ -17,10 +17,10 @@
     
     <item>
       <title>Post: 可视化 Tekton 组件 Tekton Dashboard</title>
-      <link>/post/tekton-dashboard/</link>
+      <link>https://guoxudong.io/post/tekton-dashboard/</link>
       <pubDate>Wed, 13 May 2020 09:55:51 +0800</pubDate>
       
-      <guid>/post/tekton-dashboard/</guid>
+      <guid>https://guoxudong.io/post/tekton-dashboard/</guid>
       <description>
         
         
@@ -126,10 +126,10 @@ example-greenhouse   1/1     &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/spa
     
     <item>
       <title>Post: 玩转 Drone CI</title>
-      <link>/post/drone-optimize/</link>
+      <link>https://guoxudong.io/post/drone-optimize/</link>
       <pubDate>Wed, 11 Sep 2019 13:53:09 +0800</pubDate>
       
-      <guid>/post/drone-optimize/</guid>
+      <guid>https://guoxudong.io/post/drone-optimize/</guid>
       <description>
         
         
@@ -254,10 +254,10 @@ example-greenhouse   1/1     &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/spa
     
     <item>
       <title>Post: GitOps 与 ChatOps 的落地实践</title>
-      <link>/post/gitops-and-chatops/</link>
+      <link>https://guoxudong.io/post/gitops-and-chatops/</link>
       <pubDate>Thu, 11 Jul 2019 09:24:17 +0800</pubDate>
       
-      <guid>/post/gitops-and-chatops/</guid>
+      <guid>https://guoxudong.io/post/gitops-and-chatops/</guid>
       <description>
         
         
@@ -318,10 +318,10 @@ example-greenhouse   1/1     &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/spa
     
     <item>
       <title>Post: 轻量快速的 CI 工具 Drone</title>
-      <link>/post/drone-ci/</link>
+      <link>https://guoxudong.io/post/drone-ci/</link>
       <pubDate>Tue, 21 May 2019 08:59:00 +0800</pubDate>
       
-      <guid>/post/drone-ci/</guid>
+      <guid>https://guoxudong.io/post/drone-ci/</guid>
       <description>
         
         
@@ -517,10 +517,10 @@ example-greenhouse   1/1     &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/spa
     
     <item>
       <title>Post: 什么是 DevOps ？DevOps 是如何工作的？</title>
-      <link>/post/all-about-devops-fundamentalsyou-ever-wanted-to-know/</link>
+      <link>https://guoxudong.io/post/all-about-devops-fundamentalsyou-ever-wanted-to-know/</link>
       <pubDate>Thu, 09 May 2019 09:55:11 +0800</pubDate>
       
-      <guid>/post/all-about-devops-fundamentalsyou-ever-wanted-to-know/</guid>
+      <guid>https://guoxudong.io/post/all-about-devops-fundamentalsyou-ever-wanted-to-know/</guid>
       <description>
         
         
@@ -649,10 +649,10 @@ example-greenhouse   1/1     &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/spa
     
     <item>
       <title>Post: 什么是 DevSecOps ?</title>
-      <link>/post/what-is-devsecops/</link>
+      <link>https://guoxudong.io/post/what-is-devsecops/</link>
       <pubDate>Fri, 03 May 2019 14:37:14 +0800</pubDate>
       
-      <guid>/post/what-is-devsecops/</guid>
+      <guid>https://guoxudong.io/post/what-is-devsecops/</guid>
       <description>
         
         
@@ -710,10 +710,10 @@ example-greenhouse   1/1     &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/spa
     
     <item>
       <title>Post: Devops入门手册</title>
-      <link>/post/devops-tutorial/</link>
+      <link>https://guoxudong.io/post/devops-tutorial/</link>
       <pubDate>Tue, 09 Apr 2019 13:21:56 +0800</pubDate>
       
-      <guid>/post/devops-tutorial/</guid>
+      <guid>https://guoxudong.io/post/devops-tutorial/</guid>
       <description>
         
         
@@ -974,10 +974,10 @@ example-greenhouse   1/1     &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/spa
     
     <item>
       <title>Post: Jenkins Pipeline集成Sonar进行代码质量检测</title>
-      <link>/post/sonar-pipline/</link>
+      <link>https://guoxudong.io/post/sonar-pipline/</link>
       <pubDate>Thu, 07 Mar 2019 09:14:39 +0800</pubDate>
       
-      <guid>/post/sonar-pipline/</guid>
+      <guid>https://guoxudong.io/post/sonar-pipline/</guid>
       <description>
         
         

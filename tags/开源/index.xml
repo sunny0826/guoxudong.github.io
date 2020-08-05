@@ -1,13 +1,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Guo Xudong&#39;s Blog·郭旭东的博客 – 开源</title>
-    <link>/tags/%E5%BC%80%E6%BA%90/</link>
+    <link>https://guoxudong.io/tags/%E5%BC%80%E6%BA%90/</link>
     <description>Recent content in 开源 on Guo Xudong&#39;s Blog·郭旭东的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <lastBuildDate>Wed, 20 May 2020 11:12:59 +0800</lastBuildDate>
     
-	  <atom:link href="/tags/%E5%BC%80%E6%BA%90/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="https://guoxudong.io/tags/%E5%BC%80%E6%BA%90/index.xml" rel="self" type="application/rss+xml" />
     
     
       
@@ -17,10 +17,10 @@
     
     <item>
       <title>Post: 如何参与开源项目</title>
-      <link>/post/contribution-to-the-open-source/</link>
+      <link>https://guoxudong.io/post/contribution-to-the-open-source/</link>
       <pubDate>Wed, 20 May 2020 11:12:59 +0800</pubDate>
       
-      <guid>/post/contribution-to-the-open-source/</guid>
+      <guid>https://guoxudong.io/post/contribution-to-the-open-source/</guid>
       <description>
         
         

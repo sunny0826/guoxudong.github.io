@@ -1,12 +1,12 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Guo Xudong&#39;s Blog·郭旭东的博客 – Guo Xudong&#39;s Blog</title>
-    <link>/</link>
+    <link>https://guoxudong.io/</link>
     <description>Recent content in Guo Xudong&#39;s Blog on Guo Xudong&#39;s Blog·郭旭东的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     
-	  <atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="https://guoxudong.io/index.xml" rel="self" type="application/rss+xml" />
     
     
       
@@ -15,10 +15,10 @@
     
     <item>
       <title>Post: 读完《云原生架构白皮书》，我们来谈谈开放应用模型（OAM）</title>
-      <link>/post/the-cloud-native-architecture-white-paper-oam/</link>
+      <link>https://guoxudong.io/post/the-cloud-native-architecture-white-paper-oam/</link>
       <pubDate>Fri, 24 Jul 2020 10:53:04 +0800</pubDate>
       
-      <guid>/post/the-cloud-native-architecture-white-paper-oam/</guid>
+      <guid>https://guoxudong.io/post/the-cloud-native-architecture-white-paper-oam/</guid>
       <description>
         
         
@@ -70,10 +70,10 @@
     
     <item>
       <title>Post: ChaosBlade：从零开始的混沌工程（四）</title>
-      <link>/post/start-chaosblade-3/</link>
+      <link>https://guoxudong.io/post/start-chaosblade-3/</link>
       <pubDate>Wed, 22 Jul 2020 17:30:53 +0800</pubDate>
       
-      <guid>/post/start-chaosblade-3/</guid>
+      <guid>https://guoxudong.io/post/start-chaosblade-3/</guid>
       <description>
         
         
@@ -386,10 +386,10 @@ root      &lt;span style=&#34;color:#3677a9&#34;&gt;5632&lt;/span&gt;  0.0  0.0 
     
     <item>
       <title>Post: Istio 升级新方式：金丝雀升级</title>
-      <link>/post/istio-upgrade/</link>
+      <link>https://guoxudong.io/post/istio-upgrade/</link>
       <pubDate>Wed, 08 Jul 2020 15:08:09 +0800</pubDate>
       
-      <guid>/post/istio-upgrade/</guid>
+      <guid>https://guoxudong.io/post/istio-upgrade/</guid>
       <description>
         
         
@@ -442,10 +442,10 @@ istio-sidecar-injector-canary   2020-07-07T09:06:24Z
     
     <item>
       <title>Post: 基于 Flagger 和 Nginx-Ingress 实现金丝雀发布</title>
-      <link>/post/flagger-nginx-ingress/</link>
+      <link>https://guoxudong.io/post/flagger-nginx-ingress/</link>
       <pubDate>Thu, 02 Jul 2020 13:51:14 +0800</pubDate>
       
-      <guid>/post/flagger-nginx-ingress/</guid>
+      <guid>https://guoxudong.io/post/flagger-nginx-ingress/</guid>
       <description>
         
         
@@ -776,10 +776,10 @@ NAMESPACE   NAME      STATUS   WEIGHT   LASTTRANSITIONTIME
     
     <item>
       <title>Post: 以应用为中心：开放应用模型（OAM）初探</title>
-      <link>/post/start-oam/</link>
+      <link>https://guoxudong.io/post/start-oam/</link>
       <pubDate>Sun, 28 Jun 2020 14:53:23 +0800</pubDate>
       
-      <guid>/post/start-oam/</guid>
+      <guid>https://guoxudong.io/post/start-oam/</guid>
       <description>
         
         
@@ -978,10 +978,10 @@ Commercial support is available at
     
     <item>
       <title>Post: ChaosBlade：从零开始的混沌工程（三）</title>
-      <link>/post/start-chaosblade-2/</link>
+      <link>https://guoxudong.io/post/start-chaosblade-2/</link>
       <pubDate>Mon, 15 Jun 2020 15:45:36 +0800</pubDate>
       
-      <guid>/post/start-chaosblade-2/</guid>
+      <guid>https://guoxudong.io/post/start-chaosblade-2/</guid>
       <description>
         
         
@@ -1301,10 +1301,10 @@ sys     0m0.000s
     
     <item>
       <title>Post: ChaosBlade：从零开始的混沌工程（二）</title>
-      <link>/post/start-chaosblade-1/</link>
+      <link>https://guoxudong.io/post/start-chaosblade-1/</link>
       <pubDate>Tue, 09 Jun 2020 11:14:09 +0800</pubDate>
       
-      <guid>/post/start-chaosblade-1/</guid>
+      <guid>https://guoxudong.io/post/start-chaosblade-1/</guid>
       <description>
         
         
@@ -1491,10 +1491,10 @@ sys     0m0.001s
     
     <item>
       <title>Post: ChaosBlade：从零开始的混沌工程（一）</title>
-      <link>/post/start-chaosblade-0/</link>
+      <link>https://guoxudong.io/post/start-chaosblade-0/</link>
       <pubDate>Thu, 04 Jun 2020 17:02:58 +0800</pubDate>
       
-      <guid>/post/start-chaosblade-0/</guid>
+      <guid>https://guoxudong.io/post/start-chaosblade-0/</guid>
       <description>
         
         
@@ -1539,10 +1539,10 @@ sys     0m0.001s
     
     <item>
       <title>Post: 如何参与开源项目</title>
-      <link>/post/contribution-to-the-open-source/</link>
+      <link>https://guoxudong.io/post/contribution-to-the-open-source/</link>
       <pubDate>Wed, 20 May 2020 11:12:59 +0800</pubDate>
       
-      <guid>/post/contribution-to-the-open-source/</guid>
+      <guid>https://guoxudong.io/post/contribution-to-the-open-source/</guid>
       <description>
         
         
@@ -1600,10 +1600,10 @@ $ git push
     
     <item>
       <title>Post: 可视化 Tekton 组件 Tekton Dashboard</title>
-      <link>/post/tekton-dashboard/</link>
+      <link>https://guoxudong.io/post/tekton-dashboard/</link>
       <pubDate>Wed, 13 May 2020 09:55:51 +0800</pubDate>
       
-      <guid>/post/tekton-dashboard/</guid>
+      <guid>https://guoxudong.io/post/tekton-dashboard/</guid>
       <description>
         
         
@@ -1709,10 +1709,10 @@ example-greenhouse   1/1     &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/spa
     
     <item>
       <title>Post: 告别手写 Helm Chart README</title>
-      <link>/post/helm-docs/</link>
+      <link>https://guoxudong.io/post/helm-docs/</link>
       <pubDate>Fri, 08 May 2020 11:20:01 +0800</pubDate>
       
-      <guid>/post/helm-docs/</guid>
+      <guid>https://guoxudong.io/post/helm-docs/</guid>
       <description>
         
         
@@ -1785,10 +1785,10 @@ This chart helps you run a grafana server that include aliyun cms dashboard.
     
     <item>
       <title>Post: 去指挥你的舰队吧！体验使用 Fleet 批量管理 K8S 集群</title>
-      <link>/post/rancher-fleet/</link>
+      <link>https://guoxudong.io/post/rancher-fleet/</link>
       <pubDate>Thu, 23 Apr 2020 14:03:53 +0800</pubDate>
       
-      <guid>/post/rancher-fleet/</guid>
+      <guid>https://guoxudong.io/post/rancher-fleet/</guid>
       <description>
         
         
@@ -1872,10 +1872,10 @@ bundle.fleet.cattle.io/helm-kustomize   &lt;span style=&#34;color:#3677a9&#34;&g
     
     <item>
       <title>Post: 导致你的微服务走向失败的11个原因</title>
-      <link>/post/11-reasons-why-you-are-going-to-fail-with-microservices/</link>
+      <link>https://guoxudong.io/post/11-reasons-why-you-are-going-to-fail-with-microservices/</link>
       <pubDate>Thu, 09 Apr 2020 09:06:57 +0800</pubDate>
       
-      <guid>/post/11-reasons-why-you-are-going-to-fail-with-microservices/</guid>
+      <guid>https://guoxudong.io/post/11-reasons-why-you-are-going-to-fail-with-microservices/</guid>
       <description>
         
         
@@ -1993,10 +1993,10 @@ bundle.fleet.cattle.io/helm-kustomize   &lt;span style=&#34;color:#3677a9&#34;&g
     
     <item>
       <title>Post: Katacoda：免费学习 Kubernetes 利器</title>
-      <link>/post/katacoda-k8s/</link>
+      <link>https://guoxudong.io/post/katacoda-k8s/</link>
       <pubDate>Fri, 27 Mar 2020 15:57:11 +0800</pubDate>
       
-      <guid>/post/katacoda-k8s/</guid>
+      <guid>https://guoxudong.io/post/katacoda-k8s/</guid>
       <description>
         
         
@@ -2095,10 +2095,10 @@ $ git push origin master
     
     <item>
       <title>Post: Kt Connect：研发侧利器，本地连通 Kubernetes 集群内网</title>
-      <link>/post/alibaba-kt-connect/</link>
+      <link>https://guoxudong.io/post/alibaba-kt-connect/</link>
       <pubDate>Tue, 24 Mar 2020 09:14:06 +0800</pubDate>
       
-      <guid>/post/alibaba-kt-connect/</guid>
+      <guid>https://guoxudong.io/post/alibaba-kt-connect/</guid>
       <description>
         
         
@@ -2268,10 +2268,10 @@ UP
     
     <item>
       <title>Post: 修改 Nginx Ingress 日志打印格式</title>
-      <link>/post/nginx-ingress-log-aliyun/</link>
+      <link>https://guoxudong.io/post/nginx-ingress-log-aliyun/</link>
       <pubDate>Mon, 02 Mar 2020 15:29:16 +0800</pubDate>
       
-      <guid>/post/nginx-ingress-log-aliyun/</guid>
+      <guid>https://guoxudong.io/post/nginx-ingress-log-aliyun/</guid>
       <description>
         
         
@@ -2398,10 +2398,10 @@ UP
     
     <item>
       <title>Post: Kubernetes 中优化流量和安全性需要注意的7点要求</title>
-      <link>/post/7-requirements-for-optimized-traffic-flow-and-security-in-kubernetes/</link>
+      <link>https://guoxudong.io/post/7-requirements-for-optimized-traffic-flow-and-security-in-kubernetes/</link>
       <pubDate>Tue, 18 Feb 2020 14:15:42 +0800</pubDate>
       
-      <guid>/post/7-requirements-for-optimized-traffic-flow-and-security-in-kubernetes/</guid>
+      <guid>https://guoxudong.io/post/7-requirements-for-optimized-traffic-flow-and-security-in-kubernetes/</guid>
       <description>
         
         
@@ -2539,10 +2539,10 @@ UP
     
     <item>
       <title>Post: K3d&#43;Kubecm 本地开发运维两不误</title>
-      <link>/post/k3d-k3s-kubecm/</link>
+      <link>https://guoxudong.io/post/k3d-k3s-kubecm/</link>
       <pubDate>Mon, 17 Feb 2020 11:51:39 +0800</pubDate>
       
-      <guid>/post/k3d-k3s-kubecm/</guid>
+      <guid>https://guoxudong.io/post/k3d-k3s-kubecm/</guid>
       <description>
         
         
@@ -2648,10 +2648,10 @@ User:           user-&lt;span style=&#34;color:#3677a9&#34;&gt;485&lt;/span&gt;d
     
     <item>
       <title>Post: 使用 Grafana 展示肺炎疫情动态</title>
-      <link>/post/feiyan-grafana/</link>
+      <link>https://guoxudong.io/post/feiyan-grafana/</link>
       <pubDate>Fri, 14 Feb 2020 10:12:52 +0800</pubDate>
       
-      <guid>/post/feiyan-grafana/</guid>
+      <guid>https://guoxudong.io/post/feiyan-grafana/</guid>
       <description>
         
         
@@ -2810,10 +2810,10 @@ ENTRYPOINT [&amp;quot;uwsgi&amp;quot;,&amp;quot;--ini&amp;quot;,&amp;quot;uwsgi.
     
     <item>
       <title>Post: 疫情期间【在家/公司】远程办公指南</title>
-      <link>/post/work-4-home/</link>
+      <link>https://guoxudong.io/post/work-4-home/</link>
       <pubDate>Mon, 10 Feb 2020 10:52:26 +0800</pubDate>
       
-      <guid>/post/work-4-home/</guid>
+      <guid>https://guoxudong.io/post/work-4-home/</guid>
       <description>
         
         
@@ -2920,10 +2920,10 @@ ENTRYPOINT [&amp;quot;uwsgi&amp;quot;,&amp;quot;--ini&amp;quot;,&amp;quot;uwsgi.
     
     <item>
       <title>Post: Kubecm：管理你的 kubeconfig</title>
-      <link>/post/kubecm/</link>
+      <link>https://guoxudong.io/post/kubecm/</link>
       <pubDate>Mon, 09 Dec 2019 10:07:46 +0800</pubDate>
       
-      <guid>/post/kubecm/</guid>
+      <guid>https://guoxudong.io/post/kubecm/</guid>
       <description>
         
         
@@ -3041,10 +3041,10 @@ kubecm ns kube-system
     
     <item>
       <title>Post: 小工具介绍：KubeWatch</title>
-      <link>/post/kubewatch/</link>
+      <link>https://guoxudong.io/post/kubewatch/</link>
       <pubDate>Wed, 04 Dec 2019 17:09:51 +0800</pubDate>
       
-      <guid>/post/kubewatch/</guid>
+      <guid>https://guoxudong.io/post/kubewatch/</guid>
       <description>
         
         
@@ -3220,10 +3220,10 @@ helm install my-release -f kubewatch/values.yaml
     
     <item>
       <title>Post: 使用 Velero 进行集群备份与迁移</title>
-      <link>/post/aliyun-velero/</link>
+      <link>https://guoxudong.io/post/aliyun-velero/</link>
       <pubDate>Wed, 13 Nov 2019 09:13:22 +0800</pubDate>
       
-      <guid>/post/aliyun-velero/</guid>
+      <guid>https://guoxudong.io/post/aliyun-velero/</guid>
       <description>
         
         
@@ -3497,10 +3497,10 @@ kubectl label -n default namespace/default velero.io/exclude-from-backup=&lt;spa
     
     <item>
       <title>Post: 使用 Grafana 展示阿里云监控指标</title>
-      <link>/post/aliyun-cms-grafana/</link>
+      <link>https://guoxudong.io/post/aliyun-cms-grafana/</link>
       <pubDate>Thu, 07 Nov 2019 11:08:36 +0800</pubDate>
       
-      <guid>/post/aliyun-cms-grafana/</guid>
+      <guid>https://guoxudong.io/post/aliyun-cms-grafana/</guid>
       <description>
         
         
@@ -3582,10 +3582,10 @@ service grafana-server restart
     
     <item>
       <title>Post: 阿里云产品夜谈-容器服务交流</title>
-      <link>/post/aliyun-product-meetup/</link>
+      <link>https://guoxudong.io/post/aliyun-product-meetup/</link>
       <pubDate>Mon, 30 Sep 2019 09:32:35 +0800</pubDate>
       
-      <guid>/post/aliyun-product-meetup/</guid>
+      <guid>https://guoxudong.io/post/aliyun-product-meetup/</guid>
       <description>
         
         
@@ -3610,10 +3610,10 @@ service grafana-server restart
     
     <item>
       <title>Post: 当码农遇见公益</title>
-      <link>/post/alibaba-public-welfare/</link>
+      <link>https://guoxudong.io/post/alibaba-public-welfare/</link>
       <pubDate>Sun, 29 Sep 2019 09:52:11 +0800</pubDate>
       
-      <guid>/post/alibaba-public-welfare/</guid>
+      <guid>https://guoxudong.io/post/alibaba-public-welfare/</guid>
       <description>
         
         
@@ -3637,10 +3637,10 @@ service grafana-server restart
     
     <item>
       <title>Post: 玩转 Drone CI</title>
-      <link>/post/drone-optimize/</link>
+      <link>https://guoxudong.io/post/drone-optimize/</link>
       <pubDate>Wed, 11 Sep 2019 13:53:09 +0800</pubDate>
       
-      <guid>/post/drone-optimize/</guid>
+      <guid>https://guoxudong.io/post/drone-optimize/</guid>
       <description>
         
         
@@ -3765,10 +3765,10 @@ service grafana-server restart
     
     <item>
       <title>Post: GitHub/Gitee 静态页托管页部署SSL证书</title>
-      <link>/post/aliyun-ssl/</link>
+      <link>https://guoxudong.io/post/aliyun-ssl/</link>
       <pubDate>Fri, 23 Aug 2019 09:36:55 +0800</pubDate>
       
-      <guid>/post/aliyun-ssl/</guid>
+      <guid>https://guoxudong.io/post/aliyun-ssl/</guid>
       <description>
         
         
@@ -3892,10 +3892,10 @@ service grafana-server restart
     
     <item>
       <title>Post: 解决 Nginx-Ingress 重定向失败问题</title>
-      <link>/post/nginx-ingress-error/</link>
+      <link>https://guoxudong.io/post/nginx-ingress-error/</link>
       <pubDate>Fri, 16 Aug 2019 11:15:37 +0800</pubDate>
       
-      <guid>/post/nginx-ingress-error/</guid>
+      <guid>https://guoxudong.io/post/nginx-ingress-error/</guid>
       <description>
         
         
@@ -3946,10 +3946,10 @@ service grafana-server restart
     
     <item>
       <title>Post: 如何构建混合Kubernetes平台</title>
-      <link>/post/how-we-built-our-hybrid-kubernetes-platfor/</link>
+      <link>https://guoxudong.io/post/how-we-built-our-hybrid-kubernetes-platfor/</link>
       <pubDate>Tue, 06 Aug 2019 14:01:30 +0800</pubDate>
       
-      <guid>/post/how-we-built-our-hybrid-kubernetes-platfor/</guid>
+      <guid>https://guoxudong.io/post/how-we-built-our-hybrid-kubernetes-platfor/</guid>
       <description>
         
         
@@ -4014,10 +4014,10 @@ service grafana-server restart
     
     <item>
       <title>Post: Golang 装逼指南 Ⅱ：在 Homwebrew 上发布 Golang 项目</title>
-      <link>/post/golang-to-homebrew/</link>
+      <link>https://guoxudong.io/post/golang-to-homebrew/</link>
       <pubDate>Thu, 25 Jul 2019 16:27:57 +0800</pubDate>
       
-      <guid>/post/golang-to-homebrew/</guid>
+      <guid>https://guoxudong.io/post/golang-to-homebrew/</guid>
       <description>
         
         
@@ -4131,10 +4131,10 @@ Uninstalling /usr/local/Cellar/kubecm/86.64... (&lt;span style=&#34;color:#3677a
     
     <item>
       <title>Post: Golang 装逼指南：在 GitHub 上构建一个看上去正规的 Golang 项目</title>
-      <link>/post/golang-project/</link>
+      <link>https://guoxudong.io/post/golang-project/</link>
       <pubDate>Fri, 19 Jul 2019 10:38:26 +0800</pubDate>
       
-      <guid>/post/golang-project/</guid>
+      <guid>https://guoxudong.io/post/golang-project/</guid>
       <description>
         
         
@@ -4255,10 +4255,10 @@ git push origin v0.0.3
     
     <item>
       <title>Post: 使用 Helm 在多集群部署应用</title>
-      <link>/post/deploying-apps-on-multiple-kubernetes-clusters-with-hel/</link>
+      <link>https://guoxudong.io/post/deploying-apps-on-multiple-kubernetes-clusters-with-hel/</link>
       <pubDate>Sun, 14 Jul 2019 14:16:56 +0800</pubDate>
       
-      <guid>/post/deploying-apps-on-multiple-kubernetes-clusters-with-hel/</guid>
+      <guid>https://guoxudong.io/post/deploying-apps-on-multiple-kubernetes-clusters-with-hel/</guid>
       <description>
         
         
@@ -4474,10 +4474,10 @@ preview_only: false&lt;/h2&gt;
     
     <item>
       <title>Post: GitOps 与 ChatOps 的落地实践</title>
-      <link>/post/gitops-and-chatops/</link>
+      <link>https://guoxudong.io/post/gitops-and-chatops/</link>
       <pubDate>Thu, 11 Jul 2019 09:24:17 +0800</pubDate>
       
-      <guid>/post/gitops-and-chatops/</guid>
+      <guid>https://guoxudong.io/post/gitops-and-chatops/</guid>
       <description>
         
         
@@ -4538,10 +4538,10 @@ preview_only: false&lt;/h2&gt;
     
     <item>
       <title>Post: 阿里云 ACK 挂载 NAS 数据卷</title>
-      <link>/post/nas-k8s/</link>
+      <link>https://guoxudong.io/post/nas-k8s/</link>
       <pubDate>Mon, 08 Jul 2019 15:09:56 +0800</pubDate>
       
-      <guid>/post/nas-k8s/</guid>
+      <guid>https://guoxudong.io/post/nas-k8s/</guid>
       <description>
         
         
@@ -4608,10 +4608,10 @@ preview_only: false&lt;/h2&gt;
     
     <item>
       <title>Post: 语义化版本控制规范（SemVer）</title>
-      <link>/post/semver/</link>
+      <link>https://guoxudong.io/post/semver/</link>
       <pubDate>Sat, 06 Jul 2019 09:40:42 +0800</pubDate>
       
-      <guid>/post/semver/</guid>
+      <guid>https://guoxudong.io/post/semver/</guid>
       <description>
         
         
@@ -4689,10 +4689,10 @@ preview_only: false&lt;/h2&gt;
     
     <item>
       <title>Post: 【转】Kubernetes 儿童插图指南</title>
-      <link>/post/the-childrens-illustrated-guide-to-kubernetes/</link>
+      <link>https://guoxudong.io/post/the-childrens-illustrated-guide-to-kubernetes/</link>
       <pubDate>Fri, 05 Jul 2019 09:50:58 +0800</pubDate>
       
-      <guid>/post/the-childrens-illustrated-guide-to-kubernetes/</guid>
+      <guid>https://guoxudong.io/post/the-childrens-illustrated-guide-to-kubernetes/</guid>
       <description>
         
         
@@ -4757,10 +4757,10 @@ Phippy 与她的新朋友一起乘坐 Kube 船长的巨轮航行于大海之上�
     
     <item>
       <title>Post: 由一封邮件看 Mailing List 在开源项目中的重要性</title>
-      <link>/post/kubernetes-client-python/</link>
+      <link>https://guoxudong.io/post/kubernetes-client-python/</link>
       <pubDate>Thu, 04 Jul 2019 09:16:41 +0800</pubDate>
       
-      <guid>/post/kubernetes-client-python/</guid>
+      <guid>https://guoxudong.io/post/kubernetes-client-python/</guid>
       <description>
         
         
@@ -4996,10 +4996,10 @@ ret = v1.list_pod_for_all_namespaces(watch=False)
     
     <item>
       <title>Post: 使用 Kustomize 帮你管理 kubernetes 应用（五）：配合 kubedog 完善 CI/CD 的最后一步</title>
-      <link>/post/kustomize-5/</link>
+      <link>https://guoxudong.io/post/kustomize-5/</link>
       <pubDate>Wed, 03 Jul 2019 15:20:31 +0800</pubDate>
       
-      <guid>/post/kustomize-5/</guid>
+      <guid>https://guoxudong.io/post/kustomize-5/</guid>
       <description>
         
         
@@ -5083,10 +5083,10 @@ ret = v1.list_pod_for_all_namespaces(watch=False)
     
     <item>
       <title>Post: 记一次使用 Kustomize 时遇到的愚蠢问题</title>
-      <link>/post/kustomize-err-1/</link>
+      <link>https://guoxudong.io/post/kustomize-err-1/</link>
       <pubDate>Wed, 03 Jul 2019 13:44:50 +0800</pubDate>
       
-      <guid>/post/kustomize-err-1/</guid>
+      <guid>https://guoxudong.io/post/kustomize-err-1/</guid>
       <description>
         
         
@@ -5110,10 +5110,10 @@ ret = v1.list_pod_for_all_namespaces(watch=False)
     
     <item>
       <title>Post: Kubecon 2019 见闻：云原生未来可期</title>
-      <link>/post/kubecon-2019/</link>
+      <link>https://guoxudong.io/post/kubecon-2019/</link>
       <pubDate>Tue, 02 Jul 2019 10:18:18 +0800</pubDate>
       
-      <guid>/post/kubecon-2019/</guid>
+      <guid>https://guoxudong.io/post/kubecon-2019/</guid>
       <description>
         
         
@@ -5150,10 +5150,10 @@ ret = v1.list_pod_for_all_namespaces(watch=False)
     
     <item>
       <title>Post: 使用 Kustomize 帮你管理 kubernetes 应用（四）：简述核心配置 kustomization.yaml</title>
-      <link>/post/kustomize-4/</link>
+      <link>https://guoxudong.io/post/kustomize-4/</link>
       <pubDate>Thu, 23 May 2019 12:50:12 +0800</pubDate>
       
-      <guid>/post/kustomize-4/</guid>
+      <guid>https://guoxudong.io/post/kustomize-4/</guid>
       <description>
         
         
@@ -5385,10 +5385,10 @@ ret = v1.list_pod_for_all_namespaces(watch=False)
     
     <item>
       <title>Post: 轻量快速的 CI 工具 Drone</title>
-      <link>/post/drone-ci/</link>
+      <link>https://guoxudong.io/post/drone-ci/</link>
       <pubDate>Tue, 21 May 2019 08:59:00 +0800</pubDate>
       
-      <guid>/post/drone-ci/</guid>
+      <guid>https://guoxudong.io/post/drone-ci/</guid>
       <description>
         
         
@@ -5584,10 +5584,10 @@ ret = v1.list_pod_for_all_namespaces(watch=False)
     
     <item>
       <title>Post: 什么是 DevOps ？DevOps 是如何工作的？</title>
-      <link>/post/all-about-devops-fundamentalsyou-ever-wanted-to-know/</link>
+      <link>https://guoxudong.io/post/all-about-devops-fundamentalsyou-ever-wanted-to-know/</link>
       <pubDate>Thu, 09 May 2019 09:55:11 +0800</pubDate>
       
-      <guid>/post/all-about-devops-fundamentalsyou-ever-wanted-to-know/</guid>
+      <guid>https://guoxudong.io/post/all-about-devops-fundamentalsyou-ever-wanted-to-know/</guid>
       <description>
         
         
@@ -5716,10 +5716,10 @@ ret = v1.list_pod_for_all_namespaces(watch=False)
     
     <item>
       <title>Post: 使用 Kustomize 帮你管理 kubernetes 应用（三）：将 Kustomize 应用于 CI/CD</title>
-      <link>/post/kustomize-3/</link>
+      <link>https://guoxudong.io/post/kustomize-3/</link>
       <pubDate>Mon, 06 May 2019 16:46:28 +0800</pubDate>
       
-      <guid>/post/kustomize-3/</guid>
+      <guid>https://guoxudong.io/post/kustomize-3/</guid>
       <description>
         
         
@@ -5921,10 +5921,10 @@ kubectl apply -k deploy/overlays/dev
     
     <item>
       <title>Post: 什么是 DevSecOps ?</title>
-      <link>/post/what-is-devsecops/</link>
+      <link>https://guoxudong.io/post/what-is-devsecops/</link>
       <pubDate>Fri, 03 May 2019 14:37:14 +0800</pubDate>
       
-      <guid>/post/what-is-devsecops/</guid>
+      <guid>https://guoxudong.io/post/what-is-devsecops/</guid>
       <description>
         
         
@@ -5982,15 +5982,15 @@ kubectl apply -k deploy/overlays/dev
     
     <item>
       <title>Post: 4月29日 云栖社区分享PPT -- 阿里云容器服务的优势与调优</title>
-      <link>/post/aliyun-share/</link>
+      <link>https://guoxudong.io/post/aliyun-share/</link>
       <pubDate>Tue, 30 Apr 2019 18:46:24 +0800</pubDate>
       
-      <guid>/post/aliyun-share/</guid>
+      <guid>https://guoxudong.io/post/aliyun-share/</guid>
       <description>
         
         
         &lt;p&gt;该PPT 为 2019年4月26日 在云栖社区分享使用，这里留作展示和记录，下载地址可以参考下方链接。&lt;/p&gt;
-&lt;iframe src=&#34;/aliyun-share/index.html&#34; style=&#34;width: 100%;height:600px;&#34; frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
+&lt;iframe src=&#34;https://guoxudong.io/aliyun-share/index.html&#34; style=&#34;width: 100%;height:600px;&#34; frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
 &lt;p&gt;由于图片资源位于 GitHub 上，国内访问可能会有些慢，建议下载观看。&lt;/p&gt;
 &lt;p&gt;PPT 下载地址：https://yq.aliyun.com/articles/700084&lt;/p&gt;
 
@@ -5999,10 +5999,10 @@ kubectl apply -k deploy/overlays/dev
     
     <item>
       <title>Post: 8分钟入门 K8S</title>
-      <link>/post/an-8-minute-introduction-to-k8s/</link>
+      <link>https://guoxudong.io/post/an-8-minute-introduction-to-k8s/</link>
       <pubDate>Tue, 30 Apr 2019 13:38:12 +0800</pubDate>
       
-      <guid>/post/an-8-minute-introduction-to-k8s/</guid>
+      <guid>https://guoxudong.io/post/an-8-minute-introduction-to-k8s/</guid>
       <description>
         
         
@@ -6069,10 +6069,10 @@ kubectl apply -k deploy/overlays/dev
     
     <item>
       <title>Post: 炫酷的终端软件 eDEX-UI</title>
-      <link>/post/edex-ui/</link>
+      <link>https://guoxudong.io/post/edex-ui/</link>
       <pubDate>Mon, 29 Apr 2019 11:55:47 +0800</pubDate>
       
-      <guid>/post/edex-ui/</guid>
+      <guid>https://guoxudong.io/post/edex-ui/</guid>
       <description>
         
         
@@ -6109,10 +6109,10 @@ kubectl apply -k deploy/overlays/dev
     
     <item>
       <title>Post: 阿里云容器服务新建集群优化方案(更新版)</title>
-      <link>/post/aliyun-k8s-perfect/</link>
+      <link>https://guoxudong.io/post/aliyun-k8s-perfect/</link>
       <pubDate>Thu, 25 Apr 2019 22:26:06 +0800</pubDate>
       
-      <guid>/post/aliyun-k8s-perfect/</guid>
+      <guid>https://guoxudong.io/post/aliyun-k8s-perfect/</guid>
       <description>
         
         

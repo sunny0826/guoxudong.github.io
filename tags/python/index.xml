@@ -1,13 +1,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Guo Xudong&#39;s Blog·郭旭东的博客 – python</title>
-    <link>/tags/python/</link>
+    <link>https://guoxudong.io/tags/python/</link>
     <description>Recent content in python on Guo Xudong&#39;s Blog·郭旭东的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <lastBuildDate>Thu, 04 Jul 2019 09:16:41 +0800</lastBuildDate>
     
-	  <atom:link href="/tags/python/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="https://guoxudong.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
     
     
       
@@ -17,10 +17,10 @@
     
     <item>
       <title>Post: 由一封邮件看 Mailing List 在开源项目中的重要性</title>
-      <link>/post/kubernetes-client-python/</link>
+      <link>https://guoxudong.io/post/kubernetes-client-python/</link>
       <pubDate>Thu, 04 Jul 2019 09:16:41 +0800</pubDate>
       
-      <guid>/post/kubernetes-client-python/</guid>
+      <guid>https://guoxudong.io/post/kubernetes-client-python/</guid>
       <description>
         
         

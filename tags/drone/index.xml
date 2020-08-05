@@ -1,13 +1,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Guo Xudong&#39;s Blog·郭旭东的博客 – drone</title>
-    <link>/tags/drone/</link>
+    <link>https://guoxudong.io/tags/drone/</link>
     <description>Recent content in drone on Guo Xudong&#39;s Blog·郭旭东的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <lastBuildDate>Wed, 11 Sep 2019 13:53:09 +0800</lastBuildDate>
     
-	  <atom:link href="/tags/drone/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="https://guoxudong.io/tags/drone/index.xml" rel="self" type="application/rss+xml" />
     
     
       
@@ -17,10 +17,10 @@
     
     <item>
       <title>Post: 玩转 Drone CI</title>
-      <link>/post/drone-optimize/</link>
+      <link>https://guoxudong.io/post/drone-optimize/</link>
       <pubDate>Wed, 11 Sep 2019 13:53:09 +0800</pubDate>
       
-      <guid>/post/drone-optimize/</guid>
+      <guid>https://guoxudong.io/post/drone-optimize/</guid>
       <description>
         
         
@@ -145,10 +145,10 @@
     
     <item>
       <title>Post: 轻量快速的 CI 工具 Drone</title>
-      <link>/post/drone-ci/</link>
+      <link>https://guoxudong.io/post/drone-ci/</link>
       <pubDate>Tue, 21 May 2019 08:59:00 +0800</pubDate>
       
-      <guid>/post/drone-ci/</guid>
+      <guid>https://guoxudong.io/post/drone-ci/</guid>
       <description>
         
         

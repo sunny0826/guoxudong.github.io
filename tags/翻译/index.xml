@@ -1,13 +1,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Guo Xudong&#39;s Blog·郭旭东的博客 – 翻译</title>
-    <link>/tags/%E7%BF%BB%E8%AF%91/</link>
+    <link>https://guoxudong.io/tags/%E7%BF%BB%E8%AF%91/</link>
     <description>Recent content in 翻译 on Guo Xudong&#39;s Blog·郭旭东的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <lastBuildDate>Thu, 09 Apr 2020 09:06:57 +0800</lastBuildDate>
     
-	  <atom:link href="/tags/%E7%BF%BB%E8%AF%91/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="https://guoxudong.io/tags/%E7%BF%BB%E8%AF%91/index.xml" rel="self" type="application/rss+xml" />
     
     
       
@@ -17,10 +17,10 @@
     
     <item>
       <title>Post: 导致你的微服务走向失败的11个原因</title>
-      <link>/post/11-reasons-why-you-are-going-to-fail-with-microservices/</link>
+      <link>https://guoxudong.io/post/11-reasons-why-you-are-going-to-fail-with-microservices/</link>
       <pubDate>Thu, 09 Apr 2020 09:06:57 +0800</pubDate>
       
-      <guid>/post/11-reasons-why-you-are-going-to-fail-with-microservices/</guid>
+      <guid>https://guoxudong.io/post/11-reasons-why-you-are-going-to-fail-with-microservices/</guid>
       <description>
         
         
@@ -138,10 +138,10 @@
     
     <item>
       <title>Post: Kubernetes 中优化流量和安全性需要注意的7点要求</title>
-      <link>/post/7-requirements-for-optimized-traffic-flow-and-security-in-kubernetes/</link>
+      <link>https://guoxudong.io/post/7-requirements-for-optimized-traffic-flow-and-security-in-kubernetes/</link>
       <pubDate>Tue, 18 Feb 2020 14:15:42 +0800</pubDate>
       
-      <guid>/post/7-requirements-for-optimized-traffic-flow-and-security-in-kubernetes/</guid>
+      <guid>https://guoxudong.io/post/7-requirements-for-optimized-traffic-flow-and-security-in-kubernetes/</guid>
       <description>
         
         
@@ -279,10 +279,10 @@
     
     <item>
       <title>Post: 如何构建混合Kubernetes平台</title>
-      <link>/post/how-we-built-our-hybrid-kubernetes-platfor/</link>
+      <link>https://guoxudong.io/post/how-we-built-our-hybrid-kubernetes-platfor/</link>
       <pubDate>Tue, 06 Aug 2019 14:01:30 +0800</pubDate>
       
-      <guid>/post/how-we-built-our-hybrid-kubernetes-platfor/</guid>
+      <guid>https://guoxudong.io/post/how-we-built-our-hybrid-kubernetes-platfor/</guid>
       <description>
         
         
@@ -347,10 +347,10 @@
     
     <item>
       <title>Post: 使用 Helm 在多集群部署应用</title>
-      <link>/post/deploying-apps-on-multiple-kubernetes-clusters-with-hel/</link>
+      <link>https://guoxudong.io/post/deploying-apps-on-multiple-kubernetes-clusters-with-hel/</link>
       <pubDate>Sun, 14 Jul 2019 14:16:56 +0800</pubDate>
       
-      <guid>/post/deploying-apps-on-multiple-kubernetes-clusters-with-hel/</guid>
+      <guid>https://guoxudong.io/post/deploying-apps-on-multiple-kubernetes-clusters-with-hel/</guid>
       <description>
         
         
@@ -566,10 +566,10 @@ preview_only: false&lt;/h2&gt;
     
     <item>
       <title>Post: 【转】Kubernetes 儿童插图指南</title>
-      <link>/post/the-childrens-illustrated-guide-to-kubernetes/</link>
+      <link>https://guoxudong.io/post/the-childrens-illustrated-guide-to-kubernetes/</link>
       <pubDate>Fri, 05 Jul 2019 09:50:58 +0800</pubDate>
       
-      <guid>/post/the-childrens-illustrated-guide-to-kubernetes/</guid>
+      <guid>https://guoxudong.io/post/the-childrens-illustrated-guide-to-kubernetes/</guid>
       <description>
         
         
@@ -634,10 +634,10 @@ Phippy 与她的新朋友一起乘坐 Kube 船长的巨轮航行于大海之上�
     
     <item>
       <title>Post: 8分钟入门 K8S</title>
-      <link>/post/an-8-minute-introduction-to-k8s/</link>
+      <link>https://guoxudong.io/post/an-8-minute-introduction-to-k8s/</link>
       <pubDate>Tue, 30 Apr 2019 13:38:12 +0800</pubDate>
       
-      <guid>/post/an-8-minute-introduction-to-k8s/</guid>
+      <guid>https://guoxudong.io/post/an-8-minute-introduction-to-k8s/</guid>
       <description>
         
         
@@ -704,10 +704,10 @@ Phippy 与她的新朋友一起乘坐 Kube 船长的巨轮航行于大海之上�
     
     <item>
       <title>Post: 困难的 Kubernetes</title>
-      <link>/post/kubernetes-is-har/</link>
+      <link>https://guoxudong.io/post/kubernetes-is-har/</link>
       <pubDate>Wed, 24 Apr 2019 10:18:46 +0800</pubDate>
       
-      <guid>/post/kubernetes-is-har/</guid>
+      <guid>https://guoxudong.io/post/kubernetes-is-har/</guid>
       <description>
         
         
@@ -748,10 +748,10 @@ Phippy 与她的新朋友一起乘坐 Kube 船长的巨轮航行于大海之上�
     
     <item>
       <title>Post: GitHub 黑话指南</title>
-      <link>/post/cant/</link>
+      <link>https://guoxudong.io/post/cant/</link>
       <pubDate>Mon, 22 Apr 2019 09:11:24 +0800</pubDate>
       
-      <guid>/post/cant/</guid>
+      <guid>https://guoxudong.io/post/cant/</guid>
       <description>
         
         
@@ -789,10 +789,10 @@ image:
     
     <item>
       <title>Post: 什么的容器？Docker 工作原理及容器化简易指南</title>
-      <link>/post/what-are-containers-a-simple-guide-to-containerization-and-how-docker-works/</link>
+      <link>https://guoxudong.io/post/what-are-containers-a-simple-guide-to-containerization-and-how-docker-works/</link>
       <pubDate>Sat, 20 Apr 2019 19:54:50 +0800</pubDate>
       
-      <guid>/post/what-are-containers-a-simple-guide-to-containerization-and-how-docker-works/</guid>
+      <guid>https://guoxudong.io/post/what-are-containers-a-simple-guide-to-containerization-and-how-docker-works/</guid>
       <description>
         
         
@@ -876,10 +876,10 @@ image:
     
     <item>
       <title>Post: Kustomize: 无需模板定制你的 kubernetes 配置</title>
-      <link>/post/introducing-kustomize-template-free-configuration-customization-for-kubernetes/</link>
+      <link>https://guoxudong.io/post/introducing-kustomize-template-free-configuration-customization-for-kubernetes/</link>
       <pubDate>Mon, 15 Apr 2019 17:23:21 +0800</pubDate>
       
-      <guid>/post/introducing-kustomize-template-free-configuration-customization-for-kubernetes/</guid>
+      <guid>https://guoxudong.io/post/introducing-kustomize-template-free-configuration-customization-for-kubernetes/</guid>
       <description>
         
         
@@ -958,10 +958,10 @@ image:
     
     <item>
       <title>Post: Devops入门手册</title>
-      <link>/post/devops-tutorial/</link>
+      <link>https://guoxudong.io/post/devops-tutorial/</link>
       <pubDate>Tue, 09 Apr 2019 13:21:56 +0800</pubDate>
       
-      <guid>/post/devops-tutorial/</guid>
+      <guid>https://guoxudong.io/post/devops-tutorial/</guid>
       <description>
         
         
@@ -1222,10 +1222,10 @@ image:
     
     <item>
       <title>Post: Service Mesh是什么，我们又为什么需要它</title>
-      <link>/post/whats-a-service-mesh-and-why-do-i-need-one/</link>
+      <link>https://guoxudong.io/post/whats-a-service-mesh-and-why-do-i-need-one/</link>
       <pubDate>Mon, 25 Mar 2019 18:17:20 +0800</pubDate>
       
-      <guid>/post/whats-a-service-mesh-and-why-do-i-need-one/</guid>
+      <guid>https://guoxudong.io/post/whats-a-service-mesh-and-why-do-i-need-one/</guid>
       <description>
         
         

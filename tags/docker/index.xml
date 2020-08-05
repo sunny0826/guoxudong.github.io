@@ -1,13 +1,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Guo Xudong&#39;s Blog·郭旭东的博客 – Docker</title>
-    <link>/tags/docker/</link>
+    <link>https://guoxudong.io/tags/docker/</link>
     <description>Recent content in Docker on Guo Xudong&#39;s Blog·郭旭东的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <lastBuildDate>Sat, 20 Apr 2019 19:54:50 +0800</lastBuildDate>
     
-	  <atom:link href="/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="https://guoxudong.io/tags/docker/index.xml" rel="self" type="application/rss+xml" />
     
     
       
@@ -17,10 +17,10 @@
     
     <item>
       <title>Post: 什么的容器？Docker 工作原理及容器化简易指南</title>
-      <link>/post/what-are-containers-a-simple-guide-to-containerization-and-how-docker-works/</link>
+      <link>https://guoxudong.io/post/what-are-containers-a-simple-guide-to-containerization-and-how-docker-works/</link>
       <pubDate>Sat, 20 Apr 2019 19:54:50 +0800</pubDate>
       
-      <guid>/post/what-are-containers-a-simple-guide-to-containerization-and-how-docker-works/</guid>
+      <guid>https://guoxudong.io/post/what-are-containers-a-simple-guide-to-containerization-and-how-docker-works/</guid>
       <description>
         
         
@@ -104,10 +104,10 @@
     
     <item>
       <title>Post: Alpine Linux详解</title>
-      <link>/post/alpine-linux/</link>
+      <link>https://guoxudong.io/post/alpine-linux/</link>
       <pubDate>Fri, 15 Mar 2019 09:53:02 +0800</pubDate>
       
-      <guid>/post/alpine-linux/</guid>
+      <guid>https://guoxudong.io/post/alpine-linux/</guid>
       <description>
         
         

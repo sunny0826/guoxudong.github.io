@@ -1,13 +1,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Guo Xudong&#39;s Blog·郭旭东的博客 – 安全办公</title>
-    <link>/tags/%E5%AE%89%E5%85%A8%E5%8A%9E%E5%85%AC/</link>
+    <link>https://guoxudong.io/tags/%E5%AE%89%E5%85%A8%E5%8A%9E%E5%85%AC/</link>
     <description>Recent content in 安全办公 on Guo Xudong&#39;s Blog·郭旭东的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <lastBuildDate>Mon, 10 Feb 2020 10:52:26 +0800</lastBuildDate>
     
-	  <atom:link href="/tags/%E5%AE%89%E5%85%A8%E5%8A%9E%E5%85%AC/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="https://guoxudong.io/tags/%E5%AE%89%E5%85%A8%E5%8A%9E%E5%85%AC/index.xml" rel="self" type="application/rss+xml" />
     
     
       
@@ -17,10 +17,10 @@
     
     <item>
       <title>Post: 疫情期间【在家/公司】远程办公指南</title>
-      <link>/post/work-4-home/</link>
+      <link>https://guoxudong.io/post/work-4-home/</link>
       <pubDate>Mon, 10 Feb 2020 10:52:26 +0800</pubDate>
       
-      <guid>/post/work-4-home/</guid>
+      <guid>https://guoxudong.io/post/work-4-home/</guid>
       <description>
         
         

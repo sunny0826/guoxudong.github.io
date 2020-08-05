@@ -1,13 +1,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Guo Xudong&#39;s Blog·郭旭东的博客 – 服务网格</title>
-    <link>/categories/%E6%9C%8D%E5%8A%A1%E7%BD%91%E6%A0%BC/</link>
+    <link>https://guoxudong.io/categories/%E6%9C%8D%E5%8A%A1%E7%BD%91%E6%A0%BC/</link>
     <description>Recent content in 服务网格 on Guo Xudong&#39;s Blog·郭旭东的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <lastBuildDate>Wed, 10 Apr 2019 14:03:25 +0800</lastBuildDate>
     
-	  <atom:link href="/categories/%E6%9C%8D%E5%8A%A1%E7%BD%91%E6%A0%BC/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="https://guoxudong.io/categories/%E6%9C%8D%E5%8A%A1%E7%BD%91%E6%A0%BC/index.xml" rel="self" type="application/rss+xml" />
     
     
       
@@ -17,10 +17,10 @@
     
     <item>
       <title>Post: 从边车模式到 Service Mesh</title>
-      <link>/post/sidercar-to-servicemesh/</link>
+      <link>https://guoxudong.io/post/sidercar-to-servicemesh/</link>
       <pubDate>Wed, 10 Apr 2019 14:03:25 +0800</pubDate>
       
-      <guid>/post/sidercar-to-servicemesh/</guid>
+      <guid>https://guoxudong.io/post/sidercar-to-servicemesh/</guid>
       <description>
         
         
@@ -103,10 +103,10 @@
     
     <item>
       <title>Post: Service Mesh是什么</title>
-      <link>/post/istio-servicemesh/</link>
+      <link>https://guoxudong.io/post/istio-servicemesh/</link>
       <pubDate>Tue, 19 Mar 2019 16:12:56 +0800</pubDate>
       
-      <guid>/post/istio-servicemesh/</guid>
+      <guid>https://guoxudong.io/post/istio-servicemesh/</guid>
       <description>
         
         

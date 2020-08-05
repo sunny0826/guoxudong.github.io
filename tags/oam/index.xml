@@ -1,13 +1,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Guo Xudong&#39;s Blog·郭旭东的博客 – OAM</title>
-    <link>/tags/oam/</link>
+    <link>https://guoxudong.io/tags/oam/</link>
     <description>Recent content in OAM on Guo Xudong&#39;s Blog·郭旭东的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <lastBuildDate>Fri, 24 Jul 2020 10:53:04 +0800</lastBuildDate>
     
-	  <atom:link href="/tags/oam/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="https://guoxudong.io/tags/oam/index.xml" rel="self" type="application/rss+xml" />
     
     
       
@@ -17,10 +17,10 @@
     
     <item>
       <title>Post: 读完《云原生架构白皮书》，我们来谈谈开放应用模型（OAM）</title>
-      <link>/post/the-cloud-native-architecture-white-paper-oam/</link>
+      <link>https://guoxudong.io/post/the-cloud-native-architecture-white-paper-oam/</link>
       <pubDate>Fri, 24 Jul 2020 10:53:04 +0800</pubDate>
       
-      <guid>/post/the-cloud-native-architecture-white-paper-oam/</guid>
+      <guid>https://guoxudong.io/post/the-cloud-native-architecture-white-paper-oam/</guid>
       <description>
         
         
@@ -72,10 +72,10 @@
     
     <item>
       <title>Post: 以应用为中心：开放应用模型（OAM）初探</title>
-      <link>/post/start-oam/</link>
+      <link>https://guoxudong.io/post/start-oam/</link>
       <pubDate>Sun, 28 Jun 2020 14:53:23 +0800</pubDate>
       
-      <guid>/post/start-oam/</guid>
+      <guid>https://guoxudong.io/post/start-oam/</guid>
       <description>
         
         
