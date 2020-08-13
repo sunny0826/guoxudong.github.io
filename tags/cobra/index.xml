@@ -1,0 +1,260 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Guo Xudong&#39;s Blog·郭旭东的博客 – cobra</title>
+    <link>https://guoxudong.io/tags/cobra/</link>
+    <description>Recent content in cobra on Guo Xudong&#39;s Blog·郭旭东的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Wed, 12 Aug 2020 16:48:34 +0800</lastBuildDate>
+    
+	  <atom:link href="https://guoxudong.io/tags/cobra/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Post: Cobra 命令自动补全指北</title>
+      <link>https://guoxudong.io/post/cobra-shell-completions/</link>
+      <pubDate>Wed, 12 Aug 2020 16:48:34 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/cobra-shell-completions/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;用过类 Unix 系统中 Unix shell(Shell/Bash/Zsh) 的同学都应该对 &lt;kbd&gt;TAB&lt;/kbd&gt; 键印象深刻，因为它可以帮忙补全或提示后续的命令，用户不用记住完整的命令，只需输入前几个字符，按 &lt;kbd&gt;TAB&lt;/kbd&gt; 键，就会提示后续的命令供用户选择，用户体验极佳。目前流行的一些使用 Go 语言开发的 CLI 工具，如 &lt;code&gt;kubectl&lt;/code&gt; 和 &lt;code&gt;helm&lt;/code&gt;，他们也都有 &lt;code&gt;completion&lt;/code&gt; 也就是命令自动补全功能，通过将 &lt;code&gt;source &amp;lt;(kubectl completion zsh)&lt;/code&gt; 加入 &lt;code&gt;.zshrc&lt;/code&gt; 文件中，就可以在每次启动 shell 时自动加载自动补全脚本，之后就可以体验到与原生 shell 相同的自动补全功能了。这些 CLI 工具，都是基于 &lt;a href=&#34;https://github.com/spf13/cobra&#34;&gt;Cobra&lt;/a&gt; 库开发，命令自动补全功能也是该库提供的一个功能，本篇文章就来讲讲如何使用 Cobra 实现命令自动补全的。&lt;/p&gt;
+&lt;h2 id=&#34;cobra-shell-completion&#34;&gt;Cobra Shell Completion&lt;/h2&gt;
+&lt;p&gt;Cobra 可以作为一个 Golang 包，用来构建功能强大的命令行程序；同时也可以作为 CLI 工具，用来生成应用程序和命令文件。&lt;/p&gt;
+&lt;p&gt;由于文本主要介绍 Cobra 的命令自动补全功能，更多内容请查阅&lt;a href=&#34;https://github.com/spf13/cobra&#34;&gt;官网&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax2.sinaimg.cn/large/ad5fbf65gy1gho68w1h0sj20tn09e0td.jpg&#34; alt=&#34;Cobra&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;基础用法&#34;&gt;基础用法&lt;/h3&gt;
+&lt;p&gt;Cobra 当前的最新版本为 &lt;code&gt;v1.0.0&lt;/code&gt;，支持生成多种 Shell 的自动补全脚本，目前支持：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Bash&lt;/li&gt;
+&lt;li&gt;Zsh&lt;/li&gt;
+&lt;li&gt;Fish&lt;/li&gt;
+&lt;li&gt;PowerShell&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如上所述，Cobra 不但是一个功能强大的 Golang 包，还是一个 CLI 工具，可以用来生成应用程序和命令文件。使用如下命令，即可生成用于命令自动补全的代码：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ cobra add completion
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;或者也可以创建 &lt;code&gt;cmd/completion.go&lt;/code&gt; 文件，来放置用于生成命令自动补全脚本的代码：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;var&lt;/span&gt; completionCmd = &amp;amp;cobra.Command{
+    Use:                   &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;completion [bash|zsh|fish|powershell]&amp;#34;&lt;/span&gt;,
+    Short:                 &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Generate completion script&amp;#34;&lt;/span&gt;,
+    Long: &lt;span style=&#34;color:#ed9d13&#34;&gt;`&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;To load completions:
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;Bash:
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;$ source &amp;lt;(yourprogram completion bash)
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;# To load completions for each session, execute once:
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;Linux:
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;  $ yourprogram completion bash &amp;gt; /etc/bash_completion.d/yourprogram
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;MacOS:
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;  $ yourprogram completion bash &amp;gt; /usr/local/etc/bash_completion.d/yourprogram
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;Zsh:
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;# If shell completion is not already enabled in your environment you will need
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;# to enable it.  You can execute the following once:
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;$ echo &amp;#34;autoload -U compinit; compinit&amp;#34; &amp;gt;&amp;gt; ~/.zshrc
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;# To load completions for each session, execute once:
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;$ yourprogram completion zsh &amp;gt; &amp;#34;$&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;fpath[1]}/_yourprogram&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;# You will need to start a new shell for this setup to take effect.
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;Fish:
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;$ yourprogram completion fish | source
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;# To load completions for each session, execute once:
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;$ yourprogram completion fish &amp;gt; ~/.config/fish/completions/yourprogram.fish
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;`&lt;/span&gt;,
+    DisableFlagsInUseLine: &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;true&lt;/span&gt;,
+    ValidArgs:             []&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;{&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;bash&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;zsh&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;fish&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;powershell&amp;#34;&lt;/span&gt;},
+    Args:                  cobra.&lt;span style=&#34;color:#447fcf&#34;&gt;ExactValidArgs&lt;/span&gt;(&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;),
+    Run: &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;func&lt;/span&gt;(cmd *cobra.Command, args []&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;) {
+      &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;switch&lt;/span&gt; args[&lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;] {
+      &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;bash&amp;#34;&lt;/span&gt;:
+        cmd.&lt;span style=&#34;color:#447fcf&#34;&gt;Root&lt;/span&gt;().&lt;span style=&#34;color:#447fcf&#34;&gt;GenBashCompletion&lt;/span&gt;(os.Stdout)
+      &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;zsh&amp;#34;&lt;/span&gt;:
+        cmd.&lt;span style=&#34;color:#447fcf&#34;&gt;Root&lt;/span&gt;().&lt;span style=&#34;color:#447fcf&#34;&gt;GenZshCompletion&lt;/span&gt;(os.Stdout)
+      &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;fish&amp;#34;&lt;/span&gt;:
+        cmd.&lt;span style=&#34;color:#447fcf&#34;&gt;Root&lt;/span&gt;().&lt;span style=&#34;color:#447fcf&#34;&gt;GenFishCompletion&lt;/span&gt;(os.Stdout, &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;true&lt;/span&gt;)
+      &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;powershell&amp;#34;&lt;/span&gt;:
+        cmd.&lt;span style=&#34;color:#447fcf&#34;&gt;Root&lt;/span&gt;().&lt;span style=&#34;color:#447fcf&#34;&gt;GenPowerShellCompletion&lt;/span&gt;(os.Stdout)
+      }
+    },
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;官方推荐将生成内容输出到 &lt;code&gt;os.Stdout&lt;/code&gt;，只需上面这些简单的命令，即可在你的 CLI 工具中新增 &lt;code&gt;completion&lt;/code&gt; 子命令，执行该命令即可生成相应 Shell 的命令自动补全脚本，将其插入或保存到相应 Shell 的指定位置即可实现命令自动补全功能。&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;注意&lt;/h4&gt;
+如果加载了配置文件，&lt;code&gt;os.Stdout&lt;/code&gt; 可能会打印多余的信息，这会导致自动补全脚本失效，所以请避免这种情况。
+&lt;/div&gt;
+
+&lt;h3 id=&#34;进阶用法&#34;&gt;进阶用法&lt;/h3&gt;
+&lt;p&gt;上面的这些只是基本用法，完成的只是命令补全的基本功能，但一些定制化的需求是无法实现的。比如，&lt;code&gt;kubectl get [tab]&lt;/code&gt; 这里的预期内容是返回所有 k8s 资源名称，但是只靠上面的代码是无法实现的。这里就需要用到自定义补全，通过为每个命令增加不同的参数或方法，可以实现静态和动态补全等功能。&lt;/p&gt;
+&lt;h4 id=&#34;名称补全&#34;&gt;名称补全&lt;/h4&gt;
+&lt;p&gt;名称补全其实也分静态名称和动态名称，静态名称就像 &lt;code&gt;kubectl completion [tab]&lt;/code&gt; 预期返回的多种 shell 名称，内容为事先在代码中已经定义好的内容；而动态名称，就是像 &lt;code&gt;helm status [tab]&lt;/code&gt; 预期返回的所有 release 名称，并不是以静态内容体现，而是通过函数动态获取的内容。&lt;/p&gt;
+&lt;h5 id=&#34;静态名称补全&#34;&gt;静态名称补全&lt;/h5&gt;
+&lt;p&gt;静态名称补全比较简单，只要在想要自动补全的子命令中加入 &lt;code&gt;ValidArgs&lt;/code&gt; 字段，传入一组包含预期结果的字符串数组即可，代码如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;validArgs []&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt; = { &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;pod&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;node&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;service&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;replicationcontroller&amp;#34;&lt;/span&gt; }
+
+cmd := &amp;amp;cobra.Command{
+    Use:     &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;get [(-o|--output=)json|yaml|template|...] (RESOURCE [NAME] | RESOURCE/NAME ...)&amp;#34;&lt;/span&gt;,
+    Short:   &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Display one or many resources&amp;#34;&lt;/span&gt;,
+    Long:    get_long,
+    Example: get_example,
+    Run: &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;func&lt;/span&gt;(cmd *cobra.Command, args []&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;) {
+      err := &lt;span style=&#34;color:#447fcf&#34;&gt;RunGet&lt;/span&gt;(f, out, cmd, args)
+      util.&lt;span style=&#34;color:#447fcf&#34;&gt;CheckErr&lt;/span&gt;(err)
+    },
+    ValidArgs: validArgs,
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里是模仿 kubectl 的 &lt;code&gt;get&lt;/code&gt; 子命令，在执行该命令时效果如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl get [tab][tab]
+node   pod   replicationcontroller   service
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如果命令有别名（Aliases）的话，则可以使用 &lt;code&gt;ArgAliases&lt;/code&gt;，代码如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;argAliases []&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt; = { &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;pods&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;nodes&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;services&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;svc&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;replicationcontrollers&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;rc&amp;#34;&lt;/span&gt; }
+
+cmd := &amp;amp;cobra.Command{
+    ...
+    ValidArgs:  validArgs,
+    ArgAliases: argAliases
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;注意&lt;/h4&gt;
+别名不会在按 &lt;kbd&gt;TAB&lt;/kbd&gt; 时提示给用户，但如果手动输入，则补全算法会将其视为有效参数，并提供后续的补全。
+&lt;/div&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl get rc [tab][tab]
+backend        frontend       database
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里如果不声明 &lt;code&gt;rc&lt;/code&gt; 为别名，则补全算法将无法补全后续的内容。&lt;/p&gt;
+&lt;h5 id=&#34;动态名称补全&#34;&gt;动态名称补全&lt;/h5&gt;
+&lt;p&gt;如果需要补全的名称是动态生成的，例如 &lt;code&gt;helm status [tab]&lt;/code&gt; 这里的 &lt;code&gt;release&lt;/code&gt; 值，就需要用到 &lt;code&gt;ValidArgsFunction&lt;/code&gt; 字段，将需要返回的内容以 function 的形式声明在 &lt;code&gt;cobra.Command&lt;/code&gt; 中，代码如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;cmd := &amp;amp;cobra.Command{
+    Use:   &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;status RELEASE_NAME&amp;#34;&lt;/span&gt;,
+    Short: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Display the status of the named release&amp;#34;&lt;/span&gt;,
+    Long:  status_long,
+    RunE: &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;func&lt;/span&gt;(cmd *cobra.Command, args []&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;) {
+      &lt;span style=&#34;color:#447fcf&#34;&gt;RunGet&lt;/span&gt;(args[&lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;])
+    },
+    ValidArgsFunction: &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;func&lt;/span&gt;(cmd *cobra.Command, args []&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;, toComplete &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;) ([]&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;, cobra.ShellCompDirective) {
+      &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#24909d&#34;&gt;len&lt;/span&gt;(args) != &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt; {
+        &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt;, cobra.ShellCompDirectiveNoFileComp
+      }
+      &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#447fcf&#34;&gt;getReleasesFromCluster&lt;/span&gt;(toComplete), cobra.ShellCompDirectiveNoFileComp
+    },
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;上面这段代码是 &lt;code&gt;helm&lt;/code&gt; 的源码，也是 Cobra 的官方示例代码，很好的展示了这个 function 的结构及返回格式，有兴趣的同学可以去看一下 &lt;code&gt;helm&lt;/code&gt; 的源码，也是很有意思的。&lt;code&gt;getReleasesFromCluster&lt;/code&gt; 方法是用来获取 Helm release 列表，在执行命令时，效果如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ helm status [tab][tab]
+harbor notary rook thanos
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;cobra.ShellCompDirective&lt;/code&gt; 可以控制自动补全的特定行为，你可以用或运算符来组合它们，像这样 &lt;code&gt;cobra.ShellCompDirectiveNoSpace | cobra.ShellCompDirectiveNoFileComp&lt;/code&gt;，下面是它们的介绍（摘自官方文档）：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Indicates that the shell will perform its default behavior after completions
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// have been provided (this implies none of the other directives).
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;ShellCompDirectiveDefault
+
+&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Indicates an error occurred and completions should be ignored.
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;ShellCompDirectiveError
+
+&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Indicates that the shell should not add a space after the completion,
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// even if there is a single completion provided.
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;ShellCompDirectiveNoSpace
+
+&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Indicates that the shell should not provide file completion even when
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// no completion is provided.
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;ShellCompDirectiveNoFileComp
+
+&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Indicates that the returned completions should be used as file extension filters.
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// For example, to complete only files of the form *.json or *.yaml:
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;//    return []string{&amp;#34;yaml&amp;#34;, &amp;#34;json&amp;#34;}, ShellCompDirectiveFilterFileExt
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// For flags, using MarkFlagFilename() and MarkPersistentFlagFilename()
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// is a shortcut to using this directive explicitly.
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;//
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;ShellCompDirectiveFilterFileExt
+
+&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Indicates that only directory names should be provided in file completion.
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// For example:
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;//    return nil, ShellCompDirectiveFilterDirs
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// For flags, using MarkFlagDirname() is a shortcut to using this directive explicitly.
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;//
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// To request directory names within another directory, the returned completions
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// should specify a single directory name within which to search. For example,
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// to complete directories within &amp;#34;themes/&amp;#34;:
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;//    return []string{&amp;#34;themes&amp;#34;}, ShellCompDirectiveFilterDirs
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;//
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;ShellCompDirectiveFilterDirs
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;注意&lt;/h4&gt;
+&lt;code&gt;ValidArgs&lt;/code&gt; 和 &lt;code&gt;ValidArgsFunction&lt;/code&gt; 同时只能存在一个。在使用 &lt;code&gt;ValidArgsFunction&lt;/code&gt; 时，Cobra 将在解析了命令行中提供的所有 flag 和参数之后才会调用您的注册函数。
+&lt;/div&gt;
+
+&lt;h4 id=&#34;flag-补全&#34;&gt;Flag 补全&lt;/h4&gt;
+&lt;h5 id=&#34;指定必选-flag&#34;&gt;指定必选 flag&lt;/h5&gt;
+&lt;p&gt;大多时候，名字补全只会提示子命令的补全，但如果一些 flag 是必须的，也可以在用户按 &lt;kbd&gt;TAB&lt;/kbd&gt; 键时进行自动补全，代码如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;cmd.&lt;span style=&#34;color:#447fcf&#34;&gt;MarkFlagRequired&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;pod&amp;#34;&lt;/span&gt;)
+cmd.&lt;span style=&#34;color:#447fcf&#34;&gt;MarkFlagRequired&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;container&amp;#34;&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后在执行命令时，就可以看到：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl &lt;span style=&#34;color:#24909d&#34;&gt;exec&lt;/span&gt; [tab][tab]
+-c            --container=  -p            --pod=  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id=&#34;动态-flag&#34;&gt;动态 flag&lt;/h5&gt;
+&lt;p&gt;同名称补全类似，Cobra 提供了一个字段来完成该功能，需要使用 &lt;code&gt;command.RegisterFlagCompletionFunc()&lt;/code&gt; 来注册自动补全的函数，代码如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;flagName := &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;output&amp;#34;&lt;/span&gt;
+cmd.&lt;span style=&#34;color:#447fcf&#34;&gt;RegisterFlagCompletionFunc&lt;/span&gt;(flagName, &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;func&lt;/span&gt;(cmd *cobra.Command, args []&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;, toComplete &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;) ([]&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;, cobra.ShellCompDirective) {
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; []&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;{&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;json&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;table&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;yaml&amp;#34;&lt;/span&gt;}, cobra.ShellCompDirectiveDefault
+})
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;RegisterFlagCompletionFunc()&lt;/code&gt; 是通过 &lt;code&gt;command&lt;/code&gt; 与该 flag 的进行关联的，在本示例中可以看到：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ helm status --output [tab][tab]
+json table yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;使用方式和名称补全相同，这里就不做详细介绍了。&lt;/p&gt;
+&lt;h4 id=&#34;debug&#34;&gt;Debug&lt;/h4&gt;
+&lt;p&gt;命令自动补全与其他功能不同，调试起来比较麻烦，所以 Cobra 提供了调用隐藏命令，模拟自动补全脚本的方式来帮助调试代码，你可以直接使用以下隐藏命令来模拟触发：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ helm __complete status har[ENTER]
+harbor
+:4
+Completion ended with directive: ShellCompDirectiveNoFileComp &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# This is on stderr&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;注意&lt;/h4&gt;
+如果需要提示名称而非补全（就是输入命令后直接按 &lt;kbd&gt;TAB&lt;/kbd&gt; 键），则必须将空参数传递给 &lt;code&gt;__complete&lt;/code&gt; 命令：
+&lt;/div&gt;
+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ helm __complete status &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;[ENTER]
+harbor
+notary
+rook
+thanos
+:4
+Completion ended with directive: ShellCompDirectiveNoFileComp &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# This is on stderr&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;同样可以用来调试 flag 的自动补全：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ helm __complete status --output &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;[ENTER]
+json
+table
+yaml
+:4
+Completion ended with directive: ShellCompDirectiveNoFileComp &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# This is on stderr&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
+&lt;p&gt;以上内容是作者挑选的一些较为常用的功能，更多的内容详见&lt;a href=&#34;https://github.com/spf13/cobra&#34;&gt;官方文档&lt;/a&gt;。如果想看示例的话，推荐 &lt;a href=&#34;https://github.com/kubernetes/kubectl&#34;&gt;kubectl&lt;/a&gt; 和 &lt;a href=&#34;https://github.com/helm/helm&#34;&gt;helm&lt;/a&gt; 的源码。&lt;/p&gt;
+&lt;p&gt;当然 Cobra 还不是完美的，比如生成的 Zsh 脚本有些问题，&lt;code&gt;kubectl&lt;/code&gt; 和 &lt;code&gt;helm&lt;/code&gt; 都是使用将其生成的 Bash 自动补全脚本转化为 Zsh 的自动补全脚本的方式。但不得不承认，Cobra 是一个非常好用的 CLI 工具构建框架，很多流行的 CLI 工具都是使用它来构建的，这也是为什么使用 GO 语言编写的 CLI 工具如雨后春笋般快速的出现并占据了云原生工具的关键位置。&lt;/p&gt;
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/spf13/cobra&#34;&gt;Cobra - github.com&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>
