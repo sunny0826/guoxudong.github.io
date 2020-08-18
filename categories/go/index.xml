@@ -5,7 +5,7 @@
     <description>Recent content in Go on Guo Xudong&#39;s Blog·郭旭东的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Wed, 12 Aug 2020 16:48:34 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 18 Aug 2020 09:23:28 +0800</lastBuildDate>
     
 	  <atom:link href="https://guoxudong.io/categories/go/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,6 +14,201 @@
         
       
     
+    
+    <item>
+      <title>Post: 使用 Golang 和 HTML5 开发一个 MacOS App</title>
+      <link>https://guoxudong.io/post/go-h5-codeing-mac-app/</link>
+      <pubDate>Tue, 18 Aug 2020 09:23:28 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/go-h5-codeing-mac-app/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;Go语言（也称为Golang）是 google 在 2009 年推出的一种编译型编程语言。相对于其他编程语言，golang 具有编写并发程序或网络交互简单、数据类型丰富、编译速度快等特点，比较适合于高性能、高并发场景。Go 语言一直在网络编程、云平台开发、分布式系统等领域占据着重要的地位，尤其在云原生领域，杀手级项目 Docker 和 Kubernetes 都是采用 Go 语言开发的。而在其他领域，比如桌面应用开发，也有一些框架可以使用，本篇文章就来介绍如何使用 Go 语言 和 HTML5 来开发一个 MacOS App。&lt;/p&gt;
+&lt;h2 id=&#34;框架选择&#34;&gt;框架选择&lt;/h2&gt;
+&lt;p&gt;这里我选用了 &lt;a href=&#34;https://github.com/labstack/echo&#34;&gt;echo&lt;/a&gt; 作为 web 框架，当然也可以选择其他的 web 框架，选择 echo 只不过因为其比较轻量。要做桌面应用，还需要一个 GUI 框架来构建应用，这里我选择的是 &lt;a href=&#34;https://github.com/zserge/lorca&#34;&gt;Lorca&lt;/a&gt;，使用 Lorca 可以用 Go 编写 HTML5 桌面程序，依赖 Chrome 进行 UI 渲染，但却不需要把 Chrome 打包到应用中，也就是说使用应用的电脑，需要安装 Chrome。&lt;/p&gt;
+&lt;h3 id=&#34;lorca&#34;&gt;lorca&lt;/h3&gt;
+&lt;p&gt;echo 的使用方式中规中矩，没有什么需要介绍的。这里简要介绍一下 lorca，其的使用方法和原理都很简单，可以将其看做是一个浏览器，可在其上运行 web 应用，lorca 可直接将 web 应用包装成桌面应用。这里提供一个简单的示例：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;ui, _ := lorca.&lt;span style=&#34;color:#447fcf&#34;&gt;New&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#3677a9&#34;&gt;480&lt;/span&gt;, &lt;span style=&#34;color:#3677a9&#34;&gt;320&lt;/span&gt;)
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;defer&lt;/span&gt; ui.&lt;span style=&#34;color:#447fcf&#34;&gt;Close&lt;/span&gt;()
+
+&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Bind Go function to be available in JS. Go function may be long-running and
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// blocking - in JS it&amp;#39;s represented with a Promise.
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;ui.&lt;span style=&#34;color:#447fcf&#34;&gt;Bind&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;add&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;func&lt;/span&gt;(a, b &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;int&lt;/span&gt;) &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;int&lt;/span&gt; { &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; a + b })
+
+&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Call JS function from Go. Functions may be asynchronous, i.e. return promises
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;n := ui.&lt;span style=&#34;color:#447fcf&#34;&gt;Eval&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;`&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;Math.random()&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;`&lt;/span&gt;).&lt;span style=&#34;color:#447fcf&#34;&gt;Float&lt;/span&gt;()
+fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Println&lt;/span&gt;(n)
+
+&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Call JS that calls Go and so on and so on...
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;m := ui.&lt;span style=&#34;color:#447fcf&#34;&gt;Eval&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;`&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;add(2, 3)&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;`&lt;/span&gt;).&lt;span style=&#34;color:#447fcf&#34;&gt;Int&lt;/span&gt;()
+fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Println&lt;/span&gt;(m)
+
+&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Wait for the browser window to be closed
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&amp;lt;-ui.&lt;span style=&#34;color:#447fcf&#34;&gt;Done&lt;/span&gt;()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;制作-macos-app&#34;&gt;制作 MacOS App&lt;/h2&gt;
+&lt;p&gt;在完成基本的编码后，接下来的工作才是重点：将应用包装成一个 MacOS APP。&lt;/p&gt;
+&lt;h3 id=&#34;制作图标&#34;&gt;制作图标&lt;/h3&gt;
+&lt;p&gt;一个 MacOS APP 首先需要一个图标，这里请选择一个 1024 X 1024 分辨率，背景透明的 PNG 图片。这里假设该图片名为 &lt;code&gt;logo.png&lt;/code&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;新建一个名为 &lt;code&gt;tmp.iconset&lt;/code&gt; 的临时目录，用于存放不同大小的临时图片&lt;/li&gt;
+&lt;li&gt;执行如下命令，将原图转为不同大小的图片并放入临时目录&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;16&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;16&lt;/span&gt;     logo.png --out tmp.iconset/icon_16x16.png
+$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;32&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;32&lt;/span&gt;     logo.png --out tmp.iconset/icon_16x16@2x.png
+$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;32&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;32&lt;/span&gt;     logo.png --out tmp.iconset/icon_32x32.png
+$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;64&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;64&lt;/span&gt;     logo.png --out tmp.iconset/icon_32x32@2x.png
+$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;128&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;128&lt;/span&gt;   logo.png --out tmp.iconset/icon_128x128.png
+$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;256&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;256&lt;/span&gt;   logo.png --out tmp.iconset/icon_128x128@2x.png
+$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;256&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;256&lt;/span&gt;   logo.png --out tmp.iconset/icon_256x256.png
+$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;512&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;512&lt;/span&gt;   logo.png --out tmp.iconset/icon_256x256@2x.png
+$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;512&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;512&lt;/span&gt;   logo.png --out tmp.iconset/icon_512x512.png
+$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;1024&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;1024&lt;/span&gt;   logo.png --out tmp.iconset/icon_512x512@2x.png
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;使用 &lt;a href=&#34;https://developer.apple.com/library/content/documentation/GraphicsAnimation/Conceptual/HighResolutionOSX/Optimizing/Optimizing.html#//apple_ref/doc/uid/TP40012302-CH7-SW2&#34;&gt;iconutil&lt;/a&gt; 生成图标&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ iconutil -c icns tmp.iconset -o icon.icns
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;icon.icns&lt;/code&gt; 就是制作好的 MacOS App 图标。&lt;/p&gt;
+&lt;h3 id=&#34;制作-app-bundle&#34;&gt;制作 .app bundle&lt;/h3&gt;
+&lt;p&gt;macOS 上安装的可运行程序是一个 &lt;code&gt;.app&lt;/code&gt; 的目录，里面包含了应用的二进制文件、资源文件以及清单文件。其的目录结构为（也可以通过”右键-显示包内容“来查看 &lt;code&gt;.app&lt;/code&gt; 文件内容）：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ tree Kustomize.app
+Kustomize.app
+└── Contents
+    ├── Info.plist
+    ├── MacOS
+    │   └── kustomize
+    └── Resources
+        ├── assets
+        │   ├── css
+        │   │   ├── page.css
+        │   │   ├── prism.css
+        │   │   └── weui.min.css
+        │   ├── images
+        │   │   └── favicon.ico
+        │   └── js
+        │       ├── jquery.min.js
+        │       ├── prism.js
+        │       └── weui.min.js
+        ├── icon.icns
+        └── views
+            ├── copyreght.html
+            ├── footer.html
+            ├── header.html
+            ├── index.html
+            └── yaml.html
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;可以看到：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Info.plist&lt;/code&gt; 为清单文件，存储应用信息&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MacOS&lt;/code&gt; 中存放二进制可执行文件&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Resources&lt;/code&gt; 存放静态资源文件和图标&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;infoplist-文件&#34;&gt;Info.plist 文件&lt;/h3&gt;
+&lt;p&gt;这是一个清单文件，根据自己应用的内容对齐进行修改，更多内容可以参考 &lt;a href=&#34;https://github.com/shurcooL/trayhost&#34;&gt;trayhost&lt;/a&gt; 项目的说明。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#cd2828;font-weight:bold&#34;&gt;&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#cd2828;font-weight:bold&#34;&gt;&amp;lt;!DOCTYPE plist PUBLIC &amp;#34;-//Apple//DTD PLIST 1.0//EN&amp;#34; &amp;#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&amp;#34;&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;plist&lt;/span&gt; &lt;span style=&#34;color:#bbb&#34;&gt;version=&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;1.0&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;dict&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;CFBundleExecutable&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;string&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;kustomize&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;CFBundleIconFile&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;string&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;icon.icns&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;CFBundleIdentifier&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;string&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;io.guoxudong.kustomize-remote-observer&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;NSHighResolutionCapable&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;true&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;/&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;LSUIElement&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;string&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;1&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/dict&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/plist&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;使用脚本构建-app&#34;&gt;使用脚本构建 App&lt;/h3&gt;
+&lt;p&gt;上面的这些只不过是介绍一下原理及手动修改方式，实际应用中可以使用脚本来完成这些工作。使用如下脚本，可以一键完成：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;.app&lt;/code&gt; 应用的构建&lt;/li&gt;
+&lt;li&gt;go 应用的打包&lt;/li&gt;
+&lt;li&gt;清单文件的生成&lt;/li&gt;
+&lt;li&gt;静态资源的拷贝&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#cd2828;font-weight:bold&#34;&gt;#!/bin/sh
+&lt;/span&gt;&lt;span style=&#34;color:#cd2828;font-weight:bold&#34;&gt;&lt;/span&gt;
+&lt;span style=&#34;color:#40ffff&#34;&gt;APP&lt;/span&gt;=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Kustomize.app&amp;#34;&lt;/span&gt;
+mkdir -p &lt;span style=&#34;color:#40ffff&#34;&gt;$APP&lt;/span&gt;/Contents/{MacOS,Resources}
+go build -o &lt;span style=&#34;color:#40ffff&#34;&gt;$APP&lt;/span&gt;/Contents/MacOS/kustomize
+cat &amp;gt; &lt;span style=&#34;color:#40ffff&#34;&gt;$APP&lt;/span&gt;/Contents/Info.plist &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;&amp;lt; EOF
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;!DOCTYPE plist PUBLIC &amp;#34;-//Apple//DTD PLIST 1.0//EN&amp;#34; &amp;#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&amp;#34;&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;plist version=&amp;#34;1.0&amp;#34;&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;dict&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;	&amp;lt;key&amp;gt;CFBundleExecutable&amp;lt;/key&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;	&amp;lt;string&amp;gt;kustomize&amp;lt;/string&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;	&amp;lt;key&amp;gt;CFBundleIconFile&amp;lt;/key&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;	&amp;lt;string&amp;gt;icon.icns&amp;lt;/string&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;	&amp;lt;key&amp;gt;CFBundleIdentifier&amp;lt;/key&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;	&amp;lt;string&amp;gt;io.guoxudong.kustomize-remote-observer&amp;lt;/string&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;	&amp;lt;key&amp;gt;NSHighResolutionCapable&amp;lt;/key&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;  &amp;lt;true/&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;	&amp;lt;key&amp;gt;LSUIElement&amp;lt;/key&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;  &amp;lt;string&amp;gt;1&amp;lt;/string&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;/dict&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;/plist&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;EOF&lt;/span&gt;
+cp icons/icon.icns &lt;span style=&#34;color:#40ffff&#34;&gt;$APP&lt;/span&gt;/Contents/Resources/icon.icns
+cp -r assets &lt;span style=&#34;color:#40ffff&#34;&gt;$APP&lt;/span&gt;/Contents/Resources/assets
+cp -r views &lt;span style=&#34;color:#40ffff&#34;&gt;$APP&lt;/span&gt;/Contents/Resources/views
+find &lt;span style=&#34;color:#40ffff&#34;&gt;$APP&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;注意&lt;/h4&gt;
+&lt;p&gt;在 MacOS 中，当您运行 App bundle 时，进程的工作目录是根目录（&lt;code&gt;/&lt;/code&gt;），而不是 &lt;code&gt;Contents/Resources&lt;/code&gt; 目录。如果需要从 &lt;code&gt;Resources&lt;/code&gt; 加载资源，则需要进行如下更改：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;ep, err := os.&lt;span style=&#34;color:#447fcf&#34;&gt;Executable&lt;/span&gt;()
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+	log.&lt;span style=&#34;color:#447fcf&#34;&gt;Fatalln&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;os.Executable:&amp;#34;&lt;/span&gt;, err)
+}
+err = os.&lt;span style=&#34;color:#447fcf&#34;&gt;Chdir&lt;/span&gt;(filepath.&lt;span style=&#34;color:#447fcf&#34;&gt;Join&lt;/span&gt;(filepath.&lt;span style=&#34;color:#447fcf&#34;&gt;Dir&lt;/span&gt;(ep), &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;..&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Resources&amp;#34;&lt;/span&gt;))
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+	log.&lt;span style=&#34;color:#447fcf&#34;&gt;Fatalln&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;os.Chdir:&amp;#34;&lt;/span&gt;, err)
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&#34;制作-dmg-文件&#34;&gt;制作 DMG 文件&lt;/h3&gt;
+&lt;p&gt;DMG 文件用于分发应用程序，将 &lt;code&gt;.app&lt;/code&gt; 文件压缩制成镜像，可以很方便的通过拖拽的形式完成安装。&lt;/p&gt;
+&lt;h4 id=&#34;制作模板&#34;&gt;制作模板&lt;/h4&gt;
+&lt;p&gt;制作 DMG 文件首先需要制作模板。打开&lt;code&gt;磁盘工具 - 文件 - 新建映象 - 空白映象&lt;/code&gt;（或直接按 &lt;code&gt;⌘N&lt;/code&gt;）创建一个新的磁盘镜像。给它取个名字，设置足够的空间空间，分区选择&lt;code&gt;CD/DVD&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65gy1ghuwoma7w4j20bd09odig.jpg&#34; alt=&#34;新建模板&#34;&gt;&lt;/p&gt;
+&lt;p&gt;制作好后，打开该镜像，进行文件夹视图定制（按&lt;code&gt;⌘J&lt;/code&gt;），选择展示图标的大小及背景图片，这里可以隐藏工具栏&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva3.sinaimg.cn/large/ad5fbf65gy1ghuwwafpr1j20uy0jhb29.jpg&#34; alt=&#34;文件夹视图定制&#34;&gt;&lt;/p&gt;
+&lt;p&gt;右键&lt;code&gt;应用程序&lt;/code&gt;选择制作替身，将替身移动到镜像中&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1ghuwthtnxqj20bh05xwey.jpg&#34; alt=&#34;制作替身&#34;&gt;&lt;/p&gt;
+&lt;p&gt;将打包好的 app 加入到 DMG 镜像中就完成了 DMG 模板的定制&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65gy1ghuwzoih10j20lo0cqtof.jpg&#34; alt=&#34;定制好的视图&#34;&gt;&lt;/p&gt;
+&lt;h4 id=&#34;转换-dmg-文件&#34;&gt;转换 DMG 文件&lt;/h4&gt;
+&lt;p&gt;目前的 DMG 模板文件还没有经过压缩并且是可写的状态，这样是不能作为程序发布的，所以这里需要对模板进行转换。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65gy1ghux3e65ngj20ct04676t.jpg&#34; alt=&#34;转换&#34;&gt;&lt;/p&gt;
+&lt;p&gt;打开 &lt;code&gt;磁盘工具 - 映象 - 转换&lt;/code&gt;，然后选择压缩后存储的目录就完成了最后一步 DMG 文件的转换。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65gy1ghux55kyzdj20pn0fqgt6.jpg&#34; alt=&#34;转换成功&#34;&gt;&lt;/p&gt;
+&lt;p&gt;现在点开 DMG 文件，将应用拖动到应用程序中，就可以在启动台中看到我们的应用程序了！&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65gy1ghux7e0g5tj20hn0fq7e7.jpg&#34; alt=&#34;启动台&#34;&gt;&lt;/p&gt;
+&lt;h4 id=&#34;自动化&#34;&gt;自动化&lt;/h4&gt;
+&lt;p&gt;上面只是展示了如何手动制作 DMG 镜像，实际使用当然是要将这些步骤自动化的。我将这部分内容做成了一个 go 脚本，原理其实就是使用 &lt;code&gt;hdiutil&lt;/code&gt; 这个命令行工具，有兴趣的同学可以文末找到项目地址，&lt;code&gt;Makefile&lt;/code&gt; 中有详细构建的命令。&lt;/p&gt;
+&lt;h2 id=&#34;项目展示&#34;&gt;项目展示&lt;/h2&gt;
+&lt;p&gt;我使用 Go + HTML5 制作了一个 &lt;code&gt;Kustomize Remote&lt;/code&gt; 的项目，可以从远程 kustomize 项目中获取配置，并 build 成 yaml 文件，UI样式为微信风格，支持 public 和 private 项目。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1ghuxhffoe1j20dc0h8wf1.jpg&#34; alt=&#34;kustomize-remote-observer&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1ghuxk4zxv2j20dc0h83zl.jpg&#34; alt=&#34;yaml result&#34;&gt;&lt;/p&gt;
+
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;项目地址：&lt;a href=&#34;https://github.com/sunny0826/kustomize-remote-observer&#34;&gt;https://github.com/sunny0826/kustomize-remote-observer&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;也可以直接在 &lt;a href=&#34;https://github.com/sunny0826/kustomize-remote-observer/releases&#34;&gt;release 页面&lt;/a&gt; 下载 DMG 文件安装试用，只需 Mac 上有 Chrome 即可。&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
+&lt;p&gt;Go 语言一直在网络编程、云平台开发、分布式系统等领域占据着重要的地位，但是像桌面应用或者机器学习这样的领域，同样也能做出不错的效果。作为一门受欢迎的编程语言 Golang 已经有十多年的历史了，相信它在将来还能在更多的领域焕发生机，创造辉煌。&lt;/p&gt;
+
+      </description>
+    </item>
     
     <item>
       <title>Post: Cobra 命令自动补全指北</title>
