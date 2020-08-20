@@ -65,11 +65,17 @@
 &lt;h3 id=&#34;现成的轮子&#34;&gt;现成的轮子&lt;/h3&gt;
 &lt;p&gt;这是两个现成的库：&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/grafana/grafonnet-libs&#34;&gt;https://github.com/grafana/grafonnet-libs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/grafana/grafonnet-lib&#34;&gt;https://github.com/grafana/grafonnet-lib&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/grafana/jsonnet-libs/tree/master/grafana-builder&#34;&gt;https://github.com/grafana/jsonnet-libs/tree/master/grafana-builder&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;其中最突出的是 Grafonnet，也是 Holmes 和 Pivotto 在演示中使用的，这是一个非常简洁的库，提供了：创建 Dashboard ，创建 panel，创建 single stat panel 等基本功能。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1ghw9403k2zj22bc1avk2w.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;演示&#34;&gt;演示&lt;/h2&gt;
+&lt;p&gt;然后他们进行了快速演示。&lt;/p&gt;
+
+&lt;div style=&#34;position: relative; width: 100%; height: 0; padding-bottom: 75%;&#34;&gt;
+    &lt;iframe src=&#34;//player.bilibili.com/player.html?aid=796818511&amp;amp;bvid=BV18C4y1t7rZ&amp;amp;cid=226548812&amp;amp;page=1&#34; scrolling=&#34;no&#34; border=&#34;0&#34; frameborder=&#34;no&#34; framespacing=&#34;0&#34; allowfullscreen=&#34;true&#34;style=&#34;position: absolute; width: 100%; height: 100%; left: 0; top: 0;&#34;&gt; &lt;/iframe&gt;
+&lt;/div&gt;
 &lt;h2 id=&#34;未来&#34;&gt;未来&lt;/h2&gt;
 &lt;p&gt;Holmes 说，在 Grafana Lab 内部已经有不少关于如何能让 Grafana 实例作为代码被管理得更好的讨论。我们相信这很有用，讨论已经带来了很多点子。比如，如果 Grafana 本身带有原生 Jsonnet 功能，那么就可以不用运行 Jsonnet 来生成 JSON，而是只要使用 Grafana 本身的能力就可以了。&lt;/p&gt;
 &lt;p&gt;我们可以预先对应用程序进行包装，其中既嵌入了代码又包含 Dashboard 和监视的配置。这样的话， Dashboard（及其附带的所有内容）的运行方式将与其余代码相同。这是特别有用的，因为人们喜欢把 Dashboard 放在 CI/CD pipline 的版本控制和集成中，就像他们其他的代码一样。&lt;/p&gt;

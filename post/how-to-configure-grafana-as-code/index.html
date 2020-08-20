@@ -42,7 +42,7 @@
       "datePublished": "2020-08-19 11:51:17 \x2b0800 \x2b0800",
       "dateModified" : "2020-08-19 11:51:17 \x2b0800 \x2b0800",
       "url" : "https:\/\/guoxudong.io\/post\/how-to-configure-grafana-as-code\/",
-      "wordCount" : "242",
+      "wordCount" : "244",
       "keywords" : [ "grafana","翻译","Guoxudong" ]
   }
   </script>
@@ -51,12 +51,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://guoxudong.io/post/how-to-configure-grafana-as-code/" />
 <meta property="article:published_time" content="2020-08-19T11:51:17+08:00" />
-<meta property="article:modified_time" content="2020-08-20T10:09:42+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
+<meta property="article:modified_time" content="2020-08-20T11:32:20+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
 <meta itemprop="name" content="如何使 Grafana as code">
 <meta itemprop="description" content="见多了 Infrastructure as code，今天我们来聊聊 Grafana as code。">
 <meta itemprop="datePublished" content="2020-08-19T11:51:17&#43;08:00" />
-<meta itemprop="dateModified" content="2020-08-20T10:09:42&#43;08:00" />
-<meta itemprop="wordCount" content="242">
+<meta itemprop="dateModified" content="2020-08-20T11:32:20&#43;08:00" />
+<meta itemprop="wordCount" content="244">
 
 
 
@@ -202,6 +202,7 @@ if (!doNotTrack) {
         <li><a href="#现成的轮子">现成的轮子</a></li>
       </ul>
     </li>
+    <li><a href="#演示">演示</a></li>
     <li><a href="#未来">未来</a></li>
   </ul>
 </nav>
@@ -598,11 +599,17 @@ if (!doNotTrack) {
 <h3 id="现成的轮子">现成的轮子</h3>
 <p>这是两个现成的库：</p>
 <ul>
-<li><a href="https://github.com/grafana/grafonnet-libs">https://github.com/grafana/grafonnet-libs</a></li>
+<li><a href="https://github.com/grafana/grafonnet-lib">https://github.com/grafana/grafonnet-lib</a></li>
 <li><a href="https://github.com/grafana/jsonnet-libs/tree/master/grafana-builder">https://github.com/grafana/jsonnet-libs/tree/master/grafana-builder</a></li>
 </ul>
 <p>其中最突出的是 Grafonnet，也是 Holmes 和 Pivotto 在演示中使用的，这是一个非常简洁的库，提供了：创建 Dashboard ，创建 panel，创建 single stat panel 等基本功能。</p>
 <p><img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1ghw9403k2zj22bc1avk2w.jpg" alt=""></p>
+<h2 id="演示">演示</h2>
+<p>然后他们进行了快速演示。</p>
+
+<div style="position: relative; width: 100%; height: 0; padding-bottom: 75%;">
+    <iframe src="//player.bilibili.com/player.html?aid=796818511&amp;bvid=BV18C4y1t7rZ&amp;cid=226548812&amp;page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;"> </iframe>
+</div>
 <h2 id="未来">未来</h2>
 <p>Holmes 说，在 Grafana Lab 内部已经有不少关于如何能让 Grafana 实例作为代码被管理得更好的讨论。我们相信这很有用，讨论已经带来了很多点子。比如，如果 Grafana 本身带有原生 Jsonnet 功能，那么就可以不用运行 Jsonnet 来生成 JSON，而是只要使用 Grafana 本身的能力就可以了。</p>
 <p>我们可以预先对应用程序进行包装，其中既嵌入了代码又包含 Dashboard 和监视的配置。这样的话， Dashboard（及其附带的所有内容）的运行方式将与其余代码相同。这是特别有用的，因为人们喜欢把 Dashboard 放在 CI/CD pipline 的版本控制和集成中，就像他们其他的代码一样。</p>
