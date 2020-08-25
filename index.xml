@@ -48,7 +48,7 @@
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;from&lt;/code&gt;：寄信人，上学时候写过情书的同学都懂~&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;To&lt;/code&gt;：收信人，同上&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;avatar&lt;/code&gt;：寄信人头像，我这里使用的事图床的 URL，没有图床的 github 上的图片地址也是可以的&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;avatar&lt;/code&gt;：寄信人头像，我这里使用的是图床的 URL，没有图床的 github 上的图片地址也是可以的&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;question&lt;/code&gt;：开信问题：设置一个只有你的他/她知道答案的问题，防止被别人看到你的真心话&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;answer&lt;/code&gt;：上面问题的答案&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;text&lt;/code&gt;: 情书正文，说出你想和他/她说的话吧！&lt;/li&gt;
