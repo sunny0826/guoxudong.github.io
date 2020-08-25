@@ -1,0 +1,112 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Guo Xudong&#39;s Blog·郭旭东的博客 – 阿里云</title>
+    <link>https://guoxudong.io/categories/%E9%98%BF%E9%87%8C%E4%BA%91/</link>
+    <description>Recent content in 阿里云 on Guo Xudong&#39;s Blog·郭旭东的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Tue, 25 Aug 2020 16:19:09 +0800</lastBuildDate>
+    
+	  <atom:link href="https://guoxudong.io/categories/%E9%98%BF%E9%87%8C%E4%BA%91/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Post: 云中谁寄锦书来，云效帮你免费生成七夕情书</title>
+      <link>https://guoxudong.io/post/love-letter-aliyun/</link>
+      <pubDate>Tue, 25 Aug 2020 16:19:09 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/love-letter-aliyun/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;今天是七夕节，但对我来时只是”平凡“的一天，上午认识的一个阿里云的小姐姐给我发来一个可疑链接，说是有好玩的活动，推荐我参加一下。于是在午休时间，闲来无事的我点开了这个链接，没想到事情并不简单。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1gi34yex8kgj20al05qmxm.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;云效-devops&#34;&gt;云效 DevOps&lt;/h2&gt;
+&lt;p&gt;点开之后，原来是使用云效 DevOps 来体验发布一个为朋友、爱人定制的“情书”。年初时，我和云效的开发人员有聊过，他们对云效 DevOps 非常有信心，相信会做出一个和原来的云效完全不同的更好用的产品，正好借着这个机会，我来免费体验一把云效 DevOps。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1gi352mu9k4j212w0q0wmi.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;整体感觉&#34;&gt;整体感觉&lt;/h3&gt;
+&lt;p&gt;UI 的整体感觉非常棒，完全不像是“阿里云”的 UI，风格简洁清爽。云效 DevOps 将整个 DevOps 生命周期都做了出来，从代码仓库，静态代码扫描，CI/CD，到文档和任务的管理都有，还改善了之前只能使用阿里云代码仓库的缺点，可以使用自建代码仓库，同时还支持云有云、公有云和混合云的部署方式。同时&lt;strong&gt;云效还为小微企业提供了扶持计划，30人以下团队可以免费使用！&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1gi359oqgh9j21h20q97a5.jpg&#34; alt=&#34;活动页&#34;&gt;&lt;/p&gt;
+&lt;p&gt;这里就不过多介绍云效，有兴趣的朋友可以上阿里云官方，搜索&lt;strong&gt;云效&lt;/strong&gt;就能了解更多内容了。&lt;/p&gt;
+&lt;h2 id=&#34;制作情书&#34;&gt;制作情书&lt;/h2&gt;
+&lt;p&gt;与其说是是制作，不如说是修改制作好的代码，将自己想说的话放进去，然后在通过云效一键发布。&lt;/p&gt;
+&lt;h3 id=&#34;克隆七夕代码&#34;&gt;克隆七夕代码&lt;/h3&gt;
+&lt;p&gt;新用户注册好之后选择&lt;code&gt;导入代码库&lt;/code&gt;-&lt;code&gt;URL导入&lt;/code&gt;，贴入示例代码库地址 &lt;code&gt;https://code.aliyun.com/yunxiao2020/letter.git&lt;/code&gt; 点击 &lt;code&gt;确定&lt;/code&gt; 即可完成示例代码的导入。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1gi35ntu6avj212m0k2dgv.jpg&#34; alt=&#34;云效 DevOps&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;修改情书内容&#34;&gt;修改情书内容&lt;/h3&gt;
+&lt;p&gt;编辑代码修改情书内容，地址&lt;code&gt;app/service/data.js&lt;/code&gt;：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva3.sinaimg.cn/large/ad5fbf65gy1gi35q45ru3j21hc0pfmy3.jpg&#34; alt=&#34;修改内容&#34;&gt;&lt;/p&gt;
+&lt;p&gt;可以修改以下字段来实现内容的定制：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;theme&lt;/code&gt;：情书模板，提供了爱人、朋友、同事三种模板，如下所示：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1gi35sch68xj210g0jb0xy.jpg&#34; alt=&#34;爱人、朋友、同事&#34;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;from&lt;/code&gt;：寄信人，上学时候写过情书的同学都懂~&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;To&lt;/code&gt;：收信人，同上&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;avatar&lt;/code&gt;：寄信人头像，我这里使用的事图床的 URL，没有图床的 github 上的图片地址也是可以的&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;question&lt;/code&gt;：开信问题：设置一个只有你的他/她知道答案的问题，防止被别人看到你的真心话&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;answer&lt;/code&gt;：上面问题的答案&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;text&lt;/code&gt;: 情书正文，说出你想和他/她说的话吧！&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;现在情书内容就写完了，点击&lt;code&gt;保存&lt;/code&gt;-&lt;code&gt;确定&lt;/code&gt;，将代码提交到 &lt;code&gt;master&lt;/code&gt; 分支。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax2.sinaimg.cn/large/ad5fbf65gy1gi35y8l234j20fe0880sw.jpg&#34; alt=&#34;保存&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;配置流水线&#34;&gt;配置流水线&lt;/h3&gt;
+&lt;p&gt;代码写好了，现在就可以使用流水线将情书的 H5 发布出去了。点击左上角九宫格，选择 &lt;code&gt;流水线&lt;/code&gt; - &lt;code&gt;新建流水线&lt;/code&gt;，选择模板：&lt;code&gt;其他&lt;/code&gt; - &lt;code&gt;云效七夕活动&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva3.sinaimg.cn/large/ad5fbf65gy1gi362uhnv8j21hc0pfmye.jpg&#34; alt=&#34;选择模板&#34;&gt;&lt;/p&gt;
+&lt;p&gt;之后就可以配置流水线了，点击 &lt;code&gt;添加代码源&lt;/code&gt;，选择 &lt;code&gt;云效Codeup&lt;/code&gt; 代码源，选择刚刚克隆的 &lt;code&gt;letter&lt;/code&gt; 代码库，选择 &lt;code&gt;master&lt;/code&gt; 分支，开启 &lt;code&gt;代码源触发&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65gy1gi36917of6j21h70q7wie.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;配置 Docker 镜像构建，点击 &lt;code&gt;Docker 镜像构建&lt;/code&gt; - &lt;code&gt;镜像构建并推送至自定义镜像仓库&lt;/code&gt;，填入以下内容：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;镜像仓库地址: &lt;code&gt;registry.cn-hangzhou.aliyuncs.com/yunxiao-letter/yunxiao-letter:${BUILD_JOB_ID}&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;用户名:&lt;code&gt;yunxiao-letter@1515906102291199&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;密码: &lt;code&gt;yunxiao2020&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;配置 Kubernetes 发布，点击 &lt;code&gt;Kubernetes 发布&lt;/code&gt; - &lt;code&gt;Kubectl发布&lt;/code&gt; - &lt;code&gt;新建连接&lt;/code&gt; - &lt;code&gt;自定义集群&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;之后进入 &lt;code&gt;https://research.devops.aliyun.com/kube.config.yml&lt;/code&gt; 页面，将页面配置文件复制到集群配置文件中。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax3.sinaimg.cn/large/ad5fbf65gy1gi36dhtzfxj21070jgt9j.jpg&#34; alt=&#34;连接 Kubernetes&#34;&gt;&lt;/p&gt;
+&lt;p&gt;配置好连接后，填写其他配置：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;命名空间填: &lt;code&gt;yunxiao&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;YAML路径填: &lt;code&gt;deployment.yml&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;新建变量1    选择&lt;code&gt;上游输出&lt;/code&gt;，&lt;code&gt;YUNXIAO_LETTER_IMAGE&lt;/code&gt;=&lt;code&gt;镜像仓库地址&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;新建变量2    选择&lt;code&gt;自定义&lt;/code&gt;，&lt;code&gt;PIPELINE_ID&lt;/code&gt;=&lt;code&gt;${PIPELINE_ID}&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1gi36f8xxffj20w70icdgb.jpg&#34; alt=&#34;其他配置&#34;&gt;&lt;/p&gt;
+&lt;p&gt;完成所有配置后，点击 &lt;code&gt;保存并运行&lt;/code&gt; - &lt;code&gt;运行&lt;/code&gt;：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1gi36hajgyuj20fd08s746.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;修复问题&#34;&gt;修复问题&lt;/h3&gt;
+&lt;p&gt;这里为了让用户体验质量卡点 &lt;code&gt;JavaScript 单元测试&lt;/code&gt; 功能，他们还在项目中埋了一个小坑，让首次构建失败，原因是：测试通过率小于100%&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1gi36jr1kwjj21090a7t9h.jpg&#34; alt=&#34;质量卡点&#34;&gt;&lt;/p&gt;
+&lt;p&gt;查看报错信息，发现是 &lt;code&gt;expect&lt;/code&gt; 值被设置为 &lt;code&gt;400&lt;/code&gt;：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax2.sinaimg.cn/large/ad5fbf65gy1gi36k3n45mj212g0e4tad.jpg&#34; alt=&#34;报错信息&#34;&gt;&lt;/p&gt;
+&lt;p&gt;进入对应的单元测试文件，修改代码：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1gi36md5twaj21h40pzn10.jpg&#34; alt=&#34;修复问题&#34;&gt;&lt;/p&gt;
+&lt;p&gt;修改完成后，点击 &lt;code&gt;保存&lt;/code&gt; - &lt;code&gt;提交&lt;/code&gt;，由于之前设置了流水线 &lt;code&gt;提交源代码触发&lt;/code&gt;，流水线在提交后会自动触发，并发布成功：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1gi36npelasj210109l3zc.jpg&#34; alt=&#34;发布成功&#34;&gt;&lt;/p&gt;
+&lt;p&gt;点击&lt;code&gt;预览&lt;/code&gt;或者扫面二维码就可以看到你的情书了。&lt;/p&gt;
+&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
+&lt;p&gt;通过这次七夕活动，体验了一把云效 DevOps，整体来说用户体验很好，同时还提供了30人一下团队免费使用的政策，可以为小团队省出不少搭建和开发 DevOps 环境和流程的时间和经历，非常推荐大家都来尝试一下，制作一封云上情书送给你的他/她吧。&lt;/p&gt;
+
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;活动地址：&lt;a href=&#34;https://developer.aliyun.com/adc/series/devops/?spm=a2c6h.12883283.1362932.3.2785201ctOUs0C&amp;amp;accounttraceid=fd6b3040ada34768aa78f84a9f645c46kouc&#34;&gt;https://developer.aliyun.com/adc/series/devops/?spm=a2c6h.12883283.1362932.3.2785201ctOUs0C&amp;amp;accounttraceid=fd6b3040ada34768aa78f84a9f645c46kouc&lt;/a&gt;&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://developer.aliyun.com/adc/scenario/exp/8464960ac980400d95ff092b95e1a97e&#34;&gt;云效DevOps七夕云中密书 - developer.aliyun.com&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>
