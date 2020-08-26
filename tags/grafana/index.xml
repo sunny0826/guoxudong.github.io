@@ -5,7 +5,7 @@
     <description>Recent content in grafana on Guo Xudong&#39;s Blog·郭旭东的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Wed, 19 Aug 2020 11:51:17 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 26 Aug 2020 09:35:23 +0800</lastBuildDate>
     
 	  <atom:link href="https://guoxudong.io/tags/grafana/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,6 +14,131 @@
         
       
     
+    
+    <item>
+      <title>Post: Grabana：使用 Golang 或 Yaml 生成 Grafana Dashboard</title>
+      <link>https://guoxudong.io/post/grabana-create-grafana-dashboard/</link>
+      <pubDate>Wed, 26 Aug 2020 09:35:23 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/grabana-create-grafana-dashboard/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;在之前的一篇文章&lt;a href=&#34;./how-to-configure-grafana-as-code&#34;&gt;《如何使 Grafana as code》&lt;/a&gt;中介绍了使用 &lt;a href=&#34;http://jsonnet.org/&#34;&gt;Jsonnet&lt;/a&gt; 实现 Grafana as code，通过代码来批量、动态、可复用的生成 Grafana Dashboard。但毕竟 &lt;code&gt;Jsonnet&lt;/code&gt; 是一门小众的编程语言，可用文档不多且示例较少，那么有没有使用我们熟悉的编程语言来生成 Grafana Dashboard 的办法呢？答案是肯定的，本篇文章就介绍一款用于生成 Grafana Dashboard 的 Golang 库：&lt;a href=&#34;https://github.com/K-Phoen/grabana&#34;&gt;Grabana&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;grabana&#34;&gt;Grabana&lt;/h2&gt;
+&lt;p&gt;Grabana 提供了一种面向开发人员友好的创建 Grafana Dashboard 的方式，也就是俗称的 Grafana as code。&lt;/p&gt;
+&lt;p&gt;不止于此，Grabana 还支持使用 yaml 文件来生成 Dashboard。并且完全不需要像 Jsonnet 那样先生成 json 配置，再将配置导入 Grafana，而是直接基于写好的代码或者 yaml 文件，通过封装好的 Grafana API 直接将 Dashboard 发布到指定 Grafana 中，省去了繁琐的操作，实现了完全的自动化。&lt;/p&gt;
+&lt;h3 id=&#34;dashboard-as-code&#34;&gt;Dashboard as code&lt;/h3&gt;
+&lt;p&gt;使用 Golang 可以通过如下方式构建 Dashboard 配置：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;builder := dashboard.&lt;span style=&#34;color:#447fcf&#34;&gt;New&lt;/span&gt;(
+    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Awesome dashboard&amp;#34;&lt;/span&gt;,
+    dashboard.&lt;span style=&#34;color:#447fcf&#34;&gt;AutoRefresh&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;5s&amp;#34;&lt;/span&gt;),
+    dashboard.&lt;span style=&#34;color:#447fcf&#34;&gt;Tags&lt;/span&gt;([]&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;{&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;generated&amp;#34;&lt;/span&gt;}),
+    dashboard.&lt;span style=&#34;color:#447fcf&#34;&gt;VariableAsInterval&lt;/span&gt;(
+        &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;interval&amp;#34;&lt;/span&gt;,
+        interval.&lt;span style=&#34;color:#447fcf&#34;&gt;Values&lt;/span&gt;([]&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;{&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;30s&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;1m&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;5m&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;10m&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;30m&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;1h&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;6h&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;12h&amp;#34;&lt;/span&gt;}),
+    ),
+    dashboard.&lt;span style=&#34;color:#447fcf&#34;&gt;Row&lt;/span&gt;(
+        &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Prometheus&amp;#34;&lt;/span&gt;,
+        row.&lt;span style=&#34;color:#447fcf&#34;&gt;WithGraph&lt;/span&gt;(
+            &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;HTTP Rate&amp;#34;&lt;/span&gt;,
+            graph.&lt;span style=&#34;color:#447fcf&#34;&gt;DataSource&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;prometheus-default&amp;#34;&lt;/span&gt;),
+            graph.&lt;span style=&#34;color:#447fcf&#34;&gt;WithPrometheusTarget&lt;/span&gt;(
+                &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;rate(prometheus_http_requests_total[30s])&amp;#34;&lt;/span&gt;,
+                prometheus.&lt;span style=&#34;color:#447fcf&#34;&gt;Legend&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;{{handler}} - {{ code }}&amp;#34;&lt;/span&gt;),
+            ),
+        ),
+    ),
+)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;配置构建好之后，只需调用 Grabana 的 &lt;code&gt;client&lt;/code&gt;，传入 Grafana 的地址，以及事先创建的 Grafana API Key 即可一键发布 Dashboard。&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Tips&lt;/h4&gt;
+&lt;p&gt;API Key 的创建方法 &lt;code&gt;Configuration&lt;/code&gt; - &lt;code&gt;API Keys&lt;/code&gt; - &lt;code&gt;Add API Keys&lt;/code&gt; 如下图：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1gi41u4pq30j21h10pn76o.jpg&#34; alt=&#34;新建 API Key&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax2.sinaimg.cn/large/ad5fbf65gy1gi41y39kz1j20li0biaaz.jpg&#34; alt=&#34;获得 API Key&#34;&gt;&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;创建好 API Key 之后，将其填入 &lt;code&gt;grabana.WithAPIToken()&lt;/code&gt; 中即可，创建/更新 Dashboard 代码如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;ctx := context.&lt;span style=&#34;color:#447fcf&#34;&gt;Background&lt;/span&gt;()
+client := grabana.&lt;span style=&#34;color:#447fcf&#34;&gt;NewClient&lt;/span&gt;(&amp;amp;http.Client{}, grafanaHost, grabana.&lt;span style=&#34;color:#447fcf&#34;&gt;WithAPIToken&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;such secret, much wow&amp;#34;&lt;/span&gt;))
+
+&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// create the folder holding the dashboard for the service
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;folder, err := client.&lt;span style=&#34;color:#447fcf&#34;&gt;FindOrCreateFolder&lt;/span&gt;(ctx, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Test Folder&amp;#34;&lt;/span&gt;)
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+    fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Could not find or create folder: %s\n&amp;#34;&lt;/span&gt;, err)
+    os.&lt;span style=&#34;color:#447fcf&#34;&gt;Exit&lt;/span&gt;(&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;)
+}
+
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; _, err := client.&lt;span style=&#34;color:#447fcf&#34;&gt;UpsertDashboard&lt;/span&gt;(ctx, folder, builder); err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+    fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Could not create dashboard: %s\n&amp;#34;&lt;/span&gt;, err)
+    os.&lt;span style=&#34;color:#447fcf&#34;&gt;Exit&lt;/span&gt;(&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;)
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;当然官方还提供了一个比较完整的 &lt;a href=&#34;https://github.com/K-Phoen/grabana/blob/master/cmd/example&#34;&gt;example&lt;/a&gt;，直接使用 &lt;code&gt;go run main.go&lt;/code&gt; 即可体验一键创建 Dashboard。&lt;/p&gt;
+&lt;h3 id=&#34;dashboard-as-yaml&#34;&gt;Dashboard as YAML&lt;/h3&gt;
+&lt;p&gt;Grabana 的特别之处还在于他还提供了使用 yaml 创建 Dashboard 的方式，作为一名资深 yaml 工程师，每当看到 yaml 都会感到格外的亲切。&lt;/p&gt;
+&lt;p&gt;同样的 Dashboard ，yaml 配置如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# dashboard.yaml&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;title:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Awesome&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;dashboard&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;editable:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;tags:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;[generated]&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;auto_refresh:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;5s&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;variables:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;-&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;interval:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;name:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;interval&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;label:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Interval&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;values:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;[&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;30s&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;1m&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;5m&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;10m&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;30m&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;1h&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;6h&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;12h&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;rows:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;-&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;name:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Prometheus&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;panels:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;-&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;graph:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;title:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;HTTP&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Rate&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;height:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;400px&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;datasource:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;prometheus-default&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;targets:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;-&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;prometheus:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;                &lt;/span&gt;query:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;rate(promhttp_metric_handler_requests_total[$interval])&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;                &lt;/span&gt;legend:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;{{handler}} - {{ code }}&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;目前官方还没有提供类似 &lt;code&gt;grabana apply -f dashboard.yaml&lt;/code&gt; 这样的 CLI 命令来发布 Dashboard，还是要使用 Golang 代码才能将其发布，代码如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;content, err := ioutil.&lt;span style=&#34;color:#447fcf&#34;&gt;ReadFile&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;dashboard.yaml&amp;#34;&lt;/span&gt;)
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+    fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Fprintf&lt;/span&gt;(os.Stderr, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Could not read file: %s\n&amp;#34;&lt;/span&gt;, err)
+    os.&lt;span style=&#34;color:#447fcf&#34;&gt;Exit&lt;/span&gt;(&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;)
+}
+
+dashboard, err := decoder.&lt;span style=&#34;color:#447fcf&#34;&gt;UnmarshalYAML&lt;/span&gt;(bytes.&lt;span style=&#34;color:#447fcf&#34;&gt;NewBuffer&lt;/span&gt;(content))
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+    fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Fprintf&lt;/span&gt;(os.Stderr, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Could not parse file: %s\n&amp;#34;&lt;/span&gt;, err)
+    os.&lt;span style=&#34;color:#447fcf&#34;&gt;Exit&lt;/span&gt;(&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;)
+}
+
+ctx := context.&lt;span style=&#34;color:#447fcf&#34;&gt;Background&lt;/span&gt;()
+client := grabana.&lt;span style=&#34;color:#447fcf&#34;&gt;NewClient&lt;/span&gt;(&amp;amp;http.Client{}, grafanaHost, grabana.&lt;span style=&#34;color:#447fcf&#34;&gt;WithAPIToken&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;such secret, much wow&amp;#34;&lt;/span&gt;))
+
+&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// create the folder holding the dashboard for the service
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;folder, err := client.&lt;span style=&#34;color:#447fcf&#34;&gt;FindOrCreateFolder&lt;/span&gt;(ctx, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Test Folder&amp;#34;&lt;/span&gt;)
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+    fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Could not find or create folder: %s\n&amp;#34;&lt;/span&gt;, err)
+    os.&lt;span style=&#34;color:#447fcf&#34;&gt;Exit&lt;/span&gt;(&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;)
+}
+
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; _, err := client.&lt;span style=&#34;color:#447fcf&#34;&gt;UpsertDashboard&lt;/span&gt;(ctx, folder, dashboard); err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+    fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Could not create dashboard: %s\n&amp;#34;&lt;/span&gt;, err)
+    os.&lt;span style=&#34;color:#447fcf&#34;&gt;Exit&lt;/span&gt;(&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;)
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;同样也可以找到比较完整的 &lt;a href=&#34;https://github.com/K-Phoen/grabana/tree/master/cmd/yaml&#34;&gt;example&lt;/a&gt;，这些示例都可以在官方 GitHub 仓库中找到，有兴趣的同学可以看一下。&lt;/p&gt;
+&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
+&lt;p&gt;总的来说，这是一个挺有意思的项目，使用 Golang 代码或 yaml 文件来生成 Grafana Dashboard，方便易用不繁琐。美中不足的是，使用 yaml 生成 Dashboard 并没有完全脱离 Golang 代码。就像笔者上文中提到的，其实可以将项目包装成一个 CLI 工具，使用类似 &lt;code&gt;grabana apply -f dashboard.yaml&lt;/code&gt; 的方式来发布 yaml 配置可能会更好，并且实现起来也并不困难：）。&lt;/p&gt;
+&lt;p&gt;生成 Grafana Dashboard 其实还有很多其他语言的实现方式，比如使用 Python 实现的 &lt;a href=&#34;https://github.com/weaveworks/grafanalib&#34;&gt;grafanalib&lt;/a&gt;，与 Grabana 相比 grafanalib 的来头更大，贡献者和 star 数也更多，有兴趣的朋友可以关注一下，这里就不展开详细介绍了。&lt;/p&gt;
+
+      </description>
+    </item>
     
     <item>
       <title>Post: 如何使 Grafana as code</title>

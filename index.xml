@@ -14,6 +14,131 @@
     
     
     <item>
+      <title>Post: Grabana：使用 Golang 或 Yaml 生成 Grafana Dashboard</title>
+      <link>https://guoxudong.io/post/grabana-create-grafana-dashboard/</link>
+      <pubDate>Wed, 26 Aug 2020 09:35:23 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/grabana-create-grafana-dashboard/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;在之前的一篇文章&lt;a href=&#34;./how-to-configure-grafana-as-code&#34;&gt;《如何使 Grafana as code》&lt;/a&gt;中介绍了使用 &lt;a href=&#34;http://jsonnet.org/&#34;&gt;Jsonnet&lt;/a&gt; 实现 Grafana as code，通过代码来批量、动态、可复用的生成 Grafana Dashboard。但毕竟 &lt;code&gt;Jsonnet&lt;/code&gt; 是一门小众的编程语言，可用文档不多且示例较少，那么有没有使用我们熟悉的编程语言来生成 Grafana Dashboard 的办法呢？答案是肯定的，本篇文章就介绍一款用于生成 Grafana Dashboard 的 Golang 库：&lt;a href=&#34;https://github.com/K-Phoen/grabana&#34;&gt;Grabana&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;grabana&#34;&gt;Grabana&lt;/h2&gt;
+&lt;p&gt;Grabana 提供了一种面向开发人员友好的创建 Grafana Dashboard 的方式，也就是俗称的 Grafana as code。&lt;/p&gt;
+&lt;p&gt;不止于此，Grabana 还支持使用 yaml 文件来生成 Dashboard。并且完全不需要像 Jsonnet 那样先生成 json 配置，再将配置导入 Grafana，而是直接基于写好的代码或者 yaml 文件，通过封装好的 Grafana API 直接将 Dashboard 发布到指定 Grafana 中，省去了繁琐的操作，实现了完全的自动化。&lt;/p&gt;
+&lt;h3 id=&#34;dashboard-as-code&#34;&gt;Dashboard as code&lt;/h3&gt;
+&lt;p&gt;使用 Golang 可以通过如下方式构建 Dashboard 配置：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;builder := dashboard.&lt;span style=&#34;color:#447fcf&#34;&gt;New&lt;/span&gt;(
+    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Awesome dashboard&amp;#34;&lt;/span&gt;,
+    dashboard.&lt;span style=&#34;color:#447fcf&#34;&gt;AutoRefresh&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;5s&amp;#34;&lt;/span&gt;),
+    dashboard.&lt;span style=&#34;color:#447fcf&#34;&gt;Tags&lt;/span&gt;([]&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;{&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;generated&amp;#34;&lt;/span&gt;}),
+    dashboard.&lt;span style=&#34;color:#447fcf&#34;&gt;VariableAsInterval&lt;/span&gt;(
+        &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;interval&amp;#34;&lt;/span&gt;,
+        interval.&lt;span style=&#34;color:#447fcf&#34;&gt;Values&lt;/span&gt;([]&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;{&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;30s&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;1m&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;5m&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;10m&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;30m&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;1h&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;6h&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;12h&amp;#34;&lt;/span&gt;}),
+    ),
+    dashboard.&lt;span style=&#34;color:#447fcf&#34;&gt;Row&lt;/span&gt;(
+        &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Prometheus&amp;#34;&lt;/span&gt;,
+        row.&lt;span style=&#34;color:#447fcf&#34;&gt;WithGraph&lt;/span&gt;(
+            &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;HTTP Rate&amp;#34;&lt;/span&gt;,
+            graph.&lt;span style=&#34;color:#447fcf&#34;&gt;DataSource&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;prometheus-default&amp;#34;&lt;/span&gt;),
+            graph.&lt;span style=&#34;color:#447fcf&#34;&gt;WithPrometheusTarget&lt;/span&gt;(
+                &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;rate(prometheus_http_requests_total[30s])&amp;#34;&lt;/span&gt;,
+                prometheus.&lt;span style=&#34;color:#447fcf&#34;&gt;Legend&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;{{handler}} - {{ code }}&amp;#34;&lt;/span&gt;),
+            ),
+        ),
+    ),
+)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;配置构建好之后，只需调用 Grabana 的 &lt;code&gt;client&lt;/code&gt;，传入 Grafana 的地址，以及事先创建的 Grafana API Key 即可一键发布 Dashboard。&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Tips&lt;/h4&gt;
+&lt;p&gt;API Key 的创建方法 &lt;code&gt;Configuration&lt;/code&gt; - &lt;code&gt;API Keys&lt;/code&gt; - &lt;code&gt;Add API Keys&lt;/code&gt; 如下图：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1gi41u4pq30j21h10pn76o.jpg&#34; alt=&#34;新建 API Key&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax2.sinaimg.cn/large/ad5fbf65gy1gi41y39kz1j20li0biaaz.jpg&#34; alt=&#34;获得 API Key&#34;&gt;&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;创建好 API Key 之后，将其填入 &lt;code&gt;grabana.WithAPIToken()&lt;/code&gt; 中即可，创建/更新 Dashboard 代码如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;ctx := context.&lt;span style=&#34;color:#447fcf&#34;&gt;Background&lt;/span&gt;()
+client := grabana.&lt;span style=&#34;color:#447fcf&#34;&gt;NewClient&lt;/span&gt;(&amp;amp;http.Client{}, grafanaHost, grabana.&lt;span style=&#34;color:#447fcf&#34;&gt;WithAPIToken&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;such secret, much wow&amp;#34;&lt;/span&gt;))
+
+&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// create the folder holding the dashboard for the service
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;folder, err := client.&lt;span style=&#34;color:#447fcf&#34;&gt;FindOrCreateFolder&lt;/span&gt;(ctx, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Test Folder&amp;#34;&lt;/span&gt;)
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+    fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Could not find or create folder: %s\n&amp;#34;&lt;/span&gt;, err)
+    os.&lt;span style=&#34;color:#447fcf&#34;&gt;Exit&lt;/span&gt;(&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;)
+}
+
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; _, err := client.&lt;span style=&#34;color:#447fcf&#34;&gt;UpsertDashboard&lt;/span&gt;(ctx, folder, builder); err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+    fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Could not create dashboard: %s\n&amp;#34;&lt;/span&gt;, err)
+    os.&lt;span style=&#34;color:#447fcf&#34;&gt;Exit&lt;/span&gt;(&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;)
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;当然官方还提供了一个比较完整的 &lt;a href=&#34;https://github.com/K-Phoen/grabana/blob/master/cmd/example&#34;&gt;example&lt;/a&gt;，直接使用 &lt;code&gt;go run main.go&lt;/code&gt; 即可体验一键创建 Dashboard。&lt;/p&gt;
+&lt;h3 id=&#34;dashboard-as-yaml&#34;&gt;Dashboard as YAML&lt;/h3&gt;
+&lt;p&gt;Grabana 的特别之处还在于他还提供了使用 yaml 创建 Dashboard 的方式，作为一名资深 yaml 工程师，每当看到 yaml 都会感到格外的亲切。&lt;/p&gt;
+&lt;p&gt;同样的 Dashboard ，yaml 配置如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# dashboard.yaml&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;title:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Awesome&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;dashboard&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;editable:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;tags:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;[generated]&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;auto_refresh:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;5s&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;variables:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;-&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;interval:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;name:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;interval&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;label:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Interval&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;values:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;[&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;30s&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;1m&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;5m&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;10m&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;30m&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;1h&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;6h&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;12h&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;rows:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;-&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;name:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Prometheus&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;panels:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;-&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;graph:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;title:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;HTTP&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Rate&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;height:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;400px&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;datasource:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;prometheus-default&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;targets:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;-&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;prometheus:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;                &lt;/span&gt;query:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;rate(promhttp_metric_handler_requests_total[$interval])&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;                &lt;/span&gt;legend:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;{{handler}} - {{ code }}&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;目前官方还没有提供类似 &lt;code&gt;grabana apply -f dashboard.yaml&lt;/code&gt; 这样的 CLI 命令来发布 Dashboard，还是要使用 Golang 代码才能将其发布，代码如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;content, err := ioutil.&lt;span style=&#34;color:#447fcf&#34;&gt;ReadFile&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;dashboard.yaml&amp;#34;&lt;/span&gt;)
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+    fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Fprintf&lt;/span&gt;(os.Stderr, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Could not read file: %s\n&amp;#34;&lt;/span&gt;, err)
+    os.&lt;span style=&#34;color:#447fcf&#34;&gt;Exit&lt;/span&gt;(&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;)
+}
+
+dashboard, err := decoder.&lt;span style=&#34;color:#447fcf&#34;&gt;UnmarshalYAML&lt;/span&gt;(bytes.&lt;span style=&#34;color:#447fcf&#34;&gt;NewBuffer&lt;/span&gt;(content))
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+    fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Fprintf&lt;/span&gt;(os.Stderr, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Could not parse file: %s\n&amp;#34;&lt;/span&gt;, err)
+    os.&lt;span style=&#34;color:#447fcf&#34;&gt;Exit&lt;/span&gt;(&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;)
+}
+
+ctx := context.&lt;span style=&#34;color:#447fcf&#34;&gt;Background&lt;/span&gt;()
+client := grabana.&lt;span style=&#34;color:#447fcf&#34;&gt;NewClient&lt;/span&gt;(&amp;amp;http.Client{}, grafanaHost, grabana.&lt;span style=&#34;color:#447fcf&#34;&gt;WithAPIToken&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;such secret, much wow&amp;#34;&lt;/span&gt;))
+
+&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// create the folder holding the dashboard for the service
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;folder, err := client.&lt;span style=&#34;color:#447fcf&#34;&gt;FindOrCreateFolder&lt;/span&gt;(ctx, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Test Folder&amp;#34;&lt;/span&gt;)
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+    fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Could not find or create folder: %s\n&amp;#34;&lt;/span&gt;, err)
+    os.&lt;span style=&#34;color:#447fcf&#34;&gt;Exit&lt;/span&gt;(&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;)
+}
+
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; _, err := client.&lt;span style=&#34;color:#447fcf&#34;&gt;UpsertDashboard&lt;/span&gt;(ctx, folder, dashboard); err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+    fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Could not create dashboard: %s\n&amp;#34;&lt;/span&gt;, err)
+    os.&lt;span style=&#34;color:#447fcf&#34;&gt;Exit&lt;/span&gt;(&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;)
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;同样也可以找到比较完整的 &lt;a href=&#34;https://github.com/K-Phoen/grabana/tree/master/cmd/yaml&#34;&gt;example&lt;/a&gt;，这些示例都可以在官方 GitHub 仓库中找到，有兴趣的同学可以看一下。&lt;/p&gt;
+&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
+&lt;p&gt;总的来说，这是一个挺有意思的项目，使用 Golang 代码或 yaml 文件来生成 Grafana Dashboard，方便易用不繁琐。美中不足的是，使用 yaml 生成 Dashboard 并没有完全脱离 Golang 代码。就像笔者上文中提到的，其实可以将项目包装成一个 CLI 工具，使用类似 &lt;code&gt;grabana apply -f dashboard.yaml&lt;/code&gt; 的方式来发布 yaml 配置可能会更好，并且实现起来也并不困难：）。&lt;/p&gt;
+&lt;p&gt;生成 Grafana Dashboard 其实还有很多其他语言的实现方式，比如使用 Python 实现的 &lt;a href=&#34;https://github.com/weaveworks/grafanalib&#34;&gt;grafanalib&lt;/a&gt;，与 Grabana 相比 grafanalib 的来头更大，贡献者和 star 数也更多，有兴趣的朋友可以关注一下，这里就不展开详细介绍了。&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Post: 云中谁寄锦书来，免费生成一封七夕情书吧</title>
       <link>https://guoxudong.io/post/love-letter-aliyun/</link>
       <pubDate>Tue, 25 Aug 2020 16:19:09 +0800</pubDate>
@@ -6911,211 +7036,6 @@ ret = v1.list_pod_for_all_namespaces(watch=False)
 &lt;p&gt;一些团队可能不愿意使用传统工具，这些工具不仅技术上较差，而且由于兼容性问题也会降低整个基础架构的速度。因此，请确保正在使用的工具与公司的产品愿景保持一致。&lt;/p&gt;
 &lt;h2 id=&#34;总结&#34;&gt;总结&lt;/h2&gt;
 &lt;p&gt;无论我们在公司方面与个人方面有多么不同，我们都必须摒弃差异并作为一个整体来实现客户需求和解决客户的问题。如果我们能够在我们团队的工作文化中吸收这种理念，那么 DevOps 将成为重视过程和收益的宝贵实践。&lt;/p&gt;
-
-      </description>
-    </item>
-    
-    <item>
-      <title>Post: 使用 Kustomize 帮你管理 kubernetes 应用（三）：将 Kustomize 应用于 CI/CD</title>
-      <link>https://guoxudong.io/post/kustomize-3/</link>
-      <pubDate>Mon, 06 May 2019 16:46:28 +0800</pubDate>
-      
-      <guid>https://guoxudong.io/post/kustomize-3/</guid>
-      <description>
-        
-        
-        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
-&lt;p&gt;首先明确软件版本，我这里使用的是 &lt;code&gt;Jenkins ver. 2.121.3&lt;/code&gt; ，这个版本比较老，其上安装 Kubernetes 插件所使用 &lt;code&gt;kubectl&lt;/code&gt; 版本也比较老，&lt;strong&gt;无法使用&lt;/strong&gt; Kustomize 的 yaml 文件需要的 &lt;code&gt;apiVersion: apps/v1&lt;/code&gt; ，直接使用生成 &lt;code&gt;deploy.yaml&lt;/code&gt; 文件会报错，所以这里选择了自己构建一个包含 &lt;code&gt;kubectl&lt;/code&gt; 和 &lt;code&gt;kustomize&lt;/code&gt; 的镜像，在镜像中使用 Kustomize 生成所需 yaml 文件并在 Kubernetes 上部署。&lt;/p&gt;
-&lt;h2 id=&#34;软件版本&#34;&gt;软件版本&lt;/h2&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;软件&lt;/th&gt;
-&lt;th&gt;版本&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;Jenkins&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;https://jenkins.io/&#34;&gt;2.121.3&lt;/a&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;kubectl&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;https://kubernetes.io/docs/tasks/tools/install-kubectl/&#34;&gt;v1.14.1&lt;/a&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;kustomize&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;https://github.com/kubernetes-sigs/kustomize/releases&#34;&gt;v2.0.3&lt;/a&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h2 id=&#34;前期准备&#34;&gt;前期准备&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;Jenkins ：本篇使用 Jenkins 演示 CI/CD ，安装 Jenkins 就不在赘述，可以使用多种方法安装 Jenkins ，详细方法见&lt;a href=&#34;https://jenkins.io&#34;&gt;官网&lt;/a&gt;。同时。 CI/CD 的工具有很多，这里为了省事使用笔者现有的 Jenkins 进行演示，&lt;strong&gt;不推荐&lt;/strong&gt;使用同笔者一样的版本，请使用较新的版本；同时也可以使用其他 CI/CD 工具，这里推荐使用 &lt;a href=&#34;https://drone.io/&#34;&gt;drone&lt;/a&gt;。如果有更好的方案，欢迎交流，可以在&lt;a href=&#34;https://blog.maoxianplay.com/contact/&#34;&gt;关于&lt;/a&gt;中找到我的联系方式。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;kubectl&lt;/code&gt; &amp;amp; &lt;code&gt;kustomize&lt;/code&gt; ：上文中提到了由于 Jenkins 版本比较老，所以这里笔者自己制作了包含二者的 docker 镜像，已上传 dockerhub ，需要自取： &lt;a href=&#34;https://hub.docker.com/r/guoxudongdocker/kubectl&#34;&gt;&lt;code&gt;guoxudongdocker/kubectl&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Web 应用：这里使用 flask 写了一个简单的 web 应用，用于演示，同样以上传 dockerhub &lt;a href=&#34;https://hub.docker.com/r/guoxudongdocker/flask-python&#34;&gt;&lt;code&gt;guoxudongdocker/flask-python&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;目录结构&#34;&gt;目录结构&lt;/h2&gt;
-&lt;p&gt;首先看一下目录结构，目录中包括 &lt;code&gt;Dockerfile&lt;/code&gt; 、 &lt;code&gt;Jenkinsfile&lt;/code&gt; 、 Kustomize 要使用的 &lt;code&gt;deploy&lt;/code&gt; 目录以及 web 应用目录。&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-bush&#34; data-lang=&#34;bush&#34;&gt;.
-├── Dockerfile
-├── Jenkinsfile
-├── app
-│   ├── main.py
-│   └── uwsgi.ini
-└── deploy
-    ├── base
-    │   ├── deployment.yaml
-    │   ├── kustomization.yaml
-    │   └── service.yaml
-    └── overlays
-        ├── dev
-        │   ├── healthcheck_patch.yaml
-        │   ├── kustomization.yaml
-        │   └── memorylimit_patch.yaml
-        └── prod
-            ├── healthcheck_patch.yaml
-            ├── kustomization.yaml
-            └── memorylimit_patch.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这里可以看到 overlays 总共有两个子目录 &lt;code&gt;dev&lt;/code&gt; 和 &lt;code&gt;prod&lt;/code&gt; ，分别代表不同环境，在不同的环境中，应用不同的配置。&lt;/p&gt;
-&lt;h2 id=&#34;jenkins-配置&#34;&gt;Jenkins 配置&lt;/h2&gt;
-&lt;p&gt;Jenkins 的配置相对简单，只需要新建一个 pipeline 类型的 job&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx4.sinaimg.cn/large/ad5fbf65gy1g2rr57oixbj20tn0ogq6v.jpg&#34; alt=&#34;WX20190506-180159&#34;&gt;&lt;/p&gt;
-&lt;p&gt;增加参数化构建，&lt;strong&gt;注&lt;/strong&gt;：参数化构建需要安装 Jenkins 插件&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ws4.sinaimg.cn/large/ad5fbf65gy1g2rrcb5ic9j21470q7mz8.jpg&#34; alt=&#34;WX20190506-180918&#34;&gt;&lt;/p&gt;
-&lt;p&gt;然后配置代码仓库即可&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ws3.sinaimg.cn/large/ad5fbf65gy1g2sij1xlb2j214w0nw0uw.jpg&#34; alt=&#34;WX20190507-094958&#34;&gt;&lt;/p&gt;
-&lt;h2 id=&#34;pipeline&#34;&gt;Pipeline&lt;/h2&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-groovy&#34; data-lang=&#34;groovy&#34;&gt;podTemplate(label: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;jnlp-slave&amp;#39;&lt;/span&gt;, cloud: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;kubernetes&amp;#39;&lt;/span&gt;,
-  containers: [
-    containerTemplate(
-        name: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;jnlp&amp;#39;&lt;/span&gt;,
-        image: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;guoxudongdocker/jenkins-slave&amp;#39;&lt;/span&gt;,
-        alwaysPullImage: &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;true&lt;/span&gt;
-    ),
-    containerTemplate(name: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;kubectl&amp;#39;&lt;/span&gt;, image: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;guoxudongdocker/kubectl:v1.14.1&amp;#39;&lt;/span&gt;, command: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;cat&amp;#39;&lt;/span&gt;, ttyEnabled: &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;true&lt;/span&gt;),
-  ],
-  nodeSelector:&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;ci=jenkins&amp;#39;&lt;/span&gt;,
-  volumes: [
-    hostPathVolume(mountPath: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;/var/run/docker.sock&amp;#39;&lt;/span&gt;, hostPath: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;/var/run/docker.sock&amp;#39;&lt;/span&gt;),
-    hostPathVolume(mountPath: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;/usr/bin/docker&amp;#39;&lt;/span&gt;, hostPath: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;/usr/bin/docker&amp;#39;&lt;/span&gt;),
-    hostPathVolume(mountPath: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;/usr/local/jdk&amp;#39;&lt;/span&gt;, hostPath: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;/usr/local/jdk&amp;#39;&lt;/span&gt;),
-    hostPathVolume(mountPath: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;/usr/local/maven&amp;#39;&lt;/span&gt;, hostPath: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;/usr/local/maven&amp;#39;&lt;/span&gt;),
-    secretVolume(mountPath: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;/home/jenkins/.kube&amp;#39;&lt;/span&gt;, secretName: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;devops-ctl&amp;#39;&lt;/span&gt;),
-  ],
-)
-{
-    node(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;jnlp-slave&amp;#34;&lt;/span&gt;){
-        stage(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;Git Checkout&amp;#39;&lt;/span&gt;){
-            git branch: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;${branch}&amp;#39;&lt;/span&gt;, url: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;https://github.com/sunny0826/flask-python.git&amp;#39;&lt;/span&gt;
-        }
-        stage(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;Build and Push Image&amp;#39;&lt;/span&gt;){
-            withCredentials([usernamePassword(credentialsId: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;docker-register&amp;#39;&lt;/span&gt;, passwordVariable: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;dockerPassword&amp;#39;&lt;/span&gt;, usernameVariable: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;dockerUser&amp;#39;&lt;/span&gt;)]) {
-                sh &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&amp;#39;&amp;#39;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;                docker login -u ${dockerUser} -p ${dockerPassword}
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;                docker build -t guoxudongdocker/flask-python:${Tag} .
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;                docker push guoxudongdocker/flask-python:${Tag}
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;                &amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
-            }
-        }
-        stage(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;Deploy to K8s&amp;#39;&lt;/span&gt;){
-            &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;true&amp;#39;&lt;/span&gt; == &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;${deploy}&amp;#34;&lt;/span&gt;) {
-                container(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;kubectl&amp;#39;&lt;/span&gt;) {
-                    sh &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&amp;#39;&amp;#39;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;                    cd deploy/base
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;                    kustomize edit set image guoxudongdocker/flask-python:${Tag}
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;                    &amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
-                    echo &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;部署到 Kubernetes&amp;#34;&lt;/span&gt;
-                    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;prod&amp;#39;&lt;/span&gt; == &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;${ENV}&amp;#34;&lt;/span&gt;) {
-                        sh &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&amp;#39;&amp;#39;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;                        # kustomize build deploy/overlays/prod | kubectl apply -f -
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;                        kubectl applt -k deploy/overlays/prod
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;                        &amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
-                    }&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;else&lt;/span&gt; {
-                        sh &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&amp;#39;&amp;#39;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;                        # kustomize build deploy/overlays/dev | kubectl apply -f -
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;                        kubectl applt -k deploy/overlays/dev
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;                        &amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
-                    }	
-                }
-            }&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;else&lt;/span&gt;{
-                echo &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;跳过Deploy to K8s&amp;#34;&lt;/span&gt;
-            }
-
-        }
-    }
-}
-
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里要注意几点：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;拉取 git 中的代码需要在 jenkins 中配置凭据。&lt;/li&gt;
-&lt;li&gt;笔者的 jenkins 部署在 Kubernetes 上，要操作集群的话，需要将 kubeconfig 以 Secret 的形式挂载到 jenkins 所在 namespace。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;jenkins-slave&lt;/code&gt; 需要 Java 环境运行，所以要将宿主机的 &lt;code&gt;jdk&lt;/code&gt; 挂载到 &lt;code&gt;jenkins-slave&lt;/code&gt; 中。&lt;/li&gt;
-&lt;li&gt;同样的，宿主机中需要事先安装 &lt;code&gt;docker&lt;/code&gt;。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;docker-register&lt;/code&gt; 为 dockerhub 的登录凭证，需要在 jenkins 中添加相应的凭证。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;演示&#34;&gt;演示&lt;/h2&gt;
-&lt;h2 id=&#34;preview_only-false&#34;&gt;image:
-caption: &amp;ldquo;Image from: &lt;a href=&#34;https://www.pexels.com&#34;&gt;&lt;strong&gt;Pexels&lt;/strong&gt;&lt;/a&gt;&amp;rdquo;
-focal_point: &amp;quot;&amp;rdquo;
-preview_only: false&lt;/h2&gt;
-&lt;h3 id=&#34;开始构建&#34;&gt;开始构建&lt;/h3&gt;
-&lt;p&gt;这里选择环境、分支，填入版本即可开始构建，**注意：**这里的版本将已 tag 的形式标记 docker 镜像。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ws2.sinaimg.cn/large/ad5fbf65gy1g2sikst7tuj20ob0evabw.jpg&#34; alt=&#34;WX20190507-095142&#34;&gt;&lt;/p&gt;
-&lt;p&gt;这里就可以看到构建成功了&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ws2.sinaimg.cn/large/ad5fbf65ly1g2sjw9w22ej20v80km0w3.jpg&#34; alt=&#34;WX20190507-103721&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;查看结果&#34;&gt;查看结果&lt;/h3&gt;
-&lt;p&gt;这里为了方便（其实就是懒），我就不给这个服务添加 ingress 来从外部访问了，这里使用 &lt;a href=&#34;https://yq.aliyun.com/articles/690519&#34;&gt;KT&lt;/a&gt; 打通本地和 k8s 集群网络来进行调试。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;为了简化在Kubernetes下进行联调测试的复杂度，云效在SSH隧道网络的基础上并结合Kubernetes特性构建了一款面向开发者的辅助工具kt&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;这里看到这个服务正常启动了&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ws2.sinaimg.cn/large/ad5fbf65ly1g2sk11dnzxj20av027jrn.jpg&#34; alt=&#34;WX20190507-104154&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;发布新版本&#34;&gt;发布新版本&lt;/h3&gt;
-&lt;p&gt;更新 web 服务并提交&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ws4.sinaimg.cn/large/ad5fbf65gy1g2sk94v1c5j209702vwej.jpg&#34; alt=&#34;WX20190507-104936&#34;&gt;&lt;/p&gt;
-&lt;p&gt;按照上面步骤在 jenkins 中重新构建，当然也可以配置钩子，每次代码提交后自动构建&lt;/p&gt;
-&lt;h3 id=&#34;查看查看新版本&#34;&gt;查看查看新版本&lt;/h3&gt;
-&lt;p&gt;同上面一样，在构建成功后查看服务是否更新&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx4.sinaimg.cn/large/ad5fbf65gy1g2skfczaz4j20by01smx7.jpg&#34; alt=&#34;WX20190507-105539&#34;&gt;&lt;/p&gt;
-&lt;p&gt;可以看到，版本已经更新了&lt;/p&gt;
-&lt;h3 id=&#34;发布生产环境&#34;&gt;发布生产环境&lt;/h3&gt;
-&lt;p&gt;这里模拟一下发布生产环境，假设生产环境是在 &lt;code&gt;devops-prod&lt;/code&gt; 的 namespace 中，这里只做演示之用，真正的生产环境中，可能存在不止一个 k8s 集群，这时需要修改 Jenkinsfile 中的 &lt;code&gt;secretVolume&lt;/code&gt; 来挂载不同 k8s 的 kubeconfig 来达到发布到不同集群的目的。当然，一般发布生产环境只需选择测试通过的镜像来发布即可，不需要在进行构建打包。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ws3.sinaimg.cn/large/ad5fbf65gy1g2skrnbjyuj20fc0bjmxp.jpg&#34; alt=&#34;WX20190507-110730&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;查看生产版本&#34;&gt;查看生产版本&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&#34;https://ws1.sinaimg.cn/large/ad5fbf65ly1g2skt3rp4yj20aq010glj.jpg&#34; alt=&#34;WX20190507-110850&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;总结&#34;&gt;总结&lt;/h3&gt;
-&lt;p&gt;上面的这些步骤简单的演示了使用 jenkins 进行 CI/CD 的流程，流程十分简单，这里仅供参考&lt;/p&gt;
-&lt;h2 id=&#34;kustomize-的作用&#34;&gt;Kustomize 的作用&lt;/h2&gt;
-&lt;p&gt;那么， Kustomize 在整个流程中又扮演了一个什么角色呢？&lt;/p&gt;
-&lt;h3 id=&#34;更新镜像&#34;&gt;更新镜像&lt;/h3&gt;
-&lt;p&gt;在 &lt;code&gt;jenkinsfile&lt;/code&gt; 中可以看到， kustomize 更新了基础配置的镜像版本，这里我们之前一直是使用 &lt;code&gt;sed -i &amp;quot;s/#Tag/${Tag}/g&amp;quot; deploy.yaml&lt;/code&gt; 来进行替换了，但是不同环境存在比较多的差异，需要替换的越来越多，导致 Jekninsfile 也越来越臃肿和难以维护。 kustomize 解决了这个问题。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;kustomize edit &lt;span style=&#34;color:#24909d&#34;&gt;set&lt;/span&gt; image guoxudongdocker/flask-python:&lt;span style=&#34;color:#ed9d13&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#40ffff&#34;&gt;Tag&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;环境区分&#34;&gt;环境区分&lt;/h3&gt;
-&lt;p&gt;上面也提到了，不同的环境我们存在这许多差异，虽然看上去大致类似，但是很多细节都需要修改。这时 kustomize 就起到了很大的作用，不同环境相同的配置都放在 &lt;code&gt;base&lt;/code&gt; 中，而差异就可以在 &lt;code&gt;overlays&lt;/code&gt; 中实现。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;.
-├── base
-│   ├── deployment.yaml
-│   ├── kustomization.yaml
-│   └── service.yaml
-└── overlays
-    ├── dev
-    │   ├── healthcheck_patch.yaml
-    │   ├── kustomization.yaml
-    │   └── memorylimit_patch.yaml
-    └── prod
-        ├── healthcheck_patch.yaml
-        ├── kustomization.yaml
-        └── memorylimit_patch.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;可以看到， &lt;code&gt;base&lt;/code&gt; 中维护了项目共同的基础配置，如果有镜像版本等基础配置需要修改，可以使用 &lt;code&gt;kustomize edit set image ...&lt;/code&gt; 来直接修改基础配置，而真正不同环境，或者不同使用情况的配置则在 &lt;code&gt;overlays&lt;/code&gt; 中 以 patch 的形式添加配置。这里我的配置是 prod 环境部署的副本为2，同时给到的资源也更多，详情可以在 &lt;a href=&#34;https://github.com/sunny0826/flask-python&#34;&gt;Github&lt;/a&gt; 上查看。&lt;/p&gt;
-&lt;h3 id=&#34;与-kubectl-的集成&#34;&gt;与 kubectl 的集成&lt;/h3&gt;
-&lt;p&gt;在 jenkinsfile 中可以看到&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# kustomize build deploy/overlays/dev | kubectl apply -f -&lt;/span&gt;
-kubectl apply -k deploy/overlays/dev
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这两条命令的执行效果是一样的，在 &lt;code&gt;kubectl v1.14.0&lt;/code&gt; 以上的版本中，已经集成了 kustomize ，可以直接使用 &lt;code&gt;kubectl&lt;/code&gt; 进行部署。&lt;/p&gt;
-&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
-&lt;p&gt;这里只是对 kustomize 在 CI/CD 中简单应用的展示，只是一种比较简单和基础的使用，真正的 CI 流程要比这个复杂的多，这里只是为了演示 kustomize 的使用而临时搭建的。而 kustomize 还有很多黑科技的用法，将会在后续的文章中介绍。&lt;/p&gt;
 
       </description>
     </item>
