@@ -1,8 +1,8 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Guo Xudong&#39;s Blog·郭旭东的博客 – Kubernetes</title>
+    <title>Guo Xudong&#39;s Blog·郭旭东的博客 – kubernetes</title>
     <link>https://guoxudong.io/categories/kubernetes/</link>
-    <description>Recent content in Kubernetes on Guo Xudong&#39;s Blog·郭旭东的博客</description>
+    <description>Recent content in kubernetes on Guo Xudong&#39;s Blog·郭旭东的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <lastBuildDate>Thu, 02 Jul 2020 13:51:14 +0800</lastBuildDate>
