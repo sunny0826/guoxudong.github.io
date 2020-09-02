@@ -5,7 +5,7 @@
     <description>Recent content in 阿里云 on Guo Xudong&#39;s Blog·郭旭东的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Tue, 25 Aug 2020 16:19:09 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 01 Sep 2020 11:49:12 +0800</lastBuildDate>
     
 	  <atom:link href="https://guoxudong.io/categories/%E9%98%BF%E9%87%8C%E4%BA%91/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,6 +14,199 @@
         
       
     
+    
+    <item>
+      <title>Post: 听说，阿里云给它的 OpenAPI 开发了一套编程语言</title>
+      <link>https://guoxudong.io/post/aliyun-darabonba/</link>
+      <pubDate>Tue, 01 Sep 2020 11:49:12 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/aliyun-darabonba/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;openapi&#34;&gt;OpenAPI&lt;/h2&gt;
+&lt;p&gt;熟悉公有云的同学对 OpenAPI 都不会陌生，OpenAPI 可以称之为公有云与用户之间的一座桥梁。直接使用公有云的大多是技术人员，而对于技术人员，尤其是开发者来说，往往并不满足于只使用 Web UI 界面来与公有云交互，尤其是当使用的公有云产品日益增多时。由于 Web UI 是面向全体用户设计，并不能满足用户的全部需求。这时 OpenAPI 就出现了，用户通过 OpenAPI 将自己的系统直接对接公有云，并根据自己的使用场景和需求进行设计，开发出一套满足自己需求的公有云管理系统或流程，这样既提高了用户本身的自动化水平，还降低了误操作带来的风险。&lt;/p&gt;
+&lt;h2 id=&#34;背景&#34;&gt;背景&lt;/h2&gt;
+&lt;p&gt;最早的 OpenAPI 往往是云厂商开放出来的一系列 RESTful API 接口，用户需要根据接口要求自己封装认证方法、传入参数，但是由于部分 OpenAPI 并不是 RESTful 风格、产品升级导致的接口参数变化、文档更新不及时等问题，导致云厂商开始寻求新的解决办法。SDK 就是一种解决办法，通过云厂商自己封装的 SDK，可以提高用户体验并屏蔽部分直接使用 OpenAPI 带来的麻烦，但是随着云产品的增加，需要开发的 SDK 越来越多，并且由于 SDK 往往是多语言的，云厂商需要投入大量人手来维护这些 SDK，导致某些产品由于人力资源有限并没有提供 SDK 或者 SDK 语言不全。&lt;/p&gt;
+&lt;p&gt;在这种背景下，阿里云的同学提出了一种新办法：他们重新定义了一门 DSL 语言 Darabonba 来描述各种各样的 OpenAPI，就如题目所说给 OpenAPI 开发了一种编程语言，从某种程度上来说，可以称之为：&lt;strong&gt;OpenAPI as code&lt;/strong&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;darabonba&#34;&gt;Darabonba&lt;/h2&gt;
+&lt;p&gt;Darabonba(原名 TeaDSL)，是一种 OpenAPI 应用的领域特定语言。可以利用它为任意风格的接口生成多语言的 SDK、代码示例、测试用例、接口编排等。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva3.sinaimg.cn/large/ad5fbf65ly1giba4r6z4aj20rs0ci400.jpg&#34; alt=&#34;Darabonba 设计理念&#34;&gt;&lt;/p&gt;
+&lt;p&gt;在笔者看来，操作云产品的功能是开发者的目的，而 OpenAPI 是实现这个目的的手段，SDK 则简化了这种手段，Darabonba 的作用则降低了开发 SDK 的成本，并提高了开发 SDK 的速度，对云厂商的效率会有非常明显的提升。同时 Darabonba 也为使用多种编程语言的团队提供了一条捷径，原先需要每种编程语言都要出人来参加 OpenAPI 的集成，现在只需要公有云维护团队出一名或几名同学即可完成全语言 SDK 的生成。而如果公司本身有需要开发大量的 OpenAPI，甚至可以直接使用 Darabonba，开发符合自己系统 OpenAPI 的工具，&lt;a href=&#34;https://github.com/aliyun/darabonba&#34;&gt;Darabonba&lt;/a&gt; 目前已经开源，使用 &lt;a href=&#34;https://github.com/aliyun/darabonba/blob/master/LICENSE&#34;&gt;Apache-2.0 LICENSE&lt;/a&gt;。&lt;/p&gt;
+&lt;h3 id=&#34;组件&#34;&gt;组件&lt;/h3&gt;
+&lt;p&gt;Darabonba 目前支持：&lt;strong&gt;Java&lt;/strong&gt;、&lt;strong&gt;C#&lt;/strong&gt;、&lt;strong&gt;TypeScript&lt;/strong&gt;、&lt;strong&gt;PHP&lt;/strong&gt;、&lt;strong&gt;Golang&lt;/strong&gt; 和 &lt;strong&gt;Python&lt;/strong&gt; 代码的生成，除了解析器和多语言生成器，还提供了：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/aliyun/darabonba-vscode&#34;&gt;VS Code 插件&lt;/a&gt;：提供语法高亮、代码提示、代码格式化、语法检查等功能。&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/aliyun/darabonba-vscode&#34;&gt;CLI&lt;/a&gt;：命令行工具，快速在本地拉起一个 Darabonba 项目。&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://darabonba.api.aliyun.com/module&#34;&gt;Darabonba 模块仓库&lt;/a&gt;：模块仓库，提供 Darabonba 模块的发布和下载。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;darabonba-语言优势&#34;&gt;Darabonba 语言优势&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;更宽泛的风格支持：支持 RESTful 风格的 OpenAPI，及其他所有基于 HTTP 协议的 OpenAPI。对非 RESTful 风格的 OpenAPI 更友好。&lt;/li&gt;
+&lt;li&gt;编程逻辑化：将 OpenAPI 从元数据定义走向编程化，封装复杂的 HTTP 处理过程为简单的方法接口。&lt;/li&gt;
+&lt;li&gt;运行时事务性支持：支持配置或设置 OpenAPI 的幂等、重试、超时、退避，将复杂的 OpenAPI 调用过程收敛在方法中。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;快速上手&#34;&gt;快速上手&lt;/h2&gt;
+&lt;p&gt;下图可以看到完整的 Darabonba 运行流程，现在我们就来快速制作一套 Code Sample 吧。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva3.sinaimg.cn/large/ad5fbf65ly1gibatrt4puj21ao1e8tet.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;安装&#34;&gt;安装&lt;/h3&gt;
+&lt;p&gt;阿里云提供了Darabonba 的 Web UI 界面，但是在网页上不好调试，我们选择本地安装 CLI 命令行工具。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# Darabonba CLI 是由 Node.js 开发的，使用 npm 来安装&lt;/span&gt;
+$ npm install -g @darabonba/cli
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;构建-darabonba-模块&#34;&gt;构建 Darabonba 模块&lt;/h3&gt;
+&lt;p&gt;我们假设要创建一个模块为 &lt;code&gt;sample_ecs&lt;/code&gt;，用来生成查询 ECS 信息的 SDK 代码。首先创建一个目录：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ mkdir sample_ecs
+$ &lt;span style=&#34;color:#24909d&#34;&gt;cd&lt;/span&gt; sample_ecs
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;初始化模块，输入相关信息：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ dara init
+package scope: guoxudong.io
+package name: sample_ecs
+package version: 0.0.1
+main entry: main.dara
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;完成初始化后，会新建 2 个文件：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Darafile&lt;/code&gt;：包描述文件&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;main.dara&lt;/code&gt;：入口文件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;安装-vs-code-插件&#34;&gt;安装 VS Code 插件&lt;/h3&gt;
+&lt;p&gt;打开 VS Code，按 &lt;code&gt;F1&lt;/code&gt; 或 &lt;code&gt;Ctrl + Shift + P&lt;/code&gt; 打开命令面板，选择 Install Extension 并输入 &lt;code&gt;darabonba&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;或启动VS Code 快速打开（&lt;code&gt;Ctrl + P&lt;/code&gt;），粘贴以下命令，然后按 Enter。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;ext install darabonba.darabonba
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;之后就可以使用语法高亮、代码提示、代码格式化、语法检查等功能了。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65ly1gibbkgjhc5j20q80l3wh7.jpg&#34; alt=&#34;代码高亮&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;安装依赖模块&#34;&gt;安装依赖模块&lt;/h3&gt;
+&lt;p&gt;首先需要设置依赖仓库地址：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ dara config &lt;span style=&#34;color:#24909d&#34;&gt;set&lt;/span&gt; registry https://darabonba.api.aliyun.com
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;之后就是将依赖写入 &lt;code&gt;Darafile&lt;/code&gt; 中：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;{
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;scope&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;guoxudong.io&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;sample_ecs&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;version&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;0.0.1&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;main&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;main.dara&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;libraries&amp;#34;&lt;/span&gt;: {
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;Console&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;darabonba:Console:*&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;ECS&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;alibabacloud:Ecs20140526:*&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;RPC&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;alibabacloud:RPC:*&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;Util&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;darabonba:Util:*&amp;#34;&lt;/span&gt;
+  },
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;java&amp;#34;&lt;/span&gt;: {
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;package&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;aliyun.com.alibabacloud.sample&amp;#34;&lt;/span&gt;
+  },
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;csharp&amp;#34;&lt;/span&gt;: {
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;namespace&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Alibabacloud.Sample&amp;#34;&lt;/span&gt;
+  },
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;php&amp;#34;&lt;/span&gt;: {
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;package&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Alibabacloud.Sample&amp;#34;&lt;/span&gt;
+  },
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;python&amp;#34;&lt;/span&gt;: {
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;package&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;alibabacloud_sample&amp;#34;&lt;/span&gt;
+  }
+}
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里引入了4个模块：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Console&lt;/code&gt;：打印输出模块&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ECS&lt;/code&gt;：ECS 模块&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;RPC&lt;/code&gt;：RPC Client 模块&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Util&lt;/code&gt;：工具模块&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Warning&lt;/h4&gt;
+值得注意的的是 &lt;code&gt;libraries&lt;/code&gt; 中内容的 key，就是 &lt;code&gt;.dara&lt;/code&gt; 文件中 import 导入依赖的名称，所以这里可以将 key 修改为好理解的值，然后 import 相应值就可以了。
+&lt;/div&gt;
+
+&lt;p&gt;修改完 &lt;code&gt;Darafile&lt;/code&gt; 之后，安装这些依赖：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ dara install
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;之后就可以看到多了一个 &lt;code&gt;.libraries.json&lt;/code&gt; 文件和一个 &lt;code&gt;libraries&lt;/code&gt; 目录，需要的所有依赖模块就都已经安装好了。&lt;/p&gt;
+&lt;h3 id=&#34;查看模块内容&#34;&gt;查看模块内容&lt;/h3&gt;
+&lt;p&gt;更多的模块，可在&lt;a href=&#34;https://darabonba.api.aliyun.com/module&#34;&gt;模块仓库&lt;/a&gt;中搜索。这里以 ECS 模块为例&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1gic1orwhjoj21h70q3gr4.jpg&#34; alt=&#34;ECS 模块&#34;&gt;&lt;/p&gt;
+&lt;p&gt;可以在 &lt;code&gt;Detail&lt;/code&gt; 中看到所有可以调用的接口，通过还可以点击其他 tab 可以查看版本、安装方式等内容：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax2.sinaimg.cn/large/ad5fbf65ly1gibbruwd1zj21at0pqadt.jpg&#34; alt=&#34;ECS 模块&#34;&gt;&lt;/p&gt;
+&lt;p&gt;也可通过命令单独安装模块：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ dara install alibabacloud:Ecs20140526
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;代码编写&#34;&gt;代码编写&lt;/h3&gt;
+&lt;p&gt;现在就可以编写 Darabonba 代码了，Darabonba 代码的整体风格偏向于 Java，不是很难懂，这里贴上一段简单的代码：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;ECS&lt;/span&gt;;
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;RPC&lt;/span&gt;;
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;Util&lt;/span&gt;;
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;Console&lt;/span&gt;;
+
+&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;/**
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;* Initialization  初始化公共请求参数
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;*/&lt;/span&gt;
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;static&lt;/span&gt; function &lt;span style=&#34;color:#447fcf&#34;&gt;Initialization&lt;/span&gt;(regionId: string)&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;throws&lt;/span&gt; : ECS{
+
+    var config = &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;new&lt;/span&gt; RPC.&lt;span style=&#34;color:#bbb&#34;&gt;Config&lt;/span&gt;{};
+    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 您的AccessKey ID
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    config.&lt;span style=&#34;color:#bbb&#34;&gt;accessKeyId&lt;/span&gt; = &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;lt;accessKeyId&amp;gt;&amp;#34;&lt;/span&gt;;
+    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 您的AccessKey Secret
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    config.&lt;span style=&#34;color:#bbb&#34;&gt;accessKeySecret&lt;/span&gt; = &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;lt;accessKeySecret&amp;gt;&amp;#34;&lt;/span&gt;;
+    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 您的可用区ID
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    config.&lt;span style=&#34;color:#bbb&#34;&gt;regionId&lt;/span&gt; = regionId;
+
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;new&lt;/span&gt; ECS(config);
+}
+
+&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;/**
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;* DescribeZones    查询一个阿里云地域下的可用区
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;*/&lt;/span&gt;
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;static&lt;/span&gt; async function &lt;span style=&#34;color:#447fcf&#34;&gt;DescribeZones&lt;/span&gt;(client: ECS, regionId: string)&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;throws&lt;/span&gt;: &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;void&lt;/span&gt;{
+    var req = &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;new&lt;/span&gt; ECS.&lt;span style=&#34;color:#bbb&#34;&gt;DescribeZonesRequest&lt;/span&gt;{};
+    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 可用区所在的地域ID。您可以调用DescribeRegions查看最新的阿里云地域列表
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    req.&lt;span style=&#34;color:#bbb&#34;&gt;regionId&lt;/span&gt; = regionId;
+    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 根据汉语、英语和日语筛选返回结果。更多详情，请参见RFC7231
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 取值范围：
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// zh-CN
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// en-US
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// ja
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 默认值：zh-CN。
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    req.&lt;span style=&#34;color:#bbb&#34;&gt;acceptLanguage&lt;/span&gt; = &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;zh-CN&amp;#34;&lt;/span&gt;;
+    var resp = client.&lt;span style=&#34;color:#bbb&#34;&gt;describeZones&lt;/span&gt;(req);
+    Console.&lt;span style=&#34;color:#bbb&#34;&gt;log&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;--------------------查询地域下的可用区--------------------&amp;#34;&lt;/span&gt;);
+    Console.&lt;span style=&#34;color:#bbb&#34;&gt;log&lt;/span&gt;(Util.&lt;span style=&#34;color:#bbb&#34;&gt;toJSONString&lt;/span&gt;(resp));
+}
+
+
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;static&lt;/span&gt; async function &lt;span style=&#34;color:#447fcf&#34;&gt;main&lt;/span&gt;(args: [string]) &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;throws&lt;/span&gt;: &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;void&lt;/span&gt; {
+    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 可用区域Id （请自行配置）
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    var regionId = &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;lt;regionId&amp;gt;&amp;#34;&lt;/span&gt;;
+
+    var client = Initialization(regionId);
+
+    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 查询阿里云地域下的可用区
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    DescribeZones(client, regionId)
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这个代码注释很完善，这里就不多讲解了，本示例在官网有&lt;a href=&#34;https://api.aliyun.com/?spm=a2c6h.17640777.J_1935739830.2.8f9a54e1V4j8vN#/codesample&#34;&gt;完整示例&lt;/a&gt;，有兴趣的同学可以研究一下。而 Darabonba 的文档，可以在 &lt;a href=&#34;https://github.com/aliyun/darabonba&#34;&gt;Github&lt;/a&gt; 上找到。&lt;/p&gt;
+&lt;h3 id=&#34;代码生成&#34;&gt;代码生成&lt;/h3&gt;
+&lt;p&gt;现在就可以生成代码了，下面以生成 Python 代码为例，执行命令：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ dara codegen python ./tmp
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;命令执行成功后，就可以看到 Python 代码已经生成了：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1gic21suu35j208a05h3yh.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;如果代码还没有写完，想检查是否有语法错误，可以使用 &lt;code&gt;check&lt;/code&gt; 命令检查：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ dara check main.dara
+Check success !
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;到这我们的代码就生成成功了，但是这还不是结束，我们需要去测试一下生成的代码能否正常运行，在实践中就出现过代码生成成功，但是运行报错的情况。&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Warning&lt;/h4&gt;
+如果生成的是 Python 代码，这里推荐使用 &lt;code&gt;Python 3.6&lt;/code&gt;，经测 3.8 版本不支持 sdk 的一些语法。
+&lt;/div&gt;
+
+&lt;p&gt;同样的，也可以在 &lt;a href=&#34;https://darabonba.api.aliyun.com/sample&#34;&gt;OpenAPI Explorer Code Sample&lt;/a&gt;，通过 Web UI 来生成代码，除了调试速度比较慢之外，其余体验都十分不错。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax4.sinaimg.cn/large/ad5fbf65gy1gic2hxwdtaj21ha0qb441.jpg&#34; alt=&#34;Code Sample&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;code-sample-全民赛码&#34;&gt;Code Sample 全民赛码&lt;/h2&gt;
+&lt;p&gt;最近阿里云还推出了这么一个比赛，看了下奖品有机械键盘、无人机、双肩包和内推资格，有兴趣的同学可以关注一下，还是挺好玩的：&lt;a href=&#34;https://developer.aliyun.com/topic/codesample/active1?spm=dara_code_sample.home.0.0.2ee614e5L9uDCw&#34;&gt;传送门&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax4.sinaimg.cn/large/ad5fbf65gy1gic2ef0fxgj21o00hyh65.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;阿里云开放平台携手开发者社区、内容设计部，联合举办“OpenAPI 开发者挑战赛第三期—— CodeSample 全民赛码 ”，面向数万开发者，招募阿里云 OpenAPI 示例代码（CodeSample）。无论您是入门开发，或是运维大神，无论是利用 OpenAPI 解决一个轻量场景，或是满足一个小功能，通通到碗里来！&lt;/p&gt;
+&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
+&lt;p&gt;在这个项目叫 TeaDSL 的时候笔者就开始关注 Darabonba 了，由于笔者是 OpenAPI SDK 的重度使用用户，之前开发的 devops 平台以及 &lt;a href=&#34;https://github.com/sunny0826/cms-grafana-builder&#34;&gt;cms-grafana-builder&lt;/a&gt; 项目都大量使用了阿里云 SDK。在4月份看到朴灵的&lt;a href=&#34;https://mp.weixin.qq.com/s?__biz=MzIzOTU0NTQ0MA==&amp;amp;mid=2247495266&amp;amp;idx=1&amp;amp;sn=64177bf3fc7f4068c14733dc77b5383f&amp;amp;chksm=e92ad36dde5d5a7bf6a0ddd821a3cdee6ee063eb221623c6c8333cf68787b3118bd0a8653f17&amp;amp;scene=21#wechat_redirect&#34;&gt;《TeaDSL：支持任意 OpenAPI 网关的多语言 SDK 方案》&lt;/a&gt;时，认为其只是解决云厂商 OpenAPI 开发的多语言困局，提升研发效率，和 OpenAPI 的使用者关系不大。但是在这次进行深入研究之后发现，Darabonba 甚至可以用来生成自己系统的 OpenAPI 多语言 SDK，并不是只能用于生成阿里云的 SDK，非常的惊艳。&lt;/p&gt;
+
+      </description>
+    </item>
     
     <item>
       <title>Post: 云中谁寄锦书来，免费生成一封七夕情书吧</title>
