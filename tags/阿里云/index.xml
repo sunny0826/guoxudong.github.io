@@ -37,7 +37,7 @@
 &lt;p&gt;Darabonba 目前支持：&lt;strong&gt;Java&lt;/strong&gt;、&lt;strong&gt;C#&lt;/strong&gt;、&lt;strong&gt;TypeScript&lt;/strong&gt;、&lt;strong&gt;PHP&lt;/strong&gt;、&lt;strong&gt;Golang&lt;/strong&gt; 和 &lt;strong&gt;Python&lt;/strong&gt; 代码的生成，除了解析器和多语言生成器，还提供了：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/aliyun/darabonba-vscode&#34;&gt;VS Code 插件&lt;/a&gt;：提供语法高亮、代码提示、代码格式化、语法检查等功能。&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/aliyun/darabonba-vscode&#34;&gt;CLI&lt;/a&gt;：命令行工具，快速在本地拉起一个 Darabonba 项目。&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/aliyun/darabonba-cli&#34;&gt;CLI&lt;/a&gt;：命令行工具，快速在本地拉起一个 Darabonba 项目。&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://darabonba.api.aliyun.com/module&#34;&gt;Darabonba 模块仓库&lt;/a&gt;：模块仓库，提供 Darabonba 模块的发布和下载。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&#34;darabonba-语言优势&#34;&gt;Darabonba 语言优势&lt;/h3&gt;
@@ -123,8 +123,8 @@ main entry: main.dara
 &lt;h3 id=&#34;查看模块内容&#34;&gt;查看模块内容&lt;/h3&gt;
 &lt;p&gt;更多的模块，可在&lt;a href=&#34;https://darabonba.api.aliyun.com/module&#34;&gt;模块仓库&lt;/a&gt;中搜索。这里以 ECS 模块为例&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1gic1orwhjoj21h70q3gr4.jpg&#34; alt=&#34;ECS 模块&#34;&gt;&lt;/p&gt;
-&lt;p&gt;可以在 &lt;code&gt;Detail&lt;/code&gt; 中看到所有可以调用的接口，通过还可以点击其他 tab 可以查看版本、安装方式等内容：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tvax2.sinaimg.cn/large/ad5fbf65ly1gibbruwd1zj21at0pqadt.jpg&#34; alt=&#34;ECS 模块&#34;&gt;&lt;/p&gt;
+&lt;p&gt;可以在 &lt;code&gt;Detail&lt;/code&gt; 中看到所有可以调用的接口，通过还可以点击其他 tab 可以查看版本、安装方法等内容：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax2.sinaimg.cn/large/ad5fbf65ly1gibbruwd1zj21at0pqadt.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;也可通过命令单独安装模块：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ dara install alibabacloud:Ecs20140526
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;代码编写&#34;&gt;代码编写&lt;/h3&gt;
@@ -184,7 +184,7 @@ main entry: main.dara
 &lt;p&gt;现在就可以生成代码了，下面以生成 Python 代码为例，执行命令：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ dara codegen python ./tmp
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;命令执行成功后，就可以看到 Python 代码已经生成了：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1gic21suu35j208a05h3yh.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1gic21suu35j208a05h3yh.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;如果代码还没有写完，想检查是否有语法错误，可以使用 &lt;code&gt;check&lt;/code&gt; 命令检查：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ dara check main.dara
 Check success !
