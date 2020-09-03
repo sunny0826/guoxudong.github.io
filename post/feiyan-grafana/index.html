@@ -42,7 +42,7 @@
       "datePublished": "2020-02-14 10:12:52 \x2b0800 \x2b0800",
       "dateModified" : "2020-02-14 10:12:52 \x2b0800 \x2b0800",
       "url" : "https:\/\/guoxudong.io\/post\/feiyan-grafana\/",
-      "wordCount" : "375",
+      "wordCount" : "362",
       "keywords" : [ "肺炎疫情","Guoxudong" ]
   }
   </script>
@@ -51,12 +51,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://guoxudong.io/post/feiyan-grafana/" />
 <meta property="article:published_time" content="2020-02-14T10:12:52+08:00" />
-<meta property="article:modified_time" content="2020-09-02T14:11:03+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
+<meta property="article:modified_time" content="2020-09-03T09:32:39+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
 <meta itemprop="name" content="使用 Grafana 展示肺炎疫情动态">
 <meta itemprop="description" content="开发 Grafana Dashboard 展示新型肺炎疫情动态。">
 <meta itemprop="datePublished" content="2020-02-14T10:12:52&#43;08:00" />
-<meta itemprop="dateModified" content="2020-09-02T14:11:03&#43;08:00" />
-<meta itemprop="wordCount" content="375">
+<meta itemprop="dateModified" content="2020-09-03T09:32:39&#43;08:00" />
+<meta itemprop="wordCount" content="362">
 
 
 
@@ -497,7 +497,7 @@ if (!doNotTrack) {
 		<span>
 			2 分钟阅读时间
 		</span> ·
-		<span>最近更新于 </span><time datetime="2020-09-02"
+		<span>最近更新于 </span><time datetime="2020-09-03"
 			class="text-muted">2020年02月14日</time> ·
 		
 		<a href="/categories/%e8%82%ba%e7%82%8e%e7%96%ab%e6%83%85">
@@ -582,65 +582,65 @@ if (!doNotTrack) {
 <p><code>timeserie</code> 类型：</p>
 <p>用于展示全国（含港澳台）和上海地区的疫情实时动态，展示确诊、疑似、治愈和死亡数，并且展示较昨日增加的数量，绘制了【确诊/疑似】数和【治愈/死亡】数的对比曲线。</p>
 <p>这里只要将全国确诊数 <code>gntotal</code> 与 当前时间戳组合返回即可，其他指标也是这种方式。</p>
-<pre><code>@app.post('/query')
-def query():
-    print(request.json)
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#ffa500">@app.post</span>(<span style="color:#ed9d13"></span><span style="color:#ed9d13">&#39;</span><span style="color:#ed9d13">/query</span><span style="color:#ed9d13">&#39;</span>)
+<span style="color:#6ab825;font-weight:bold">def</span> <span style="color:#447fcf">query</span>():
+    <span style="color:#6ab825;font-weight:bold">print</span>(request.json)
     body = []
     all_data = getDataSync()
-    time_stamp = int(round(time.time() * 1000))
-    for target in request.json['targets']:
-    name = target['target']
-    if name == 'gntotal':
-        body.append({'target': 'gntotal', 'datapoints': [[all_data['gntotal'], time_stamp]]})
+    time_stamp = <span style="color:#24909d">int</span>(<span style="color:#24909d">round</span>(time.time() * <span style="color:#3677a9">1000</span>))
+    <span style="color:#6ab825;font-weight:bold">for</span> target <span style="color:#6ab825;font-weight:bold">in</span> request.json[<span style="color:#ed9d13"></span><span style="color:#ed9d13">&#39;</span><span style="color:#ed9d13">targets</span><span style="color:#ed9d13">&#39;</span>]:
+    name = target[<span style="color:#ed9d13"></span><span style="color:#ed9d13">&#39;</span><span style="color:#ed9d13">target</span><span style="color:#ed9d13">&#39;</span>]
+    <span style="color:#6ab825;font-weight:bold">if</span> name == <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#39;</span><span style="color:#ed9d13">gntotal</span><span style="color:#ed9d13">&#39;</span>:
+        body.append({<span style="color:#ed9d13"></span><span style="color:#ed9d13">&#39;</span><span style="color:#ed9d13">target</span><span style="color:#ed9d13">&#39;</span>: <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#39;</span><span style="color:#ed9d13">gntotal</span><span style="color:#ed9d13">&#39;</span>, <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#39;</span><span style="color:#ed9d13">datapoints</span><span style="color:#ed9d13">&#39;</span>: [[all_data[<span style="color:#ed9d13"></span><span style="color:#ed9d13">&#39;</span><span style="color:#ed9d13">gntotal</span><span style="color:#ed9d13">&#39;</span>], time_stamp]]})
     body = dumps(body)
-    return HTTPResponse(body=body, headers={'Content-Type': 'application/json'})
-</code></pre></li>
+    <span style="color:#6ab825;font-weight:bold">return</span> HTTPResponse(body=body, headers={<span style="color:#ed9d13"></span><span style="color:#ed9d13">&#39;</span><span style="color:#ed9d13">Content-Type</span><span style="color:#ed9d13">&#39;</span>: <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#39;</span><span style="color:#ed9d13">application/json</span><span style="color:#ed9d13">&#39;</span>})
+</code></pre></div></li>
 <li>
 <p><code>table</code> 类型：</p>
 <p>用于绘制中国各省确诊、疑似、治愈和死亡病例数表格，以及上海各区确诊、疑似、治愈和死亡病例数表格。</p>
 <p>取出数据中的名称以及确诊、疑似、治愈和死亡数，<code>append</code> 到 <code>rows</code> 中即可。</p>
-<pre><code>@app.post('/query')
-def query():
-    print(request.json)
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#ffa500">@app.post</span>(<span style="color:#ed9d13"></span><span style="color:#ed9d13">&#39;</span><span style="color:#ed9d13">/query</span><span style="color:#ed9d13">&#39;</span>)
+<span style="color:#6ab825;font-weight:bold">def</span> <span style="color:#447fcf">query</span>():
+    <span style="color:#6ab825;font-weight:bold">print</span>(request.json)
     body = []
     all_data = getDataSync()
     sh_data = getShDataSync()
-    if request.json['targets'][0]['type'] == 'table':
+    <span style="color:#6ab825;font-weight:bold">if</span> request.json[<span style="color:#ed9d13"></span><span style="color:#ed9d13">&#39;</span><span style="color:#ed9d13">targets</span><span style="color:#ed9d13">&#39;</span>][<span style="color:#3677a9">0</span>][<span style="color:#ed9d13"></span><span style="color:#ed9d13">&#39;</span><span style="color:#ed9d13">type</span><span style="color:#ed9d13">&#39;</span>] == <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#39;</span><span style="color:#ed9d13">table</span><span style="color:#ed9d13">&#39;</span>:
         rows = []
-        for data in all_data['list']:
-            row = [data['name'], data['value'], data['susNum'], data['cureNum'], data['deathNum']]
+        <span style="color:#6ab825;font-weight:bold">for</span> data <span style="color:#6ab825;font-weight:bold">in</span> all_data[<span style="color:#ed9d13"></span><span style="color:#ed9d13">&#39;</span><span style="color:#ed9d13">list</span><span style="color:#ed9d13">&#39;</span>]:
+            row = [data[<span style="color:#ed9d13"></span><span style="color:#ed9d13">&#39;</span><span style="color:#ed9d13">name</span><span style="color:#ed9d13">&#39;</span>], data[<span style="color:#ed9d13"></span><span style="color:#ed9d13">&#39;</span><span style="color:#ed9d13">value</span><span style="color:#ed9d13">&#39;</span>], data[<span style="color:#ed9d13"></span><span style="color:#ed9d13">&#39;</span><span style="color:#ed9d13">susNum</span><span style="color:#ed9d13">&#39;</span>], data[<span style="color:#ed9d13"></span><span style="color:#ed9d13">&#39;</span><span style="color:#ed9d13">cureNum</span><span style="color:#ed9d13">&#39;</span>], data[<span style="color:#ed9d13"></span><span style="color:#ed9d13">&#39;</span><span style="color:#ed9d13">deathNum</span><span style="color:#ed9d13">&#39;</span>]]
             rows.append(row)
         sh_rows = []
-        for data in sh_data['city']:
-            row = [data['name'], data['conNum'], data['susNum'], data['cureNum'], data['deathNum']]
+        <span style="color:#6ab825;font-weight:bold">for</span> data <span style="color:#6ab825;font-weight:bold">in</span> sh_data[<span style="color:#ed9d13"></span><span style="color:#ed9d13">&#39;</span><span style="color:#ed9d13">city</span><span style="color:#ed9d13">&#39;</span>]:
+            row = [data[<span style="color:#ed9d13"></span><span style="color:#ed9d13">&#39;</span><span style="color:#ed9d13">name</span><span style="color:#ed9d13">&#39;</span>], data[<span style="color:#ed9d13"></span><span style="color:#ed9d13">&#39;</span><span style="color:#ed9d13">conNum</span><span style="color:#ed9d13">&#39;</span>], data[<span style="color:#ed9d13"></span><span style="color:#ed9d13">&#39;</span><span style="color:#ed9d13">susNum</span><span style="color:#ed9d13">&#39;</span>], data[<span style="color:#ed9d13"></span><span style="color:#ed9d13">&#39;</span><span style="color:#ed9d13">cureNum</span><span style="color:#ed9d13">&#39;</span>], data[<span style="color:#ed9d13"></span><span style="color:#ed9d13">&#39;</span><span style="color:#ed9d13">deathNum</span><span style="color:#ed9d13">&#39;</span>]]
             sh_rows.append(row)
-        bodies = {'all': [{
-            &quot;columns&quot;: [
-                {&quot;text&quot;: &quot;省份&quot;, &quot;type&quot;: &quot;name&quot;},
-                {&quot;text&quot;: &quot;确诊&quot;, &quot; type&quot;: &quot;conNum&quot;},
-                {&quot;text&quot;: &quot;疑似&quot;, &quot; type&quot;: &quot;susNum&quot;},
-                {&quot;text&quot;: &quot;治愈&quot;, &quot;type&quot;: &quot;cureNum&quot;},
-                {&quot;text&quot;: &quot;死亡&quot;, &quot;type&quot;: &quot;deathNum&quot;}
+        bodies = {<span style="color:#ed9d13"></span><span style="color:#ed9d13">&#39;</span><span style="color:#ed9d13">all</span><span style="color:#ed9d13">&#39;</span>: [{
+            <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">columns</span><span style="color:#ed9d13">&#34;</span>: [
+                {<span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">text</span><span style="color:#ed9d13">&#34;</span>: <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">省份</span><span style="color:#ed9d13">&#34;</span>, <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">type</span><span style="color:#ed9d13">&#34;</span>: <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">name</span><span style="color:#ed9d13">&#34;</span>},
+                {<span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">text</span><span style="color:#ed9d13">&#34;</span>: <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">确诊</span><span style="color:#ed9d13">&#34;</span>, <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13"> type</span><span style="color:#ed9d13">&#34;</span>: <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">conNum</span><span style="color:#ed9d13">&#34;</span>},
+                {<span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">text</span><span style="color:#ed9d13">&#34;</span>: <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">疑似</span><span style="color:#ed9d13">&#34;</span>, <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13"> type</span><span style="color:#ed9d13">&#34;</span>: <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">susNum</span><span style="color:#ed9d13">&#34;</span>},
+                {<span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">text</span><span style="color:#ed9d13">&#34;</span>: <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">治愈</span><span style="color:#ed9d13">&#34;</span>, <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">type</span><span style="color:#ed9d13">&#34;</span>: <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">cureNum</span><span style="color:#ed9d13">&#34;</span>},
+                {<span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">text</span><span style="color:#ed9d13">&#34;</span>: <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">死亡</span><span style="color:#ed9d13">&#34;</span>, <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">type</span><span style="color:#ed9d13">&#34;</span>: <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">deathNum</span><span style="color:#ed9d13">&#34;</span>}
             ],
-            &quot;rows&quot;: rows,
-            &quot;type&quot;: &quot;table&quot;
+            <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">rows</span><span style="color:#ed9d13">&#34;</span>: rows,
+            <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">type</span><span style="color:#ed9d13">&#34;</span>: <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">table</span><span style="color:#ed9d13">&#34;</span>
         }],
-            'sh': [{
-                &quot;columns&quot;: [
-                    {&quot;text&quot;: &quot;省份&quot;, &quot;type&quot;: &quot;name&quot;},
-                    {&quot;text&quot;: &quot;确诊&quot;, &quot; type&quot;: &quot;value&quot;},
-                    {&quot;text&quot;: &quot;疑似&quot;, &quot; type&quot;: &quot;susNum&quot;},
-                    {&quot;text&quot;: &quot;治愈&quot;, &quot;type&quot;: &quot;cureNum&quot;},
-                    {&quot;text&quot;: &quot;死亡&quot;, &quot;type&quot;: &quot;deathNum&quot;}
+            <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#39;</span><span style="color:#ed9d13">sh</span><span style="color:#ed9d13">&#39;</span>: [{
+                <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">columns</span><span style="color:#ed9d13">&#34;</span>: [
+                    {<span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">text</span><span style="color:#ed9d13">&#34;</span>: <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">省份</span><span style="color:#ed9d13">&#34;</span>, <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">type</span><span style="color:#ed9d13">&#34;</span>: <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">name</span><span style="color:#ed9d13">&#34;</span>},
+                    {<span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">text</span><span style="color:#ed9d13">&#34;</span>: <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">确诊</span><span style="color:#ed9d13">&#34;</span>, <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13"> type</span><span style="color:#ed9d13">&#34;</span>: <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">value</span><span style="color:#ed9d13">&#34;</span>},
+                    {<span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">text</span><span style="color:#ed9d13">&#34;</span>: <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">疑似</span><span style="color:#ed9d13">&#34;</span>, <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13"> type</span><span style="color:#ed9d13">&#34;</span>: <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">susNum</span><span style="color:#ed9d13">&#34;</span>},
+                    {<span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">text</span><span style="color:#ed9d13">&#34;</span>: <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">治愈</span><span style="color:#ed9d13">&#34;</span>, <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">type</span><span style="color:#ed9d13">&#34;</span>: <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">cureNum</span><span style="color:#ed9d13">&#34;</span>},
+                    {<span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">text</span><span style="color:#ed9d13">&#34;</span>: <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">死亡</span><span style="color:#ed9d13">&#34;</span>, <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">type</span><span style="color:#ed9d13">&#34;</span>: <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">deathNum</span><span style="color:#ed9d13">&#34;</span>}
                 ],
-                &quot;rows&quot;: sh_rows,
-                &quot;type&quot;: &quot;table&quot;
+                <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">rows</span><span style="color:#ed9d13">&#34;</span>: sh_rows,
+                <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">type</span><span style="color:#ed9d13">&#34;</span>: <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">table</span><span style="color:#ed9d13">&#34;</span>
             }]}
 
-        series = request.json['targets'][0]['target']
+        series = request.json[<span style="color:#ed9d13"></span><span style="color:#ed9d13">&#39;</span><span style="color:#ed9d13">targets</span><span style="color:#ed9d13">&#39;</span>][<span style="color:#3677a9">0</span>][<span style="color:#ed9d13"></span><span style="color:#ed9d13">&#39;</span><span style="color:#ed9d13">target</span><span style="color:#ed9d13">&#39;</span>]
         body = dumps(bodies[series])
-  return HTTPResponse(body=body, headers={'Content-Type': 'application/json'})
-</code></pre></li>
+  <span style="color:#6ab825;font-weight:bold">return</span> HTTPResponse(body=body, headers={<span style="color:#ed9d13"></span><span style="color:#ed9d13">&#39;</span><span style="color:#ed9d13">Content-Type</span><span style="color:#ed9d13">&#39;</span>: <span style="color:#ed9d13"></span><span style="color:#ed9d13">&#39;</span><span style="color:#ed9d13">application/json</span><span style="color:#ed9d13">&#39;</span>})
+</code></pre></div></li>
 </ul>
 <h2 id="选择展示-panel-类型">选择展示 Panel 类型</h2>
 <p>总的来说，使用了4种 Panel 进行展示：</p>
@@ -664,31 +664,31 @@ def query():
 <p><img src="featured.png" alt=""></p>
 <h2 id="构建">构建</h2>
 <p>将代码打包成为 docker 镜像，就可以运行在任意环境以及 K8S 集群了，镜像已上传 dockerhub 直接拉取镜像，开箱即食。</p>
-<pre><code># Dockerfile
-FROM python:3.7.3-alpine3.9
-
-LABEL maintainer=&quot;sunnydog0826@gmail.com&quot;
-
-COPY . /app
-
-RUN echo &quot;https://mirrors.aliyun.com/alpine/v3.9/main/&quot; &gt; /etc/apk/repositories \
-    &amp;&amp; apk update \
-    &amp;&amp; apk add --no-cache gcc g++ python3-dev python-dev linux-headers libffi-dev openssl-dev make \
-    &amp;&amp; pip3 install -r /app/requestments.txt -i http://mirrors.aliyun.com/pypi/simple --trusted-host mirrors.aliyun.com
-
-WORKDIR /app
-
-ENTRYPOINT [&quot;uwsgi&quot;,&quot;--ini&quot;,&quot;uwsgi.ini&quot;]
-</code></pre><h2 id="运行">运行</h2>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#999;font-style:italic"># Dockerfile</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#6ab825;font-weight:bold">FROM</span><span style="color:#ed9d13"> python:3.7.3-alpine3.9</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#6ab825;font-weight:bold">LABEL</span> <span style="color:#40ffff">maintainer</span>=<span style="color:#ed9d13">&#34;sunnydog0826@gmail.com&#34;</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#6ab825;font-weight:bold">COPY</span> . /app<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#6ab825;font-weight:bold">RUN</span> <span style="color:#24909d">echo</span> <span style="color:#ed9d13">&#34;https://mirrors.aliyun.com/alpine/v3.9/main/&#34;</span> &gt; /etc/apk/repositories <span style="color:#ed9d13">\
+</span><span style="color:#ed9d13"></span>    &amp;&amp; apk update <span style="color:#ed9d13">\
+</span><span style="color:#ed9d13"></span>    &amp;&amp; apk add --no-cache gcc g++ python3-dev python-dev linux-headers libffi-dev openssl-dev make <span style="color:#ed9d13">\
+</span><span style="color:#ed9d13"></span>    &amp;&amp; pip3 install -r /app/requestments.txt -i http://mirrors.aliyun.com/pypi/simple --trusted-host mirrors.aliyun.com<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#6ab825;font-weight:bold">WORKDIR</span><span style="color:#ed9d13"> /app</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#6ab825;font-weight:bold">ENTRYPOINT</span> [<span style="color:#ed9d13">&#34;uwsgi&#34;</span>,<span style="color:#ed9d13">&#34;--ini&#34;</span>,<span style="color:#ed9d13">&#34;uwsgi.ini&#34;</span>]<span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></div><h2 id="运行">运行</h2>
 <ul>
 <li>拉取镜像</li>
 </ul>
-<pre><code>docker pull guoxudongdocker/feiyan-datasource
-</code></pre><ul>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker pull guoxudongdocker/feiyan-datasource
+</code></pre></div><ul>
 <li>运行镜像</li>
 </ul>
-<pre><code>docker run -d --name datasource -p 8088:3000 guoxudongdocker/feiyan-datasource
-</code></pre><ul>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker run -d --name datasource -p 8088:3000 guoxudongdocker/feiyan-datasource
+</code></pre></div><ul>
 <li>
 <p>添加数据源</p>
 <p>选择 <a href="https://grafana.com/grafana/plugins/grafana-simple-json-datasource/installation">SimpleJson</a> 类型的数据源，点击添加，填入数据源地址：</p>
@@ -701,13 +701,13 @@ ENTRYPOINT [&quot;uwsgi&quot;,&quot;--ini&quot;,&quot;uwsgi.ini&quot;]
 </li>
 <li>
 <p>使用 K8S 部署（可选）</p>
-<pre><code>kubectl apply -f deploy.yaml
-</code></pre></li>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl apply -f deploy.yaml
+</code></pre></div></li>
 </ul>
 <h2 id="结语">结语</h2>
 <p>截止目前（2020年2月14日），病例数还在不断的增加，但是疑似病例数趋势开始下降，可以看出，目前新型肺炎的确诊速度增加了；治愈数也在不断的增加；上海地区和其他地区比起来，虽然有大批返工人员进入，但是并没有增加特别多的病例数，各个社区严防死守的效果初显；同时上海一直保持着死亡1人的情况，而且中国首例新型肺炎治愈的也在上海。总的来说只要大家注意预防，待在家中，多消毒，多通风，一定可以战胜疫情，度过难关。</p>
 <p>导入 Dashboard 的 <code>json</code> 文件和部署 K8S 的 <code>yaml</code> 文件都可以在 GitHub 上找到。</p>
-<p>项目地址：https://github.com/sunny0826/wuhan2020-grafana</p>
+<p>项目地址：<a href="https://github.com/sunny0826/wuhan2020-grafana">https://github.com/sunny0826/wuhan2020-grafana</a></p>
 
 	<br>
 	

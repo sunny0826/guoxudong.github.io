@@ -530,14 +530,14 @@ bundle.fleet.cattle.io/helm-kustomize   &lt;span style=&#34;color:#3677a9&#34;&g
 &lt;ul&gt;
 &lt;li&gt;Course：课程，可包含一系列的 scenarios。
 &lt;ul&gt;
-&lt;li&gt;官方教程入口：https://katacoda.com/scenario-examples/scenarios/create-course&lt;/li&gt;
-&lt;li&gt;汉化教程入口：https://katacoda.com/guoxudong/courses/katacoda-example/create-course&lt;/li&gt;
+&lt;li&gt;官方教程入口：&lt;a href=&#34;https://katacoda.com/scenario-examples/scenarios/create-course&#34;&gt;https://katacoda.com/scenario-examples/scenarios/create-course&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;汉化教程入口：&lt;a href=&#34;https://katacoda.com/guoxudong/courses/katacoda-example/create-course&#34;&gt;https://katacoda.com/guoxudong/courses/katacoda-example/create-course&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;Scenarios：场景、方案。
 &lt;ul&gt;
-&lt;li&gt;官方教程入口：https://katacoda.com/scenario-examples/scenarios/create-scenario-101&lt;/li&gt;
-&lt;li&gt;汉化教程入口：https://katacoda.com/guoxudong/courses/katacoda-example/katacoda-create-scenarios&lt;/li&gt;
+&lt;li&gt;官方教程入口：&lt;a href=&#34;https://katacoda.com/scenario-examples/scenarios/create-scenario-101&#34;&gt;https://katacoda.com/scenario-examples/scenarios/create-scenario-101&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;汉化教程入口：&lt;a href=&#34;https://katacoda.com/guoxudong/courses/katacoda-example/katacoda-create-scenarios&#34;&gt;https://katacoda.com/guoxudong/courses/katacoda-example/katacoda-create-scenarios&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;

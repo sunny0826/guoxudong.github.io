@@ -47,65 +47,65 @@
 &lt;p&gt;&lt;code&gt;timeserie&lt;/code&gt; 类型：&lt;/p&gt;
 &lt;p&gt;用于展示全国（含港澳台）和上海地区的疫情实时动态，展示确诊、疑似、治愈和死亡数，并且展示较昨日增加的数量，绘制了【确诊/疑似】数和【治愈/死亡】数的对比曲线。&lt;/p&gt;
 &lt;p&gt;这里只要将全国确诊数 &lt;code&gt;gntotal&lt;/code&gt; 与 当前时间戳组合返回即可，其他指标也是这种方式。&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;@app.post(&#39;/query&#39;)
-def query():
-    print(request.json)
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#ffa500&#34;&gt;@app.post&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;/query&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;)
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#447fcf&#34;&gt;query&lt;/span&gt;():
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;print&lt;/span&gt;(request.json)
     body = []
     all_data = getDataSync()
-    time_stamp = int(round(time.time() * 1000))
-    for target in request.json[&#39;targets&#39;]:
-    name = target[&#39;target&#39;]
-    if name == &#39;gntotal&#39;:
-        body.append({&#39;target&#39;: &#39;gntotal&#39;, &#39;datapoints&#39;: [[all_data[&#39;gntotal&#39;], time_stamp]]})
+    time_stamp = &lt;span style=&#34;color:#24909d&#34;&gt;int&lt;/span&gt;(&lt;span style=&#34;color:#24909d&#34;&gt;round&lt;/span&gt;(time.time() * &lt;span style=&#34;color:#3677a9&#34;&gt;1000&lt;/span&gt;))
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; target &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;in&lt;/span&gt; request.json[&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;targets&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;]:
+    name = target[&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;target&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;]
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; name == &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;gntotal&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;:
+        body.append({&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;target&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;gntotal&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;datapoints&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;: [[all_data[&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;gntotal&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;], time_stamp]]})
     body = dumps(body)
-    return HTTPResponse(body=body, headers={&#39;Content-Type&#39;: &#39;application/json&#39;})
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; HTTPResponse(body=body, headers={&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;Content-Type&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;application/json&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;})
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;code&gt;table&lt;/code&gt; 类型：&lt;/p&gt;
 &lt;p&gt;用于绘制中国各省确诊、疑似、治愈和死亡病例数表格，以及上海各区确诊、疑似、治愈和死亡病例数表格。&lt;/p&gt;
 &lt;p&gt;取出数据中的名称以及确诊、疑似、治愈和死亡数，&lt;code&gt;append&lt;/code&gt; 到 &lt;code&gt;rows&lt;/code&gt; 中即可。&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;@app.post(&#39;/query&#39;)
-def query():
-    print(request.json)
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#ffa500&#34;&gt;@app.post&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;/query&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;)
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#447fcf&#34;&gt;query&lt;/span&gt;():
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;print&lt;/span&gt;(request.json)
     body = []
     all_data = getDataSync()
     sh_data = getShDataSync()
-    if request.json[&#39;targets&#39;][0][&#39;type&#39;] == &#39;table&#39;:
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; request.json[&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;targets&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;][&lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;][&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;] == &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;table&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;:
         rows = []
-        for data in all_data[&#39;list&#39;]:
-            row = [data[&#39;name&#39;], data[&#39;value&#39;], data[&#39;susNum&#39;], data[&#39;cureNum&#39;], data[&#39;deathNum&#39;]]
+        &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; data &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;in&lt;/span&gt; all_data[&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;list&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;]:
+            row = [data[&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;], data[&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;value&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;], data[&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;susNum&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;], data[&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;cureNum&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;], data[&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;deathNum&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;]]
             rows.append(row)
         sh_rows = []
-        for data in sh_data[&#39;city&#39;]:
-            row = [data[&#39;name&#39;], data[&#39;conNum&#39;], data[&#39;susNum&#39;], data[&#39;cureNum&#39;], data[&#39;deathNum&#39;]]
+        &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; data &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;in&lt;/span&gt; sh_data[&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;city&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;]:
+            row = [data[&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;], data[&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;conNum&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;], data[&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;susNum&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;], data[&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;cureNum&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;], data[&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;deathNum&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;]]
             sh_rows.append(row)
-        bodies = {&#39;all&#39;: [{
-            &amp;quot;columns&amp;quot;: [
-                {&amp;quot;text&amp;quot;: &amp;quot;省份&amp;quot;, &amp;quot;type&amp;quot;: &amp;quot;name&amp;quot;},
-                {&amp;quot;text&amp;quot;: &amp;quot;确诊&amp;quot;, &amp;quot; type&amp;quot;: &amp;quot;conNum&amp;quot;},
-                {&amp;quot;text&amp;quot;: &amp;quot;疑似&amp;quot;, &amp;quot; type&amp;quot;: &amp;quot;susNum&amp;quot;},
-                {&amp;quot;text&amp;quot;: &amp;quot;治愈&amp;quot;, &amp;quot;type&amp;quot;: &amp;quot;cureNum&amp;quot;},
-                {&amp;quot;text&amp;quot;: &amp;quot;死亡&amp;quot;, &amp;quot;type&amp;quot;: &amp;quot;deathNum&amp;quot;}
+        bodies = {&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;all&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;: [{
+            &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;columns&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;: [
+                {&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;text&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;省份&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;},
+                {&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;text&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;确诊&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt; type&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;conNum&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;},
+                {&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;text&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;疑似&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt; type&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;susNum&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;},
+                {&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;text&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;治愈&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;cureNum&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;},
+                {&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;text&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;死亡&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;deathNum&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;}
             ],
-            &amp;quot;rows&amp;quot;: rows,
-            &amp;quot;type&amp;quot;: &amp;quot;table&amp;quot;
+            &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;rows&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;: rows,
+            &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;table&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;
         }],
-            &#39;sh&#39;: [{
-                &amp;quot;columns&amp;quot;: [
-                    {&amp;quot;text&amp;quot;: &amp;quot;省份&amp;quot;, &amp;quot;type&amp;quot;: &amp;quot;name&amp;quot;},
-                    {&amp;quot;text&amp;quot;: &amp;quot;确诊&amp;quot;, &amp;quot; type&amp;quot;: &amp;quot;value&amp;quot;},
-                    {&amp;quot;text&amp;quot;: &amp;quot;疑似&amp;quot;, &amp;quot; type&amp;quot;: &amp;quot;susNum&amp;quot;},
-                    {&amp;quot;text&amp;quot;: &amp;quot;治愈&amp;quot;, &amp;quot;type&amp;quot;: &amp;quot;cureNum&amp;quot;},
-                    {&amp;quot;text&amp;quot;: &amp;quot;死亡&amp;quot;, &amp;quot;type&amp;quot;: &amp;quot;deathNum&amp;quot;}
+            &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;sh&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;: [{
+                &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;columns&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;: [
+                    {&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;text&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;省份&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;},
+                    {&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;text&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;确诊&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt; type&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;value&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;},
+                    {&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;text&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;疑似&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt; type&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;susNum&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;},
+                    {&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;text&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;治愈&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;cureNum&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;},
+                    {&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;text&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;死亡&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;deathNum&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;}
                 ],
-                &amp;quot;rows&amp;quot;: sh_rows,
-                &amp;quot;type&amp;quot;: &amp;quot;table&amp;quot;
+                &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;rows&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;: sh_rows,
+                &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;table&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;
             }]}
 
-        series = request.json[&#39;targets&#39;][0][&#39;target&#39;]
+        series = request.json[&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;targets&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;][&lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;][&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;target&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;]
         body = dumps(bodies[series])
-  return HTTPResponse(body=body, headers={&#39;Content-Type&#39;: &#39;application/json&#39;})
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; HTTPResponse(body=body, headers={&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;Content-Type&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;application/json&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt;})
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;选择展示-panel-类型&#34;&gt;选择展示 Panel 类型&lt;/h2&gt;
 &lt;p&gt;总的来说，使用了4种 Panel 进行展示：&lt;/p&gt;
@@ -129,31 +129,31 @@ def query():
 &lt;p&gt;&lt;img src=&#34;featured.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;构建&#34;&gt;构建&lt;/h2&gt;
 &lt;p&gt;将代码打包成为 docker 镜像，就可以运行在任意环境以及 K8S 集群了，镜像已上传 dockerhub 直接拉取镜像，开箱即食。&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;# Dockerfile
-FROM python:3.7.3-alpine3.9
-
-LABEL maintainer=&amp;quot;sunnydog0826@gmail.com&amp;quot;
-
-COPY . /app
-
-RUN echo &amp;quot;https://mirrors.aliyun.com/alpine/v3.9/main/&amp;quot; &amp;gt; /etc/apk/repositories \
-    &amp;amp;&amp;amp; apk update \
-    &amp;amp;&amp;amp; apk add --no-cache gcc g++ python3-dev python-dev linux-headers libffi-dev openssl-dev make \
-    &amp;amp;&amp;amp; pip3 install -r /app/requestments.txt -i http://mirrors.aliyun.com/pypi/simple --trusted-host mirrors.aliyun.com
-
-WORKDIR /app
-
-ENTRYPOINT [&amp;quot;uwsgi&amp;quot;,&amp;quot;--ini&amp;quot;,&amp;quot;uwsgi.ini&amp;quot;]
-&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;运行&#34;&gt;运行&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-Dockerfile&#34; data-lang=&#34;Dockerfile&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# Dockerfile&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;FROM&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt; python:3.7.3-alpine3.9&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;LABEL&lt;/span&gt; &lt;span style=&#34;color:#40ffff&#34;&gt;maintainer&lt;/span&gt;=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;sunnydog0826@gmail.com&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;COPY&lt;/span&gt; . /app&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;RUN&lt;/span&gt; &lt;span style=&#34;color:#24909d&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;https://mirrors.aliyun.com/alpine/v3.9/main/&amp;#34;&lt;/span&gt; &amp;gt; /etc/apk/repositories &lt;span style=&#34;color:#ed9d13&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;    &amp;amp;&amp;amp; apk update &lt;span style=&#34;color:#ed9d13&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;    &amp;amp;&amp;amp; apk add --no-cache gcc g++ python3-dev python-dev linux-headers libffi-dev openssl-dev make &lt;span style=&#34;color:#ed9d13&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;    &amp;amp;&amp;amp; pip3 install -r /app/requestments.txt -i http://mirrors.aliyun.com/pypi/simple --trusted-host mirrors.aliyun.com&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;WORKDIR&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt; /app&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;ENTRYPOINT&lt;/span&gt; [&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;uwsgi&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;--ini&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;uwsgi.ini&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;运行&#34;&gt;运行&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;拉取镜像&lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre&gt;&lt;code&gt;docker pull guoxudongdocker/feiyan-datasource
-&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;docker pull guoxudongdocker/feiyan-datasource
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;运行镜像&lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre&gt;&lt;code&gt;docker run -d --name datasource -p 8088:3000 guoxudongdocker/feiyan-datasource
-&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;docker run -d --name datasource -p 8088:3000 guoxudongdocker/feiyan-datasource
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;添加数据源&lt;/p&gt;
 &lt;p&gt;选择 &lt;a href=&#34;https://grafana.com/grafana/plugins/grafana-simple-json-datasource/installation&#34;&gt;SimpleJson&lt;/a&gt; 类型的数据源，点击添加，填入数据源地址：&lt;/p&gt;
@@ -166,13 +166,13 @@ ENTRYPOINT [&amp;quot;uwsgi&amp;quot;,&amp;quot;--ini&amp;quot;,&amp;quot;uwsgi.
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;使用 K8S 部署（可选）&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;kubectl apply -f deploy.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl apply -f deploy.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
 &lt;p&gt;截止目前（2020年2月14日），病例数还在不断的增加，但是疑似病例数趋势开始下降，可以看出，目前新型肺炎的确诊速度增加了；治愈数也在不断的增加；上海地区和其他地区比起来，虽然有大批返工人员进入，但是并没有增加特别多的病例数，各个社区严防死守的效果初显；同时上海一直保持着死亡1人的情况，而且中国首例新型肺炎治愈的也在上海。总的来说只要大家注意预防，待在家中，多消毒，多通风，一定可以战胜疫情，度过难关。&lt;/p&gt;
 &lt;p&gt;导入 Dashboard 的 &lt;code&gt;json&lt;/code&gt; 文件和部署 K8S 的 &lt;code&gt;yaml&lt;/code&gt; 文件都可以在 GitHub 上找到。&lt;/p&gt;
-&lt;p&gt;项目地址：https://github.com/sunny0826/wuhan2020-grafana&lt;/p&gt;
+&lt;p&gt;项目地址：&lt;a href=&#34;https://github.com/sunny0826/wuhan2020-grafana&#34;&gt;https://github.com/sunny0826/wuhan2020-grafana&lt;/a&gt;&lt;/p&gt;
 
       </description>
     </item>

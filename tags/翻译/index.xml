@@ -832,20 +832,9 @@ Phippy 与她的新朋友一起乘坐 Kube 船长的巨轮航行于大海之上�
         
         
         &lt;p&gt;这里的&lt;strong&gt;黑话&lt;/strong&gt;，其实就是 GitHub 上的一些&lt;strong&gt;迷之缩写&lt;/strong&gt;，这些歪果老司机们在 GitHub 上肆无忌惮的使用着他们的“黑话”，让我们这些非英语母语国家的新司机在 code review 时经常是一脸懵逼 + 黑人问好&amp;hellip;&lt;/p&gt;
-&lt;h2 id=&#34;preview_only-false&#34;&gt;image:
-caption: &amp;ldquo;Image from: &lt;a href=&#34;https://www.pexels.com&#34;&gt;&lt;strong&gt;Pexels&lt;/strong&gt;&lt;/a&gt;&amp;rdquo;
-focal_point: &amp;quot;&amp;rdquo;
-preview_only: false&lt;/h2&gt;
-&lt;center&gt;
-![image](https://wx3.sinaimg.cn/thumb180/ad5fbf65gy1g2b5dhfuqqj206506cq2t.jpg)
-![image](https://ws1.sinaimg.cn/thumb180/ad5fbf65gy1g2b5dvubm6j2069050a9x.jpg)
-![image](https://ws1.sinaimg.cn/thumb180/ad5fbf65gy1g2b5fe5ahmj20c80bhdg8.jpg)
-&lt;/center&gt;
-image:
-  caption: &#34;Image from: [**Pexels**](https://www.pexels.com)&#34;
-  focal_point: &#34;&#34;
-  preview_only: false
----
+&lt;p&gt;&lt;img src=&#34;https://wx3.sinaimg.cn/thumb180/ad5fbf65gy1g2b5dhfuqqj206506cq2t.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://wx3.sinaimg.cn/thumb180/ad5fbf65gy1g2b5dvubm6j2069050a9x.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://wx3.sinaimg.cn/thumb180/ad5fbf65gy1g2b5fe5ahmj20c80bhdg8.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;p&gt;记住下面这些“&lt;strong&gt;黑话&lt;/strong&gt;”，以后我们也可以愉快的在 GitHub 上装逼了~&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;PR&lt;/strong&gt;: Pull Request. 拉取请求，给其他项目提交代码，这个是最为常见的缩写。&lt;/li&gt;
