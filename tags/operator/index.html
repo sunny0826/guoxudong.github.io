@@ -7,6 +7,7 @@
 
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
+<link rel="alternate" type="application/rss&#43;xml" href="https://guoxudong.io/tags/operator/index.xml">
 
 
 <link rel="shortcut icon" href="/favicons/favicon.ico" >
@@ -28,41 +29,33 @@
            "@type": "WebPage",
            "@id": "https:\/\/guoxudong.io"
       },
-      "articleSection" : "post",
-      "name" : "困难的 Kubernetes",
-      "headline" : "困难的 Kubernetes",
-      "description" : "虽然 Kubernetes 赢得了容器战争，但是其仍然很难使用并且引起很多事故。",
+      "articleSection" : "tags",
+      "name" : "operator",
+      "headline" : "operator",
+      "description" : "",
       "inLanguage" : "en-US",
       "author" : "",
       "creator" : "",
       "publisher": "",
       "accountablePerson" : "",
       "copyrightHolder" : "",
-      "copyrightYear" : "2019",
-      "datePublished": "2019-04-24 10:18:46 \x2b0800 \x2b0800",
-      "dateModified" : "2019-04-24 10:18:46 \x2b0800 \x2b0800",
-      "url" : "https:\/\/guoxudong.io\/post\/kubernetes-is-har\/",
-      "wordCount" : "172",
-      "keywords" : [ "翻译","kubernetes","Guoxudong" ]
+      "copyrightYear" : "2020",
+      "datePublished": "2020-09-11 08:47:51 \x2b0800 \x2b0800",
+      "dateModified" : "2020-09-11 08:47:51 \x2b0800 \x2b0800",
+      "url" : "https:\/\/guoxudong.io\/tags\/operator\/",
+      "wordCount" : "0",
+      "keywords" : [ "Guoxudong" ]
   }
   </script>
-<title>困难的 Kubernetes | Guo Xudong&#39;s Blog·郭旭东的博客</title><meta property="og:title" content="困难的 Kubernetes" />
-<meta property="og:description" content="虽然 Kubernetes 赢得了容器战争，但是其仍然很难使用并且引起很多事故。" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://guoxudong.io/post/kubernetes-is-har/" />
-<meta property="article:published_time" content="2019-04-24T10:18:46+08:00" />
-<meta property="article:modified_time" content="2020-09-11T15:28:31+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
-<meta itemprop="name" content="困难的 Kubernetes">
-<meta itemprop="description" content="虽然 Kubernetes 赢得了容器战争，但是其仍然很难使用并且引起很多事故。">
-<meta itemprop="datePublished" content="2019-04-24T10:18:46&#43;08:00" />
-<meta itemprop="dateModified" content="2020-09-11T15:28:31&#43;08:00" />
-<meta itemprop="wordCount" content="172">
-
-
-
-<meta itemprop="keywords" content="翻译,kubernetes," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="困难的 Kubernetes"/>
-<meta name="twitter:description" content="虽然 Kubernetes 赢得了容器战争，但是其仍然很难使用并且引起很多事故。"/>
+<title>operator | Guo Xudong&#39;s Blog·郭旭东的博客</title><meta property="og:title" content="operator" />
+<meta property="og:description" content="郭旭东的博客，分享云原生、devops干货文章。" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://guoxudong.io/tags/operator/" />
+<meta property="og:updated_time" content="2020-09-11T08:47:51+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
+<meta itemprop="name" content="operator">
+<meta itemprop="description" content="郭旭东的博客，分享云原生、devops干货文章。"><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="operator"/>
+<meta name="twitter:description" content="郭旭东的博客，分享云原生、devops干货文章。"/>
 
 
 <script type="application/javascript">
@@ -93,7 +86,7 @@ if (!doNotTrack) {
   
 
   </head>
-  <body class="td-page td-blog">
+  <body class="td-taxonomy td-blog">
     <header>
       
 <nav
@@ -126,10 +119,10 @@ if (!doNotTrack) {
 				
 				
 				
-				<a class="nav-link active"
+				<a class="nav-link"
 					href="/post/"
 					>
-					<span class="active" >博客</span>
+					<span>博客</span>
 				</a>
 			</li>
 			
@@ -175,7 +168,7 @@ if (!doNotTrack) {
       <div class="td-main">
         <div class="row flex-xl-nowrap">
           <div class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none"></div>
-          <div class="d-none d-xl-block col-xl-3 td-toc d-print-none mt-5">
+          <div class="d-none d-xl-block col-xl-2 td-toc d-print-none" style="margin-top: 60px;">
             
 
 
@@ -188,521 +181,70 @@ if (!doNotTrack) {
 
 
 
-<h5>目录</h5>
-<nav id="TableOfContents">
-  <ul>
-    <li><a href="#kubernetes-是如何运作的">Kubernetes 是如何运作的？</a></li>
-    <li><a href="#生产就绪的-kubernetes">生产就绪的 Kubernetes</a></li>
-    <li><a href="#数据存储">数据存储</a></li>
-    <li><a href="#调试">调试</a></li>
-    <li><a href="#问题复杂">问题：复杂</a></li>
-  </ul>
-</nav>
-<hr>
-
-
-
-            
-            
-                
-            <div class="article-widget">
-              <div class="hr-light"></div>
-              <h5>最新博客</h5>
-              <ul>
-                
-                <li><a href="/post/k8s-gc-finalizers/">熟悉又陌生的 k8s 字段：finalizers</a></li>
-                
-                <li><a href="/post/aliyun-darabonba/">听说，阿里云给它的 OpenAPI 开发了一套编程语言</a></li>
-                
-                <li><a href="/post/openkruise-summary/">OpenKruise：Kubernetes 核心控制器 Plus</a></li>
-                
-                <li><a href="/post/grabana-create-grafana-dashboard/">Grabana：使用 Golang 或 Yaml 生成 Grafana Dashboard</a></li>
-                
-                <li><a href="/post/love-letter-aliyun/">云中谁寄锦书来，免费生成一封七夕情书吧</a></li>
-                
-              </ul>
-            </div>
-            <hr>
-            
-            
-            <div class="article-widget">
-              <div class="hr-light"></div>
-              <h5>相关阅读</h5>
-              <ul>
-                
-                <li><a href="/post/introducing-kustomize-template-free-configuration-customization-for-kubernetes/">Kustomize: 无需模板定制你的 kubernetes 配置</a></li>
-                
-                <li><a href="/post/cant/">GitHub 黑话指南</a></li>
-                
-                <li><a href="/post/what-are-containers-a-simple-guide-to-containerization-and-how-docker-works/">什么的容器？Docker 工作原理及容器化简易指南</a></li>
-                
-                <li><a href="/post/kustomize-2/">使用 Kustomize 帮你管理 kubernetes 应用（二）： Kustomize 的使用方法</a></li>
-                
-                <li><a href="/post/rancher-prometheus-fix-question/">Rancher 2.2.1 解决工作负载监控为空问题</a></li>
-                
-              </ul>
-            </div>
-            <hr>
-            
-            <h5>分类</h5>
-            <div>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/devops" style="display: inline-block;">devops</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/go" style="display: inline-block;">go</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/istio" style="display: inline-block;">istio</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/kubernetes" style="display: inline-block;">kubernetes</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/kustomize" style="display: inline-block;">kustomize</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/oam" style="display: inline-block;">oam</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/openkruise" style="display: inline-block;">openkruise</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/%e5%85%ac%e7%9b%8a" style="display: inline-block;">公益</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/%e5%b7%a5%e5%85%b7" style="display: inline-block;">工具</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/%e5%ba%94%e7%94%a8%e7%a8%8b%e5%ba%8f%e5%bc%80%e5%8f%91" style="display: inline-block;">应用程序开发</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/%e5%bc%80%e6%ba%90" style="display: inline-block;">开源</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/%e6%95%88%e7%8e%87" style="display: inline-block;">效率</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/%e6%9c%8d%e5%8a%a1%e7%bd%91%e6%a0%bc" style="display: inline-block;">服务网格</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/%e6%b7%b7%e6%b2%8c%e5%b7%a5%e7%a8%8b" style="display: inline-block;">混沌工程</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/%e7%a8%8b%e5%ba%8f%e5%91%98%e8%b6%a3%e9%97%bb" style="display: inline-block;">程序员趣闻</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/%e7%b3%bb%e7%bb%9f" style="display: inline-block;">系统</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/%e7%bf%bb%e8%af%91" style="display: inline-block;">翻译</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/%e8%82%ba%e7%82%8e%e7%96%ab%e6%83%85" style="display: inline-block;">肺炎疫情</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/%e8%be%b9%e7%bc%98%e8%ae%a1%e7%ae%97" style="display: inline-block;">边缘计算</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/%e9%83%a8%e7%bd%b2%e5%ae%89%e8%a3%85" style="display: inline-block;">部署安装</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/%e9%97%ae%e9%a2%98%e8%a7%a3%e5%86%b3" style="display: inline-block;">问题解决</a>
-              
-              <a class="button button-primary button-small button-rounded mb-2"
-		          href="/categories/%e9%98%bf%e9%87%8c%e4%ba%91" style="display: inline-block;">阿里云</a>
-              
-            </div>
-            <hr>
-            <h5>标签</h5>
-            <div>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/ci/cd" style="display: inline-block;">ci/cd</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/cobra" style="display: inline-block;">cobra</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/devops" style="display: inline-block;">devops</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/docker" style="display: inline-block;">docker</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/drone" style="display: inline-block;">drone</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/github" style="display: inline-block;">github</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/go" style="display: inline-block;">go</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/grafana" style="display: inline-block;">grafana</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/helm" style="display: inline-block;">helm</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/ingress" style="display: inline-block;">ingress</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/istio" style="display: inline-block;">istio</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/jenkins" style="display: inline-block;">jenkins</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/k3d" style="display: inline-block;">k3d</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/k3s" style="display: inline-block;">k3s</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/kubecm" style="display: inline-block;">kubecm</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/kubernetes" style="display: inline-block;">kubernetes</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/kustomize" style="display: inline-block;">kustomize</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/linux" style="display: inline-block;">linux</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/mac" style="display: inline-block;">mac</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/oam" style="display: inline-block;">oam</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/openapi" style="display: inline-block;">openapi</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/openkruise" style="display: inline-block;">openkruise</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/operator" style="display: inline-block;">operator</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/prometheus" style="display: inline-block;">prometheus</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/python" style="display: inline-block;">python</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/rancher" style="display: inline-block;">rancher</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/service-mesh" style="display: inline-block;">service-mesh</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/sonar" style="display: inline-block;">sonar</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/velero" style="display: inline-block;">velero</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e4%ba%91%e5%8e%9f%e7%94%9f" style="display: inline-block;">云原生</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e4%ba%91%e6%95%88" style="display: inline-block;">云效</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e5%85%ac%e7%9b%8a" style="display: inline-block;">公益</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e5%8d%8e%e4%b8%ba%e4%ba%91" style="display: inline-block;">华为云</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e5%ae%89%e5%85%a8" style="display: inline-block;">安全</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e5%ae%89%e5%85%a8%e5%8a%9e%e5%85%ac" style="display: inline-block;">安全办公</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e5%ae%b9%e5%99%a8" style="display: inline-block;">容器</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e5%b7%a5%e5%85%b7" style="display: inline-block;">工具</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e5%bc%80%e6%ba%90" style="display: inline-block;">开源</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e5%be%ae%e6%9c%8d%e5%8a%a1" style="display: inline-block;">微服务</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e6%97%a5%e5%bf%97" style="display: inline-block;">日志</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e6%97%a5%e5%bf%97%e6%9c%8d%e5%8a%a1" style="display: inline-block;">日志服务</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e6%b5%81%e9%87%8f" style="display: inline-block;">流量</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e6%b7%b7%e6%b2%8c%e5%b7%a5%e7%a8%8b" style="display: inline-block;">混沌工程</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e7%bf%bb%e8%af%91" style="display: inline-block;">翻译</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e8%82%ba%e7%82%8e%e7%96%ab%e6%83%85" style="display: inline-block;">肺炎疫情</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e8%bd%af%e4%bb%b6%e8%ae%be%e8%ae%a1" style="display: inline-block;">软件设计</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e8%bf%9c%e7%a8%8b%e5%8a%9e%e5%85%ac" style="display: inline-block;">远程办公</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e9%98%bf%e9%87%8c%e4%ba%91" style="display: inline-block;">阿里云</a>
-              
-              <a class="button button-royal button-small button-rounded mb-2"
-		          href="/tags/%e9%ab%98%e6%95%88%e5%8a%9e%e5%85%ac" style="display: inline-block;">高效办公</a>
-              
-            </div>
           </div>
 
-          <main class="col-12 col-md-6 col-xl-7 pl-md-5 pr-md-4" role="main">
-            <a class="button button-glow button-border button-rounded button-primary td-rss-button d-none d-lg-block" href="https://guoxudong.io/post/index.xml" target="_blank">
+          <main class="col-12 col-md-6 col-xl-8 pl-md-5 pr-md-4" role="main">
+            <a class="button button-glow button-border button-rounded button-primary td-rss-button d-none d-lg-block" href="https://guoxudong.io/tags/index.xml" target="_blank">
               RSS <i class="fa fa-rss ml-2 "></i>
             </a>
             
-  
-
-            <nav aria-label="breadcrumb" class="d-none d-md-block d-print-none">
-	<ol class="breadcrumb spb-1">
-		
 
 
+<section class="section">
+  <div class="container">
+    <div class="row">
+          
+          
+          <div class="col-12 mb-5">
+              <h2>标签 : operator</h2>
+              <ul class="list-unstyled mt-4">
+                
+                <li class="media mb-4">
+                  <div class="media-body">
+                    <h5 class="mt-0 mb-1"><a href="/post/k8s-gc-finalizers/">熟悉又陌生的 k8s 字段：finalizers</a></h5>
+                    <p class="mb-2 mb-md-3"><small class="text-muted">2020年09月11日</small></p>
+                    
 
 
 
 
 
-<li class="breadcrumb-item" >
-	<a href="https://guoxudong.io/post/">博客</a>
-</li>
+
+<figure class="float-left mr-3 pt-1 d-none d-md-block" style="width: 250px">
+    <img src="https://tva3.sinaimg.cn/large/ad5fbf65gy1gimpo3u78mj21qi15otcv.jpg" alt="Featured Image for 熟悉又陌生的 k8s 字段：finalizers" width="250" height="125">
+    <figcaption class="mt-2 mb-0">
+        
+        <a class="button button-glow button-rounded button-royal button-tiny mb-2" href="/tags/kubernetes">#kubernetes</a>
+        
+        <a class="button button-glow button-rounded button-royal button-tiny mb-2" href="/tags/operator">#operator</a>
+        
+    </figcaption>
+</figure>
+
+                    <p class="pt-0 mt-0 .-text-primary">作者： guoxudong </p>
+                    <p class="pt-0 mt-0">分类：
+                      
+                      <a href="/categories/kubernetes">
+                        Kubernetes</a>
+                      
+                    </p>
+                    <p class="pt-0 mt-0">摘要：metadata 中熟悉又陌生的字段 finalizers</p>
+                    <p class="pt-0"><a href="/post/k8s-gc-finalizers/">更多</a></p>
+                  </div>
+                  
+                </li>
+                <hr>
+                
+              </ul>
+          </div>
+          
 
 
-
-
-<li class="breadcrumb-item active" aria-current="page">
-	<a href="https://guoxudong.io/post/kubernetes-is-har/">困难的 Kubernetes</a>
-</li>
-
-	</ol>
-</nav	>
-
-            
-
-<div class="td-content" id="road">
-	<h1>困难的 Kubernetes</h1>
-	
-	<div class="td-byline mb-4">
-		<span>By  <b>guoxudong</b> </span> ·
-		<span>
-			1 分钟阅读时间
-		</span> ·
-		<span>最近更新于 </span><time datetime="2020-09-11"
-			class="text-muted">2019年04月24日</time> ·
-		
-		<a href="/categories/%e7%bf%bb%e8%af%91">
-			翻译</a>
-		
-	</div>
-
-	
-
-<div class="share-box" aria-hidden="true">
-  <ul class="share">
-    <li>
-      <a href="https://twitter.com/intent/tweet?url=https%3a%2f%2fguoxudong.io%2fpost%2fkubernetes-is-har%2f&amp;text=%e5%9b%b0%e9%9a%be%e7%9a%84%20Kubernetes" target="_blank" rel="noopener" class="share-btn-twitter">
-        <i class="fab fa-twitter"></i>
-      </a>
-    </li>
-    <li>
-      <a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fguoxudong.io%2fpost%2fkubernetes-is-har%2f&amp;t=%e5%9b%b0%e9%9a%be%e7%9a%84%20Kubernetes" target="_blank" rel="noopener" class="share-btn-facebook">
-        <i class="fab fa-facebook-f"></i>
-      </a>
-    </li>
-    <li>
-      <a href="mailto:?subject=%e5%9b%b0%e9%9a%be%e7%9a%84%20Kubernetes&amp;body=https%3a%2f%2fguoxudong.io%2fpost%2fkubernetes-is-har%2f" target="_blank" rel="noopener" class="share-btn-email">
-        <i class="fas fa-envelope"></i>
-      </a>
-    </li>
-    <li>
-      <a href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fguoxudong.io%2fpost%2fkubernetes-is-har%2f&amp;title=%e5%9b%b0%e9%9a%be%e7%9a%84%20Kubernetes" target="_blank" rel="noopener" class="share-btn-linkedin">
-        <i class="fab fa-linkedin-in"></i>
-      </a>
-    </li>
-    <li>
-      <a href="https://web.whatsapp.com/send?text=%e5%9b%b0%e9%9a%be%e7%9a%84%20Kuberneteshttps%3a%2f%2fguoxudong.io%2fpost%2fkubernetes-is-har%2f/" target="_blank" rel="noopener" class="share-btn-whatsapp">
-        <i class="fab fa-whatsapp"></i>
-      </a>
-    </li>
-    <li>
-      <a href="https://service.weibo.com/share/share.php?url=https%3a%2f%2fguoxudong.io%2fpost%2fkubernetes-is-har%2f&amp;title=%e5%9b%b0%e9%9a%be%e7%9a%84%20Kubernetes" target="_blank" rel="noopener" class="share-btn-weibo">
-        <i class="fab fa-weibo"></i>
-      </a>
-    </li>
-    <li>
-      <a href="https://reddit.com/submit?url=https%3a%2f%2fguoxudong.io%2fpost%2fkubernetes-is-har%2f&amp;title=%e5%9b%b0%e9%9a%be%e7%9a%84%20Kubernetes" target="_blank" rel="noopener" class="share-btn-reddit">
-        <i class="fab fa-reddit-alien"></i>
-      </a>
-    </li>
-    <li>
-      <a href=# onClick="javascript:window.open('/wechart?url=https:\/\/guoxudong.io\/post\/kubernetes-is-har\/','weixin','height=560, width=470, top=100, location=no, toolbar=no, menubar=no, status=no')" target="_blank" rel="noopener" class="share-btn-weixin">
-        <i class="fab fa-weixin"></i>
-      </a>
-    </li>
-</ul>
-</div>
-
-
-	<div class="alert alert-primary mb-4" role="alert">
-		<h4 class="alert-heading">摘要</h4>
-		<span class="text-muted">虽然 Kubernetes 赢得了容器战争，但是其仍然很难使用并且引起很多事故。</span>
-	</div>
-	<img src="https://tva3.sinaimg.cn/large/ad5fbf65ly1ge3izhwj5kj20xc0hi1kx.jpg" alt="" style="max-width: 80%;">
-
-	<blockquote>
-<p>虽然 Kubernetes 赢得了容器之站，但是其仍然很难使用并且时长引起事故。</p>
-</blockquote>
-<p>我想我应该给这篇文章做一点序言。 <a href="https://kubernetes.io/">kubernetes</a> 为许多应用程序提供新的 runtime ，如果使用得当，它可以成为一个强大的工具，并且可以将您冲复杂的开发生命周期中解放出来。然而在过去的几年里，我看到很多人和公司都会搭建他们的 Kubernetes ，但常常只是处于测试阶段，从未进入到生产。</p>
-<h2 id="kubernetes-是如何运作的">Kubernetes 是如何运作的？</h2>
-<p>粗略的讲， Kubernetes 或者 K8S 看起来十分简单。您运行的 Kubernetes 节点至少被分为两类：Master 和 Workers。Master 节点通常不运行任何真实的工作负载，那是 Workers 节点的工作。</p>
-<p>Kubernetes 的 Master 节点包含一个名叫 API server 的组件，其提供的 API 可以通过 <code>kubectl</code> 调用。此外还包括一个 scheduler ，负责调度容器，决定容器运行在哪个节点。最后一个组件是 controller-manager ，它实际上是一组多个控制器，负责处理节点中断、复制、加入 services 和 pods ，并且处理授权相关内容。所有的数据都存储在 etcd 中，这是一个可信赖的分布式键值存储服务（包含一些非常酷的功能）。总而言之，Master 节点负责管理集群，这里没什么特别大的惊喜。</p>
-<p>另一方面， 真实的工作负载运行在 Worker 节点上。为此，它还包括许多组件。首先，Worker 节点上会运行 <em><strong>kubelet</strong></em> ，它是与该节点上的容器一起运行的 API ，负责与管控组件沟通，并按照管控组件指示管理 Worker 节点。另一个组件就是 <em><strong>kube-proxy</strong></em> ，其负责转发网络连接，根据您的配置运行容器。可能还有其他东西，如 <em><strong>kube-dns</strong></em> 或 <em><strong>gVisor</strong></em>。您还需要集成某种 <em><strong>overlay network</strong></em> 或底层网络设置，以便 Kubernetes 可以管理您的 pod 之间的网络。</p>
-<p>如果您想要一个更完整的概述，建议去看 Kelsey Hightowers 的 <a href="https://github.com/kelseyhightower/kubernetes-the-hard-way">Kubernetes  -  The Hard Way</a>。</p>
-<h2 id="生产就绪的-kubernetes">生产就绪的 Kubernetes</h2>
-<p>到目前为止，这听起来并不太糟糕。只是安装几个程序、配置、证书等。不要误会我的意思，这仍然是一个学习曲线，但这也不是系统管理员不能处理的问题。</p>
-<p>然而，简单地手动安装 Kubernetes 并不代表其已经完全准备就绪，所以让我们谈谈让这个东西运行起来所需的步骤。</p>
-<p>首先，<strong>安装</strong>。如果您想要某种自动安装，无论是使用 Ansible ， Terraform 还是其他工具。<a href="https://github.com/kubernetes/kops">kops</a> 可以帮助您解决这个问题，但是使用 kops 意味着您将不知道它是如何设置的，并且当您以后想要调试某些东西时可能会引起一些其他问题。应对此自动化进行测试，并定期进行检查。</p>
-<p>其次，您需要<strong>监控</strong>您的 Kubernetes 安装。所以您需要 <a href="https://prometheus.io/">Prometheus</a> 、 <a href="https://grafana.com/">Grafana</a> 等工具。您是在 Kubernetes 里面运行它吗？ 如果您的 Kubernetes 有问题，那么您的监控是否会也会挂掉？ 或者您单独运行它？ 如果是，那么您在哪里运行它？</p>
-<p>另外值得注意的是<strong>备份</strong>。如果您的 Master 崩溃，数据无法恢复并且您需要重新配置系统上的所有 pod ，您会怎么做？您是否测试了再次运行 CI 系统中所有作业所需的时间？您有灾难恢复计划吗？</p>
-<p>现在，既然我们在谈论 CI 系统，那么您需要为您的镜像运行 Docker 镜像仓库。当然，您可以再次在 Kubernetes 上做，但如果 Kubernetes 崩溃&hellip;&hellip;您知道这个后果。当然，CI 系统与运行版本控制系统都有这个问题。理想情况下，这些系统是与生产环境隔离的，以便在系统出现问题时，至少可以访问 git ，来进行重新部署等操作。</p>
-<h2 id="数据存储">数据存储</h2>
-<p>最后，我们来谈谈最重要的部分：存储。Kubernetes 本身并不提供存储解决方案。当然，您可以将存储挂载到主机安装目录，但这既不推荐也不简单。</p>
-<p>基本上需要在 Kubernetes 下使用某种存储。例如，<a href="https://rook.io/">rook</a> 使得运行 <a href="https://ceph.com/">Ceph</a> 作为底层块存储需求的变得相对简单，但我对 Ceph 的体验是它还有有很多地方需要调整，所以您绝不是只需点击下一步就能走出困境。</p>
-<h2 id="调试">调试</h2>
-<p>在与开发人员谈论 Kubernetes 时，一种常见的回答经常出现：在使用 Kubernetes 时，人们常常在调试应用程序时遇到问题。即使是一个例如容器未能启动的简单问题，也会引起混乱。</p>
-<p>当然，这是一个教育问题。在过去的几十年中，开发人员已经学会了调试的“经典”步骤：在 <code>/vat/log/</code> 中查看日志等。但是对于容器，我们甚至不知道容器运行在哪个服务器上，因此它呈现出了一种范式转换。</p>
-<h2 id="问题复杂">问题：复杂</h2>
-<p>您可能已经注意到我正在跳过共有云提供商给您的东西，即使它不是一个完整的托管 Kubernetes。当然，如果您使用托管的 Kubernetes 解决方案，这很好，除了调试之外，您不需要处理上面这些问题。</p>
-<p>Kubernetes 拥有许多可以移动组件，但 Kubernetes 本身也并不能提供完整的解决方案。例如，<a href="https://www.openshift.com/">RedHat OpenShift</a> 可以，但它需要花钱，并且仍然需要添加自己的东西。</p>
-<p>现在Kubernetes正处于 <a href="https://www.gartner.com/en/research/methodologies/gartner-hype-cycle">Gartner hype cycle</a> 的顶峰，每个人都想要它，但很少有人真正理解它。在接下来的几年里，不少公司必须意识到 Kubernetes 并不是银弹，而如何正确有效地使用它才是关键。</p>
-<p>我认为，如果您有能力将 Ops 团队专门用于为开发人员来维护底层平台，那么运行自己的 Kubernetes 是值得的。</p>
-<blockquote>
-<p>本文作者：<a href="https://pasztor.at/">Janos Pasztor</a>  2018-12-04</p>
-</blockquote>
-<p>原文地址：https://pasztor.at/blog/kubernetes-is-hard</p>
-
-	<br>
-	
-	
-	<a class="button button-glow button-rounded button-royal button-tiny mb-2"
-		href="/tags/%e7%bf%bb%e8%af%91">#翻译</a>
-	
-	<a class="button button-glow button-rounded button-royal button-tiny mb-2"
-		href="/tags/kubernetes">#kubernetes</a>
-	
-	
-	
-<br>
-<div class="entry-shang text-center">
-    <p>「一键投喂 小鱼干/小骨头」</p>
-    <button class="zs show-zs button button-glow button-rounded button-caution button-small">投喂</button>
-</div>
-<div class="zs-modal-bg"></div>
-<div class="zs-modal-box">
-    <div class="zs-modal-head">
-        <button type="button" class="close">×</button>
-        <p class="author">
-            <a href="https://blog.maoxianplay.com">
-                <img src="https://wx3.sinaimg.cn/square/ad5fbf65gy1g2o621gcs6j20m80m8gng.jpg"/>
-            小助手毛线</a>
-        </p>
-        <p class="tip"><i></i><span>感谢投喂 <a href="/maoxian">毛线</a> & <a href="/sunny">Sunny</a> </span></p>
     </div>
-    <div class="zs-modal-body">
-        <div class="zs-modal-btns">
-            <button class="btn btn-blink" data-num="2">2元</button>
-            <button class="btn btn-blink" data-num="5">5元</button>
-            <button class="btn btn-blink" data-num="10">10元</button>
-            <button class="btn btn-blink" data-num="50">50元</button>
-            <button class="btn btn-blink" data-num="100">100元</button>
-            <button class="btn btn-blink" data-num="any">任意金额</button>
-        </div>
-        <div class="zs-modal-pay">
-            <button class="btn btn-bred" id="pay-text">2元</button>
-            <p>使用<span id="pay-type">微信</span>扫描二维码完成支付</p>
-            <img id="pay-image" src="/favicons/alipay-2.png">
-        </div>
-    </div>
-    <div class="zs-modal-footer">
-        <label style="float: left;width: 130px;">
-            <input type="radio" name="zs-type" value="alipay" class="zs-type" checked="checked" style="float: left;">
-            <span class="zs-alipay">
-                <img src="/favicons/alipay-btn.png">
-            </span>
-        </label>
-        <label style="float: left;width: 130px;">
-            <input type="radio" name="zs-type" value="wechat" class="zs-type" style="float: left;">
-            <span class="zs-wechat">
-                <img src="/favicons/wechat-btn.png">
-            </span>
-        </label>
-    </div>
-    <br>
-</div>
+  </div>
+</section>
 
 
-	
-	<br />
-	<div class="page-blank">
-
-<div id="disqus_thread"></div>
-<script>
-
-
-
-
-
-(function() { 
-var d = document, s = d.createElement('script');
-s.src = 'https://' + "gxd" + '.disqus.com/embed.js';
-s.setAttribute('data-timestamp', +new Date());
-(d.head || d.body).appendChild(s);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-
-	<br />
-	
-
-	<div class="entry-shang pt-5">
-  <a href="/post/cant/" class=".-text-primary float-left"><i class="fas fa-angle-left"></i> GitHub 黑话指南</a>
-  <a href="/post/aliyun-k8s-perfect/" class=".-text-primary float-right">阿里云容器服务新建集群优化方案(更新版) <i class="fas fa-angle-right"></i></a>
-</div>
-	<script src="https://my.openwrite.cn/js/readmore.js" type="text/javascript"></script>
-	<script>
-		const btw = new BTWPlugin();
-		btw.init({
-			id: 'road',
-			blogId: '18752-1575602900012-529',
-			name: '云原生之路',
-			qrcode: 'https://tva1.sinaimg.cn/large/ad5fbf65ly1ghelpfjpb8j205005074d.jpg',
-			keyword: 'road',
-		});
-	</script>
-</div>
 
           </main>
 

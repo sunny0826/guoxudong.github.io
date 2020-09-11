@@ -1,11 +1,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Guo Xudong&#39;s Blog·郭旭东的博客 – Kubernetes</title>
+    <title>Guo Xudong&#39;s Blog·郭旭东的博客 – kubernetes</title>
     <link>https://guoxudong.io/categories/kubernetes/</link>
-    <description>Recent content in Kubernetes on Guo Xudong&#39;s Blog·郭旭东的博客</description>
+    <description>Recent content in kubernetes on Guo Xudong&#39;s Blog·郭旭东的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Thu, 02 Jul 2020 13:51:14 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 11 Sep 2020 08:47:51 +0800</lastBuildDate>
     
 	  <atom:link href="https://guoxudong.io/categories/kubernetes/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,6 +14,122 @@
         
       
     
+    
+    <item>
+      <title>Post: 熟悉又陌生的 k8s 字段：finalizers</title>
+      <link>https://guoxudong.io/post/k8s-gc-finalizers/</link>
+      <pubDate>Fri, 11 Sep 2020 08:47:51 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/k8s-gc-finalizers/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;经常操作 Kubernetes 集群的同学肯定对 &lt;code&gt;finalizers&lt;/code&gt; 字段不陌生，每当删除 namespace 或 pod 等一些 Kubernetes 资源时，有时资源状态会卡在 &lt;code&gt;Terminating&lt;/code&gt;，很长时间无法删除，甚至有时增加 &lt;code&gt;--force&lt;/code&gt; flag 之后还是无法正常删除。这时就需要 &lt;code&gt;edit&lt;/code&gt; 该资源，将 &lt;code&gt;finalizers&lt;/code&gt; 字段设置为 []，之后 Kubernetes 资源就正常删除了。&lt;/p&gt;
+&lt;p&gt;这是一个比较常见的操作，但是当有人问 &lt;code&gt;finalizers&lt;/code&gt; 字段的作用是什么的时候，我是懵逼的，我甚至不知道这个熟悉又陌生的单词怎么读！那么这篇文章就来探索一下 &lt;code&gt;finalizers&lt;/code&gt; 这个字段到底是做什么的，在实践中应该怎么应用这个字段。（另外，这个单词读作 &lt;strong&gt;[&amp;lsquo;faɪnəlaɪzər]&lt;/strong&gt;）&lt;/p&gt;
+&lt;h2 id=&#34;finalizers&#34;&gt;Finalizers&lt;/h2&gt;
+&lt;p&gt;Finalizers 字段属于 Kubernetes GC 垃圾收集器，是一种删除拦截机制，能够让控制器实现异步的删除前（Pre-delete）回调。其存在于任何一个资源对象的 &lt;a href=&#34;https://github.com/kubernetes/apimachinery/blob/master/pkg/apis/meta/v1/types.go#L246&#34;&gt;Meta&lt;/a&gt; 中，在 k8s 源码中声明为 &lt;code&gt;[]string&lt;/code&gt;，该 Slice 的内容为需要执行的拦截器名称。&lt;/p&gt;
+&lt;p&gt;对带有 Finalizer 的对象的第一个删除请求会为其 &lt;code&gt;metadata.deletionTimestamp&lt;/code&gt; 设置一个值，但不会真的删除对象。一旦此值被设置，finalizers 列表中的值就&lt;strong&gt;只能&lt;/strong&gt;被移除。&lt;/p&gt;
+&lt;p&gt;当 &lt;code&gt;metadata.deletionTimestamp&lt;/code&gt; 字段被设置时，负责监测该对象的各个控制器会通过&lt;strong&gt;轮询&lt;/strong&gt;对该对象的更新请求来执行它们所要处理的所有 Finalizer。 当所有 Finalizer 都被执行过，资源被删除。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;metadata.deletionGracePeriodSeconds&lt;/code&gt; 的取值控制对更新的轮询周期。&lt;/p&gt;
+&lt;p&gt;每个控制器要负责将其 Finalizer 从列表中去除。&lt;/p&gt;
+&lt;p&gt;每执行完一个就从 &lt;code&gt;finalizers&lt;/code&gt; 中移除一个，直到 &lt;code&gt;finalizers&lt;/code&gt; 为空，之后其宿主资源才会被真正的删除。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// DeletionTimestamp is RFC 3339 date and time at which this resource will be deleted. This
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// field is set by the server when a graceful deletion is requested by the user, and is not
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// directly settable by a client. The resource is expected to be deleted (no longer visible
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// from resource lists, and not reachable by name) after the time in this field, once the
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// finalizers list is empty. As long as the finalizers list contains items, deletion is blocked.
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Once the deletionTimestamp is set, this value may not be unset or be set further into the
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// future, although it may be shortened or the resource may be deleted prior to this time.
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// For example, a user may request that a pod is deleted in 30 seconds. The Kubelet will react
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// by sending a graceful termination signal to the containers in the pod. After that 30 seconds,
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// the Kubelet will send a hard termination signal (SIGKILL) to the container and after cleanup,
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// remove the pod from the API. In the presence of network partitions, this object may still
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// exist after this timestamp, until an administrator or automated process can determine the
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// resource is fully terminated.
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// If not set, graceful deletion of the object has not been requested.
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;//
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Populated by the system when a graceful deletion is requested.
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Read-only.
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// +optional
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;DeletionTimestamp *Time &lt;span style=&#34;color:#ed9d13&#34;&gt;`&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;json:&amp;#34;deletionTimestamp,omitempty&amp;#34; protobuf:&amp;#34;bytes,9,opt,name=deletionTimestamp&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;`&lt;/span&gt;
+
+&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Number of seconds allowed for this object to gracefully terminate before
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// it will be removed from the system. Only set when deletionTimestamp is also set.
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// May only be shortened.
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Read-only.
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// +optional
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;DeletionGracePeriodSeconds *&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;int64&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;`&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;json:&amp;#34;deletionGracePeriodSeconds,omitempty&amp;#34; protobuf:&amp;#34;varint,10,opt,name=deletionGracePeriodSeconds&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;`&lt;/span&gt;
+
+&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Must be empty before the object is deleted from the registry. Each entry
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// is an identifier for the responsible component that will remove the entry
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// from the list. If the deletionTimestamp of the object is non-nil, entries
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// in this list can only be removed.
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Finalizers may be processed and removed in any order.  Order is NOT enforced
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// because it introduces significant risk of stuck finalizers.
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// finalizers is a shared field, any actor with permission can reorder it.
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// If the finalizer list is processed in order, then this can lead to a situation
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// in which the component responsible for the first finalizer in the list is
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// waiting for a signal (field value, external system, or other) produced by a
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// component responsible for a finalizer later in the list, resulting in a deadlock.
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Without enforced ordering finalizers are free to order amongst themselves and
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// are not vulnerable to ordering changes in the list.
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// +optional
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// +patchStrategy=merge
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;Finalizers []&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;`&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;json:&amp;#34;finalizers,omitempty&amp;#34; patchStrategy:&amp;#34;merge&amp;#34; protobuf:&amp;#34;bytes,14,rep,name=finalizers&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;`&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;在-operator-中的应用&#34;&gt;在 Operator 中的应用&lt;/h2&gt;
+&lt;p&gt;知道了 Finalizers 是什么，那么当然也要知道怎么用 Finalizers 了。在实际开发 Operator 时，删除前（Pre-delete）回调是一个比较常见的功能，用于处理一些在资源删除前需要处理的逻辑，如：关联资源释放、释放资源通知、相关数据清理，甚至是阻止资源删除。一般 Finalizers 的处理也是会 &lt;code&gt;Reconcile&lt;/code&gt; 中实现的，下面就使用 &lt;a href=&#34;https://github.com/chaosblade-io/chaosblade-operator&#34;&gt;chaosblade-operator&lt;/a&gt; 中的源码，简单介绍一些 Finalizers 的使用方式。&lt;/p&gt;
+&lt;p&gt;首先要了解的是 ChaosBlade-Operator 的工作原理：每个实验都会以 CR 的形式部署到 k8s 集群中，之后由 &lt;code&gt;chaosblade-operator&lt;/code&gt; 来操作以 DaemonSet 形式部署 &lt;code&gt;chaosblade-tool&lt;/code&gt; 对具体资源进行混沌实验。停止实验只需删除对应 CR 即可，在删除 CR 时，首先会执行一遍实验恢复逻辑，之后才会将 CR 删除。但如果恢复实验失败，则会将 CR 的 &lt;code&gt;Phase&lt;/code&gt; 设置为 &lt;code&gt;Destroying&lt;/code&gt;，而在 &lt;code&gt;Reconcile&lt;/code&gt; 中观测到 &lt;code&gt;Phase&lt;/code&gt; 状态为 &lt;code&gt;Destroying&lt;/code&gt; 或者 &lt;code&gt;metadata.deletionTimestamp&lt;/code&gt; 不为空时，就会不会移除 &lt;code&gt;finalizers&lt;/code&gt; 中的拦截器名称，阻止该 CR 被删除。&lt;/p&gt;
+&lt;p&gt;这样设计的目的是为了在实验恢复失败后，让用户去主动查看实验恢复失败原因，如果是一些意外原因导致的实验恢复失败，及时去处理。在确认原因后，可使用 CLI 工具增加 &lt;code&gt;--force-remove&lt;/code&gt; 进去强制删除，项目维护者在 &lt;a href=&#34;https://github.com/chaosblade-io/chaosblade/issues/368&#34;&gt;Issue#368&lt;/a&gt; 中也就这个设计给出了解答。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// pkg/controller/chaosblade/controller.go 部分源码
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;...
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;const&lt;/span&gt; chaosbladeFinalizer = &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;finalizer.chaosblade.io&amp;#34;&lt;/span&gt;
+...
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;func&lt;/span&gt; (r *ReconcileChaosBlade) &lt;span style=&#34;color:#447fcf&#34;&gt;Reconcile&lt;/span&gt;(request reconcile.Request) (reconcile.Result, &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;error&lt;/span&gt;) {
+    reqLogger := logrus.&lt;span style=&#34;color:#447fcf&#34;&gt;WithField&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Request.Name&amp;#34;&lt;/span&gt;, request.Name)
+    forget := reconcile.Result{}
+    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Fetch the RC instance
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    cb := &amp;amp;v1alpha1.ChaosBlade{}
+    err := r.client.&lt;span style=&#34;color:#447fcf&#34;&gt;Get&lt;/span&gt;(context.&lt;span style=&#34;color:#447fcf&#34;&gt;TODO&lt;/span&gt;(), request.NamespacedName, cb)
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+      &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; forget, &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt;
+    }
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#24909d&#34;&gt;len&lt;/span&gt;(cb.Spec.Experiments) == &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt; {
+      &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; forget, &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt;
+    }
+
+    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Destroyed-&amp;gt;delete
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Remove the Finalizer if the CR object status is destroyed to delete it
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; cb.Status.Phase == v1alpha1.ClusterPhaseDestroyed {
+      cb.&lt;span style=&#34;color:#447fcf&#34;&gt;SetFinalizers&lt;/span&gt;(&lt;span style=&#34;color:#447fcf&#34;&gt;remove&lt;/span&gt;(cb.&lt;span style=&#34;color:#447fcf&#34;&gt;GetFinalizers&lt;/span&gt;(), chaosbladeFinalizer))
+      err := r.client.&lt;span style=&#34;color:#447fcf&#34;&gt;Update&lt;/span&gt;(context.&lt;span style=&#34;color:#447fcf&#34;&gt;TODO&lt;/span&gt;(), cb)
+      &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+        reqLogger.&lt;span style=&#34;color:#447fcf&#34;&gt;WithError&lt;/span&gt;(err).&lt;span style=&#34;color:#447fcf&#34;&gt;Errorln&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;remove chaosblade finalizer failed at destroyed phase&amp;#34;&lt;/span&gt;)
+      }
+      &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; forget, &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt;
+    }
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; cb.Status.Phase == v1alpha1.ClusterPhaseDestroying || cb.&lt;span style=&#34;color:#447fcf&#34;&gt;GetDeletionTimestamp&lt;/span&gt;() != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+      err := r.&lt;span style=&#34;color:#447fcf&#34;&gt;finalizeChaosBlade&lt;/span&gt;(reqLogger, cb)
+      &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+        reqLogger.&lt;span style=&#34;color:#447fcf&#34;&gt;WithError&lt;/span&gt;(err).&lt;span style=&#34;color:#447fcf&#34;&gt;Errorln&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;finalize chaosblade failed at destroying phase&amp;#34;&lt;/span&gt;)
+      }
+      &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; forget, &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt;
+    }
+    ...
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; forget, &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如果 &lt;code&gt;Phase&lt;/code&gt; 状态为 &lt;code&gt;Destroyed&lt;/code&gt;，则从 Finalizers 中移除 &lt;code&gt;finalizer.chaosblade.io&lt;/code&gt;，之后正常删除 CR。&lt;/p&gt;
+&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
+&lt;p&gt;在实际工作中，像 Finalizers 这样的东西太多了，很多平时挂在嘴边的东西，深究起来我们可能对其并不了解，甚至原本的理解就是错误的。在今后的文章中，除了各种实践干货，笔者还会将更多的精力投注到基本原理、底层实现、源码剖析中，更聚焦于技术本身，在不重复造轮子的基础上，学习和了解更多产品背后的代码设计和实现原理。最后在分享一句&lt;strong&gt;弗兰西斯·培根&lt;/strong&gt;的话：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;“人生如同道路。最近的捷径通常是最坏的路。”&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://kubernetes.io/zh/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#finalizers&#34;&gt;使用 CustomResourceDefinition 扩展 Kubernetes API - kubernetes.io&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
     
     <item>
       <title>Post: 基于 Flagger 和 Nginx-Ingress 实现金丝雀发布</title>

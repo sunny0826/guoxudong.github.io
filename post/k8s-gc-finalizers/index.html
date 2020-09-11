@@ -29,40 +29,40 @@
            "@id": "https:\/\/guoxudong.io"
       },
       "articleSection" : "post",
-      "name" : "困难的 Kubernetes",
-      "headline" : "困难的 Kubernetes",
-      "description" : "虽然 Kubernetes 赢得了容器战争，但是其仍然很难使用并且引起很多事故。",
+      "name" : "熟悉又陌生的 k8s 字段：finalizers",
+      "headline" : "熟悉又陌生的 k8s 字段：finalizers",
+      "description" : "metadata 中熟悉又陌生的字段 finalizers",
       "inLanguage" : "en-US",
       "author" : "",
       "creator" : "",
       "publisher": "",
       "accountablePerson" : "",
       "copyrightHolder" : "",
-      "copyrightYear" : "2019",
-      "datePublished": "2019-04-24 10:18:46 \x2b0800 \x2b0800",
-      "dateModified" : "2019-04-24 10:18:46 \x2b0800 \x2b0800",
-      "url" : "https:\/\/guoxudong.io\/post\/kubernetes-is-har\/",
-      "wordCount" : "172",
-      "keywords" : [ "翻译","kubernetes","Guoxudong" ]
+      "copyrightYear" : "2020",
+      "datePublished": "2020-09-11 08:47:51 \x2b0800 \x2b0800",
+      "dateModified" : "2020-09-11 08:47:51 \x2b0800 \x2b0800",
+      "url" : "https:\/\/guoxudong.io\/post\/k8s-gc-finalizers\/",
+      "wordCount" : "737",
+      "keywords" : [ "kubernetes","operator","Guoxudong" ]
   }
   </script>
-<title>困难的 Kubernetes | Guo Xudong&#39;s Blog·郭旭东的博客</title><meta property="og:title" content="困难的 Kubernetes" />
-<meta property="og:description" content="虽然 Kubernetes 赢得了容器战争，但是其仍然很难使用并且引起很多事故。" />
+<title>熟悉又陌生的 k8s 字段：finalizers | Guo Xudong&#39;s Blog·郭旭东的博客</title><meta property="og:title" content="熟悉又陌生的 k8s 字段：finalizers" />
+<meta property="og:description" content="metadata 中熟悉又陌生的字段 finalizers" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://guoxudong.io/post/kubernetes-is-har/" />
-<meta property="article:published_time" content="2019-04-24T10:18:46+08:00" />
+<meta property="og:url" content="https://guoxudong.io/post/k8s-gc-finalizers/" />
+<meta property="article:published_time" content="2020-09-11T08:47:51+08:00" />
 <meta property="article:modified_time" content="2020-09-11T15:28:31+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
-<meta itemprop="name" content="困难的 Kubernetes">
-<meta itemprop="description" content="虽然 Kubernetes 赢得了容器战争，但是其仍然很难使用并且引起很多事故。">
-<meta itemprop="datePublished" content="2019-04-24T10:18:46&#43;08:00" />
+<meta itemprop="name" content="熟悉又陌生的 k8s 字段：finalizers">
+<meta itemprop="description" content="metadata 中熟悉又陌生的字段 finalizers">
+<meta itemprop="datePublished" content="2020-09-11T08:47:51&#43;08:00" />
 <meta itemprop="dateModified" content="2020-09-11T15:28:31&#43;08:00" />
-<meta itemprop="wordCount" content="172">
+<meta itemprop="wordCount" content="737">
 
 
 
-<meta itemprop="keywords" content="翻译,kubernetes," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="困难的 Kubernetes"/>
-<meta name="twitter:description" content="虽然 Kubernetes 赢得了容器战争，但是其仍然很难使用并且引起很多事故。"/>
+<meta itemprop="keywords" content="kubernetes,operator," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="熟悉又陌生的 k8s 字段：finalizers"/>
+<meta name="twitter:description" content="metadata 中熟悉又陌生的字段 finalizers"/>
 
 
 <script type="application/javascript">
@@ -191,11 +191,11 @@ if (!doNotTrack) {
 <h5>目录</h5>
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#kubernetes-是如何运作的">Kubernetes 是如何运作的？</a></li>
-    <li><a href="#生产就绪的-kubernetes">生产就绪的 Kubernetes</a></li>
-    <li><a href="#数据存储">数据存储</a></li>
-    <li><a href="#调试">调试</a></li>
-    <li><a href="#问题复杂">问题：复杂</a></li>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#finalizers">Finalizers</a></li>
+    <li><a href="#在-operator-中的应用">在 Operator 中的应用</a></li>
+    <li><a href="#结语">结语</a></li>
+    <li><a href="#参考">参考</a></li>
   </ul>
 </nav>
 <hr>
@@ -230,15 +230,15 @@ if (!doNotTrack) {
               <h5>相关阅读</h5>
               <ul>
                 
-                <li><a href="/post/introducing-kustomize-template-free-configuration-customization-for-kubernetes/">Kustomize: 无需模板定制你的 kubernetes 配置</a></li>
+                <li><a href="/post/start-oam/">以应用为中心：开放应用模型（OAM）初探</a></li>
                 
-                <li><a href="/post/cant/">GitHub 黑话指南</a></li>
+                <li><a href="/post/helm-docs/">告别手写 Helm Chart README</a></li>
                 
-                <li><a href="/post/what-are-containers-a-simple-guide-to-containerization-and-how-docker-works/">什么的容器？Docker 工作原理及容器化简易指南</a></li>
+                <li><a href="/post/rancher-fleet/">去指挥你的舰队吧！体验使用 Fleet 批量管理 K8S 集群</a></li>
                 
-                <li><a href="/post/kustomize-2/">使用 Kustomize 帮你管理 kubernetes 应用（二）： Kustomize 的使用方法</a></li>
+                <li><a href="/post/kubecm/">Kubecm：管理你的 kubeconfig</a></li>
                 
-                <li><a href="/post/rancher-prometheus-fix-question/">Rancher 2.2.1 解决工作负载监控为空问题</a></li>
+                <li><a href="/post/kubewatch/">小工具介绍：KubeWatch</a></li>
                 
               </ul>
             </div>
@@ -493,7 +493,7 @@ if (!doNotTrack) {
 
 
 <li class="breadcrumb-item active" aria-current="page">
-	<a href="https://guoxudong.io/post/kubernetes-is-har/">困难的 Kubernetes</a>
+	<a href="https://guoxudong.io/post/k8s-gc-finalizers/">熟悉又陌生的 k8s 字段：finalizers</a>
 </li>
 
 	</ol>
@@ -502,18 +502,18 @@ if (!doNotTrack) {
             
 
 <div class="td-content" id="road">
-	<h1>困难的 Kubernetes</h1>
+	<h1>熟悉又陌生的 k8s 字段：finalizers</h1>
 	
 	<div class="td-byline mb-4">
 		<span>By  <b>guoxudong</b> </span> ·
 		<span>
-			1 分钟阅读时间
+			4 分钟阅读时间
 		</span> ·
 		<span>最近更新于 </span><time datetime="2020-09-11"
-			class="text-muted">2019年04月24日</time> ·
+			class="text-muted">2020年09月11日</time> ·
 		
-		<a href="/categories/%e7%bf%bb%e8%af%91">
-			翻译</a>
+		<a href="/categories/kubernetes">
+			Kubernetes</a>
 		
 	</div>
 
@@ -522,42 +522,42 @@ if (!doNotTrack) {
 <div class="share-box" aria-hidden="true">
   <ul class="share">
     <li>
-      <a href="https://twitter.com/intent/tweet?url=https%3a%2f%2fguoxudong.io%2fpost%2fkubernetes-is-har%2f&amp;text=%e5%9b%b0%e9%9a%be%e7%9a%84%20Kubernetes" target="_blank" rel="noopener" class="share-btn-twitter">
+      <a href="https://twitter.com/intent/tweet?url=https%3a%2f%2fguoxudong.io%2fpost%2fk8s-gc-finalizers%2f&amp;text=%e7%86%9f%e6%82%89%e5%8f%88%e9%99%8c%e7%94%9f%e7%9a%84%20k8s%20%e5%ad%97%e6%ae%b5%ef%bc%9afinalizers" target="_blank" rel="noopener" class="share-btn-twitter">
         <i class="fab fa-twitter"></i>
       </a>
     </li>
     <li>
-      <a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fguoxudong.io%2fpost%2fkubernetes-is-har%2f&amp;t=%e5%9b%b0%e9%9a%be%e7%9a%84%20Kubernetes" target="_blank" rel="noopener" class="share-btn-facebook">
+      <a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fguoxudong.io%2fpost%2fk8s-gc-finalizers%2f&amp;t=%e7%86%9f%e6%82%89%e5%8f%88%e9%99%8c%e7%94%9f%e7%9a%84%20k8s%20%e5%ad%97%e6%ae%b5%ef%bc%9afinalizers" target="_blank" rel="noopener" class="share-btn-facebook">
         <i class="fab fa-facebook-f"></i>
       </a>
     </li>
     <li>
-      <a href="mailto:?subject=%e5%9b%b0%e9%9a%be%e7%9a%84%20Kubernetes&amp;body=https%3a%2f%2fguoxudong.io%2fpost%2fkubernetes-is-har%2f" target="_blank" rel="noopener" class="share-btn-email">
+      <a href="mailto:?subject=%e7%86%9f%e6%82%89%e5%8f%88%e9%99%8c%e7%94%9f%e7%9a%84%20k8s%20%e5%ad%97%e6%ae%b5%ef%bc%9afinalizers&amp;body=https%3a%2f%2fguoxudong.io%2fpost%2fk8s-gc-finalizers%2f" target="_blank" rel="noopener" class="share-btn-email">
         <i class="fas fa-envelope"></i>
       </a>
     </li>
     <li>
-      <a href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fguoxudong.io%2fpost%2fkubernetes-is-har%2f&amp;title=%e5%9b%b0%e9%9a%be%e7%9a%84%20Kubernetes" target="_blank" rel="noopener" class="share-btn-linkedin">
+      <a href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fguoxudong.io%2fpost%2fk8s-gc-finalizers%2f&amp;title=%e7%86%9f%e6%82%89%e5%8f%88%e9%99%8c%e7%94%9f%e7%9a%84%20k8s%20%e5%ad%97%e6%ae%b5%ef%bc%9afinalizers" target="_blank" rel="noopener" class="share-btn-linkedin">
         <i class="fab fa-linkedin-in"></i>
       </a>
     </li>
     <li>
-      <a href="https://web.whatsapp.com/send?text=%e5%9b%b0%e9%9a%be%e7%9a%84%20Kuberneteshttps%3a%2f%2fguoxudong.io%2fpost%2fkubernetes-is-har%2f/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+      <a href="https://web.whatsapp.com/send?text=%e7%86%9f%e6%82%89%e5%8f%88%e9%99%8c%e7%94%9f%e7%9a%84%20k8s%20%e5%ad%97%e6%ae%b5%ef%bc%9afinalizershttps%3a%2f%2fguoxudong.io%2fpost%2fk8s-gc-finalizers%2f/" target="_blank" rel="noopener" class="share-btn-whatsapp">
         <i class="fab fa-whatsapp"></i>
       </a>
     </li>
     <li>
-      <a href="https://service.weibo.com/share/share.php?url=https%3a%2f%2fguoxudong.io%2fpost%2fkubernetes-is-har%2f&amp;title=%e5%9b%b0%e9%9a%be%e7%9a%84%20Kubernetes" target="_blank" rel="noopener" class="share-btn-weibo">
+      <a href="https://service.weibo.com/share/share.php?url=https%3a%2f%2fguoxudong.io%2fpost%2fk8s-gc-finalizers%2f&amp;title=%e7%86%9f%e6%82%89%e5%8f%88%e9%99%8c%e7%94%9f%e7%9a%84%20k8s%20%e5%ad%97%e6%ae%b5%ef%bc%9afinalizers" target="_blank" rel="noopener" class="share-btn-weibo">
         <i class="fab fa-weibo"></i>
       </a>
     </li>
     <li>
-      <a href="https://reddit.com/submit?url=https%3a%2f%2fguoxudong.io%2fpost%2fkubernetes-is-har%2f&amp;title=%e5%9b%b0%e9%9a%be%e7%9a%84%20Kubernetes" target="_blank" rel="noopener" class="share-btn-reddit">
+      <a href="https://reddit.com/submit?url=https%3a%2f%2fguoxudong.io%2fpost%2fk8s-gc-finalizers%2f&amp;title=%e7%86%9f%e6%82%89%e5%8f%88%e9%99%8c%e7%94%9f%e7%9a%84%20k8s%20%e5%ad%97%e6%ae%b5%ef%bc%9afinalizers" target="_blank" rel="noopener" class="share-btn-reddit">
         <i class="fab fa-reddit-alien"></i>
       </a>
     </li>
     <li>
-      <a href=# onClick="javascript:window.open('/wechart?url=https:\/\/guoxudong.io\/post\/kubernetes-is-har\/','weixin','height=560, width=470, top=100, location=no, toolbar=no, menubar=no, status=no')" target="_blank" rel="noopener" class="share-btn-weixin">
+      <a href=# onClick="javascript:window.open('/wechart?url=https:\/\/guoxudong.io\/post\/k8s-gc-finalizers\/','weixin','height=560, width=470, top=100, location=no, toolbar=no, menubar=no, status=no')" target="_blank" rel="noopener" class="share-btn-weixin">
         <i class="fab fa-weixin"></i>
       </a>
     </li>
@@ -567,50 +567,122 @@ if (!doNotTrack) {
 
 	<div class="alert alert-primary mb-4" role="alert">
 		<h4 class="alert-heading">摘要</h4>
-		<span class="text-muted">虽然 Kubernetes 赢得了容器战争，但是其仍然很难使用并且引起很多事故。</span>
+		<span class="text-muted">metadata 中熟悉又陌生的字段 finalizers</span>
 	</div>
-	<img src="https://tva3.sinaimg.cn/large/ad5fbf65ly1ge3izhwj5kj20xc0hi1kx.jpg" alt="" style="max-width: 80%;">
+	<img src="https://tva3.sinaimg.cn/large/ad5fbf65gy1gimpo3u78mj21qi15otcv.jpg" alt="" style="max-width: 80%;">
 
-	<blockquote>
-<p>虽然 Kubernetes 赢得了容器之站，但是其仍然很难使用并且时长引起事故。</p>
-</blockquote>
-<p>我想我应该给这篇文章做一点序言。 <a href="https://kubernetes.io/">kubernetes</a> 为许多应用程序提供新的 runtime ，如果使用得当，它可以成为一个强大的工具，并且可以将您冲复杂的开发生命周期中解放出来。然而在过去的几年里，我看到很多人和公司都会搭建他们的 Kubernetes ，但常常只是处于测试阶段，从未进入到生产。</p>
-<h2 id="kubernetes-是如何运作的">Kubernetes 是如何运作的？</h2>
-<p>粗略的讲， Kubernetes 或者 K8S 看起来十分简单。您运行的 Kubernetes 节点至少被分为两类：Master 和 Workers。Master 节点通常不运行任何真实的工作负载，那是 Workers 节点的工作。</p>
-<p>Kubernetes 的 Master 节点包含一个名叫 API server 的组件，其提供的 API 可以通过 <code>kubectl</code> 调用。此外还包括一个 scheduler ，负责调度容器，决定容器运行在哪个节点。最后一个组件是 controller-manager ，它实际上是一组多个控制器，负责处理节点中断、复制、加入 services 和 pods ，并且处理授权相关内容。所有的数据都存储在 etcd 中，这是一个可信赖的分布式键值存储服务（包含一些非常酷的功能）。总而言之，Master 节点负责管理集群，这里没什么特别大的惊喜。</p>
-<p>另一方面， 真实的工作负载运行在 Worker 节点上。为此，它还包括许多组件。首先，Worker 节点上会运行 <em><strong>kubelet</strong></em> ，它是与该节点上的容器一起运行的 API ，负责与管控组件沟通，并按照管控组件指示管理 Worker 节点。另一个组件就是 <em><strong>kube-proxy</strong></em> ，其负责转发网络连接，根据您的配置运行容器。可能还有其他东西，如 <em><strong>kube-dns</strong></em> 或 <em><strong>gVisor</strong></em>。您还需要集成某种 <em><strong>overlay network</strong></em> 或底层网络设置，以便 Kubernetes 可以管理您的 pod 之间的网络。</p>
-<p>如果您想要一个更完整的概述，建议去看 Kelsey Hightowers 的 <a href="https://github.com/kelseyhightower/kubernetes-the-hard-way">Kubernetes  -  The Hard Way</a>。</p>
-<h2 id="生产就绪的-kubernetes">生产就绪的 Kubernetes</h2>
-<p>到目前为止，这听起来并不太糟糕。只是安装几个程序、配置、证书等。不要误会我的意思，这仍然是一个学习曲线，但这也不是系统管理员不能处理的问题。</p>
-<p>然而，简单地手动安装 Kubernetes 并不代表其已经完全准备就绪，所以让我们谈谈让这个东西运行起来所需的步骤。</p>
-<p>首先，<strong>安装</strong>。如果您想要某种自动安装，无论是使用 Ansible ， Terraform 还是其他工具。<a href="https://github.com/kubernetes/kops">kops</a> 可以帮助您解决这个问题，但是使用 kops 意味着您将不知道它是如何设置的，并且当您以后想要调试某些东西时可能会引起一些其他问题。应对此自动化进行测试，并定期进行检查。</p>
-<p>其次，您需要<strong>监控</strong>您的 Kubernetes 安装。所以您需要 <a href="https://prometheus.io/">Prometheus</a> 、 <a href="https://grafana.com/">Grafana</a> 等工具。您是在 Kubernetes 里面运行它吗？ 如果您的 Kubernetes 有问题，那么您的监控是否会也会挂掉？ 或者您单独运行它？ 如果是，那么您在哪里运行它？</p>
-<p>另外值得注意的是<strong>备份</strong>。如果您的 Master 崩溃，数据无法恢复并且您需要重新配置系统上的所有 pod ，您会怎么做？您是否测试了再次运行 CI 系统中所有作业所需的时间？您有灾难恢复计划吗？</p>
-<p>现在，既然我们在谈论 CI 系统，那么您需要为您的镜像运行 Docker 镜像仓库。当然，您可以再次在 Kubernetes 上做，但如果 Kubernetes 崩溃&hellip;&hellip;您知道这个后果。当然，CI 系统与运行版本控制系统都有这个问题。理想情况下，这些系统是与生产环境隔离的，以便在系统出现问题时，至少可以访问 git ，来进行重新部署等操作。</p>
-<h2 id="数据存储">数据存储</h2>
-<p>最后，我们来谈谈最重要的部分：存储。Kubernetes 本身并不提供存储解决方案。当然，您可以将存储挂载到主机安装目录，但这既不推荐也不简单。</p>
-<p>基本上需要在 Kubernetes 下使用某种存储。例如，<a href="https://rook.io/">rook</a> 使得运行 <a href="https://ceph.com/">Ceph</a> 作为底层块存储需求的变得相对简单，但我对 Ceph 的体验是它还有有很多地方需要调整，所以您绝不是只需点击下一步就能走出困境。</p>
-<h2 id="调试">调试</h2>
-<p>在与开发人员谈论 Kubernetes 时，一种常见的回答经常出现：在使用 Kubernetes 时，人们常常在调试应用程序时遇到问题。即使是一个例如容器未能启动的简单问题，也会引起混乱。</p>
-<p>当然，这是一个教育问题。在过去的几十年中，开发人员已经学会了调试的“经典”步骤：在 <code>/vat/log/</code> 中查看日志等。但是对于容器，我们甚至不知道容器运行在哪个服务器上，因此它呈现出了一种范式转换。</p>
-<h2 id="问题复杂">问题：复杂</h2>
-<p>您可能已经注意到我正在跳过共有云提供商给您的东西，即使它不是一个完整的托管 Kubernetes。当然，如果您使用托管的 Kubernetes 解决方案，这很好，除了调试之外，您不需要处理上面这些问题。</p>
-<p>Kubernetes 拥有许多可以移动组件，但 Kubernetes 本身也并不能提供完整的解决方案。例如，<a href="https://www.openshift.com/">RedHat OpenShift</a> 可以，但它需要花钱，并且仍然需要添加自己的东西。</p>
-<p>现在Kubernetes正处于 <a href="https://www.gartner.com/en/research/methodologies/gartner-hype-cycle">Gartner hype cycle</a> 的顶峰，每个人都想要它，但很少有人真正理解它。在接下来的几年里，不少公司必须意识到 Kubernetes 并不是银弹，而如何正确有效地使用它才是关键。</p>
-<p>我认为，如果您有能力将 Ops 团队专门用于为开发人员来维护底层平台，那么运行自己的 Kubernetes 是值得的。</p>
-<blockquote>
-<p>本文作者：<a href="https://pasztor.at/">Janos Pasztor</a>  2018-12-04</p>
-</blockquote>
-<p>原文地址：https://pasztor.at/blog/kubernetes-is-hard</p>
+	<h2 id="前言">前言</h2>
+<p>经常操作 Kubernetes 集群的同学肯定对 <code>finalizers</code> 字段不陌生，每当删除 namespace 或 pod 等一些 Kubernetes 资源时，有时资源状态会卡在 <code>Terminating</code>，很长时间无法删除，甚至有时增加 <code>--force</code> flag 之后还是无法正常删除。这时就需要 <code>edit</code> 该资源，将 <code>finalizers</code> 字段设置为 []，之后 Kubernetes 资源就正常删除了。</p>
+<p>这是一个比较常见的操作，但是当有人问 <code>finalizers</code> 字段的作用是什么的时候，我是懵逼的，我甚至不知道这个熟悉又陌生的单词怎么读！那么这篇文章就来探索一下 <code>finalizers</code> 这个字段到底是做什么的，在实践中应该怎么应用这个字段。（另外，这个单词读作 <strong>[&lsquo;faɪnəlaɪzər]</strong>）</p>
+<h2 id="finalizers">Finalizers</h2>
+<p>Finalizers 字段属于 Kubernetes GC 垃圾收集器，是一种删除拦截机制，能够让控制器实现异步的删除前（Pre-delete）回调。其存在于任何一个资源对象的 <a href="https://github.com/kubernetes/apimachinery/blob/master/pkg/apis/meta/v1/types.go#L246">Meta</a> 中，在 k8s 源码中声明为 <code>[]string</code>，该 Slice 的内容为需要执行的拦截器名称。</p>
+<p>对带有 Finalizer 的对象的第一个删除请求会为其 <code>metadata.deletionTimestamp</code> 设置一个值，但不会真的删除对象。一旦此值被设置，finalizers 列表中的值就<strong>只能</strong>被移除。</p>
+<p>当 <code>metadata.deletionTimestamp</code> 字段被设置时，负责监测该对象的各个控制器会通过<strong>轮询</strong>对该对象的更新请求来执行它们所要处理的所有 Finalizer。 当所有 Finalizer 都被执行过，资源被删除。</p>
+<p><code>metadata.deletionGracePeriodSeconds</code> 的取值控制对更新的轮询周期。</p>
+<p>每个控制器要负责将其 Finalizer 从列表中去除。</p>
+<p>每执行完一个就从 <code>finalizers</code> 中移除一个，直到 <code>finalizers</code> 为空，之后其宿主资源才会被真正的删除。</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#999;font-style:italic">// DeletionTimestamp is RFC 3339 date and time at which this resource will be deleted. This
+</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// field is set by the server when a graceful deletion is requested by the user, and is not
+</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// directly settable by a client. The resource is expected to be deleted (no longer visible
+</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// from resource lists, and not reachable by name) after the time in this field, once the
+</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// finalizers list is empty. As long as the finalizers list contains items, deletion is blocked.
+</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// Once the deletionTimestamp is set, this value may not be unset or be set further into the
+</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// future, although it may be shortened or the resource may be deleted prior to this time.
+</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// For example, a user may request that a pod is deleted in 30 seconds. The Kubelet will react
+</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// by sending a graceful termination signal to the containers in the pod. After that 30 seconds,
+</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// the Kubelet will send a hard termination signal (SIGKILL) to the container and after cleanup,
+</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// remove the pod from the API. In the presence of network partitions, this object may still
+</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// exist after this timestamp, until an administrator or automated process can determine the
+</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// resource is fully terminated.
+</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// If not set, graceful deletion of the object has not been requested.
+</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">//
+</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// Populated by the system when a graceful deletion is requested.
+</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// Read-only.
+</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
+</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// +optional
+</span><span style="color:#999;font-style:italic"></span>DeletionTimestamp *Time <span style="color:#ed9d13">`</span><span style="color:#ed9d13">json:&#34;deletionTimestamp,omitempty&#34; protobuf:&#34;bytes,9,opt,name=deletionTimestamp&#34;</span><span style="color:#ed9d13">`</span>
+
+<span style="color:#999;font-style:italic">// Number of seconds allowed for this object to gracefully terminate before
+</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// it will be removed from the system. Only set when deletionTimestamp is also set.
+</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// May only be shortened.
+</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// Read-only.
+</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// +optional
+</span><span style="color:#999;font-style:italic"></span>DeletionGracePeriodSeconds *<span style="color:#6ab825;font-weight:bold">int64</span> <span style="color:#ed9d13">`</span><span style="color:#ed9d13">json:&#34;deletionGracePeriodSeconds,omitempty&#34; protobuf:&#34;varint,10,opt,name=deletionGracePeriodSeconds&#34;</span><span style="color:#ed9d13">`</span>
+
+<span style="color:#999;font-style:italic">// Must be empty before the object is deleted from the registry. Each entry
+</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// is an identifier for the responsible component that will remove the entry
+</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// from the list. If the deletionTimestamp of the object is non-nil, entries
+</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// in this list can only be removed.
+</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// Finalizers may be processed and removed in any order.  Order is NOT enforced
+</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// because it introduces significant risk of stuck finalizers.
+</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// finalizers is a shared field, any actor with permission can reorder it.
+</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// If the finalizer list is processed in order, then this can lead to a situation
+</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// in which the component responsible for the first finalizer in the list is
+</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// waiting for a signal (field value, external system, or other) produced by a
+</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// component responsible for a finalizer later in the list, resulting in a deadlock.
+</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// Without enforced ordering finalizers are free to order amongst themselves and
+</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// are not vulnerable to ordering changes in the list.
+</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// +optional
+</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// +patchStrategy=merge
+</span><span style="color:#999;font-style:italic"></span>Finalizers []<span style="color:#6ab825;font-weight:bold">string</span> <span style="color:#ed9d13">`</span><span style="color:#ed9d13">json:&#34;finalizers,omitempty&#34; patchStrategy:&#34;merge&#34; protobuf:&#34;bytes,14,rep,name=finalizers&#34;</span><span style="color:#ed9d13">`</span>
+</code></pre></div><h2 id="在-operator-中的应用">在 Operator 中的应用</h2>
+<p>知道了 Finalizers 是什么，那么当然也要知道怎么用 Finalizers 了。在实际开发 Operator 时，删除前（Pre-delete）回调是一个比较常见的功能，用于处理一些在资源删除前需要处理的逻辑，如：关联资源释放、释放资源通知、相关数据清理，甚至是阻止资源删除。一般 Finalizers 的处理也是会 <code>Reconcile</code> 中实现的，下面就使用 <a href="https://github.com/chaosblade-io/chaosblade-operator">chaosblade-operator</a> 中的源码，简单介绍一些 Finalizers 的使用方式。</p>
+<p>首先要了解的是 ChaosBlade-Operator 的工作原理：每个实验都会以 CR 的形式部署到 k8s 集群中，之后由 <code>chaosblade-operator</code> 来操作以 DaemonSet 形式部署 <code>chaosblade-tool</code> 对具体资源进行混沌实验。停止实验只需删除对应 CR 即可，在删除 CR 时，首先会执行一遍实验恢复逻辑，之后才会将 CR 删除。但如果恢复实验失败，则会将 CR 的 <code>Phase</code> 设置为 <code>Destroying</code>，而在 <code>Reconcile</code> 中观测到 <code>Phase</code> 状态为 <code>Destroying</code> 或者 <code>metadata.deletionTimestamp</code> 不为空时，就会不会移除 <code>finalizers</code> 中的拦截器名称，阻止该 CR 被删除。</p>
+<p>这样设计的目的是为了在实验恢复失败后，让用户去主动查看实验恢复失败原因，如果是一些意外原因导致的实验恢复失败，及时去处理。在确认原因后，可使用 CLI 工具增加 <code>--force-remove</code> 进去强制删除，项目维护者在 <a href="https://github.com/chaosblade-io/chaosblade/issues/368">Issue#368</a> 中也就这个设计给出了解答。</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#999;font-style:italic">// pkg/controller/chaosblade/controller.go 部分源码
+</span><span style="color:#999;font-style:italic"></span>...
+<span style="color:#6ab825;font-weight:bold">const</span> chaosbladeFinalizer = <span style="color:#ed9d13">&#34;finalizer.chaosblade.io&#34;</span>
+...
+<span style="color:#6ab825;font-weight:bold">func</span> (r *ReconcileChaosBlade) <span style="color:#447fcf">Reconcile</span>(request reconcile.Request) (reconcile.Result, <span style="color:#6ab825;font-weight:bold">error</span>) {
+    reqLogger := logrus.<span style="color:#447fcf">WithField</span>(<span style="color:#ed9d13">&#34;Request.Name&#34;</span>, request.Name)
+    forget := reconcile.Result{}
+    <span style="color:#999;font-style:italic">// Fetch the RC instance
+</span><span style="color:#999;font-style:italic"></span>    cb := &amp;v1alpha1.ChaosBlade{}
+    err := r.client.<span style="color:#447fcf">Get</span>(context.<span style="color:#447fcf">TODO</span>(), request.NamespacedName, cb)
+    <span style="color:#6ab825;font-weight:bold">if</span> err != <span style="color:#6ab825;font-weight:bold">nil</span> {
+      <span style="color:#6ab825;font-weight:bold">return</span> forget, <span style="color:#6ab825;font-weight:bold">nil</span>
+    }
+    <span style="color:#6ab825;font-weight:bold">if</span> <span style="color:#24909d">len</span>(cb.Spec.Experiments) == <span style="color:#3677a9">0</span> {
+      <span style="color:#6ab825;font-weight:bold">return</span> forget, <span style="color:#6ab825;font-weight:bold">nil</span>
+    }
+
+    <span style="color:#999;font-style:italic">// Destroyed-&gt;delete
+</span><span style="color:#999;font-style:italic"></span>    <span style="color:#999;font-style:italic">// Remove the Finalizer if the CR object status is destroyed to delete it
+</span><span style="color:#999;font-style:italic"></span>    <span style="color:#6ab825;font-weight:bold">if</span> cb.Status.Phase == v1alpha1.ClusterPhaseDestroyed {
+      cb.<span style="color:#447fcf">SetFinalizers</span>(<span style="color:#447fcf">remove</span>(cb.<span style="color:#447fcf">GetFinalizers</span>(), chaosbladeFinalizer))
+      err := r.client.<span style="color:#447fcf">Update</span>(context.<span style="color:#447fcf">TODO</span>(), cb)
+      <span style="color:#6ab825;font-weight:bold">if</span> err != <span style="color:#6ab825;font-weight:bold">nil</span> {
+        reqLogger.<span style="color:#447fcf">WithError</span>(err).<span style="color:#447fcf">Errorln</span>(<span style="color:#ed9d13">&#34;remove chaosblade finalizer failed at destroyed phase&#34;</span>)
+      }
+      <span style="color:#6ab825;font-weight:bold">return</span> forget, <span style="color:#6ab825;font-weight:bold">nil</span>
+    }
+    <span style="color:#6ab825;font-weight:bold">if</span> cb.Status.Phase == v1alpha1.ClusterPhaseDestroying || cb.<span style="color:#447fcf">GetDeletionTimestamp</span>() != <span style="color:#6ab825;font-weight:bold">nil</span> {
+      err := r.<span style="color:#447fcf">finalizeChaosBlade</span>(reqLogger, cb)
+      <span style="color:#6ab825;font-weight:bold">if</span> err != <span style="color:#6ab825;font-weight:bold">nil</span> {
+        reqLogger.<span style="color:#447fcf">WithError</span>(err).<span style="color:#447fcf">Errorln</span>(<span style="color:#ed9d13">&#34;finalize chaosblade failed at destroying phase&#34;</span>)
+      }
+      <span style="color:#6ab825;font-weight:bold">return</span> forget, <span style="color:#6ab825;font-weight:bold">nil</span>
+    }
+    ...
+    <span style="color:#6ab825;font-weight:bold">return</span> forget, <span style="color:#6ab825;font-weight:bold">nil</span>
+}
+</code></pre></div><p>如果 <code>Phase</code> 状态为 <code>Destroyed</code>，则从 Finalizers 中移除 <code>finalizer.chaosblade.io</code>，之后正常删除 CR。</p>
+<h2 id="结语">结语</h2>
+<p>在实际工作中，像 Finalizers 这样的东西太多了，很多平时挂在嘴边的东西，深究起来我们可能对其并不了解，甚至原本的理解就是错误的。在今后的文章中，除了各种实践干货，笔者还会将更多的精力投注到基本原理、底层实现、源码剖析中，更聚焦于技术本身，在不重复造轮子的基础上，学习和了解更多产品背后的代码设计和实现原理。最后在分享一句<strong>弗兰西斯·培根</strong>的话：</p>
+<p><strong>“人生如同道路。最近的捷径通常是最坏的路。”</strong></p>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a href="https://kubernetes.io/zh/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#finalizers">使用 CustomResourceDefinition 扩展 Kubernetes API - kubernetes.io</a></li>
+</ul>
 
 	<br>
 	
 	
 	<a class="button button-glow button-rounded button-royal button-tiny mb-2"
-		href="/tags/%e7%bf%bb%e8%af%91">#翻译</a>
+		href="/tags/kubernetes">#kubernetes</a>
 	
 	<a class="button button-glow button-rounded button-royal button-tiny mb-2"
-		href="/tags/kubernetes">#kubernetes</a>
+		href="/tags/operator">#operator</a>
 	
 	
 	
@@ -688,8 +760,8 @@ s.setAttribute('data-timestamp', +new Date());
 	
 
 	<div class="entry-shang pt-5">
-  <a href="/post/cant/" class=".-text-primary float-left"><i class="fas fa-angle-left"></i> GitHub 黑话指南</a>
-  <a href="/post/aliyun-k8s-perfect/" class=".-text-primary float-right">阿里云容器服务新建集群优化方案(更新版) <i class="fas fa-angle-right"></i></a>
+  <a href="/post/aliyun-darabonba/" class=".-text-primary float-left"><i class="fas fa-angle-left"></i> 听说，阿里云给它的 OpenAPI 开发了一套编程语言</a>
+  <a  class=".-text-primary float-right"></a>
 </div>
 	<script src="https://my.openwrite.cn/js/readmore.js" type="text/javascript"></script>
 	<script>
