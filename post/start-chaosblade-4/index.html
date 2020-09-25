@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.68.3" />
 
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
@@ -42,7 +42,7 @@
       "datePublished": "2020-08-06 16:34:23 \x2b0800 \x2b0800",
       "dateModified" : "2020-08-06 16:34:23 \x2b0800 \x2b0800",
       "url" : "https:\/\/guoxudong.io\/post\/start-chaosblade-4\/",
-      "wordCount" : "942",
+      "wordCount" : "993",
       "keywords" : [ "混沌工程","Guoxudong" ]
   }
   </script>
@@ -51,12 +51,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://guoxudong.io/post/start-chaosblade-4/" />
 <meta property="article:published_time" content="2020-08-06T16:34:23+08:00" />
-<meta property="article:modified_time" content="2020-09-11T15:28:31+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
+<meta property="article:modified_time" content="2020-09-25T18:28:24+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
 <meta itemprop="name" content="ChaosBlade：从零开始的混沌工程（五）">
 <meta itemprop="description" content="本篇为系列文章第五篇，将介绍使用 ChaosBlade Operator 对 Kubernetes Container 进行混沌工程实验，实验包括：删除 container、container 内CPU负载场景、container 网络延迟场景、container 网络丢包场景、container 域名访问异常场景、杀 container 内指定进程和挂起 container 内指定进程。">
 <meta itemprop="datePublished" content="2020-08-06T16:34:23&#43;08:00" />
-<meta itemprop="dateModified" content="2020-09-11T15:28:31&#43;08:00" />
-<meta itemprop="wordCount" content="942">
+<meta itemprop="dateModified" content="2020-09-25T18:28:24&#43;08:00" />
+<meta itemprop="wordCount" content="993">
 
 
 
@@ -81,8 +81,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.f377eea2b683b2fea7a7150093db6c740545f0d2916a0bcb19e6dde2a2a5b68b.css" as="style">
-<link href="/scss/main.min.f377eea2b683b2fea7a7150093db6c740545f0d2916a0bcb19e6dde2a2a5b68b.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.609c26871dd224c5295bed6e41f0dd9c030a722c72af35c8be1b63a821c4d704.css" as="style">
+<link href="/scss/main.min.609c26871dd224c5295bed6e41f0dd9c030a722c72af35c8be1b63a821c4d704.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 <script
@@ -513,7 +513,7 @@ if (!doNotTrack) {
 		<span>
 			5 分钟阅读时间
 		</span> ·
-		<span>最近更新于 </span><time datetime="2020-09-11"
+		<span>最近更新于 </span><time datetime="2020-09-25"
 			class="text-muted">2020年08月06日</time> ·
 		
 		<a href="/categories/%e6%b7%b7%e6%b2%8c%e5%b7%a5%e7%a8%8b">
@@ -597,24 +597,24 @@ if (!doNotTrack) {
 <p><strong>实验目标</strong>：删除 chaosblade 命名空间下，Pod 名为 <code>guestbook-7b87b7459f-cqkq2</code> 中 container id 是 <code>c6cdcf60b82b854bc4bab64308b466102245259d23e14e449590a8ed816403ed</code> 的容器。</p>
 <p><strong>开始实验</strong></p>
 <p><code>remove_container_by_id.yaml</code> 内容：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
-</span><span style="color:#666"></span>kind:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
-</span><span style="color:#666"></span>metadata:<span style="color:#666">
-</span><span style="color:#666">  </span>name:<span style="color:#666"> </span>remove-container-by-id<span style="color:#666">
-</span><span style="color:#666"></span>spec:<span style="color:#666">
-</span><span style="color:#666">  </span>experiments:<span style="color:#666">
-</span><span style="color:#666">  </span>-<span style="color:#666"> </span>scope:<span style="color:#666"> </span>container<span style="color:#666">
-</span><span style="color:#666">    </span>target:<span style="color:#666"> </span>container<span style="color:#666">
-</span><span style="color:#666">    </span>action:<span style="color:#666"> </span>remove<span style="color:#666">
-</span><span style="color:#666">    </span>desc:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;remove container by id&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>matchers:<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>container-ids<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;c6cdcf60b82b854bc4bab64308b466102245259d23e14e449590a8ed816403ed&#34;</span>]<span style="color:#666">
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>remove-container-by-id<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">experiments</span>:<span style="color:#666">
+</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">scope</span>:<span style="color:#666"> </span>container<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">target</span>:<span style="color:#666"> </span>container<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">action</span>:<span style="color:#666"> </span>remove<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">desc</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;remove container by id&#34;</span><span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">matchers</span>:<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>container-ids<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;c6cdcf60b82b854bc4bab64308b466102245259d23e14e449590a8ed816403ed&#34;</span>]<span style="color:#666">
 </span><span style="color:#666">      </span><span style="color:#999;font-style:italic"># pod name</span><span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>names<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;guestbook-7b87b7459f-cqkq2&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>namespace<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;chaosblade&#34;</span>]<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>names<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;guestbook-7b87b7459f-cqkq2&#34;</span>]<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>namespace<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;chaosblade&#34;</span>]<span style="color:#666">
 </span></code></pre></div><p>获取 container 名称：</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get pod guestbook-7b87b7459f-cqkq2 -o custom-columns=CONTAINER:.status.containerStatuses[0].name,ID:.status.containerStatuses[0].containerID
 </code></pre></div><p>修改 <code>remove_container_by_id.yaml</code> 中的 <code>container-ids</code> 和 <code>names</code>。</p>
@@ -635,27 +635,27 @@ if (!doNotTrack) {
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl patch deployment redis-slave --patch <span style="color:#ed9d13">&#39;{&#34;spec&#34;: {&#34;template&#34;: {&#34;spec&#34;: {&#34;containers&#34;: [{&#34;name&#34;: &#34;redis-slave&#34;,&#34;resources&#34;: {&#34;limits&#34;:{&#34;cpu&#34;:&#34;300m&#34;,&#34;memory&#34;:&#34;512Mi&#34;} }}]}}}}&#39;</span>
 </code></pre></div><p><strong>开始实验</strong></p>
 <p><code>increase_container_cpu_load_by_id.yaml</code> 内容：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
-</span><span style="color:#666"></span>kind:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
-</span><span style="color:#666"></span>metadata:<span style="color:#666">
-</span><span style="color:#666">  </span>name:<span style="color:#666"> </span>increase-container-cpu-load-by-id<span style="color:#666">
-</span><span style="color:#666"></span>spec:<span style="color:#666">
-</span><span style="color:#666">  </span>experiments:<span style="color:#666">
-</span><span style="color:#666">  </span>-<span style="color:#666"> </span>scope:<span style="color:#666"> </span>container<span style="color:#666">
-</span><span style="color:#666">    </span>target:<span style="color:#666"> </span>cpu<span style="color:#666">
-</span><span style="color:#666">    </span>action:<span style="color:#666"> </span>fullload<span style="color:#666">
-</span><span style="color:#666">    </span>desc:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;increase container cpu load by id&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>matchers:<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>container-ids<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666">
-</span><span style="color:#666">      </span>-<span style="color:#666"> </span><span style="color:#ed9d13">&#34;5ad91eb49c1c6f8357e8d455fd27dad5d0c01c5cc3df36a3acdb1abc75f68a11&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>cpu-percent<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;100&#34;</span>]<span style="color:#666">
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>increase-container-cpu-load-by-id<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">experiments</span>:<span style="color:#666">
+</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">scope</span>:<span style="color:#666"> </span>container<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">target</span>:<span style="color:#666"> </span>cpu<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">action</span>:<span style="color:#666"> </span>fullload<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">desc</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;increase container cpu load by id&#34;</span><span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">matchers</span>:<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>container-ids<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
+</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;5ad91eb49c1c6f8357e8d455fd27dad5d0c01c5cc3df36a3acdb1abc75f68a11&#34;</span><span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>cpu-percent<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;100&#34;</span>]<span style="color:#666">
 </span><span style="color:#666">      </span><span style="color:#999;font-style:italic"># pod names</span><span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>names<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;redis-slave-55d8c8ffbd-jd8sm&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>namespace<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;chaosblade&#34;</span>]<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>names<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;redis-slave-55d8c8ffbd-jd8sm&#34;</span>]<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>namespace<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;chaosblade&#34;</span>]<span style="color:#666">
 </span></code></pre></div><p>获取 container 名称：</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get pod redis-slave-55d8c8ffbd-jd8sm -o custom-columns=CONTAINER:.status.containerStatuses[0].name,ID:.status.containerStatuses[0].containerID
 </code></pre></div><p>修改 <code>increase_container_cpu_load_by_id.yaml</code> 中的 <code>container-ids</code> 和 <code>names</code>。</p>
@@ -740,34 +740,34 @@ if (!doNotTrack) {
 </table>
 <p><strong>开始实验</strong></p>
 <p><code>delay_container_network_by_id.yaml</code> 内容：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
-</span><span style="color:#666"></span>kind:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
-</span><span style="color:#666"></span>metadata:<span style="color:#666">
-</span><span style="color:#666">  </span>name:<span style="color:#666"> </span>delay-container-network-by-id<span style="color:#666">
-</span><span style="color:#666"></span>spec:<span style="color:#666">
-</span><span style="color:#666">  </span>experiments:<span style="color:#666">
-</span><span style="color:#666">  </span>-<span style="color:#666"> </span>scope:<span style="color:#666"> </span>container<span style="color:#666">
-</span><span style="color:#666">    </span>target:<span style="color:#666"> </span>network<span style="color:#666">
-</span><span style="color:#666">    </span>action:<span style="color:#666"> </span>delay<span style="color:#666">
-</span><span style="color:#666">    </span>desc:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;delay container network by container id&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>matchers:<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>container-ids<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666">
-</span><span style="color:#666">      </span>-<span style="color:#666"> </span><span style="color:#ed9d13">&#34;02655dfdd9f0f712a10d63fdc6721f4dcee0a390e37717fff068bf3f85abf85e&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>names<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666">
-</span><span style="color:#666">      </span>-<span style="color:#666"> </span><span style="color:#ed9d13">&#34;redis-master-68857cd57c-hknb6&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>namespace<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666">
-</span><span style="color:#666">      </span>-<span style="color:#666"> </span><span style="color:#ed9d13">&#34;chaosblade&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>local-port<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;6379&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>interface<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;eth0&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>time<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;3000&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>offset<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;1000&#34;</span>]<span style="color:#666">
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>delay-container-network-by-id<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">experiments</span>:<span style="color:#666">
+</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">scope</span>:<span style="color:#666"> </span>container<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">target</span>:<span style="color:#666"> </span>network<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">action</span>:<span style="color:#666"> </span>delay<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">desc</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;delay container network by container id&#34;</span><span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">matchers</span>:<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>container-ids<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
+</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;02655dfdd9f0f712a10d63fdc6721f4dcee0a390e37717fff068bf3f85abf85e&#34;</span><span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>names<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
+</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;redis-master-68857cd57c-hknb6&#34;</span><span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>namespace<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
+</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;chaosblade&#34;</span><span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>local-port<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;6379&#34;</span>]<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>interface<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;eth0&#34;</span>]<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>time<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;3000&#34;</span>]<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>offset<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;1000&#34;</span>]<span style="color:#666">
 </span></code></pre></div><p>获取 Pod 名称和 container id：</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get pod redis-master-68857cd57c-hknb6 -o custom-columns=POD_NAME:.metadata.name,CONTAINER:.status.containerStatuses[0].name,ID:.status.containerStatuses[0].containerID
 </code></pre></div><p>修改 <code>delay_container_network_by_id.yaml</code> 中的 <code>container-ids</code> 和 <code>names</code>。</p>
@@ -864,34 +864,34 @@ sys     0m0.001s
 </table>
 <p><strong>开始实验</strong></p>
 <p><code>loss_container_network_by_id.yaml</code> 内容：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
-</span><span style="color:#666"></span>kind:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
-</span><span style="color:#666"></span>metadata:<span style="color:#666">
-</span><span style="color:#666">  </span>name:<span style="color:#666"> </span>loss-container-network-by-id<span style="color:#666">
-</span><span style="color:#666"></span>spec:<span style="color:#666">
-</span><span style="color:#666">  </span>experiments:<span style="color:#666">
-</span><span style="color:#666">  </span>-<span style="color:#666"> </span>scope:<span style="color:#666"> </span>container<span style="color:#666">
-</span><span style="color:#666">    </span>target:<span style="color:#666"> </span>network<span style="color:#666">
-</span><span style="color:#666">    </span>action:<span style="color:#666"> </span>loss<span style="color:#666">
-</span><span style="color:#666">    </span>desc:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;loss container network by container id&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>matchers:<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>container-ids<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666">
-</span><span style="color:#666">      </span>-<span style="color:#666"> </span><span style="color:#ed9d13">&#34;02655dfdd9f0f712a10d63fdc6721f4dcee0a390e37717fff068bf3f85abf85e&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>names<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666">
-</span><span style="color:#666">      </span>-<span style="color:#666"> </span><span style="color:#ed9d13">&#34;redis-master-68857cd57c-hknb6&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>namespace<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666">
-</span><span style="color:#666">      </span>-<span style="color:#666"> </span><span style="color:#ed9d13">&#34;chaosblade&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>interface<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;eth0&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>percent<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;100&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>timeout<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;60&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>destination-ip<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;10.42.0.26&#34;</span>]<span style="color:#666">
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>loss-container-network-by-id<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">experiments</span>:<span style="color:#666">
+</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">scope</span>:<span style="color:#666"> </span>container<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">target</span>:<span style="color:#666"> </span>network<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">action</span>:<span style="color:#666"> </span>loss<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">desc</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;loss container network by container id&#34;</span><span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">matchers</span>:<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>container-ids<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
+</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;02655dfdd9f0f712a10d63fdc6721f4dcee0a390e37717fff068bf3f85abf85e&#34;</span><span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>names<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
+</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;redis-master-68857cd57c-hknb6&#34;</span><span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>namespace<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
+</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;chaosblade&#34;</span><span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>interface<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;eth0&#34;</span>]<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>percent<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;100&#34;</span>]<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>timeout<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;60&#34;</span>]<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>destination-ip<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;10.42.0.26&#34;</span>]<span style="color:#666">
 </span></code></pre></div><p>获取 pod 名称和 container id 内容同上。</p>
 <p>执行命令，开始实验：</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f loss_container_network_by_id.yaml
@@ -954,30 +954,30 @@ PING 10.42.0.19 (10.42.0.19) 56(84) bytes of data.
 </table>
 <p><strong>开始实验</strong></p>
 <p><code>tamper_container_dns_by_id.yaml</code> 内容：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
-</span><span style="color:#666"></span>kind:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
-</span><span style="color:#666"></span>metadata:<span style="color:#666">
-</span><span style="color:#666">  </span>name:<span style="color:#666"> </span>tamper-container-dns-by-id<span style="color:#666">
-</span><span style="color:#666"></span>spec:<span style="color:#666">
-</span><span style="color:#666">  </span>experiments:<span style="color:#666">
-</span><span style="color:#666">  </span>-<span style="color:#666"> </span>scope:<span style="color:#666"> </span>container<span style="color:#666">
-</span><span style="color:#666">    </span>target:<span style="color:#666"> </span>network<span style="color:#666">
-</span><span style="color:#666">    </span>action:<span style="color:#666"> </span>dns<span style="color:#666">
-</span><span style="color:#666">    </span>desc:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;tamper container dns by id&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>matchers:<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>container-ids<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666">
-</span><span style="color:#666">      </span>-<span style="color:#666"> </span><span style="color:#ed9d13">&#34;02655dfdd9f0f712a10d63fdc6721f4dcee0a390e37717fff068bf3f85abf85e&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>domain<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;www.baidu.com&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>ip<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;10.0.0.1&#34;</span>]<span style="color:#666">
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>tamper-container-dns-by-id<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">experiments</span>:<span style="color:#666">
+</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">scope</span>:<span style="color:#666"> </span>container<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">target</span>:<span style="color:#666"> </span>network<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">action</span>:<span style="color:#666"> </span>dns<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">desc</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;tamper container dns by id&#34;</span><span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">matchers</span>:<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>container-ids<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
+</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;02655dfdd9f0f712a10d63fdc6721f4dcee0a390e37717fff068bf3f85abf85e&#34;</span><span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>domain<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;www.baidu.com&#34;</span>]<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>ip<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;10.0.0.1&#34;</span>]<span style="color:#666">
 </span><span style="color:#666">      </span><span style="color:#999;font-style:italic"># pod names</span><span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>names<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;redis-master-68857cd57c-hknb6&#34;</span>]<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>names<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;redis-master-68857cd57c-hknb6&#34;</span>]<span style="color:#666">
 </span><span style="color:#666">      </span><span style="color:#999;font-style:italic"># or use pod labels</span><span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>namespace<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;chaosblade&#34;</span>]<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>namespace<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;chaosblade&#34;</span>]<span style="color:#666">
 </span></code></pre></div><p>获取 pod 名称和 container id 内容同上。</p>
 <p>执行命令，开始实验：</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f tamper_container_dns_by_id.yaml
@@ -1033,26 +1033,26 @@ $ ping www.baidu.com
 </table>
 <p><strong>开始实验</strong></p>
 <p><code>kill_container_process_by_id.yaml</code> 内容：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
-</span><span style="color:#666"></span>kind:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
-</span><span style="color:#666"></span>metadata:<span style="color:#666">
-</span><span style="color:#666">  </span>name:<span style="color:#666"> </span>kill-container-process-by-id<span style="color:#666">
-</span><span style="color:#666"></span>spec:<span style="color:#666">
-</span><span style="color:#666">  </span>experiments:<span style="color:#666">
-</span><span style="color:#666">  </span>-<span style="color:#666"> </span>scope:<span style="color:#666"> </span>container<span style="color:#666">
-</span><span style="color:#666">    </span>target:<span style="color:#666"> </span>process<span style="color:#666">
-</span><span style="color:#666">    </span>action:<span style="color:#666"> </span>kill<span style="color:#666">
-</span><span style="color:#666">    </span>desc:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;kill container process by id&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>matchers:<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>container-ids<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666">
-</span><span style="color:#666">      </span>-<span style="color:#666"> </span><span style="color:#ed9d13">&#34;94bc61ac84fb505f3f89b3ce5e4cc804ea8501ed091940b17b0f492835dc57d1&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>process<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;redis-server&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>names<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;redis-slave-55d8c8ffbd-4pz8m&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>namespace<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;chaosblade&#34;</span>]<span style="color:#666">
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>kill-container-process-by-id<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">experiments</span>:<span style="color:#666">
+</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">scope</span>:<span style="color:#666"> </span>container<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">target</span>:<span style="color:#666"> </span>process<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">action</span>:<span style="color:#666"> </span>kill<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">desc</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;kill container process by id&#34;</span><span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">matchers</span>:<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>container-ids<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
+</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;94bc61ac84fb505f3f89b3ce5e4cc804ea8501ed091940b17b0f492835dc57d1&#34;</span><span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>process<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;redis-server&#34;</span>]<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>names<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;redis-slave-55d8c8ffbd-4pz8m&#34;</span>]<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>namespace<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;chaosblade&#34;</span>]<span style="color:#666">
 </span></code></pre></div><p>选择一个 pod，获取容器 ID ，修改 <code>kill_container_process_by_id.yaml</code> 中的 <code>container-ids</code> 值。</p>
 <p>执行命令，开始实验：</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f kill_container_process_by_id.yaml
@@ -1104,26 +1104,26 @@ redis-slave-55d8c8ffbd-4pz8m   redis-slave   docker://94bc61ac84fb505f3f89b3ce5e
 </table>
 <p><strong>开始实验</strong></p>
 <p><code>stop_container_process_by_names.yaml</code> 内容：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
-</span><span style="color:#666"></span>kind:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
-</span><span style="color:#666"></span>metadata:<span style="color:#666">
-</span><span style="color:#666">  </span>name:<span style="color:#666"> </span>stop-container-process-by-id<span style="color:#666">
-</span><span style="color:#666"></span>spec:<span style="color:#666">
-</span><span style="color:#666">  </span>experiments:<span style="color:#666">
-</span><span style="color:#666">  </span>-<span style="color:#666"> </span>scope:<span style="color:#666"> </span>container<span style="color:#666">
-</span><span style="color:#666">    </span>target:<span style="color:#666"> </span>process<span style="color:#666">
-</span><span style="color:#666">    </span>action:<span style="color:#666"> </span>stop<span style="color:#666">
-</span><span style="color:#666">    </span>desc:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;kill container process by id&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>matchers:<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>container-ids<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666">
-</span><span style="color:#666">      </span>-<span style="color:#666"> </span><span style="color:#ed9d13">&#34;bfc9ca01fac33f60d300485f96549644b634f274351df1d4897526451f49e3fb&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>process<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;redis-server&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>names<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;redis-slave-55d8c8ffbd-4pz8m&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>namespace<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;chaosblade&#34;</span>]<span style="color:#666">
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>stop-container-process-by-id<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">experiments</span>:<span style="color:#666">
+</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">scope</span>:<span style="color:#666"> </span>container<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">target</span>:<span style="color:#666"> </span>process<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">action</span>:<span style="color:#666"> </span>stop<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">desc</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;kill container process by id&#34;</span><span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">matchers</span>:<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>container-ids<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
+</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;bfc9ca01fac33f60d300485f96549644b634f274351df1d4897526451f49e3fb&#34;</span><span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>process<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;redis-server&#34;</span>]<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>names<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;redis-slave-55d8c8ffbd-4pz8m&#34;</span>]<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>namespace<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;chaosblade&#34;</span>]<span style="color:#666">
 </span></code></pre></div><p>选择一个节点，修改 <code>stop_container_process_by_names.yaml</code> 中的 <code>names</code> 值。</p>
 <p>执行命令，开始实验：</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f stop_container_process_by_names.yaml

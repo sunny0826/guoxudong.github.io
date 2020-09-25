@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.68.3" />
 
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
@@ -51,11 +51,11 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://guoxudong.io/post/helm-docs/" />
 <meta property="article:published_time" content="2020-05-08T11:20:01+08:00" />
-<meta property="article:modified_time" content="2020-09-11T15:28:31+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
+<meta property="article:modified_time" content="2020-09-25T18:28:24+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
 <meta itemprop="name" content="告别手写 Helm Chart README">
 <meta itemprop="description" content="helm-docs 可以根据 charts 内容自动生成 markdown 文件。">
 <meta itemprop="datePublished" content="2020-05-08T11:20:01&#43;08:00" />
-<meta itemprop="dateModified" content="2020-09-11T15:28:31&#43;08:00" />
+<meta itemprop="dateModified" content="2020-09-25T18:28:24&#43;08:00" />
 <meta itemprop="wordCount" content="213">
 
 
@@ -81,8 +81,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.f377eea2b683b2fea7a7150093db6c740545f0d2916a0bcb19e6dde2a2a5b68b.css" as="style">
-<link href="/scss/main.min.f377eea2b683b2fea7a7150093db6c740545f0d2916a0bcb19e6dde2a2a5b68b.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.609c26871dd224c5295bed6e41f0dd9c030a722c72af35c8be1b63a821c4d704.css" as="style">
+<link href="/scss/main.min.609c26871dd224c5295bed6e41f0dd9c030a722c72af35c8be1b63a821c4d704.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 <script
@@ -513,7 +513,7 @@ if (!doNotTrack) {
 		<span>
 			1 分钟阅读时间
 		</span> ·
-		<span>最近更新于 </span><time datetime="2020-09-11"
+		<span>最近更新于 </span><time datetime="2020-09-25"
 			class="text-muted">2020年05月08日</time> ·
 		
 		<a href="/categories/kubernetes">
@@ -596,27 +596,27 @@ if (!doNotTrack) {
 helm-docs --dry-run <span style="color:#999;font-style:italic"># 不生成 README.md 文件，而是将生成的内容打印到控制台</span>
 </code></pre></div><p><strong>使用 docker</strong></p>
 <p>如果不想安装可执行文件，也可以使用 docker，将 Chart 目录挂载到 docker 镜像中，实现相同的效果：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker run -v <span style="color:#ed9d13">&#34;</span><span style="color:#6ab825;font-weight:bold">$(</span><span style="color:#24909d">pwd</span><span style="color:#6ab825;font-weight:bold">)</span><span style="color:#ed9d13">:/helm-docs</span><span style="color:#ed9d13">&#34;</span> jnorwood/helm-docs:latest
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker run -v <span style="color:#ed9d13">&#34;</span><span style="color:#6ab825;font-weight:bold">$(</span><span style="color:#24909d">pwd</span><span style="color:#6ab825;font-weight:bold">)</span><span style="color:#ed9d13">:/helm-docs&#34;</span> jnorwood/helm-docs:latest
 <span style="color:#999;font-style:italic"># 或者</span>
-docker run -v <span style="color:#ed9d13">&#34;</span><span style="color:#6ab825;font-weight:bold">$(</span><span style="color:#24909d">pwd</span><span style="color:#6ab825;font-weight:bold">)</span><span style="color:#ed9d13">:/helm-docs</span><span style="color:#ed9d13">&#34;</span> jnorwood/helm-docs:latest --dry-run
+docker run -v <span style="color:#ed9d13">&#34;</span><span style="color:#6ab825;font-weight:bold">$(</span><span style="color:#24909d">pwd</span><span style="color:#6ab825;font-weight:bold">)</span><span style="color:#ed9d13">:/helm-docs&#34;</span> jnorwood/helm-docs:latest --dry-run
 </code></pre></div><h3 id="进阶实践">进阶实践</h3>
 <p>下面就以我的开源项目 <a href="https://github.com/sunny0826/cms-grafana-builder">cms-grafana-builder</a> 为例，讲解 helm-docs 的一些进阶使用。</p>
 <p><strong>添加参数说明</strong></p>
 <p>helm-docs 可以通过 <code>value.yaml</code> 中的注释生成参数说明，注释格式如下所示，<code>--</code> 后的内容会自动填充到 Chart Values 的 Description 中：</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#999;font-style:italic"># access_key_id -- Aliyun Access Key Id.</span><span style="color:#666">
-</span><span style="color:#666"></span>access_key_id:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;&#34;</span><span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">access_key_id</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;&#34;</span><span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#999;font-style:italic"># access_secret -- Aliyun Access Secret.</span><span style="color:#666">
-</span><span style="color:#666"></span>access_secret:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;&#34;</span><span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">access_secret</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;&#34;</span><span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#999;font-style:italic"># region_id -- Aliyun Region Id.</span><span style="color:#666">
-</span><span style="color:#666"></span>region_id:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;cn-shanghai&#34;</span><span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">region_id</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;cn-shanghai&#34;</span><span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#999;font-style:italic"># password -- Grafana admin password.</span><span style="color:#666">
-</span><span style="color:#666"></span>password:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;admin&#34;</span><span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">password</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;admin&#34;</span><span style="color:#666">
 </span><span style="color:#666">
-</span><span style="color:#666"></span>image:<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># image.repository -- Image source repository name.</span><span style="color:#666">
-</span><span style="color:#666">  </span>repository:<span style="color:#666"> </span>grafana/grafana<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">repository</span>:<span style="color:#666"> </span>grafana/grafana<span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># image.pullPolicy -- Image pull policy.</span><span style="color:#666">
-</span><span style="color:#666">  </span>pullPolicy:<span style="color:#666"> </span>IfNotPresent<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">pullPolicy</span>:<span style="color:#666"> </span>IfNotPresent<span style="color:#666">
 </span></code></pre></div><p><strong>自定义模板</strong></p>
 <p>可以新建 <code>README.md.gotmpl</code> 模板来进一步定制 <code>README.md</code> 的输出样式。</p>
 <p><code>README.md.gotmpl</code> 文件的内容如下，可以在模板中插入 Markdown 来充实 <code>README.md</code> 的内容，以及改变展示内容的顺序：</p>
@@ -627,7 +627,7 @@ docker run -v <span style="color:#ed9d13">&#34;</span><span style="color:#6ab825
 
 {{ template <span style="color:#ed9d13">&#34;chart.sourceLinkLine&#34;</span> . }}
 
-<span style="color:#a61717;background-color:#e3d2d2">#</span><span style="color:#a61717;background-color:#e3d2d2">#</span> Introduction
+<span style="color:#a61717;background-color:#e3d2d2">##</span> Introduction
 
 This chart helps you run a grafana server that include aliyun cms dashboard.
 

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.68.3" />
 
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
@@ -42,7 +42,7 @@
       "datePublished": "2020-07-22 17:30:53 \x2b0800 \x2b0800",
       "dateModified" : "2020-07-22 17:30:53 \x2b0800 \x2b0800",
       "url" : "https:\/\/guoxudong.io\/post\/start-chaosblade-3\/",
-      "wordCount" : "702",
+      "wordCount" : "732",
       "keywords" : [ "混沌工程","Guoxudong" ]
   }
   </script>
@@ -51,12 +51,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://guoxudong.io/post/start-chaosblade-3/" />
 <meta property="article:published_time" content="2020-07-22T17:30:53+08:00" />
-<meta property="article:modified_time" content="2020-09-11T15:28:31+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
+<meta property="article:modified_time" content="2020-09-25T18:28:24+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
 <meta itemprop="name" content="ChaosBlade：从零开始的混沌工程（四）">
 <meta itemprop="description" content="本篇为系列文章第四篇，将介绍使用 ChaosBlade Operator 对 Kubernetes Node 进行混沌工程实验，实验包括：Node CPU 负载场景、Node 网络延迟场景、Node 网络丢包场景、Node 域名访问异常场景、Node 磁盘填充场景、Node 杀指定进程和Node 挂起指定进程等。">
 <meta itemprop="datePublished" content="2020-07-22T17:30:53&#43;08:00" />
-<meta itemprop="dateModified" content="2020-09-11T15:28:31&#43;08:00" />
-<meta itemprop="wordCount" content="702">
+<meta itemprop="dateModified" content="2020-09-25T18:28:24&#43;08:00" />
+<meta itemprop="wordCount" content="732">
 
 
 
@@ -81,8 +81,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.f377eea2b683b2fea7a7150093db6c740545f0d2916a0bcb19e6dde2a2a5b68b.css" as="style">
-<link href="/scss/main.min.f377eea2b683b2fea7a7150093db6c740545f0d2916a0bcb19e6dde2a2a5b68b.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.609c26871dd224c5295bed6e41f0dd9c030a722c72af35c8be1b63a821c4d704.css" as="style">
+<link href="/scss/main.min.609c26871dd224c5295bed6e41f0dd9c030a722c72af35c8be1b63a821c4d704.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 <script
@@ -511,7 +511,7 @@ if (!doNotTrack) {
 		<span>
 			4 分钟阅读时间
 		</span> ·
-		<span>最近更新于 </span><time datetime="2020-09-11"
+		<span>最近更新于 </span><time datetime="2020-09-25"
 			class="text-muted">2020年07月22日</time> ·
 		
 		<a href="/categories/%e6%b7%b7%e6%b2%8c%e5%b7%a5%e7%a8%8b">
@@ -595,23 +595,23 @@ if (!doNotTrack) {
 <p><strong>实验目标</strong>：指定一个节点，做 CPU 负载 80% 实验。</p>
 <p><strong>开始实验</strong></p>
 <p><code>node_cpu_load.yaml</code> 内容：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
-</span><span style="color:#666"></span>kind:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
-</span><span style="color:#666"></span>metadata:<span style="color:#666">
-</span><span style="color:#666">  </span>name:<span style="color:#666"> </span>cpu-load<span style="color:#666">
-</span><span style="color:#666"></span>spec:<span style="color:#666">
-</span><span style="color:#666">  </span>experiments:<span style="color:#666">
-</span><span style="color:#666">  </span>-<span style="color:#666"> </span>scope:<span style="color:#666"> </span>node<span style="color:#666">
-</span><span style="color:#666">    </span>target:<span style="color:#666"> </span>cpu<span style="color:#666">
-</span><span style="color:#666">    </span>action:<span style="color:#666"> </span>fullload<span style="color:#666">
-</span><span style="color:#666">    </span>desc:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;increase node cpu load by names&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>matchers:<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>names<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666">
-</span><span style="color:#666">      </span>-<span style="color:#666"> </span><span style="color:#ed9d13">&#34;docker20&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>cpu-percent<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666">
-</span><span style="color:#666">      </span>-<span style="color:#666"> </span><span style="color:#ed9d13">&#34;80&#34;</span><span style="color:#666">
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>cpu-load<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">experiments</span>:<span style="color:#666">
+</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">scope</span>:<span style="color:#666"> </span>node<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">target</span>:<span style="color:#666"> </span>cpu<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">action</span>:<span style="color:#666"> </span>fullload<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">desc</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;increase node cpu load by names&#34;</span><span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">matchers</span>:<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>names<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
+</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;docker20&#34;</span><span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>cpu-percent<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
+</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;80&#34;</span><span style="color:#666">
 </span></code></pre></div><p>选择一个节点，修改 <code>node_cpu_load.yaml</code> 中的 <code>names</code> 值。</p>
 <p>执行命令，开始实验：</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f node_cpu_load.yaml
@@ -633,27 +633,27 @@ if (!doNotTrack) {
 <p>选择一个节点，修改 <code>delay_node_network_by_names.yaml</code> 中的 <code>names</code> 值。</p>
 <p>对 docker20 节点本地端口 32436 访问丢包率 100%。</p>
 <p><code>delay_node_network_by_names.yaml</code> 内容：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
-</span><span style="color:#666"></span>kind:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
-</span><span style="color:#666"></span>metadata:<span style="color:#666">
-</span><span style="color:#666">  </span>name:<span style="color:#666"> </span>delay-node-network-by-names<span style="color:#666">
-</span><span style="color:#666"></span>spec:<span style="color:#666">
-</span><span style="color:#666">  </span>experiments:<span style="color:#666">
-</span><span style="color:#666">  </span>-<span style="color:#666"> </span>scope:<span style="color:#666"> </span>node<span style="color:#666">
-</span><span style="color:#666">    </span>target:<span style="color:#666"> </span>network<span style="color:#666">
-</span><span style="color:#666">    </span>action:<span style="color:#666"> </span>delay<span style="color:#666">
-</span><span style="color:#666">    </span>desc:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;delay node network loss&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>matchers:<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>names<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;docker20&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>interface<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;ens33&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>local-port<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;32436&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>time<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;3000&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>offset<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;1000&#34;</span>]<span style="color:#666">
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>delay-node-network-by-names<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">experiments</span>:<span style="color:#666">
+</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">scope</span>:<span style="color:#666"> </span>node<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">target</span>:<span style="color:#666"> </span>network<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">action</span>:<span style="color:#666"> </span>delay<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">desc</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;delay node network loss&#34;</span><span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">matchers</span>:<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>names<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;docker20&#34;</span>]<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>interface<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;ens33&#34;</span>]<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>local-port<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;32436&#34;</span>]<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>time<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;3000&#34;</span>]<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>offset<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;1000&#34;</span>]<span style="color:#666">
 </span></code></pre></div><p>执行命令，开始实验：</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f delay_node_network_by_names.yaml
 </code></pre></div><p><strong>查看实验状态</strong></p>
@@ -676,25 +676,25 @@ telnet 192.168.1.129 <span style="color:#3677a9">32436</span>  0.01s user 0.00s 
 <p><strong>开始实验</strong></p>
 <p>选择一个节点，修改 <code>loss_node_network_by_names.yaml</code> 中的 <code>names</code> 值。</p>
 <p><code>loss_node_network_by_names.yaml</code> 内容：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
-</span><span style="color:#666"></span>kind:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
-</span><span style="color:#666"></span>metadata:<span style="color:#666">
-</span><span style="color:#666">  </span>name:<span style="color:#666"> </span>loss-node-network-by-names<span style="color:#666">
-</span><span style="color:#666"></span>spec:<span style="color:#666">
-</span><span style="color:#666">  </span>experiments:<span style="color:#666">
-</span><span style="color:#666">  </span>-<span style="color:#666"> </span>scope:<span style="color:#666"> </span>node<span style="color:#666">
-</span><span style="color:#666">    </span>target:<span style="color:#666"> </span>network<span style="color:#666">
-</span><span style="color:#666">    </span>action:<span style="color:#666"> </span>loss<span style="color:#666">
-</span><span style="color:#666">    </span>desc:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;node network loss&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>matchers:<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>names<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;docker20&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>percent<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;100&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>interface<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;ens33&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>local-port<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;32436&#34;</span>]<span style="color:#666">
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>loss-node-network-by-names<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">experiments</span>:<span style="color:#666">
+</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">scope</span>:<span style="color:#666"> </span>node<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">target</span>:<span style="color:#666"> </span>network<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">action</span>:<span style="color:#666"> </span>loss<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">desc</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;node network loss&#34;</span><span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">matchers</span>:<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>names<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;docker20&#34;</span>]<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>percent<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;100&#34;</span>]<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>interface<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;ens33&#34;</span>]<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>local-port<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;32436&#34;</span>]<span style="color:#666">
 </span></code></pre></div><p>执行命令，开始实验：</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f loss_node_network_by_names.yaml
 </code></pre></div><p><strong>查看实验结果</strong></p>
@@ -726,24 +726,24 @@ Escape character is <span style="color:#ed9d13">&#39;^]&#39;</span>.
 <p><strong>开始实验</strong></p>
 <p>选择一个节点，修改 <code>dns_node_network_by_names.yaml</code> 中的 <code>names</code> 值。</p>
 <p><code>dns_node_network_by_names.yaml</code> 内容：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
-</span><span style="color:#666"></span>kind:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
-</span><span style="color:#666"></span>metadata:<span style="color:#666">
-</span><span style="color:#666">  </span>name:<span style="color:#666"> </span>dns-node-network-by-names<span style="color:#666">
-</span><span style="color:#666"></span>spec:<span style="color:#666">
-</span><span style="color:#666">  </span>experiments:<span style="color:#666">
-</span><span style="color:#666">  </span>-<span style="color:#666"> </span>scope:<span style="color:#666"> </span>node<span style="color:#666">
-</span><span style="color:#666">    </span>target:<span style="color:#666"> </span>network<span style="color:#666">
-</span><span style="color:#666">    </span>action:<span style="color:#666"> </span>dns<span style="color:#666">
-</span><span style="color:#666">    </span>desc:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;dns node network by names&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>matchers:<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>names<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666">
-</span><span style="color:#666">      </span>-<span style="color:#666"> </span><span style="color:#ed9d13">&#34;docker20&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>domain<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;www.baidu.com&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>ip<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;10.0.0.1&#34;</span>]<span style="color:#666">
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>dns-node-network-by-names<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">experiments</span>:<span style="color:#666">
+</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">scope</span>:<span style="color:#666"> </span>node<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">target</span>:<span style="color:#666"> </span>network<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">action</span>:<span style="color:#666"> </span>dns<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">desc</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;dns node network by names&#34;</span><span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">matchers</span>:<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>names<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
+</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;docker20&#34;</span><span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>domain<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;www.baidu.com&#34;</span>]<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>ip<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;10.0.0.1&#34;</span>]<span style="color:#666">
 </span></code></pre></div><p>执行命令，开始实验：</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f dns_node_network_by_names.yaml
 </code></pre></div><p><strong>查看实验状态</strong></p>
@@ -766,21 +766,21 @@ $ ping www.baidu.com
 <p><strong>开始实验</strong></p>
 <p>选择一个节点，修改 <code>fill_node_disk_by_names.yaml</code> 中的 <code>names</code> 值。</p>
 <p><code>fill_node_disk_by_names.yaml</code> 内容：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
-</span><span style="color:#666"></span>kind:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
-</span><span style="color:#666"></span>metadata:<span style="color:#666">
-</span><span style="color:#666">  </span>name:<span style="color:#666"> </span>fill-node-disk-by-names<span style="color:#666">
-</span><span style="color:#666"></span>spec:<span style="color:#666">
-</span><span style="color:#666">  </span>experiments:<span style="color:#666">
-</span><span style="color:#666">  </span>-<span style="color:#666"> </span>scope:<span style="color:#666"> </span>node<span style="color:#666">
-</span><span style="color:#666">    </span>target:<span style="color:#666"> </span>disk<span style="color:#666">
-</span><span style="color:#666">    </span>action:<span style="color:#666"> </span>fill<span style="color:#666">
-</span><span style="color:#666">    </span>desc:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;node disk fill&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>matchers:<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>names<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;docker20&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>percent<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;80&#34;</span>]<span style="color:#666">
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>fill-node-disk-by-names<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">experiments</span>:<span style="color:#666">
+</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">scope</span>:<span style="color:#666"> </span>node<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">target</span>:<span style="color:#666"> </span>disk<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">action</span>:<span style="color:#666"> </span>fill<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">desc</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;node disk fill&#34;</span><span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">matchers</span>:<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>names<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;docker20&#34;</span>]<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>percent<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;80&#34;</span>]<span style="color:#666">
 </span></code></pre></div><p>执行命令，开始实验：</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f fill_node_disk_by_names.yaml
 </code></pre></div><p><strong>查看实验状态</strong></p>
@@ -812,21 +812,21 @@ tmpfs           1.6G     <span style="color:#3677a9">0</span>  1.6G   0% /run/us
 <p><strong>开始实验</strong></p>
 <p>选择一个节点，修改 <code>kill_node_process_by_names.yaml</code> 中的 <code>names</code> 值。</p>
 <p><code>kill_node_process_by_names.yaml</code> 内容：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
-</span><span style="color:#666"></span>kind:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
-</span><span style="color:#666"></span>metadata:<span style="color:#666">
-</span><span style="color:#666">  </span>name:<span style="color:#666"> </span>kill-node-process-by-names<span style="color:#666">
-</span><span style="color:#666"></span>spec:<span style="color:#666">
-</span><span style="color:#666">  </span>experiments:<span style="color:#666">
-</span><span style="color:#666">  </span>-<span style="color:#666"> </span>scope:<span style="color:#666"> </span>node<span style="color:#666">
-</span><span style="color:#666">    </span>target:<span style="color:#666"> </span>process<span style="color:#666">
-</span><span style="color:#666">    </span>action:<span style="color:#666"> </span>kill<span style="color:#666">
-</span><span style="color:#666">    </span>desc:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;kill node process by names&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>matchers:<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>names<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;docker20&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>process<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;redis-server&#34;</span>]<span style="color:#666">
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>kill-node-process-by-names<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">experiments</span>:<span style="color:#666">
+</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">scope</span>:<span style="color:#666"> </span>node<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">target</span>:<span style="color:#666"> </span>process<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">action</span>:<span style="color:#666"> </span>kill<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">desc</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;kill node process by names&#34;</span><span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">matchers</span>:<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>names<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;docker20&#34;</span>]<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>process<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;redis-server&#34;</span>]<span style="color:#666">
 </span></code></pre></div><p>执行命令，开始实验：</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f kill_node_process_by_names.yaml
 </code></pre></div><p><strong>查看实验状态</strong></p>
@@ -850,21 +850,21 @@ root      <span style="color:#3677a9">2873</span>  <span style="color:#3677a9">2
 <p><strong>开始实验</strong></p>
 <p>选择一个节点，修改 <code>stop_node_process_by_names.yaml</code> 中的 <code>names</code> 值。</p>
 <p><code>stop_node_process_by_names.yaml</code> 内容：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
-</span><span style="color:#666"></span>kind:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
-</span><span style="color:#666"></span>metadata:<span style="color:#666">
-</span><span style="color:#666">  </span>name:<span style="color:#666"> </span>stop-node-process-by-names<span style="color:#666">
-</span><span style="color:#666"></span>spec:<span style="color:#666">
-</span><span style="color:#666">  </span>experiments:<span style="color:#666">
-</span><span style="color:#666">  </span>-<span style="color:#666"> </span>scope:<span style="color:#666"> </span>node<span style="color:#666">
-</span><span style="color:#666">    </span>target:<span style="color:#666"> </span>process<span style="color:#666">
-</span><span style="color:#666">    </span>action:<span style="color:#666"> </span>stop<span style="color:#666">
-</span><span style="color:#666">    </span>desc:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;kill node process by names&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>matchers:<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>names<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;docker20&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>process<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;redis-server&#34;</span>]<span style="color:#666">
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>stop-node-process-by-names<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">experiments</span>:<span style="color:#666">
+</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">scope</span>:<span style="color:#666"> </span>node<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">target</span>:<span style="color:#666"> </span>process<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">action</span>:<span style="color:#666"> </span>stop<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">desc</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;kill node process by names&#34;</span><span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">matchers</span>:<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>names<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;docker20&#34;</span>]<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>process<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;redis-server&#34;</span>]<span style="color:#666">
 </span></code></pre></div><p>执行命令，开始实验：</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f stop_node_process_by_names.yaml
 </code></pre></div><p><strong>查看实验状态</strong></p>

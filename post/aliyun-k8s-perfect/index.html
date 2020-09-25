@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.68.3" />
 
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
@@ -42,7 +42,7 @@
       "datePublished": "2019-04-25 22:26:06 \x2b0800 \x2b0800",
       "dateModified" : "2019-04-25 22:26:06 \x2b0800 \x2b0800",
       "url" : "https:\/\/guoxudong.io\/post\/aliyun-k8s-perfect\/",
-      "wordCount" : "238",
+      "wordCount" : "240",
       "keywords" : [ "阿里云","kubernetes","容器","Guoxudong" ]
   }
   </script>
@@ -51,12 +51,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://guoxudong.io/post/aliyun-k8s-perfect/" />
 <meta property="article:published_time" content="2019-04-25T22:26:06+08:00" />
-<meta property="article:modified_time" content="2020-09-11T15:28:31+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
+<meta property="article:modified_time" content="2020-09-25T18:28:24+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
 <meta itemprop="name" content="阿里云容器服务新建集群优化方案(更新版)">
 <meta itemprop="description" content="这里记录了在工作中遇到阿里云容器服务的调优优化方案，帮助您绕过阿里云容器服务中的一些坑，来使用更好更优质的阿里云容器服务。">
 <meta itemprop="datePublished" content="2019-04-25T22:26:06&#43;08:00" />
-<meta itemprop="dateModified" content="2020-09-11T15:28:31&#43;08:00" />
-<meta itemprop="wordCount" content="238">
+<meta itemprop="dateModified" content="2020-09-25T18:28:24&#43;08:00" />
+<meta itemprop="wordCount" content="240">
 
 
 
@@ -81,8 +81,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.f377eea2b683b2fea7a7150093db6c740545f0d2916a0bcb19e6dde2a2a5b68b.css" as="style">
-<link href="/scss/main.min.f377eea2b683b2fea7a7150093db6c740545f0d2916a0bcb19e6dde2a2a5b68b.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.609c26871dd224c5295bed6e41f0dd9c030a722c72af35c8be1b63a821c4d704.css" as="style">
+<link href="/scss/main.min.609c26871dd224c5295bed6e41f0dd9c030a722c72af35c8be1b63a821c4d704.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 <script
@@ -197,7 +197,7 @@ if (!doNotTrack) {
     <li><a href="#node-节点名称无法修改问题解决">Node 节点名称无法修改问题解决</a></li>
     <li><a href="#创建-slb-规格问题解决">创建 SLB 规格问题解决</a>
       <ul>
-        <li><a href="#方法一使用-kubectl-配置">方法一：使用 kubectl 配置</a></li>
+        <li><a href="#方法一使用-kubectl-配置">方法一：使用 <code>kubectl</code> 配置</a></li>
         <li><a href="#方法二-使用阿里云容器服务控制台配置">方法二： 使用阿里云容器服务控制台配置</a></li>
         <li><a href="#后续操作">后续操作</a></li>
       </ul>
@@ -516,7 +516,7 @@ if (!doNotTrack) {
 		<span>
 			2 分钟阅读时间
 		</span> ·
-		<span>最近更新于 </span><time datetime="2020-09-11"
+		<span>最近更新于 </span><time datetime="2020-09-25"
 			class="text-muted">2019年04月25日</time> ·
 		
 		<a href="/categories/kubernetes">
@@ -610,35 +610,35 @@ if (!doNotTrack) {
 <h4 id="2-在创建集群后重新绑定-ingress-controller-的-service">2. 在创建集群后重新绑定 <code>ingress-controller</code> 的 <code>Service</code></h4>
 <p>首先需要使用 <code>kubectl</code> 或者直接在阿里云控制台操作，创建新的 <code>nginx-ingress-svc</code></p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#999;font-style:italic"># nginx ingress service</span><span style="color:#666">
-</span><span style="color:#666"></span>apiVersion:<span style="color:#666"> </span>v1<span style="color:#666">
-</span><span style="color:#666"></span>kind:<span style="color:#666"> </span>Service<span style="color:#666">
-</span><span style="color:#666"></span>metadata:<span style="color:#666">
-</span><span style="color:#666"></span>name:<span style="color:#666"> </span>nginx-ingress-lb-{new-name}<span style="color:#666">
-</span><span style="color:#666"></span>namespace:<span style="color:#666"> </span>kube-system<span style="color:#666">
-</span><span style="color:#666"></span>labels:<span style="color:#666">
-</span><span style="color:#666">    </span>app:<span style="color:#666"> </span>nginx-ingress-lb-{new-name}<span style="color:#666">
-</span><span style="color:#666"></span>annotations:<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>v1<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>Service<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>nginx-ingress-lb-{new-name}<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">namespace</span>:<span style="color:#666"> </span>kube-system<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">labels</span>:<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">app</span>:<span style="color:#666"> </span>nginx-ingress-lb-{new-name}<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">annotations</span>:<span style="color:#666">
 </span><span style="color:#666">    </span><span style="color:#999;font-style:italic"># set loadbalancer to the specified slb id</span><span style="color:#666">
-</span><span style="color:#666">    </span>service.beta.kubernetes.io/alicloud-loadbalancer-id:<span style="color:#666"> </span>{SLB-ID}<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">service.beta.kubernetes.io/alicloud-loadbalancer-id</span>:<span style="color:#666"> </span>{SLB-ID}<span style="color:#666">
 </span><span style="color:#666">    </span><span style="color:#999;font-style:italic"># set loadbalancer address type to intranet if using private slb instance</span><span style="color:#666">
 </span><span style="color:#666">    </span><span style="color:#999;font-style:italic">#service.beta.kubernetes.io/alicloud-loadbalancer-address-type: intranet</span><span style="color:#666">
-</span><span style="color:#666">    </span>service.beta.kubernetes.io/alicloud-loadbalancer-force-override-listeners:<span style="color:#666"> </span><span style="color:#ed9d13">&#39;true&#39;</span><span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">service.beta.kubernetes.io/alicloud-loadbalancer-force-override-listeners</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#39;true&#39;</span><span style="color:#666">
 </span><span style="color:#666">    </span><span style="color:#999;font-style:italic">#service.beta.kubernetes.io/alicloud-loadbalancer-backend-label: node-role.kubernetes.io/ingress=true</span><span style="color:#666">
-</span><span style="color:#666"></span>spec:<span style="color:#666">
-</span><span style="color:#666"></span>type:<span style="color:#666"> </span>LoadBalancer<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">type</span>:<span style="color:#666"> </span>LoadBalancer<span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#999;font-style:italic"># do not route traffic to other nodes</span><span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#999;font-style:italic"># and reserve client ip for upstream</span><span style="color:#666">
-</span><span style="color:#666"></span>externalTrafficPolicy:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;Local&#34;</span><span style="color:#666">
-</span><span style="color:#666"></span>ports:<span style="color:#666">
-</span><span style="color:#666"></span>-<span style="color:#666"> </span>port:<span style="color:#666"> </span><span style="color:#3677a9">80</span><span style="color:#666">
-</span><span style="color:#666">    </span>name:<span style="color:#666"> </span>http<span style="color:#666">
-</span><span style="color:#666">    </span>targetPort:<span style="color:#666"> </span><span style="color:#3677a9">80</span><span style="color:#666">
-</span><span style="color:#666"></span>-<span style="color:#666"> </span>port:<span style="color:#666"> </span><span style="color:#3677a9">443</span><span style="color:#666">
-</span><span style="color:#666">    </span>name:<span style="color:#666"> </span>https<span style="color:#666">
-</span><span style="color:#666">    </span>targetPort:<span style="color:#666"> </span><span style="color:#3677a9">443</span><span style="color:#666">
-</span><span style="color:#666"></span>selector:<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">externalTrafficPolicy</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;Local&#34;</span><span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">ports</span>:<span style="color:#666">
+</span><span style="color:#666"></span>- <span style="color:#6ab825;font-weight:bold">port</span>:<span style="color:#666"> </span><span style="color:#3677a9">80</span><span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>http<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">targetPort</span>:<span style="color:#666"> </span><span style="color:#3677a9">80</span><span style="color:#666">
+</span><span style="color:#666"></span>- <span style="color:#6ab825;font-weight:bold">port</span>:<span style="color:#666"> </span><span style="color:#3677a9">443</span><span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>https<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">targetPort</span>:<span style="color:#666"> </span><span style="color:#3677a9">443</span><span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">selector</span>:<span style="color:#666">
 </span><span style="color:#666">    </span><span style="color:#999;font-style:italic"># select app=ingress-nginx pods</span><span style="color:#666">
-</span><span style="color:#666">    </span>app:<span style="color:#666"> </span>ingress-nginx<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">app</span>:<span style="color:#666"> </span>ingress-nginx<span style="color:#666">
 </span></code></pre></div><p>创建成功后，可以进到 SLB 页面查看，可以看到 <code>80</code> 和 <code>443</code> 端口的监听已经被添加了
 <img src="https://wx4.sinaimg.cn/large/ad5fbf65gy1g1maej57c1j21ru0rwq8b.jpg" alt="image"></p>
 <h4 id="3-绑定符合要求的弹性ip">3. 绑定符合要求的弹性IP</h4>

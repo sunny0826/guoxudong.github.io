@@ -34,15 +34,15 @@
 &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;defer&lt;/span&gt; ui.&lt;span style=&#34;color:#447fcf&#34;&gt;Close&lt;/span&gt;()
 
 &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Bind Go function to be available in JS. Go function may be long-running and
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// blocking - in JS it&amp;#39;s represented with a Promise.
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// blocking - in JS it&amp;#39;s represented with a Promise.
 &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;ui.&lt;span style=&#34;color:#447fcf&#34;&gt;Bind&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;add&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;func&lt;/span&gt;(a, b &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;int&lt;/span&gt;) &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;int&lt;/span&gt; { &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; a + b })
 
 &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Call JS function from Go. Functions may be asynchronous, i.e. return promises
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;n := ui.&lt;span style=&#34;color:#447fcf&#34;&gt;Eval&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;`&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;Math.random()&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;`&lt;/span&gt;).&lt;span style=&#34;color:#447fcf&#34;&gt;Float&lt;/span&gt;()
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;n := ui.&lt;span style=&#34;color:#447fcf&#34;&gt;Eval&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;`Math.random()`&lt;/span&gt;).&lt;span style=&#34;color:#447fcf&#34;&gt;Float&lt;/span&gt;()
 fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Println&lt;/span&gt;(n)
 
 &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Call JS that calls Go and so on and so on...
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;m := ui.&lt;span style=&#34;color:#447fcf&#34;&gt;Eval&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;`&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;add(2, 3)&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;`&lt;/span&gt;).&lt;span style=&#34;color:#447fcf&#34;&gt;Int&lt;/span&gt;()
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;m := ui.&lt;span style=&#34;color:#447fcf&#34;&gt;Eval&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;`add(2, 3)`&lt;/span&gt;).&lt;span style=&#34;color:#447fcf&#34;&gt;Int&lt;/span&gt;()
 fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Println&lt;/span&gt;(m)
 
 &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Wait for the browser window to be closed
@@ -108,17 +108,17 @@ Kustomize.app
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#cd2828;font-weight:bold&#34;&gt;&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt;&lt;/span&gt;
 &lt;span style=&#34;color:#cd2828;font-weight:bold&#34;&gt;&amp;lt;!DOCTYPE plist PUBLIC &amp;#34;-//Apple//DTD PLIST 1.0//EN&amp;#34; &amp;#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&amp;#34;&amp;gt;&lt;/span&gt;
 &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;plist&lt;/span&gt; &lt;span style=&#34;color:#bbb&#34;&gt;version=&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;1.0&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;dict&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;CFBundleExecutable&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;string&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;kustomize&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;CFBundleIconFile&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;string&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;icon.icns&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;CFBundleIdentifier&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;string&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;io.guoxudong.kustomize-remote-observer&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;NSHighResolutionCapable&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;true&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;/&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;LSUIElement&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;string&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;1&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;dict&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;CFBundleExecutable&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;kustomize&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;CFBundleIconFile&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;icon.icns&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;CFBundleIdentifier&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;io.guoxudong.kustomize-remote-observer&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;NSHighResolutionCapable&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;true/&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;LSUIElement&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;1&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
 &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/dict&amp;gt;&lt;/span&gt;
 &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/plist&amp;gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;使用脚本构建-app&#34;&gt;使用脚本构建 App&lt;/h3&gt;

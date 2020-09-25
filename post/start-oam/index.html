@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.68.3" />
 
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
@@ -42,7 +42,7 @@
       "datePublished": "2020-06-28 14:53:23 \x2b0800 \x2b0800",
       "dateModified" : "2020-06-28 14:53:23 \x2b0800 \x2b0800",
       "url" : "https:\/\/guoxudong.io\/post\/start-oam\/",
-      "wordCount" : "533",
+      "wordCount" : "544",
       "keywords" : [ "OAM","kubernetes","Guoxudong" ]
   }
   </script>
@@ -51,12 +51,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://guoxudong.io/post/start-oam/" />
 <meta property="article:published_time" content="2020-06-28T14:53:23+08:00" />
-<meta property="article:modified_time" content="2020-09-11T15:28:31+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
+<meta property="article:modified_time" content="2020-09-25T18:28:24+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
 <meta itemprop="name" content="以应用为中心：开放应用模型（OAM）初探">
 <meta itemprop="description" content="本文通过一个简单的示例，介绍开放应用模型（OAM）是如何实现以应用为中心，管理 Kubernetes 的。">
 <meta itemprop="datePublished" content="2020-06-28T14:53:23&#43;08:00" />
-<meta itemprop="dateModified" content="2020-09-11T15:28:31&#43;08:00" />
-<meta itemprop="wordCount" content="533">
+<meta itemprop="dateModified" content="2020-09-25T18:28:24&#43;08:00" />
+<meta itemprop="wordCount" content="544">
 
 
 
@@ -81,8 +81,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.f377eea2b683b2fea7a7150093db6c740545f0d2916a0bcb19e6dde2a2a5b68b.css" as="style">
-<link href="/scss/main.min.f377eea2b683b2fea7a7150093db6c740545f0d2916a0bcb19e6dde2a2a5b68b.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.609c26871dd224c5295bed6e41f0dd9c030a722c72af35c8be1b63a821c4d704.css" as="style">
+<link href="/scss/main.min.609c26871dd224c5295bed6e41f0dd9c030a722c72af35c8be1b63a821c4d704.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 <script
@@ -522,7 +522,7 @@ if (!doNotTrack) {
 		<span>
 			3 分钟阅读时间
 		</span> ·
-		<span>最近更新于 </span><time datetime="2020-09-11"
+		<span>最近更新于 </span><time datetime="2020-09-25"
 			class="text-muted">2020年06月28日</time> ·
 		
 		<a href="/categories/oam">
@@ -648,83 +648,83 @@ I0629 11:15:22.035708     <span style="color:#3677a9">802</span> request.go:621]
 <h3 id="部署应用">部署应用</h3>
 <h4 id="配置-rbac">配置 RBAC</h4>
 <p>使用命令：<code>kubectl apply -f rbac.yaml</code>，配置 RBAC。这里需要注意的是官方 IngressTrait 的 sample 示例中并没有 <code>rbac.yaml</code>，需要我们自己配置，否则的话会在部署时由于权限原因无法拉起 Deployment。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion:<span style="color:#666"> </span>rbac.authorization.k8s.io/v1<span style="color:#666">
-</span><span style="color:#666"></span>kind:<span style="color:#666"> </span>ClusterRole<span style="color:#666">
-</span><span style="color:#666"></span>metadata:<span style="color:#666">
-</span><span style="color:#666">  </span>name:<span style="color:#666"> </span>deployment-clusterrole-poc<span style="color:#666">
-</span><span style="color:#666"></span>rules:<span style="color:#666">
-</span><span style="color:#666"></span>-<span style="color:#666"> </span>apiGroups:<span style="color:#666">
-</span><span style="color:#666">  </span>-<span style="color:#666"> </span>apps<span style="color:#666">
-</span><span style="color:#666">  </span>resources:<span style="color:#666">
-</span><span style="color:#666">  </span>-<span style="color:#666"> </span>deployments<span style="color:#666">
-</span><span style="color:#666">  </span>verbs:<span style="color:#666">
-</span><span style="color:#666">  </span>-<span style="color:#666"> </span><span style="color:#ed9d13">&#34;*&#34;</span><span style="color:#666">
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>rbac.authorization.k8s.io/v1<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ClusterRole<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>deployment-clusterrole-poc<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">rules</span>:<span style="color:#666">
+</span><span style="color:#666"></span>- <span style="color:#6ab825;font-weight:bold">apiGroups</span>:<span style="color:#666">
+</span><span style="color:#666">  </span>- apps<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">resources</span>:<span style="color:#666">
+</span><span style="color:#666">  </span>- deployments<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">verbs</span>:<span style="color:#666">
+</span><span style="color:#666">  </span>- <span style="color:#ed9d13">&#34;*&#34;</span><span style="color:#666">
 </span><span style="color:#666">
 </span><span style="color:#666"></span>---<span style="color:#666">
-</span><span style="color:#666"></span>apiVersion:<span style="color:#666"> </span>rbac.authorization.k8s.io/v1<span style="color:#666">
-</span><span style="color:#666"></span>kind:<span style="color:#666"> </span>ClusterRoleBinding<span style="color:#666">
-</span><span style="color:#666"></span>metadata:<span style="color:#666">
-</span><span style="color:#666">  </span>name:<span style="color:#666"> </span>component-deployment-workload-poc<span style="color:#666">
-</span><span style="color:#666"></span>roleRef:<span style="color:#666">
-</span><span style="color:#666">  </span>apiGroup:<span style="color:#666"> </span>rbac.authorization.k8s.io<span style="color:#666">
-</span><span style="color:#666">  </span>kind:<span style="color:#666"> </span>ClusterRole<span style="color:#666">
-</span><span style="color:#666">  </span>name:<span style="color:#666"> </span>deployment-clusterrole-poc<span style="color:#666">
-</span><span style="color:#666"></span>subjects:<span style="color:#666">
-</span><span style="color:#666">  </span>-<span style="color:#666"> </span>kind:<span style="color:#666"> </span>ServiceAccount<span style="color:#666">
-</span><span style="color:#666">    </span>name:<span style="color:#666"> </span>crossplane-oam<span style="color:#666">              </span><span style="color:#999;font-style:italic"># Remember to use the actual ServiceAccount name</span><span style="color:#666">
-</span><span style="color:#666">    </span>namespace:<span style="color:#666"> </span>oam-system<span style="color:#666">             </span><span style="color:#999;font-style:italic"># Remember to use the actual ServiceAccount namespace</span><span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>rbac.authorization.k8s.io/v1<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ClusterRoleBinding<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>component-deployment-workload-poc<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">roleRef</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">apiGroup</span>:<span style="color:#666"> </span>rbac.authorization.k8s.io<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ClusterRole<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>deployment-clusterrole-poc<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">subjects</span>:<span style="color:#666">
+</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ServiceAccount<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>crossplane-oam<span style="color:#666">              </span><span style="color:#999;font-style:italic"># Remember to use the actual ServiceAccount name</span><span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">namespace</span>:<span style="color:#666"> </span>oam-system<span style="color:#666">             </span><span style="color:#999;font-style:italic"># Remember to use the actual ServiceAccount namespace</span><span style="color:#666">
 </span><span style="color:#666">
 </span></code></pre></div><h4 id="部署-component">部署 Component</h4>
 <p>使用 <code>kubectl apply -f sample_component.yaml </code> 命令部署 Component，该 Component 中的 workload 为 Deployment。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion:<span style="color:#666"> </span>core.oam.dev/v1alpha2<span style="color:#666">
-</span><span style="color:#666"></span>kind:<span style="color:#666"> </span>Component<span style="color:#666">
-</span><span style="color:#666"></span>metadata:<span style="color:#666">
-</span><span style="color:#666">  </span>name:<span style="color:#666"> </span>example-deploy<span style="color:#666">
-</span><span style="color:#666"></span>spec:<span style="color:#666">
-</span><span style="color:#666">  </span>workload:<span style="color:#666">
-</span><span style="color:#666">    </span>apiVersion:<span style="color:#666"> </span>apps/v1<span style="color:#666">
-</span><span style="color:#666">    </span>kind:<span style="color:#666"> </span>Deployment<span style="color:#666">
-</span><span style="color:#666">    </span>metadata:<span style="color:#666">
-</span><span style="color:#666">      </span>name:<span style="color:#666"> </span>web<span style="color:#666">
-</span><span style="color:#666">    </span>spec:<span style="color:#666">
-</span><span style="color:#666">      </span>selector:<span style="color:#666">
-</span><span style="color:#666">        </span>matchLabels:<span style="color:#666">
-</span><span style="color:#666">          </span>app:<span style="color:#666"> </span>test<span style="color:#666">
-</span><span style="color:#666">      </span>template:<span style="color:#666">
-</span><span style="color:#666">        </span>metadata:<span style="color:#666">
-</span><span style="color:#666">          </span>labels:<span style="color:#666">
-</span><span style="color:#666">            </span>app:<span style="color:#666"> </span>test<span style="color:#666">
-</span><span style="color:#666">        </span>spec:<span style="color:#666">
-</span><span style="color:#666">          </span>containers:<span style="color:#666">
-</span><span style="color:#666">            </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>nginx<span style="color:#666">
-</span><span style="color:#666">              </span>image:<span style="color:#666"> </span>nginx:<span style="color:#3677a9">1.17</span><span style="color:#666">
-</span><span style="color:#666">              </span>ports:<span style="color:#666">
-</span><span style="color:#666">                </span>-<span style="color:#666"> </span>containerPort:<span style="color:#666"> </span><span style="color:#3677a9">80</span><span style="color:#666">
-</span><span style="color:#666">                  </span>name:<span style="color:#666"> </span>web<span style="color:#666">
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>core.oam.dev/v1alpha2<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>Component<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>example-deploy<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">workload</span>:<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>apps/v1<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>Deployment<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>web<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">selector</span>:<span style="color:#666">
+</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">matchLabels</span>:<span style="color:#666">
+</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">app</span>:<span style="color:#666"> </span>test<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">template</span>:<span style="color:#666">
+</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
+</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">labels</span>:<span style="color:#666">
+</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">app</span>:<span style="color:#666"> </span>test<span style="color:#666">
+</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
+</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">containers</span>:<span style="color:#666">
+</span><span style="color:#666">            </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>nginx<span style="color:#666">
+</span><span style="color:#666">              </span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666"> </span>nginx:<span style="color:#3677a9">1.17</span><span style="color:#666">
+</span><span style="color:#666">              </span><span style="color:#6ab825;font-weight:bold">ports</span>:<span style="color:#666">
+</span><span style="color:#666">                </span>- <span style="color:#6ab825;font-weight:bold">containerPort</span>:<span style="color:#666"> </span><span style="color:#3677a9">80</span><span style="color:#666">
+</span><span style="color:#666">                  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>web<span style="color:#666">
 </span></code></pre></div><h4 id="部署-applicationconfiguration">部署 ApplicationConfiguration</h4>
 <p>可以看到这个 ApplicationConfiguration 中包含一个 Component，而 Component 中又绑定了 一个 IngressTrait 类型的 Trait，由于这只是一个简单示例，所有只有一个 Component 和一个 Trait，在实际的生产环境中，一个 ApplicationConfiguration 可由多个 Component 组成，一个 Component 又可绑定多个 Trait 为其提供诸如流量管控、弹性伸缩等运维特性。</p>
 <p>使用命令：<code>kubectl apply -f sample_application_config.yaml</code></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion:<span style="color:#666"> </span>core.oam.dev/v1alpha2<span style="color:#666">
-</span><span style="color:#666"></span>kind:<span style="color:#666"> </span>ApplicationConfiguration<span style="color:#666">
-</span><span style="color:#666"></span>metadata:<span style="color:#666">
-</span><span style="color:#666">  </span>name:<span style="color:#666"> </span>example-appconfig<span style="color:#666">
-</span><span style="color:#666"></span>spec:<span style="color:#666">
-</span><span style="color:#666">  </span>components:<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>componentName:<span style="color:#666"> </span>example-deploy<span style="color:#666">
-</span><span style="color:#666">      </span>traits:<span style="color:#666">
-</span><span style="color:#666">        </span>-<span style="color:#666"> </span>trait:<span style="color:#666">
-</span><span style="color:#666">            </span>apiVersion:<span style="color:#666"> </span>core.oam.dev/v1alpha2<span style="color:#666">
-</span><span style="color:#666">            </span>kind:<span style="color:#666"> </span>IngressTrait<span style="color:#666">
-</span><span style="color:#666">            </span>metadata:<span style="color:#666">
-</span><span style="color:#666">              </span>name:<span style="color:#666"> </span>example-ingress-trait<span style="color:#666">
-</span><span style="color:#666">            </span>spec:<span style="color:#666">
-</span><span style="color:#666">                </span>rules:<span style="color:#666">
-</span><span style="color:#666">                  </span>-<span style="color:#666"> </span>host:<span style="color:#666"> </span>nginx.oam.com<span style="color:#666">
-</span><span style="color:#666">                    </span>paths:<span style="color:#666">
-</span><span style="color:#666">                      </span>-<span style="color:#666"> </span>path:<span style="color:#666"> </span>/<span style="color:#666">
-</span><span style="color:#666">                        </span>backend:<span style="color:#666">
-</span><span style="color:#666">                          </span>serviceName:<span style="color:#666"> </span>deploy-test<span style="color:#666">
-</span><span style="color:#666">                          </span>servicePort:<span style="color:#666"> </span><span style="color:#3677a9">8080</span><span style="color:#666">
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>core.oam.dev/v1alpha2<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ApplicationConfiguration<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>example-appconfig<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">components</span>:<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">componentName</span>:<span style="color:#666"> </span>example-deploy<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">traits</span>:<span style="color:#666">
+</span><span style="color:#666">        </span>- <span style="color:#6ab825;font-weight:bold">trait</span>:<span style="color:#666">
+</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>core.oam.dev/v1alpha2<span style="color:#666">
+</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>IngressTrait<span style="color:#666">
+</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
+</span><span style="color:#666">              </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>example-ingress-trait<span style="color:#666">
+</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
+</span><span style="color:#666">                </span><span style="color:#6ab825;font-weight:bold">rules</span>:<span style="color:#666">
+</span><span style="color:#666">                  </span>- <span style="color:#6ab825;font-weight:bold">host</span>:<span style="color:#666"> </span>nginx.oam.com<span style="color:#666">
+</span><span style="color:#666">                    </span><span style="color:#6ab825;font-weight:bold">paths</span>:<span style="color:#666">
+</span><span style="color:#666">                      </span>- <span style="color:#6ab825;font-weight:bold">path</span>:<span style="color:#666"> </span>/<span style="color:#666">
+</span><span style="color:#666">                        </span><span style="color:#6ab825;font-weight:bold">backend</span>:<span style="color:#666">
+</span><span style="color:#666">                          </span><span style="color:#6ab825;font-weight:bold">serviceName</span>:<span style="color:#666"> </span>deploy-test<span style="color:#666">
+</span><span style="color:#666">                          </span><span style="color:#6ab825;font-weight:bold">servicePort</span>:<span style="color:#666"> </span><span style="color:#3677a9">8080</span><span style="color:#666">
 </span></code></pre></div><h4 id="检查结果">检查结果</h4>
 <p>可以看到 Deployment、Service 和 Ingress 已经部署成功：</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get deploy,svc,ing

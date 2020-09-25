@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.68.3" />
 
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
@@ -42,7 +42,7 @@
       "datePublished": "2020-06-09 11:14:09 \x2b0800 \x2b0800",
       "dateModified" : "2020-06-09 11:14:09 \x2b0800 \x2b0800",
       "url" : "https:\/\/guoxudong.io\/post\/start-chaosblade-1\/",
-      "wordCount" : "416",
+      "wordCount" : "425",
       "keywords" : [ "混沌工程","Guoxudong" ]
   }
   </script>
@@ -51,12 +51,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://guoxudong.io/post/start-chaosblade-1/" />
 <meta property="article:published_time" content="2020-06-09T11:14:09+08:00" />
-<meta property="article:modified_time" content="2020-09-11T15:28:31+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
+<meta property="article:modified_time" content="2020-09-25T18:28:24+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
 <meta itemprop="name" content="ChaosBlade：从零开始的混沌工程（二）">
 <meta itemprop="description" content="本篇为系列文章第二篇，将介绍 ChaosBlade-Operator 的安装方式以及基本概念，并进行一个简单的示例实验。">
 <meta itemprop="datePublished" content="2020-06-09T11:14:09&#43;08:00" />
-<meta itemprop="dateModified" content="2020-09-11T15:28:31&#43;08:00" />
-<meta itemprop="wordCount" content="416">
+<meta itemprop="dateModified" content="2020-09-25T18:28:24&#43;08:00" />
+<meta itemprop="wordCount" content="425">
 
 
 
@@ -81,8 +81,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.f377eea2b683b2fea7a7150093db6c740545f0d2916a0bcb19e6dde2a2a5b68b.css" as="style">
-<link href="/scss/main.min.f377eea2b683b2fea7a7150093db6c740545f0d2916a0bcb19e6dde2a2a5b68b.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.609c26871dd224c5295bed6e41f0dd9c030a722c72af35c8be1b63a821c4d704.css" as="style">
+<link href="/scss/main.min.609c26871dd224c5295bed6e41f0dd9c030a722c72af35c8be1b63a821c4d704.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 <script
@@ -511,7 +511,7 @@ if (!doNotTrack) {
 		<span>
 			2 分钟阅读时间
 		</span> ·
-		<span>最近更新于 </span><time datetime="2020-09-11"
+		<span>最近更新于 </span><time datetime="2020-09-25"
 			class="text-muted">2020年06月09日</time> ·
 		
 		<a href="/categories/%e6%b7%b7%e6%b2%8c%e5%b7%a5%e7%a8%8b">
@@ -606,31 +606,31 @@ helm install guestbook apphub-incubator/guestbook --set service.type=NodePort --
 <h3 id="开始实验">开始实验</h3>
 <p>**实验目标：**对 chaosblade 命名空间中，对 <code>redis-master-68857cd57c-dzbs9</code> Pod 的本地 6379 端口添加 3000 毫秒访问延迟，延迟时间上下浮动 1000 毫秒。</p>
 <p><strong>实验 yaml 配置</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
-</span><span style="color:#666"></span>kind:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
-</span><span style="color:#666"></span>metadata:<span style="color:#666">
-</span><span style="color:#666">  </span>name:<span style="color:#666"> </span>delay-pod-network-by-names<span style="color:#666">
-</span><span style="color:#666"></span>spec:<span style="color:#666">
-</span><span style="color:#666">  </span>experiments:<span style="color:#666">
-</span><span style="color:#666">  </span>-<span style="color:#666"> </span>scope:<span style="color:#666"> </span>pod<span style="color:#666">
-</span><span style="color:#666">    </span>target:<span style="color:#666"> </span>network<span style="color:#666">
-</span><span style="color:#666">    </span>action:<span style="color:#666"> </span>delay<span style="color:#666">
-</span><span style="color:#666">    </span>desc:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;delay pod network by names&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>matchers:<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>names<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666">
-</span><span style="color:#666">      </span>-<span style="color:#666"> </span><span style="color:#ed9d13">&#34;redis-master-68857cd57c-dzbs9&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>namespace<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666">
-</span><span style="color:#666">      </span>-<span style="color:#666"> </span><span style="color:#ed9d13">&#34;chaosblade&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>local-port<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;6379&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>interface<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;eth0&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>time<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;3000&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>offset<span style="color:#666">
-</span><span style="color:#666">      </span>value:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;1000&#34;</span>]<span style="color:#666">
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>delay-pod-network-by-names<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">experiments</span>:<span style="color:#666">
+</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">scope</span>:<span style="color:#666"> </span>pod<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">target</span>:<span style="color:#666"> </span>network<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">action</span>:<span style="color:#666"> </span>delay<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">desc</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;delay pod network by names&#34;</span><span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">matchers</span>:<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>names<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
+</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;redis-master-68857cd57c-dzbs9&#34;</span><span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>namespace<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
+</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;chaosblade&#34;</span><span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>local-port<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;6379&#34;</span>]<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>interface<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;eth0&#34;</span>]<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>time<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;3000&#34;</span>]<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>offset<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;1000&#34;</span>]<span style="color:#666">
 </span></code></pre></div><p>将其保存为 <code>delay_pod_network_by_names.yaml</code> 并执行命令，开始实验：</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f delay_pod_network_by_names.yaml
 </code></pre></div><h3 id="查看实验状态">查看实验状态</h3>

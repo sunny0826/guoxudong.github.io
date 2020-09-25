@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.68.3" />
 
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
@@ -51,11 +51,11 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://guoxudong.io/post/golang-to-homebrew/" />
 <meta property="article:published_time" content="2019-07-25T16:27:57+08:00" />
-<meta property="article:modified_time" content="2020-09-11T15:28:31+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
+<meta property="article:modified_time" content="2020-09-25T18:28:24+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
 <meta itemprop="name" content="Golang 装逼指南 Ⅱ：在 Homwebrew 上发布 Golang 项目">
 <meta itemprop="description" content="本文介绍如何在 Homebrew 上发布 Golang 项目。">
 <meta itemprop="datePublished" content="2019-07-25T16:27:57&#43;08:00" />
-<meta itemprop="dateModified" content="2020-09-11T15:28:31&#43;08:00" />
+<meta itemprop="dateModified" content="2020-09-25T18:28:24&#43;08:00" />
 <meta itemprop="wordCount" content="444">
 
 
@@ -81,8 +81,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.f377eea2b683b2fea7a7150093db6c740545f0d2916a0bcb19e6dde2a2a5b68b.css" as="style">
-<link href="/scss/main.min.f377eea2b683b2fea7a7150093db6c740545f0d2916a0bcb19e6dde2a2a5b68b.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.609c26871dd224c5295bed6e41f0dd9c030a722c72af35c8be1b63a821c4d704.css" as="style">
+<link href="/scss/main.min.609c26871dd224c5295bed6e41f0dd9c030a722c72af35c8be1b63a821c4d704.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 <script
@@ -508,7 +508,7 @@ if (!doNotTrack) {
 		<span>
 			3 分钟阅读时间
 		</span> ·
-		<span>最近更新于 </span><time datetime="2020-09-11"
+		<span>最近更新于 </span><time datetime="2020-09-25"
 			class="text-muted">2019年07月25日</time> ·
 		
 		<a href="/categories/go">
@@ -597,25 +597,25 @@ if (!doNotTrack) {
 <span style="color:#999;font-style:italic"># PLEASE REMOVE ALL GENERATED COMMENTS BEFORE SUBMITTING YOUR PULL REQUEST!</span>
 
 <span style="color:#6ab825;font-weight:bold">class</span> <span style="color:#447fcf;text-decoration:underline">OtfccMac64</span> &lt; <span style="color:#40ffff">Formula</span>
-  desc <span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">&#34;</span>
-  homepage <span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">&#34;</span>
-  url <span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">https://github.com/sunny0826/kubecm/releases/download/v0.0.1/kubecm_0.0.1_Darwin_x86_64.tar.gz</span><span style="color:#ed9d13">&#34;</span>
-  version <span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">0.0.1</span><span style="color:#ed9d13">&#34;</span>
-  sha256 <span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">f393b14f9c42c890b8a60949b13a8f9b5c3f814daa8b18901656ccc3b866f646</span><span style="color:#ed9d13">&#34;</span>
+  desc <span style="color:#ed9d13">&#34;&#34;</span>
+  homepage <span style="color:#ed9d13">&#34;&#34;</span>
+  url <span style="color:#ed9d13">&#34;https://github.com/sunny0826/kubecm/releases/download/v0.0.1/kubecm_0.0.1_Darwin_x86_64.tar.gz&#34;</span>
+  version <span style="color:#ed9d13">&#34;0.0.1&#34;</span>
+  sha256 <span style="color:#ed9d13">&#34;f393b14f9c42c890b8a60949b13a8f9b5c3f814daa8b18901656ccc3b866f646&#34;</span>
 
   <span style="color:#999;font-style:italic"># depends_on &#34;cmake&#34; =&gt; :build</span>
   depends_on <span style="color:#ed9d13">:x11</span> <span style="color:#999;font-style:italic"># if your formula requires any X11/XQuartz components</span>
 
-  <span style="color:#6ab825;font-weight:bold">def</span> <span style="color:#447fcf;text-decoration:underline"></span><span style="color:#447fcf">install</span>
+  <span style="color:#6ab825;font-weight:bold">def</span> <span style="color:#447fcf">install</span>
     <span style="color:#999;font-style:italic"># ENV.deparallelize  # if your formula fails when building in parallel</span>
 
     <span style="color:#999;font-style:italic"># Remove unrecognized options if warned by configure</span>
-    <span style="color:#24909d">system</span> <span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">./configure</span><span style="color:#ed9d13">&#34;</span>, <span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">--disable-debug</span><span style="color:#ed9d13">&#34;</span>,
-                          <span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">--disable-dependency-tracking</span><span style="color:#ed9d13">&#34;</span>,
-                          <span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">--disable-silent-rules</span><span style="color:#ed9d13">&#34;</span>,
-                          <span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">--prefix=</span><span style="color:#ed9d13">#{</span>prefix<span style="color:#ed9d13">}</span><span style="color:#ed9d13">&#34;</span>
+    <span style="color:#24909d">system</span> <span style="color:#ed9d13">&#34;./configure&#34;</span>, <span style="color:#ed9d13">&#34;--disable-debug&#34;</span>,
+                          <span style="color:#ed9d13">&#34;--disable-dependency-tracking&#34;</span>,
+                          <span style="color:#ed9d13">&#34;--disable-silent-rules&#34;</span>,
+                          <span style="color:#ed9d13">&#34;--prefix=</span><span style="color:#ed9d13">#{</span>prefix<span style="color:#ed9d13">}</span><span style="color:#ed9d13">&#34;</span>
     <span style="color:#999;font-style:italic"># system &#34;cmake&#34;, &#34;.&#34;, *std_cmake_args</span>
-    <span style="color:#24909d">system</span> <span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">make</span><span style="color:#ed9d13">&#34;</span>, <span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">install</span><span style="color:#ed9d13">&#34;</span> <span style="color:#999;font-style:italic"># if this fails, try separate make/make install steps</span>
+    <span style="color:#24909d">system</span> <span style="color:#ed9d13">&#34;make&#34;</span>, <span style="color:#ed9d13">&#34;install&#34;</span> <span style="color:#999;font-style:italic"># if this fails, try separate make/make install steps</span>
   <span style="color:#6ab825;font-weight:bold">end</span>
 
   <span style="color:#24909d">test</span> <span style="color:#6ab825;font-weight:bold">do</span>
@@ -628,20 +628,20 @@ if (!doNotTrack) {
     <span style="color:#999;font-style:italic">#</span>
     <span style="color:#999;font-style:italic"># The installed folder is not in the path, so use the entire path to any</span>
     <span style="color:#999;font-style:italic"># executables being tested: `system &#34;#{bin}/program&#34;, &#34;do&#34;, &#34;something&#34;`.</span>
-    <span style="color:#24909d">system</span> <span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">false</span><span style="color:#ed9d13">&#34;</span>
+    <span style="color:#24909d">system</span> <span style="color:#ed9d13">&#34;false&#34;</span>
   <span style="color:#6ab825;font-weight:bold">end</span>
 <span style="color:#6ab825;font-weight:bold">end</span>
 </code></pre></div><p>默认提供的脚本并不适合我们，修改这个脚本：</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Ruby" data-lang="Ruby"><span style="color:#6ab825;font-weight:bold">class</span> <span style="color:#447fcf;text-decoration:underline">Kubecm</span> &lt; <span style="color:#40ffff">Formula</span>
-  desc <span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">Merge multiple kubeconfig</span><span style="color:#ed9d13">&#34;</span>
-  homepage <span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">https://github.com/sunny0826/kubecm</span><span style="color:#ed9d13">&#34;</span>
-  url <span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">https://github.com/sunny0826/kubecm/releases/download/v0.0.1/kubecm_0.0.1_Darwin_x86_64.tar.gz</span><span style="color:#ed9d13">&#34;</span>
-  version <span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">0.0.1</span><span style="color:#ed9d13">&#34;</span>
-  sha256 <span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">8c2766e7720049ba0ce9e3d20b7511796a6ba224ce1386cd1d4ef8cc6e1315cd</span><span style="color:#ed9d13">&#34;</span>
+  desc <span style="color:#ed9d13">&#34;Merge multiple kubeconfig&#34;</span>
+  homepage <span style="color:#ed9d13">&#34;https://github.com/sunny0826/kubecm&#34;</span>
+  url <span style="color:#ed9d13">&#34;https://github.com/sunny0826/kubecm/releases/download/v0.0.1/kubecm_0.0.1_Darwin_x86_64.tar.gz&#34;</span>
+  version <span style="color:#ed9d13">&#34;0.0.1&#34;</span>
+  sha256 <span style="color:#ed9d13">&#34;8c2766e7720049ba0ce9e3d20b7511796a6ba224ce1386cd1d4ef8cc6e1315cd&#34;</span>
   <span style="color:#999;font-style:italic"># depends_on &#34;cmake&#34; =&gt; :build</span>
 
-  <span style="color:#6ab825;font-weight:bold">def</span> <span style="color:#447fcf;text-decoration:underline"></span><span style="color:#447fcf">install</span>
-    bin.install <span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">kubecm</span><span style="color:#ed9d13">&#34;</span>
+  <span style="color:#6ab825;font-weight:bold">def</span> <span style="color:#447fcf">install</span>
+    bin.install <span style="color:#ed9d13">&#34;kubecm&#34;</span>
   <span style="color:#6ab825;font-weight:bold">end</span>
 <span style="color:#6ab825;font-weight:bold">end</span>
 </code></pre></div><p>分布填上 <code>desc</code> 、 <code>homepage</code> 、<code>url</code> 等信息，由于这里下载的是 darwin 包，所以直接在 <code>install</code> 中填上 <code>bin.install &quot;kubecm&quot;</code> 即可。</p>

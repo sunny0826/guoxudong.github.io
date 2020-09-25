@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.68.3" />
 
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
@@ -51,11 +51,11 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://guoxudong.io/post/cobra-shell-completions/" />
 <meta property="article:published_time" content="2020-08-12T16:48:34+08:00" />
-<meta property="article:modified_time" content="2020-09-11T15:28:31+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
+<meta property="article:modified_time" content="2020-09-25T18:28:24+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
 <meta itemprop="name" content="Cobra 命令自动补全指北">
 <meta itemprop="description" content="本篇文章就来讲讲如何使用 Cobra 来实现命令自动补全。">
 <meta itemprop="datePublished" content="2020-08-12T16:48:34&#43;08:00" />
-<meta itemprop="dateModified" content="2020-09-11T15:28:31&#43;08:00" />
+<meta itemprop="dateModified" content="2020-09-25T18:28:24&#43;08:00" />
 <meta itemprop="wordCount" content="824">
 
 
@@ -81,8 +81,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.f377eea2b683b2fea7a7150093db6c740545f0d2916a0bcb19e6dde2a2a5b68b.css" as="style">
-<link href="/scss/main.min.f377eea2b683b2fea7a7150093db6c740545f0d2916a0bcb19e6dde2a2a5b68b.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.609c26871dd224c5295bed6e41f0dd9c030a722c72af35c8be1b63a821c4d704.css" as="style">
+<link href="/scss/main.min.609c26871dd224c5295bed6e41f0dd9c030a722c72af35c8be1b63a821c4d704.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 <script
@@ -494,7 +494,7 @@ if (!doNotTrack) {
 		<span>
 			4 分钟阅读时间
 		</span> ·
-		<span>最近更新于 </span><time datetime="2020-09-11"
+		<span>最近更新于 </span><time datetime="2020-09-25"
 			class="text-muted">2020年08月12日</time> ·
 		
 		<a href="/categories/go">
@@ -576,7 +576,7 @@ if (!doNotTrack) {
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#6ab825;font-weight:bold">var</span> completionCmd = &amp;cobra.Command{
     Use:                   <span style="color:#ed9d13">&#34;completion [bash|zsh|fish|powershell]&#34;</span>,
     Short:                 <span style="color:#ed9d13">&#34;Generate completion script&#34;</span>,
-    Long: <span style="color:#ed9d13">`</span><span style="color:#ed9d13">To load completions:
+    Long: <span style="color:#ed9d13">`To load completions:
 </span><span style="color:#ed9d13">
 </span><span style="color:#ed9d13">Bash:
 </span><span style="color:#ed9d13">
@@ -596,7 +596,7 @@ if (!doNotTrack) {
 </span><span style="color:#ed9d13">$ echo &#34;autoload -U compinit; compinit&#34; &gt;&gt; ~/.zshrc
 </span><span style="color:#ed9d13">
 </span><span style="color:#ed9d13"># To load completions for each session, execute once:
-</span><span style="color:#ed9d13">$ yourprogram completion zsh &gt; &#34;$</span><span style="color:#ed9d13">{</span><span style="color:#ed9d13">fpath[1]}/_yourprogram&#34;
+</span><span style="color:#ed9d13">$ yourprogram completion zsh &gt; &#34;${fpath[1]}/_yourprogram&#34;
 </span><span style="color:#ed9d13">
 </span><span style="color:#ed9d13"># You will need to start a new shell for this setup to take effect.
 </span><span style="color:#ed9d13">
@@ -606,7 +606,7 @@ if (!doNotTrack) {
 </span><span style="color:#ed9d13">
 </span><span style="color:#ed9d13"># To load completions for each session, execute once:
 </span><span style="color:#ed9d13">$ yourprogram completion fish &gt; ~/.config/fish/completions/yourprogram.fish
-</span><span style="color:#ed9d13"></span><span style="color:#ed9d13">`</span>,
+</span><span style="color:#ed9d13">`</span>,
     DisableFlagsInUseLine: <span style="color:#6ab825;font-weight:bold">true</span>,
     ValidArgs:             []<span style="color:#6ab825;font-weight:bold">string</span>{<span style="color:#ed9d13">&#34;bash&#34;</span>, <span style="color:#ed9d13">&#34;zsh&#34;</span>, <span style="color:#ed9d13">&#34;fish&#34;</span>, <span style="color:#ed9d13">&#34;powershell&#34;</span>},
     Args:                  cobra.<span style="color:#447fcf">ExactValidArgs</span>(<span style="color:#3677a9">1</span>),
@@ -692,38 +692,38 @@ backend        frontend       database
 harbor notary rook thanos
 </code></pre></div><p><code>cobra.ShellCompDirective</code> 可以控制自动补全的特定行为，你可以用或运算符来组合它们，像这样 <code>cobra.ShellCompDirectiveNoSpace | cobra.ShellCompDirectiveNoFileComp</code>，下面是它们的介绍（摘自官方文档）：</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#999;font-style:italic">// Indicates that the shell will perform its default behavior after completions
-</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// have been provided (this implies none of the other directives).
+</span><span style="color:#999;font-style:italic">// have been provided (this implies none of the other directives).
 </span><span style="color:#999;font-style:italic"></span>ShellCompDirectiveDefault
 
 <span style="color:#999;font-style:italic">// Indicates an error occurred and completions should be ignored.
 </span><span style="color:#999;font-style:italic"></span>ShellCompDirectiveError
 
 <span style="color:#999;font-style:italic">// Indicates that the shell should not add a space after the completion,
-</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// even if there is a single completion provided.
+</span><span style="color:#999;font-style:italic">// even if there is a single completion provided.
 </span><span style="color:#999;font-style:italic"></span>ShellCompDirectiveNoSpace
 
 <span style="color:#999;font-style:italic">// Indicates that the shell should not provide file completion even when
-</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// no completion is provided.
+</span><span style="color:#999;font-style:italic">// no completion is provided.
 </span><span style="color:#999;font-style:italic"></span>ShellCompDirectiveNoFileComp
 
 <span style="color:#999;font-style:italic">// Indicates that the returned completions should be used as file extension filters.
-</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// For example, to complete only files of the form *.json or *.yaml:
-</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">//    return []string{&#34;yaml&#34;, &#34;json&#34;}, ShellCompDirectiveFilterFileExt
-</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// For flags, using MarkFlagFilename() and MarkPersistentFlagFilename()
-</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// is a shortcut to using this directive explicitly.
-</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">//
+</span><span style="color:#999;font-style:italic">// For example, to complete only files of the form *.json or *.yaml:
+</span><span style="color:#999;font-style:italic">//    return []string{&#34;yaml&#34;, &#34;json&#34;}, ShellCompDirectiveFilterFileExt
+</span><span style="color:#999;font-style:italic">// For flags, using MarkFlagFilename() and MarkPersistentFlagFilename()
+</span><span style="color:#999;font-style:italic">// is a shortcut to using this directive explicitly.
+</span><span style="color:#999;font-style:italic">//
 </span><span style="color:#999;font-style:italic"></span>ShellCompDirectiveFilterFileExt
 
 <span style="color:#999;font-style:italic">// Indicates that only directory names should be provided in file completion.
-</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// For example:
-</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">//    return nil, ShellCompDirectiveFilterDirs
-</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// For flags, using MarkFlagDirname() is a shortcut to using this directive explicitly.
-</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">//
-</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// To request directory names within another directory, the returned completions
-</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// should specify a single directory name within which to search. For example,
-</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">// to complete directories within &#34;themes/&#34;:
-</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">//    return []string{&#34;themes&#34;}, ShellCompDirectiveFilterDirs
-</span><span style="color:#999;font-style:italic"></span><span style="color:#999;font-style:italic">//
+</span><span style="color:#999;font-style:italic">// For example:
+</span><span style="color:#999;font-style:italic">//    return nil, ShellCompDirectiveFilterDirs
+</span><span style="color:#999;font-style:italic">// For flags, using MarkFlagDirname() is a shortcut to using this directive explicitly.
+</span><span style="color:#999;font-style:italic">//
+</span><span style="color:#999;font-style:italic">// To request directory names within another directory, the returned completions
+</span><span style="color:#999;font-style:italic">// should specify a single directory name within which to search. For example,
+</span><span style="color:#999;font-style:italic">// to complete directories within &#34;themes/&#34;:
+</span><span style="color:#999;font-style:italic">//    return []string{&#34;themes&#34;}, ShellCompDirectiveFilterDirs
+</span><span style="color:#999;font-style:italic">//
 </span><span style="color:#999;font-style:italic"></span>ShellCompDirectiveFilterDirs
 </code></pre></div>
 

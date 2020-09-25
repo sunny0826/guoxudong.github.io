@@ -34,15 +34,15 @@
 &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;defer&lt;/span&gt; ui.&lt;span style=&#34;color:#447fcf&#34;&gt;Close&lt;/span&gt;()
 
 &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Bind Go function to be available in JS. Go function may be long-running and
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// blocking - in JS it&amp;#39;s represented with a Promise.
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// blocking - in JS it&amp;#39;s represented with a Promise.
 &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;ui.&lt;span style=&#34;color:#447fcf&#34;&gt;Bind&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;add&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;func&lt;/span&gt;(a, b &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;int&lt;/span&gt;) &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;int&lt;/span&gt; { &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; a + b })
 
 &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Call JS function from Go. Functions may be asynchronous, i.e. return promises
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;n := ui.&lt;span style=&#34;color:#447fcf&#34;&gt;Eval&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;`&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;Math.random()&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;`&lt;/span&gt;).&lt;span style=&#34;color:#447fcf&#34;&gt;Float&lt;/span&gt;()
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;n := ui.&lt;span style=&#34;color:#447fcf&#34;&gt;Eval&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;`Math.random()`&lt;/span&gt;).&lt;span style=&#34;color:#447fcf&#34;&gt;Float&lt;/span&gt;()
 fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Println&lt;/span&gt;(n)
 
 &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Call JS that calls Go and so on and so on...
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;m := ui.&lt;span style=&#34;color:#447fcf&#34;&gt;Eval&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;`&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;add(2, 3)&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;`&lt;/span&gt;).&lt;span style=&#34;color:#447fcf&#34;&gt;Int&lt;/span&gt;()
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;m := ui.&lt;span style=&#34;color:#447fcf&#34;&gt;Eval&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;`add(2, 3)`&lt;/span&gt;).&lt;span style=&#34;color:#447fcf&#34;&gt;Int&lt;/span&gt;()
 fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Println&lt;/span&gt;(m)
 
 &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Wait for the browser window to be closed
@@ -108,17 +108,17 @@ Kustomize.app
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#cd2828;font-weight:bold&#34;&gt;&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt;&lt;/span&gt;
 &lt;span style=&#34;color:#cd2828;font-weight:bold&#34;&gt;&amp;lt;!DOCTYPE plist PUBLIC &amp;#34;-//Apple//DTD PLIST 1.0//EN&amp;#34; &amp;#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&amp;#34;&amp;gt;&lt;/span&gt;
 &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;plist&lt;/span&gt; &lt;span style=&#34;color:#bbb&#34;&gt;version=&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;1.0&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;dict&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;CFBundleExecutable&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;string&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;kustomize&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;CFBundleIconFile&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;string&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;icon.icns&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;CFBundleIdentifier&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;string&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;io.guoxudong.kustomize-remote-observer&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;NSHighResolutionCapable&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;true&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;/&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;LSUIElement&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;string&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;1&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;dict&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;CFBundleExecutable&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;kustomize&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;CFBundleIconFile&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;icon.icns&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;CFBundleIdentifier&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;io.guoxudong.kustomize-remote-observer&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;NSHighResolutionCapable&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;true/&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;LSUIElement&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;1&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
 &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/dict&amp;gt;&lt;/span&gt;
 &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/plist&amp;gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;使用脚本构建-app&#34;&gt;使用脚本构建 App&lt;/h3&gt;
@@ -239,7 +239,7 @@ err = os.&lt;span style=&#34;color:#447fcf&#34;&gt;Chdir&lt;/span&gt;(filepath.&
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;var&lt;/span&gt; completionCmd = &amp;amp;cobra.Command{
     Use:                   &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;completion [bash|zsh|fish|powershell]&amp;#34;&lt;/span&gt;,
     Short:                 &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Generate completion script&amp;#34;&lt;/span&gt;,
-    Long: &lt;span style=&#34;color:#ed9d13&#34;&gt;`&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;To load completions:
+    Long: &lt;span style=&#34;color:#ed9d13&#34;&gt;`To load completions:
 &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;Bash:
 &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
@@ -259,7 +259,7 @@ err = os.&lt;span style=&#34;color:#447fcf&#34;&gt;Chdir&lt;/span&gt;(filepath.&
 &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;$ echo &amp;#34;autoload -U compinit; compinit&amp;#34; &amp;gt;&amp;gt; ~/.zshrc
 &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;# To load completions for each session, execute once:
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;$ yourprogram completion zsh &amp;gt; &amp;#34;$&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;fpath[1]}/_yourprogram&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;$ yourprogram completion zsh &amp;gt; &amp;#34;${fpath[1]}/_yourprogram&amp;#34;
 &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;# You will need to start a new shell for this setup to take effect.
 &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
@@ -269,7 +269,7 @@ err = os.&lt;span style=&#34;color:#447fcf&#34;&gt;Chdir&lt;/span&gt;(filepath.&
 &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;# To load completions for each session, execute once:
 &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;$ yourprogram completion fish &amp;gt; ~/.config/fish/completions/yourprogram.fish
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;`&lt;/span&gt;,
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;`&lt;/span&gt;,
     DisableFlagsInUseLine: &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;true&lt;/span&gt;,
     ValidArgs:             []&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;{&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;bash&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;zsh&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;fish&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;powershell&amp;#34;&lt;/span&gt;},
     Args:                  cobra.&lt;span style=&#34;color:#447fcf&#34;&gt;ExactValidArgs&lt;/span&gt;(&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;),
@@ -355,38 +355,38 @@ backend        frontend       database
 harbor notary rook thanos
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;cobra.ShellCompDirective&lt;/code&gt; 可以控制自动补全的特定行为，你可以用或运算符来组合它们，像这样 &lt;code&gt;cobra.ShellCompDirectiveNoSpace | cobra.ShellCompDirectiveNoFileComp&lt;/code&gt;，下面是它们的介绍（摘自官方文档）：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Indicates that the shell will perform its default behavior after completions
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// have been provided (this implies none of the other directives).
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// have been provided (this implies none of the other directives).
 &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;ShellCompDirectiveDefault
 
 &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Indicates an error occurred and completions should be ignored.
 &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;ShellCompDirectiveError
 
 &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Indicates that the shell should not add a space after the completion,
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// even if there is a single completion provided.
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// even if there is a single completion provided.
 &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;ShellCompDirectiveNoSpace
 
 &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Indicates that the shell should not provide file completion even when
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// no completion is provided.
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// no completion is provided.
 &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;ShellCompDirectiveNoFileComp
 
 &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Indicates that the returned completions should be used as file extension filters.
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// For example, to complete only files of the form *.json or *.yaml:
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;//    return []string{&amp;#34;yaml&amp;#34;, &amp;#34;json&amp;#34;}, ShellCompDirectiveFilterFileExt
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// For flags, using MarkFlagFilename() and MarkPersistentFlagFilename()
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// is a shortcut to using this directive explicitly.
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;//
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// For example, to complete only files of the form *.json or *.yaml:
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;//    return []string{&amp;#34;yaml&amp;#34;, &amp;#34;json&amp;#34;}, ShellCompDirectiveFilterFileExt
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// For flags, using MarkFlagFilename() and MarkPersistentFlagFilename()
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// is a shortcut to using this directive explicitly.
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;//
 &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;ShellCompDirectiveFilterFileExt
 
 &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Indicates that only directory names should be provided in file completion.
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// For example:
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;//    return nil, ShellCompDirectiveFilterDirs
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// For flags, using MarkFlagDirname() is a shortcut to using this directive explicitly.
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;//
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// To request directory names within another directory, the returned completions
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// should specify a single directory name within which to search. For example,
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// to complete directories within &amp;#34;themes/&amp;#34;:
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;//    return []string{&amp;#34;themes&amp;#34;}, ShellCompDirectiveFilterDirs
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;//
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// For example:
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;//    return nil, ShellCompDirectiveFilterDirs
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// For flags, using MarkFlagDirname() is a shortcut to using this directive explicitly.
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;//
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// To request directory names within another directory, the returned completions
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// should specify a single directory name within which to search. For example,
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// to complete directories within &amp;#34;themes/&amp;#34;:
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;//    return []string{&amp;#34;themes&amp;#34;}, ShellCompDirectiveFilterDirs
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;//
 &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;ShellCompDirectiveFilterDirs
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -487,25 +487,25 @@ Completion ended with directive: ShellCompDirectiveNoFileComp &lt;span style=&#3
 &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# PLEASE REMOVE ALL GENERATED COMMENTS BEFORE SUBMITTING YOUR PULL REQUEST!&lt;/span&gt;
 
 &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;OtfccMac64&lt;/span&gt; &amp;lt; &lt;span style=&#34;color:#40ffff&#34;&gt;Formula&lt;/span&gt;
-  desc &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;
-  homepage &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;
-  url &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;https://github.com/sunny0826/kubecm/releases/download/v0.0.1/kubecm_0.0.1_Darwin_x86_64.tar.gz&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;
-  version &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;0.0.1&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;
-  sha256 &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;f393b14f9c42c890b8a60949b13a8f9b5c3f814daa8b18901656ccc3b866f646&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;
+  desc &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;
+  homepage &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;
+  url &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;https://github.com/sunny0826/kubecm/releases/download/v0.0.1/kubecm_0.0.1_Darwin_x86_64.tar.gz&amp;#34;&lt;/span&gt;
+  version &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;0.0.1&amp;#34;&lt;/span&gt;
+  sha256 &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;f393b14f9c42c890b8a60949b13a8f9b5c3f814daa8b18901656ccc3b866f646&amp;#34;&lt;/span&gt;
 
   &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# depends_on &amp;#34;cmake&amp;#34; =&amp;gt; :build&lt;/span&gt;
   depends_on &lt;span style=&#34;color:#ed9d13&#34;&gt;:x11&lt;/span&gt; &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# if your formula requires any X11/XQuartz components&lt;/span&gt;
 
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#447fcf&#34;&gt;install&lt;/span&gt;
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#447fcf&#34;&gt;install&lt;/span&gt;
     &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# ENV.deparallelize  # if your formula fails when building in parallel&lt;/span&gt;
 
     &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# Remove unrecognized options if warned by configure&lt;/span&gt;
-    &lt;span style=&#34;color:#24909d&#34;&gt;system&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;./configure&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;--disable-debug&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;,
-                          &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;--disable-dependency-tracking&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;,
-                          &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;--disable-silent-rules&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;,
-                          &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;--prefix=&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;#{&lt;/span&gt;prefix&lt;span style=&#34;color:#ed9d13&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;
+    &lt;span style=&#34;color:#24909d&#34;&gt;system&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;./configure&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;--disable-debug&amp;#34;&lt;/span&gt;,
+                          &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;--disable-dependency-tracking&amp;#34;&lt;/span&gt;,
+                          &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;--disable-silent-rules&amp;#34;&lt;/span&gt;,
+                          &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;--prefix=&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;#{&lt;/span&gt;prefix&lt;span style=&#34;color:#ed9d13&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;
     &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# system &amp;#34;cmake&amp;#34;, &amp;#34;.&amp;#34;, *std_cmake_args&lt;/span&gt;
-    &lt;span style=&#34;color:#24909d&#34;&gt;system&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;make&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;install&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# if this fails, try separate make/make install steps&lt;/span&gt;
+    &lt;span style=&#34;color:#24909d&#34;&gt;system&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;make&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;install&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# if this fails, try separate make/make install steps&lt;/span&gt;
   &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;end&lt;/span&gt;
 
   &lt;span style=&#34;color:#24909d&#34;&gt;test&lt;/span&gt; &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;do&lt;/span&gt;
@@ -518,20 +518,20 @@ Completion ended with directive: ShellCompDirectiveNoFileComp &lt;span style=&#3
     &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#&lt;/span&gt;
     &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# The installed folder is not in the path, so use the entire path to any&lt;/span&gt;
     &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# executables being tested: `system &amp;#34;#{bin}/program&amp;#34;, &amp;#34;do&amp;#34;, &amp;#34;something&amp;#34;`.&lt;/span&gt;
-    &lt;span style=&#34;color:#24909d&#34;&gt;system&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;
+    &lt;span style=&#34;color:#24909d&#34;&gt;system&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;false&amp;#34;&lt;/span&gt;
   &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;end&lt;/span&gt;
 &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;end&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;默认提供的脚本并不适合我们，修改这个脚本：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-Ruby&#34; data-lang=&#34;Ruby&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;Kubecm&lt;/span&gt; &amp;lt; &lt;span style=&#34;color:#40ffff&#34;&gt;Formula&lt;/span&gt;
-  desc &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;Merge multiple kubeconfig&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;
-  homepage &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;https://github.com/sunny0826/kubecm&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;
-  url &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;https://github.com/sunny0826/kubecm/releases/download/v0.0.1/kubecm_0.0.1_Darwin_x86_64.tar.gz&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;
-  version &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;0.0.1&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;
-  sha256 &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;8c2766e7720049ba0ce9e3d20b7511796a6ba224ce1386cd1d4ef8cc6e1315cd&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;
+  desc &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Merge multiple kubeconfig&amp;#34;&lt;/span&gt;
+  homepage &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;https://github.com/sunny0826/kubecm&amp;#34;&lt;/span&gt;
+  url &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;https://github.com/sunny0826/kubecm/releases/download/v0.0.1/kubecm_0.0.1_Darwin_x86_64.tar.gz&amp;#34;&lt;/span&gt;
+  version &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;0.0.1&amp;#34;&lt;/span&gt;
+  sha256 &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;8c2766e7720049ba0ce9e3d20b7511796a6ba224ce1386cd1d4ef8cc6e1315cd&amp;#34;&lt;/span&gt;
   &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# depends_on &amp;#34;cmake&amp;#34; =&amp;gt; :build&lt;/span&gt;
 
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#447fcf&#34;&gt;install&lt;/span&gt;
-    bin.install &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;kubecm&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#447fcf&#34;&gt;install&lt;/span&gt;
+    bin.install &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;kubecm&amp;#34;&lt;/span&gt;
   &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;end&lt;/span&gt;
 &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;end&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;分布填上 &lt;code&gt;desc&lt;/code&gt; 、 &lt;code&gt;homepage&lt;/code&gt; 、&lt;code&gt;url&lt;/code&gt; 等信息，由于这里下载的是 darwin 包，所以直接在 &lt;code&gt;install&lt;/code&gt; 中填上 &lt;code&gt;bin.install &amp;quot;kubecm&amp;quot;&lt;/code&gt; 即可。&lt;/p&gt;
@@ -609,9 +609,9 @@ Uninstalling /usr/local/Cellar/kubecm/86.64... (&lt;span style=&#34;color:#3677a
 &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;1.12&lt;/span&gt;
 
 &lt;span style=&#34;color:#447fcf&#34;&gt;require&lt;/span&gt; (
-    github.com/mitchellh/&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;go&lt;/span&gt;-homedir v1&lt;span style=&#34;color:#3677a9&#34;&gt;.1&lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;.0&lt;/span&gt;
-    github.com/spf13/cobra v0&lt;span style=&#34;color:#3677a9&#34;&gt;.0&lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;.5&lt;/span&gt;
-    github.com/spf13/viper v1&lt;span style=&#34;color:#3677a9&#34;&gt;.4&lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;.0&lt;/span&gt;
+    github.com/mitchellh/&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;go&lt;/span&gt;-homedir v1&lt;span style=&#34;color:#3677a9&#34;&gt;.1.0&lt;/span&gt;
+    github.com/spf13/cobra v0&lt;span style=&#34;color:#3677a9&#34;&gt;.0.5&lt;/span&gt;
+    github.com/spf13/viper v1&lt;span style=&#34;color:#3677a9&#34;&gt;.4.0&lt;/span&gt;
 )
 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
@@ -644,18 +644,18 @@ go install
 &lt;p&gt;&lt;img src=&#34;https://wx4.sinaimg.cn/large/ad5fbf65gy1g557z8a5jgj20ln0i0t9z.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;travis-ci-持续集成&#34;&gt;Travis CI 持续集成&lt;/h2&gt;
 &lt;p&gt;在 Github 上装逼怎么能少的了 Travis CI ，直接登录 &lt;a href=&#34;https://travis-ci.org/&#34;&gt;Travis CI&lt;/a&gt;，使用 GitHub 登录，然后选择需要使用 Travis CI 的项目，在项目根目录添加 &lt;code&gt;.travis.yml&lt;/code&gt; ，内容如下：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;language:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;go&lt;span style=&#34;color:#666&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;language&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;go&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;go:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;-&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;1.12&lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;.5&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;go&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- &lt;span style=&#34;color:#3677a9&#34;&gt;1.12.5&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;sudo:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;required&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;sudo&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;required&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;install:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;-&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;echo&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;install&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;install&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- echo&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;install&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;script:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;-&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;echo&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;script&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;script&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- echo&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;script&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里只是一个示例，在每次 push 代码之后，都会触发 CI，具体语法可以参看&lt;a href=&#34;https://docs.travis-ci.com/&#34;&gt;官方文档&lt;/a&gt;。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;装逼重点：&lt;/strong&gt; 你以为使用 Travis CI 就是为了持续集成吗？那就太天真了！使用 Travis CI 当然为了他的 Badges ，将 &lt;code&gt;RESULT&lt;/code&gt; 拷贝到你的 &lt;code&gt;README.md&lt;/code&gt; 里面就好了。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://ws2.sinaimg.cn/large/ad5fbf65gy1g558xf6io4j22dk15an4t.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;

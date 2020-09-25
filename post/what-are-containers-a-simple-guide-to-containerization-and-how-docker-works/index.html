@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.68.3" />
 
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
@@ -51,11 +51,11 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://guoxudong.io/post/what-are-containers-a-simple-guide-to-containerization-and-how-docker-works/" />
 <meta property="article:published_time" content="2019-04-20T19:54:50+08:00" />
-<meta property="article:modified_time" content="2020-09-11T15:28:31+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
+<meta property="article:modified_time" content="2020-09-25T18:28:24+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
 <meta itemprop="name" content="什么的容器？Docker 工作原理及容器化简易指南">
 <meta itemprop="description" content="Docker 非常棒！ 它使软件开发者无需担心配置和依赖性，在任何地方打包，发送和运行他们的应用程序。而在与 kubernetes 相结合后，它使应用集群部署和管理变得更方便。这使得 Docker 深受软件开发者的喜爱，越来越多的开发者开始使用 Docker。">
 <meta itemprop="datePublished" content="2019-04-20T19:54:50&#43;08:00" />
-<meta itemprop="dateModified" content="2020-09-11T15:28:31&#43;08:00" />
+<meta itemprop="dateModified" content="2020-09-25T18:28:24&#43;08:00" />
 <meta itemprop="wordCount" content="291">
 
 
@@ -81,8 +81,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.f377eea2b683b2fea7a7150093db6c740545f0d2916a0bcb19e6dde2a2a5b68b.css" as="style">
-<link href="/scss/main.min.f377eea2b683b2fea7a7150093db6c740545f0d2916a0bcb19e6dde2a2a5b68b.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.609c26871dd224c5295bed6e41f0dd9c030a722c72af35c8be1b63a821c4d704.css" as="style">
+<link href="/scss/main.min.609c26871dd224c5295bed6e41f0dd9c030a722c72af35c8be1b63a821c4d704.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 <script
@@ -497,7 +497,7 @@ if (!doNotTrack) {
 		<span>
 			2 分钟阅读时间
 		</span> ·
-		<span>最近更新于 </span><time datetime="2020-09-11"
+		<span>最近更新于 </span><time datetime="2020-09-25"
 			class="text-muted">2019年04月20日</time> ·
 		
 		<a href="/categories/%e7%bf%bb%e8%af%91">
@@ -596,19 +596,19 @@ if (!doNotTrack) {
 </code></pre></div><p>将如下内容粘贴到 <code>Dockerfile</code>：</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-docker" data-lang="docker"><span style="color:#999;font-style:italic"># Use Alpine Linux rootfs tarball to base our image on</span><span style="color:#a61717;background-color:#e3d2d2">
 </span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#6ab825;font-weight:bold">FROM</span><span style="color:#ed9d13"> alpine:3.9 </span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2">
 </span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#999;font-style:italic"># Set the working directory to be &#39;/home&#39;</span><span style="color:#a61717;background-color:#e3d2d2">
 </span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#6ab825;font-weight:bold">WORKDIR</span><span style="color:#ed9d13"> &#39;/home&#39;</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2">
 </span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#999;font-style:italic"># Setup our application on container&#39;s file system</span><span style="color:#a61717;background-color:#e3d2d2">
 </span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#6ab825;font-weight:bold">RUN</span> wget http://www.cs.cmu.edu/afs/cs/academic/class/15213-s00/www/class28/tiny.c <span style="color:#ed9d13">\
 </span><span style="color:#ed9d13"></span>  &amp;&amp; apk add build-base <span style="color:#ed9d13">\
 </span><span style="color:#ed9d13"></span>  &amp;&amp; gcc tiny.c -o tiny <span style="color:#ed9d13">\
 </span><span style="color:#ed9d13"></span>  &amp;&amp; <span style="color:#24909d">echo</span> <span style="color:#ed9d13">&#39;Hello World&#39;</span> &gt;&gt; index.html<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2">
 </span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#999;font-style:italic"># Start the web server. This is container&#39;s entry point</span><span style="color:#a61717;background-color:#e3d2d2">
 </span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#6ab825;font-weight:bold">CMD</span> [<span style="color:#ed9d13">&#34;./tiny&#34;</span>, <span style="color:#ed9d13">&#34;8082&#34;</span>]<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2">
 </span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#999;font-style:italic"># Expose port 8082</span><span style="color:#a61717;background-color:#e3d2d2">
 </span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#6ab825;font-weight:bold">EXPOSE</span><span style="color:#ed9d13"> 8082 </span><span style="color:#a61717;background-color:#e3d2d2">
 </span></code></pre></div><p>这个 <code>Dockerfile</code> 包含创建镜像的内容说明。我们创建镜像基于 Alpine Linux（<a href="http://www.ethernetresearch.com/geekzone/building-linux-rootfs-from-scratch/">rootfs tarball</a>），并将工作目录设置为 <code>/home</code> 。接下来下载，编译并创建了一个用C编写的简单 Web 服务器的可执行文件，然后指定在运行容器时要执行的命令，并将容器端口8082暴露给主机。</p>

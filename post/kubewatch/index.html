@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.68.3" />
 
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
@@ -51,11 +51,11 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://guoxudong.io/post/kubewatch/" />
 <meta property="article:published_time" content="2019-12-04T17:09:51+08:00" />
-<meta property="article:modified_time" content="2020-09-11T15:28:31+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
+<meta property="article:modified_time" content="2020-09-25T18:28:24+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
 <meta itemprop="name" content="小工具介绍：KubeWatch">
 <meta itemprop="description" content="用于观测 Kubernetes 资源情况，并实时通知到各种协作软件/聊天软件">
 <meta itemprop="datePublished" content="2019-12-04T17:09:51&#43;08:00" />
-<meta itemprop="dateModified" content="2020-09-11T15:28:31&#43;08:00" />
+<meta itemprop="dateModified" content="2020-09-25T18:28:24&#43;08:00" />
 <meta itemprop="wordCount" content="328">
 
 
@@ -81,8 +81,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.f377eea2b683b2fea7a7150093db6c740545f0d2916a0bcb19e6dde2a2a5b68b.css" as="style">
-<link href="/scss/main.min.f377eea2b683b2fea7a7150093db6c740545f0d2916a0bcb19e6dde2a2a5b68b.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.609c26871dd224c5295bed6e41f0dd9c030a722c72af35c8be1b63a821c4d704.css" as="style">
+<link href="/scss/main.min.609c26871dd224c5295bed6e41f0dd9c030a722c72af35c8be1b63a821c4d704.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 <script
@@ -523,7 +523,7 @@ if (!doNotTrack) {
 		<span>
 			2 分钟阅读时间
 		</span> ·
-		<span>最近更新于 </span><time datetime="2020-09-11"
+		<span>最近更新于 </span><time datetime="2020-09-25"
 			class="text-muted">2019年12月04日</time> ·
 		
 		<a href="/categories/kubernetes">
@@ -628,53 +628,53 @@ helm install kubewatch kubewatch <span style="color:#ed9d13">\
 </span><span style="color:#666"></span><span style="color:#999;font-style:italic">#   imagePullSecrets:</span><span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#999;font-style:italic">#     - myRegistryKeySecretName</span><span style="color:#666">
 </span><span style="color:#666">
-</span><span style="color:#666"></span>slack:<span style="color:#666">
-</span><span style="color:#666">  </span>enabled:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
-</span><span style="color:#666">  </span>channel:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;&#34;</span><span style="color:#666">
-</span><span style="color:#666">  </span>token:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;xoxb&#34;</span><span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">slack</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">enabled</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">channel</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;&#34;</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">token</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;xoxb&#34;</span><span style="color:#666">
 </span><span style="color:#666">
-</span><span style="color:#666"></span>hipchat:<span style="color:#666">
-</span><span style="color:#666">  </span>enabled:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">hipchat</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">enabled</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># room: &#34;&#34;</span><span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># token: &#34;&#34;</span><span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># url: &#34;&#34;</span><span style="color:#666">
-</span><span style="color:#666"></span>mattermost:<span style="color:#666">
-</span><span style="color:#666">  </span>enabled:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">mattermost</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">enabled</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># channel: &#34;&#34;</span><span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># url: &#34;&#34;</span><span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># username: &#34;&#34;</span><span style="color:#666">
-</span><span style="color:#666"></span>flock:<span style="color:#666">
-</span><span style="color:#666">  </span>enabled:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">flock</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">enabled</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># url: &#34;&#34;</span><span style="color:#666">
-</span><span style="color:#666"></span>webhook:<span style="color:#666">
-</span><span style="color:#666">  </span>enabled:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">webhook</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">enabled</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># url: &#34;&#34;</span><span style="color:#666">
-</span><span style="color:#666"></span>dingtalk:<span style="color:#666">
-</span><span style="color:#666">  </span>enabled:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">true</span><span style="color:#666">
-</span><span style="color:#666">  </span>token:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;&#34;</span><span style="color:#666">
-</span><span style="color:#666">  </span>sign:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;&#34;</span><span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">dingtalk</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">enabled</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">true</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">token</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;&#34;</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">sign</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;&#34;</span><span style="color:#666">
 </span><span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#999;font-style:italic"># namespace to watch, leave it empty for watching all.</span><span style="color:#666">
-</span><span style="color:#666"></span>namespaceToWatch:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;&#34;</span><span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">namespaceToWatch</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;&#34;</span><span style="color:#666">
 </span><span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#999;font-style:italic"># Resources to watch</span><span style="color:#666">
-</span><span style="color:#666"></span>resourcesToWatch:<span style="color:#666">
-</span><span style="color:#666">  </span>deployment:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">true</span><span style="color:#666">
-</span><span style="color:#666">  </span>replicationcontroller:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
-</span><span style="color:#666">  </span>replicaset:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
-</span><span style="color:#666">  </span>daemonset:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
-</span><span style="color:#666">  </span>services:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
-</span><span style="color:#666">  </span>pod:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">true</span><span style="color:#666">
-</span><span style="color:#666">  </span>job:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
-</span><span style="color:#666">  </span>persistentvolume:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">resourcesToWatch</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">deployment</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">true</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">replicationcontroller</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">replicaset</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">daemonset</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">services</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">pod</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">true</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">job</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">persistentvolume</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
 </span><span style="color:#666">
-</span><span style="color:#666"></span>image:<span style="color:#666">
-</span><span style="color:#666">  </span>registry:<span style="color:#666"> </span>docker.io<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">registry</span>:<span style="color:#666"> </span>docker.io<span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#999;font-style:italic">#  repository: bitnami/kubewatch</span><span style="color:#666">
-</span><span style="color:#666">  </span>repository:<span style="color:#666"> </span>guoxudongdocker/kubewatch-chart<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">repository</span>:<span style="color:#666"> </span>guoxudongdocker/kubewatch-chart<span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#999;font-style:italic">#  tag: 0.0.4-debian-9-r405</span><span style="color:#666">
-</span><span style="color:#666">  </span>tag:<span style="color:#666"> </span>latest<span style="color:#666">
-</span><span style="color:#666">  </span>pullPolicy:<span style="color:#666"> </span>Always<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">tag</span>:<span style="color:#666"> </span>latest<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">pullPolicy</span>:<span style="color:#666"> </span>Always<span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#999;font-style:italic">## Optionally specify an array of imagePullSecrets.</span><span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#999;font-style:italic">## Secrets must be manually created in the namespace.</span><span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#999;font-style:italic">## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/</span><span style="color:#666">
@@ -690,19 +690,19 @@ helm install kubewatch kubewatch <span style="color:#ed9d13">\
 </span><span style="color:#666"></span><span style="color:#999;font-style:italic">##</span><span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#999;font-style:italic"># fullnameOverride:</span><span style="color:#666">
 </span><span style="color:#666">
-</span><span style="color:#666"></span>rbac:<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">rbac</span>:<span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># If true, create &amp; use RBAC resources</span><span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#999;font-style:italic">#</span><span style="color:#666">
-</span><span style="color:#666">  </span>create:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">true</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">create</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">true</span><span style="color:#666">
 </span><span style="color:#666">
-</span><span style="color:#666"></span>serviceAccount:<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">serviceAccount</span>:<span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># Specifies whether a ServiceAccount should be created</span><span style="color:#666">
-</span><span style="color:#666">  </span>create:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">true</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">create</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">true</span><span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># The name of the ServiceAccount to use.</span><span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># If not set and create is true, a name is generated using the fullname template</span><span style="color:#666">
-</span><span style="color:#666">  </span>name:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666">
 </span><span style="color:#666">
-</span><span style="color:#666"></span>resources:<span style="color:#666"> </span>{}<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">resources</span>:<span style="color:#666"> </span>{}<span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># limits:</span><span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#999;font-style:italic">#   cpu: 100m</span><span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#999;font-style:italic">#   memory: 300Mi</span><span style="color:#666">
@@ -716,15 +716,15 @@ helm install kubewatch kubewatch <span style="color:#ed9d13">\
 </span><span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#999;font-style:italic"># Tolerations for pod assignment</span><span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#999;font-style:italic"># Ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/</span><span style="color:#666">
-</span><span style="color:#666"></span>tolerations:<span style="color:#666"> </span>[]<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">tolerations</span>:<span style="color:#666"> </span>[]<span style="color:#666">
 </span><span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#999;font-style:italic"># Node labels for pod assignment</span><span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#999;font-style:italic"># Ref: https://kubernetes.io/docs/user-guide/node-selection/</span><span style="color:#666">
-</span><span style="color:#666"></span>nodeSelector:<span style="color:#666"> </span>{}<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">nodeSelector</span>:<span style="color:#666"> </span>{}<span style="color:#666">
 </span><span style="color:#666">
-</span><span style="color:#666"></span>podAnnotations:<span style="color:#666"> </span>{}<span style="color:#666">
-</span><span style="color:#666"></span>podLabels:<span style="color:#666"> </span>{}<span style="color:#666">
-</span><span style="color:#666"></span>replicaCount:<span style="color:#666"> </span><span style="color:#3677a9">1</span><span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">podAnnotations</span>:<span style="color:#666"> </span>{}<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">podLabels</span>:<span style="color:#666"> </span>{}<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">replicaCount</span>:<span style="color:#666"> </span><span style="color:#3677a9">1</span><span style="color:#666">
 </span><span style="color:#666">
 </span></code></pre></div><p>使用 <code>value.yaml</code> 安装</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone https://github.com/sunny0826/kubewatch-chat.git

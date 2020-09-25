@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.68.3" />
 
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
@@ -42,7 +42,7 @@
       "datePublished": "2019-07-19 10:38:26 \x2b0800 \x2b0800",
       "dateModified" : "2019-07-19 10:38:26 \x2b0800 \x2b0800",
       "url" : "https:\/\/guoxudong.io\/post\/golang-project\/",
-      "wordCount" : "343",
+      "wordCount" : "346",
       "keywords" : [ "go","Guoxudong" ]
   }
   </script>
@@ -51,12 +51,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://guoxudong.io/post/golang-project/" />
 <meta property="article:published_time" content="2019-07-19T10:38:26+08:00" />
-<meta property="article:modified_time" content="2020-09-11T15:28:31+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
+<meta property="article:modified_time" content="2020-09-25T18:28:24+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
 <meta itemprop="name" content="Golang 装逼指南：在 GitHub 上构建一个看上去正规的 Golang 项目">
 <meta itemprop="description" content="接触 golang 时间很长，但是真正动手开始写 golang 也就是在最近。跟着我在 GitHub 上构建一个看上去正规的 Golang 项目。">
 <meta itemprop="datePublished" content="2019-07-19T10:38:26&#43;08:00" />
-<meta itemprop="dateModified" content="2020-09-11T15:28:31&#43;08:00" />
-<meta itemprop="wordCount" content="343">
+<meta itemprop="dateModified" content="2020-09-25T18:28:24&#43;08:00" />
+<meta itemprop="wordCount" content="346">
 
 
 
@@ -81,8 +81,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.f377eea2b683b2fea7a7150093db6c740545f0d2916a0bcb19e6dde2a2a5b68b.css" as="style">
-<link href="/scss/main.min.f377eea2b683b2fea7a7150093db6c740545f0d2916a0bcb19e6dde2a2a5b68b.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.609c26871dd224c5295bed6e41f0dd9c030a722c72af35c8be1b63a821c4d704.css" as="style">
+<link href="/scss/main.min.609c26871dd224c5295bed6e41f0dd9c030a722c72af35c8be1b63a821c4d704.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 <script
@@ -196,8 +196,8 @@ if (!doNotTrack) {
       <ul>
         <li><a href="#使用goland-ide-vgo">使用Goland IDE vgo</a></li>
         <li><a href="#配置代理">配置代理</a></li>
-        <li><a href="#配置-go-fmt-goimports-和-golangci-lint">配置 go fmt、 goimports 和 golangci-lint</a></li>
-        <li><a href="#安装配置-golint">安装配置 golint</a></li>
+        <li><a href="#配置-go-fmt-goimports-和-golangci-lint">配置 <code>go fmt</code>、 <code>goimports</code> 和 <code>golangci-lint</code></a></li>
+        <li><a href="#安装配置-golint">安装配置 <code>golint</code></a></li>
       </ul>
     </li>
     <li><a href="#travis-ci-持续集成">Travis CI 持续集成</a></li>
@@ -499,7 +499,7 @@ if (!doNotTrack) {
 		<span>
 			2 分钟阅读时间
 		</span> ·
-		<span>最近更新于 </span><time datetime="2020-09-11"
+		<span>最近更新于 </span><time datetime="2020-09-25"
 			class="text-muted">2019年07月19日</time> ·
 		
 		<a href="/categories/go">
@@ -593,9 +593,9 @@ if (!doNotTrack) {
 <span style="color:#6ab825;font-weight:bold">go</span> <span style="color:#3677a9">1.12</span>
 
 <span style="color:#447fcf">require</span> (
-    github.com/mitchellh/<span style="color:#6ab825;font-weight:bold">go</span>-homedir v1<span style="color:#3677a9">.1</span><span style="color:#3677a9">.0</span>
-    github.com/spf13/cobra v0<span style="color:#3677a9">.0</span><span style="color:#3677a9">.5</span>
-    github.com/spf13/viper v1<span style="color:#3677a9">.4</span><span style="color:#3677a9">.0</span>
+    github.com/mitchellh/<span style="color:#6ab825;font-weight:bold">go</span>-homedir v1<span style="color:#3677a9">.1.0</span>
+    github.com/spf13/cobra v0<span style="color:#3677a9">.0.5</span>
+    github.com/spf13/viper v1<span style="color:#3677a9">.4.0</span>
 )
 
 </code></pre></div></li>
@@ -628,18 +628,18 @@ go install
 <p><img src="https://wx4.sinaimg.cn/large/ad5fbf65gy1g557z8a5jgj20ln0i0t9z.jpg" alt="image"></p>
 <h2 id="travis-ci-持续集成">Travis CI 持续集成</h2>
 <p>在 Github 上装逼怎么能少的了 Travis CI ，直接登录 <a href="https://travis-ci.org/">Travis CI</a>，使用 GitHub 登录，然后选择需要使用 Travis CI 的项目，在项目根目录添加 <code>.travis.yml</code> ，内容如下：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">language:<span style="color:#666"> </span>go<span style="color:#666">
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">language</span>:<span style="color:#666"> </span>go<span style="color:#666">
 </span><span style="color:#666">
-</span><span style="color:#666"></span>go:<span style="color:#666">
-</span><span style="color:#666">  </span>-<span style="color:#666"> </span><span style="color:#3677a9">1.12</span><span style="color:#3677a9">.5</span><span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">go</span>:<span style="color:#666">
+</span><span style="color:#666">  </span>- <span style="color:#3677a9">1.12.5</span><span style="color:#666">
 </span><span style="color:#666">
-</span><span style="color:#666"></span>sudo:<span style="color:#666"> </span>required<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">sudo</span>:<span style="color:#666"> </span>required<span style="color:#666">
 </span><span style="color:#666">
-</span><span style="color:#666"></span>install:<span style="color:#666">
-</span><span style="color:#666">  </span>-<span style="color:#666"> </span>echo<span style="color:#666"> </span><span style="color:#ed9d13">&#34;install&#34;</span><span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">install</span>:<span style="color:#666">
+</span><span style="color:#666">  </span>- echo<span style="color:#666"> </span><span style="color:#ed9d13">&#34;install&#34;</span><span style="color:#666">
 </span><span style="color:#666">
-</span><span style="color:#666"></span>script:<span style="color:#666">
-</span><span style="color:#666">  </span>-<span style="color:#666"> </span>echo<span style="color:#666"> </span><span style="color:#ed9d13">&#34;script&#34;</span><span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">script</span>:<span style="color:#666">
+</span><span style="color:#666">  </span>- echo<span style="color:#666"> </span><span style="color:#ed9d13">&#34;script&#34;</span><span style="color:#666">
 </span></code></pre></div><p>这里只是一个示例，在每次 push 代码之后，都会触发 CI，具体语法可以参看<a href="https://docs.travis-ci.com/">官方文档</a>。</p>
 <p><strong>装逼重点：</strong> 你以为使用 Travis CI 就是为了持续集成吗？那就太天真了！使用 Travis CI 当然为了他的 Badges ，将 <code>RESULT</code> 拷贝到你的 <code>README.md</code> 里面就好了。</p>
 <p><img src="https://ws2.sinaimg.cn/large/ad5fbf65gy1g558xf6io4j22dk15an4t.jpg" alt="image"></p>

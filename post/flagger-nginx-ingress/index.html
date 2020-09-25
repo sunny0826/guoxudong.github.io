@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.68.3" />
 
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
@@ -42,7 +42,7 @@
       "datePublished": "2020-07-02 13:51:14 \x2b0800 \x2b0800",
       "dateModified" : "2020-07-02 13:51:14 \x2b0800 \x2b0800",
       "url" : "https:\/\/guoxudong.io\/post\/flagger-nginx-ingress\/",
-      "wordCount" : "902",
+      "wordCount" : "911",
       "keywords" : [ "CI\/CD","Kubernetes","Ingress","Guoxudong" ]
   }
   </script>
@@ -51,12 +51,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://guoxudong.io/post/flagger-nginx-ingress/" />
 <meta property="article:published_time" content="2020-07-02T13:51:14+08:00" />
-<meta property="article:modified_time" content="2020-09-11T15:28:31+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
+<meta property="article:modified_time" content="2020-09-25T18:28:24+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
 <meta itemprop="name" content="基于 Flagger 和 Nginx-Ingress 实现金丝雀发布">
 <meta itemprop="description" content="本文介绍使用 Flagger 和 Nginx-Ingress 实现自动化金丝雀部署。">
 <meta itemprop="datePublished" content="2020-07-02T13:51:14&#43;08:00" />
-<meta itemprop="dateModified" content="2020-09-11T15:28:31&#43;08:00" />
-<meta itemprop="wordCount" content="902">
+<meta itemprop="dateModified" content="2020-09-25T18:28:24&#43;08:00" />
+<meta itemprop="wordCount" content="911">
 
 
 
@@ -81,8 +81,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.f377eea2b683b2fea7a7150093db6c740545f0d2916a0bcb19e6dde2a2a5b68b.css" as="style">
-<link href="/scss/main.min.f377eea2b683b2fea7a7150093db6c740545f0d2916a0bcb19e6dde2a2a5b68b.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.609c26871dd224c5295bed6e41f0dd9c030a722c72af35c8be1b63a821c4d704.css" as="style">
+<link href="/scss/main.min.609c26871dd224c5295bed6e41f0dd9c030a722c72af35c8be1b63a821c4d704.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 <script
@@ -515,7 +515,7 @@ if (!doNotTrack) {
 		<span>
 			5 分钟阅读时间
 		</span> ·
-		<span>最近更新于 </span><time datetime="2020-09-11"
+		<span>最近更新于 </span><time datetime="2020-09-25"
 			class="text-muted">2020年07月02日</time> ·
 		
 		<a href="/categories/kubernetes">
@@ -616,89 +616,89 @@ $ helm upgrade -i flagger flagger/flagger <span style="color:#ed9d13">\
 </code></pre></div><p>部署负载测试器，以便在金丝雀发布时进行流量分析：</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ helm upgrade -i flagger-loadtester flagger/loadtester --namespace=<span style="color:#24909d">test</span>
 </code></pre></div><p>部署 ingress，这里的 <code>app.example.com</code> 需要改成你自己的域名，如果是在本地进行测试，则修改本机和负载测试器所在节点的 <code>/ect/hosts</code>，将其指向你的 ADDRESS，否则将无法进行流量分析，导致部署失败。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion:<span style="color:#666"> </span>networking.k8s.io/v1beta1<span style="color:#666">
-</span><span style="color:#666"></span>kind:<span style="color:#666"> </span>Ingress<span style="color:#666">
-</span><span style="color:#666"></span>metadata:<span style="color:#666">
-</span><span style="color:#666">  </span>name:<span style="color:#666"> </span>podinfo<span style="color:#666">
-</span><span style="color:#666">  </span>namespace:<span style="color:#666"> </span>test<span style="color:#666">
-</span><span style="color:#666">  </span>labels:<span style="color:#666">
-</span><span style="color:#666">    </span>app:<span style="color:#666"> </span>podinfo<span style="color:#666">
-</span><span style="color:#666">  </span>annotations:<span style="color:#666">
-</span><span style="color:#666">    </span>kubernetes.io/ingress.class:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;nginx&#34;</span><span style="color:#666">
-</span><span style="color:#666"></span>spec:<span style="color:#666">
-</span><span style="color:#666">  </span>rules:<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>host:<span style="color:#666"> </span>app.example.com<span style="color:#666">
-</span><span style="color:#666">      </span>http:<span style="color:#666">
-</span><span style="color:#666">        </span>paths:<span style="color:#666">
-</span><span style="color:#666">          </span>-<span style="color:#666"> </span>backend:<span style="color:#666">
-</span><span style="color:#666">              </span>serviceName:<span style="color:#666"> </span>podinfo<span style="color:#666">
-</span><span style="color:#666">              </span>servicePort:<span style="color:#666"> </span><span style="color:#3677a9">80</span><span style="color:#666">
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>networking.k8s.io/v1beta1<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>Ingress<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>podinfo<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">namespace</span>:<span style="color:#666"> </span>test<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">labels</span>:<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">app</span>:<span style="color:#666"> </span>podinfo<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">annotations</span>:<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">kubernetes.io/ingress.class</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;nginx&#34;</span><span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">rules</span>:<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">host</span>:<span style="color:#666"> </span>app.example.com<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">http</span>:<span style="color:#666">
+</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">paths</span>:<span style="color:#666">
+</span><span style="color:#666">          </span>- <span style="color:#6ab825;font-weight:bold">backend</span>:<span style="color:#666">
+</span><span style="color:#666">              </span><span style="color:#6ab825;font-weight:bold">serviceName</span>:<span style="color:#666"> </span>podinfo<span style="color:#666">
+</span><span style="color:#666">              </span><span style="color:#6ab825;font-weight:bold">servicePort</span>:<span style="color:#666"> </span><span style="color:#3677a9">80</span><span style="color:#666">
 </span></code></pre></div><p>将以上内容另存为 <code>podinfo-ingress.yaml</code>，然后应用：</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f ./podinfo-ingress.yaml
 </code></pre></div><p>创建一个 Canary 资源：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion:<span style="color:#666"> </span>flagger.app/v1beta1<span style="color:#666">
-</span><span style="color:#666"></span>kind:<span style="color:#666"> </span>Canary<span style="color:#666">
-</span><span style="color:#666"></span>metadata:<span style="color:#666">
-</span><span style="color:#666">  </span>name:<span style="color:#666"> </span>podinfo<span style="color:#666">
-</span><span style="color:#666">  </span>namespace:<span style="color:#666"> </span>test<span style="color:#666">
-</span><span style="color:#666"></span>spec:<span style="color:#666">
-</span><span style="color:#666">  </span>provider:<span style="color:#666"> </span>nginx<span style="color:#666">
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>flagger.app/v1beta1<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>Canary<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>podinfo<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">namespace</span>:<span style="color:#666"> </span>test<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">provider</span>:<span style="color:#666"> </span>nginx<span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># deployment reference</span><span style="color:#666">
-</span><span style="color:#666">  </span>targetRef:<span style="color:#666">
-</span><span style="color:#666">    </span>apiVersion:<span style="color:#666"> </span>apps/v1<span style="color:#666">
-</span><span style="color:#666">    </span>kind:<span style="color:#666"> </span>Deployment<span style="color:#666">
-</span><span style="color:#666">    </span>name:<span style="color:#666"> </span>podinfo<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">targetRef</span>:<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>apps/v1<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>Deployment<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>podinfo<span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># ingress reference</span><span style="color:#666">
-</span><span style="color:#666">  </span>ingressRef:<span style="color:#666">
-</span><span style="color:#666">    </span>apiVersion:<span style="color:#666"> </span>networking.k8s.io/v1beta1<span style="color:#666">
-</span><span style="color:#666">    </span>kind:<span style="color:#666"> </span>Ingress<span style="color:#666">
-</span><span style="color:#666">    </span>name:<span style="color:#666"> </span>podinfo<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">ingressRef</span>:<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>networking.k8s.io/v1beta1<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>Ingress<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>podinfo<span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># HPA reference (optional)</span><span style="color:#666">
-</span><span style="color:#666">  </span>autoscalerRef:<span style="color:#666">
-</span><span style="color:#666">    </span>apiVersion:<span style="color:#666"> </span>autoscaling/v2beta1<span style="color:#666">
-</span><span style="color:#666">    </span>kind:<span style="color:#666"> </span>HorizontalPodAutoscaler<span style="color:#666">
-</span><span style="color:#666">    </span>name:<span style="color:#666"> </span>podinfo<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">autoscalerRef</span>:<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>autoscaling/v2beta1<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>HorizontalPodAutoscaler<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>podinfo<span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># the maximum time in seconds for the canary deployment</span><span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># to make progress before it is rollback (default 600s)</span><span style="color:#666">
-</span><span style="color:#666">  </span>progressDeadlineSeconds:<span style="color:#666"> </span><span style="color:#3677a9">60</span><span style="color:#666">
-</span><span style="color:#666">  </span>service:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">progressDeadlineSeconds</span>:<span style="color:#666"> </span><span style="color:#3677a9">60</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">service</span>:<span style="color:#666">
 </span><span style="color:#666">    </span><span style="color:#999;font-style:italic"># ClusterIP port number</span><span style="color:#666">
-</span><span style="color:#666">    </span>port:<span style="color:#666"> </span><span style="color:#3677a9">80</span><span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">port</span>:<span style="color:#666"> </span><span style="color:#3677a9">80</span><span style="color:#666">
 </span><span style="color:#666">    </span><span style="color:#999;font-style:italic"># container port number or name</span><span style="color:#666">
-</span><span style="color:#666">    </span>targetPort:<span style="color:#666"> </span><span style="color:#3677a9">9898</span><span style="color:#666">
-</span><span style="color:#666">  </span>analysis:<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">targetPort</span>:<span style="color:#666"> </span><span style="color:#3677a9">9898</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">analysis</span>:<span style="color:#666">
 </span><span style="color:#666">    </span><span style="color:#999;font-style:italic"># 时间间隔 (默认 60s)</span><span style="color:#666">
-</span><span style="color:#666">    </span>interval:<span style="color:#666"> </span>10s<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">interval</span>:<span style="color:#666"> </span>10s<span style="color:#666">
 </span><span style="color:#666">    </span><span style="color:#999;font-style:italic"># 回滚前的最大失败指标检查次数</span><span style="color:#666">
-</span><span style="color:#666">    </span>threshold:<span style="color:#666"> </span><span style="color:#3677a9">10</span><span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">threshold</span>:<span style="color:#666"> </span><span style="color:#3677a9">10</span><span style="color:#666">
 </span><span style="color:#666">    </span><span style="color:#999;font-style:italic"># 路由到金丝雀副本的最大流量百分比</span><span style="color:#666">
 </span><span style="color:#666">    </span><span style="color:#999;font-style:italic"># 百分比 (0-100)</span><span style="color:#666">
-</span><span style="color:#666">    </span>maxWeight:<span style="color:#666"> </span><span style="color:#3677a9">50</span><span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">maxWeight</span>:<span style="color:#666"> </span><span style="color:#3677a9">50</span><span style="color:#666">
 </span><span style="color:#666">    </span><span style="color:#999;font-style:italic"># 金丝雀每次递增的百分比</span><span style="color:#666">
 </span><span style="color:#666">    </span><span style="color:#999;font-style:italic"># 百分比 (0-100)</span><span style="color:#666">
-</span><span style="color:#666">    </span>stepWeight:<span style="color:#666"> </span><span style="color:#3677a9">5</span><span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">stepWeight</span>:<span style="color:#666"> </span><span style="color:#3677a9">5</span><span style="color:#666">
 </span><span style="color:#666">    </span><span style="color:#999;font-style:italic"># NGINX Prometheus checks</span><span style="color:#666">
-</span><span style="color:#666">    </span>metrics:<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>request-success-rate<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">metrics</span>:<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>request-success-rate<span style="color:#666">
 </span><span style="color:#666">      </span><span style="color:#999;font-style:italic"># minimum req success rate (non 5xx responses)</span><span style="color:#666">
 </span><span style="color:#666">      </span><span style="color:#999;font-style:italic"># percentage (0-100)</span><span style="color:#666">
-</span><span style="color:#666">      </span>thresholdRange:<span style="color:#666">
-</span><span style="color:#666">        </span>min:<span style="color:#666"> </span><span style="color:#3677a9">99</span><span style="color:#666">
-</span><span style="color:#666">      </span>interval:<span style="color:#666"> </span>1m<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">thresholdRange</span>:<span style="color:#666">
+</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">min</span>:<span style="color:#666"> </span><span style="color:#3677a9">99</span><span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">interval</span>:<span style="color:#666"> </span>1m<span style="color:#666">
 </span><span style="color:#666">    </span><span style="color:#999;font-style:italic"># testing (optional)</span><span style="color:#666">
-</span><span style="color:#666">    </span>webhooks:<span style="color:#666">
-</span><span style="color:#666">      </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>acceptance-test<span style="color:#666">
-</span><span style="color:#666">        </span>type:<span style="color:#666"> </span>pre-rollout<span style="color:#666">
-</span><span style="color:#666">        </span>url:<span style="color:#666"> </span>http://flagger-loadtester.test/<span style="color:#666">
-</span><span style="color:#666">        </span>timeout:<span style="color:#666"> </span>30s<span style="color:#666">
-</span><span style="color:#666">        </span>metadata:<span style="color:#666">
-</span><span style="color:#666">          </span>type:<span style="color:#666"> </span>bash<span style="color:#666">
-</span><span style="color:#666">          </span>cmd:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;curl -sd &#39;test&#39; http://podinfo-canary/token | grep token&#34;</span><span style="color:#666">
-</span><span style="color:#666">      </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>load-test<span style="color:#666">
-</span><span style="color:#666">        </span>url:<span style="color:#666"> </span>http://flagger-loadtester.test/<span style="color:#666">
-</span><span style="color:#666">        </span>timeout:<span style="color:#666"> </span>5s<span style="color:#666">
-</span><span style="color:#666">        </span>metadata:<span style="color:#666">
-</span><span style="color:#666">          </span>cmd:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;hey -z 1m -q 10 -c 2 http://app.example.com/&#34;</span><span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">webhooks</span>:<span style="color:#666">
+</span><span style="color:#666">      </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>acceptance-test<span style="color:#666">
+</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">type</span>:<span style="color:#666"> </span>pre-rollout<span style="color:#666">
+</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">url</span>:<span style="color:#666"> </span>http://flagger-loadtester.test/<span style="color:#666">
+</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">timeout</span>:<span style="color:#666"> </span>30s<span style="color:#666">
+</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
+</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">type</span>:<span style="color:#666"> </span>bash<span style="color:#666">
+</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">cmd</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;curl -sd &#39;test&#39; http://podinfo-canary/token | grep token&#34;</span><span style="color:#666">
+</span><span style="color:#666">      </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>load-test<span style="color:#666">
+</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">url</span>:<span style="color:#666"> </span>http://flagger-loadtester.test/<span style="color:#666">
+</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">timeout</span>:<span style="color:#666"> </span>5s<span style="color:#666">
+</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
+</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">cmd</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;hey -z 1m -q 10 -c 2 http://app.example.com/&#34;</span><span style="color:#666">
 </span></code></pre></div><p>将以上内容另存为 <code>podinfo-canary.yaml</code>，然后应用：</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f ./podinfo-canary.yaml
 </code></pre></div><p>目前可以看到示例应用 <code>podinfo</code> 已经安装完毕，并出现了 <code>podinfo</code> 和 <code>podinfo-primary</code> 两个版本，并且 <code>http://app.example.com/</code> 已经可以访问：</p>
@@ -787,60 +787,60 @@ NAMESPACE   NAME      STATUS   WEIGHT   LASTTRANSITIONTIME
 <p>除了加权路由，Flagger 还可以根据 HTTP 匹配条件将流量路由到新版本（当然，这个 Nginx-Ingress 的功能，Flagger 只是简化了操作）。可以根据 HTTP header 和 cookie 来定位用户并细分受众，对于需要关联会话的前端应用十分有用。</p>
 <p><img src="https://tva1.sinaimg.cn/large/ad5fbf65ly1ggcoglbmnyj217q0q0q3h.jpg" alt="A/B 测试"></p>
 <p>修改 Canary 资源：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion:<span style="color:#666"> </span>flagger.app/v1beta1<span style="color:#666">
-</span><span style="color:#666"></span>kind:<span style="color:#666"> </span>Canary<span style="color:#666">
-</span><span style="color:#666"></span>metadata:<span style="color:#666">
-</span><span style="color:#666">  </span>name:<span style="color:#666"> </span>podinfo<span style="color:#666">
-</span><span style="color:#666">  </span>namespace:<span style="color:#666"> </span>test<span style="color:#666">
-</span><span style="color:#666"></span>spec:<span style="color:#666">
-</span><span style="color:#666">  </span>provider:<span style="color:#666"> </span>nginx<span style="color:#666">
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>flagger.app/v1beta1<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>Canary<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>podinfo<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">namespace</span>:<span style="color:#666"> </span>test<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">provider</span>:<span style="color:#666"> </span>nginx<span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># deployment reference</span><span style="color:#666">
-</span><span style="color:#666">  </span>targetRef:<span style="color:#666">
-</span><span style="color:#666">    </span>apiVersion:<span style="color:#666"> </span>apps/v1<span style="color:#666">
-</span><span style="color:#666">    </span>kind:<span style="color:#666"> </span>Deployment<span style="color:#666">
-</span><span style="color:#666">    </span>name:<span style="color:#666"> </span>podinfo<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">targetRef</span>:<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>apps/v1<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>Deployment<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>podinfo<span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># ingress reference</span><span style="color:#666">
-</span><span style="color:#666">  </span>ingressRef:<span style="color:#666">
-</span><span style="color:#666">    </span>apiVersion:<span style="color:#666"> </span>networking.k8s.io/v1beta1<span style="color:#666">
-</span><span style="color:#666">    </span>kind:<span style="color:#666"> </span>Ingress<span style="color:#666">
-</span><span style="color:#666">    </span>name:<span style="color:#666"> </span>podinfo<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">ingressRef</span>:<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>networking.k8s.io/v1beta1<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>Ingress<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>podinfo<span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># HPA reference (optional)</span><span style="color:#666">
-</span><span style="color:#666">  </span>autoscalerRef:<span style="color:#666">
-</span><span style="color:#666">    </span>apiVersion:<span style="color:#666"> </span>autoscaling/v2beta1<span style="color:#666">
-</span><span style="color:#666">    </span>kind:<span style="color:#666"> </span>HorizontalPodAutoscaler<span style="color:#666">
-</span><span style="color:#666">    </span>name:<span style="color:#666"> </span>podinfo<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">autoscalerRef</span>:<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>autoscaling/v2beta1<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>HorizontalPodAutoscaler<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>podinfo<span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># the maximum time in seconds for the canary deployment</span><span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># to make progress before it is rollback (default 600s)</span><span style="color:#666">
-</span><span style="color:#666">  </span>progressDeadlineSeconds:<span style="color:#666"> </span><span style="color:#3677a9">60</span><span style="color:#666">
-</span><span style="color:#666">  </span>service:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">progressDeadlineSeconds</span>:<span style="color:#666"> </span><span style="color:#3677a9">60</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">service</span>:<span style="color:#666">
 </span><span style="color:#666">    </span><span style="color:#999;font-style:italic"># ClusterIP port number</span><span style="color:#666">
-</span><span style="color:#666">    </span>port:<span style="color:#666"> </span><span style="color:#3677a9">80</span><span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">port</span>:<span style="color:#666"> </span><span style="color:#3677a9">80</span><span style="color:#666">
 </span><span style="color:#666">    </span><span style="color:#999;font-style:italic"># container port number or name</span><span style="color:#666">
-</span><span style="color:#666">    </span>targetPort:<span style="color:#666"> </span><span style="color:#3677a9">9898</span><span style="color:#666">
-</span><span style="color:#666">  </span>analysis:<span style="color:#666">
-</span><span style="color:#666">    </span>interval:<span style="color:#666"> </span>1m<span style="color:#666">
-</span><span style="color:#666">    </span>threshold:<span style="color:#666"> </span><span style="color:#3677a9">10</span><span style="color:#666">
-</span><span style="color:#666">    </span>iterations:<span style="color:#666"> </span><span style="color:#3677a9">10</span><span style="color:#666">
-</span><span style="color:#666">    </span>match:<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">targetPort</span>:<span style="color:#666"> </span><span style="color:#3677a9">9898</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">analysis</span>:<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">interval</span>:<span style="color:#666"> </span>1m<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">threshold</span>:<span style="color:#666"> </span><span style="color:#3677a9">10</span><span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">iterations</span>:<span style="color:#666"> </span><span style="color:#3677a9">10</span><span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">match</span>:<span style="color:#666">
 </span><span style="color:#666">      </span><span style="color:#999;font-style:italic"># curl -H &#39;X-Canary: insider&#39; http://app.example.com</span><span style="color:#666">
-</span><span style="color:#666">      </span>-<span style="color:#666"> </span>headers:<span style="color:#666">
-</span><span style="color:#666">          </span>x-canary:<span style="color:#666">
-</span><span style="color:#666">            </span>exact:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;insider&#34;</span><span style="color:#666">
+</span><span style="color:#666">      </span>- <span style="color:#6ab825;font-weight:bold">headers</span>:<span style="color:#666">
+</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">x-canary</span>:<span style="color:#666">
+</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">exact</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;insider&#34;</span><span style="color:#666">
 </span><span style="color:#666">      </span><span style="color:#999;font-style:italic"># curl -b &#39;canary=always&#39; http://app.example.com</span><span style="color:#666">
-</span><span style="color:#666">      </span>-<span style="color:#666"> </span>headers:<span style="color:#666">
-</span><span style="color:#666">          </span>cookie:<span style="color:#666">
-</span><span style="color:#666">            </span>exact:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;canary&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>metrics:<span style="color:#666">
-</span><span style="color:#666">    </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>request-success-rate<span style="color:#666">
-</span><span style="color:#666">      </span>thresholdRange:<span style="color:#666">
-</span><span style="color:#666">        </span>min:<span style="color:#666"> </span><span style="color:#3677a9">99</span><span style="color:#666">
-</span><span style="color:#666">      </span>interval:<span style="color:#666"> </span>1m<span style="color:#666">
-</span><span style="color:#666">    </span>webhooks:<span style="color:#666">
-</span><span style="color:#666">      </span>-<span style="color:#666"> </span>name:<span style="color:#666"> </span>load-test<span style="color:#666">
-</span><span style="color:#666">        </span>url:<span style="color:#666"> </span>http://flagger-loadtester.test/<span style="color:#666">
-</span><span style="color:#666">        </span>timeout:<span style="color:#666"> </span>5s<span style="color:#666">
-</span><span style="color:#666">        </span>metadata:<span style="color:#666">
-</span><span style="color:#666">          </span>cmd:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;hey -z 1m -q 10 -c 2 -H &#39;Cookie: canary=always&#39; http://app.example.com/&#34;</span><span style="color:#666">
+</span><span style="color:#666">      </span>- <span style="color:#6ab825;font-weight:bold">headers</span>:<span style="color:#666">
+</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">cookie</span>:<span style="color:#666">
+</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">exact</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;canary&#34;</span><span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">metrics</span>:<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>request-success-rate<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">thresholdRange</span>:<span style="color:#666">
+</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">min</span>:<span style="color:#666"> </span><span style="color:#3677a9">99</span><span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">interval</span>:<span style="color:#666"> </span>1m<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">webhooks</span>:<span style="color:#666">
+</span><span style="color:#666">      </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>load-test<span style="color:#666">
+</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">url</span>:<span style="color:#666"> </span>http://flagger-loadtester.test/<span style="color:#666">
+</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">timeout</span>:<span style="color:#666"> </span>5s<span style="color:#666">
+</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
+</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">cmd</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;hey -z 1m -q 10 -c 2 -H &#39;Cookie: canary=always&#39; http://app.example.com/&#34;</span><span style="color:#666">
 </span></code></pre></div><p>从上面的配置可以看到，将 headers 为 <code>X-Canary: insider</code> 或 cookie 为 <code>canary=always</code> 的请求路由到新版本。</p>
 <p>部署一个新版本：</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl -n <span style="color:#24909d">test</span> <span style="color:#24909d">set</span> image deployment/podinfo <span style="color:#40ffff">podinfod</span>=stefanprodan/podinfo:3.1.3

@@ -50,7 +50,7 @@ curl -s https://raw.githubusercontent.com/rancher/k3d/master/install.sh | &lt;sp
 INFO[&lt;span style=&#34;color:#3677a9&#34;&gt;0000&lt;/span&gt;] Created cluster network with ID facae4a046b169721805f93ec21ba1acb65b9efb8cf35866529178cb0fba75a9
 INFO[&lt;span style=&#34;color:#3677a9&#34;&gt;0000&lt;/span&gt;] Created docker volume  k3d-k3s-local-images
 INFO[&lt;span style=&#34;color:#3677a9&#34;&gt;0000&lt;/span&gt;] Creating cluster [k3s-local]
-INFO[&lt;span style=&#34;color:#3677a9&#34;&gt;0000&lt;/span&gt;] Creating server using docker.io/rancher/k3s:v1&lt;span style=&#34;color:#3677a9&#34;&gt;.0&lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;.1&lt;/span&gt;...
+INFO[&lt;span style=&#34;color:#3677a9&#34;&gt;0000&lt;/span&gt;] Creating server using docker.io/rancher/k3s:v1&lt;span style=&#34;color:#3677a9&#34;&gt;.0.1&lt;/span&gt;...
 INFO[&lt;span style=&#34;color:#3677a9&#34;&gt;0000&lt;/span&gt;] SUCCESS: created cluster [k3s-local]
 INFO[&lt;span style=&#34;color:#3677a9&#34;&gt;0000&lt;/span&gt;] You can now use the cluster with:
 
@@ -79,11 +79,11 @@ Events:
 &lt;p&gt;下载到 &lt;code&gt;~/airgap&lt;/code&gt; 目录中，并进行解压，将解压后的目录重命名为 &lt;code&gt;1.17.2&lt;/code&gt;。&lt;/p&gt;
 &lt;h3 id=&#34;运行离线镜像&#34;&gt;运行离线镜像&lt;/h3&gt;
 &lt;p&gt;这里再次运行 k3d，部署 k3s 集群。这里要注意的是，挂载离线镜像的话，必须使用 &lt;code&gt;-i&lt;/code&gt; flag 来指定镜像版本，这里我们使用的是 &lt;a href=&#34;https://github.com/rancher/k3s/releases/tag/v1.17.2%2Bk3s1&#34;&gt;v1.17.2+k3s1&lt;/a&gt; 版本，而镜像的 tag 则是 &lt;code&gt;v1.17.2-k3s1&lt;/code&gt;，如果不确定 tag，可以去 &lt;a href=&#34;https://hub.docker.com/r/rancher/k3s/tags&#34;&gt;DockerHub&lt;/a&gt; 上查看。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;$&lt;/span&gt; k3d create -n k3s-local -i rancher/k3s:v1&lt;span style=&#34;color:#3677a9&#34;&gt;.17&lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;.2&lt;/span&gt;-k3s1  -v &lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;$&lt;/span&gt;(pwd)/airgap/v1&lt;span style=&#34;color:#3677a9&#34;&gt;.17&lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;.2&lt;/span&gt;/:/&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;var&lt;/span&gt;/lib/rancher/k3s/agent/images/
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;$&lt;/span&gt; k3d create -n k3s-local -i rancher/k3s:v1&lt;span style=&#34;color:#3677a9&#34;&gt;.17.2&lt;/span&gt;-k3s1  -v &lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;$&lt;/span&gt;(pwd)/airgap/v1&lt;span style=&#34;color:#3677a9&#34;&gt;.17.2&lt;/span&gt;/:/&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;var&lt;/span&gt;/lib/rancher/k3s/agent/images/
 INFO[&lt;span style=&#34;color:#3677a9&#34;&gt;0000&lt;/span&gt;] Created cluster network with ID &lt;span style=&#34;color:#3677a9&#34;&gt;10&lt;/span&gt;b3fca995fcb491ae1fe1c901672bf6f0a0fd6f51785ba8403947d2773ebd43
 INFO[&lt;span style=&#34;color:#3677a9&#34;&gt;0000&lt;/span&gt;] Created docker volume  k3d-k3s-local-images
 INFO[&lt;span style=&#34;color:#3677a9&#34;&gt;0000&lt;/span&gt;] Creating cluster [k3s-local]
-INFO[&lt;span style=&#34;color:#3677a9&#34;&gt;0000&lt;/span&gt;] Creating server using docker.io/rancher/k3s:v1&lt;span style=&#34;color:#3677a9&#34;&gt;.17&lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;.2&lt;/span&gt;-k3s1...
+INFO[&lt;span style=&#34;color:#3677a9&#34;&gt;0000&lt;/span&gt;] Creating server using docker.io/rancher/k3s:v1&lt;span style=&#34;color:#3677a9&#34;&gt;.17.2&lt;/span&gt;-k3s1...
 INFO[&lt;span style=&#34;color:#3677a9&#34;&gt;0000&lt;/span&gt;] SUCCESS: created cluster [k3s-local]
 INFO[&lt;span style=&#34;color:#3677a9&#34;&gt;0000&lt;/span&gt;] You can now use the cluster with:
 

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.68.3" />
 
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
@@ -51,11 +51,11 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://guoxudong.io/post/kubernetes-client-python/" />
 <meta property="article:published_time" content="2019-07-04T09:16:41+08:00" />
-<meta property="article:modified_time" content="2020-09-11T15:28:31+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
+<meta property="article:modified_time" content="2020-09-25T18:28:24+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
 <meta itemprop="name" content="由一封邮件看 Mailing List 在开源项目中的重要性">
 <meta itemprop="description" content="从发现、使用 Kubernetes Client/Python 这个项目的过程，谈谈 mailing list 在开源项目中的重要性。">
 <meta itemprop="datePublished" content="2019-07-04T09:16:41&#43;08:00" />
-<meta itemprop="dateModified" content="2020-09-11T15:28:31&#43;08:00" />
+<meta itemprop="dateModified" content="2020-09-25T18:28:24&#43;08:00" />
 <meta itemprop="wordCount" content="422">
 
 
@@ -81,8 +81,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.f377eea2b683b2fea7a7150093db6c740545f0d2916a0bcb19e6dde2a2a5b68b.css" as="style">
-<link href="/scss/main.min.f377eea2b683b2fea7a7150093db6c740545f0d2916a0bcb19e6dde2a2a5b68b.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.609c26871dd224c5295bed6e41f0dd9c030a722c72af35c8be1b63a821c4d704.css" as="style">
+<link href="/scss/main.min.609c26871dd224c5295bed6e41f0dd9c030a722c72af35c8be1b63a821c4d704.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 <script
@@ -513,7 +513,7 @@ if (!doNotTrack) {
 		<span>
 			2 分钟阅读时间
 		</span> ·
-		<span>最近更新于 </span><time datetime="2020-09-11"
+		<span>最近更新于 </span><time datetime="2020-09-25"
 			class="text-muted">2019年07月04日</time> ·
 		
 		<a href="/categories/kustomize">
@@ -600,10 +600,10 @@ if (!doNotTrack) {
 config.load_kube_config()
 
 v1 = client.CoreV1Api()
-<span style="color:#6ab825;font-weight:bold">print</span>(<span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">Listing pods with their IPs:</span><span style="color:#ed9d13">&#34;</span>)
+<span style="color:#6ab825;font-weight:bold">print</span>(<span style="color:#ed9d13">&#34;Listing pods with their IPs:&#34;</span>)
 ret = v1.list_pod_for_all_namespaces(watch=False)
 <span style="color:#6ab825;font-weight:bold">for</span> i <span style="color:#6ab825;font-weight:bold">in</span> ret.items:
-    <span style="color:#6ab825;font-weight:bold">print</span>(<span style="color:#ed9d13"></span><span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">%s</span><span style="color:#ed9d13">\t</span><span style="color:#ed9d13">%s</span><span style="color:#ed9d13">\t</span><span style="color:#ed9d13">%s</span><span style="color:#ed9d13">&#34;</span> % (i.status.pod_ip, i.metadata.namespace, i.metadata.name))
+    <span style="color:#6ab825;font-weight:bold">print</span>(<span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">%s</span><span style="color:#ed9d13">\t</span><span style="color:#ed9d13">%s</span><span style="color:#ed9d13">\t</span><span style="color:#ed9d13">%s</span><span style="color:#ed9d13">&#34;</span> % (i.status.pod_ip, i.metadata.namespace, i.metadata.name))
 </code></pre></div><p>运行查看结果：</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">Listing pods <span style="color:#6ab825;font-weight:bold">with</span> their IPs:
 <span style="color:#3677a9">172.22</span>.<span style="color:#3677a9">1.126</span>	kube-system	coredns-<span style="color:#3677a9">5975</span>fdf55b-bqgkx

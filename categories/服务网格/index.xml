@@ -66,7 +66,7 @@
 &lt;/ul&gt;
 &lt;h2 id=&#34;从边车模式到-service-mesh&#34;&gt;从边车模式到 Service Mesh&lt;/h2&gt;
 &lt;p&gt;边车模式有效的分离了系统控制和业务逻辑，可以将所有的服务进行统一管理，让开发人员更专注于业务开发，显著的提升开发效率。而遵循这种模式进行实践从很早以前就开始了，开发人员一直试图将上文中我们提到的功能（如：流量控制、服务注册、服务发现、服务限流、服务熔断等）提取成一个标准化的 Sidecar ，通过 Sidecar 代理来与其他系统进行交互，这样可以大大简化业务开发和运维。而随着分布式架构和微服务被越来越多的公司和开发者接受并使用，这一需求日益凸显。&lt;/p&gt;
-&lt;p&gt;这就是 Service Mesh 服务网格诞生的契机，它是 CNCF（Cloud Native Computing Foundation，云原生基金会）目前主推的新一代微服务架构。 William Morgan 在 &lt;a href=&#34;https://buoyant.io/2017/04/25/whats-a-service-mesh-and-why-do-i-need-one/&#34;&gt;What&#39;s a service mesh? And why do I need one?&lt;/a&gt; 【&lt;a href=&#34;https://blog.maoxianplay.com/posts/whats-a-service-mesh-and-why-do-i-need-one/&#34;&gt;译文&lt;/a&gt;】中解释了什么是 Service Mesh 。&lt;/p&gt;
+&lt;p&gt;这就是 Service Mesh 服务网格诞生的契机，它是 CNCF（Cloud Native Computing Foundation，云原生基金会）目前主推的新一代微服务架构。 William Morgan 在 &lt;a href=&#34;https://buoyant.io/2017/04/25/whats-a-service-mesh-and-why-do-i-need-one/&#34;&gt;What&amp;rsquo;s a service mesh? And why do I need one?&lt;/a&gt; 【&lt;a href=&#34;https://blog.maoxianplay.com/posts/whats-a-service-mesh-and-why-do-i-need-one/&#34;&gt;译文&lt;/a&gt;】中解释了什么是 Service Mesh 。&lt;/p&gt;
 &lt;p&gt;Service Mesh 有如下几个特点：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;应用程序间通讯的中间层&lt;/li&gt;
@@ -91,7 +91,7 @@
 &lt;p&gt;Sidecar pattern ： &lt;a href=&#34;https://docs.microsoft.com/en-us/azure/architecture/patterns/sidecar&#34;&gt;https://docs.microsoft.com/en-us/azure/architecture/patterns/sidecar&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;What&#39;s a service mesh? And why do I need one?： &lt;a href=&#34;https://buoyant.io/2017/04/25/whats-a-service-mesh-and-why-do-i-need-one/&#34;&gt;https://buoyant.io/2017/04/25/whats-a-service-mesh-and-why-do-i-need-one/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;What&amp;rsquo;s a service mesh? And why do I need one?： &lt;a href=&#34;https://buoyant.io/2017/04/25/whats-a-service-mesh-and-why-do-i-need-one/&#34;&gt;https://buoyant.io/2017/04/25/whats-a-service-mesh-and-why-do-i-need-one/&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Do I Need a Service Mesh?：https://www.nginx.com/blog/do-i-need-a-service-mesh/&lt;/p&gt;

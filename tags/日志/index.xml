@@ -5,7 +5,7 @@
     <description>Recent content in 日志 on Guo Xudong&#39;s Blog·郭旭东的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Thu, 14 Feb 2019 14:07:06 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 02 Mar 2020 15:29:16 +0800</lastBuildDate>
     
 	  <atom:link href="https://guoxudong.io/tags/%E6%97%A5%E5%BF%97/index.xml" rel="self" type="application/rss+xml" />
     
@@ -53,7 +53,7 @@
 &lt;li&gt;
 &lt;p&gt;该条命令其实就是执行了一个shell脚本，使用helm安装了采集kubernetes集群日志的组件&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-vim&#34; data-lang=&#34;vim&#34;&gt;#!&lt;span style=&#34;color:#ed9d13&#34;&gt;/bin/&lt;/span&gt;bash&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; [ $# -eq &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt; ] ; then&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;    echo &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;[Invalid Param], use sudo ./install-k8s-log.sh {your-k8s-cluster-id}&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;    exit &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;

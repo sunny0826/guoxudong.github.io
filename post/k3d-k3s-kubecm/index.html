@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.68.3" />
 
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
@@ -51,11 +51,11 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://guoxudong.io/post/k3d-k3s-kubecm/" />
 <meta property="article:published_time" content="2020-02-17T11:51:39+08:00" />
-<meta property="article:modified_time" content="2020-09-11T15:28:31+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
+<meta property="article:modified_time" content="2020-09-25T18:28:24+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
 <meta itemprop="name" content="K3d&#43;Kubecm 本地开发运维两不误">
 <meta itemprop="description" content="使用 k3d 在本地快速搭建轻量级 k8s 集群 - k3s，并使用 kubecm 管理所有集群。">
 <meta itemprop="datePublished" content="2020-02-17T11:51:39&#43;08:00" />
-<meta itemprop="dateModified" content="2020-09-11T15:28:31&#43;08:00" />
+<meta itemprop="dateModified" content="2020-09-25T18:28:24&#43;08:00" />
 <meta itemprop="wordCount" content="489">
 
 
@@ -81,8 +81,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.f377eea2b683b2fea7a7150093db6c740545f0d2916a0bcb19e6dde2a2a5b68b.css" as="style">
-<link href="/scss/main.min.f377eea2b683b2fea7a7150093db6c740545f0d2916a0bcb19e6dde2a2a5b68b.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.609c26871dd224c5295bed6e41f0dd9c030a722c72af35c8be1b63a821c4d704.css" as="style">
+<link href="/scss/main.min.609c26871dd224c5295bed6e41f0dd9c030a722c72af35c8be1b63a821c4d704.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 <script
@@ -514,7 +514,7 @@ if (!doNotTrack) {
 		<span>
 			3 分钟阅读时间
 		</span> ·
-		<span>最近更新于 </span><time datetime="2020-09-11"
+		<span>最近更新于 </span><time datetime="2020-09-25"
 			class="text-muted">2020年02月17日</time> ·
 		
 		<a href="/categories/%e8%be%b9%e7%bc%98%e8%ae%a1%e7%ae%97">
@@ -602,7 +602,7 @@ curl -s https://raw.githubusercontent.com/rancher/k3d/master/install.sh | <span 
 INFO[<span style="color:#3677a9">0000</span>] Created cluster network with ID facae4a046b169721805f93ec21ba1acb65b9efb8cf35866529178cb0fba75a9
 INFO[<span style="color:#3677a9">0000</span>] Created docker volume  k3d-k3s-local-images
 INFO[<span style="color:#3677a9">0000</span>] Creating cluster [k3s-local]
-INFO[<span style="color:#3677a9">0000</span>] Creating server using docker.io/rancher/k3s:v1<span style="color:#3677a9">.0</span><span style="color:#3677a9">.1</span>...
+INFO[<span style="color:#3677a9">0000</span>] Creating server using docker.io/rancher/k3s:v1<span style="color:#3677a9">.0.1</span>...
 INFO[<span style="color:#3677a9">0000</span>] SUCCESS: created cluster [k3s-local]
 INFO[<span style="color:#3677a9">0000</span>] You can now use the cluster with:
 
@@ -631,11 +631,11 @@ Events:
 <p>下载到 <code>~/airgap</code> 目录中，并进行解压，将解压后的目录重命名为 <code>1.17.2</code>。</p>
 <h3 id="运行离线镜像">运行离线镜像</h3>
 <p>这里再次运行 k3d，部署 k3s 集群。这里要注意的是，挂载离线镜像的话，必须使用 <code>-i</code> flag 来指定镜像版本，这里我们使用的是 <a href="https://github.com/rancher/k3s/releases/tag/v1.17.2%2Bk3s1">v1.17.2+k3s1</a> 版本，而镜像的 tag 则是 <code>v1.17.2-k3s1</code>，如果不确定 tag，可以去 <a href="https://hub.docker.com/r/rancher/k3s/tags">DockerHub</a> 上查看。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a61717;background-color:#e3d2d2">$</span> k3d create -n k3s-local -i rancher/k3s:v1<span style="color:#3677a9">.17</span><span style="color:#3677a9">.2</span>-k3s1  -v <span style="color:#a61717;background-color:#e3d2d2">$</span>(pwd)/airgap/v1<span style="color:#3677a9">.17</span><span style="color:#3677a9">.2</span>/:/<span style="color:#6ab825;font-weight:bold">var</span>/lib/rancher/k3s/agent/images/
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a61717;background-color:#e3d2d2">$</span> k3d create -n k3s-local -i rancher/k3s:v1<span style="color:#3677a9">.17.2</span>-k3s1  -v <span style="color:#a61717;background-color:#e3d2d2">$</span>(pwd)/airgap/v1<span style="color:#3677a9">.17.2</span>/:/<span style="color:#6ab825;font-weight:bold">var</span>/lib/rancher/k3s/agent/images/
 INFO[<span style="color:#3677a9">0000</span>] Created cluster network with ID <span style="color:#3677a9">10</span>b3fca995fcb491ae1fe1c901672bf6f0a0fd6f51785ba8403947d2773ebd43
 INFO[<span style="color:#3677a9">0000</span>] Created docker volume  k3d-k3s-local-images
 INFO[<span style="color:#3677a9">0000</span>] Creating cluster [k3s-local]
-INFO[<span style="color:#3677a9">0000</span>] Creating server using docker.io/rancher/k3s:v1<span style="color:#3677a9">.17</span><span style="color:#3677a9">.2</span>-k3s1...
+INFO[<span style="color:#3677a9">0000</span>] Creating server using docker.io/rancher/k3s:v1<span style="color:#3677a9">.17.2</span>-k3s1...
 INFO[<span style="color:#3677a9">0000</span>] SUCCESS: created cluster [k3s-local]
 INFO[<span style="color:#3677a9">0000</span>] You can now use the cluster with:
 
