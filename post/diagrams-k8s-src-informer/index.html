@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh" class="no-js ">
+<html lang="zh" class="no-js">
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -29,40 +29,40 @@
            "@id": "https:\/\/guoxudong.io"
       },
       "articleSection" : "post",
-      "name" : "浅析ServiceMesh \x26 Istio",
-      "headline" : "浅析ServiceMesh \x26 Istio",
-      "description" : "在云原生架构下，容器的使用给予了异构应用程序的更多可行性，Kubernetes 增强了应用的横向扩容能力，用户可以快速的编排出复杂环境、复杂依赖关系的应用程序，Istio可以使开发者又无须过分关心应用程序的监控、扩展性、服务发现和分布式追踪这些繁琐的事情而专注于程序开发，赋予开发者更多的创造性。",
+      "name" : "图解 K8S 源码 - Informer 篇",
+      "headline" : "图解 K8S 源码 - Informer 篇",
+      "description" : "图解 K8S 源码中的 Informer 机制及 Reflector 实现。",
       "inLanguage" : "en-US",
       "author" : "",
       "creator" : "",
       "publisher": "",
       "accountablePerson" : "",
       "copyrightHolder" : "",
-      "copyrightYear" : "2019",
-      "datePublished": "2019-03-20 09:12:28 \x2b0800 \x2b0800",
-      "dateModified" : "2019-03-20 09:12:28 \x2b0800 \x2b0800",
-      "url" : "https:\/\/guoxudong.io\/post\/istio-share\/",
-      "wordCount" : "207",
-      "keywords" : [ "istio","service mesh","Guoxudong" ]
+      "copyrightYear" : "2020",
+      "datePublished": "2020-10-12 15:21:14 \x2b0800 \x2b0800",
+      "dateModified" : "2020-10-12 15:21:14 \x2b0800 \x2b0800",
+      "url" : "https:\/\/guoxudong.io\/post\/diagrams-k8s-src-informer\/",
+      "wordCount" : "301",
+      "keywords" : [ "Kubernetes","源码解析","图解 k8s","Guoxudong" ]
   }
   </script>
-<title>浅析ServiceMesh &amp; Istio | Guo Xudong&#39;s Blog·郭旭东的博客</title><meta property="og:title" content="浅析ServiceMesh &amp; Istio" />
-<meta property="og:description" content="在云原生架构下，容器的使用给予了异构应用程序的更多可行性，Kubernetes 增强了应用的横向扩容能力，用户可以快速的编排出复杂环境、复杂依赖关系的应用程序，Istio可以使开发者又无须过分关心应用程序的监控、扩展性、服务发现和分布式追踪这些繁琐的事情而专注于程序开发，赋予开发者更多的创造性。" />
+<title>图解 K8S 源码 - Informer 篇 | Guo Xudong&#39;s Blog·郭旭东的博客</title><meta property="og:title" content="图解 K8S 源码 - Informer 篇" />
+<meta property="og:description" content="图解 K8S 源码中的 Informer 机制及 Reflector 实现。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://guoxudong.io/post/istio-share/" />
-<meta property="article:published_time" content="2019-03-20T09:12:28+08:00" />
+<meta property="og:url" content="https://guoxudong.io/post/diagrams-k8s-src-informer/" />
+<meta property="article:published_time" content="2020-10-12T15:21:14+08:00" />
 <meta property="article:modified_time" content="2020-10-12T17:06:07+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
-<meta itemprop="name" content="浅析ServiceMesh &amp; Istio">
-<meta itemprop="description" content="在云原生架构下，容器的使用给予了异构应用程序的更多可行性，Kubernetes 增强了应用的横向扩容能力，用户可以快速的编排出复杂环境、复杂依赖关系的应用程序，Istio可以使开发者又无须过分关心应用程序的监控、扩展性、服务发现和分布式追踪这些繁琐的事情而专注于程序开发，赋予开发者更多的创造性。">
-<meta itemprop="datePublished" content="2019-03-20T09:12:28&#43;08:00" />
+<meta itemprop="name" content="图解 K8S 源码 - Informer 篇">
+<meta itemprop="description" content="图解 K8S 源码中的 Informer 机制及 Reflector 实现。">
+<meta itemprop="datePublished" content="2020-10-12T15:21:14&#43;08:00" />
 <meta itemprop="dateModified" content="2020-10-12T17:06:07&#43;08:00" />
-<meta itemprop="wordCount" content="207">
+<meta itemprop="wordCount" content="301">
 
 
 
-<meta itemprop="keywords" content="istio,service mesh," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="浅析ServiceMesh &amp; Istio"/>
-<meta name="twitter:description" content="在云原生架构下，容器的使用给予了异构应用程序的更多可行性，Kubernetes 增强了应用的横向扩容能力，用户可以快速的编排出复杂环境、复杂依赖关系的应用程序，Istio可以使开发者又无须过分关心应用程序的监控、扩展性、服务发现和分布式追踪这些繁琐的事情而专注于程序开发，赋予开发者更多的创造性。"/>
+<meta itemprop="keywords" content="Kubernetes,源码解析,图解 k8s," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="图解 K8S 源码 - Informer 篇"/>
+<meta name="twitter:description" content="图解 K8S 源码中的 Informer 机制及 Reflector 实现。"/>
 
 
 <script type="application/javascript">
@@ -93,7 +93,7 @@ if (!doNotTrack) {
   
 
   </head>
-  <body class="td-page">
+  <body class="td-page td-blog">
     <header>
       
 <nav
@@ -171,91 +171,605 @@ if (!doNotTrack) {
 </div>
 </nav>
     </header>
-    <div class="container-fluid td-default td-outer">
-      <main role="main" class="td-main">
-        
+    <div class="container-fluid td-outer" style="margin-top: 30px;">
+      <div class="td-main">
+        <div class="row flex-xl-nowrap">
+          <div class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none"></div>
+          <div class="d-none d-xl-block col-xl-3 td-toc d-print-none mt-5">
+            
 
-<h2 id="前言">前言</h2>
-<blockquote>
-<p>公司于<strong>18年10月</strong>正式确认服务容器化，到<strong>18年12月4日</strong>第一个服务正式部署到生产环境kubernetes集群，再到<strong>如今</strong>已有<strong>23</strong>个服务完成了生产环境容器化的切换，更多的服务在测试环境容器化部署随时可以切换到生产环境。目前新项目的开发，大部分都直接在测试环境容器化部署，不再需要新购ECS搭建测试环境。随着容器化的深入，服务间的通信和联系变的更加复杂，其中通信的可视化、流量的控制和服务质量的评估问题日益凸显，成为了微服务方案的短板。这个时候<code>Service mesh</code>就进入了我们的视野。</p>
-</blockquote>
-<h2 id="service-mesh是什么">Service mesh是什么</h2>
-<p><code>Service mesh</code> 又译作 “服务网格”，作为服务间通信的基础设施层。随着规模和复杂性的增长，服务网格越来越难以理解和管理。它的需求包括服务发现、负载均衡、故障恢复、指标收集和监控以及通常更加复杂的运维需求，例如 A/B 测试、金丝雀发布、限流、访问控制和端到端认证等。它负责通过包含现代云原生应用程序的复杂服务拓扑来可靠地传递请求。实际上，服务网格通常通过一组轻量级网络代理来实现，这些代理与应用程序代码一起部署，而不需要感知应用程序本身。</p>
-<p>**这里注意：**<code>istio</code>只是<code>Service mesh</code>服务网格的一种。</p>
-<h3 id="服务网格的特点">服务网格的特点</h3>
-<p>服务网格有如下几个特点：</p>
-<ul>
-<li>应用程序间通讯的中间层</li>
-<li>轻量级网络代理</li>
-<li>应用程序无感知</li>
-<li>解耦应用程序的重试/超时、监控、追踪和服务发现</li>
-</ul>
-<p>目前两款流行的服务网格开源软件 <a href="https://linkerd.io">Linkerd</a> 和 <a href="https://Istio.io">Istio</a> 都可以直接在 Kubernetes 中集成，其中 Linkerd 已经成为 CNCF 成员，Istio 在 2018年7月31日宣布 <a href="https://istio.io/zh/blog/2018/announcing-1.0/">1.0</a>。</p>
-<h3 id="服务网格的发展历史">服务网格的发展历史</h3>
-<ul>
-<li>
-<p>Spring Cloud</p>
-<p>Spring Cloud 诞生于2015年，Spring Cloud 最早在功能层面为微服务治理定义了一系列标准特性，比如：智能路由、服务熔断、服务注册于发现等这些名词我最早看到都是在 Sprint Cloud 相关文章中。同时也有一些缺点，比如：需要在代码级别对诸多组件进行控制，并且都依赖于 Java 的实现，这与微服务的多语言协作背道而驰；没有对资源的调度、devops等提供相关支持，需要借助平台来完成；众所周知的Eureka闭源等。</p>
+
+
+
+
+
+
+
+
+
+
+<h5>目录</h5>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#控制器模式">控制器模式</a>
+      <ul>
+        <li><a href="#informer">Informer</a></li>
+        <li><a href="#reflector">Reflector</a></li>
+        <li><a href="#indexer">Indexer</a></li>
+      </ul>
+    </li>
+    <li><a href="#结语">结语</a></li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav>
+<hr>
+
+
+
+            
+            
+                
+            <div class="article-widget">
+              <div class="hr-light"></div>
+              <h5>最新博客</h5>
+              <ul>
+                
+                <li><a href="/post/diagrams-k8s-src-informer/">图解 K8S 源码 - Informer 篇</a></li>
+                
+                <li><a href="/post/diagrams-k8s-src-deployment-controller/">图解 K8S 源码 - Deployment Controller 篇</a></li>
+                
+                <li><a href="/post/k8s-gc-finalizers/">熟悉又陌生的 k8s 字段：finalizers</a></li>
+                
+                <li><a href="/post/aliyun-darabonba/">听说，阿里云给它的 OpenAPI 开发了一套编程语言</a></li>
+                
+                <li><a href="/post/openkruise-summary/">OpenKruise：Kubernetes 核心控制器 Plus</a></li>
+                
+              </ul>
+            </div>
+            <hr>
+            
+            
+            <div class="article-widget">
+              <div class="hr-light"></div>
+              <h5>相关阅读</h5>
+              <ul>
+                
+                <li><a href="/post/diagrams-k8s-src-deployment-controller/">图解 K8S 源码 - Deployment Controller 篇</a></li>
+                
+                <li><a href="/post/flagger-nginx-ingress/">基于 Flagger 和 Nginx-Ingress 实现金丝雀发布</a></li>
+                
+                <li><a href="/post/tekton-dashboard/">可视化 Tekton 组件 Tekton Dashboard</a></li>
+                
+                <li><a href="/post/katacoda-k8s/">Katacoda：免费学习 Kubernetes 利器</a></li>
+                
+                <li><a href="/post/alibaba-kt-connect/">Kt Connect：研发侧利器，本地连通 Kubernetes 集群内网</a></li>
+                
+              </ul>
+            </div>
+            <hr>
+            
+            <h5>分类</h5>
+            <div>
+              
+              <a class="button button-primary button-small button-rounded mb-2"
+		          href="/categories/devops" style="display: inline-block;">devops</a>
+              
+              <a class="button button-primary button-small button-rounded mb-2"
+		          href="/categories/go" style="display: inline-block;">go</a>
+              
+              <a class="button button-primary button-small button-rounded mb-2"
+		          href="/categories/istio" style="display: inline-block;">istio</a>
+              
+              <a class="button button-primary button-small button-rounded mb-2"
+		          href="/categories/kubernetes" style="display: inline-block;">kubernetes</a>
+              
+              <a class="button button-primary button-small button-rounded mb-2"
+		          href="/categories/kustomize" style="display: inline-block;">kustomize</a>
+              
+              <a class="button button-primary button-small button-rounded mb-2"
+		          href="/categories/oam" style="display: inline-block;">oam</a>
+              
+              <a class="button button-primary button-small button-rounded mb-2"
+		          href="/categories/openkruise" style="display: inline-block;">openkruise</a>
+              
+              <a class="button button-primary button-small button-rounded mb-2"
+		          href="/categories/%e5%85%ac%e7%9b%8a" style="display: inline-block;">公益</a>
+              
+              <a class="button button-primary button-small button-rounded mb-2"
+		          href="/categories/%e5%9b%be%e8%a7%a3-k8s" style="display: inline-block;">图解-k8s</a>
+              
+              <a class="button button-primary button-small button-rounded mb-2"
+		          href="/categories/%e5%b7%a5%e5%85%b7" style="display: inline-block;">工具</a>
+              
+              <a class="button button-primary button-small button-rounded mb-2"
+		          href="/categories/%e5%ba%94%e7%94%a8%e7%a8%8b%e5%ba%8f%e5%bc%80%e5%8f%91" style="display: inline-block;">应用程序开发</a>
+              
+              <a class="button button-primary button-small button-rounded mb-2"
+		          href="/categories/%e5%bc%80%e6%ba%90" style="display: inline-block;">开源</a>
+              
+              <a class="button button-primary button-small button-rounded mb-2"
+		          href="/categories/%e6%95%88%e7%8e%87" style="display: inline-block;">效率</a>
+              
+              <a class="button button-primary button-small button-rounded mb-2"
+		          href="/categories/%e6%9c%8d%e5%8a%a1%e7%bd%91%e6%a0%bc" style="display: inline-block;">服务网格</a>
+              
+              <a class="button button-primary button-small button-rounded mb-2"
+		          href="/categories/%e6%b7%b7%e6%b2%8c%e5%b7%a5%e7%a8%8b" style="display: inline-block;">混沌工程</a>
+              
+              <a class="button button-primary button-small button-rounded mb-2"
+		          href="/categories/%e7%a8%8b%e5%ba%8f%e5%91%98%e8%b6%a3%e9%97%bb" style="display: inline-block;">程序员趣闻</a>
+              
+              <a class="button button-primary button-small button-rounded mb-2"
+		          href="/categories/%e7%b3%bb%e7%bb%9f" style="display: inline-block;">系统</a>
+              
+              <a class="button button-primary button-small button-rounded mb-2"
+		          href="/categories/%e7%bf%bb%e8%af%91" style="display: inline-block;">翻译</a>
+              
+              <a class="button button-primary button-small button-rounded mb-2"
+		          href="/categories/%e8%82%ba%e7%82%8e%e7%96%ab%e6%83%85" style="display: inline-block;">肺炎疫情</a>
+              
+              <a class="button button-primary button-small button-rounded mb-2"
+		          href="/categories/%e8%be%b9%e7%bc%98%e8%ae%a1%e7%ae%97" style="display: inline-block;">边缘计算</a>
+              
+              <a class="button button-primary button-small button-rounded mb-2"
+		          href="/categories/%e9%83%a8%e7%bd%b2%e5%ae%89%e8%a3%85" style="display: inline-block;">部署安装</a>
+              
+              <a class="button button-primary button-small button-rounded mb-2"
+		          href="/categories/%e9%97%ae%e9%a2%98%e8%a7%a3%e5%86%b3" style="display: inline-block;">问题解决</a>
+              
+              <a class="button button-primary button-small button-rounded mb-2"
+		          href="/categories/%e9%98%bf%e9%87%8c%e4%ba%91" style="display: inline-block;">阿里云</a>
+              
+            </div>
+            <hr>
+            <h5>标签</h5>
+            <div>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/ci/cd" style="display: inline-block;">ci/cd</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/cobra" style="display: inline-block;">cobra</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/devops" style="display: inline-block;">devops</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/docker" style="display: inline-block;">docker</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/drone" style="display: inline-block;">drone</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/github" style="display: inline-block;">github</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/go" style="display: inline-block;">go</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/grafana" style="display: inline-block;">grafana</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/helm" style="display: inline-block;">helm</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/ingress" style="display: inline-block;">ingress</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/istio" style="display: inline-block;">istio</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/jenkins" style="display: inline-block;">jenkins</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/k3d" style="display: inline-block;">k3d</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/k3s" style="display: inline-block;">k3s</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/kubecm" style="display: inline-block;">kubecm</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/kubernetes" style="display: inline-block;">kubernetes</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/kustomize" style="display: inline-block;">kustomize</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/linux" style="display: inline-block;">linux</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/mac" style="display: inline-block;">mac</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/oam" style="display: inline-block;">oam</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/openapi" style="display: inline-block;">openapi</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/openkruise" style="display: inline-block;">openkruise</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/operator" style="display: inline-block;">operator</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/prometheus" style="display: inline-block;">prometheus</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/python" style="display: inline-block;">python</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/rancher" style="display: inline-block;">rancher</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/service-mesh" style="display: inline-block;">service-mesh</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/sonar" style="display: inline-block;">sonar</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/velero" style="display: inline-block;">velero</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/%e4%ba%91%e5%8e%9f%e7%94%9f" style="display: inline-block;">云原生</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/%e4%ba%91%e6%95%88" style="display: inline-block;">云效</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/%e5%85%ac%e7%9b%8a" style="display: inline-block;">公益</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/%e5%8d%8e%e4%b8%ba%e4%ba%91" style="display: inline-block;">华为云</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/%e5%9b%be%e8%a7%a3-k8s" style="display: inline-block;">图解-k8s</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/%e5%ae%89%e5%85%a8" style="display: inline-block;">安全</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/%e5%ae%89%e5%85%a8%e5%8a%9e%e5%85%ac" style="display: inline-block;">安全办公</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/%e5%ae%b9%e5%99%a8" style="display: inline-block;">容器</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/%e5%b7%a5%e5%85%b7" style="display: inline-block;">工具</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/%e5%bc%80%e6%ba%90" style="display: inline-block;">开源</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/%e5%be%ae%e6%9c%8d%e5%8a%a1" style="display: inline-block;">微服务</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/%e6%97%a5%e5%bf%97" style="display: inline-block;">日志</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/%e6%97%a5%e5%bf%97%e6%9c%8d%e5%8a%a1" style="display: inline-block;">日志服务</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/%e6%b5%81%e9%87%8f" style="display: inline-block;">流量</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/%e6%b7%b7%e6%b2%8c%e5%b7%a5%e7%a8%8b" style="display: inline-block;">混沌工程</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/%e6%ba%90%e7%a0%81%e8%a7%a3%e6%9e%90" style="display: inline-block;">源码解析</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/%e7%bf%bb%e8%af%91" style="display: inline-block;">翻译</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/%e8%82%ba%e7%82%8e%e7%96%ab%e6%83%85" style="display: inline-block;">肺炎疫情</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/%e8%bd%af%e4%bb%b6%e8%ae%be%e8%ae%a1" style="display: inline-block;">软件设计</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/%e8%bf%9c%e7%a8%8b%e5%8a%9e%e5%85%ac" style="display: inline-block;">远程办公</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/%e9%98%bf%e9%87%8c%e4%ba%91" style="display: inline-block;">阿里云</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/%e9%ab%98%e6%95%88%e5%8a%9e%e5%85%ac" style="display: inline-block;">高效办公</a>
+              
+            </div>
+          </div>
+
+          <main class="col-12 col-md-6 col-xl-7 pl-md-5 pr-md-4" role="main">
+            <a class="button button-glow button-border button-rounded button-primary td-rss-button d-none d-lg-block" href="https://guoxudong.io/post/index.xml" target="_blank">
+              RSS <i class="fa fa-rss ml-2 "></i>
+            </a>
+            
+  
+
+            <nav aria-label="breadcrumb" class="d-none d-md-block d-print-none">
+	<ol class="breadcrumb spb-1">
+		
+
+
+
+
+
+
+
+<li class="breadcrumb-item" >
+	<a href="https://guoxudong.io/post/">博客</a>
 </li>
-<li>
-<p>Linkerd</p>
-<p>Service mesh 这个命名就是来源于Linkerd。Linkerd 很好地结合了 kubernetes 所提供的功能，于2017年加入CNCF。</p>
+
+
+
+
+<li class="breadcrumb-item active" aria-current="page">
+	<a href="https://guoxudong.io/post/diagrams-k8s-src-informer/">图解 K8S 源码 - Informer 篇</a>
 </li>
-<li>
-<p>Istio</p>
-<p>2017年5月， Google、 IBM 和 Lyft 宣布了Istio的诞生。一经发布，便立即获得Red Hat、F5等大厂响应，社区活跃度高涨，很快超越了 Linkerd，成为了 Service mesh 的代表产品。</p>
-</li>
-<li>
-<p>国内服务网格</p>
-<p>这里不得不提的是国内服务网格的兴起，在 Service mesh 概念具体定义以前，国内的许多厂商就已经开始了微服务进程，同时在做自己的微服务治理产品。而在 Service mesh 概念普及之后，厂商意识到了自己产品也具有 Service mesh 的特点，将自己的服务治理平台进行了改造和完善，推出了自己的 Service mesh 产品。例如，微博、腾讯和华为都有自己的服务网格产品，华为更是已经将产品投入到公有云中进行商业应用。蚂蚁金服的 SOFAMesh 则是针对大流量的生产场景，在 Istio 的架构基础上进行修改并推广。</p>
-</li>
+
+	</ol>
+</nav	>
+
+            
+
+<div class="td-content" id="road">
+	<h1>图解 K8S 源码 - Informer 篇</h1>
+	
+	<div class="td-byline mb-4">
+		<span>By  <b>guoxudong</b> </span> ·
+		<span>
+			2 分钟阅读时间
+		</span> ·
+		<span>最近更新于 </span><time datetime="2020-10-12"
+			class="text-muted">2020年10月12日</time> ·
+		
+		<a href="/categories/%e5%9b%be%e8%a7%a3-k8s">
+			图解 K8s</a>
+		
+	</div>
+
+	
+
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a href="https://twitter.com/intent/tweet?url=https%3a%2f%2fguoxudong.io%2fpost%2fdiagrams-k8s-src-informer%2f&amp;text=%e5%9b%be%e8%a7%a3%20K8S%20%e6%ba%90%e7%a0%81%20-%20Informer%20%e7%af%87" target="_blank" rel="noopener" class="share-btn-twitter">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fguoxudong.io%2fpost%2fdiagrams-k8s-src-informer%2f&amp;t=%e5%9b%be%e8%a7%a3%20K8S%20%e6%ba%90%e7%a0%81%20-%20Informer%20%e7%af%87" target="_blank" rel="noopener" class="share-btn-facebook">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+    </li>
+    <li>
+      <a href="mailto:?subject=%e5%9b%be%e8%a7%a3%20K8S%20%e6%ba%90%e7%a0%81%20-%20Informer%20%e7%af%87&amp;body=https%3a%2f%2fguoxudong.io%2fpost%2fdiagrams-k8s-src-informer%2f" target="_blank" rel="noopener" class="share-btn-email">
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fguoxudong.io%2fpost%2fdiagrams-k8s-src-informer%2f&amp;title=%e5%9b%be%e8%a7%a3%20K8S%20%e6%ba%90%e7%a0%81%20-%20Informer%20%e7%af%87" target="_blank" rel="noopener" class="share-btn-linkedin">
+        <i class="fab fa-linkedin-in"></i>
+      </a>
+    </li>
+    <li>
+      <a href="https://web.whatsapp.com/send?text=%e5%9b%be%e8%a7%a3%20K8S%20%e6%ba%90%e7%a0%81%20-%20Informer%20%e7%af%87https%3a%2f%2fguoxudong.io%2fpost%2fdiagrams-k8s-src-informer%2f/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+        <i class="fab fa-whatsapp"></i>
+      </a>
+    </li>
+    <li>
+      <a href="https://service.weibo.com/share/share.php?url=https%3a%2f%2fguoxudong.io%2fpost%2fdiagrams-k8s-src-informer%2f&amp;title=%e5%9b%be%e8%a7%a3%20K8S%20%e6%ba%90%e7%a0%81%20-%20Informer%20%e7%af%87" target="_blank" rel="noopener" class="share-btn-weibo">
+        <i class="fab fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a href="https://reddit.com/submit?url=https%3a%2f%2fguoxudong.io%2fpost%2fdiagrams-k8s-src-informer%2f&amp;title=%e5%9b%be%e8%a7%a3%20K8S%20%e6%ba%90%e7%a0%81%20-%20Informer%20%e7%af%87" target="_blank" rel="noopener" class="share-btn-reddit">
+        <i class="fab fa-reddit-alien"></i>
+      </a>
+    </li>
+    <li>
+      <a href=# onClick="javascript:window.open('/wechart?url=https:\/\/guoxudong.io\/post\/diagrams-k8s-src-informer\/','weixin','height=560, width=470, top=100, location=no, toolbar=no, menubar=no, status=no')" target="_blank" rel="noopener" class="share-btn-weixin">
+        <i class="fab fa-weixin"></i>
+      </a>
+    </li>
 </ul>
-<h2 id="istio又是什么">Istio又是什么</h2>
-<p><code>Istio</code> 提供了一个完整的解决方案，通过为整个服务网格提供行为洞察和操作控制来满足微服务应用程序的多样化需求。Istio 允许您连接、保护、控制和观测服务。在较高的层次上，Istio 有助于降低这些部署的复杂性，并减轻开发团队的压力。它是一个完全开源的服务网格，可以透明地分层到现有的分布式应用程序上。它也是一个平台，包括允许它集成到任何日志记录平台、遥测或策略系统的 API。Istio 的多样化功能集使您能够成功高效地运行分布式微服务架构，并提供保护、连接和监控微服务的统一方法。</p>
-<h3 id="istio的架构">Istio的架构</h3>
-<p><code>Istio</code>总的来说由两部分组成：<strong>控制平面</strong>和<strong>数据平面</strong></p>
-<ul>
-<li>数据平面由一组以 sidecar 方式部署的智能代理（Envoy）组成。sidecar通过注入的方式和业务容器共存于一个 Pod 中，会劫业务容器的流量，接受控制面组件的控制，可以调节和控制微服务及 Mixer 之间所有的网络通信。</li>
-<li>控制平面是 Istio 的核心，负责管理和配置代理来路由流量。此外控制平面配置 Mixer 以实施策略和收集遥测数据。</li>
-</ul>
-<p>下图显示了构成每个面板的不同组件：
-<img src="http://wx4.sinaimg.cn/large/ad5fbf65ly1g199o3s4g5j20lw0kijux.jpg" alt="image"></p>
-<center>图片为原创，转载请标记出处https://blog.maoxianplay.com/</center>
-<h4 id="envoy">Envoy</h4>
-<p>Istio 使用 Envoy 代理的扩展版本，Envoy 是以 C++ 开发的高性能代理，用于调解服务网格中所有服务的所有入站和出站流量。Envoy 的许多内置功能被 Istio 发扬光大，例如：</p>
-<ul>
-<li>动态服务发现</li>
-<li>负载均衡</li>
-<li>TLS 终止</li>
-<li>HTTP/2 &amp; gRPC 代理</li>
-<li>熔断器</li>
-<li>健康检查、基于百分比流量拆分的灰度发布</li>
-<li>故障注入</li>
-<li>丰富的度量指标</li>
-</ul>
-<p>Envoy 被部署为 sidecar，和对应服务在同一个 Kubernetes pod 中。这允许 Istio 将大量关于流量行为的信号作为属性提取出来，而这些属性又可以在 Mixer 中用于执行策略决策，并发送给监控系统，以提供整个网格行为的信息。</p>
-<p>Sidecar 代理模型还可以将 Istio 的功能添加到现有部署中，而无需重新构建或重写代码。可以阅读更多来了解为什么我们在设计目标中选择这种方式。</p>
-<h4 id="mixer">Mixer</h4>
-<p>Mixer 是一个独立于平台的组件，负责在服务网格上执行访问控制和使用策略，并从 Envoy 代理和其他服务收集遥测数据。代理提取请求级属性，发送到 Mixer 进行评估。</p>
-<p>Mixer 中包括一个灵活的插件模型，使其能够接入到各种主机环境和基础设施后端，从这些细节中抽象出 Envoy 代理和 Istio 管理的服务。</p>
-<h4 id="pilot">Pilot</h4>
-<p>Pilot 为 Envoy sidecar 提供服务发现功能，为智能路由（例如 A/B 测试、金丝雀部署等）和弹性（超时、重试、熔断器等）提供流量管理功能。它将控制流量行为的高级路由规则转换为特定于 Envoy 的配置，并在运行时将它们传播到 sidecar。</p>
-<p>Pilot 将平台特定的服务发现机制抽象化并将其合成为符合 Envoy 数据平面 API 的任何 sidecar 都可以使用的标准格式。这种松散耦合使得 Istio 能够在多种环境下运行（例如，Kubernetes、Consul、Nomad），同时保持用于流量管理的相同操作界面。</p>
-<h4 id="citadel">Citadel</h4>
-<p>Citadel 通过内置身份和凭证管理赋能强大的服务间和最终用户身份验证。可用于升级服务网格中未加密的流量，并为运维人员提供基于服务标识而不是网络控制的强制执行策略的能力。从 0.5 版本开始，Istio 支持基于角色的访问控制，以控制谁可以访问您的服务，而不是基于不稳定的三层或四层网络标识。</p>
-<h4 id="galley11版本新增">Galley(1.1版本新增)</h4>
-<p>Galley 代表其他的 Istio 控制平面组件，用来验证用户编写的 Istio API 配置。随着时间的推移，Galley 将接管 Istio 获取配置、 处理和分配组件的顶级责任。它将负责将其他的 Istio 组件与从底层平台（例如 Kubernetes）获取用户配置的细节中隔离开来。</p>
+</div>
+
+
+	<div class="alert alert-primary mb-4" role="alert">
+		<h4 class="alert-heading">摘要</h4>
+		<span class="text-muted">图解 K8S 源码中的 Informer 机制及 Reflector 实现。</span>
+	</div>
+	<img src="https://tva1.sinaimg.cn/large/ad5fbf65ly1gjmmoourdcj21qi15oafv.jpg" alt="" style="max-width: 80%;">
+
+	<h2 id="前言">前言</h2>
+<p>众所周知，在 Kubernetes 中各组件是通过 HTTP 协议进行通信的，而组件间的通信也并没有依赖任何中间件，那么如何保证消息的实时性、可靠性、顺序性呢？<strong>Informer 机制</strong>很好的解决了这个问题。Kubernetes 中各组件与 API Server 的通信都是通过 client-go 的 informer 机制来保证和完成的。</p>
+<h2 id="控制器模式">控制器模式</h2>
+<p>控制器模式最核心的就是控制循环的概念。而 Informer 机制，也就是控制循环中负责观察系统的传感器（Sensor）主要由 Reflector、Informer、Indexer 三个组件构成。其与各种资源的 Controller 相配合，就可以完成完整的控制循环，不断的使系统向终态趋近 <code>status</code> -&gt; <code>spec</code>。</p>
+<p><img src="https://tva2.sinaimg.cn/large/ad5fbf65ly1gjme5nhuykj20mr0fmn6j.jpg" alt="informer 机制"></p>
+<h3 id="informer">Informer</h3>
+<p>所谓 informer，其实就是一个带有本地缓存和索引机制的，可以注册 EventHandler 的 client，目的是为了减轻频繁通信 API Server 的压力而抽取出来的一层 cache，客户端对 API Server 数据的<strong>读取</strong>和<strong>监测</strong>操作都通过本地的 informer 来进行。</p>
+<p>每一个 Kubernetes 资源上都实现了 informer 机制，每一个 informer 上都会实现 <code>Informer()</code> 和 <code>Lister()</code> 方法：</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#999;font-style:italic">// client-go/informers/core/v1/pod.go
+</span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">type</span> PodInformer <span style="color:#6ab825;font-weight:bold">interface</span> {
+  <span style="color:#447fcf">Informer</span>() cache.SharedIndexInformer
+  <span style="color:#447fcf">Lister</span>() v1.PodLister
+}
+</code></pre></div><p>定义不同资源的 Informer，允许监控不同资源事件。同时为了避免同一资源的 Informer 被实例化多次，而每个 Informer 都会使用一个 Reflector，这样会运行过多相同的 ListAndWatch，从而加重 API Server 的压力，Informer 还提供了共享机制，多个 Informer 可以共享一个 Reflector，从而达到节约资源的目的。</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#999;font-style:italic">// client-go/informers/factory.go
+</span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">type</span> sharedInformerFactory <span style="color:#6ab825;font-weight:bold">struct</span> {
+  client           kubernetes.Interface
+  namespace        <span style="color:#6ab825;font-weight:bold">string</span>
+  tweakListOptions internalinterfaces.TweakListOptionsFunc
+  lock             sync.Mutex
+  defaultResync    time.Duration
+  customResync     <span style="color:#6ab825;font-weight:bold">map</span>[reflect.Type]time.Duration
+
+  informers <span style="color:#6ab825;font-weight:bold">map</span>[reflect.Type]cache.SharedIndexInformer
+  <span style="color:#999;font-style:italic">// startedInformers is used for tracking which informers have been started.
+</span><span style="color:#999;font-style:italic"></span>  <span style="color:#999;font-style:italic">// This allows Start() to be called multiple times safely.
+</span><span style="color:#999;font-style:italic"></span>  startedInformers <span style="color:#6ab825;font-weight:bold">map</span>[reflect.Type]<span style="color:#6ab825;font-weight:bold">bool</span>
+}
+...
+<span style="color:#999;font-style:italic">// InternalInformerFor returns the SharedIndexInformer for obj using an internal client.
+</span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">func</span> (f *sharedInformerFactory) <span style="color:#447fcf">InformerFor</span>(obj runtime.Object, newFunc internalinterfaces.NewInformerFunc) cache.SharedIndexInformer {
+  f.lock.<span style="color:#447fcf">Lock</span>()
+  <span style="color:#6ab825;font-weight:bold">defer</span> f.lock.<span style="color:#447fcf">Unlock</span>()
+
+  informerType := reflect.<span style="color:#447fcf">TypeOf</span>(obj)
+  informer, exists := f.informers[informerType]
+  <span style="color:#6ab825;font-weight:bold">if</span> exists {
+    <span style="color:#6ab825;font-weight:bold">return</span> informer
+  }
+
+  resyncPeriod, exists := f.customResync[informerType]
+  <span style="color:#6ab825;font-weight:bold">if</span> !exists {
+    resyncPeriod = f.defaultResync
+  }
+
+  informer = <span style="color:#447fcf">newFunc</span>(f.client, resyncPeriod)
+  f.informers[informerType] = informer
+
+  <span style="color:#6ab825;font-weight:bold">return</span> informer
+}
+</code></pre></div><p>使用 map 数据结构实现共享 Informer 机制，在 <code>InformerFor()</code> 函数添加了不同资源的 Informer，在添加过程中如果已经存在同类型的 Informer，则返回当前 Informer，不再继续添加。如下就是 <code>deployment</code> 的 <code>Informer()</code> 方法，其中就调用了 <code>InformerFor()</code> 函数。</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#999;font-style:italic">// client-go/informers/apps/v1beta1/deployment.go
+</span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">func</span> (f *deploymentInformer) <span style="color:#447fcf">Informer</span>() cache.SharedIndexInformer {
+  <span style="color:#6ab825;font-weight:bold">return</span> f.factory.<span style="color:#447fcf">InformerFor</span>(&amp;appsv1beta1.Deployment{}, f.defaultInformer)
+}
+</code></pre></div><h3 id="reflector">Reflector</h3>
+<p>Reflector 用于监测制定 Kubernetes 资源，当资源发生变化时，触发相应的事件，如：Added（资源添加）事件、Update（资源更新）事件、Delete（资源删除）事件，并将事件及资源名称添加到 DeltaFIFO 中。</p>
+<h4 id="listandwatch">ListAndWatch</h4>
+<p>在实例化 Reflector 时，必须传入 ListerWatcher 接口对象，其拥有 <code>List()</code> 和 <code>Watch()</code> 方法。Reflector 通过 <code>Run()</code> 方法启动监控并处理事件。在程序第一次运行时，会执行 <code>List()</code> 方法将所有的对象数据存入 DeltaFIFO 中，每次 Controller 重启，都会执行 <code>List()</code> 方法；同时，Reflector 实例中还有 <code>resyncPeriod</code> 参数，如果该参数不为 0，则会根据该参数值周期性的执行 <code>List()</code> 操作，此时这些资源对象会被设置为 Sync 操作类型（不同于 Add、Update 等）。</p>
+<p>而 <code>Watch()</code> 则会根据 Reflector 实例 <code>period</code> 参数，周期性的监控资源对象是否有变更。如果发生变更，则通过 <code>r.watchHandler</code> 处理变更事件。</p>
+<p><img src="https://tva4.sinaimg.cn/large/ad5fbf65ly1gjmkxmiboej20mr0uwh9f.jpg" alt="Reflector"></p>
+<h4 id="deltafifo">DeltaFIFO</h4>
+<p>DeltaFIFO 顾名思义，Delta 是一个资源对象存储，可以保持操作类型（Add、Update、Delete、Sync等）；而 FIFO 则是一个先进先出的队列。其是一个生产者与消费者的队列，其中 Reflector 是生产者，消费者则调用 <code>Pop()</code> 方法取出最早进入队列的对象数据。</p>
+<h3 id="indexer">Indexer</h3>
+<p>Indexer 是 client-go 用来存储资源对象并自带索引功能的本地存储，Reflector 从 DeltaFIFO 中将消费出来的资源对象存储至 Indexer。同时 Indexer 中的数据与 Etcd 中的数据保持完全一致。client-go 可以很方便的从本次存储中读取相应的资源对象数据，而无需每次都从远程 Etcd 集群中读取，从而降低了 API Server 和 Etcd 集群的压力。</p>
 <h2 id="结语">结语</h2>
-<p>在云原生架构下，容器的使用给予了异构应用程序的更多可行性，Kubernetes 增强了应用的横向扩容能力，用户可以快速的编排出复杂环境、复杂依赖关系的应用程序，Istio可以使开发者又无须过分关心应用程序的监控、扩展性、服务发现和分布式追踪这些繁琐的事情而专注于程序开发，赋予开发者更多的创造性。</p>
+<p>要了解 Kubernetes，Informer 是绕不过的内容，其在 Kubernetes 中非常重要。本文主要图解了 Informer 机制以及 Reflector，由于篇幅有限，DeltaFIFO，Indexer 等概念只做了简单介绍，这些内容会在后续的文章中进行详解，敬请期待。</p>
 <h2 id="参考">参考</h2>
 <ul>
-<li><a href="https://istio.io/zh/">Istio 官方文档 - istio.io</a></li>
-<li><a href="https://github.com/fleeto/istio-for-beginner">《深入浅出istio》</a></li>
+<li>《Kubernetes 源码剖析 - 郑东旭著》</li>
 </ul>
 
+	<br>
+	
+	
+	<a class="button button-glow button-rounded button-royal button-tiny mb-2"
+		href="/tags/kubernetes">#Kubernetes</a>
+	
+	<a class="button button-glow button-rounded button-royal button-tiny mb-2"
+		href="/tags/%e6%ba%90%e7%a0%81%e8%a7%a3%e6%9e%90">#源码解析</a>
+	
+	<a class="button button-glow button-rounded button-royal button-tiny mb-2"
+		href="/tags/%e5%9b%be%e8%a7%a3-k8s">#图解 k8s</a>
+	
+	
+	
+<br>
+<div class="entry-shang text-center">
+    <p>「一键投喂 小鱼干/小骨头」</p>
+    <button class="zs show-zs button button-glow button-rounded button-caution button-small">投喂</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+    <div class="zs-modal-head">
+        <button type="button" class="close">×</button>
+        <p class="author">
+            <a href="https://blog.maoxianplay.com">
+                <img src="https://wx3.sinaimg.cn/square/ad5fbf65gy1g2o621gcs6j20m80m8gng.jpg"/>
+            小助手毛线</a>
+        </p>
+        <p class="tip"><i></i><span>感谢投喂 <a href="/maoxian">毛线</a> & <a href="/sunny">Sunny</a> </span></p>
+    </div>
+    <div class="zs-modal-body">
+        <div class="zs-modal-btns">
+            <button class="btn btn-blink" data-num="2">2元</button>
+            <button class="btn btn-blink" data-num="5">5元</button>
+            <button class="btn btn-blink" data-num="10">10元</button>
+            <button class="btn btn-blink" data-num="50">50元</button>
+            <button class="btn btn-blink" data-num="100">100元</button>
+            <button class="btn btn-blink" data-num="any">任意金额</button>
+        </div>
+        <div class="zs-modal-pay">
+            <button class="btn btn-bred" id="pay-text">2元</button>
+            <p>使用<span id="pay-type">微信</span>扫描二维码完成支付</p>
+            <img id="pay-image" src="/favicons/alipay-2.png">
+        </div>
+    </div>
+    <div class="zs-modal-footer">
+        <label style="float: left;width: 130px;">
+            <input type="radio" name="zs-type" value="alipay" class="zs-type" checked="checked" style="float: left;">
+            <span class="zs-alipay">
+                <img src="/favicons/alipay-btn.png">
+            </span>
+        </label>
+        <label style="float: left;width: 130px;">
+            <input type="radio" name="zs-type" value="wechat" class="zs-type" style="float: left;">
+            <span class="zs-wechat">
+                <img src="/favicons/wechat-btn.png">
+            </span>
+        </label>
+    </div>
+    <br>
+</div>
 
 
-      </main>
+	
+	<div class="text-center">
+		<img src="https://tva3.sinaimg.cn/large/ad5fbf65gy1gfm3j2vo79g20b90b9x6r.gif">
+		<p>「欢迎扫描二维码关注公众号，了解更多云原生知识」</p>
+	</div>
+	
+	<br />
+	<div class="page-blank">
+
+<div id="disqus_thread"></div>
+<script>
+
+
+
+
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://' + "gxd" + '.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+	<br />
+	
+
+	<div class="entry-shang pt-5">
+  <a href="/post/diagrams-k8s-src-deployment-controller/" class=".-text-primary float-left"><i class="fas fa-angle-left"></i> 图解 K8S 源码 - Deployment Controller 篇</a>
+  <a  class=".-text-primary float-right"></a>
+</div>
+	<script src="https://my.openwrite.cn/js/readmore.js" type="text/javascript"></script>
+	<script>
+		const btw = new BTWPlugin();
+		btw.init({
+			id: 'road',
+			blogId: '18752-1575602900012-529',
+			name: '云原生之路',
+			qrcode: 'https://tva1.sinaimg.cn/large/ad5fbf65ly1ghelpfjpb8j205005074d.jpg',
+			keyword: 'road',
+		});
+	</script>
+</div>
+
+          </main>
+
+        </div>
+      </div>
       
 <footer class="bg-dark py-5 row d-print-none">
   <div class="container-fluid mx-sm-5">
