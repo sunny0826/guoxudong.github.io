@@ -29,8 +29,8 @@
            "@id": "https:\/\/guoxudong.io"
       },
       "articleSection" : "post",
-      "name" : "图解 K8S 源码 - Informer 篇",
-      "headline" : "图解 K8S 源码 - Informer 篇",
+      "name" : "图解 K8S 源码 - Informer 篇（上）",
+      "headline" : "图解 K8S 源码 - Informer 篇（上）",
       "description" : "图解 K8S 源码中的 Informer 机制及 Reflector 实现。",
       "inLanguage" : "en-US",
       "author" : "",
@@ -46,22 +46,22 @@
       "keywords" : [ "Kubernetes","源码解析","图解 k8s","Guoxudong" ]
   }
   </script>
-<title>图解 K8S 源码 - Informer 篇 | Guo Xudong&#39;s Blog·郭旭东的博客</title><meta property="og:title" content="图解 K8S 源码 - Informer 篇" />
+<title>图解 K8S 源码 - Informer 篇（上） | Guo Xudong&#39;s Blog·郭旭东的博客</title><meta property="og:title" content="图解 K8S 源码 - Informer 篇（上）" />
 <meta property="og:description" content="图解 K8S 源码中的 Informer 机制及 Reflector 实现。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://guoxudong.io/post/diagrams-k8s-src-informer/" />
 <meta property="article:published_time" content="2020-10-12T15:21:14+08:00" />
-<meta property="article:modified_time" content="2020-10-12T17:06:07+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
-<meta itemprop="name" content="图解 K8S 源码 - Informer 篇">
+<meta property="article:modified_time" content="2020-10-13T08:03:55+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
+<meta itemprop="name" content="图解 K8S 源码 - Informer 篇（上）">
 <meta itemprop="description" content="图解 K8S 源码中的 Informer 机制及 Reflector 实现。">
 <meta itemprop="datePublished" content="2020-10-12T15:21:14&#43;08:00" />
-<meta itemprop="dateModified" content="2020-10-12T17:06:07&#43;08:00" />
+<meta itemprop="dateModified" content="2020-10-13T08:03:55&#43;08:00" />
 <meta itemprop="wordCount" content="301">
 
 
 
 <meta itemprop="keywords" content="Kubernetes,源码解析,图解 k8s," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="图解 K8S 源码 - Informer 篇"/>
+<meta name="twitter:title" content="图解 K8S 源码 - Informer 篇（上）"/>
 <meta name="twitter:description" content="图解 K8S 源码中的 Informer 机制及 Reflector 实现。"/>
 
 
@@ -215,7 +215,7 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
-                <li><a href="/post/diagrams-k8s-src-informer/">图解 K8S 源码 - Informer 篇</a></li>
+                <li><a href="/post/diagrams-k8s-src-informer/">图解 K8S 源码 - Informer 篇（上）</a></li>
                 
                 <li><a href="/post/diagrams-k8s-src-deployment-controller/">图解 K8S 源码 - Deployment Controller 篇</a></li>
                 
@@ -507,7 +507,7 @@ if (!doNotTrack) {
 
 
 <li class="breadcrumb-item active" aria-current="page">
-	<a href="https://guoxudong.io/post/diagrams-k8s-src-informer/">图解 K8S 源码 - Informer 篇</a>
+	<a href="https://guoxudong.io/post/diagrams-k8s-src-informer/">图解 K8S 源码 - Informer 篇（上）</a>
 </li>
 
 	</ol>
@@ -516,14 +516,14 @@ if (!doNotTrack) {
             
 
 <div class="td-content" id="road">
-	<h1>图解 K8S 源码 - Informer 篇</h1>
+	<h1>图解 K8S 源码 - Informer 篇（上）</h1>
 	
 	<div class="td-byline mb-4">
 		<span>By  <b>guoxudong</b> </span> ·
 		<span>
 			2 分钟阅读时间
 		</span> ·
-		<span>最近更新于 </span><time datetime="2020-10-12"
+		<span>最近更新于 </span><time datetime="2020-10-13"
 			class="text-muted">2020年10月12日</time> ·
 		
 		<a href="/categories/%e5%9b%be%e8%a7%a3-k8s">
@@ -536,37 +536,37 @@ if (!doNotTrack) {
 <div class="share-box" aria-hidden="true">
   <ul class="share">
     <li>
-      <a href="https://twitter.com/intent/tweet?url=https%3a%2f%2fguoxudong.io%2fpost%2fdiagrams-k8s-src-informer%2f&amp;text=%e5%9b%be%e8%a7%a3%20K8S%20%e6%ba%90%e7%a0%81%20-%20Informer%20%e7%af%87" target="_blank" rel="noopener" class="share-btn-twitter">
+      <a href="https://twitter.com/intent/tweet?url=https%3a%2f%2fguoxudong.io%2fpost%2fdiagrams-k8s-src-informer%2f&amp;text=%e5%9b%be%e8%a7%a3%20K8S%20%e6%ba%90%e7%a0%81%20-%20Informer%20%e7%af%87%ef%bc%88%e4%b8%8a%ef%bc%89" target="_blank" rel="noopener" class="share-btn-twitter">
         <i class="fab fa-twitter"></i>
       </a>
     </li>
     <li>
-      <a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fguoxudong.io%2fpost%2fdiagrams-k8s-src-informer%2f&amp;t=%e5%9b%be%e8%a7%a3%20K8S%20%e6%ba%90%e7%a0%81%20-%20Informer%20%e7%af%87" target="_blank" rel="noopener" class="share-btn-facebook">
+      <a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fguoxudong.io%2fpost%2fdiagrams-k8s-src-informer%2f&amp;t=%e5%9b%be%e8%a7%a3%20K8S%20%e6%ba%90%e7%a0%81%20-%20Informer%20%e7%af%87%ef%bc%88%e4%b8%8a%ef%bc%89" target="_blank" rel="noopener" class="share-btn-facebook">
         <i class="fab fa-facebook-f"></i>
       </a>
     </li>
     <li>
-      <a href="mailto:?subject=%e5%9b%be%e8%a7%a3%20K8S%20%e6%ba%90%e7%a0%81%20-%20Informer%20%e7%af%87&amp;body=https%3a%2f%2fguoxudong.io%2fpost%2fdiagrams-k8s-src-informer%2f" target="_blank" rel="noopener" class="share-btn-email">
+      <a href="mailto:?subject=%e5%9b%be%e8%a7%a3%20K8S%20%e6%ba%90%e7%a0%81%20-%20Informer%20%e7%af%87%ef%bc%88%e4%b8%8a%ef%bc%89&amp;body=https%3a%2f%2fguoxudong.io%2fpost%2fdiagrams-k8s-src-informer%2f" target="_blank" rel="noopener" class="share-btn-email">
         <i class="fas fa-envelope"></i>
       </a>
     </li>
     <li>
-      <a href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fguoxudong.io%2fpost%2fdiagrams-k8s-src-informer%2f&amp;title=%e5%9b%be%e8%a7%a3%20K8S%20%e6%ba%90%e7%a0%81%20-%20Informer%20%e7%af%87" target="_blank" rel="noopener" class="share-btn-linkedin">
+      <a href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fguoxudong.io%2fpost%2fdiagrams-k8s-src-informer%2f&amp;title=%e5%9b%be%e8%a7%a3%20K8S%20%e6%ba%90%e7%a0%81%20-%20Informer%20%e7%af%87%ef%bc%88%e4%b8%8a%ef%bc%89" target="_blank" rel="noopener" class="share-btn-linkedin">
         <i class="fab fa-linkedin-in"></i>
       </a>
     </li>
     <li>
-      <a href="https://web.whatsapp.com/send?text=%e5%9b%be%e8%a7%a3%20K8S%20%e6%ba%90%e7%a0%81%20-%20Informer%20%e7%af%87https%3a%2f%2fguoxudong.io%2fpost%2fdiagrams-k8s-src-informer%2f/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+      <a href="https://web.whatsapp.com/send?text=%e5%9b%be%e8%a7%a3%20K8S%20%e6%ba%90%e7%a0%81%20-%20Informer%20%e7%af%87%ef%bc%88%e4%b8%8a%ef%bc%89https%3a%2f%2fguoxudong.io%2fpost%2fdiagrams-k8s-src-informer%2f/" target="_blank" rel="noopener" class="share-btn-whatsapp">
         <i class="fab fa-whatsapp"></i>
       </a>
     </li>
     <li>
-      <a href="https://service.weibo.com/share/share.php?url=https%3a%2f%2fguoxudong.io%2fpost%2fdiagrams-k8s-src-informer%2f&amp;title=%e5%9b%be%e8%a7%a3%20K8S%20%e6%ba%90%e7%a0%81%20-%20Informer%20%e7%af%87" target="_blank" rel="noopener" class="share-btn-weibo">
+      <a href="https://service.weibo.com/share/share.php?url=https%3a%2f%2fguoxudong.io%2fpost%2fdiagrams-k8s-src-informer%2f&amp;title=%e5%9b%be%e8%a7%a3%20K8S%20%e6%ba%90%e7%a0%81%20-%20Informer%20%e7%af%87%ef%bc%88%e4%b8%8a%ef%bc%89" target="_blank" rel="noopener" class="share-btn-weibo">
         <i class="fab fa-weibo"></i>
       </a>
     </li>
     <li>
-      <a href="https://reddit.com/submit?url=https%3a%2f%2fguoxudong.io%2fpost%2fdiagrams-k8s-src-informer%2f&amp;title=%e5%9b%be%e8%a7%a3%20K8S%20%e6%ba%90%e7%a0%81%20-%20Informer%20%e7%af%87" target="_blank" rel="noopener" class="share-btn-reddit">
+      <a href="https://reddit.com/submit?url=https%3a%2f%2fguoxudong.io%2fpost%2fdiagrams-k8s-src-informer%2f&amp;title=%e5%9b%be%e8%a7%a3%20K8S%20%e6%ba%90%e7%a0%81%20-%20Informer%20%e7%af%87%ef%bc%88%e4%b8%8a%ef%bc%89" target="_blank" rel="noopener" class="share-btn-reddit">
         <i class="fab fa-reddit-alien"></i>
       </a>
     </li>
