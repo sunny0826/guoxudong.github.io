@@ -14,6 +14,91 @@
     
     
     <item>
+      <title>Post: 浅析 Golang 垃圾回收机制</title>
+      <link>https://guoxudong.io/post/golang-gc/</link>
+      <pubDate>Fri, 16 Oct 2020 14:51:08 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/golang-gc/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;Google 搜索 &lt;strong&gt;Golang GC&lt;/strong&gt; 排名靠前的文章都讲的不错，从设计到实现，从演进到源码，一应俱全。但是庞杂的信息会给人一种恐惧感，让人望而却步。本文尝试使用较为简单易懂的语言和图像，讲解 Golang 的垃圾回收机制。&lt;/p&gt;
+&lt;h2 id=&#34;垃圾回收算法&#34;&gt;垃圾回收算法&lt;/h2&gt;
+&lt;p&gt;目前比较常见的垃圾回收算法有三种：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;引用计数：为每个对象维护一个引用计数，当引用该对象的对象销毁时，引用计数 -1，当对象引用计数为 0 时回收该对象。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;代表语言：&lt;strong&gt;Python&lt;/strong&gt;、&lt;strong&gt;PHP&lt;/strong&gt;、&lt;strong&gt;Swift&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;优点：对象回收快，不会出现内存耗尽或达到某个阈值时才回收。&lt;/li&gt;
+&lt;li&gt;缺点：不能很好的处理循环引用，而实时维护引用计数也是有损耗的。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;标记-清除：从根变量开始遍历所有引用的对象，标记引用的对象，没有被标记的进行回收。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;代表语言：&lt;strong&gt;Golang&lt;/strong&gt;（三色标记法）&lt;/li&gt;
+&lt;li&gt;优点：解决了引用计数的缺点。&lt;/li&gt;
+&lt;li&gt;缺点：需要 STW，暂时停掉程序运行。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;分代收集：按照对象生命周期长短划分不同的代空间，生命周期长的放入老年代，短的放入新生代，不同代有不同的回收算法和回收频率。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;代表语言：&lt;strong&gt;Java&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;优点：回收性能好&lt;/li&gt;
+&lt;li&gt;缺点：算法复杂&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;golang-垃圾回收&#34;&gt;Golang 垃圾回收&lt;/h2&gt;
+&lt;p&gt;跳过原理，我们先来介绍 Golang 的三色标记法。&lt;/p&gt;
+&lt;h3 id=&#34;三色标记法&#34;&gt;三色标记法&lt;/h3&gt;
+&lt;p&gt;三色标记法只是为了叙述方便而抽象出来的一种说法，实际上的对象是没有三色之分的。这里的三色，对应了垃圾回收过程中对象的三种状态：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;灰色：对象还在标记队列中等待&lt;/li&gt;
+&lt;li&gt;黑色：对象已被标记，&lt;code&gt;gcmarkBits&lt;/code&gt; 对应位为 &lt;code&gt;1&lt;/code&gt; &amp;ndash; 该对象不会在本次 GC 中被回收&lt;/li&gt;
+&lt;li&gt;白色：对象未被标记，&lt;code&gt;gcmarkBits&lt;/code&gt; 对应位为 &lt;code&gt;0&lt;/code&gt; &amp;ndash; 该对象将会在本次 GC 中被清理&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;具体流程如下图：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65ly1gjr5wkuzduj20mr0ra15z.jpg&#34; alt=&#34;三色标记法&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;回收原理&#34;&gt;回收原理&lt;/h3&gt;
+&lt;p&gt;通过上图，应该对三色标记法有了一个比较直观的了解，那么我们现在来讲讲原理。简单的讲，就是标记内存中那些还在使用中（即被引用了）的部分，而内存中不再使用（即未被引用）的部分，就是要回收的垃圾，需要将其回收，以供后续内存分配使用。上图中的 A、B、D 就是被引用正在使用的内存，而C、F、E 曾经被使用过，但现在没有任何对象引用，就需要被回收掉。&lt;/p&gt;
+&lt;p&gt;而 Root 区域主要是程序运行到当前时刻的栈和全局数据区域，是实时正在使用到的内存，当然应该优先标记。而考虑到内存块中存放的可能是指针，所以还需要递归的进行标记，待全部标记完后，就会对未被标记的内存进行回收。&lt;/p&gt;
+&lt;h3 id=&#34;内存标记&#34;&gt;内存标记&lt;/h3&gt;
+&lt;p&gt;golang 中采用 span 数据结构管理内存，span 中维护了一个个内存块，并由一个位图 &lt;code&gt;allocBits&lt;/code&gt; 表示内存块的分配情况，而上文中提到的 &lt;code&gt;gcmarkBits&lt;/code&gt; 是记录每块内存块被引用情况的。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax4.sinaimg.cn/large/ad5fbf65ly1gjr43y6br8j20mr07aq50.jpg&#34; alt=&#34;内存标记&#34;&gt;&lt;/p&gt;
+&lt;p&gt;如上图，&lt;code&gt;allocBits&lt;/code&gt; 记录了每块内存的分配情况，而 &lt;code&gt;gcmarkBits&lt;/code&gt; 记录了每块内存的标记情况。在标记阶段会对每块内存进行标记，有对象引用的内存标记为 1，没有对象引用的为 0。而 &lt;code&gt;allocBits&lt;/code&gt; 和 &lt;code&gt;gcmarkBits&lt;/code&gt; 的数据结构是完全一样的，在结束标记后，将 &lt;code&gt;allocBits&lt;/code&gt; 指向 &lt;code&gt;gcmarkBits&lt;/code&gt;，则有标记的才是存活的，这样就完成了内存回收。而 &lt;code&gt;gcmarkBits&lt;/code&gt; 则会在下次标记时重新分配内存。&lt;/p&gt;
+&lt;h3 id=&#34;垃圾回收优化&#34;&gt;垃圾回收优化&lt;/h3&gt;
+&lt;p&gt;在前文中提到，golang 的垃圾回收算法属于 &lt;strong&gt;标记-清除&lt;/strong&gt;，是需要 STW 的。STW 就是 &lt;strong&gt;Stop The World&lt;/strong&gt; 的意思，在 golang 中就是要停掉所有的 goroutine，专心进行垃圾回收，待垃圾回收结束后再恢复 goroutine。而 STW 时间的长短直接影响了应用的执行，如果时间过长，那将是灾难性的。为了缩短 STW 时间，golang 不对优化垃圾回收算法，其中**写屏障（Write Barrier）&lt;strong&gt;和&lt;/strong&gt;辅助GC（Mutator Assist）**就是两种优化垃圾回收的方法。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;写屏障（Write Barrier）&lt;/strong&gt;：上面说到的 STW 的目的是防止 GC 扫描时内存变化引起的混乱，而写屏障就是让 goroutine 与 GC 同时运行的手段，虽然不能完全消除 STW，但是可以大大减少 STW 的时间。写屏障在 GC 的特定时间开启，开启后指针传递时会把指针标记，即本轮不回收，下次 GC 时再确定。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;辅助 GC（Mutator Assist）&lt;/strong&gt;：为了防止内存分配过快，在 GC 执行过程中，GC 过程中 mutator 线程会并发运行，而 mutator assist 机制会协助 GC 做一部分的工作。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;垃圾回收触发机制&#34;&gt;垃圾回收触发机制&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;内存分配量达到阈值&lt;/strong&gt;：每次内存分配都会检查当前内存分配量是否达到阈值，如果达到阈值则触发 GC。&lt;code&gt;阈值 = 上次 GC 内存分配量 * 内存增长率&lt;/code&gt;，内存增长率由环境变量 &lt;code&gt;GOGC&lt;/code&gt; 控制，默认为 100，即每当内存扩大一倍时启动 GC。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;定时触发 GC&lt;/strong&gt;：默认情况下，2分钟触发一次 GC，该间隔由 &lt;code&gt;src/runtime/proc.go&lt;/code&gt; 中的 &lt;code&gt;forcegcperiod&lt;/code&gt; 声明。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;手动触发 GC&lt;/strong&gt;：在代码中，可通过使用 &lt;code&gt;runtime.GC()&lt;/code&gt; 手动触发 GC。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;gc-优化建议&#34;&gt;GC 优化建议&lt;/h3&gt;
+&lt;p&gt;由上文可知，GC 性能是与对象数量有关的，对象越多 GC 性能越差，对程序的影响也越大。所以在开发中要尽量减少对象分配个数，采用对象复用、将小对象组合成大对象或采用小数据类型（如使用 &lt;code&gt;int8&lt;/code&gt; 代替 &lt;code&gt;int&lt;/code&gt;）等。&lt;/p&gt;
+&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
+&lt;p&gt;一门编程语言的垃圾回收机制会直接影响使用其开发应用的性能。在日常开发工作中也因注意到其作用，有助于开发出高性能的应用，这也是 GC 常常在面试中被问到的原因。同时，了解 GC 对了解内存管理也很有帮助。&lt;/p&gt;
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.bookstack.cn/read/GoExpertProgramming/chapter04-4.2-garbage_collection.md&#34;&gt;Go 专家编程 - 4.2 垃圾回收原理&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Post: 图解 K8S 源码 - QoS 篇</title>
       <link>https://guoxudong.io/post/diagrams-k8s-src-qos/</link>
       <pubDate>Wed, 14 Oct 2020 10:28:06 +0800</pubDate>
@@ -6720,245 +6805,6 @@ Phippy 喜欢在 Kube 船长的船上生活，她很享受来自新朋友的陪�
 Phippy 与她的新朋友一起乘坐 Kube 船长的巨轮航行于大海之上。她经历了许多伟大的冒险，但最重要的是，Phippy 找到了自己的家。
 所以 Phippy 从此过上了幸福的生活。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://ws2.sinaimg.cn/large/ad5fbf65gy1g4nx34vepkj21120shwek.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-
-      </description>
-    </item>
-    
-    <item>
-      <title>Post: 由一封邮件看 Mailing List 在开源项目中的重要性</title>
-      <link>https://guoxudong.io/post/kubernetes-client-python/</link>
-      <pubDate>Thu, 04 Jul 2019 09:16:41 +0800</pubDate>
-      
-      <guid>https://guoxudong.io/post/kubernetes-client-python/</guid>
-      <description>
-        
-        
-        &lt;blockquote&gt;
-&lt;p&gt;只要仔细找，想要的轮子总会有的。
-&amp;mdash; 某不知名 DevOps 工程师&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;感谢 &lt;code&gt;kubernetes-dev&lt;/code&gt; 的 Mailing List ！早上在浏览邮件时发现了下面这封有趣的邮件：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx3.sinaimg.cn/large/ad5fbf65gy1g4nkmrb8scj21780q0afv.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;p&gt;接触 Kubernetes 也有不短的时间了，也见证了 Kubernetes 干掉 Swarm 和 Mesos 成为容器编排领域的事实标准的过程。在享受 Kubernetes 及其生态圈带来的便利的同时也在为 Kubernetes 及 CNCF 项目进行贡献。而使用 &lt;a href=&#34;https://github.com/kubernetes/kubectl&#34;&gt;&lt;code&gt;kubectl&lt;/code&gt;&lt;/a&gt;、&lt;a href=&#34;https://github.com/rancher/rancher&#34;&gt;&lt;code&gt;rancher&lt;/code&gt;&lt;/a&gt; 甚至是 &lt;a href=&#34;https://github.com/IBM/kui&#34;&gt;&lt;code&gt;kui&lt;/code&gt;&lt;/a&gt; 这些 CLI 和 UI 工具对 Kubernetes 集群进行操作和观察。&lt;/p&gt;
-&lt;p&gt;虽然上面这些工具为操作 Kubernetes 集群带来了极大的便利，但是归根到底还是一些开源项目，并不能满足我们的全部需求。所以我们只能根据我们自己的需求和 Kubernetes 的 api-server 进行定制，但是由于 Kubernetes 的 api-server 比较复杂，短时间内并不是那么好梳理的。&lt;/p&gt;
-&lt;h2 id=&#34;kubernetes-clientpython&#34;&gt;kubernetes-client/python&lt;/h2&gt;
-&lt;p&gt;由于我们自研的 DevOps 平台是使用 python 开发的，所以我也基于 python 语言开发了一套 Kubernetes Client ，但总的来说由于 Kubernetes 的功能实在太多，而我的开发实践并不是很多，开发出来的功能只是差强人意。&lt;/p&gt;
-&lt;p&gt;而 &lt;a href=&#34;https://github.com/kubernetes-client/python&#34;&gt;&lt;code&gt;kubernetes-client/python&lt;/code&gt;&lt;/a&gt; 这个官方给出的轮子是真的香！&lt;/p&gt;
-&lt;h3 id=&#34;安装方便&#34;&gt;安装方便&lt;/h3&gt;
-&lt;p&gt;这个安装方式简单的令人发指，支持的 python 版本为 &lt;code&gt;2.7 | 3.4 | 3.5 | 3.6 | 3.7&lt;/code&gt; 并且和所有 python 依赖包一样，只需要使用 &lt;code&gt;pip&lt;/code&gt; 安装即可：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;pip install kubernetes
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;简单示例&#34;&gt;简单示例&lt;/h3&gt;
-&lt;p&gt;查看所有的 pod ：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#!/usr/bin/env python&lt;/span&gt;
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#encoding: utf-8&lt;/span&gt;
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#Author: guoxudong&lt;/span&gt;
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;kubernetes&lt;/span&gt; &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;import&lt;/span&gt; client, config
-
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# Configs can be set in Configuration class directly or using helper utility&lt;/span&gt;
-config.load_kube_config()
-
-v1 = client.CoreV1Api()
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Listing pods with their IPs:&amp;#34;&lt;/span&gt;)
-ret = v1.list_pod_for_all_namespaces(watch=False)
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;in&lt;/span&gt; ret.items:
-    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;%s&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;\t&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;%s&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;\t&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;%s&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt; % (i.status.pod_ip, i.metadata.namespace, i.metadata.name))
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;运行查看结果：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;Listing pods &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;with&lt;/span&gt; their IPs:
-&lt;span style=&#34;color:#3677a9&#34;&gt;172.22&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;1.126&lt;/span&gt;	kube-system	coredns-&lt;span style=&#34;color:#3677a9&#34;&gt;5975&lt;/span&gt;fdf55b-bqgkx
-&lt;span style=&#34;color:#3677a9&#34;&gt;172.22&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;0.2&lt;/span&gt;	kube-system	coredns-&lt;span style=&#34;color:#3677a9&#34;&gt;5975&lt;/span&gt;fdf55b-vxbb4
-&lt;span style=&#34;color:#3677a9&#34;&gt;10.16&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;16.13&lt;/span&gt;	kube-system	flexvolume-&lt;span style=&#34;color:#3677a9&#34;&gt;9&lt;/span&gt;ccf7
-&lt;span style=&#34;color:#3677a9&#34;&gt;10.16&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;16.15&lt;/span&gt;	kube-system	flexvolume-h5xn2
-&lt;span style=&#34;color:#3677a9&#34;&gt;10.16&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;16.14&lt;/span&gt;	kube-system	flexvolume-kvn5x
-&lt;span style=&#34;color:#3677a9&#34;&gt;10.16&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;16.17&lt;/span&gt;	kube-system	flexvolume-mf4zv
-&lt;span style=&#34;color:#3677a9&#34;&gt;10.16&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;16.14&lt;/span&gt;	kube-system	kube-proxy-worker-&lt;span style=&#34;color:#3677a9&#34;&gt;7&lt;/span&gt;lpfz
-&lt;span style=&#34;color:#3677a9&#34;&gt;10.16&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;16.15&lt;/span&gt;	kube-system	kube-proxy-worker-&lt;span style=&#34;color:#3677a9&#34;&gt;9&lt;/span&gt;wd9s
-&lt;span style=&#34;color:#3677a9&#34;&gt;10.16&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;16.17&lt;/span&gt;	kube-system	kube-proxy-worker-phbbj
-&lt;span style=&#34;color:#3677a9&#34;&gt;10.16&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;16.13&lt;/span&gt;	kube-system	kube-proxy-worker-pst5d
-&lt;span style=&#34;color:#3677a9&#34;&gt;172.22&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;1.9&lt;/span&gt;	kube-system	metrics-server-&lt;span style=&#34;color:#3677a9&#34;&gt;78&lt;/span&gt;b597d5bf-wdvqh
-&lt;span style=&#34;color:#3677a9&#34;&gt;172.22&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;1.12&lt;/span&gt;	kube-system	nginx-ingress-controller-&lt;span style=&#34;color:#3677a9&#34;&gt;796&lt;/span&gt;ccc5d76-&lt;span style=&#34;color:#3677a9&#34;&gt;9j&lt;/span&gt;h5s
-&lt;span style=&#34;color:#3677a9&#34;&gt;172.22&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;1.125&lt;/span&gt;	kube-system	nginx-ingress-controller-&lt;span style=&#34;color:#3677a9&#34;&gt;796&lt;/span&gt;ccc5d76-jwwwz
-&lt;span style=&#34;color:#3677a9&#34;&gt;10.16&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;16.17&lt;/span&gt;	kube-system	terway-&lt;span style=&#34;color:#3677a9&#34;&gt;6&lt;/span&gt;mfs8
-&lt;span style=&#34;color:#3677a9&#34;&gt;10.16&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;16.14&lt;/span&gt;	kube-system	terway-fz9ck
-&lt;span style=&#34;color:#3677a9&#34;&gt;10.16&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;16.13&lt;/span&gt;	kube-system	terway-t9777
-&lt;span style=&#34;color:#3677a9&#34;&gt;10.16&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;16.15&lt;/span&gt;	kube-system	terway-xbxlp
-&lt;span style=&#34;color:#3677a9&#34;&gt;172.22&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;1.8&lt;/span&gt;	kube-system	tiller-deploy-&lt;span style=&#34;color:#3677a9&#34;&gt;5&lt;/span&gt;b5d8dd754-wpcrc
-...
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;果然是一个好轮子，引入 kubeconfig 的方式及展示所有 namespace 的 pod 的方法封装的也十分简洁，是个非常漂亮的范例。建议可以看一下&lt;a href=&#34;https://github.com/kubernetes-client/python&#34;&gt;源码&lt;/a&gt;，肯定会有收获的！&lt;/p&gt;
-&lt;h3 id=&#34;支持版本&#34;&gt;支持版本&lt;/h3&gt;
-&lt;p&gt;&lt;code&gt;client-python&lt;/code&gt; 遵循 &lt;a href=&#34;https://semver.org/lang/zh-CN/&#34;&gt;semver&lt;/a&gt; 规范，所以在 &lt;code&gt;client-python&lt;/code&gt; 的主要版本增加之前，代码将继续使用明确支持的 Kubernetes 集群版本。&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;&lt;/th&gt;
-&lt;th&gt;Kubernetes 1.5&lt;/th&gt;
-&lt;th&gt;Kubernetes 1.6&lt;/th&gt;
-&lt;th&gt;Kubernetes 1.7&lt;/th&gt;
-&lt;th&gt;Kubernetes 1.8&lt;/th&gt;
-&lt;th&gt;Kubernetes 1.9&lt;/th&gt;
-&lt;th&gt;Kubernetes 1.10&lt;/th&gt;
-&lt;th&gt;Kubernetes 1.11&lt;/th&gt;
-&lt;th&gt;Kubernetes 1.12&lt;/th&gt;
-&lt;th&gt;Kubernetes 1.13&lt;/th&gt;
-&lt;th&gt;Kubernetes 1.14&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;client-python 1.0&lt;/td&gt;
-&lt;td&gt;✓&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;client-python 2.0&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;✓&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;client-python 3.0&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;✓&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;client-python 4.0&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;✓&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;client-python 5.0&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;✓&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;client-python 6.0&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;✓&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;client-python 7.0&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;✓&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;client-python 8.0&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;✓&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;client-python 9.0&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;✓&lt;/td&gt;
-&lt;td&gt;-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;client-python 10.0&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;✓&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;client-python HEAD&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;+&lt;/td&gt;
-&lt;td&gt;✓&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h2 id=&#34;mailing-list-的重要性&#34;&gt;Mailing List 的重要性&lt;/h2&gt;
-&lt;p&gt;这次的收获很大程度得益于 &lt;code&gt;kubernetes-dev&lt;/code&gt; 的 Mailing List 也就是邮件列表。这种沟通方式在国内不是很流行，大家更喜欢使用 QQ 和微信这样的即时通讯软件进行交流，但是大多数著名开源项目都是主要使用 &lt;strong&gt;Mailing List&lt;/strong&gt; 进行交流，交流的数量甚至比在 GitHub issue 中还多，在与 Apache 、 CNCF 项目开源的贡献者和维护者交流中得知了使用 &lt;strong&gt;Mailing List&lt;/strong&gt; 主要考虑是一下几点：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;这种异步的交流方式可以让更多关心该话题的开发人员一起加入到讨论中。&lt;/li&gt;
-&lt;li&gt;mailing list 是永久保留的，如果你对某个话题感兴趣，可以随时回复邮件，关注这个话题的开发者都会收到邮件，无论这个话题是昨天提出的，还是去年提出的，有助于解决一些陈年老 BUG （俗称技术债）。&lt;/li&gt;
-&lt;li&gt;即时通讯软件虽然很便利，但是问题很快会被评论顶掉，虽然诸如 slack 这样的工具解决了部分这方面的问题，但是还是不如 mailing list 好用。&lt;/li&gt;
-&lt;li&gt;并不是所有地区的开发者都有高速的宽带，性能优秀的PC，在地球上很多地区还是只能使用拨号上网，网速只有几kb/s，他们甚至 GitHub issue 都无法使用。但是你不能剥夺他们参与开源项目的权利，而 mailing list 是一种很好的交流方式。&lt;/li&gt;
-&lt;li&gt;通过 mailing list 可以很好掌握社区动态，效果明显好于 GitHub watch ，因为并不是项目的所有 commit 都是你关心的。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
-&lt;p&gt;如果你有志于参与到开源运动，在享受开源软件带来便利的同事，还想为开源软件做出自己的贡献，那么 mailing list 是你进入社区最好的选择。在 mailing list 中和来自世界各地志同道合的开发者交流中提升自己的能力，创造更大的价值，迈出你参与开源运动的第一步。&lt;/p&gt;
 
       </description>
     </item>
