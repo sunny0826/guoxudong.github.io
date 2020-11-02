@@ -191,6 +191,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/alibaba-teambition-disk/">阿里网盘内测-不限速、无广告、隐私安全我全都要</a></li>
+                
                 <li><a href="/post/golang-gc/">浅析 Golang 垃圾回收机制</a></li>
                 
                 <li><a href="/post/diagrams-k8s-src-qos/">图解 K8S 源码 - QoS 篇</a></li>
@@ -198,8 +200,6 @@ if (!doNotTrack) {
                 <li><a href="/post/diagrams-k8s-src-informer/">图解 K8S 源码 - Informer 篇（上）</a></li>
                 
                 <li><a href="/post/diagrams-k8s-src-deployment-controller/">图解 K8S 源码 - Deployment Controller 篇</a></li>
-                
-                <li><a href="/post/k8s-gc-finalizers/">熟悉又陌生的 k8s 字段：finalizers</a></li>
                 
               </ul>
             </div>
@@ -419,6 +419,9 @@ if (!doNotTrack) {
 		          href="/tags/%e6%ba%90%e7%a0%81%e8%a7%a3%e6%9e%90" style="display: inline-block;">源码解析</a>
               
               <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/%e7%bd%91%e7%9b%98" style="display: inline-block;">网盘</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
 		          href="/tags/%e7%bf%bb%e8%af%91" style="display: inline-block;">翻译</a>
               
               <a class="button button-royal button-small button-rounded mb-2"
@@ -472,6 +475,43 @@ if (!doNotTrack) {
 		
 		<h2>发布于 2019</h2>
 		<ul class="list-unstyled mt-4">
+			
+			<li class="media mb-4">
+				<div class="media-body">
+					<h5 class="mt-0 mb-1"><a href="/post/kustomize-1/">使用 Kustomize 帮你管理 kubernetes 应用（一）：什么是 Kustomize ？</a></h5>
+					<p class="mb-2 mb-md-3"><small class="text-muted">2019年04月15日</small></p>
+					
+
+
+
+
+
+
+<figure class="float-left mr-3 pt-1 d-none d-md-block" style="width: 250px">
+    <img src="https://tva2.sinaimg.cn/large/ad5fbf65ly1ge3j40z93gj20x80wu7fr.jpg" alt="Featured Image for 使用 Kustomize 帮你管理 kubernetes 应用（一）：什么是 Kustomize ？" width="250" height="150">
+    <figcaption class="mt-2 mb-0">
+        
+        <a class="button button-glow button-rounded button-royal button-tiny mb-2" href="/tags/kubernetes">#kubernetes</a>
+        
+        <a class="button button-glow button-rounded button-royal button-tiny mb-2" href="/tags/kustomize">#kustomize</a>
+        
+        <a class="button button-glow button-rounded button-royal button-tiny mb-2" href="/tags/%e5%b7%a5%e5%85%b7">#工具</a>
+        
+    </figcaption>
+</figure>
+
+					<p class="pt-0 mt-0 .-text-primary">作者： guoxudong </p>
+					<p class="pt-0 mt-0">分类：
+					
+                      <a href="/categories/kustomize">
+                        Kustomize</a>
+					
+					</p>
+					<p class="pt-0 mt-0">摘要：本篇为系列文章第一篇，介绍我对 Kustomize 的了解过程以及 Kustomize 是什么，为什么它能解决我的燃眉之急。</p>
+					<p class="pt-0"><a href="/post/kustomize-1/">更多</a></p>
+				</div>
+			</li>
+			<hr/>
 			
 			<li class="media mb-4">
 				<div class="media-body">
@@ -788,43 +828,6 @@ if (!doNotTrack) {
 					</p>
 					<p class="pt-0 mt-0">摘要：Alpine以其小巧、简单在docker容器中得到了广泛的应用。但是Alpine Linux使用了musl，可能和其他Linux发行版使用的glibc实现会有些不同。这里主要介绍了它的基础用法，但是足以满足日常运维需要。</p>
 					<p class="pt-0"><a href="/post/alpine-linux/">更多</a></p>
-				</div>
-			</li>
-			<hr/>
-			
-			<li class="media mb-4">
-				<div class="media-body">
-					<h5 class="mt-0 mb-1"><a href="/post/istio-demo/">阿里云环境Istio初探</a></h5>
-					<p class="mb-2 mb-md-3"><small class="text-muted">2019年03月13日</small></p>
-					
-
-
-
-
-
-
-<figure class="float-left mr-3 pt-1 d-none d-md-block" style="width: 250px">
-    <img src="https://tvax4.sinaimg.cn/large/ad5fbf65ly1ge3inbf8ahj21qi15otcd.jpg" alt="Featured Image for 阿里云环境Istio初探" width="250" height="150">
-    <figcaption class="mt-2 mb-0">
-        
-        <a class="button button-glow button-rounded button-royal button-tiny mb-2" href="/tags/istio">#istio</a>
-        
-        <a class="button button-glow button-rounded button-royal button-tiny mb-2" href="/tags/service-mesh">#service mesh</a>
-        
-        <a class="button button-glow button-rounded button-royal button-tiny mb-2" href="/tags/%e9%98%bf%e9%87%8c%e4%ba%91">#阿里云</a>
-        
-    </figcaption>
-</figure>
-
-					<p class="pt-0 mt-0 .-text-primary">作者： guoxudong </p>
-					<p class="pt-0 mt-0">分类：
-					
-                      <a href="/categories/istio">
-                        Istio</a>
-					
-					</p>
-					<p class="pt-0 mt-0">摘要：极简的istio样例部署，可以帮助新手快速入门，相较官方提供的Bookinfo应用更容易上手。</p>
-					<p class="pt-0"><a href="/post/istio-demo/">更多</a></p>
 				</div>
 			</li>
 			<hr/>

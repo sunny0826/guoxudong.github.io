@@ -14,6 +14,73 @@
     
     
     <item>
+      <title>Post: 阿里网盘内测-不限速、无广告、隐私安全我全都要</title>
+      <link>https://guoxudong.io/post/alibaba-teambition-disk/</link>
+      <pubDate>Mon, 02 Nov 2020 09:26:27 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/alibaba-teambition-disk/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;Teambition 网盘自开放内测申请以来已经过去了数月，上周五终于收到了心心念念内测码，于是立马上手体验。Teambition 网盘宣称是不限速、不打扰、够安全、易于协作的网盘，属于阿里巴巴工作学习套件 Teambition，提供能够满足日常需求的超大存储空间，有趣、好用的协作等功能。&lt;/p&gt;
+&lt;p&gt;从官网可以看出 Teambition 网盘准确的抓到了个人网盘用户的痛点：&lt;strong&gt;上传下载限速&lt;/strong&gt;、&lt;strong&gt;各种广告弹窗&lt;/strong&gt;、&lt;strong&gt;隐私安全&lt;/strong&gt;以及&lt;strong&gt;操作困难&lt;/strong&gt;，而作为工作学习套件的一部分还增加了协作功能，除了分享资源，还提供了各种协作功能，大大提升协作效率。&lt;/p&gt;
+&lt;h2 id=&#34;优势&#34;&gt;优势&lt;/h2&gt;
+&lt;p&gt;目前 Teambition 网盘还处于 Beta 内测版，申请地址：&lt;a href=&#34;https://survey.aliyun.com/apps/zhiliao/jqBinngVQ&#34;&gt;https://survey.aliyun.com/apps/zhiliao/jqBinngVQ&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;速度&#34;&gt;速度&lt;/h3&gt;
+&lt;p&gt;经实测 Teambition 网盘的上传下载速度都能达到本地带宽的最大值，上传下载速度都非常丝滑。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65ly1gkamt4yh6tj20b604p74d.jpg&#34; alt=&#34;上传速度&#34;&gt;&lt;/p&gt;
+&lt;br&gt;
+&lt;p&gt;Teambition 网盘背靠阿里巴巴集团，由阿里云提供资源支持，所以 Teambition 可以以极低成本拿到海量的资源，这也就是他们敢于宣传资源上传下载不限速的原因。&lt;/p&gt;
+&lt;p&gt;上传下载速度应该是所有功能的核心，也是和友商比较最多的一点。作为一名云资源管理者和维护者，我深知存储和网络带宽消耗成本的巨大，企业为了保证各种图片、视频、文件资源的可用性，会花费不菲的成本来采购 OSS 或 S3 这样的对象存储，这些资源的上传下载自然不会限速，甚至还有配套的加速服务。&lt;/p&gt;
+&lt;p&gt;所以对于网盘的限速从情感上是可以接受的，因为这些资源成本巨大，但是如果限速到&lt;strong&gt;几k、几十k/秒&lt;/strong&gt;，那这样的策略就不是基于成本的考虑，而是垄断后的特权了。&lt;/p&gt;
+&lt;h3 id=&#34;容量&#34;&gt;容量&lt;/h3&gt;
+&lt;p&gt;内测版开放了 2T 的免费容量，这个大小基本满足了个人用户的使用需求，后续应该会开放购买更大的容量。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65gy1gkasv8u9fzj208n03xglh.jpg&#34; alt=&#34;网盘容量&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;页面&#34;&gt;页面&lt;/h3&gt;
+&lt;p&gt;网盘页面简洁明了，功能一目了然，可以识别众多文件格式。确实也和承诺中的一样，没有广告推送和弹窗，整体保持简洁清新的风格。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65gy1gkamyvsv50j21h60q7dj9.jpg&#34; alt=&#34;网盘页面&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;协作&#34;&gt;协作&lt;/h3&gt;
+&lt;p&gt;除了一般网盘的功能外，Teambition 网盘还突出了协作的功能。&lt;/p&gt;
+&lt;h4 id=&#34;讨论功能&#34;&gt;讨论功能&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65ly1gkanbqdngbj20dd09dq3w.jpg&#34; alt=&#34;讨论&#34;&gt;&lt;/p&gt;
+&lt;p&gt;参与协作的用户可以使用不同的颜色，将想要讨论的对象&lt;strong&gt;圈出来&lt;/strong&gt;，这样就可以在同一幅图片或者视频中进行多组讨论，不用添加多余的描述。这个功能在视频中效果会更加明显，可以逐帧&lt;strong&gt;圈&lt;/strong&gt;出修改对象并发表意见（剪辑师、设计师狂怒）。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1gkandlm1cfj21780ppqil.jpg&#34; alt=&#34;圈出讨论&#34;&gt;&lt;/p&gt;
+&lt;p&gt;你觉得是狗可爱还是猫可爱呢？：）&lt;/p&gt;
+&lt;h4 id=&#34;图像识别&#34;&gt;图像识别&lt;/h4&gt;
+&lt;p&gt;文档中并没有提到这个功能，是我在测试时偶然发现的，Teambition 网盘会自动识别你上传图像的内容，并在详情中的 &lt;strong&gt;“包含的事物”&lt;/strong&gt; 中展示，如下图：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax2.sinaimg.cn/large/ad5fbf65gy1gkanoe8od2j214l0jo1gt.jpg&#34; alt=&#34;图像识别&#34;&gt;&lt;/p&gt;
+&lt;h4 id=&#34;分享&#34;&gt;分享&lt;/h4&gt;
+&lt;p&gt;目前分享功能是关闭的，原因是内测期间有用户利用 Teambition 网盘分享违规文件，所以暂时无法体验 Teambition 网盘的分享功能。不过从 &lt;strong&gt;&lt;a href=&#34;https://thoughts.teambition.com/sharespace/5f72e44becf9290016f85c8c/docs/5f99203decf9290016f85ce3&#34;&gt;「分享」功能升级说明&lt;/a&gt;&lt;/strong&gt; 可以看到目前已经开启了安全升级，同时还增加了更多功能。&lt;/p&gt;
+&lt;p&gt;多种分享权限：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;限时分享有效期增加更细致的时间颗粒度（7天、永久、自定义）&lt;/li&gt;
+&lt;li&gt;分享支持增加添加密码&lt;/li&gt;
+&lt;li&gt;批量分享支持画册、缩略图两种模式查看文件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;粒度更细的分享管理：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;支持查看分享文件的浏览量和被下载量&lt;/li&gt;
+&lt;li&gt;支持查看分享文件的有效期&lt;/li&gt;
+&lt;li&gt;分享中的文件支持随时取消&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;不足&#34;&gt;不足&lt;/h2&gt;
+&lt;p&gt;Teambition 网盘的核心功能确实直击网盘使用的痛点，但还处于 Beta 内测版，有很多不足。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;目前只有 web 端和手机端可以使用，微信小程序、桌面端（Mac 和 Windows）、平板设备端还未开放&lt;/li&gt;
+&lt;li&gt;手机端目前还不能删除文件，删除文件要在 web 端操作，而且手机端网盘的加载速度也很慢，且多次出现加载不出来的情况&lt;/li&gt;
+&lt;li&gt;分享功能暂时不可用&lt;/li&gt;
+&lt;li&gt;暂时还没有与各种设备打通，还没有手机相册/内容备份等功能&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;比较遗憾的是，并没有找到更多关于隐私安全保障的介绍，相信后续会放出更多的相关内容。&lt;/p&gt;
+&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
+&lt;p&gt;总的来说，Teambition 网盘抓住了网盘使用的痛点，并以此收获了众多的关注与好评。但要走的路还很长，在海量用户使用下网盘本身的可用性、对各种设备的支持、对违规内容的识别和管控都将是 Teambition 网盘面临的挑战。&lt;/p&gt;
+&lt;p&gt;往长远了看 Teambition 网盘的出现给了用户更多的选择，同时打破了目前网盘市场的局面，逼着“一家独大”的同行去改善自己的产品和服务，从用户的角度这都是好事情。&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Post: 浅析 Golang 垃圾回收机制</title>
       <link>https://guoxudong.io/post/golang-gc/</link>
       <pubDate>Fri, 16 Oct 2020 14:51:08 +0800</pubDate>
@@ -6737,74 +6804,6 @@ preview_only: false&lt;/h2&gt;
 &lt;p&gt;如果您有任何建议，请到 &lt;a href=&#34;https://github.com/mojombo/semver/issues&#34;&gt;GitHub&lt;/a&gt; 上提出您的问题。&lt;/p&gt;
 &lt;h2 id=&#34;许可证&#34;&gt;许可证&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;http://creativecommons.org/licenses/by/3.0/&#34;&gt;知识共享 署名 3.0 (CC BY 3.0)&lt;/a&gt;&lt;/p&gt;
-
-      </description>
-    </item>
-    
-    <item>
-      <title>Post: 【转】Kubernetes 儿童插图指南</title>
-      <link>https://guoxudong.io/post/the-childrens-illustrated-guide-to-kubernetes/</link>
-      <pubDate>Fri, 05 Jul 2019 09:50:58 +0800</pubDate>
-      
-      <guid>https://guoxudong.io/post/the-childrens-illustrated-guide-to-kubernetes/</guid>
-      <description>
-        
-        
-        &lt;blockquote&gt;
-&lt;p&gt;转自掘金社区，原文地址：https://juejin.im/post/5d1b2a656fb9a07edc0b7058&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&#34;kubernetes-儿童插图指南&#34;&gt;Kubernetes 儿童插图指南&lt;/h2&gt;
-&lt;p&gt;&lt;img src=&#34;https://ws4.sinaimg.cn/large/ad5fbf65gy1g4nwsdbr8wj20qo0hs0w2.jpg&#34; alt=&#34;&#34;&gt;
-&lt;img src=&#34;https://wx3.sinaimg.cn/large/ad5fbf65gy1g4nwt5keovj210u0shmyc.jpg&#34; alt=&#34;&#34;&gt;
-&lt;img src=&#34;https://wx4.sinaimg.cn/large/ad5fbf65gy1g4nwteb85hj20qo0hsk5v.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;献给所有试图向孩子们解释软件工程的家长。&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ws1.sinaimg.cn/large/ad5fbf65gy1g4nwu2t40sj20qo0hswqv.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;p&gt;很久很久以前，有一个叫 Phippy 的应用程序。她是一个简单的应用程序，由 PHP 编写且只有一个页面。她住在一个需要和其他可怕的应用程序分享环境的主机中，她不认识这些应用程序并且不愿意和他们来往。她希望她能拥有一个属于自己的环境：只有她自己和她可以称之为家的 Web 服务器。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx1.sinaimg.cn/large/ad5fbf65gy1g4nwutz6f2j20qo0hsq90.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;p&gt;每个应用程序都有个运行所依赖的环境。对于 PHP 应用程序来说，这个环境可能包括 Web 服务器，一个可读文件系统和 PHP 引擎本身。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx2.sinaimg.cn/large/ad5fbf65gy1g4nwvduq0mj20qo0hsdu8.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;p&gt;有一天，一只善良的鲸鱼出现了。他建议小 Phippy 住在容器里，这样可能会更快乐。所以应用程序 Phippy 迁移到了容器中。这个容器很棒，但是……它有点像一个漂浮在大海中央的豪华起居室。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx2.sinaimg.cn/large/ad5fbf65gy1g4nwwr0uk3j20qo0hs0zi.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;p&gt;容器提供了一个独立的环境，应用程序可以在这个环境中运行。但是这些孤立的容器常常需要被管理并与外面的世界连接。对于孤立的容器而言，共享文件系统、网络通信、调度、负载均衡和分发都是要面对的挑战。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx4.sinaimg.cn/large/ad5fbf65gy1g4nwx3kj32j20qo0hswr7.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;p&gt;鲸鱼耸了耸肩。“对不起，孩子。”他说着，消失在海面下。就在 Phippy 甚至开始绝望时，一位驾驶着巨轮的船长出现在海平线上。这艘船由几十个绑在一起的木筏组成，但从外面来看，它就像一艘巨轮。
-“你好呀，这位 PHP 应用程序朋友。我是 Kube 船长。”睿智的老船长说。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx3.sinaimg.cn/large/ad5fbf65gy1g4nwxm9w44j20qo0hsn3b.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;p&gt;“Kubernetes” 在希腊语中是船长的意思。我们可以从这个单词中得到 Cybernetic 和 Gubernatorial 这两个词组。Kubernetes 项目专注于构建一个健壮的平台，用于在生产环境中运行数千个容器。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx2.sinaimg.cn/large/ad5fbf65gy1g4nwxzqi7vj20qo0hsgxn.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;p&gt;“我是 Phippy。”小应用程序说。&lt;/p&gt;
-&lt;p&gt;“很高兴认识你。”船长一边说，一边在她身上贴上了一张标有姓名的标签。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx3.sinaimg.cn/large/ad5fbf65gy1g4nwygks8xj20qo0hs0zy.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;p&gt;Kubernetes 使用标签作为“名牌”来标识事物。它可以根据这些标签进行查询。标签是开放性的：你可以用他们来表示角色、稳定性或其他重要的属性。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ws1.sinaimg.cn/large/ad5fbf65gy1g4nwyt7gtqj20qo0hsdso.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;p&gt;船长建议应用程序把她的容器搬到船上的一个船舱中。Phippy 很高兴地把她的容器搬到 Kube 船长巨轮的船舱内。Phippy 觉得这里像家一样。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ws1.sinaimg.cn/large/ad5fbf65gy1g4nwzc5uqej20qo0hswlp.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;p&gt;在 Kubernetes 中，Pod 代表一个可运行的工作单元。通常，你会在 Pod 中运行一个容器。但是对于一些容器紧密耦合的情况，你可以选择在同一个 Pod 中运行多个容器。Kubernetes 负责将你的 Pod 和网络以及 Kubernetes 的其余环境相连。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx2.sinaimg.cn/large/ad5fbf65gy1g4nwztzwfsj20qo0hsqdi.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;p&gt;Phippy 有一些不同寻常的兴趣，她很喜欢遗传学和绵羊。所以她问船长：“如果我想克隆我自己，是否可以根据需求克隆任意次数呢？”&lt;/p&gt;
-&lt;p&gt;“这很容易。”船长说。船长把 Phippy 介绍给了 Replication Controller。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ws4.sinaimg.cn/large/ad5fbf65gy1g4nx08r8toj20qo0hsdnl.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;p&gt;Replication Controller 提供一种管理任意数量 Pod 的方法。一个 Replication Controller 包含一个 Pod 模板，该模板可以被复制任意次数。通过 Replication Controller，Kubernetes 将管理 Pod 的生命周期，包括伸缩、滚动更新和监控。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx2.sinaimg.cn/large/ad5fbf65gy1g4nx0phj56j20qo0hsnb3.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;p&gt;无数个日夜，小应用程序在她的船舱中与她的复制品相处十分愉快。但与自己为伍并没有所说的那么好……即使你拥有 N 个自己的克隆体。
-Kube 船长慈祥地笑了笑：“我正好有一样东西。”
-他刚开口，在 Phippy 的 Replication Controller 和船的其他部分之间打开了一条隧道。Kube 船长笑着说：“即使你的复制品来了又去，这条隧道始终会留在这里，你可以通过它发现其他 Pod，其他 Pod 也可以发现你！”&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ws2.sinaimg.cn/large/ad5fbf65gy1g4nx160hjkj20qo0hsjyp.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;p&gt;服务告知 Kubernetes 环境的其余部分（包括其他 Pod 和 Replication Controller）你的应用程序包含了哪些服务，当 Pod 来来往往，服务的 IP 地址和端口始终保持不变。其他应用程序可以通过 Kurbenetes 服务发现找到你的服务。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx2.sinaimg.cn/large/ad5fbf65gy1g4nx1kbahcj20qo0hsk2e.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;p&gt;多亏了这些服务，Phippy 开始探索船的其他部分。不久之后，Phippy 遇到了 Goldie。他们成了最好的朋友。有一天，Goldie 做了一件不同寻常的事。她送给 Phippy 一件礼物。Phippy 看了礼物一眼，悲伤的泪水夺眶而出。
-“你为什么这么伤心呢？”Goldie 问道。
-“我喜欢这个礼物，但我没有地方可以放它！”Phippy 抽噎道。
-但 Goldie 知道该怎么做。“为什么不把它放入卷中呢？”&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ws4.sinaimg.cn/large/ad5fbf65gy1g4nx2ibi95j20qo0hsdnp.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;p&gt;卷表示容器可以访问和存储信息的位置。对于应用程序，卷显示为本地文件系统的一部分。但卷可以由本地存储、Ceph、Gluster、持久性块存储，以及其他存储后端支持。
-Phippy 喜欢在 Kube 船长的船上生活，她很享受来自新朋友的陪伴（Goldie 的每个克隆人都同样令人愉悦）。但是，当她回想起在可怕的主机度过的日子，她想知道她是否也可以拥有一点自己的隐私。
-“这听起来像是你所需要的，”Kube 船长说，“这是一个命名空间。”&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ws2.sinaimg.cn/large/ad5fbf65gy1g4nx2nyz4uj20qo0hs10l.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;p&gt;命名空间是 Kubernetes 内部的分组机制。服务、Pod、Replication Controller 和卷可以在命名空间内部轻松协作，但命名空间提供了与集群其他部分一定程度的隔离。
-Phippy 与她的新朋友一起乘坐 Kube 船长的巨轮航行于大海之上。她经历了许多伟大的冒险，但最重要的是，Phippy 找到了自己的家。
-所以 Phippy 从此过上了幸福的生活。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ws2.sinaimg.cn/large/ad5fbf65gy1g4nx34vepkj21120shwek.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 
       </description>
     </item>
