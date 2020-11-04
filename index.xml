@@ -14,6 +14,216 @@
     
     
     <item>
+      <title>Post: 熟悉又陌生的 k8s 字段：SecurityContext</title>
+      <link>https://guoxudong.io/post/k8s-securitycontext/</link>
+      <pubDate>Wed, 04 Nov 2020 11:54:04 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/k8s-securitycontext/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;如果要投票在 Kubernetes 中很重要，但又最容易被初学者忽略的字段，那么我一定投给 &lt;code&gt;SecurityContext&lt;/code&gt;。从 Security Context（安全上下文）的名字就可得知它和安全有关，那么它是如何控制容器安全的？又是如何实现的？本文我们就来探索一下 &lt;code&gt;SecurityContext&lt;/code&gt; 这个字段。&lt;/p&gt;
+&lt;h2 id=&#34;securitycontext&#34;&gt;SecurityContext&lt;/h2&gt;
+&lt;p&gt;安全上下文（Security Context）定义 Pod 或 Container 的特权与访问控制设置。安全上下文包括但不限于：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;自主访问控制（Discretionary Access Control）：基于&lt;code&gt;用户 ID（UID）&lt;/code&gt;和&lt;code&gt;组 ID（GID）&lt;/code&gt;来判定对对象（例如文件）的访问权限。&lt;/li&gt;
+&lt;li&gt;安全性增强的 Linux（SELinux）：为对象赋予安全性标签。&lt;/li&gt;
+&lt;li&gt;以特权模式或者非特权模式运行。&lt;/li&gt;
+&lt;li&gt;Linux 权能：为进程赋予 root 用户的部分特权而非全部特权。&lt;/li&gt;
+&lt;li&gt;AppArmor：使用程序框架来限制个别程序的权能。&lt;/li&gt;
+&lt;li&gt;Seccomp：过滤进程的系统调用。&lt;/li&gt;
+&lt;li&gt;AllowPrivilegeEscalation：控制进程是否可以获得超出其父进程的特权。 此布尔值直接控制是否为容器进程设置 &lt;code&gt;no_new_privs&lt;/code&gt; 标志。当容器以特权模式运行或者具有 &lt;code&gt;CAP_SYS_ADMIN&lt;/code&gt; 权能时，AllowPrivilegeEscalation 总是为 &lt;code&gt;true&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;readOnlyRootFilesystem：以只读方式加载容器的根文件系统。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;SecurityContext 可以应用于 Container 和 Pod 维度：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;在 Pod 上设置的安全性配置会应用到 Pod 中所有 Container 上，并且会还会影响 Volume&lt;/li&gt;
+&lt;li&gt;在 Container 上设置的安全性配置仅适用于该容器本身，不会影响到其他容器以及 Pod 的 Volume&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;应用场景&#34;&gt;应用场景&lt;/h2&gt;
+&lt;p&gt;上面的介绍来自官方文档，理解起来并不轻松，但总体思想是确定的：&lt;strong&gt;遵循权限最小化原则，除了业务运行所必需的系统权限，去除不必的其他权限&lt;/strong&gt;。下面是笔者总结出的一些常见应用场景来帮助理解 &lt;code&gt;SecurityContext&lt;/code&gt;。&lt;/p&gt;
+&lt;h3 id=&#34;自定义对象访问权限&#34;&gt;自定义对象访问权限&lt;/h3&gt;
+&lt;p&gt;也就是上文中提到的&lt;strong&gt;自主访问控制（Discretionary Access Control）&lt;/strong&gt;，通过设置 UID 和 GID 来达到限制容器权限的目的。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;...&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;securityContext&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;runAsUser&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;1000&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;runAsGroup&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;3000&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;fsGroup&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;2000&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;...&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如上这个配置，可以看到 Pod 中所有容器内的进程都是已用户 &lt;code&gt;uid=1000&lt;/code&gt; 和主组 &lt;code&gt;gid=3000&lt;/code&gt;来运行的，而创建的任何文件的属组都是 &lt;code&gt;groups=2000&lt;/code&gt;。通过这样的方法，可以达到让用户的进程不使用默认的 Root （&lt;code&gt;uid=0,gid=0&lt;/code&gt;）权限的目的。&lt;/p&gt;
+&lt;h3 id=&#34;禁止容器以-root-身份运行&#34;&gt;禁止容器以 Root 身份运行&lt;/h3&gt;
+&lt;p&gt;如果 &lt;code&gt;runAsNonRoot&lt;/code&gt; 字段配置为 &lt;code&gt;true&lt;/code&gt;，kubelet 在启动容器时会进行检查，如果以 UID 为 0 运行，则禁止容器启动，该 Pod 的 STATUS 变为 &lt;code&gt;CreateContainerConfigError&lt;/code&gt;，并生成 Warning 类型事件 &lt;code&gt;Error: container has runAsNonRoot and image will run as root&lt;/code&gt;。只有当设置 &lt;code&gt;runAsUser&lt;/code&gt; 或者镜像本身就不是以 Root 身份运行时，该 Pod 才能正常启动。&lt;/p&gt;
+&lt;h3 id=&#34;系统-capabilities-的控制&#34;&gt;系统 Capabilities 的控制&lt;/h3&gt;
+&lt;p&gt;在某些时候，用户进程需要使用到 Root 用户的某些特权，但是又不想将全部特权都放给容器，这里就用到了 Linux Capabilities，用户可以在在 Container 的 &lt;code&gt;securityContext&lt;/code&gt; 字段中添加 &lt;code&gt;capabilities&lt;/code&gt; 字段。在 &lt;code&gt;capabilities&lt;/code&gt; 字段中，可以添加或移除容器的 Capabilities。&lt;/p&gt;
+&lt;p&gt;更多关于 Capabilites 的内容可以在 &lt;a href=&#34;https://man7.org/linux/man-pages/man7/capabilities.7.html&#34;&gt;capabilities man page &lt;/a&gt; 中查看。&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;注意&lt;/h4&gt;
+Linux Capabilities 的定义的形式为 &lt;code&gt;CAP_XXX&lt;/code&gt;。但是你在 Container 字段使用时，需要将名称中的 &lt;code&gt;CAP_&lt;/code&gt; 部分去掉。例如，要添加 &lt;code&gt;CAP_SYS_TIME&lt;/code&gt;，可在 &lt;code&gt;capabilities&lt;/code&gt; 列表中添加 &lt;code&gt;SYS_TIME&lt;/code&gt;。
+&lt;/div&gt;
+
+&lt;h3 id=&#34;只读访问根文件系统&#34;&gt;只读访问根文件系统&lt;/h3&gt;
+&lt;p&gt;使用 &lt;code&gt;readOnlyRootFilesystem&lt;/code&gt; 字段，可以配阻止对容器根目录的写入，也十分的实用。&lt;/p&gt;
+&lt;h3 id=&#34;selinux&#34;&gt;SELinux&lt;/h3&gt;
+&lt;p&gt;可以通过 SELinux 的策略配置控制用户，进程等对文件等访问控制。若要给 Container 设置 SELinux 标签，可以在 Pod 或 Container 清单的 &lt;code&gt;securityContext&lt;/code&gt; 中包含的 &lt;code&gt;seLinuxOptions&lt;/code&gt; 字段进行设置。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;...&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;seLinuxOptions&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;level&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;s0:c123,c456&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;...&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;注意&lt;/h4&gt;
+要指定 SELinux，需要在宿主操作系统中装载 SELinux 安全性模块。
+&lt;/div&gt;
+
+&lt;h2 id=&#34;源码分析&#34;&gt;源码分析&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;SecurityContext&lt;/code&gt; 功能的实现更多是通过 runtime 来完成，kubelet 侧多是进行一些判断，将 &lt;code&gt;SecurityContext&lt;/code&gt; 参数传递给 CRI。&lt;/p&gt;
+&lt;h3 id=&#34;禁止容器以-root-身份运行-1&#34;&gt;禁止容器以 Root 身份运行&lt;/h3&gt;
+&lt;p&gt;kubelet 在创建容器时，会调用 &lt;code&gt;generateContainerConfig()&lt;/code&gt; 方法来获取容器的配置：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// github/kubernetes/pkg/kubelet/kuberuntime/kuberuntime_container.go
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;func&lt;/span&gt; (m *kubeGenericRuntimeManager) &lt;span style=&#34;color:#447fcf&#34;&gt;generateContainerConfig&lt;/span&gt;(container *v1.Container, pod *v1.Pod, restartCount &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;int&lt;/span&gt;, podIP, imageRef &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;, podIPs []&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;, nsTarget *kubecontainer.ContainerID) (*runtimeapi.ContainerConfig, &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;func&lt;/span&gt;(), &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;error&lt;/span&gt;) {
+  ...
+  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Verify RunAsNonRoot. Non-root verification only supports numeric user.
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; err := &lt;span style=&#34;color:#447fcf&#34;&gt;verifyRunAsNonRoot&lt;/span&gt;(pod, container, uid, username); err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt;, cleanupAction, err
+  }
+  ...
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;而验证 &lt;code&gt;RunAsNonRoot&lt;/code&gt; 配置的就是 &lt;code&gt;verifyRunAsNonRoot()&lt;/code&gt; 方法：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// verifyRunAsNonRoot verifies RunAsNonRoot.
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#447fcf&#34;&gt;verifyRunAsNonRoot&lt;/span&gt;(pod *v1.Pod, container *v1.Container, uid *&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;int64&lt;/span&gt;, username &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;) &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;error&lt;/span&gt; {
+  effectiveSc := securitycontext.&lt;span style=&#34;color:#447fcf&#34;&gt;DetermineEffectiveSecurityContext&lt;/span&gt;(pod, container)
+  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// If the option is not set, or if running as root is allowed, return nil.
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; effectiveSc == &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; || effectiveSc.RunAsNonRoot == &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; || !*effectiveSc.RunAsNonRoot {
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt;
+  }
+
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; effectiveSc.RunAsUser != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; *effectiveSc.RunAsUser == &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt; {
+      &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Errorf&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;container&amp;#39;s runAsUser breaks non-root policy (pod: %q, container: %s)&amp;#34;&lt;/span&gt;, format.&lt;span style=&#34;color:#447fcf&#34;&gt;Pod&lt;/span&gt;(pod), container.Name)
+    }
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt;
+  }
+
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;switch&lt;/span&gt; {
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;case&lt;/span&gt; uid != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; &amp;amp;&amp;amp; *uid == &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;:
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Errorf&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;container has runAsNonRoot and image will run as root (pod: %q, container: %s)&amp;#34;&lt;/span&gt;, format.&lt;span style=&#34;color:#447fcf&#34;&gt;Pod&lt;/span&gt;(pod), container.Name)
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;case&lt;/span&gt; uid == &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; &amp;amp;&amp;amp; &lt;span style=&#34;color:#24909d&#34;&gt;len&lt;/span&gt;(username) &amp;gt; &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;:
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Errorf&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;container has runAsNonRoot and image has non-numeric user (%s), cannot verify user is non-root (pod: %q, container: %s)&amp;#34;&lt;/span&gt;, username, format.&lt;span style=&#34;color:#447fcf&#34;&gt;Pod&lt;/span&gt;(pod), container.Name)
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;default&lt;/span&gt;:
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt;
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里的抛错是不是很眼熟？如果 uid 为 0 则返回我们上面说到的 &lt;code&gt;container has runAsNonRoot and image will run as root&lt;/code&gt; 错误，并且阻止容器创建。&lt;/p&gt;
+&lt;h3 id=&#34;获取有效-securitycontext&#34;&gt;获取有效 SecurityContext&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;determineEffectiveSecurityContext()&lt;/code&gt; 方法用来确定 Pod 和 Container 中有效的 SecurityContext。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// github/kubernetes/pkg/kubelet/kuberuntime/security_context.go
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;func&lt;/span&gt; (m *kubeGenericRuntimeManager) &lt;span style=&#34;color:#447fcf&#34;&gt;determineEffectiveSecurityContext&lt;/span&gt;(pod *v1.Pod, container *v1.Container, uid *&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;int64&lt;/span&gt;, username &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;) *runtimeapi.LinuxContainerSecurityContext {
+  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 合成有效的 SecurityContext，如果 Pod 和 Container 都设置了，则 Container 优先
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;  effectiveSc := securitycontext.&lt;span style=&#34;color:#447fcf&#34;&gt;DetermineEffectiveSecurityContext&lt;/span&gt;(pod, container)
+  synthesized := &lt;span style=&#34;color:#447fcf&#34;&gt;convertToRuntimeSecurityContext&lt;/span&gt;(effectiveSc)
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; synthesized == &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+    synthesized = &amp;amp;runtimeapi.LinuxContainerSecurityContext{
+      MaskedPaths:   securitycontext.&lt;span style=&#34;color:#447fcf&#34;&gt;ConvertToRuntimeMaskedPaths&lt;/span&gt;(effectiveSc.ProcMount),
+      ReadonlyPaths: securitycontext.&lt;span style=&#34;color:#447fcf&#34;&gt;ConvertToRuntimeReadonlyPaths&lt;/span&gt;(effectiveSc.ProcMount),
+    }
+  }
+
+  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 设置 SeccompProfilePath.
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;  synthesized.SeccompProfilePath = m.&lt;span style=&#34;color:#447fcf&#34;&gt;getSeccompProfile&lt;/span&gt;(pod.Annotations, container.Name, pod.Spec.SecurityContext, container.SecurityContext)
+
+  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 设置 ApparmorProfile.
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;  synthesized.ApparmorProfile = apparmor.&lt;span style=&#34;color:#447fcf&#34;&gt;GetProfileNameFromPodAnnotations&lt;/span&gt;(pod.Annotations, container.Name)
+
+  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 设置 RunAsUser.
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; synthesized.RunAsUser == &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; uid != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+      synthesized.RunAsUser = &amp;amp;runtimeapi.Int64Value{Value: *uid}
+    }
+    synthesized.RunAsUsername = username
+  }
+
+  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 设置 namespace 选项和 Supplemental Groups
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;  synthesized.NamespaceOptions = &lt;span style=&#34;color:#447fcf&#34;&gt;namespacesForPod&lt;/span&gt;(pod)
+  podSc := pod.Spec.SecurityContext
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; podSc != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; podSc.FSGroup != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+      synthesized.SupplementalGroups = &lt;span style=&#34;color:#24909d&#34;&gt;append&lt;/span&gt;(synthesized.SupplementalGroups, &lt;span style=&#34;color:#24909d&#34;&gt;int64&lt;/span&gt;(*podSc.FSGroup))
+    }
+
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; podSc.SupplementalGroups != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+      &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; _, sg := &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;range&lt;/span&gt; podSc.SupplementalGroups {
+        synthesized.SupplementalGroups = &lt;span style=&#34;color:#24909d&#34;&gt;append&lt;/span&gt;(synthesized.SupplementalGroups, &lt;span style=&#34;color:#24909d&#34;&gt;int64&lt;/span&gt;(sg))
+      }
+    }
+  }
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; groups := m.runtimeHelper.&lt;span style=&#34;color:#447fcf&#34;&gt;GetExtraSupplementalGroupsForPod&lt;/span&gt;(pod); &lt;span style=&#34;color:#24909d&#34;&gt;len&lt;/span&gt;(groups) &amp;gt; &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt; {
+    synthesized.SupplementalGroups = &lt;span style=&#34;color:#24909d&#34;&gt;append&lt;/span&gt;(synthesized.SupplementalGroups, groups...)
+  }
+
+  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 判断是否应该添加 no_new_privs 选项
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;  synthesized.NoNewPrivs = securitycontext.&lt;span style=&#34;color:#447fcf&#34;&gt;AddNoNewPrivileges&lt;/span&gt;(effectiveSc)
+
+  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 将 ProcMountType 转换为指定或默认的 masked paths
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;  synthesized.MaskedPaths = securitycontext.&lt;span style=&#34;color:#447fcf&#34;&gt;ConvertToRuntimeMaskedPaths&lt;/span&gt;(effectiveSc.ProcMount)
+  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 将 ProcMountType 转换为指定或默认的 readonly paths
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;  synthesized.ReadonlyPaths = securitycontext.&lt;span style=&#34;color:#447fcf&#34;&gt;ConvertToRuntimeReadonlyPaths&lt;/span&gt;(effectiveSc.ProcMount)
+
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; synthesized
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;筛选出有效的配置会被用来生成 Linux 容器配置。&lt;/p&gt;
+&lt;h3 id=&#34;docker-seccomp-配置&#34;&gt;docker Seccomp 配置&lt;/h3&gt;
+&lt;p&gt;如果 runtime 为 docker，在 &lt;code&gt;CreateContainer()&lt;/code&gt; 中：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// github/kubernetes/pkg/kubelet/dockershim/docker_container.go
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;func&lt;/span&gt; (ds *dockerService) &lt;span style=&#34;color:#447fcf&#34;&gt;CreateContainer&lt;/span&gt;(_ context.Context, r *runtimeapi.CreateContainerRequest) (*runtimeapi.CreateContainerResponse, &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;error&lt;/span&gt;) {
+  ...
+  securityOpts, err := ds.&lt;span style=&#34;color:#447fcf&#34;&gt;getSecurityOpts&lt;/span&gt;(config.&lt;span style=&#34;color:#447fcf&#34;&gt;GetLinux&lt;/span&gt;().&lt;span style=&#34;color:#447fcf&#34;&gt;GetSecurityContext&lt;/span&gt;().&lt;span style=&#34;color:#447fcf&#34;&gt;GetSeccompProfilePath&lt;/span&gt;(), securityOptSeparator)
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt;, fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Errorf&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;failed to generate security options for container %q: %v&amp;#34;&lt;/span&gt;, config.Metadata.Name, err)
+  }
+
+  hc.SecurityOpt = &lt;span style=&#34;color:#24909d&#34;&gt;append&lt;/span&gt;(hc.SecurityOpt, securityOpts...)
+  ...
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;而 &lt;code&gt;getSecurityOpts()&lt;/code&gt; 方法就是将 SecurityContext 中 seccomp 有关配置格式化：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// github/kubernetes/pkg/kubelet/dockershim/helpers_linux.go
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;func&lt;/span&gt; (ds *dockerService) &lt;span style=&#34;color:#447fcf&#34;&gt;getSecurityOpts&lt;/span&gt;(seccompProfile &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;, separator &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;rune&lt;/span&gt;) ([]&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;, &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;error&lt;/span&gt;) {
+  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Apply seccomp options.
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;  seccompSecurityOpts, err := &lt;span style=&#34;color:#447fcf&#34;&gt;getSeccompSecurityOpts&lt;/span&gt;(seccompProfile, separator)
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt;, fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Errorf&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;failed to generate seccomp security options for container: %v&amp;#34;&lt;/span&gt;, err)
+  }
+
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; seccompSecurityOpts, &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt;
+}
+&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// getSeccompSecurityOpts gets container seccomp options from container seccomp profile.
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// It is an experimental feature and may be promoted to official runtime api in the future.
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#447fcf&#34;&gt;getSeccompSecurityOpts&lt;/span&gt;(seccompProfile &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;, separator &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;rune&lt;/span&gt;) ([]&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;, &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;error&lt;/span&gt;) {
+  seccompOpts, err := &lt;span style=&#34;color:#447fcf&#34;&gt;getSeccompDockerOpts&lt;/span&gt;(seccompProfile)
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt;, err
+  }
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#447fcf&#34;&gt;fmtDockerOpts&lt;/span&gt;(seccompOpts, separator), &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt;
+}
+&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// fmtDockerOpts formats the docker security options using the given separator.
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#447fcf&#34;&gt;fmtDockerOpts&lt;/span&gt;(opts []dockerOpt, sep &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;rune&lt;/span&gt;) []&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt; {
+  fmtOpts := &lt;span style=&#34;color:#24909d&#34;&gt;make&lt;/span&gt;([]&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;, &lt;span style=&#34;color:#24909d&#34;&gt;len&lt;/span&gt;(opts))
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; i, opt := &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;range&lt;/span&gt; opts {
+    fmtOpts[i] = fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Sprintf&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;%s%c%s&amp;#34;&lt;/span&gt;, opt.key, sep, opt.value)
+  }
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; fmtOpts
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;最终通过 &lt;code&gt;createResp, createErr := ds.client.CreateContainer(createConfig)&lt;/code&gt; 传递给 docker runtime client，用来创建容器。&lt;/p&gt;
+&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
+&lt;p&gt;SecurityContext 相关内容更多是和 Linux 知识挂钩，内容比较庞杂且资料较少，花费了1周多的时间也没能写出令人满意的内容。由于精力有限，只能做一个阶段性的总结，希望今后有空能更深入的解析这部分内容。&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Post: 试用阿里网盘内测版-不限速、无广告、隐私安全我全都要</title>
       <link>https://guoxudong.io/post/alibaba-teambition-disk/</link>
       <pubDate>Mon, 02 Nov 2020 09:26:27 +0800</pubDate>
@@ -6725,87 +6935,6 @@ preview_only: false&lt;/h2&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;...&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
 &lt;p&gt;这里只是做一个简单的记录，仅适用于阿里云 ACK 容器服务，同时也是 ACK 的一个简单应用。由于不经常对数据卷进行操作，这里做简单的记录，防止以后使用还要再看一遍文档。&lt;/p&gt;
-
-      </description>
-    </item>
-    
-    <item>
-      <title>Post: 语义化版本控制规范（SemVer）</title>
-      <link>https://guoxudong.io/post/semver/</link>
-      <pubDate>Sat, 06 Jul 2019 09:40:42 +0800</pubDate>
-      
-      <guid>https://guoxudong.io/post/semver/</guid>
-      <description>
-        
-        
-        &lt;blockquote&gt;
-&lt;p&gt;原文地址：https://semver.org/lang/zh-CN/&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;blockquote&gt;
-&lt;p&gt;语义化版本 2.0.0&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;blockquote&gt;
-&lt;p&gt;提供多种语言，语义化版本控制的规范是由 Gravatars 创办者兼 GitHub 共同创办者 &lt;a href=&#34;http://tom.preston-werner.com/&#34;&gt;Tom Preston-Werner&lt;/a&gt; 所建立。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&#34;摘要&#34;&gt;摘要&lt;/h2&gt;
-&lt;p&gt;版本格式：主版本号.次版本号.修订号，版本号递增规则如下：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;主版本号：当你做了不兼容的 API 修改，&lt;/li&gt;
-&lt;li&gt;次版本号：当你做了向下兼容的功能性新增，&lt;/li&gt;
-&lt;li&gt;修订号：当你做了向下兼容的问题修正。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;先行版本号及版本编译元数据可以加到“主版本号.次版本号.修订号”的后面，作为延伸。&lt;/p&gt;
-&lt;h2 id=&#34;简介&#34;&gt;简介&lt;/h2&gt;
-&lt;p&gt;在软件管理的领域里存在着被称作“依赖地狱”的死亡之谷，系统规模越大，加入的包越多，你就越有可能在未来的某一天发现自己已深陷绝望之中。&lt;/p&gt;
-&lt;p&gt;在依赖高的系统中发布新版本包可能很快会成为噩梦。如果依赖关系过高，可能面临版本控制被锁死的风险（必须对每一个依赖包改版才能完成某次升级）。而如果依赖关系过于松散，又将无法避免版本的混乱（假设兼容于未来的多个版本已超出了合理数量）。当你专案的进展因为版本依赖被锁死或版本混乱变得不够简便和可靠，就意味着你正处于依赖地狱之中。&lt;/p&gt;
-&lt;p&gt;作为这个问题的解决方案之一，我提议用一组简单的规则及条件来约束版本号的配置和增长。这些规则是根据（但不局限于）已经被各种封闭、开放源码软件所广泛使用的惯例所设计。为了让这套理论运作，你必须先有定义好的公共 API 。这可以透过文件定义或代码强制要求来实现。无论如何，这套 API 的清楚明了是十分重要的。一旦你定义了公共 API，你就可以透过修改相应的版本号来向大家说明你的修改。考虑使用这样的版本号格式：X.Y.Z （主版本号.次版本号.修订号）修复问题但不影响API 时，递增修订号；API 保持向下兼容的新增及修改时，递增次版本号；进行不向下兼容的修改时，递增主版本号。&lt;/p&gt;
-&lt;p&gt;我称这套系统为“语义化的版本控制”，在这套约定下，版本号及其更新方式包含了相邻版本间的底层代码和修改内容的信息。&lt;/p&gt;
-&lt;h2 id=&#34;语义化版本控制规范semver&#34;&gt;语义化版本控制规范（SemVer）&lt;/h2&gt;
-&lt;p&gt;以下关键词 MUST、MUST NOT、REQUIRED、SHALL、SHALL NOT、SHOULD、SHOULD NOT、 RECOMMENDED、MAY、OPTIONAL 依照 RFC 2119 的叙述解读。（译注：为了保持语句顺畅， 以下文件遇到的关键词将依照整句语义进行翻译，在此先不进行个别翻译。）&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;使用语义化版本控制的软件必须（MUST）定义公共 API。该 API 可以在代码中被定义或出现于严谨的文件内。无论何种形式都应该力求精确且完整。&lt;/li&gt;
-&lt;li&gt;标准的版本号必须（MUST）采用 X.Y.Z 的格式，其中 X、Y 和 Z 为非负的整数，且禁止（MUST NOT）在数字前方补零。X 是主版本号、Y 是次版本号、而 Z 为修订号。每个元素必须（MUST）以数值来递增。例如：1.9.1 -&amp;gt; 1.10.0 -&amp;gt; 1.11.0。&lt;/li&gt;
-&lt;li&gt;标记版本号的软件发行后，禁止（MUST NOT）改变该版本软件的内容。任何修改都必须（MUST）以新版本发行。&lt;/li&gt;
-&lt;li&gt;主版本号为零（0.y.z）的软件处于开发初始阶段，一切都可能随时被改变。这样的公共 API 不应该被视为稳定版。&lt;/li&gt;
-&lt;li&gt;1.0.0 的版本号用于界定公共 API 的形成。这一版本之后所有的版本号更新都基于公共 API 及其修改内容。&lt;/li&gt;
-&lt;li&gt;修订号 Z（x.y.Z | x &amp;gt; 0）必须（MUST）在只做了向下兼容的修正时才递增。这里的修正指的是针对不正确结果而进行的内部修改。&lt;/li&gt;
-&lt;li&gt;次版本号 Y（x.Y.z | x &amp;gt; 0）必须（MUST）在有向下兼容的新功能出现时递增。在任何公共 API 的功能被标记为弃用时也必须（MUST）递增。也可以（MAY）在内部程序有大量新功能或改进被加入时递增，其中可以（MAY）包括修订级别的改变。每当次版本号递增时，修订号必须（MUST）归零。&lt;/li&gt;
-&lt;li&gt;主版本号 X（X.y.z | X &amp;gt; 0）必须（MUST）在有任何不兼容的修改被加入公共 API 时递增。其中可以（MAY）包括次版本号及修订级别的改变。每当主版本号递增时，次版本号和修订号必须（MUST）归零。&lt;/li&gt;
-&lt;li&gt;先行版本号可以（MAY）被标注在修订版之后，先加上一个连接号再加上一连串以句点分隔的标识符来修饰。标识符必须（MUST）由 ASCII 字母数字和连接号 [0-9A-Za-z-] 组成，且禁止（MUST NOT）留白。数字型的标识符禁止（MUST NOT）在前方补零。先行版的优先级低于相关联的标准版本。被标上先行版本号则表示这个版本并非稳定而且可能无法满足预期的兼容性需求。范例：1.0.0-alpha、1.0.0-alpha.1、1.0.0-0.3.7、1.0.0-x.7.z.92。&lt;/li&gt;
-&lt;li&gt;版本编译元数据可以（MAY）被标注在修订版或先行版本号之后，先加上一个加号再加上一连串以句点分隔的标识符来修饰。标识符必须（MUST）由 ASCII 字母数字和连接号 [0-9A-Za-z-] 组成，且禁止（MUST NOT）留白。当判断版本的优先层级时，版本编译元数据可（SHOULD）被忽略。因此当两个版本只有在版本编译元数据有差别时，属于相同的优先层级。范例：1.0.0-alpha+001、1.0.0+20130313144700、1.0.0-beta+exp.sha.5114f85。&lt;/li&gt;
-&lt;li&gt;版本的优先层级指的是不同版本在排序时如何比较。判断优先层级时，必须（MUST）把版本依序拆分为主版本号、次版本号、修订号及先行版本号后进行比较（版本编译元数据不在这份比较的列表中）。由左到右依序比较每个标识符，第一个差异值用来决定优先层级：主版本号、次版本号及修订号以数值比较，例如：1.0.0 &amp;lt; 2.0.0 &amp;lt; 2.1.0 &amp;lt; 2.1.1。当主版本号、次版本号及修订号都相同时，改以优先层级比较低的先行版本号决定。例如：1.0.0-alpha &amp;lt; 1.0.0。有相同主版本号、次版本号及修订号的两个先行版本号，其优先层级必须（MUST）透过由左到右的每个被句点分隔的标识符来比较，直到找到一个差异值后决定：只有数字的标识符以数值高低比较，有字母或连接号时则逐字以 ASCII 的排序来比较。数字的标识符比非数字的标识符优先层级低。若开头的标识符都相同时，栏位比较多的先行版本号优先层级比较高。范例：1.0.0-alpha &amp;lt; 1.0.0-alpha.1 &amp;lt; 1.0.0-alpha.beta &amp;lt; 1.0.0-beta &amp;lt; 1.0.0-beta.2 &amp;lt; 1.0.0-beta.11 &amp;lt; 1.0.0-rc.1 &amp;lt; 1.0.0。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&#34;为什么要使用语义化的版本控制&#34;&gt;为什么要使用语义化的版本控制？&lt;/h2&gt;
-&lt;p&gt;这并不是一个新的或者革命性的想法。实际上，你可能已经在做一些近似的事情了。问题在于只是“近似”还不够。如果没有某个正式的规范可循，版本号对于依赖的管理并无实质意义。将上述的想法命名并给予清楚的定义，让你对软件使用者传达意向变得容易。一旦这些意向变得清楚，弹性（但又不会太弹性）的依赖规范就能达成。&lt;/p&gt;
-&lt;p&gt;举个简单的例子就可以展示语义化的版本控制如何让依赖地狱成为过去。假设有个名为“救火车”的函式库，它需要另一个名为“梯子”并已经有使用语义化版本控制的包。当救火车创建时，梯子的版本号为 3.1.0。因为救火车使用了一些版本 3.1.0 所新增的功能， 你可以放心地指定依赖于梯子的版本号大等于 3.1.0 但小于 4.0.0。这样，当梯子版本 3.1.1 和 3.2.0 发布时，你可以将直接它们纳入你的包管理系统，因为它们能与原有依赖的软件兼容。&lt;/p&gt;
-&lt;p&gt;作为一位负责任的开发者，你理当确保每次包升级的运作与版本号的表述一致。现实世界是复杂的，我们除了提高警觉外能做的不多。你所能做的就是让语义化的版本控制为你提供一个健全的方式来发行以及升级包，而无需推出新的依赖包，节省你的时间及烦恼。&lt;/p&gt;
-&lt;p&gt;如果你对此认同，希望立即开始使用语义化版本控制，你只需声明你的函式库正在使用它并遵循这些规则就可以了。请在你的 README 文件中保留此页连结，让别人也知道这些规则并从中受益。&lt;/p&gt;
-&lt;h2 id=&#34;faq&#34;&gt;FAQ&lt;/h2&gt;
-&lt;p&gt;&lt;strong&gt;在 0.y.z 初始开发阶段，我该如何进行版本控制？&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;最简单的做法是以 0.1.0 作为你的初始化开发版本，并在后续的每次发行时递增次版本号。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;如何判断发布 1.0.0 版本的时机？&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;当你的软件被用于正式环境，它应该已经达到了 1.0.0 版。如果你已经有个稳定的 API 被使用者依赖，也会是 1.0.0 版。如果你很担心向下兼容的问题，也应该算是 1.0.0 版了。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;这不会阻碍快速开发和迭代吗？&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;主版本号为零的时候就是为了做快速开发。如果你每天都在改变 API，那么你应该仍在主版本号为零的阶段（0.y.z），或是正在下个主版本的独立开发分支中。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;对于公共 API，若即使是最小但不向下兼容的改变都需要产生新的主版本号，岂不是很快就达到 42.0.0 版？&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;这是开发的责任感和前瞻性的问题。不兼容的改变不应该轻易被加入到有许多依赖代码的软件中。升级所付出的代价可能是巨大的。要递增主版本号来发行不兼容的改版，意味着你必须为这些改变所带来的影响深思熟虑，并且评估所涉及的成本及效益比。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;为整个公共 API 写文件太费事了！&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;为供他人使用的软件编写适当的文件，是你作为一名专业开发者应尽的职责。保持专案高效一个非常重要的部份是掌控软件的复杂度，如果没有人知道如何使用你的软件或不知道哪些函数的调用是可靠的，要掌控复杂度会是困难的。长远来看，使用语义化版本控制以及对于公共 API 有良好规范的坚持，可以让每个人及每件事都运行顺畅。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;万一不小心把一个不兼容的改版当成了次版本号发行了该怎么办？&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;一旦发现自己破坏了语义化版本控制的规范，就要修正这个问题，并发行一个新的次版本号来更正这个问题并且恢复向下兼容。即使是这种情况，也不能去修改已发行的版本。可以的话，将有问题的版本号记录到文件中，告诉使用者问题所在，让他们能够意识到这是有问题的版本。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;如果我更新了自己的依赖但没有改变公共 API 该怎么办？&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;由于没有影响到公共 API，这可以被认定是兼容的。若某个软件和你的包有共同依赖，则它会有自己的依赖规范，作者也会告知可能的冲突。要判断改版是属于修订等级或是次版等级，是依据你更新的依赖关系是为了修复问题或是加入新功能。对于后者，我经常会预期伴随着更多的代码，这显然会是一个次版本号级别的递增。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;如果我变更了公共 API 但无意中未遵循版本号的改动怎么办呢？（意即在修订等级的发布中，误将重大且不兼容的改变加到代码之中）&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;自行做最佳的判断。如果你有庞大的使用者群在依照公共 API 的意图而变更行为后会大受影响，那么最好做一次主版本的发布，即使严格来说这个修复仅是修订等级的发布。记住， 语义化的版本控制就是透过版本号的改变来传达意义。若这些改变对你的使用者是重要的，那就透过版本号来向他们说明。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;我该如何处理即将弃用的功能？&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;弃用现存的功能是软件开发中的家常便饭，也通常是向前发展所必须的。当你弃用部份公共 API 时，你应该做两件事：（1）更新你的文件让使用者知道这个改变，（2）在适当的时机将弃用的功能透过新的次版本号发布。在新的主版本完全移除弃用功能前，至少要有一个次版本包含这个弃用信息，这样使用者才能平顺地转移到新版 API。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;语义化版本对于版本的字串长度是否有限制呢？&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;没有，请自行做适当的判断。举例来说，长到 255 个字元的版本已过度夸张。再者，特定的系统对于字串长度可能会有他们自己的限制。&lt;/p&gt;
-&lt;h2 id=&#34;关于&#34;&gt;关于&lt;/h2&gt;
-&lt;p&gt;语义化版本控制的规范是由 Gravatars 创办者兼 GitHub 共同创办者 &lt;a href=&#34;http://tom.preston-werner.com/&#34;&gt;Tom Preston-Werner&lt;/a&gt; 所建立。&lt;/p&gt;
-&lt;p&gt;如果您有任何建议，请到 &lt;a href=&#34;https://github.com/mojombo/semver/issues&#34;&gt;GitHub&lt;/a&gt; 上提出您的问题。&lt;/p&gt;
-&lt;h2 id=&#34;许可证&#34;&gt;许可证&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&#34;http://creativecommons.org/licenses/by/3.0/&#34;&gt;知识共享 署名 3.0 (CC BY 3.0)&lt;/a&gt;&lt;/p&gt;
 
       </description>
     </item>
