@@ -80,7 +80,7 @@
 与自建 homebrew-tap 不同，向官方提交 PR，需要使用源码构建，不能只推送构建好的二进制文件！同时必须有 test 部分，否则将无法合并代码。
 &lt;/div&gt;
 
-&lt;p&gt;这里附上一份 &lt;a href=&#34;&#34;&gt;kind&lt;/a&gt; 的脚本供大家参考：&lt;/p&gt;
+&lt;p&gt;这里附上一份 &lt;a href=&#34;https://github.com/kubernetes-sigs/kind&#34;&gt;kind&lt;/a&gt; 的脚本供大家参考：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;Kind&lt;/span&gt; &amp;lt; &lt;span style=&#34;color:#40ffff&#34;&gt;Formula&lt;/span&gt;
   desc &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Run local Kubernetes cluster in Docker&amp;#34;&lt;/span&gt;
   homepage &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;https://kind.sigs.k8s.io/&amp;#34;&lt;/span&gt;
