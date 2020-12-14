@@ -1854,7 +1854,7 @@ service grafana-server restart
 &lt;p&gt;今天接到一个将 NAS 数据卷挂载到 Kubernetes 集群的需求，需要将一个 NAS 数据卷挂载到集群中。这一很简单的操作由于好久没有操作了，去翻看了一下官方文档，发现官方文档还在停留在去年7月份&amp;hellip;为了防止之后还有相似情况的发生，这里将所有操作做一个简单记录。&lt;/p&gt;
 &lt;h2 id=&#34;购买存储包创建文件系统&#34;&gt;购买存储包（创建文件系统）&lt;/h2&gt;
 &lt;p&gt;在挂载 NAS 之前，首先要先购买 NAS 文件存储，这里推荐购买存储包，100G 的 SSD 急速型一年只需1400多，而容量型只要279，对于我这种只有少量 NAS 存储需求的人来说是是靠谱的，因为我只需要5G的左右的存储空间，SSD 急速型 NAS 一年只要18块，完美。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ws1.sinaimg.cn/large/ad5fbf65gy1g4sglwrx0gj22wa09gae4.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g4sglwrx0gj22wa09gae4.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;p&gt;选择想要创建 NAS 所在 VPC 和 区域&lt;/p&gt;
 &lt;h2 id=&#34;添加挂载点&#34;&gt;添加挂载点&lt;/h2&gt;
 &lt;ul&gt;
@@ -1881,7 +1881,7 @@ service grafana-server restart
 &lt;p&gt;直接在挂载数据卷所在服务上执行命令：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;df -h
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;就可以看到结果：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ws1.sinaimg.cn/large/ad5fbf65gy1g4sh6xwyt8j20lj0850tq.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g4sh6xwyt8j20lj0850tq.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;kubernetes-集群挂载-nas-数据卷&#34;&gt;Kubernetes 集群挂载 NAS 数据卷&lt;/h2&gt;
 &lt;p&gt;K8S 的持久数据卷挂载大同小异，流程都是：&lt;strong&gt;创建PV&lt;/strong&gt; -&amp;gt; &lt;strong&gt;创建PVC&lt;/strong&gt; -&amp;gt; &lt;strong&gt;使用PVC&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;下面就简单介绍在阿里云上的操作：&lt;/p&gt;

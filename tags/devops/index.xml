@@ -290,16 +290,16 @@ example-greenhouse   1/1     &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/spa
 &lt;p&gt;DevOps 文化早已在我司落地，这也是为什么我们有将近百人的研发团队，却只有两个专职运维的原因。CI/CD 方面我们之前使用的是 jenkins ， jenkins 是一个十分强大的工具，但是随着公司的发展，项目也越来越多，粗略统计了一下我们在 jenkins 中有几百个 Job ，虽然所有项目都使用 Jenkinsfile 的方式将 pipeline 持久化到了 gitlab 中，但是所有的 Job 配置，包括参数化构建配置，SCM 配置等都是保存在 jenkins 上，一旦有失，几百个 Job &amp;hellip;哭都没有地方哭去（别问我是怎么知道的）。&lt;/p&gt;
 &lt;p&gt;经过调研我们选择了 &lt;a href=&#34;https://drone.io/&#34;&gt;drone CI&lt;/a&gt; 进行 GitOps ，通过自己开发不同功能的插件，完善了我们的整个 CI/CD 流水线。而插件的开发也并不是从头开始，而是直接 fork 现有的插件进行定制化的二次开发，有兴趣的可以到我的 &lt;a href=&#34;https://github.com/sunny0826/drone-dingtalk-message&#34;&gt;GitHub&lt;/a&gt;   和 &lt;a href=&#34;https://cloud.docker.com/repository/list&#34;&gt;DockerHub&lt;/a&gt; 上查看。&lt;/p&gt;
 &lt;p&gt;将项目配置进行了分离，配置使用单独的 git 仓库维护，同时整合了镜像安全扫描，钉钉通知等功能。
-&lt;img src=&#34;https://ws1.sinaimg.cn/large/ad5fbf65gy1g4vvfow9w9j21k810243r.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g4vvfow9w9j21k810243r.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;p&gt;由于 drone CI 的配置文件 &lt;code&gt;.drone.yml&lt;/code&gt; 需要统一规范，所以我们在自己的 DevOps 平台开发了 Drone 配置页面，帮助开发自主配置。我们提供了 &lt;code&gt;Java&lt;/code&gt; 、 &lt;code&gt;Node&lt;/code&gt; 、 &lt;code&gt;Python&lt;/code&gt; 三种配置模板，并且由于 DevOps 平台已与 GitLab 集成，可以直接将生成的 &lt;code&gt;.drone.yml&lt;/code&gt; 文件插入到相应 git 项目中。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://wx3.sinaimg.cn/large/ad5fbf65gy1g4vvoqggfoj22lk16aagu.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;p&gt;同时也提供了钉钉构建通知，在构建成功后会发送到相应的开发群组中，如果需希望自动发布的话，也可点击通知中的连接自行发布。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ws1.sinaimg.cn/large/ad5fbf65gy1g4vvrigyvlj20ec0bh40u.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g4vvrigyvlj20ec0bh40u.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;自研平台配合钉钉-outgoing-功能实现-chatops&#34;&gt;自研平台配合钉钉 Outgoing 功能实现 ChatOps&lt;/h3&gt;
 &lt;p&gt;前面的构建通知机器人使用的是钉钉的&lt;a href=&#34;https://open-doc.dingtalk.com/microapp/serverapi2/qf2nxq&#34;&gt;自定义机器人&lt;/a&gt;，将构建信息推送到各个项目群中。而钉钉机器人的 Outgoing 功能，则可用来实现 ChatOps 的功能（&lt;strong&gt;注意：钉钉的 Outgoing 功能目前还处于灰度测试阶段，想要使用的需要联系官方管理员开启该功能&lt;/strong&gt;）。&lt;/p&gt;
 &lt;p&gt;由于我司专职运维人员只有两位，管理着整个团队全部的基础设施。但是随着开发团队的扩张，运维人员每天要处理大量的咨询类工作，而这类工作有着重复性强和技术性弱的特点，对于运维人员的技术水平毫无提升，那么这类工作交给机器人岂不是更好。得益于我们 DevOps 平台完善的 API ，小助手机器人的开发并不困难。&lt;/p&gt;
 &lt;p&gt;小助手机器人的诞生，极大的提高了咨询类工作的效率，同时也释放了运维人员的工作时间，运维人员可以将更多精力投注到更有技术含量的事情上。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ws1.sinaimg.cn/large/ad5fbf65gy1g4vwfdgd2xj20iu0ajwgc.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g4vwfdgd2xj20iu0ajwgc.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;p&gt;小助手机器人还有运维版本，功能包括：批量操作虚拟机、重启服务、DNS 解析、Kubernetes 信息检测&amp;amp;操作等功能，由于还是测试版本，这里就不做详细介绍了。&lt;/p&gt;
 &lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
 &lt;p&gt;上文中简要的介绍了 GitOps 和 ChatOps 在我司的落地实践，从决定落地 GitOps 和 ChatOps 至今不过短短的2个月。得益于我司浓厚的 DevOps 文化氛围，让我可以在极短的时间内将 GitOps 和 ChatOps 落地实践。但毕竟实践的时间还短，很多需求还在收集和调研中，后续的开发还在持续进行。欢迎对 GitOps 和 ChatOps 感兴趣的同学一起交流，共同提升。&lt;/p&gt;
@@ -493,7 +493,7 @@ example-greenhouse   1/1     &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/spa
 &lt;p&gt;注意这里的钉钉 token 是 webhook 中 &lt;code&gt;https://oapi.dingtalk.com/robot/send?access_token=&lt;/code&gt; 后这部分
 &lt;img src=&#34;https://ws2.sinaimg.cn/large/ad5fbf65gy1g38r1mkoztj20iy0ezgmg.jpg&#34; alt=&#34;WX20190521-105337&#34;&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;&lt;img src=&#34;https://ws1.sinaimg.cn/large/ad5fbf65gy1g38qxizsg1j21ia0tujtb.jpg&#34; alt=&#34;WX20190521-104942@2x&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g38qxizsg1j21ia0tujtb.jpg&#34; alt=&#34;WX20190521-104942@2x&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;构建结果&#34;&gt;构建结果&lt;/h2&gt;
 &lt;p&gt;添加 &lt;code&gt;.drone.yml&lt;/code&gt; 文件后，向 master 分支提交代码即可出发 CI 构建&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://wx3.sinaimg.cn/large/ad5fbf65gy1g38r68yb8pj21l40sawit.jpg&#34; alt=&#34;WX20190521-105809@2x&#34;&gt;&lt;/p&gt;
@@ -1006,7 +1006,7 @@ preview_only: false&lt;/h2&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;SonarQube生成token，&lt;strong&gt;这个token不会显示第二次，所以一定要记住&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ws1.sinaimg.cn/mw690/ad5fbf65ly1g0u5902q6nj213f0hgwgn.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/mw690/ad5fbf65ly1g0u5902q6nj213f0hgwgn.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;SonarQube配置Dependency-Check&lt;/p&gt;
@@ -1085,7 +1085,7 @@ stage(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;静态代码检查&amp;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;可直接登录SonarQube查看报告
-&lt;img src=&#34;https://ws1.sinaimg.cn/mw690/ad5fbf65ly1g0u6vbspv5j21260myadw.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;img src=&#34;https://tva2.sinaimg.cn/mw690/ad5fbf65ly1g0u6vbspv5j21260myadw.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;也可直接在jenkins页面点击SonarQube图标进入，点击以下标记均可进去

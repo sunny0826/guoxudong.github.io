@@ -728,7 +728,7 @@ preview_only: false&lt;/h2&gt;
 &lt;p&gt;这里模拟一下发布生产环境，假设生产环境是在 &lt;code&gt;devops-prod&lt;/code&gt; 的 namespace 中，这里只做演示之用，真正的生产环境中，可能存在不止一个 k8s 集群，这时需要修改 Jenkinsfile 中的 &lt;code&gt;secretVolume&lt;/code&gt; 来挂载不同 k8s 的 kubeconfig 来达到发布到不同集群的目的。当然，一般发布生产环境只需选择测试通过的镜像来发布即可，不需要在进行构建打包。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://ws3.sinaimg.cn/large/ad5fbf65gy1g2skrnbjyuj20fc0bjmxp.jpg&#34; alt=&#34;WX20190507-110730&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;查看生产版本&#34;&gt;查看生产版本&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&#34;https://ws1.sinaimg.cn/large/ad5fbf65ly1g2skt3rp4yj20aq010glj.jpg&#34; alt=&#34;WX20190507-110850&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65ly1g2skt3rp4yj20aq010glj.jpg&#34; alt=&#34;WX20190507-110850&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;总结&#34;&gt;总结&lt;/h3&gt;
 &lt;p&gt;上面的这些步骤简单的演示了使用 jenkins 进行 CI/CD 的流程，流程十分简单，这里仅供参考&lt;/p&gt;
 &lt;h2 id=&#34;kustomize-的作用&#34;&gt;Kustomize 的作用&lt;/h2&gt;
