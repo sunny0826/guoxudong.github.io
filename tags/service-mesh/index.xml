@@ -82,7 +82,7 @@ istio-sidecar-injector-canary   2020-07-07T09:06:24Z
         
         &lt;p&gt;所谓边车模式（ Sidecar pattern ），也译作挎斗模式，是分布式架构中云设计模式的一种。因为其非常类似于生活中的边三轮摩托车而得名。该设计模式通过给应用程序加上一个“边车”的方式来拓展应用程序现有的功能。这种设计模式出现的很早，实现的方式也多种多样。现在这个模式更是随着微服务的火热与 Service Mesh 的逐渐成熟而进入人们的视野。&lt;/p&gt;
 &lt;h2 id=&#34;什么是边车模式&#34;&gt;什么是边车模式&lt;/h2&gt;
-&lt;p&gt;&lt;img src=&#34;http://wx1.sinaimg.cn/large/ad5fbf65ly1g18zhnoh76j20dw0dw752.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://tva2.sinaimg.cn/large/ad5fbf65ly1g18zhnoh76j20dw0dw752.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;在 &lt;a href=&#34;https://docs.microsoft.com/en-us/azure/architecture/patterns/&#34;&gt;Azure Architecture Center&lt;/a&gt; 的云设计模式中是这么介绍边车模式的：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Deploy components of an application into a separate process or container to provide isolation and encapsulation.&lt;/p&gt;

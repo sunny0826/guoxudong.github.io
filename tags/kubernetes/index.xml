@@ -2839,7 +2839,7 @@ preview_only: false&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;献给所有试图向孩子们解释软件工程的家长。&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g4nwu2t40sj20qo0hswqv.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;很久很久以前，有一个叫 Phippy 的应用程序。她是一个简单的应用程序，由 PHP 编写且只有一个页面。她住在一个需要和其他可怕的应用程序分享环境的主机中，她不认识这些应用程序并且不愿意和他们来往。她希望她能拥有一个属于自己的环境：只有她自己和她可以称之为家的 Web 服务器。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx1.sinaimg.cn/large/ad5fbf65gy1g4nwutz6f2j20qo0hsq90.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g4nwutz6f2j20qo0hsq90.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;每个应用程序都有个运行所依赖的环境。对于 PHP 应用程序来说，这个环境可能包括 Web 服务器，一个可读文件系统和 PHP 引擎本身。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://wx2.sinaimg.cn/large/ad5fbf65gy1g4nwvduq0mj20qo0hsdu8.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;有一天，一只善良的鲸鱼出现了。他建议小 Phippy 住在容器里，这样可能会更快乐。所以应用程序 Phippy 迁移到了容器中。这个容器很棒，但是……它有点像一个漂浮在大海中央的豪华起居室。&lt;/p&gt;
@@ -3236,7 +3236,7 @@ ret = v1.list_pod_for_all_namespaces(watch=False)
 &lt;h3 id=&#34;问题解决&#34;&gt;问题解决&lt;/h3&gt;
 &lt;p&gt;在 Google 了一圈之后还是没有找到什么有营养的回答，问题又回到了原点&amp;hellip;只能对所有的 patch 的每个字符和每个配置逐一进行了检查。结果发现是 &lt;code&gt;name&lt;/code&gt; 的内容 base 与 overlays 不同&amp;hellip; base 中是 &lt;code&gt;name:myapp&lt;/code&gt; ，而 overlays 中是 &lt;code&gt;name:my-app&lt;/code&gt; &amp;hellip;&lt;/p&gt;
 &lt;p&gt;好吧，issue 关的是有道理的&amp;hellip;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx1.sinaimg.cn/large/ad5fbf65gy1g4mmuqm6n2j2098048a9z.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g4mmuqm6n2j2098048a9z.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 
       </description>
     </item>

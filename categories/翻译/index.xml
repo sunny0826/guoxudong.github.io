@@ -659,7 +659,7 @@ preview_only: false&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;献给所有试图向孩子们解释软件工程的家长。&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g4nwu2t40sj20qo0hswqv.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;很久很久以前，有一个叫 Phippy 的应用程序。她是一个简单的应用程序，由 PHP 编写且只有一个页面。她住在一个需要和其他可怕的应用程序分享环境的主机中，她不认识这些应用程序并且不愿意和他们来往。她希望她能拥有一个属于自己的环境：只有她自己和她可以称之为家的 Web 服务器。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx1.sinaimg.cn/large/ad5fbf65gy1g4nwutz6f2j20qo0hsq90.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g4nwutz6f2j20qo0hsq90.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;每个应用程序都有个运行所依赖的环境。对于 PHP 应用程序来说，这个环境可能包括 Web 服务器，一个可读文件系统和 PHP 引擎本身。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://wx2.sinaimg.cn/large/ad5fbf65gy1g4nwvduq0mj20qo0hsdu8.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;有一天，一只善良的鲸鱼出现了。他建议小 Phippy 住在容器里，这样可能会更快乐。所以应用程序 Phippy 迁移到了容器中。这个容器很棒，但是……它有点像一个漂浮在大海中央的豪华起居室。&lt;/p&gt;
@@ -783,7 +783,7 @@ Phippy 与她的新朋友一起乘坐 Kube 船长的巨轮航行于大海之上�
 &lt;p&gt;微服务是围绕业务能力构建的; 每项服务的范围都是一个简单的用途。您可以使用不同的框架或编程语言来编写微服务并将它们作为单个服务或一组服务独立部署。&lt;/p&gt;
 &lt;h3 id=&#34;4-基础设施即代码iac&#34;&gt;4. 基础设施即代码：IaC&lt;/h3&gt;
 &lt;p&gt;是通过机器可读定义文件（代码库）管理和配置计算机数据中心的过程，而不是物理硬件配置或交互式配置工具。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx1.sinaimg.cn/large/ad5fbf65gy1g2v5f38rbij20sg0g0764.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g2v5f38rbij20sg0g0764.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Amazon 定义 IaC 为：&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;作为使用代码和软件开发技术（例如版本控制和持续集成）来配置和管理基础架构的实践。云服务的 API 驱动模型使开发人员和系统管理员能够以编程方式大规模地与基础架构交互，而不需要手动设置和配置资源。&lt;/p&gt;
 &lt;p&gt;因此，开发人员可以使用基于代码的工具与基础架构进行交互，使其更像应用程序。这使得可以使用标准化模式快速部署基础架构和服务器，使用最新的补丁和版本进行更新，或以副本的方式进行复制部署。&lt;/p&gt;

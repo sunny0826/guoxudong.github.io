@@ -127,7 +127,7 @@ stage(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;静态代码检查&amp;
 &lt;/ol&gt;
 &lt;h2 id=&#34;运行&#34;&gt;运行&lt;/h2&gt;
 &lt;p&gt;执行jenkins构建，构建成功后会显示如下，则证明sonar代码扫描成功且通过代码质量阈检查
-&lt;img src=&#34;https://wx1.sinaimg.cn/mw690/ad5fbf65ly1g0u6qrh8qrj21fu0q2dmw.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;img src=&#34;https://tva2.sinaimg.cn/mw690/ad5fbf65ly1g0u6qrh8qrj21fu0q2dmw.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;p&gt;查看sonar报告，这里有两种方式&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;

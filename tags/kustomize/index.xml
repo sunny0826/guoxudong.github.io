@@ -319,7 +319,7 @@ err = os.&lt;span style=&#34;color:#447fcf&#34;&gt;Chdir&lt;/span&gt;(filepath.&
 &lt;h3 id=&#34;问题解决&#34;&gt;问题解决&lt;/h3&gt;
 &lt;p&gt;在 Google 了一圈之后还是没有找到什么有营养的回答，问题又回到了原点&amp;hellip;只能对所有的 patch 的每个字符和每个配置逐一进行了检查。结果发现是 &lt;code&gt;name&lt;/code&gt; 的内容 base 与 overlays 不同&amp;hellip; base 中是 &lt;code&gt;name:myapp&lt;/code&gt; ，而 overlays 中是 &lt;code&gt;name:my-app&lt;/code&gt; &amp;hellip;&lt;/p&gt;
 &lt;p&gt;好吧，issue 关的是有道理的&amp;hellip;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx1.sinaimg.cn/large/ad5fbf65gy1g4mmuqm6n2j2098048a9z.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g4mmuqm6n2j2098048a9z.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 
       </description>
     </item>

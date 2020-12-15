@@ -275,7 +275,7 @@ example-greenhouse   1/1     &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/spa
 &lt;p&gt;在我看来 GitOps 的最大优势就是通过完善的 git 分支管理来达到管理所有 CI/CD 管道流水线的目的，不同的环境可以对应不同分支，在该环境出现问题时候，可以直接查找对应分支代码，达到快速排查问题的目的。而对于 Git 的熟悉，更是省去学习使用一般 DevOps 工具所需的学习成本和配置时间，开发人员可以无任何培训直接上手使用，进一步降低了时间与人力成本。&lt;/p&gt;
 &lt;h2 id=&#34;chatops&#34;&gt;ChatOps&lt;/h2&gt;
 &lt;p&gt;ChatOps 以聊天室（聊天群），即实时聊天软件为中心，通过一系列的机器人去对接后台的各种服务，开发&amp;amp;测试&amp;amp;运维人员只需要在聊天窗口中与机器人对话，即可与后台服务进行交互，整个工作的展开就像是使唤一个智能助手那样简单自然。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx1.sinaimg.cn/large/ad5fbf65gy1g4vr2yialfj20rp0bbmyd.jpg&#34; alt=&#34;ChatOps&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g4vr2yialfj20rp0bbmyd.jpg&#34; alt=&#34;ChatOps&#34;&gt;&lt;/p&gt;
 &lt;p&gt;ChatOps 带来了很多好处：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;公开透明。所有的工作消息都在同一个聊天平台中沉淀并公开给所有相关成员，消除沟通壁垒，工作历史有迹可循，团队合作更加顺畅。&lt;/li&gt;
@@ -586,7 +586,7 @@ example-greenhouse   1/1     &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/spa
 &lt;p&gt;微服务是围绕业务能力构建的; 每项服务的范围都是一个简单的用途。您可以使用不同的框架或编程语言来编写微服务并将它们作为单个服务或一组服务独立部署。&lt;/p&gt;
 &lt;h3 id=&#34;4-基础设施即代码iac&#34;&gt;4. 基础设施即代码：IaC&lt;/h3&gt;
 &lt;p&gt;是通过机器可读定义文件（代码库）管理和配置计算机数据中心的过程，而不是物理硬件配置或交互式配置工具。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx1.sinaimg.cn/large/ad5fbf65gy1g2v5f38rbij20sg0g0764.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g2v5f38rbij20sg0g0764.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Amazon 定义 IaC 为：&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;作为使用代码和软件开发技术（例如版本控制和持续集成）来配置和管理基础架构的实践。云服务的 API 驱动模型使开发人员和系统管理员能够以编程方式大规模地与基础架构交互，而不需要手动设置和配置资源。&lt;/p&gt;
 &lt;p&gt;因此，开发人员可以使用基于代码的工具与基础架构进行交互，使其更像应用程序。这使得可以使用标准化模式快速部署基础架构和服务器，使用最新的补丁和版本进行更新，或以副本的方式进行复制部署。&lt;/p&gt;
@@ -1080,7 +1080,7 @@ stage(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;静态代码检查&amp;
 &lt;/ol&gt;
 &lt;h2 id=&#34;运行&#34;&gt;运行&lt;/h2&gt;
 &lt;p&gt;执行jenkins构建，构建成功后会显示如下，则证明sonar代码扫描成功且通过代码质量阈检查
-&lt;img src=&#34;https://wx1.sinaimg.cn/mw690/ad5fbf65ly1g0u6qrh8qrj21fu0q2dmw.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;img src=&#34;https://tva2.sinaimg.cn/mw690/ad5fbf65ly1g0u6qrh8qrj21fu0q2dmw.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;p&gt;查看sonar报告，这里有两种方式&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
