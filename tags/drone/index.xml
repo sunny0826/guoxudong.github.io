@@ -323,7 +323,7 @@
 &lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g38qxizsg1j21ia0tujtb.jpg&#34; alt=&#34;WX20190521-104942@2x&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;构建结果&#34;&gt;构建结果&lt;/h2&gt;
 &lt;p&gt;添加 &lt;code&gt;.drone.yml&lt;/code&gt; 文件后，向 master 分支提交代码即可出发 CI 构建&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx3.sinaimg.cn/large/ad5fbf65gy1g38r68yb8pj21l40sawit.jpg&#34; alt=&#34;WX20190521-105809@2x&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g38r68yb8pj21l40sawit.jpg&#34; alt=&#34;WX20190521-105809@2x&#34;&gt;&lt;/p&gt;
 &lt;p&gt;CI 结束后，会在钉钉机器人所在群收到通知&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://ws4.sinaimg.cn/large/ad5fbf65gy1g38r8cttcrj20e90bzacr.jpg&#34; alt=&#34;WX20190521-110009&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;插件支持&#34;&gt;插件支持&lt;/h2&gt;

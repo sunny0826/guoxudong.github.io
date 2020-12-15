@@ -292,7 +292,7 @@ example-greenhouse   1/1     &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/spa
 &lt;p&gt;将项目配置进行了分离，配置使用单独的 git 仓库维护，同时整合了镜像安全扫描，钉钉通知等功能。
 &lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g4vvfow9w9j21k810243r.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;p&gt;由于 drone CI 的配置文件 &lt;code&gt;.drone.yml&lt;/code&gt; 需要统一规范，所以我们在自己的 DevOps 平台开发了 Drone 配置页面，帮助开发自主配置。我们提供了 &lt;code&gt;Java&lt;/code&gt; 、 &lt;code&gt;Node&lt;/code&gt; 、 &lt;code&gt;Python&lt;/code&gt; 三种配置模板，并且由于 DevOps 平台已与 GitLab 集成，可以直接将生成的 &lt;code&gt;.drone.yml&lt;/code&gt; 文件插入到相应 git 项目中。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx3.sinaimg.cn/large/ad5fbf65gy1g4vvoqggfoj22lk16aagu.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g4vvoqggfoj22lk16aagu.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;p&gt;同时也提供了钉钉构建通知，在构建成功后会发送到相应的开发群组中，如果需希望自动发布的话，也可点击通知中的连接自行发布。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g4vvrigyvlj20ec0bh40u.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;自研平台配合钉钉-outgoing-功能实现-chatops&#34;&gt;自研平台配合钉钉 Outgoing 功能实现 ChatOps&lt;/h3&gt;
@@ -496,7 +496,7 @@ example-greenhouse   1/1     &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/spa
 &lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g38qxizsg1j21ia0tujtb.jpg&#34; alt=&#34;WX20190521-104942@2x&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;构建结果&#34;&gt;构建结果&lt;/h2&gt;
 &lt;p&gt;添加 &lt;code&gt;.drone.yml&lt;/code&gt; 文件后，向 master 分支提交代码即可出发 CI 构建&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx3.sinaimg.cn/large/ad5fbf65gy1g38r68yb8pj21l40sawit.jpg&#34; alt=&#34;WX20190521-105809@2x&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g38r68yb8pj21l40sawit.jpg&#34; alt=&#34;WX20190521-105809@2x&#34;&gt;&lt;/p&gt;
 &lt;p&gt;CI 结束后，会在钉钉机器人所在群收到通知&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://ws4.sinaimg.cn/large/ad5fbf65gy1g38r8cttcrj20e90bzacr.jpg&#34; alt=&#34;WX20190521-110009&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;插件支持&#34;&gt;插件支持&lt;/h2&gt;
@@ -793,7 +793,7 @@ example-greenhouse   1/1     &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/spa
 &lt;h3 id=&#34;什么时候不使用-devops&#34;&gt;什么时候不使用 DevOps？&lt;/h3&gt;
 &lt;p&gt;它不应该用于关键任务应用程序，如银行，电力设施和其他敏感数据站点。此类应用程序需要对生产环境进行严格的访问控制，详细的变更管理策略，完善的数据中心访问控制策略。&lt;/p&gt;
 &lt;h1 id=&#34;devops-的生命周期&#34;&gt;DevOps 的生命周期&lt;/h1&gt;
-&lt;p&gt;&lt;img src=&#34;http://wx3.sinaimg.cn/large/ad5fbf65gy1g1wekkedpcj20k509mjrp.jpg&#34; alt=&#34;devops Lifecycle&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://tva2.sinaimg.cn/large/ad5fbf65gy1g1wekkedpcj20k509mjrp.jpg&#34; alt=&#34;devops Lifecycle&#34;&gt;&lt;/p&gt;
 &lt;p&gt;DevOps 是开发和运维之间的深度集成。在不了解 DevOps 生命周期的情况下，是无法真正理解 DevOps 的。&lt;/p&gt;
 &lt;p&gt;以下是有关 DevOps生命周期的简要信息：&lt;/p&gt;
 &lt;ol&gt;
@@ -1026,7 +1026,7 @@ preview_only: false&lt;/h2&gt;
 &lt;li&gt;
 &lt;p&gt;配置jenkins&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;[系统管理]&lt;/strong&gt;-&lt;strong&gt;[系统设置]&lt;/strong&gt;-&lt;strong&gt;[SonarQube servers]&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://wx3.sinaimg.cn/large/ad5fbf65ly1g0u50l8q4lj215o0b3myw.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://tva2.sinaimg.cn/large/ad5fbf65ly1g0u50l8q4lj215o0b3myw.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;sonar添加webhook&lt;/p&gt;

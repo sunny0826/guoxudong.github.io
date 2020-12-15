@@ -48,7 +48,7 @@
 &lt;center&gt;与张磊大神的合影&lt;/center&gt;
 &lt;h2 id=&#34;servicemesher-社区的壮大&#34;&gt;ServiceMesher 社区的壮大&lt;/h2&gt;
 &lt;p&gt;平时都是在网上与社区的朋友们进行交流，讨论技术，交流经验。而 KubeCon 就变成了一场网友面基大会，见到了很多有过交流和帮助过我的朋友，包括 Jimmy 、 小剑 、秀龙老哥&amp;hellip;等等，同时也认识了不少新朋友。与去年11月的 KubeCon 相比，社区的朋友越来越多，在短短半年内 Service Mesh 相关书籍已经出版了4本，而作者都是社区成员，可见社区的活跃。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://wx3.sinaimg.cn/large/ad5fbf65gy1g4k6mh797pj21900u07it.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://tva2.sinaimg.cn/large/ad5fbf65gy1g4k6mh797pj21900u07it.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;写在最后&#34;&gt;写在最后&lt;/h2&gt;
 &lt;p&gt;正如 KubeCon 第三天 Keynote 上，阿里云智能容器平台负责人丁宇的话：&lt;strong&gt;Kubernetes 正当时，云原生未来可期&lt;/strong&gt; 。在 KubeCon 上看到云原生及开源软件的发展速度迅猛，各大厂商也都在最近几年组建了自己的开源团队，在使用开源软件获取便利的同时也在回馈社区，这也是让竞争对手共同为一款开源软件进行贡献的原因。相信随着开源运动在国内的深入，将会出现越来越多中国原创的开源项目，也会有更多的开发者加入到开源项目中，在贡献的同时提升自己的技术水平。&lt;/p&gt;
 
@@ -84,7 +84,7 @@
 &lt;h3 id=&#34;配置&#34;&gt;配置&lt;/h3&gt;
 &lt;p&gt;eDEX-UI 可以通过 &lt;code&gt;settings.json&lt;/code&gt; 文件进行配置，配置包括执行的 shell 类型、工作目录、键盘类型、主题等&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;settings.json&lt;/code&gt; 在 Mac 系统中，存放在 &lt;code&gt;/Users/guoxudong/Library/Application Support/eDEX-UI&lt;/code&gt; 中，默认的工作目录也是这个路径&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx3.sinaimg.cn/large/ad5fbf65gy1g2jflhunukj21h30tck0r.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g2jflhunukj21h30tck0r.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;p&gt;这里可以看到我选择使用 &lt;code&gt;zsh&lt;/code&gt; 和 &lt;code&gt;tron-disrupted&lt;/code&gt; 主题，并将工作目录改为了我的用户空间&lt;/p&gt;
 &lt;h2 id=&#34;局限&#34;&gt;局限&lt;/h2&gt;
 &lt;ul&gt;
@@ -105,9 +105,9 @@
         
         
         &lt;p&gt;这里的&lt;strong&gt;黑话&lt;/strong&gt;，其实就是 GitHub 上的一些&lt;strong&gt;迷之缩写&lt;/strong&gt;，这些歪果老司机们在 GitHub 上肆无忌惮的使用着他们的“黑话”，让我们这些非英语母语国家的新司机在 code review 时经常是一脸懵逼 + 黑人问好&amp;hellip;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx3.sinaimg.cn/thumb180/ad5fbf65gy1g2b5dhfuqqj206506cq2t.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx3.sinaimg.cn/thumb180/ad5fbf65gy1g2b5dvubm6j2069050a9x.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx3.sinaimg.cn/thumb180/ad5fbf65gy1g2b5fe5ahmj20c80bhdg8.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/thumb180/ad5fbf65gy1g2b5dhfuqqj206506cq2t.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/thumb180/ad5fbf65gy1g2b5dvubm6j2069050a9x.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/thumb180/ad5fbf65gy1g2b5fe5ahmj20c80bhdg8.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;p&gt;记住下面这些“&lt;strong&gt;黑话&lt;/strong&gt;”，以后我们也可以愉快的在 GitHub 上装逼了~&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;PR&lt;/strong&gt;: Pull Request. 拉取请求，给其他项目提交代码，这个是最为常见的缩写。&lt;/li&gt;

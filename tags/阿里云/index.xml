@@ -1069,7 +1069,7 @@ service grafana-server restart
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;点击添加挂载点
-&lt;img src=&#34;https://wx3.sinaimg.cn/large/ad5fbf65gy1g4sgp0dos2j22ky0iowkr.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g4sgp0dos2j22ky0iowkr.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;选择 VPC 网络、交换机和权限组

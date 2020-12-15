@@ -51,11 +51,11 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://guoxudong.io/post/kubernetes-client-python/" />
 <meta property="article:published_time" content="2019-07-04T09:16:41+08:00" />
-<meta property="article:modified_time" content="2020-12-15T11:01:02+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
+<meta property="article:modified_time" content="2020-12-15T17:21:10+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
 <meta itemprop="name" content="由一封邮件看 Mailing List 在开源项目中的重要性">
 <meta itemprop="description" content="从发现、使用 Kubernetes Client/Python 这个项目的过程，谈谈 mailing list 在开源项目中的重要性。">
 <meta itemprop="datePublished" content="2019-07-04T09:16:41&#43;08:00" />
-<meta itemprop="dateModified" content="2020-12-15T11:01:02&#43;08:00" />
+<meta itemprop="dateModified" content="2020-12-15T17:21:10&#43;08:00" />
 <meta itemprop="wordCount" content="422">
 
 
@@ -235,6 +235,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/jetbrains-opensource-free-license/">手把手教你免费获取正版 Jetbrains 全家桶 License</a></li>
+                
                 <li><a href="/post/homebrew-pull-request/">将项目发布到 Homebrew 官方仓库</a></li>
                 
                 <li><a href="/post/k3d-vs-kind/">K3d vs Kind 谁更适合本地研发</a></li>
@@ -242,8 +244,6 @@ if (!doNotTrack) {
                 <li><a href="/post/teambition-disk-vs-aliyun-disk/">Teambition 网盘 VS 阿里云盘：阿里这个浓眉大眼的也开始玩赛马了？</a></li>
                 
                 <li><a href="/post/k8s-securitycontext/">熟悉又陌生的 k8s 字段：SecurityContext</a></li>
-                
-                <li><a href="/post/alibaba-teambition-disk/">试用阿里网盘内测版-不限速、无广告、隐私安全我全都要</a></li>
                 
               </ul>
             </div>
@@ -622,7 +622,7 @@ if (!doNotTrack) {
 &mdash; 某不知名 DevOps 工程师</p>
 </blockquote>
 <p>感谢 <code>kubernetes-dev</code> 的 Mailing List ！早上在浏览邮件时发现了下面这封有趣的邮件：</p>
-<p><img src="https://wx3.sinaimg.cn/large/ad5fbf65gy1g4nkmrb8scj21780q0afv.jpg" alt="image"></p>
+<p><img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1g4nkmrb8scj21780q0afv.jpg" alt="image"></p>
 <p>接触 Kubernetes 也有不短的时间了，也见证了 Kubernetes 干掉 Swarm 和 Mesos 成为容器编排领域的事实标准的过程。在享受 Kubernetes 及其生态圈带来的便利的同时也在为 Kubernetes 及 CNCF 项目进行贡献。而使用 <a href="https://github.com/kubernetes/kubectl"><code>kubectl</code></a>、<a href="https://github.com/rancher/rancher"><code>rancher</code></a> 甚至是 <a href="https://github.com/IBM/kui"><code>kui</code></a> 这些 CLI 和 UI 工具对 Kubernetes 集群进行操作和观察。</p>
 <p>虽然上面这些工具为操作 Kubernetes 集群带来了极大的便利，但是归根到底还是一些开源项目，并不能满足我们的全部需求。所以我们只能根据我们自己的需求和 Kubernetes 的 api-server 进行定制，但是由于 Kubernetes 的 api-server 比较复杂，短时间内并不是那么好梳理的。</p>
 <h2 id="kubernetes-clientpython">kubernetes-client/python</h2>
@@ -869,7 +869,7 @@ ret = v1.list_pod_for_all_namespaces(watch=False)
         <button type="button" class="close">×</button>
         <p class="author">
             <a href="https://blog.maoxianplay.com">
-                <img src="https://wx3.sinaimg.cn/square/ad5fbf65gy1g2o621gcs6j20m80m8gng.jpg"/>
+                <img src="https://tva2.sinaimg.cn/square/ad5fbf65gy1g2o621gcs6j20m80m8gng.jpg"/>
             小助手毛线</a>
         </p>
         <p class="tip"><i></i><span>感谢投喂 <a href="/maoxian">毛线</a> & <a href="/sunny">Sunny</a> </span></p>

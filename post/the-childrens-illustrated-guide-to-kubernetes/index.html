@@ -51,11 +51,11 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://guoxudong.io/post/the-childrens-illustrated-guide-to-kubernetes/" />
 <meta property="article:published_time" content="2019-07-05T09:50:58+08:00" />
-<meta property="article:modified_time" content="2020-12-15T11:01:02+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
+<meta property="article:modified_time" content="2020-12-15T17:21:10+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
 <meta itemprop="name" content="【转】Kubernetes 儿童插图指南">
 <meta itemprop="description" content="献给所有试图向孩子们解释软件工程的家长。">
 <meta itemprop="datePublished" content="2019-07-05T09:50:58&#43;08:00" />
-<meta itemprop="dateModified" content="2020-12-15T11:01:02&#43;08:00" />
+<meta itemprop="dateModified" content="2020-12-15T17:21:10&#43;08:00" />
 <meta itemprop="wordCount" content="148">
 
 
@@ -219,6 +219,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/jetbrains-opensource-free-license/">手把手教你免费获取正版 Jetbrains 全家桶 License</a></li>
+                
                 <li><a href="/post/homebrew-pull-request/">将项目发布到 Homebrew 官方仓库</a></li>
                 
                 <li><a href="/post/k3d-vs-kind/">K3d vs Kind 谁更适合本地研发</a></li>
@@ -226,8 +228,6 @@ if (!doNotTrack) {
                 <li><a href="/post/teambition-disk-vs-aliyun-disk/">Teambition 网盘 VS 阿里云盘：阿里这个浓眉大眼的也开始玩赛马了？</a></li>
                 
                 <li><a href="/post/k8s-securitycontext/">熟悉又陌生的 k8s 字段：SecurityContext</a></li>
-                
-                <li><a href="/post/alibaba-teambition-disk/">试用阿里网盘内测版-不限速、无广告、隐私安全我全都要</a></li>
                 
               </ul>
             </div>
@@ -606,7 +606,7 @@ if (!doNotTrack) {
 </blockquote>
 <h2 id="kubernetes-儿童插图指南">Kubernetes 儿童插图指南</h2>
 <p><img src="https://ws4.sinaimg.cn/large/ad5fbf65gy1g4nwsdbr8wj20qo0hs0w2.jpg" alt="">
-<img src="https://wx3.sinaimg.cn/large/ad5fbf65gy1g4nwt5keovj210u0shmyc.jpg" alt="">
+<img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1g4nwt5keovj210u0shmyc.jpg" alt="">
 <img src="https://wx4.sinaimg.cn/large/ad5fbf65gy1g4nwteb85hj20qo0hsk5v.jpg" alt=""></p>
 <p><strong>献给所有试图向孩子们解释软件工程的家长。</strong></p>
 <p><img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1g4nwu2t40sj20qo0hswqv.jpg" alt=""></p>
@@ -620,12 +620,12 @@ if (!doNotTrack) {
 <p><img src="https://wx4.sinaimg.cn/large/ad5fbf65gy1g4nwx3kj32j20qo0hswr7.jpg" alt=""></p>
 <p>鲸鱼耸了耸肩。“对不起，孩子。”他说着，消失在海面下。就在 Phippy 甚至开始绝望时，一位驾驶着巨轮的船长出现在海平线上。这艘船由几十个绑在一起的木筏组成，但从外面来看，它就像一艘巨轮。
 “你好呀，这位 PHP 应用程序朋友。我是 Kube 船长。”睿智的老船长说。</p>
-<p><img src="https://wx3.sinaimg.cn/large/ad5fbf65gy1g4nwxm9w44j20qo0hsn3b.jpg" alt=""></p>
+<p><img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1g4nwxm9w44j20qo0hsn3b.jpg" alt=""></p>
 <p>“Kubernetes” 在希腊语中是船长的意思。我们可以从这个单词中得到 Cybernetic 和 Gubernatorial 这两个词组。Kubernetes 项目专注于构建一个健壮的平台，用于在生产环境中运行数千个容器。</p>
 <p><img src="https://wx2.sinaimg.cn/large/ad5fbf65gy1g4nwxzqi7vj20qo0hsgxn.jpg" alt=""></p>
 <p>“我是 Phippy。”小应用程序说。</p>
 <p>“很高兴认识你。”船长一边说，一边在她身上贴上了一张标有姓名的标签。</p>
-<p><img src="https://wx3.sinaimg.cn/large/ad5fbf65gy1g4nwygks8xj20qo0hs0zy.jpg" alt=""></p>
+<p><img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1g4nwygks8xj20qo0hs0zy.jpg" alt=""></p>
 <p>Kubernetes 使用标签作为“名牌”来标识事物。它可以根据这些标签进行查询。标签是开放性的：你可以用他们来表示角色、稳定性或其他重要的属性。</p>
 <p><img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1g4nwyt7gtqj20qo0hsdso.jpg" alt=""></p>
 <p>船长建议应用程序把她的容器搬到船上的一个船舱中。Phippy 很高兴地把她的容器搬到 Kube 船长巨轮的船舱内。Phippy 觉得这里像家一样。</p>
@@ -679,7 +679,7 @@ Phippy 与她的新朋友一起乘坐 Kube 船长的巨轮航行于大海之上�
         <button type="button" class="close">×</button>
         <p class="author">
             <a href="https://blog.maoxianplay.com">
-                <img src="https://wx3.sinaimg.cn/square/ad5fbf65gy1g2o621gcs6j20m80m8gng.jpg"/>
+                <img src="https://tva2.sinaimg.cn/square/ad5fbf65gy1g2o621gcs6j20m80m8gng.jpg"/>
             小助手毛线</a>
         </p>
         <p class="tip"><i></i><span>感谢投喂 <a href="/maoxian">毛线</a> & <a href="/sunny">Sunny</a> </span></p>

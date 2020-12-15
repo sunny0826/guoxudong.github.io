@@ -2769,7 +2769,7 @@ preview_only: false&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;点击添加挂载点
-&lt;img src=&#34;https://wx3.sinaimg.cn/large/ad5fbf65gy1g4sgp0dos2j22ky0iowkr.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g4sgp0dos2j22ky0iowkr.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;选择 VPC 网络、交换机和权限组
@@ -2834,7 +2834,7 @@ preview_only: false&lt;/h2&gt;
 &lt;/blockquote&gt;
 &lt;h2 id=&#34;kubernetes-儿童插图指南&#34;&gt;Kubernetes 儿童插图指南&lt;/h2&gt;
 &lt;p&gt;&lt;img src=&#34;https://ws4.sinaimg.cn/large/ad5fbf65gy1g4nwsdbr8wj20qo0hs0w2.jpg&#34; alt=&#34;&#34;&gt;
-&lt;img src=&#34;https://wx3.sinaimg.cn/large/ad5fbf65gy1g4nwt5keovj210u0shmyc.jpg&#34; alt=&#34;&#34;&gt;
+&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g4nwt5keovj210u0shmyc.jpg&#34; alt=&#34;&#34;&gt;
 &lt;img src=&#34;https://wx4.sinaimg.cn/large/ad5fbf65gy1g4nwteb85hj20qo0hsk5v.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;献给所有试图向孩子们解释软件工程的家长。&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g4nwu2t40sj20qo0hswqv.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
@@ -2848,12 +2848,12 @@ preview_only: false&lt;/h2&gt;
 &lt;p&gt;&lt;img src=&#34;https://wx4.sinaimg.cn/large/ad5fbf65gy1g4nwx3kj32j20qo0hswr7.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;鲸鱼耸了耸肩。“对不起，孩子。”他说着，消失在海面下。就在 Phippy 甚至开始绝望时，一位驾驶着巨轮的船长出现在海平线上。这艘船由几十个绑在一起的木筏组成，但从外面来看，它就像一艘巨轮。
 “你好呀，这位 PHP 应用程序朋友。我是 Kube 船长。”睿智的老船长说。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx3.sinaimg.cn/large/ad5fbf65gy1g4nwxm9w44j20qo0hsn3b.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g4nwxm9w44j20qo0hsn3b.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;“Kubernetes” 在希腊语中是船长的意思。我们可以从这个单词中得到 Cybernetic 和 Gubernatorial 这两个词组。Kubernetes 项目专注于构建一个健壮的平台，用于在生产环境中运行数千个容器。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://wx2.sinaimg.cn/large/ad5fbf65gy1g4nwxzqi7vj20qo0hsgxn.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;“我是 Phippy。”小应用程序说。&lt;/p&gt;
 &lt;p&gt;“很高兴认识你。”船长一边说，一边在她身上贴上了一张标有姓名的标签。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx3.sinaimg.cn/large/ad5fbf65gy1g4nwygks8xj20qo0hs0zy.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g4nwygks8xj20qo0hs0zy.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Kubernetes 使用标签作为“名牌”来标识事物。它可以根据这些标签进行查询。标签是开放性的：你可以用他们来表示角色、稳定性或其他重要的属性。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g4nwyt7gtqj20qo0hsdso.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;船长建议应用程序把她的容器搬到船上的一个船舱中。Phippy 很高兴地把她的容器搬到 Kube 船长巨轮的船舱内。Phippy 觉得这里像家一样。&lt;/p&gt;
@@ -2902,7 +2902,7 @@ Phippy 与她的新朋友一起乘坐 Kube 船长的巨轮航行于大海之上�
 &amp;mdash; 某不知名 DevOps 工程师&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;感谢 &lt;code&gt;kubernetes-dev&lt;/code&gt; 的 Mailing List ！早上在浏览邮件时发现了下面这封有趣的邮件：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx3.sinaimg.cn/large/ad5fbf65gy1g4nkmrb8scj21780q0afv.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g4nkmrb8scj21780q0afv.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;p&gt;接触 Kubernetes 也有不短的时间了，也见证了 Kubernetes 干掉 Swarm 和 Mesos 成为容器编排领域的事实标准的过程。在享受 Kubernetes 及其生态圈带来的便利的同时也在为 Kubernetes 及 CNCF 项目进行贡献。而使用 &lt;a href=&#34;https://github.com/kubernetes/kubectl&#34;&gt;&lt;code&gt;kubectl&lt;/code&gt;&lt;/a&gt;、&lt;a href=&#34;https://github.com/rancher/rancher&#34;&gt;&lt;code&gt;rancher&lt;/code&gt;&lt;/a&gt; 甚至是 &lt;a href=&#34;https://github.com/IBM/kui&#34;&gt;&lt;code&gt;kui&lt;/code&gt;&lt;/a&gt; 这些 CLI 和 UI 工具对 Kubernetes 集群进行操作和观察。&lt;/p&gt;
 &lt;p&gt;虽然上面这些工具为操作 Kubernetes 集群带来了极大的便利，但是归根到底还是一些开源项目，并不能满足我们的全部需求。所以我们只能根据我们自己的需求和 Kubernetes 的 api-server 进行定制，但是由于 Kubernetes 的 api-server 比较复杂，短时间内并不是那么好梳理的。&lt;/p&gt;
 &lt;h2 id=&#34;kubernetes-clientpython&#34;&gt;kubernetes-client/python&lt;/h2&gt;
@@ -3225,7 +3225,7 @@ ret = v1.list_pod_for_all_namespaces(watch=False)
         
         &lt;h2 id=&#34;现象&#34;&gt;现象&lt;/h2&gt;
 &lt;p&gt;在日常 CI/CD 流程中，已经将 Kustomize 集成到 pipeline 中使用，但是在对一个项目进行 Kustomize 改造时，将单个 &lt;code&gt;deploy.yaml&lt;/code&gt; 拆分为了若干个 patch 以达到灵活 Kubernetes 部署的目的。但是在使用 &lt;code&gt;kubectl apply -k .&lt;/code&gt; 命令进行部署的时候遇到了 &lt;code&gt;error: failed to find an object with apps_v1_Deployment|myapp to apply the patch&lt;/code&gt; 的报错。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://wx3.sinaimg.cn/large/ad5fbf65gy1g4mm1m3vx9j21oe10y102.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://tva2.sinaimg.cn/large/ad5fbf65gy1g4mm1m3vx9j21oe10y102.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;解决之路&#34;&gt;解决之路&lt;/h2&gt;
 &lt;p&gt;由于之前的使用中没有遇到此类报错，看报错信息像是 &lt;code&gt;apiVersion&lt;/code&gt; 的问题，所以先检查了所有 patch 的 &lt;code&gt;apiVersion&lt;/code&gt; ，但是并没有找到有什么问题。&lt;/p&gt;
 &lt;h3 id=&#34;google-搜索&#34;&gt;Google 搜索&lt;/h3&gt;

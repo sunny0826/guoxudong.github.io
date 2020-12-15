@@ -14,6 +14,98 @@
     
     
     <item>
+      <title>Post: 手把手教你免费获取正版 Jetbrains 全家桶 License</title>
+      <link>https://guoxudong.io/post/jetbrains-opensource-free-license/</link>
+      <pubDate>Tue, 15 Dec 2020 14:50:50 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/jetbrains-opensource-free-license/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;最近 Goland 发布了最新的 2020.3 版本，新增时间包的支持，通过自动补全快捷键(Ctrl+Space)就可以快速补全时间占位符 &lt;code&gt;2006-01-02 02-15-05&lt;/code&gt; 了，再也不用每次都点进源码里去找了。&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;Jetbrains 推出的一些列 IDE 被称为 Jetbrains 全家桶，以其极好的用户体验，帅气的 UI 界面和离谱的价格在程序员中拥有极高的知名度。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax3.sinaimg.cn/mw690/ad5fbf65gy1glokceqqkbj21zs0ue0y8.jpg&#34; alt=&#34;全家桶价格&#34;&gt;&lt;/p&gt;
+&lt;p&gt;本篇文章就手把手的教大家免费获得正版的 Jetbrains 全家桶 License。&lt;/p&gt;
+&lt;h2 id=&#34;初次申请&#34;&gt;初次申请&lt;/h2&gt;
+&lt;p&gt;JetBrains 通过为开源项目核心项目贡献者免费提供一套一流的开发者工具来支持非商业开源项目。&lt;/p&gt;
+&lt;h3 id=&#34;申请要求&#34;&gt;申请要求&lt;/h3&gt;
+&lt;p&gt;开源项目需要满足：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;了解&lt;a href=&#34;https://opensource.org/docs/osd&#34;&gt;开源&lt;/a&gt;定义。&lt;/li&gt;
+&lt;li&gt;正在积极开发，例如，在过去 3 个月内定期提交新代码。&lt;/li&gt;
+&lt;li&gt;不提供开源软件的付费版本，也不提供与开源项目相关的任何商业服务（例如付费支持、咨询等）。&lt;/li&gt;
+&lt;li&gt;未获得商业公司或组织（NGO、教育、研究或政府组织）的资助。&lt;/li&gt;
+&lt;li&gt;不为他们的核心项目开发者支付工资。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;开发者需要满足：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;许可证仅提供给项目负责人和核心项目提交者。&lt;/li&gt;
+&lt;li&gt;许可证有效期为一年，之后如果您的项目仍符合支持计划要求，也可以续订。&lt;/li&gt;
+&lt;li&gt;您只能将免费许可证用于开发非商业开源项目。&lt;/li&gt;
+&lt;li&gt;您不能与任何第三方共享免费许可证。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;同时 JetBrains 还为 &lt;a href=&#34;http://www.apache.org/foundation/how-it-works.html#committers&#34;&gt;The Apache Software Foundation&lt;/a&gt;、&lt;a href=&#34;http://numfocus.org/sponsored-projects&#34;&gt;NumFOCUS 项目&lt;/a&gt;和 Drupal 核心贡献者提供免费的 License。&lt;/p&gt;
+&lt;h3 id=&#34;选择项目&#34;&gt;选择项目&lt;/h3&gt;
+&lt;p&gt;你需要选择一个自己的开源项目，并且持续开发 3 个月以上，这个项目没有 star、commit 数量的要求，同时需要包含开源 &lt;code&gt;License&lt;/code&gt;，比如我使用的就是 &lt;code&gt;Apache-2.0 License&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;之后就可以提交申请了。&lt;/p&gt;
+
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;申请链接：&lt;a href=&#34;https://www.jetbrains.com/shop/eform/opensource&#34;&gt;https://www.jetbrains.com/shop/eform/opensource&lt;/a&gt;&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;h3 id=&#34;填写申请&#34;&gt;填写申请&lt;/h3&gt;
+&lt;p&gt;这里需要填写的内容都比较简单，按照要求填写即可，包括：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;项目页面：如果没有直接填写项目 github URL&lt;/li&gt;
+&lt;li&gt;repo 仓库地址&lt;/li&gt;
+&lt;li&gt;License 地址：直接贴上 repo 中 License 的链接即可&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/mw690/ad5fbf65gy1glol6tl35qj20vg1x210m.jpg&#34; alt=&#34;申请&#34;&gt;&lt;/p&gt;
+&lt;p&gt;填写完点击提交。&lt;/p&gt;
+&lt;h3 id=&#34;接收邮件&#34;&gt;接收邮件&lt;/h3&gt;
+&lt;p&gt;在提交申请后，会收到一封来自 &lt;code&gt;JetBrains Community Support&lt;/code&gt; 的邮件，表示会有几天来评估你的项目。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva3.sinaimg.cn/mw690/ad5fbf65gy1glolfekw0mj20ym0f6wk4.jpg&#34; alt=&#34;收到申请&#34;&gt;&lt;/p&gt;
+&lt;p&gt;一般会在 2 个工作日内收到批准邮件。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/mw690/ad5fbf65gy1glolgt0ot7j215c0wsqlb.jpg&#34; alt=&#34;批准申请&#34;&gt;&lt;/p&gt;
+&lt;p&gt;邮件内容除了为你颁发免费的 License，还会希望你将 JetBrains 的 logo 加入到你项目介绍中。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax2.sinaimg.cn/mw690/ad5fbf65gy1glolkyl3c6j21ck0fc0ty.jpg&#34; alt=&#34;加入鸣谢&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;license-激活&#34;&gt;License 激活&lt;/h3&gt;
+&lt;p&gt;之后点击邮件中的链接，登录你的 JetBrains 账号（如果没有请先注册一个），按照引导完成激活即可。&lt;/p&gt;
+
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;由于我已经激活，所以这里看不到邀请页面。&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1gloltcob80j22hw17m7bh.jpg&#34; alt=&#34;All Products Pack&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;申请续期&#34;&gt;申请续期&lt;/h2&gt;
+&lt;p&gt;在旧的 License 即将到期的 2 周前，&lt;code&gt;JetBrains Community Support&lt;/code&gt; 会再次发来邮件，提醒 License 即将到期。如果你的项目还在积极开发中，可以申请续期，并附上续期链接。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax4.sinaimg.cn/mw690/ad5fbf65gy1glom2dv7a7j21520l0guq.jpg&#34; alt=&#34;提醒邮件&#34;&gt;&lt;/p&gt;
+&lt;p&gt;申请续期只需在申请页面 &lt;code&gt;Do we know you?&lt;/code&gt; 中选择 &lt;code&gt;Yes&lt;/code&gt;，然后填入去年颁发给你的 License ID，其余内容与之前一样。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/mw690/ad5fbf65gy1glolwsbn6ij21ma0uc78c.jpg&#34; alt=&#34;申请续期&#34;&gt;&lt;/p&gt;
+&lt;p&gt;在申请续期后，同样会收到评估邮件，不过这回时间变成了一到两周。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax3.sinaimg.cn/mw690/ad5fbf65gy1glom4k0ttvj215g0haah7.jpg&#34; alt=&#34;续期评估邮件&#34;&gt;&lt;/p&gt;
+&lt;p&gt;说是两周，但两天后我就收到了续期通过的邮件，内容与初次申请一样，这里就不做展示了。&lt;/p&gt;
+&lt;h2 id=&#34;toolbox&#34;&gt;Toolbox&lt;/h2&gt;
+&lt;p&gt;最后再推荐一下 JetBrains 的 Toolbox App，Toolbox 保持了 JetBrains 一贯优秀的用户体验。可以轻松管理本机所有 JetBrains 的应用，只需登录一次即可完成所有产品的激活，无需再输入 License，同时安装和更新也十分方便，通过 Toolbox 快速打开 IDE，体验极佳。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax3.sinaimg.cn/bmiddle/ad5fbf65gy1glomepqas8j20og12wdkb.jpg&#34; alt=&#34;Toolbox&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
+&lt;p&gt;到这里 Jetbrains License 的申请和激活已经完成了，感谢 JetBrains 对开源的支持。如果你还没有申请，那么就快去申请属于你的 JetBrains License 吧！&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Post: 将项目发布到 Homebrew 官方仓库</title>
       <link>https://guoxudong.io/post/homebrew-pull-request/</link>
       <pubDate>Thu, 03 Dec 2020 11:17:34 +0800</pubDate>
@@ -6725,130 +6817,6 @@ Uninstalling /usr/local/Cellar/kubecm/86.64... (&lt;span style=&#34;color:#3677a
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;来进行安装。&lt;/p&gt;
 &lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
 &lt;p&gt;到这我们就成功的在 Homebrew 上发布了自己的 Golang 应用，本篇中的方法仅适合 Golang 开发的二进制可执行文件的发布，其他语言的发布需要在 &lt;code&gt;.rb&lt;/code&gt; 脚本上有所修改，更多内容请参考&lt;a href=&#34;https://docs.brew.sh/&#34;&gt;官方文档&lt;/a&gt;。这里要再介绍一下我用 Golang 开发的另一个小工具 &lt;a href=&#34;https://github.com/sunny0826/kubecm&#34;&gt;kubecm&lt;/a&gt; ，该项目之前我是使用 python 开发的，用于合并多个 kubeconfig 文件，本次重写新增了查看所有 kubeconfig 和 删除 kubeconfig 中 context 等功能，同时也在 Homebrew 上发布，欢迎拍砖。&lt;/p&gt;
-
-      </description>
-    </item>
-    
-    <item>
-      <title>Post: Golang 装逼指南：在 GitHub 上构建一个看上去正规的 Golang 项目</title>
-      <link>https://guoxudong.io/post/golang-project/</link>
-      <pubDate>Fri, 19 Jul 2019 10:38:26 +0800</pubDate>
-      
-      <guid>https://guoxudong.io/post/golang-project/</guid>
-      <description>
-        
-        
-        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
-&lt;p&gt;接触 golang 时间很长，但是真正动手开始写 golang 也就是在最近。虽然写的不多，但是见过的 golang 项目可是不计其数，从 &lt;a href=&#34;https://github.com/kubernetes/kubernetes&#34;&gt;Kubernetes&lt;/a&gt; 和 &lt;a href=&#34;https://github.com/istio/istio&#34;&gt;istio&lt;/a&gt; 到亲身参与的 &lt;a href=&#34;https://github.com/kubernetes-sigs/kustomize&#34;&gt;kustomize&lt;/a&gt; 再到 Kubernetes 生态圈的众多小工具，比如： &lt;a href=&#34;https://github.com/instrumenta/kubeval&#34;&gt;kubeval&lt;/a&gt; 、 &lt;a href=&#34;https://github.com/flant/kubedog&#34;&gt;kubedog&lt;/a&gt; 等。从项目使用者和贡献者的角度接触了各种形形色色的 golang 项目。作为一个开发人员，在享受各种开源项目带来便利的同时，也希望自己动手开发一个 golang 项目。以我阅项目无数的经验，那么肯定要构建一个看上去正规的 GitHub 项目。&lt;/p&gt;
-&lt;h2 id=&#34;goland-设置&#34;&gt;GoLand 设置&lt;/h2&gt;
-&lt;p&gt;Go 开发环境的安装网上教程很多，这里就不做介绍了。这里主要介绍一下在 GoLand 上开发环境的设置，这里的设置主要在 MacOS 上进行，其他系统可能有所不同。&lt;/p&gt;
-&lt;h3 id=&#34;使用goland-ide-vgo&#34;&gt;使用Goland IDE vgo&lt;/h3&gt;
-&lt;p&gt;&lt;code&gt;vgo&lt;/code&gt; 是基于 Go Module 规范的包管理工具，同官方的 go mod 命令工具类似。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;开启 &lt;code&gt;vgo&lt;/code&gt;，&lt;code&gt;GoLand&lt;/code&gt;-&amp;gt;&lt;code&gt;Preferences&lt;/code&gt;-&amp;gt;&lt;code&gt;GO&lt;/code&gt;-&amp;gt;&lt;code&gt;Go Modules(vgo)&lt;/code&gt;
-&lt;img src=&#34;https://ws2.sinaimg.cn/large/ad5fbf65gy1g556yudwh8j20s20jhgn4.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;手动修改 &lt;code&gt;go.mod&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;其中 latest 为最新版本，GoLand 会去下载最新依赖代码，下载成功后会修改 &lt;code&gt;go.mod&lt;/code&gt; 并且生成 &lt;code&gt;go.sum&lt;/code&gt; 依赖分析文件。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;module github.com/sunny0826/hamal
-
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;1.12&lt;/span&gt;
-
-&lt;span style=&#34;color:#447fcf&#34;&gt;require&lt;/span&gt; (
-    github.com/mitchellh/&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;go&lt;/span&gt;-homedir latest
-    github.com/spf13/cobra latest
-    github.com/spf13/viper latest
-)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;更新成功&lt;/p&gt;
-&lt;p&gt;在更新成功后，会生成 &lt;code&gt;go.sum&lt;/code&gt; 文件并修改 &lt;code&gt;go.mod&lt;/code&gt; 文件。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;module github.com/sunny0826/hamal
-
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;1.12&lt;/span&gt;
-
-&lt;span style=&#34;color:#447fcf&#34;&gt;require&lt;/span&gt; (
-    github.com/mitchellh/&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;go&lt;/span&gt;-homedir v1&lt;span style=&#34;color:#3677a9&#34;&gt;.1.0&lt;/span&gt;
-    github.com/spf13/cobra v0&lt;span style=&#34;color:#3677a9&#34;&gt;.0.5&lt;/span&gt;
-    github.com/spf13/viper v1&lt;span style=&#34;color:#3677a9&#34;&gt;.4.0&lt;/span&gt;
-)
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;使用快捷键 &lt;code&gt;⌥(option)+↩(return)&lt;/code&gt; 或者点击鼠标右键, 选择 &lt;code&gt;Sync packages of github.com/sunny0826/hamal&lt;/code&gt; 在 import 处导入依赖。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3 id=&#34;配置代理&#34;&gt;配置代理&lt;/h3&gt;
-&lt;p&gt;如果要选出 golang 最劝退一个原因，那么依赖下载难肯定得票最高！这个时候一个合适的梯子就很重要了，如果没有这个梯子，上面的这步就完全无法完成。这里主要介绍 GoLand 上的配置，Shadowsocks 的安装和配置就不做介绍了。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;GoLand&lt;/code&gt;-&amp;gt;&lt;code&gt;Preferences&lt;/code&gt;-&amp;gt;&lt;code&gt;Appearance &amp;amp; Behavior&lt;/code&gt;-&amp;gt;&lt;code&gt;System Settings&lt;/code&gt;-&amp;gt;&lt;code&gt;HTTP Proxy&lt;/code&gt; 这里设置好之后，别忘了点击 &lt;code&gt;Check connection&lt;/code&gt; 测试一下梯子搭成没有。
-&lt;img src=&#34;https://ws4.sinaimg.cn/large/ad5fbf65gy1g557j6it07j20s20je40p.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;配置-go-fmt-goimports-和-golangci-lint&#34;&gt;配置 &lt;code&gt;go fmt&lt;/code&gt;、 &lt;code&gt;goimports&lt;/code&gt; 和 &lt;code&gt;golangci-lint&lt;/code&gt;&lt;/h3&gt;
-&lt;p&gt;这三个工具都是 GoLand 自带的，设置起来十分简单:&lt;code&gt;GoLand&lt;/code&gt;-&amp;gt;&lt;code&gt;Preferences&lt;/code&gt;-&amp;gt;&lt;code&gt;Tools&lt;/code&gt;-&amp;gt;&lt;code&gt;File Watchers&lt;/code&gt;，点击添加即可。之后在写完代码之后就会自动触发这3个工具的自动检测，工具作用：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;go fmt&lt;/code&gt; : 统一的代码格式化工具。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;golangci-lint&lt;/code&gt; : 静态代码质量检测工具，用于包的质量分析。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;goimports&lt;/code&gt; : 自动 import 依赖包工具。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;img src=&#34;https://ws3.sinaimg.cn/large/ad5fbf65gy1g557ps83gsj20s30njtbs.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;安装配置-golint&#34;&gt;安装配置 &lt;code&gt;golint&lt;/code&gt;&lt;/h3&gt;
-&lt;p&gt;GoLand 没有自带 &lt;code&gt;golint&lt;/code&gt; 工具，需要手动安装：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;mkdir -p &lt;span style=&#34;color:#40ffff&#34;&gt;$GOPATH&lt;/span&gt;/src/golang.org/x/
-&lt;span style=&#34;color:#24909d&#34;&gt;cd&lt;/span&gt; &lt;span style=&#34;color:#40ffff&#34;&gt;$GOPATH&lt;/span&gt;/src/golang.org/x/
-git clone https://github.com/golang/lint.git
-git clone https://github.com/golang/tools.git
-&lt;span style=&#34;color:#24909d&#34;&gt;cd&lt;/span&gt; &lt;span style=&#34;color:#40ffff&#34;&gt;$GOPATH&lt;/span&gt;/src/golang.org/x/lint/golint
-go install
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;安装成功之后将会在 &lt;code&gt;$GOPATH/bin&lt;/code&gt; 目录下看到自动生成了 &lt;code&gt;golint&lt;/code&gt; 二进制工具文件。&lt;/p&gt;
-&lt;p&gt;GoLand 配置 &lt;code&gt;golint&lt;/code&gt;，修改 &lt;code&gt;Name&lt;/code&gt;, &lt;code&gt;Program&lt;/code&gt;, &lt;code&gt;Arguments&lt;/code&gt; 三项配置，其中 &lt;code&gt;Arguments&lt;/code&gt; 需要加上 &lt;code&gt;-set_exit_status&lt;/code&gt; 参数，如图所示：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx4.sinaimg.cn/large/ad5fbf65gy1g557z8a5jgj20ln0i0t9z.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;h2 id=&#34;travis-ci-持续集成&#34;&gt;Travis CI 持续集成&lt;/h2&gt;
-&lt;p&gt;在 Github 上装逼怎么能少的了 Travis CI ，直接登录 &lt;a href=&#34;https://travis-ci.org/&#34;&gt;Travis CI&lt;/a&gt;，使用 GitHub 登录，然后选择需要使用 Travis CI 的项目，在项目根目录添加 &lt;code&gt;.travis.yml&lt;/code&gt; ，内容如下：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;language&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;go&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;go&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- &lt;span style=&#34;color:#3677a9&#34;&gt;1.12.5&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;sudo&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;required&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;install&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- echo&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;install&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;script&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- echo&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;script&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里只是一个示例，在每次 push 代码之后，都会触发 CI，具体语法可以参看&lt;a href=&#34;https://docs.travis-ci.com/&#34;&gt;官方文档&lt;/a&gt;。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;装逼重点：&lt;/strong&gt; 你以为使用 Travis CI 就是为了持续集成吗？那就太天真了！使用 Travis CI 当然为了他的 Badges ，将 &lt;code&gt;RESULT&lt;/code&gt; 拷贝到你的 &lt;code&gt;README.md&lt;/code&gt; 里面就好了。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ws2.sinaimg.cn/large/ad5fbf65gy1g558xf6io4j22dk15an4t.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;h2 id=&#34;go-report-card&#34;&gt;GO Report Card&lt;/h2&gt;
-&lt;p&gt;&lt;strong&gt;又一装逼重点&lt;/strong&gt;：我们在 GoLand 上安装了 &lt;code&gt;golint&lt;/code&gt; 等工具进行代码质量检测，在撸码的时候就能进行代码检查，那么这个就是为了纯装逼了。&lt;a href=&#34;https://goreportcard.com/&#34;&gt;GO Report Card&lt;/a&gt; 是一个 golang 代码检测网站，你只需把 Github 地址填上去即可。获取 Badges 的方法和 Travis CI 类似，将 MarkDown 中的内容拷贝到 &lt;code&gt;RERADME.md&lt;/code&gt; 中就好。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ws3.sinaimg.cn/large/ad5fbf65gy1g559flsl3xj21t410ok1a.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;h2 id=&#34;goreleaser&#34;&gt;GoReleaser&lt;/h2&gt;
-&lt;p&gt;持续集成有了，代码检查也有了，再下面就是怎么发布一个漂亮的 release 了。如果还在手动发布 release ，那么就又掉 low 了。使用 GoReleaser 一行命令来发布一个漂亮的 release 吧。&lt;/p&gt;
-&lt;p&gt;由于使用的的 MacOS ，这里使用 &lt;code&gt;brew&lt;/code&gt; 来安装：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;brew install goreleaser
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在项目根目录生成 &lt;code&gt;.goreleaser.yml&lt;/code&gt; 配置：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;goreleaser init
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;配置好了以后要记得往 &lt;code&gt;.gitignore&lt;/code&gt; 加上 &lt;code&gt;dist&lt;/code&gt;，因为 goreleaser 会默认把编译编译好的文件输出到 &lt;code&gt;dist&lt;/code&gt; 目录中。&lt;/p&gt;
-&lt;p&gt;goreleaser 配置好后，可以先编译测试一下：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;goreleaser --skip-validate --skip-publish --snapshot
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;注意：&lt;/strong&gt; 首次使用 goreleaser 要配置 GITHUB_TOKEN ，可以在&lt;a href=&#34;https://github.com/settings/tokens/new&#34;&gt;这里&lt;/a&gt;申请，申请好之后运行下面的命令配置&lt;code&gt;GITHUB_TOKEN&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#24909d&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#40ffff&#34;&gt;GITHUB_TOKEN&lt;/span&gt;=&amp;lt;YOUR_TOKEN&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;确保没有问题，那么就可以操作 git 和 goreleaser 来发布 release 了。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;git add .
-git commit -m &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;add goreleaser&amp;#34;&lt;/span&gt;
-git tag -a v0.0.3 -m &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;First release&amp;#34;&lt;/span&gt;
-git push origin master
-git push origin v0.0.3
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;全部搞定后，一行命令起飞：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;goreleaser
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;goreleaser&lt;/code&gt; 配合 CI 食用，效果更佳，这里就不做介绍了。
-&lt;img src=&#34;https://wx2.sinaimg.cn/large/ad5fbf65gy1g55a7t8bq4j20sq0liacm.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;h2 id=&#34;badges-展示神器&#34;&gt;Badges 展示神器&lt;/h2&gt;
-&lt;p&gt;这里介绍一个展示 Badges 的神器：&lt;a href=&#34;https://shields.io/&#34;&gt;https://shields.io/&lt;/a&gt; 。这个网站提供各种各样的 Badges ，如果你愿意，完全可以把你的 GitHub README.md 填满，有兴趣的同学可以自取。
-&lt;img src=&#34;https://wx4.sinaimg.cn/large/ad5fbf65gy1g55aendhrwj22fg19igz0.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;h2 id=&#34;后记&#34;&gt;后记&lt;/h2&gt;
-&lt;p&gt;到这里可以在 GitHub 上装逼的 golang 配置已经介绍的差不多了，其实还有 &lt;a href=&#34;https://codecov.io/&#34;&gt;Codecov&lt;/a&gt;、&lt;a href=&#34;https://circleci.com/&#34;&gt;CircleCI&lt;/a&gt; 等工具，这里就不做介绍了。这里要介绍的是我们的第一个 golang 项目 &lt;a href=&#34;https://github.com/sunny0826/hamal&#34;&gt;Hamal&lt;/a&gt;，该项目是一个命令行工具，用来在不同的镜像仓库之间同步镜像。由于我司推行混合云，使用了阿里云与华为云，而在阿里云或华为云环境互相推镜像的时候时间都比较长，所以开发这个小工具用于在办公网络镜像同步，同时也可以用来将我在 dockerhub 上托管的镜像同步到我们的私有仓库，欢迎拍砖。&lt;/p&gt;
 
       </description>
     </item>

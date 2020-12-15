@@ -308,7 +308,7 @@ err = os.&lt;span style=&#34;color:#447fcf&#34;&gt;Chdir&lt;/span&gt;(filepath.&
         
         &lt;h2 id=&#34;现象&#34;&gt;现象&lt;/h2&gt;
 &lt;p&gt;在日常 CI/CD 流程中，已经将 Kustomize 集成到 pipeline 中使用，但是在对一个项目进行 Kustomize 改造时，将单个 &lt;code&gt;deploy.yaml&lt;/code&gt; 拆分为了若干个 patch 以达到灵活 Kubernetes 部署的目的。但是在使用 &lt;code&gt;kubectl apply -k .&lt;/code&gt; 命令进行部署的时候遇到了 &lt;code&gt;error: failed to find an object with apps_v1_Deployment|myapp to apply the patch&lt;/code&gt; 的报错。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://wx3.sinaimg.cn/large/ad5fbf65gy1g4mm1m3vx9j21oe10y102.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://tva2.sinaimg.cn/large/ad5fbf65gy1g4mm1m3vx9j21oe10y102.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;解决之路&#34;&gt;解决之路&lt;/h2&gt;
 &lt;p&gt;由于之前的使用中没有遇到此类报错，看报错信息像是 &lt;code&gt;apiVersion&lt;/code&gt; 的问题，所以先检查了所有 patch 的 &lt;code&gt;apiVersion&lt;/code&gt; ，但是并没有找到有什么问题。&lt;/p&gt;
 &lt;h3 id=&#34;google-搜索&#34;&gt;Google 搜索&lt;/h3&gt;

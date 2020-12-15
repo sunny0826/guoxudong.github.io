@@ -73,7 +73,7 @@ preview_only: false&lt;/h2&gt;
 &lt;li&gt;
 &lt;p&gt;配置jenkins&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;[系统管理]&lt;/strong&gt;-&lt;strong&gt;[系统设置]&lt;/strong&gt;-&lt;strong&gt;[SonarQube servers]&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://wx3.sinaimg.cn/large/ad5fbf65ly1g0u50l8q4lj215o0b3myw.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://tva2.sinaimg.cn/large/ad5fbf65ly1g0u50l8q4lj215o0b3myw.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;sonar添加webhook&lt;/p&gt;
