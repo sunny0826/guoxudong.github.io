@@ -1,0 +1,96 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Guo Xudong&#39;s Blog·郭旭东的博客 – Krew</title>
+    <link>https://guoxudong.io/tags/krew/</link>
+    <description>Recent content in Krew on Guo Xudong&#39;s Blog·郭旭东的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Tue, 29 Dec 2020 10:19:18 +0800</lastBuildDate>
+    
+	  <atom:link href="https://guoxudong.io/tags/krew/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Post: K8S 资源可视化利器：Kubectl-Graph</title>
+      <link>https://guoxudong.io/post/kubectl-graph/</link>
+      <pubDate>Tue, 29 Dec 2020 10:19:18 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/kubectl-graph/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;最近接手了一个规模比较大的集群，光是整理集群中的资源就使人头昏眼花，虽然我自认 &lt;code&gt;kubectl&lt;/code&gt; 使用的已经十分熟练，但是上千个 kubernetes resource 看下来还是不堪重负。在不能为集群安装任何其他工具的情况下，可以改造的就只有我自己的 client 端，也就是 &lt;code&gt;kubectl&lt;/code&gt; 了。本文就介绍一个有趣的 kubectl 插件：&lt;code&gt;kubectl-graph&lt;/code&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;krew&#34;&gt;krew&lt;/h2&gt;
+&lt;p&gt;要介绍 kubectl 的 plugin 机制，首先要介绍的就是 &lt;a href=&#34;https://krew.sigs.k8s.io/&#34;&gt;krew&lt;/a&gt; 。 krew 是 kubernetes &lt;a href=&#34;https://github.com/kubernetes/community/blob/master/sig-cli/README.md#cli-special-interest-group&#34;&gt;CLI SIG&lt;/a&gt; 项目，是用来管理 kubectl 插件的工具，作用类似于 yum 和 brew，可以用来搜索、安装和管理 kubectl 插件。&lt;/p&gt;
+&lt;h2 id=&#34;kubectl-graph&#34;&gt;kubectl-graph&lt;/h2&gt;
+&lt;p&gt;kubectl-graph 是一款可视化 kubernetes resource 及资源间关系的 kubectl 插件，可以将集群中的资源以关系图的方式进行展示。&lt;/p&gt;
+&lt;p&gt;目前支持两种展示方法：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://graphviz.org/&#34;&gt;Graphviz&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://neo4j.com/&#34;&gt;Neo4j&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;前期准备&#34;&gt;前期准备&lt;/h2&gt;
+&lt;p&gt;除了 &lt;code&gt;kubectl&lt;/code&gt;，由于需要进行绘图，所以还需安装上面两种展示方式的依赖。&lt;/p&gt;
+&lt;h3 id=&#34;graphviz&#34;&gt;Graphviz&lt;/h3&gt;
+&lt;p&gt;安装 Graphviz 用来生成关系图，需要使用 &lt;code&gt;dot&lt;/code&gt; CLI 工具，并将图像输出为 SVG 格式：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ brew install graphviz
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;neo4j&#34;&gt;Neo4j&lt;/h3&gt;
+&lt;p&gt;Neo4j 是一个高性能的 NoSQL 图形数据库，它将结构化数据存储在网络上而不是表中，很适合用来展示 kubernetes resource 之间的关系，但 Neo4j 的依赖较多，需要一点时间来安装。&lt;/p&gt;
+&lt;h4 id=&#34;安装-java&#34;&gt;安装 Java&lt;/h4&gt;
+&lt;p&gt;Neo4j 依赖 Java 环境，如果本机上没有安装 Java，请先前往 &lt;a href=&#34;http://www.java.com&#34;&gt;http://www.java.com&lt;/a&gt; 下载并安装。&lt;/p&gt;
+&lt;h4 id=&#34;安装-cypher-shell&#34;&gt;安装 cypher-shell&lt;/h4&gt;
+&lt;p&gt;因为需要连接到 Neo4j 数据库，所以要安装 &lt;code&gt;cypher-shell&lt;/code&gt; CLI：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ brew install cypher-shell
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;安装-neo4j-desktop可选&#34;&gt;安装 Neo4j Desktop（可选）&lt;/h4&gt;
+&lt;p&gt;接下来就是 Neo4j 本身的安装，我这里使用了 &lt;code&gt;Neo4j Desktop&lt;/code&gt;，使用和管理起来比较方便，也是使用 &lt;code&gt;brew&lt;/code&gt; 安装：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ brew install --cask neo4j
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;安装好后，运行 &lt;code&gt;Neo4j Desktop&lt;/code&gt;，完成设置即可&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1gm4ngqfkvzj21z41kwgqi.jpg&#34; alt=&#34;设置 neo4j&#34;&gt;&lt;/p&gt;
+&lt;h4 id=&#34;使用-docker-运行-neo4j可选&#34;&gt;使用 docker 运行 Neo4j（可选）&lt;/h4&gt;
+&lt;p&gt;当然，如果你感觉安装 &lt;code&gt;Neo4j Desktop&lt;/code&gt; 比较麻烦，也可以使用 docker 运行 Neo4j：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ docker run --rm -p 7474:7474 -p 7687:7687 -e &lt;span style=&#34;color:#40ffff&#34;&gt;NEO4J_AUTH&lt;/span&gt;=none neo4j
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;只不过后续查看关系图时，需要使用浏览器访问 http://localhost:7474 来查看结果。&lt;/p&gt;
+&lt;h3 id=&#34;安装-kubectl-graph&#34;&gt;安装 kubectl-graph&lt;/h3&gt;
+&lt;p&gt;插件的安装方式比较简单，如果你使用的是 &lt;code&gt;kubectl 1.19&lt;/code&gt; 之前的版本：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl-krew install graph
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;使用 &lt;code&gt;kubectl 1.19&lt;/code&gt; 之后的版本：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl krew install graph
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;使用方式&#34;&gt;使用方式&lt;/h2&gt;
+&lt;p&gt;安装完成后，就可以开始绘制 kubernetes resource 关系图了。&lt;/p&gt;
+&lt;h3 id=&#34;graphviz-1&#34;&gt;Graphviz&lt;/h3&gt;
+&lt;p&gt;使用 &lt;code&gt;kubectl graph&lt;/code&gt; 命令获取 &lt;code&gt;kubec-system&lt;/code&gt; 中正在运行的 pod，并通过管道传递给 &lt;code&gt;dot&lt;/code&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl graph pods --field-selector status.phase=Running -n kube-system | dot -T svg -o pods.svg
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;查看 &lt;code&gt;pods.svg&lt;/code&gt; ，资源果然很多：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1gm4nxnytzkj22d41zq19w.jpg&#34; alt=&#34;pods.svg&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;neo4j-1&#34;&gt;Neo4j&lt;/h3&gt;
+&lt;p&gt;Neo4j 可以展示更为丰富且美观的关系图。在导入 kubernetes resource 之前，需要创建一个 Neo4j 数据库：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65gy1gm4o4b56mzj21z41kw46d.jpg&#34; alt=&#34;创建 neo4j 数据了&#34;&gt;&lt;/p&gt;
+&lt;p&gt;数据库创建好后，点击 &lt;code&gt;Start&lt;/code&gt; 运行并点击 &lt;code&gt;Open&lt;/code&gt; 打开 &lt;code&gt;Neo4j Browser&lt;/code&gt;：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva3.sinaimg.cn/large/ad5fbf65gy1gm4o605br2j20ow0fkjs1.jpg&#34; alt=&#34;打开数据库&#34;&gt;&lt;/p&gt;
+&lt;p&gt;执行命令将 kubernetes resource 导入 Neo4j：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;kubectl graph all -n kube-system -o cypher | cypher-shell -u neo4j -p &amp;lt;your-pass&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;注意&lt;/h4&gt;
+这里的 &lt;code&gt;-u&lt;/code&gt; 需要输入 &lt;code&gt;neo4j&lt;/code&gt; 而不是你创建的数据库名称，&lt;code&gt;Neo4j Browser&lt;/code&gt; 上也有提示：
+&lt;img src=&#34;https://tva3.sinaimg.cn/large/ad5fbf65gy1gm4o9rsqtzj21ve0m440w.jpg&#34; alt=&#34;&#34;&gt;
+&lt;/div&gt;
+
+&lt;p&gt;之后就可以在 Neo4j 上查看了，输入查询语句：&lt;code&gt;MATCH (n) RETURN n&lt;/code&gt;：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1gm4ofe5jiwj22761midzp.jpg&#34; alt=&#34;关系图&#34;&gt;&lt;/p&gt;
+&lt;p&gt;这时一个美观的 kubernetes resource 关系图就出现了。&lt;/p&gt;
+&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
+&lt;p&gt;kubectl 还有很多好用且有趣的 plugin，后续笔者会介绍如何开发一个 kubectl plugin 并分享更多有趣的 plugin。&lt;/p&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>

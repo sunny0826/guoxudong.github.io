@@ -212,6 +212,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubectl-graph/">K8S 资源可视化利器：Kubectl-Graph</a></li>
+                
                 <li><a href="/post/helmfile-quick-start/">使用 Helmfile 解放你的 Helm Chart</a></li>
                 
                 <li><a href="/post/jetbrains-opensource-free-license/">手把手教你免费获取正版 Jetbrains 全家桶 License</a></li>
@@ -219,8 +221,6 @@ if (!doNotTrack) {
                 <li><a href="/post/homebrew-pull-request/">将项目发布到 Homebrew 官方仓库</a></li>
                 
                 <li><a href="/post/k3d-vs-kind/">K3d vs Kind 谁更适合本地研发</a></li>
-                
-                <li><a href="/post/teambition-disk-vs-aliyun-disk/">Teambition 网盘 VS 阿里云盘：阿里这个浓眉大眼的也开始玩赛马了？</a></li>
                 
               </ul>
             </div>
@@ -244,6 +244,9 @@ if (!doNotTrack) {
               
               <a class="button button-primary button-small button-rounded mb-2"
 		          href="/categories/kubernetes" style="display: inline-block;">kubernetes</a>
+              
+              <a class="button button-primary button-small button-rounded mb-2"
+		          href="/categories/kubernetes-plugin" style="display: inline-block;">kubernetes-plugin</a>
               
               <a class="button button-primary button-small button-rounded mb-2"
 		          href="/categories/kustomize" style="display: inline-block;">kustomize</a>
@@ -356,10 +359,16 @@ if (!doNotTrack) {
 		          href="/tags/kind" style="display: inline-block;">kind</a>
               
               <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/krew" style="display: inline-block;">krew</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
 		          href="/tags/kubecm" style="display: inline-block;">kubecm</a>
               
               <a class="button button-royal button-small button-rounded mb-2"
 		          href="/tags/kubernetes" style="display: inline-block;">kubernetes</a>
+              
+              <a class="button button-royal button-small button-rounded mb-2"
+		          href="/tags/kubernetes-plugin" style="display: inline-block;">kubernetes-plugin</a>
               
               <a class="button button-royal button-small button-rounded mb-2"
 		          href="/tags/kustomize" style="display: inline-block;">kustomize</a>
@@ -505,6 +514,43 @@ if (!doNotTrack) {
 		
 		<h2>发布于 2019</h2>
 		<ul class="list-unstyled mt-4">
+			
+			<li class="media mb-4">
+				<div class="media-body">
+					<h5 class="mt-0 mb-1"><a href="/post/aliyun-k8s-perfect/">阿里云容器服务新建集群优化方案(更新版)</a></h5>
+					<p class="mb-2 mb-md-3"><small class="text-muted">2019年04月25日</small></p>
+					
+
+
+
+
+
+
+<figure class="float-left mr-3 pt-1 d-none d-md-block" style="width: 250px">
+    <img src="https://tvax2.sinaimg.cn/large/ad5fbf65ly1ge3i87o5kgj20rs0ijq4s.jpg" alt="Featured Image for 阿里云容器服务新建集群优化方案(更新版)" width="250" height="150">
+    <figcaption class="mt-2 mb-0">
+        
+        <a class="button button-glow button-rounded button-royal button-tiny mb-2" href="/tags/%e9%98%bf%e9%87%8c%e4%ba%91">#阿里云</a>
+        
+        <a class="button button-glow button-rounded button-royal button-tiny mb-2" href="/tags/kubernetes">#kubernetes</a>
+        
+        <a class="button button-glow button-rounded button-royal button-tiny mb-2" href="/tags/%e5%ae%b9%e5%99%a8">#容器</a>
+        
+    </figcaption>
+</figure>
+
+					<p class="pt-0 mt-0 .-text-primary">作者： guoxudong </p>
+					<p class="pt-0 mt-0">分类：
+					
+                      <a href="/categories/kubernetes">
+                        Kubernetes</a>
+					
+					</p>
+					<p class="pt-0 mt-0">摘要：这里记录了在工作中遇到阿里云容器服务的调优优化方案，帮助您绕过阿里云容器服务中的一些坑，来使用更好更优质的阿里云容器服务。</p>
+					<p class="pt-0"><a href="/post/aliyun-k8s-perfect/">更多</a></p>
+				</div>
+			</li>
+			<hr/>
 			
 			<li class="media mb-4">
 				<div class="media-body">
@@ -827,43 +873,6 @@ if (!doNotTrack) {
 					</p>
 					<p class="pt-0 mt-0">摘要：“DevOps”这个词是 “development” 和 “operations”这两个词的组合。它是一种促进开发和运维团队之间的协作，以自动化和可重复的方式更快地将代码部署到生产中的文化。</p>
 					<p class="pt-0"><a href="/post/devops-tutorial/">更多</a></p>
-				</div>
-			</li>
-			<hr/>
-			
-			<li class="media mb-4">
-				<div class="media-body">
-					<h5 class="mt-0 mb-1"><a href="/post/rancher-update-2.2.1/">单节点版rancher升级指南</a></h5>
-					<p class="mb-2 mb-md-3"><small class="text-muted">2019年03月31日</small></p>
-					
-
-
-
-
-
-
-<figure class="float-left mr-3 pt-1 d-none d-md-block" style="width: 250px">
-    <img src="https://tvax3.sinaimg.cn/large/ad5fbf65ly1ge3jb8zw5hj20k00m27bc.jpg" alt="Featured Image for 单节点版rancher升级指南" width="250" height="150">
-    <figcaption class="mt-2 mb-0">
-        
-        <a class="button button-glow button-rounded button-royal button-tiny mb-2" href="/tags/rancher">#rancher</a>
-        
-        <a class="button button-glow button-rounded button-royal button-tiny mb-2" href="/tags/%e5%ae%b9%e5%99%a8">#容器</a>
-        
-        <a class="button button-glow button-rounded button-royal button-tiny mb-2" href="/tags/kubernetes">#kubernetes</a>
-        
-    </figcaption>
-</figure>
-
-					<p class="pt-0 mt-0 .-text-primary">作者： guoxudong </p>
-					<p class="pt-0 mt-0">分类：
-					
-                      <a href="/categories/%e9%83%a8%e7%bd%b2%e5%ae%89%e8%a3%85">
-                        部署安装</a>
-					
-					</p>
-					<p class="pt-0 mt-0">摘要：Rancher 不仅可以在任何云提供商的任何地方部署 Kubernetes 集群，而且还将它们集中在集中式的身份验证和访问控制之下。由于它与资源的运行位置无关，因此您可以轻松地在不同的环境部署你的 kubernetes 集群并操作他们。 Rancher 不是将部署几个独立的 Kubernetes 集群，而是将它们统一为一个单独的托管Kubernetes Cloud。</p>
-					<p class="pt-0"><a href="/post/rancher-update-2.2.1/">更多</a></p>
 				</div>
 			</li>
 			<hr/>
