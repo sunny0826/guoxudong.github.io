@@ -14,6 +14,92 @@
     
     
     <item>
+      <title>Post: 使用 iTerm2 打造美观高效的 Mac 终端</title>
+      <link>https://guoxudong.io/post/iterm2/</link>
+      <pubDate>Mon, 04 Jan 2021 14:14:02 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/iterm2/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;最近换了一台新电脑，开发环境和软件都需要重新安装和配置，正好借着这个机会，介绍一下 macOS 终端神器 iTerm2 的安装配置，并推荐一些插件和好用的工具。&lt;/p&gt;
+&lt;h2 id=&#34;iterm2&#34;&gt;iTerm2&lt;/h2&gt;
+&lt;p&gt;iTerm2 是默认终端的替代品，也是目前 macOS 下最好用的终端工具，集颜值和效率于一身。&lt;/p&gt;
+&lt;h3 id=&#34;安装&#34;&gt;安装&lt;/h3&gt;
+&lt;p&gt;直接前往 &lt;a href=&#34;http://www.iterm2.com/&#34;&gt;iTerm2 官网&lt;/a&gt; 下载即可，下载完成后解压并双击安装。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax4.sinaimg.cn/large/ad5fbf65gy1gmbncotndlj21km1gu7hm.jpg&#34; alt=&#34;iTerm2 官网&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;设置热键&#34;&gt;设置热键&lt;/h3&gt;
+&lt;p&gt;为了快速唤出 iterm2 终端，这里推荐使用热键进行唤出。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1gmbnhmj7w8j21k20y87el.jpg&#34; alt=&#34;设置热键&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;设置-status-bar&#34;&gt;设置 Status bar&lt;/h3&gt;
+&lt;p&gt;iterm2 提供了很多 Status bar，可在在终端页面显示更多关于本机的信息，如：CPU、内存、电池电量等。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1gmbnkvtjloj21ey0tojwj.jpg&#34; alt=&#34;配置 Status bar&#34;&gt;&lt;/p&gt;
+&lt;p&gt;点击 &lt;code&gt;Configure Status bar&lt;/code&gt; 进入配置页面，这里将想要的 Status bar 拖入下面的方框即可。这里还推荐选择 &lt;code&gt;Auto-Rainbow&lt;/code&gt;，这样 Status bar 就是以彩色的形式展示了。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1gmbnn70borj21eu0skdjz.jpg&#34; alt=&#34;选择 Status bar&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;配色&#34;&gt;配色&lt;/h3&gt;
+&lt;p&gt;选择一个自己喜欢的配色方案。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1gmbnqt1lhej21fg0qqn26.jpg&#34; alt=&#34;选择配色方案&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;光标选择&#34;&gt;光标选择&lt;/h3&gt;
+&lt;p&gt;这里提供了三种光标可供选择：&lt;code&gt;_&lt;/code&gt;、&lt;code&gt;|&lt;/code&gt;、&lt;code&gt;[]&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1gmbnsyh5rqj21g00qu79h.jpg&#34; alt=&#34;光标选择&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;窗口设置&#34;&gt;窗口设置&lt;/h3&gt;
+&lt;p&gt;这里可以设置窗口透明度、背景图片、行列数以及风格等。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1gmbnw0mzfej21fi0wmagb.jpg&#34; alt=&#34;窗口设置&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;迁移配置&#34;&gt;迁移配置&lt;/h3&gt;
+&lt;p&gt;如果你已经有配置好的 iterm2，可以将配置导出，迁移到新 Mac 上。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax3.sinaimg.cn/large/ad5fbf65gy1gmboqetam4j21fi17gkjl.jpg&#34; alt=&#34;导出配置&#34;&gt;&lt;/p&gt;
+&lt;p&gt;之后在新 Mac 上导入即可。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1gmborddsylj21es176e81.jpg&#34; alt=&#34;导入配置&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;oh-my-zsh&#34;&gt;oh my zsh&lt;/h2&gt;
+&lt;p&gt;在设置好 iterm2 之后，就需要安装 &lt;a href=&#34;https://github.com/ohmyzsh/ohmyzsh&#34;&gt;oh-my-zsh&lt;/a&gt;。Oh My Zsh 是一款社区驱动的命令行工具，它基于 zsh 命令行，提供了主题配置，插件机制，大大提高了可玩性及使用效率。&lt;/p&gt;
+&lt;h3 id=&#34;安装-1&#34;&gt;安装&lt;/h3&gt;
+&lt;p&gt;可以使用 &lt;code&gt;curl&lt;/code&gt; 和 &lt;code&gt;wget&lt;/code&gt; 安装：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# curl&lt;/span&gt;
+sh -c &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;$(&lt;/span&gt;curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# wget&lt;/span&gt;
+sh -c &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;$(&lt;/span&gt;wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;powerlevel10k&#34;&gt;powerlevel10k&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/romkatv/powerlevel10k&#34;&gt;powerlevel10k&lt;/a&gt; 是一款 zsh 主题，是 &lt;a href=&#34;https://github.com/Powerlevel9k/powerlevel9k&#34;&gt;powerlevel9k&lt;/a&gt; 的升级版，强调快速、高效和开箱即用。powerlevel10k 免去了之前 powerlevel9k 比较繁琐的安装方式，如安装字体，配置样式、修改主题等一系列繁琐的操作，开箱即用，非常简单。&lt;/p&gt;
+&lt;h4 id=&#34;安装-2&#34;&gt;安装&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;git clone --depth=&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt; https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+&lt;span style=&#34;color:#24909d&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;source ~/powerlevel10k/powerlevel10k.zsh-theme&amp;#39;&lt;/span&gt; &amp;gt;&amp;gt;~/.zshrc
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;配置&#34;&gt;配置&lt;/h4&gt;
+&lt;p&gt;在代码拉取成功后，执行命令 &lt;code&gt;source ~/.zshrc&lt;/code&gt; 会自动安装字体文件，无需任何其他操作。&lt;/p&gt;
+&lt;p&gt;之后执行命令，即可开始配置：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;p10k configure
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里会进行交互式的配置，只需根据提示进行选择即可。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1gmap0z93zdg20ok0l60xf.gif&#34; alt=&#34;交互式的配置&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;插件&#34;&gt;插件&lt;/h3&gt;
+&lt;p&gt;oh my zsh 还提供了多种好用的插件，这里介绍两款好用的插件。&lt;/p&gt;
+&lt;h4 id=&#34;语法高亮&#34;&gt;语法高亮&lt;/h4&gt;
+&lt;p&gt;可以在命令行高亮显示语法，效果如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax4.sinaimg.cn/large/ad5fbf65gy1gmbodvj2sej20lu0isdj6.jpg&#34; alt=&#34;语法高亮&#34;&gt;&lt;/p&gt;
+&lt;p&gt;安装方式：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# zsh-syntax-highlighting&lt;/span&gt;
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git  ~/.oh-my-zsh/plugins/zsh-syntax-highlighting
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;命令自动补全&#34;&gt;命令自动补全&lt;/h4&gt;
+&lt;p&gt;可以根据您的历史记录和完成情况给输入的命令提供建议，效果如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax3.sinaimg.cn/large/ad5fbf65gy1gmbojbb38wj20sy044wel.jpg&#34; alt=&#34;命令自动补全&#34;&gt;&lt;/p&gt;
+&lt;p&gt;安装方式&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# zsh-autosuggestion&lt;/span&gt;
+git clone https://github.com/zsh-users/zsh-autosuggestions.git  ~/.oh-my-zsh/plugins/zsh-autosuggestions
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;插件配置&#34;&gt;插件配置&lt;/h4&gt;
+&lt;p&gt;安装好之后，需要修改 &lt;code&gt;.zshrc&lt;/code&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# .zshrc&lt;/span&gt;
+...
+&lt;span style=&#34;color:#40ffff&#34;&gt;plugins&lt;/span&gt;=(git zsh-autosuggestions zsh-syntax-highlighting)
+...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;修改完成后，执行命令，完成设置：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#24909d&#34;&gt;source&lt;/span&gt; ~/.zshrc
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;更多插件，详见：https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins&lt;/p&gt;
+&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
+&lt;p&gt;iTerm2 其实还有很多好玩的配置，由于篇幅有限这里就不过多介绍了，感兴趣的朋友可以登录官网查看官方文档。&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Post: K8S 资源可视化利器：Kubectl-Graph</title>
       <link>https://guoxudong.io/post/kubectl-graph/</link>
       <pubDate>Tue, 29 Dec 2020 10:19:18 +0800</pubDate>
@@ -7012,60 +7098,6 @@ service grafana-server restart
 &lt;/ol&gt;
 &lt;h3 id=&#34;验证&#34;&gt;验证&lt;/h3&gt;
 &lt;p&gt;在Github/Gitee配置成功之后，您可在浏览器中输入 &lt;a href=&#34;https://www.YourDomainName.com&#34;&gt;https://www.YourDomainName.com&lt;/a&gt; 验证证书安装结果。可以正常访问静态托管站点，并且浏览器地址栏显示绿色的小锁标识说明证书安装成功。&lt;/p&gt;
-
-      </description>
-    </item>
-    
-    <item>
-      <title>Post: 解决 Nginx-Ingress 重定向失败问题</title>
-      <link>https://guoxudong.io/post/nginx-ingress-error/</link>
-      <pubDate>Fri, 16 Aug 2019 11:15:37 +0800</pubDate>
-      
-      <guid>https://guoxudong.io/post/nginx-ingress-error/</guid>
-      <description>
-        
-        
-        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
-&lt;p&gt;最近对公司 Kubernetes 集群的 &lt;code&gt;nginx-ingress-controller&lt;/code&gt; 进行了升级，但是升级后却出现了大问题，之前所有采用 &lt;code&gt;nginx.ingress.kubernetes.io/rewrite-target: /&lt;/code&gt; 注释进行重定向的 Ingress 路由全部失效了，但是那些直接解析了域名，没有进行重定向的却没有发生这个问题。&lt;/p&gt;
-&lt;h2 id=&#34;问题分析&#34;&gt;问题分析&lt;/h2&gt;
-&lt;ol&gt;
-&lt;li&gt;首先检查对应服务健康状态，发现所有出问题的服务的状态均正常，同时受影响的之后 http 调用，而 RPC 调用却不受影响，这时问题就定位到了 ingress。&lt;/li&gt;
-&lt;li&gt;然后检查 nginx-ingress-controller ，发现 nginx-ingress-controller 的状态也是正常的，路由也是正常的。&lt;/li&gt;
-&lt;li&gt;最后发现受影响的只有添加了重定向策略的 ingress 。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&#34;问题解决&#34;&gt;问题解决&lt;/h2&gt;
-&lt;p&gt;问题已经定位，接下来就是着手解决问题，这时候值得注意的就是之前进行了什么变更：升级了 nginx-ingress-controller 版本！看来问题就出现在新版本上，那么就打开官方文档：https://kubernetes.github.io/ingress-nginx/examples/rewrite/ 看一下吧。&lt;/p&gt;
-&lt;h3 id=&#34;attention&#34;&gt;Attention&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Starting in Version 0.22.0, ingress definitions using the annotation &lt;code&gt;nginx.ingress.kubernetes.io/rewrite-target&lt;/code&gt; are not backwards compatible with previous versions. In Version 0.22.0 and beyond, any substrings within the request URI that need to be passed to the rewritten path must explicitly be defined in a &lt;a href=&#34;https://www.regular-expressions.info/refcapture.html&#34;&gt;capture group&lt;/a&gt;.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;文档上给出了非常明显的警告⚠️：从 V0.22.0 版本开始将不再兼容之前的入口定义，再查看一下我的 nginx-ingress-controller 版本，果然问题出现来这里。&lt;/p&gt;
-&lt;h3 id=&#34;note&#34;&gt;Note&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;a href=&#34;https://www.regular-expressions.info/refcapture.html&#34;&gt;Captured groups&lt;/a&gt; are saved in numbered placeholders, chronologically, in the form &lt;code&gt;$1&lt;/code&gt;, &lt;code&gt;$2&lt;/code&gt; &amp;hellip; &lt;code&gt;$n&lt;/code&gt;. These placeholders can be used as parameters in the &lt;code&gt;rewrite-target&lt;/code&gt; annotation.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&#34;示例&#34;&gt;示例&lt;/h3&gt;
-&lt;p&gt;到这里问题已经解决了，在更新了 ingress 的配置之后，之前所有无法重定向的服务现在都已经可以正常访问了。修改见如下示例：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ &lt;span style=&#34;color:#24909d&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;apiVersion: extensions/v1beta1
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;kind: Ingress
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;metadata:
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;  annotations:
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;    nginx.ingress.kubernetes.io/rewrite-target: /$2
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;  name: rewrite
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;  namespace: default
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;spec:
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;  rules:
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;  - host: rewrite.bar.com
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;    http:
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;      paths:
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;      - backend:
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;          serviceName: http-svc
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;          servicePort: 80
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;        path: /something(/|$)(.*)
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&lt;/span&gt; | kubectl create -f -
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
-&lt;p&gt;解决这个问题的实际时间虽然不长，但是着实让人出了一身冷汗，同时也给了我警示：变更有风险，升级需谨慎。在升级之前需要先浏览新版本的升级信息，同时需要制定完善的回滚策略，确保万无一失。&lt;/p&gt;
 
       </description>
     </item>
