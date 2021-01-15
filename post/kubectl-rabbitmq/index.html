@@ -29,40 +29,40 @@
            "@id": "https:\/\/guoxudong.io"
       },
       "articleSection" : "post",
-      "name" : "K3d\x2bKubecm 本地开发运维两不误",
-      "headline" : "K3d\x2bKubecm 本地开发运维两不误",
-      "description" : "使用 k3d 在本地快速搭建轻量级 k8s 集群 - k3s，并使用 kubecm 管理所有集群。",
+      "name" : "使用 kubectl-rabbitmq 部署和运维 K8S 上的 RabbitMQ 集群",
+      "headline" : "使用 kubectl-rabbitmq 部署和运维 K8S 上的 RabbitMQ 集群",
+      "description" : "推荐一个 kubectl 插件：kubectl-rabbitmq",
       "inLanguage" : "en-US",
       "author" : "",
       "creator" : "",
       "publisher": "",
       "accountablePerson" : "",
       "copyrightHolder" : "",
-      "copyrightYear" : "2020",
-      "datePublished": "2020-02-17 11:51:39 \x2b0800 \x2b0800",
-      "dateModified" : "2020-02-17 11:51:39 \x2b0800 \x2b0800",
-      "url" : "https:\/\/guoxudong.io\/post\/k3d-k3s-kubecm\/",
-      "wordCount" : "489",
-      "keywords" : [ "k3s","k3d","kubecm","Kubernetes","Guoxudong" ]
+      "copyrightYear" : "2021",
+      "datePublished": "2021-01-15 15:34:10 \x2b0800 \x2b0800",
+      "dateModified" : "2021-01-15 15:34:10 \x2b0800 \x2b0800",
+      "url" : "https:\/\/guoxudong.io\/post\/kubectl-rabbitmq\/",
+      "wordCount" : "532",
+      "keywords" : [ "Kubernetes","Kubernetes Plugin","Krew","Guoxudong" ]
   }
   </script>
-<title>K3d&#43;Kubecm 本地开发运维两不误 | Guo Xudong&#39;s Blog·郭旭东的博客</title><meta property="og:title" content="K3d&#43;Kubecm 本地开发运维两不误" />
-<meta property="og:description" content="使用 k3d 在本地快速搭建轻量级 k8s 集群 - k3s，并使用 kubecm 管理所有集群。" />
+<title>使用 kubectl-rabbitmq 部署和运维 K8S 上的 RabbitMQ 集群 | Guo Xudong&#39;s Blog·郭旭东的博客</title><meta property="og:title" content="使用 kubectl-rabbitmq 部署和运维 K8S 上的 RabbitMQ 集群" />
+<meta property="og:description" content="推荐一个 kubectl 插件：kubectl-rabbitmq" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://guoxudong.io/post/k3d-k3s-kubecm/" />
-<meta property="article:published_time" content="2020-02-17T11:51:39+08:00" />
+<meta property="og:url" content="https://guoxudong.io/post/kubectl-rabbitmq/" />
+<meta property="article:published_time" content="2021-01-15T15:34:10+08:00" />
 <meta property="article:modified_time" content="2021-01-15T17:45:51+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
-<meta itemprop="name" content="K3d&#43;Kubecm 本地开发运维两不误">
-<meta itemprop="description" content="使用 k3d 在本地快速搭建轻量级 k8s 集群 - k3s，并使用 kubecm 管理所有集群。">
-<meta itemprop="datePublished" content="2020-02-17T11:51:39&#43;08:00" />
+<meta itemprop="name" content="使用 kubectl-rabbitmq 部署和运维 K8S 上的 RabbitMQ 集群">
+<meta itemprop="description" content="推荐一个 kubectl 插件：kubectl-rabbitmq">
+<meta itemprop="datePublished" content="2021-01-15T15:34:10&#43;08:00" />
 <meta itemprop="dateModified" content="2021-01-15T17:45:51&#43;08:00" />
-<meta itemprop="wordCount" content="489">
+<meta itemprop="wordCount" content="532">
 
 
 
-<meta itemprop="keywords" content="k3s,k3d,kubecm,Kubernetes," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="K3d&#43;Kubecm 本地开发运维两不误"/>
-<meta name="twitter:description" content="使用 k3d 在本地快速搭建轻量级 k8s 集群 - k3s，并使用 kubecm 管理所有集群。"/>
+<meta itemprop="keywords" content="Kubernetes,Kubernetes Plugin,Krew," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="使用 kubectl-rabbitmq 部署和运维 K8S 上的 RabbitMQ 集群"/>
+<meta name="twitter:description" content="推荐一个 kubectl 插件：kubectl-rabbitmq"/>
 
 
 <script type="application/javascript">
@@ -213,21 +213,20 @@ if (!doNotTrack) {
 <nav id="TableOfContents">
   <ul>
     <li><a href="#前言">前言</a></li>
-    <li><a href="#安装-k3d">安装 k3d</a>
+    <li><a href="#插件安装">插件安装</a>
       <ul>
-        <li><a href="#使用脚本安装">使用脚本安装</a></li>
-        <li><a href="#使用-homebrew-安装">使用 Homebrew 安装</a></li>
-        <li><a href="#其他">其他</a></li>
+        <li><a href="#安装-rabbitmq-operator">安装 RabbitMQ Operator</a></li>
+        <li><a href="#创建-rabbitmq-集群">创建 RabbitMQ 集群</a></li>
+        <li><a href="#查看集群中所有-rabbitmq">查看集群中所有 RabbitMQ</a></li>
+        <li><a href="#查看指定-rabbitmq-的所有资源">查看指定 RabbitMQ 的所有资源</a></li>
+        <li><a href="#打开-rabbitmq-ui">打开 RabbitMQ UI</a></li>
+        <li><a href="#获取默认用户">获取默认用户</a></li>
+        <li><a href="#监控-rabbitmq">监控 RabbitMQ</a></li>
+        <li><a href="#验证-rabbitmq">验证 RabbitMQ</a></li>
+        <li><a href="#删除-rabbitmq-集群">删除 RabbitMQ 集群</a></li>
       </ul>
     </li>
-    <li><a href="#创建-k3s-集群">创建 k3s 集群</a>
-      <ul>
-        <li><a href="#离线安装">离线安装</a></li>
-        <li><a href="#运行离线镜像">运行离线镜像</a></li>
-      </ul>
-    </li>
-    <li><a href="#使用-kubecm">使用 kubecm</a></li>
-    <li><a href="#结语">结语</a></li>
+    <li><a href="#总结">总结</a></li>
   </ul>
 </nav>
 <hr>
@@ -262,9 +261,15 @@ if (!doNotTrack) {
               <h5>相关阅读</h5>
               <ul>
                 
-                <li><a href="/post/kubecm/">Kubecm：管理你的 kubeconfig</a></li>
+                <li><a href="/post/kubectl-graph/">K8S 资源可视化利器：Kubectl-Graph</a></li>
                 
-                <li><a href="/post/aliyun-share/">4月29日 云栖社区分享PPT -- 阿里云容器服务的优势与调优</a></li>
+                <li><a href="/post/diagrams-k8s-src-qos/">图解 K8S 源码 - QoS 篇</a></li>
+                
+                <li><a href="/post/diagrams-k8s-src-informer/">图解 K8S 源码 - Informer 篇（上）</a></li>
+                
+                <li><a href="/post/diagrams-k8s-src-deployment-controller/">图解 K8S 源码 - Deployment Controller 篇</a></li>
+                
+                <li><a href="/post/flagger-nginx-ingress/">基于 Flagger 和 Nginx-Ingress 实现金丝雀发布</a></li>
                 
               </ul>
             </div>
@@ -552,7 +557,7 @@ if (!doNotTrack) {
 
 
 <li class="breadcrumb-item active" aria-current="page">
-	<a href="https://guoxudong.io/post/k3d-k3s-kubecm/">K3d&#43;Kubecm 本地开发运维两不误</a>
+	<a href="https://guoxudong.io/post/kubectl-rabbitmq/">使用 kubectl-rabbitmq 部署和运维 K8S 上的 RabbitMQ 集群</a>
 </li>
 
 	</ol>
@@ -561,7 +566,7 @@ if (!doNotTrack) {
             
 
 <div class="td-content" id="road">
-	<h1>K3d&#43;Kubecm 本地开发运维两不误</h1>
+	<h1>使用 kubectl-rabbitmq 部署和运维 K8S 上的 RabbitMQ 集群</h1>
 	
 	<div class="td-byline mb-4">
 		<span>By  <b>guoxudong</b> </span> ·
@@ -569,10 +574,10 @@ if (!doNotTrack) {
 			3 分钟阅读时间
 		</span> ·
 		<span>最近更新于 </span><time datetime="2021-01-15"
-			class="text-muted">2020年02月17日</time> ·
+			class="text-muted">2021年01月15日</time> ·
 		
-		<a href="/categories/%e8%be%b9%e7%bc%98%e8%ae%a1%e7%ae%97">
-			边缘计算</a>
+		<a href="/categories/kubernetes-plugin">
+			Kubernetes Plugin</a>
 		
 	</div>
 
@@ -581,42 +586,42 @@ if (!doNotTrack) {
 <div class="share-box" aria-hidden="true">
   <ul class="share">
     <li>
-      <a href="https://twitter.com/intent/tweet?url=https%3a%2f%2fguoxudong.io%2fpost%2fk3d-k3s-kubecm%2f&amp;text=K3d%2bKubecm%20%e6%9c%ac%e5%9c%b0%e5%bc%80%e5%8f%91%e8%bf%90%e7%bb%b4%e4%b8%a4%e4%b8%8d%e8%af%af" target="_blank" rel="noopener" class="share-btn-twitter">
+      <a href="https://twitter.com/intent/tweet?url=https%3a%2f%2fguoxudong.io%2fpost%2fkubectl-rabbitmq%2f&amp;text=%e4%bd%bf%e7%94%a8%20kubectl-rabbitmq%20%e9%83%a8%e7%bd%b2%e5%92%8c%e8%bf%90%e7%bb%b4%20K8S%20%e4%b8%8a%e7%9a%84%20RabbitMQ%20%e9%9b%86%e7%be%a4" target="_blank" rel="noopener" class="share-btn-twitter">
         <i class="fab fa-twitter"></i>
       </a>
     </li>
     <li>
-      <a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fguoxudong.io%2fpost%2fk3d-k3s-kubecm%2f&amp;t=K3d%2bKubecm%20%e6%9c%ac%e5%9c%b0%e5%bc%80%e5%8f%91%e8%bf%90%e7%bb%b4%e4%b8%a4%e4%b8%8d%e8%af%af" target="_blank" rel="noopener" class="share-btn-facebook">
+      <a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fguoxudong.io%2fpost%2fkubectl-rabbitmq%2f&amp;t=%e4%bd%bf%e7%94%a8%20kubectl-rabbitmq%20%e9%83%a8%e7%bd%b2%e5%92%8c%e8%bf%90%e7%bb%b4%20K8S%20%e4%b8%8a%e7%9a%84%20RabbitMQ%20%e9%9b%86%e7%be%a4" target="_blank" rel="noopener" class="share-btn-facebook">
         <i class="fab fa-facebook-f"></i>
       </a>
     </li>
     <li>
-      <a href="mailto:?subject=K3d%2bKubecm%20%e6%9c%ac%e5%9c%b0%e5%bc%80%e5%8f%91%e8%bf%90%e7%bb%b4%e4%b8%a4%e4%b8%8d%e8%af%af&amp;body=https%3a%2f%2fguoxudong.io%2fpost%2fk3d-k3s-kubecm%2f" target="_blank" rel="noopener" class="share-btn-email">
+      <a href="mailto:?subject=%e4%bd%bf%e7%94%a8%20kubectl-rabbitmq%20%e9%83%a8%e7%bd%b2%e5%92%8c%e8%bf%90%e7%bb%b4%20K8S%20%e4%b8%8a%e7%9a%84%20RabbitMQ%20%e9%9b%86%e7%be%a4&amp;body=https%3a%2f%2fguoxudong.io%2fpost%2fkubectl-rabbitmq%2f" target="_blank" rel="noopener" class="share-btn-email">
         <i class="fas fa-envelope"></i>
       </a>
     </li>
     <li>
-      <a href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fguoxudong.io%2fpost%2fk3d-k3s-kubecm%2f&amp;title=K3d%2bKubecm%20%e6%9c%ac%e5%9c%b0%e5%bc%80%e5%8f%91%e8%bf%90%e7%bb%b4%e4%b8%a4%e4%b8%8d%e8%af%af" target="_blank" rel="noopener" class="share-btn-linkedin">
+      <a href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fguoxudong.io%2fpost%2fkubectl-rabbitmq%2f&amp;title=%e4%bd%bf%e7%94%a8%20kubectl-rabbitmq%20%e9%83%a8%e7%bd%b2%e5%92%8c%e8%bf%90%e7%bb%b4%20K8S%20%e4%b8%8a%e7%9a%84%20RabbitMQ%20%e9%9b%86%e7%be%a4" target="_blank" rel="noopener" class="share-btn-linkedin">
         <i class="fab fa-linkedin-in"></i>
       </a>
     </li>
     <li>
-      <a href="https://web.whatsapp.com/send?text=K3d%2bKubecm%20%e6%9c%ac%e5%9c%b0%e5%bc%80%e5%8f%91%e8%bf%90%e7%bb%b4%e4%b8%a4%e4%b8%8d%e8%af%afhttps%3a%2f%2fguoxudong.io%2fpost%2fk3d-k3s-kubecm%2f/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+      <a href="https://web.whatsapp.com/send?text=%e4%bd%bf%e7%94%a8%20kubectl-rabbitmq%20%e9%83%a8%e7%bd%b2%e5%92%8c%e8%bf%90%e7%bb%b4%20K8S%20%e4%b8%8a%e7%9a%84%20RabbitMQ%20%e9%9b%86%e7%be%a4https%3a%2f%2fguoxudong.io%2fpost%2fkubectl-rabbitmq%2f/" target="_blank" rel="noopener" class="share-btn-whatsapp">
         <i class="fab fa-whatsapp"></i>
       </a>
     </li>
     <li>
-      <a href="https://service.weibo.com/share/share.php?url=https%3a%2f%2fguoxudong.io%2fpost%2fk3d-k3s-kubecm%2f&amp;title=K3d%2bKubecm%20%e6%9c%ac%e5%9c%b0%e5%bc%80%e5%8f%91%e8%bf%90%e7%bb%b4%e4%b8%a4%e4%b8%8d%e8%af%af" target="_blank" rel="noopener" class="share-btn-weibo">
+      <a href="https://service.weibo.com/share/share.php?url=https%3a%2f%2fguoxudong.io%2fpost%2fkubectl-rabbitmq%2f&amp;title=%e4%bd%bf%e7%94%a8%20kubectl-rabbitmq%20%e9%83%a8%e7%bd%b2%e5%92%8c%e8%bf%90%e7%bb%b4%20K8S%20%e4%b8%8a%e7%9a%84%20RabbitMQ%20%e9%9b%86%e7%be%a4" target="_blank" rel="noopener" class="share-btn-weibo">
         <i class="fab fa-weibo"></i>
       </a>
     </li>
     <li>
-      <a href="https://reddit.com/submit?url=https%3a%2f%2fguoxudong.io%2fpost%2fk3d-k3s-kubecm%2f&amp;title=K3d%2bKubecm%20%e6%9c%ac%e5%9c%b0%e5%bc%80%e5%8f%91%e8%bf%90%e7%bb%b4%e4%b8%a4%e4%b8%8d%e8%af%af" target="_blank" rel="noopener" class="share-btn-reddit">
+      <a href="https://reddit.com/submit?url=https%3a%2f%2fguoxudong.io%2fpost%2fkubectl-rabbitmq%2f&amp;title=%e4%bd%bf%e7%94%a8%20kubectl-rabbitmq%20%e9%83%a8%e7%bd%b2%e5%92%8c%e8%bf%90%e7%bb%b4%20K8S%20%e4%b8%8a%e7%9a%84%20RabbitMQ%20%e9%9b%86%e7%be%a4" target="_blank" rel="noopener" class="share-btn-reddit">
         <i class="fab fa-reddit-alien"></i>
       </a>
     </li>
     <li>
-      <a href=# onClick="javascript:window.open('/wechart?url=https:\/\/guoxudong.io\/post\/k3d-k3s-kubecm\/','weixin','height=560, width=470, top=100, location=no, toolbar=no, menubar=no, status=no')" target="_blank" rel="noopener" class="share-btn-weixin">
+      <a href=# onClick="javascript:window.open('/wechart?url=https:\/\/guoxudong.io\/post\/kubectl-rabbitmq\/','weixin','height=560, width=470, top=100, location=no, toolbar=no, menubar=no, status=no')" target="_blank" rel="noopener" class="share-btn-weixin">
         <i class="fab fa-weixin"></i>
       </a>
     </li>
@@ -626,121 +631,135 @@ if (!doNotTrack) {
 
 	<div class="alert alert-primary mb-4" role="alert">
 		<h4 class="alert-heading">摘要</h4>
-		<span class="text-muted">使用 k3d 在本地快速搭建轻量级 k8s 集群 - k3s，并使用 kubecm 管理所有集群。</span>
+		<span class="text-muted">推荐一个 kubectl 插件：kubectl-rabbitmq</span>
 	</div>
-	<img src="https://tvax1.sinaimg.cn/large/ad5fbf65ly1ge3ioptt0jj21qi15owjf.jpg" alt="" style="max-width: 80%;">
+	<img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1gmohurr6m0j21qi15owkb.jpg" alt="" style="max-width: 80%;">
 
 	<h2 id="前言">前言</h2>
-<p>k3s 是由 Rancher Labs 于2019年年初推出的一款轻量级 Kubernetes 发行版，满足在边缘计算环境中运行在 x86、ARM64 和 ARMv7 处理器上的小型、易于管理的 Kubernetes 集群日益增长的需求。</p>
-<p>k3s 除了在边缘计算领域的应用外，在研发侧的表现也十分出色。我们可以快速在本地拉起一个轻量级的 k8s 集群，而 k3d 则是 k3s 社区创建的一个小工具，可以在一个 docker 进程中运行整个 k3s 集群，相比直接使用 k3s 运行在本地，更好管理和部署。</p>
-<p>在日常工作中，时长要在本地集群和多个远程集群之间切换来完成运维工作，这时使用 <code>kubecm</code> 快速将 k3s 集群的 kubeconfig 与现有集群的 kubeconfig 合并，并可快速切换集群，开发运维两不误。</p>
-<h2 id="安装-k3d">安装 k3d</h2>
-<p>k3d 提供了多种安装方式，十分方便。</p>
-<h3 id="使用脚本安装">使用脚本安装</h3>
-<p>直接使用 <code>wget</code> 和 <code>curl</code> 安装</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget -q -O - https://raw.githubusercontent.com/rancher/k3d/master/install.sh | bash
-<span style="color:#999;font-style:italic"># 或</span>
-curl -s https://raw.githubusercontent.com/rancher/k3d/master/install.sh | bash
-</code></pre></div><p>安装指定版本</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget -q -O - https://raw.githubusercontent.com/rancher/k3d/master/install.sh | <span style="color:#40ffff">TAG</span>=v1.3.4 bash
-<span style="color:#999;font-style:italic"># 或</span>
-curl -s https://raw.githubusercontent.com/rancher/k3d/master/install.sh | <span style="color:#40ffff">TAG</span>=v1.3.4 bash
-</code></pre></div><h3 id="使用-homebrew-安装">使用 Homebrew 安装</h3>
-<p>MacOS 或安装了 Homebrew 的 Linux 可以使用 brew 安装：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">brew install k3d
-</code></pre></div><h3 id="其他">其他</h3>
-<p>还可以直接前往 <a href="https://github.com/rancher/k3d/releases">release 页面</a> 下载二进制可执行文件，或者直接使用 <code>go install github.com/rancher/k3d</code> 安装。</p>
-<h2 id="创建-k3s-集群">创建 k3s 集群</h2>
-<p>创建 k3s 集群也十分简单，一行命令就可拉起，速度非常快。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a61717;background-color:#e3d2d2">$</span> k3d create -n k3s-local
-INFO[<span style="color:#3677a9">0000</span>] Created cluster network with ID facae4a046b169721805f93ec21ba1acb65b9efb8cf35866529178cb0fba75a9
-INFO[<span style="color:#3677a9">0000</span>] Created docker volume  k3d-k3s-local-images
-INFO[<span style="color:#3677a9">0000</span>] Creating cluster [k3s-local]
-INFO[<span style="color:#3677a9">0000</span>] Creating server using docker.io/rancher/k3s:v1<span style="color:#3677a9">.0.1</span>...
-INFO[<span style="color:#3677a9">0000</span>] SUCCESS: created cluster [k3s-local]
-INFO[<span style="color:#3677a9">0000</span>] You can now use the cluster with:
+<p>最近接到一个在 K8S 中部署一个 RabbitMQ 集群的任务，既然是部署在 K8S 集群中，首选的当然是 RabbitMQ Operator 了。不过在浏览官方文档时，意外的官方也有开发一个 kubectl-rabbitmq 的插件来帮助部署和运维 RabbitMQ Operator，在试用后发现体验意外的不错。那么本文我们就使用 kubectl-rabbitmq 来部署一个 RabbitMQ 集群吧！</p>
+<h2 id="插件安装">插件安装</h2>
+<p>安装插件前需要安装 <a href="https://krew.sigs.k8s.io/">krew</a>，也就是 kubectl 的插件管理工具，krew 的安装这里就不做详细说明了。</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">&amp; kubectl krew install rabbitmq
+</code></pre></div><p>安装完成后就可以使用 <code>kubectl rabbitmq</code> 来部署和管理 RabbitMQ 集群了。</p>
+<h3 id="安装-rabbitmq-operator">安装 RabbitMQ Operator</h3>
+<p>使用 <code>kubectl-rabbitmq</code> 安装 RabbitMQ Operator 非常简单，只需一行命令：</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl rabbitmq install-cluster-operator
+namespace/rabbitmq-system created
+customresourcedefinition.apiextensions.k8s.io/rabbitmqclusters.rabbitmq.com created
+serviceaccount/rabbitmq-cluster-operator created
+role.rbac.authorization.k8s.io/rabbitmq-cluster-leader-election-role created
+clusterrole.rbac.authorization.k8s.io/rabbitmq-cluster-operator-role created
+rolebinding.rbac.authorization.k8s.io/rabbitmq-cluster-leader-election-rolebinding created
+clusterrolebinding.rbac.authorization.k8s.io/rabbitmq-cluster-operator-rolebinding created
+deployment.apps/rabbitmq-cluster-operator created
+</code></pre></div><p>之后就可以看到 <code>rabbitmq-cluster-operator</code> 已经不再在 namespace： <code>rabbitmq-system</code> 中了：</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get pod -n rabbitmq-system
+NAME                                         READY   STATUS    RESTARTS   AGE
+rabbitmq-cluster-operator-7bbbb8d559-k8zwm   1/1     Running   <span style="color:#3677a9">0</span>          35m
+</code></pre></div><h3 id="创建-rabbitmq-集群">创建 RabbitMQ 集群</h3>
+<p>创建 RabbitMQ 集群同样简单，也是一行命令：</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl rabbitmq create &lt;rabbitmq-cluster-name&gt; --replicas <span style="color:#3677a9">1</span> --service ClusterIP --image rabbitmq:3.8.9-management
+</code></pre></div><p>这里除了 <code>&lt;rabbitmq-cluster-name&gt;</code> 以外，其余参数均为可选项，内容为 RabbitMQ Operator 的 CR 文件。此处的原理也比较简单，只是生成了一份 CR 配置。更多参数请参考<a href="https://www.rabbitmq.com/kubernetes/operator/using-operator.html">官方文档</a>。</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get RabbitmqCluster
+NAME            AGE   STATUS
+test-rabbitmq   54s
+</code></pre></div>
 
-export KUBECONFIG=<span style="color:#ed9d13">&#34;$(k3d get-kubeconfig --name=&#39;k3s-local&#39;)&#34;</span>
-kubectl cluster-info
-</code></pre></div><p>但是一般情况下，如果没有梯子的话，k3s 集群虽然拉起来很快，但因为拉不到镜像，集群组件都无法正常拉起。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a61717;background-color:#e3d2d2">$</span> export KUBECONFIG=<span style="color:#ed9d13">&#34;$(k3d get-kubeconfig --name=&#39;k3s-local&#39;)&#34;</span>
-<span style="color:#a61717;background-color:#e3d2d2">$</span> kubectl get pod -n kube-system
-NAME                                      READY   STATUS              RESTARTS   AGE
-helm-install-traefik-<span style="color:#3677a9">8</span>wxmr                <span style="color:#3677a9">0</span>/<span style="color:#3677a9">1</span>     ContainerCreating   <span style="color:#3677a9">0</span>          <span style="color:#3677a9">3</span>m30s
-metrics-server-<span style="color:#3677a9">6</span>d684c7b5-j4sc7            <span style="color:#3677a9">0</span>/<span style="color:#3677a9">1</span>     ContainerCreating   <span style="color:#3677a9">0</span>          <span style="color:#3677a9">3</span>m30s
-coredns-d798c9dd-j6lpw                    <span style="color:#3677a9">0</span>/<span style="color:#3677a9">1</span>     ContainerCreating   <span style="color:#3677a9">0</span>          <span style="color:#3677a9">3</span>m30s
-local-path-provisioner-<span style="color:#3677a9">58</span>fb86bdfd-wv7sw   <span style="color:#3677a9">0</span>/<span style="color:#3677a9">1</span>     ContainerCreating   <span style="color:#3677a9">0</span>          <span style="color:#3677a9">3</span>m30s
-<span style="color:#a61717;background-color:#e3d2d2">$</span> kubectl describe pod coredns-d798c9dd-j6lpw -n kube-system
-...
-Events:
-  Type     Reason                  Age                 From                           Message
-  ----     ------                  ----                ----                           -------
-  Normal   Scheduled               &lt;unknown&gt;           <span style="color:#6ab825;font-weight:bold">default</span>-scheduler              Successfully assigned kube-system/coredns-d798c9dd-j6lpw to k3d-k3s-local-server
-  Warning  FailedCreatePodSandBox  <span style="color:#3677a9">7</span><span style="color:#447fcf">s</span> (x7 over <span style="color:#3677a9">4</span>m30s)  kubelet, k3d-k3s-local-server  Failed create pod sandbox: rpc <span style="color:#6ab825;font-weight:bold">error</span>: code = Unknown desc = failed to get sandbox image <span style="color:#ed9d13">&#34;k8s.gcr.io/pause:3.1&#34;</span>: failed to pull image <span style="color:#ed9d13">&#34;k8s.gcr.io/pause:3.1&#34;</span>: failed to pull and unpack image <span style="color:#ed9d13">&#34;k8s.gcr.io/pause:3.1&#34;</span>: failed to resolve reference <span style="color:#ed9d13">&#34;k8s.gcr.io/pause:3.1&#34;</span>: failed to do request: Head https:<span style="color:#999;font-style:italic">//k8s.gcr.io/v2/pause/manifests/3.1: dial tcp 64.233.189.82:443: i/o timeout
-</span></code></pre></div><h3 id="离线安装">离线安装</h3>
-<p>如果没有梯子的话，就只能选择使用离线安装。</p>
-<h4 id="下载离线镜像">下载离线镜像</h4>
-<p>前往 <a href="https://github.com/rancher/k3s/releases">release 页面</a> 下载指定版本的镜像，这里我们下载最新的 <a href="https://github.com/rancher/k3s/releases/tag/v1.17.2%2Bk3s1">v1.17.2+k3s1</a> 镜像。</p>
-<p><img src="https://tvax1.sinaimg.cn/large/ad5fbf65gy1gbzdedmqpdj20sh0k776o.jpg" alt="image"></p>
-<p>下载到 <code>~/airgap</code> 目录中，并进行解压，将解压后的目录重命名为 <code>1.17.2</code>。</p>
-<h3 id="运行离线镜像">运行离线镜像</h3>
-<p>这里再次运行 k3d，部署 k3s 集群。这里要注意的是，挂载离线镜像的话，必须使用 <code>-i</code> flag 来指定镜像版本，这里我们使用的是 <a href="https://github.com/rancher/k3s/releases/tag/v1.17.2%2Bk3s1">v1.17.2+k3s1</a> 版本，而镜像的 tag 则是 <code>v1.17.2-k3s1</code>，如果不确定 tag，可以去 <a href="https://hub.docker.com/r/rancher/k3s/tags">DockerHub</a> 上查看。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a61717;background-color:#e3d2d2">$</span> k3d create -n k3s-local -i rancher/k3s:v1<span style="color:#3677a9">.17.2</span>-k3s1  -v <span style="color:#a61717;background-color:#e3d2d2">$</span>(pwd)/airgap/v1<span style="color:#3677a9">.17.2</span>/:/<span style="color:#6ab825;font-weight:bold">var</span>/lib/rancher/k3s/agent/images/
-INFO[<span style="color:#3677a9">0000</span>] Created cluster network with ID <span style="color:#3677a9">10</span>b3fca995fcb491ae1fe1c901672bf6f0a0fd6f51785ba8403947d2773ebd43
-INFO[<span style="color:#3677a9">0000</span>] Created docker volume  k3d-k3s-local-images
-INFO[<span style="color:#3677a9">0000</span>] Creating cluster [k3s-local]
-INFO[<span style="color:#3677a9">0000</span>] Creating server using docker.io/rancher/k3s:v1<span style="color:#3677a9">.17.2</span>-k3s1...
-INFO[<span style="color:#3677a9">0000</span>] SUCCESS: created cluster [k3s-local]
-INFO[<span style="color:#3677a9">0000</span>] You can now use the cluster with:
+<div class="alert alert-warning" role="alert">
+<h4 class="alert-heading">注意</h4>
+请确保你集群有可用的 <code>StorageClass</code>，因为默认情况下 RabbitMQ Operator 创建的 RabbitMQ 集群会为每个实例使用 <code>StorageClass</code> 分配一个 10G 的 PVC
+</div>
 
-export KUBECONFIG=<span style="color:#ed9d13">&#34;$(k3d get-kubeconfig --name=&#39;k3s-local&#39;)&#34;</span>
-kubectl cluster-info
-</code></pre></div><p>查看 k3s 集群组件启动状态：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a61717;background-color:#e3d2d2">$</span> export KUBECONFIG=<span style="color:#ed9d13">&#34;$(k3d get-kubeconfig --name=&#39;k3s-local&#39;)&#34;</span>
-<span style="color:#a61717;background-color:#e3d2d2">$</span> kubectl get pod -A -w
-NAMESPACE     NAME                                      READY   STATUS              RESTARTS   AGE
-kube-system   local-path-provisioner-<span style="color:#3677a9">58</span>fb86bdfd-<span style="color:#3677a9">7</span>jzbw   <span style="color:#3677a9">0</span>/<span style="color:#3677a9">1</span>     ContainerCreating   <span style="color:#3677a9">0</span>          <span style="color:#3677a9">6</span>m35s
-kube-system   coredns-d798c9dd-jhmds                    <span style="color:#3677a9">1</span>/<span style="color:#3677a9">1</span>     Running             <span style="color:#3677a9">0</span>          <span style="color:#3677a9">6</span>m35s
-kube-system   metrics-server-<span style="color:#3677a9">6</span>d684c7b5-<span style="color:#3677a9">4</span>x2cd            <span style="color:#3677a9">1</span>/<span style="color:#3677a9">1</span>     Running             <span style="color:#3677a9">0</span>          <span style="color:#3677a9">6</span>m35s
-kube-system   traefik-<span style="color:#3677a9">6787</span>cddb4b-<span style="color:#3677a9">9</span>v7r4                  <span style="color:#3677a9">0</span>/<span style="color:#3677a9">1</span>     ContainerCreating   <span style="color:#3677a9">0</span>          <span style="color:#3677a9">16</span>s
-kube-system   svclb-traefik-fzrqj                       <span style="color:#3677a9">0</span>/<span style="color:#3677a9">2</span>     ContainerCreating   <span style="color:#3677a9">0</span>          <span style="color:#3677a9">15</span>s
-kube-system   helm-install-traefik-h8k2j                <span style="color:#3677a9">0</span>/<span style="color:#3677a9">1</span>     Completed           <span style="color:#3677a9">0</span>          <span style="color:#3677a9">6</span>m35s
-kube-system   svclb-traefik-fzrqj                       <span style="color:#3677a9">2</span>/<span style="color:#3677a9">2</span>     Running             <span style="color:#3677a9">0</span>          <span style="color:#3677a9">21</span>s
-</code></pre></div><h2 id="使用-kubecm">使用 kubecm</h2>
-<p>在 k3s 集群启动成功后，使用 <a href="https://github.com/sunny0826/kubecm"><code>kubecm</code></a>，将 k3s 的 kubeconfig 与现有 kubeconfig 合并。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubecm add -f <span style="color:#6ab825;font-weight:bold">$(</span>k3d get-kubeconfig --name=<span style="color:#ed9d13">&#39;k3s-local&#39;</span><span style="color:#6ab825;font-weight:bold">)</span> -n k3s -c
-</code></pre></div><p>切换集群，选择 k3s。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a61717;background-color:#e3d2d2">$</span> kubecm s
-Use the arrow keys to navigate: <span style="color:#a61717;background-color:#e3d2d2">↓</span> <span style="color:#a61717;background-color:#e3d2d2">↑</span> <span style="color:#a61717;background-color:#e3d2d2">→</span> <span style="color:#a61717;background-color:#e3d2d2">←</span>  and / toggles search
-Select Kube Context
-  <span style="color:#a61717;background-color:#e3d2d2">😼</span> <span style="color:#447fcf">k3s</span>(*)
-    prod-tg
-    test
-<span style="color:#a61717;background-color:#e3d2d2">↓</span>   banma
+<h3 id="查看集群中所有-rabbitmq">查看集群中所有 RabbitMQ</h3>
+<p>可以使用 <code>list</code> 命令查看集群中所有使用 RabbitMQ Operator 创建的 RabbitMQ 集群：</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl rabbitmq list
+NAME            AGE   STATUS
+test-rabbitmq   10m
+</code></pre></div><h3 id="查看指定-rabbitmq-的所有资源">查看指定 RabbitMQ 的所有资源</h3>
+<p>使用 <code>get</code> 命令可以轻松查看指定 RabbitMQ 集群的全部资源：</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl rabbitmq get test-rabbitmq
+NAME                         READY   STATUS    RESTARTS   AGE
+pod/test-rabbitmq-server-0   1/1     Running   <span style="color:#3677a9">0</span>          11m
 
---------- Info ----------
-Name:           k3s
-Cluster:        cluster-<span style="color:#3677a9">485</span>d6mhcfm
-User:           user-<span style="color:#3677a9">485</span>d6mhcfm
-</code></pre></div><p>现在就可以在本地使用 k3s 集群进行开发工作，而有运维工作的时候，使用 <code>kubecm switch</code> 快速切换集群。</p>
-<h2 id="结语">结语</h2>
-<p><img src="https://tva3.sinaimg.cn/large/ad5fbf65gy1gbzegsyex5j20x90n70vv.jpg" alt="image"></p>
-<p>k3s 同时支持 <strong>x86_64</strong>、<strong>ARM64</strong> 和 <strong>ARMv7</strong> 架构，它可以十分灵活地跨任何边缘基础架构工作。不提 k3s 在边缘计算领域的应用，与之前使用的 <a href="https://github.com/kubernetes/minikube">minikube</a> 相比，k3s 裁剪掉了许多用不到的功能，并且安装更简单，启动更快，空间占用也更小。相信 k3s 在开发侧的作用也会越来越大，使云原生应用的开发更加的便利。</p>
+NAME                                   DATA   AGE
+configmap/test-rabbitmq-plugins-conf   <span style="color:#3677a9">1</span>      11m
+configmap/test-rabbitmq-server-conf    <span style="color:#3677a9">2</span>      11m
+
+NAME                                    READY   AGE
+statefulset.apps/test-rabbitmq-server   1/1     11m
+
+NAME                          TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)              AGE
+service/test-rabbitmq         ClusterIP   10.96.84.122   &lt;none&gt;        15672/TCP,5672/TCP   11m
+service/test-rabbitmq-nodes   ClusterIP   None           &lt;none&gt;        4369/TCP,25672/TCP   11m
+
+NAME                                 TYPE     DATA   AGE
+secret/test-rabbitmq-default-user    Opaque   <span style="color:#3677a9">3</span>      11m
+secret/test-rabbitmq-erlang-cookie   Opaque   <span style="color:#3677a9">1</span>      11m
+</code></pre></div><h3 id="打开-rabbitmq-ui">打开 RabbitMQ UI</h3>
+<p>一般情况下，我们访问 ClusterIP 类型的 svc 都要使用到 <code>pord-forward</code> 的方式，<code>kubectl-rabbitmq</code> 则封装了该方法，使用 <code>manage</code> 命令即可马上弹出 UI 界面：</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl rabbitmq manage test-rabbitmq
+Forwarding from 127.0.0.1:15672 -&gt; <span style="color:#3677a9">15672</span>
+Forwarding from [::1]:15672 -&gt; <span style="color:#3677a9">15672</span>
+Handling connection <span style="color:#6ab825;font-weight:bold">for</span> <span style="color:#3677a9">15672</span>
+Handling connection <span style="color:#6ab825;font-weight:bold">for</span> <span style="color:#3677a9">15672</span>
+</code></pre></div><h3 id="获取默认用户">获取默认用户</h3>
+<p>既然已经可以访问 UI 界面了，那么下一步肯定是获取默认用户名/密码，使用 <code>secrets</code> 命令即可：</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl rabbitmq secrets test-rabbitmq
+username: sLSVWbiixZSB_XKL6SoI9kB_Pdefe477
+password: zm0oV3UraiadH9E2NNot6Igq8woeEyRi
+</code></pre></div><p>当然也可以直接查看 <code>secrets</code> 资源：</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#999;font-style:italic"># user</span>
+kubectl -n NAMESPACE get secret INSTANCE-default-user -o <span style="color:#40ffff">jsonpath</span>=<span style="color:#ed9d13">&#34;{.data.username}&#34;</span> | base64 --decode
+<span style="color:#999;font-style:italic"># pass</span>
+kubectl -n NAMESPACE get secret INSTANCE-default-user -o <span style="color:#40ffff">jsonpath</span>=<span style="color:#ed9d13">&#34;{.data.password}&#34;</span> | base64 --decode
+</code></pre></div><p>现在就顺利登陆 UI 界面了</p>
+<p><img src="https://tvax3.sinaimg.cn/large/ad5fbf65gy1gmoh3scl4pj23ra1aidox.jpg" alt="RabbitMQ UI"></p>
+<h3 id="监控-rabbitmq">监控 RabbitMQ</h3>
+<p>使用 <code>observe</code> 可以在终端观察指定 RabbitMQ 节点的监控信息，如下命令是查看 <code>test-rabbitmq-server-0</code> 的监控信息：</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl rabbitmq observe test-rabbitmq <span style="color:#3677a9">0</span>
+</code></pre></div><p><img src="https://tvax4.sinaimg.cn/large/ad5fbf65gy1gmoh8s8qe0j21rc1a87lq.jpg" alt="image"></p>
+<h3 id="验证-rabbitmq">验证 RabbitMQ</h3>
+<p>为了验证 RabbitMQ 是否正常运行，使用 <code>perf-test</code> 来进行：</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl rabbitmq perf-test test-rabbitmq --rate <span style="color:#3677a9">100</span>
+service/perf-test created
+pod/perf-test created
+</code></pre></div><p>这里可以看到拉起了 <code>perf-test</code> 的 pod 和 svc，查看其日志：</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl logs -f perf-test
+id: test-091555-328, starting consumer <span style="color:#999;font-style:italic">#0</span>
+id: test-091555-328, starting consumer <span style="color:#999;font-style:italic">#0, channel #0</span>
+id: test-091555-328, starting producer <span style="color:#999;font-style:italic">#0</span>
+id: test-091555-328, starting producer <span style="color:#999;font-style:italic">#0, channel #0</span>
+id: test-091555-328, time: 1.000s, sent: <span style="color:#3677a9">15259</span> msg/s, received: <span style="color:#3677a9">9462</span> msg/s, min/median/75th/95th/99th consumer latency: 5337/140173/167205/239702/259102 µs
+id: test-091555-328, time: 2.000s, sent: <span style="color:#3677a9">44288</span> msg/s, received: <span style="color:#3677a9">13328</span> msg/s, min/median/75th/95th/99th consumer latency: 281875/625383/726050/825489/844442 µs
+id: test-091555-328, time: 3.000s, sent: <span style="color:#3677a9">35377</span> msg/s, received: <span style="color:#3677a9">16624</span> msg/s, min/median/75th/95th/99th consumer latency: 869436/1176394/1463207/1500775/1509740 µs
+id: test-091555-328, time: 4.001s, sent: <span style="color:#3677a9">15490</span> msg/s, received: <span style="color:#3677a9">21770</span> msg/s, min/median/75th/95th/99th consumer latency: 1404599/1549405/1735201/1917333/1953431 µs
+id: test-091555-328, time: 5.001s, sent: <span style="color:#3677a9">17367</span> msg/s, received: <span style="color:#3677a9">18243</span> msg/s, min/median/75th/95th/99th consumer latency: 1967969/2297884/2502092/2649344/2678139 µs
+id: test-091555-328, time: 6.005s, sent: <span style="color:#3677a9">16679</span> msg/s, received: <span style="color:#3677a9">17953</span> msg/s, min/median/75th/95th/99th consumer latency: 2484404/2998748/3165893/3294687/3326600 µs
+id: test-091555-328, time: 7.006s, sent: <span style="color:#3677a9">16729</span> msg/s, received: <span style="color:#3677a9">18375</span> msg/s, min/median/75th/95th/99th consumer latency: 2393535/2753560/2990014/3194592/3224623 µs
+id: test-091555-328, time: 8.006s, sent: <span style="color:#3677a9">20648</span> msg/s, received: <span style="color:#3677a9">17156</span> msg/s, min/median/75th/95th/99th consumer latency: 2472263/2861278/3079786/3256128/3313167 µs
+
+</code></pre></div><p>在 UI 上也可以看到监控发生了变化。</p>
+<p><img src="https://tvax3.sinaimg.cn/large/ad5fbf65gy1gmohfwtciuj23p21g8qfb.jpg" alt=""></p>
+<p>验证完成后删除 <code>perf-test</code>:</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl delete pod,svc perf-test
+</code></pre></div><h3 id="删除-rabbitmq-集群">删除 RabbitMQ 集群</h3>
+<p>完成测试后，使用 <code>delete</code> 即可删除 RabbitMQ 集群。</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl rabbitmq delete test-rabbitmq
+rabbitmqcluster.rabbitmq.com <span style="color:#ed9d13">&#34;test-rabbitmq&#34;</span> deleted
+</code></pre></div><h2 id="总结">总结</h2>
+<p>以上的这些功能，使用 <code>kubectl</code> 和 yaml 文件也可以完成同样的效果，只不过有些操作比较繁琐。<code>kubectl rabbitmq</code> 简化了很多操作，在实际管理和维护 RabbitMQ 集群时，是一个非常不错的工具。</p>
 
 	<br>
 	
 	
 	<a class="button button-glow button-rounded button-royal button-tiny mb-2"
-		href="/tags/k3s">#k3s</a>
-	
-	<a class="button button-glow button-rounded button-royal button-tiny mb-2"
-		href="/tags/k3d">#k3d</a>
-	
-	<a class="button button-glow button-rounded button-royal button-tiny mb-2"
-		href="/tags/kubecm">#kubecm</a>
-	
-	<a class="button button-glow button-rounded button-royal button-tiny mb-2"
 		href="/tags/kubernetes">#Kubernetes</a>
+	
+	<a class="button button-glow button-rounded button-royal button-tiny mb-2"
+		href="/tags/kubernetes-plugin">#Kubernetes Plugin</a>
+	
+	<a class="button button-glow button-rounded button-royal button-tiny mb-2"
+		href="/tags/krew">#Krew</a>
 	
 	
 	
@@ -823,8 +842,8 @@ s.setAttribute('data-timestamp', +new Date());
 	
 
 	<div class="entry-shang pt-5">
-  <a href="/post/feiyan-grafana/" class=".-text-primary float-left"><i class="fas fa-angle-left"></i> 使用 Grafana 展示肺炎疫情动态</a>
-  <a href="/post/7-requirements-for-optimized-traffic-flow-and-security-in-kubernetes/" class=".-text-primary float-right">Kubernetes 中优化流量和安全性需要注意的7点要求 <i class="fas fa-angle-right"></i></a>
+  <a href="/post/iterm2/" class=".-text-primary float-left"><i class="fas fa-angle-left"></i> 使用 iTerm2 打造美观高效的 Mac 终端</a>
+  <a  class=".-text-primary float-right"></a>
 </div>
 	<script src="https://my.openwrite.cn/js/readmore.js" type="text/javascript"></script>
 	<script>

@@ -14,6 +14,132 @@
     
     
     <item>
+      <title>Post: 使用 kubectl-rabbitmq 部署和运维 K8S 上的 RabbitMQ 集群</title>
+      <link>https://guoxudong.io/post/kubectl-rabbitmq/</link>
+      <pubDate>Fri, 15 Jan 2021 15:34:10 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/kubectl-rabbitmq/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;最近接到一个在 K8S 中部署一个 RabbitMQ 集群的任务，既然是部署在 K8S 集群中，首选的当然是 RabbitMQ Operator 了。不过在浏览官方文档时，意外的官方也有开发一个 kubectl-rabbitmq 的插件来帮助部署和运维 RabbitMQ Operator，在试用后发现体验意外的不错。那么本文我们就使用 kubectl-rabbitmq 来部署一个 RabbitMQ 集群吧！&lt;/p&gt;
+&lt;h2 id=&#34;插件安装&#34;&gt;插件安装&lt;/h2&gt;
+&lt;p&gt;安装插件前需要安装 &lt;a href=&#34;https://krew.sigs.k8s.io/&#34;&gt;krew&lt;/a&gt;，也就是 kubectl 的插件管理工具，krew 的安装这里就不做详细说明了。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&amp;amp; kubectl krew install rabbitmq
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;安装完成后就可以使用 &lt;code&gt;kubectl rabbitmq&lt;/code&gt; 来部署和管理 RabbitMQ 集群了。&lt;/p&gt;
+&lt;h3 id=&#34;安装-rabbitmq-operator&#34;&gt;安装 RabbitMQ Operator&lt;/h3&gt;
+&lt;p&gt;使用 &lt;code&gt;kubectl-rabbitmq&lt;/code&gt; 安装 RabbitMQ Operator 非常简单，只需一行命令：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl rabbitmq install-cluster-operator
+namespace/rabbitmq-system created
+customresourcedefinition.apiextensions.k8s.io/rabbitmqclusters.rabbitmq.com created
+serviceaccount/rabbitmq-cluster-operator created
+role.rbac.authorization.k8s.io/rabbitmq-cluster-leader-election-role created
+clusterrole.rbac.authorization.k8s.io/rabbitmq-cluster-operator-role created
+rolebinding.rbac.authorization.k8s.io/rabbitmq-cluster-leader-election-rolebinding created
+clusterrolebinding.rbac.authorization.k8s.io/rabbitmq-cluster-operator-rolebinding created
+deployment.apps/rabbitmq-cluster-operator created
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;之后就可以看到 &lt;code&gt;rabbitmq-cluster-operator&lt;/code&gt; 已经不再在 namespace： &lt;code&gt;rabbitmq-system&lt;/code&gt; 中了：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl get pod -n rabbitmq-system
+NAME                                         READY   STATUS    RESTARTS   AGE
+rabbitmq-cluster-operator-7bbbb8d559-k8zwm   1/1     Running   &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;          35m
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;创建-rabbitmq-集群&#34;&gt;创建 RabbitMQ 集群&lt;/h3&gt;
+&lt;p&gt;创建 RabbitMQ 集群同样简单，也是一行命令：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl rabbitmq create &amp;lt;rabbitmq-cluster-name&amp;gt; --replicas &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt; --service ClusterIP --image rabbitmq:3.8.9-management
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里除了 &lt;code&gt;&amp;lt;rabbitmq-cluster-name&amp;gt;&lt;/code&gt; 以外，其余参数均为可选项，内容为 RabbitMQ Operator 的 CR 文件。此处的原理也比较简单，只是生成了一份 CR 配置。更多参数请参考&lt;a href=&#34;https://www.rabbitmq.com/kubernetes/operator/using-operator.html&#34;&gt;官方文档&lt;/a&gt;。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl get RabbitmqCluster
+NAME            AGE   STATUS
+test-rabbitmq   54s
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;注意&lt;/h4&gt;
+请确保你集群有可用的 &lt;code&gt;StorageClass&lt;/code&gt;，因为默认情况下 RabbitMQ Operator 创建的 RabbitMQ 集群会为每个实例使用 &lt;code&gt;StorageClass&lt;/code&gt; 分配一个 10G 的 PVC
+&lt;/div&gt;
+
+&lt;h3 id=&#34;查看集群中所有-rabbitmq&#34;&gt;查看集群中所有 RabbitMQ&lt;/h3&gt;
+&lt;p&gt;可以使用 &lt;code&gt;list&lt;/code&gt; 命令查看集群中所有使用 RabbitMQ Operator 创建的 RabbitMQ 集群：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl rabbitmq list
+NAME            AGE   STATUS
+test-rabbitmq   10m
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;查看指定-rabbitmq-的所有资源&#34;&gt;查看指定 RabbitMQ 的所有资源&lt;/h3&gt;
+&lt;p&gt;使用 &lt;code&gt;get&lt;/code&gt; 命令可以轻松查看指定 RabbitMQ 集群的全部资源：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl rabbitmq get test-rabbitmq
+NAME                         READY   STATUS    RESTARTS   AGE
+pod/test-rabbitmq-server-0   1/1     Running   &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;          11m
+
+NAME                                   DATA   AGE
+configmap/test-rabbitmq-plugins-conf   &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;      11m
+configmap/test-rabbitmq-server-conf    &lt;span style=&#34;color:#3677a9&#34;&gt;2&lt;/span&gt;      11m
+
+NAME                                    READY   AGE
+statefulset.apps/test-rabbitmq-server   1/1     11m
+
+NAME                          TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)              AGE
+service/test-rabbitmq         ClusterIP   10.96.84.122   &amp;lt;none&amp;gt;        15672/TCP,5672/TCP   11m
+service/test-rabbitmq-nodes   ClusterIP   None           &amp;lt;none&amp;gt;        4369/TCP,25672/TCP   11m
+
+NAME                                 TYPE     DATA   AGE
+secret/test-rabbitmq-default-user    Opaque   &lt;span style=&#34;color:#3677a9&#34;&gt;3&lt;/span&gt;      11m
+secret/test-rabbitmq-erlang-cookie   Opaque   &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;      11m
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;打开-rabbitmq-ui&#34;&gt;打开 RabbitMQ UI&lt;/h3&gt;
+&lt;p&gt;一般情况下，我们访问 ClusterIP 类型的 svc 都要使用到 &lt;code&gt;pord-forward&lt;/code&gt; 的方式，&lt;code&gt;kubectl-rabbitmq&lt;/code&gt; 则封装了该方法，使用 &lt;code&gt;manage&lt;/code&gt; 命令即可马上弹出 UI 界面：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl rabbitmq manage test-rabbitmq
+Forwarding from 127.0.0.1:15672 -&amp;gt; &lt;span style=&#34;color:#3677a9&#34;&gt;15672&lt;/span&gt;
+Forwarding from [::1]:15672 -&amp;gt; &lt;span style=&#34;color:#3677a9&#34;&gt;15672&lt;/span&gt;
+Handling connection &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;15672&lt;/span&gt;
+Handling connection &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;15672&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;获取默认用户&#34;&gt;获取默认用户&lt;/h3&gt;
+&lt;p&gt;既然已经可以访问 UI 界面了，那么下一步肯定是获取默认用户名/密码，使用 &lt;code&gt;secrets&lt;/code&gt; 命令即可：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl rabbitmq secrets test-rabbitmq
+username: sLSVWbiixZSB_XKL6SoI9kB_Pdefe477
+password: zm0oV3UraiadH9E2NNot6Igq8woeEyRi
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;当然也可以直接查看 &lt;code&gt;secrets&lt;/code&gt; 资源：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# user&lt;/span&gt;
+kubectl -n NAMESPACE get secret INSTANCE-default-user -o &lt;span style=&#34;color:#40ffff&#34;&gt;jsonpath&lt;/span&gt;=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;{.data.username}&amp;#34;&lt;/span&gt; | base64 --decode
+&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# pass&lt;/span&gt;
+kubectl -n NAMESPACE get secret INSTANCE-default-user -o &lt;span style=&#34;color:#40ffff&#34;&gt;jsonpath&lt;/span&gt;=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;{.data.password}&amp;#34;&lt;/span&gt; | base64 --decode
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;现在就顺利登陆 UI 界面了&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax3.sinaimg.cn/large/ad5fbf65gy1gmoh3scl4pj23ra1aidox.jpg&#34; alt=&#34;RabbitMQ UI&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;监控-rabbitmq&#34;&gt;监控 RabbitMQ&lt;/h3&gt;
+&lt;p&gt;使用 &lt;code&gt;observe&lt;/code&gt; 可以在终端观察指定 RabbitMQ 节点的监控信息，如下命令是查看 &lt;code&gt;test-rabbitmq-server-0&lt;/code&gt; 的监控信息：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl rabbitmq observe test-rabbitmq &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://tvax4.sinaimg.cn/large/ad5fbf65gy1gmoh8s8qe0j21rc1a87lq.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;验证-rabbitmq&#34;&gt;验证 RabbitMQ&lt;/h3&gt;
+&lt;p&gt;为了验证 RabbitMQ 是否正常运行，使用 &lt;code&gt;perf-test&lt;/code&gt; 来进行：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl rabbitmq perf-test test-rabbitmq --rate &lt;span style=&#34;color:#3677a9&#34;&gt;100&lt;/span&gt;
+service/perf-test created
+pod/perf-test created
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里可以看到拉起了 &lt;code&gt;perf-test&lt;/code&gt; 的 pod 和 svc，查看其日志：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl logs -f perf-test
+id: test-091555-328, starting consumer &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#0&lt;/span&gt;
+id: test-091555-328, starting consumer &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#0, channel #0&lt;/span&gt;
+id: test-091555-328, starting producer &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#0&lt;/span&gt;
+id: test-091555-328, starting producer &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#0, channel #0&lt;/span&gt;
+id: test-091555-328, time: 1.000s, sent: &lt;span style=&#34;color:#3677a9&#34;&gt;15259&lt;/span&gt; msg/s, received: &lt;span style=&#34;color:#3677a9&#34;&gt;9462&lt;/span&gt; msg/s, min/median/75th/95th/99th consumer latency: 5337/140173/167205/239702/259102 µs
+id: test-091555-328, time: 2.000s, sent: &lt;span style=&#34;color:#3677a9&#34;&gt;44288&lt;/span&gt; msg/s, received: &lt;span style=&#34;color:#3677a9&#34;&gt;13328&lt;/span&gt; msg/s, min/median/75th/95th/99th consumer latency: 281875/625383/726050/825489/844442 µs
+id: test-091555-328, time: 3.000s, sent: &lt;span style=&#34;color:#3677a9&#34;&gt;35377&lt;/span&gt; msg/s, received: &lt;span style=&#34;color:#3677a9&#34;&gt;16624&lt;/span&gt; msg/s, min/median/75th/95th/99th consumer latency: 869436/1176394/1463207/1500775/1509740 µs
+id: test-091555-328, time: 4.001s, sent: &lt;span style=&#34;color:#3677a9&#34;&gt;15490&lt;/span&gt; msg/s, received: &lt;span style=&#34;color:#3677a9&#34;&gt;21770&lt;/span&gt; msg/s, min/median/75th/95th/99th consumer latency: 1404599/1549405/1735201/1917333/1953431 µs
+id: test-091555-328, time: 5.001s, sent: &lt;span style=&#34;color:#3677a9&#34;&gt;17367&lt;/span&gt; msg/s, received: &lt;span style=&#34;color:#3677a9&#34;&gt;18243&lt;/span&gt; msg/s, min/median/75th/95th/99th consumer latency: 1967969/2297884/2502092/2649344/2678139 µs
+id: test-091555-328, time: 6.005s, sent: &lt;span style=&#34;color:#3677a9&#34;&gt;16679&lt;/span&gt; msg/s, received: &lt;span style=&#34;color:#3677a9&#34;&gt;17953&lt;/span&gt; msg/s, min/median/75th/95th/99th consumer latency: 2484404/2998748/3165893/3294687/3326600 µs
+id: test-091555-328, time: 7.006s, sent: &lt;span style=&#34;color:#3677a9&#34;&gt;16729&lt;/span&gt; msg/s, received: &lt;span style=&#34;color:#3677a9&#34;&gt;18375&lt;/span&gt; msg/s, min/median/75th/95th/99th consumer latency: 2393535/2753560/2990014/3194592/3224623 µs
+id: test-091555-328, time: 8.006s, sent: &lt;span style=&#34;color:#3677a9&#34;&gt;20648&lt;/span&gt; msg/s, received: &lt;span style=&#34;color:#3677a9&#34;&gt;17156&lt;/span&gt; msg/s, min/median/75th/95th/99th consumer latency: 2472263/2861278/3079786/3256128/3313167 µs
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在 UI 上也可以看到监控发生了变化。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax3.sinaimg.cn/large/ad5fbf65gy1gmohfwtciuj23p21g8qfb.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;验证完成后删除 &lt;code&gt;perf-test&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl delete pod,svc perf-test
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;删除-rabbitmq-集群&#34;&gt;删除 RabbitMQ 集群&lt;/h3&gt;
+&lt;p&gt;完成测试后，使用 &lt;code&gt;delete&lt;/code&gt; 即可删除 RabbitMQ 集群。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl rabbitmq delete test-rabbitmq
+rabbitmqcluster.rabbitmq.com &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;test-rabbitmq&amp;#34;&lt;/span&gt; deleted
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;总结&#34;&gt;总结&lt;/h2&gt;
+&lt;p&gt;以上的这些功能，使用 &lt;code&gt;kubectl&lt;/code&gt; 和 yaml 文件也可以完成同样的效果，只不过有些操作比较繁琐。&lt;code&gt;kubectl rabbitmq&lt;/code&gt; 简化了很多操作，在实际管理和维护 RabbitMQ 集群时，是一个非常不错的工具。&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Post: 使用 iTerm2 打造美观高效的 Mac 终端</title>
       <link>https://guoxudong.io/post/iterm2/</link>
       <pubDate>Mon, 04 Jan 2021 14:14:02 +0800</pubDate>
@@ -6971,133 +7097,6 @@ service grafana-server restart
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;使用该插件会如果为测试构建，则会自动设置 docker 镜像 tag 为 &lt;code&gt;DRONE_BUILD_NUMBER&lt;/code&gt; ；如果为生产构建（git tag），则叫自动设置 docker 镜像 tag 为 &lt;code&gt;DRONE_TAG&lt;/code&gt; ，然后通过 &lt;code&gt;kubectl apply -k .&lt;/code&gt; 进行部署，同时使用 &lt;code&gt;kubedog&lt;/code&gt; 进行部署状态检查，如果服务正常启动则该 step 通过，如果超时或者部署报错则该 step 失败。&lt;/p&gt;
 &lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
 &lt;p&gt;根据我们目前的开发模式，对 drone 插件进行了全方位的开发。由于 dockerhub 的镜像拉取经常超时，则将镜像推送到了我们自己的镜像仓库；对钉钉通知也进行了优化；同时也根据我们目前的开发语言进行了插件的开发，提供了基于 Java 、Python 以及 Node.js 的 drone 插件，基本可以满足我们现在的 CI 需求，但随着 drone 的深入使用，越来越多的问题将会暴露出来。后续将会不断解决遇到的问题，持续优化。&lt;/p&gt;
-
-      </description>
-    </item>
-    
-    <item>
-      <title>Post: GitHub/Gitee 静态页托管页部署SSL证书</title>
-      <link>https://guoxudong.io/post/aliyun-ssl/</link>
-      <pubDate>Fri, 23 Aug 2019 09:36:55 +0800</pubDate>
-      
-      <guid>https://guoxudong.io/post/aliyun-ssl/</guid>
-      <description>
-        
-        
-        &lt;p&gt;本文档介绍了在 &lt;a href=&#34;https://pages.github.com/&#34;&gt;Github&lt;/a&gt; / &lt;a href=&#34;https://gitee.com/help/articles/4136&#34;&gt;Gitee&lt;/a&gt; 的静态页托管Pages服务部署SSL证书，配置HTTPS安全访问的操作说明。&lt;/p&gt;
-&lt;h3 id=&#34;pages服务&#34;&gt;Pages服务&lt;/h3&gt;
-&lt;p&gt;Github/Gitee的Pages是一个免费的静态网页托管服务，您可以使用Github或码云Pages托管博客、项目官网等静态网页。常见的静态站点生成器有：Hugo、Jekyll、Hexo等，可以用来生成静态站点。默认情况下，托管的站点使用 &lt;code&gt;github.io&lt;/code&gt; / &lt;code&gt;gitee.io&lt;/code&gt; 域名来访问站点，同时也支持自定义域名，并配置强制使用HTTPS。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;注意：如果要在 Gitee Pages 上配置自定义域名+HTTPS，则需要开启 Gitee Pages Pro 。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&#34;github-pages-服务部署ssl证书&#34;&gt;Github Pages 服务部署SSL证书&lt;/h3&gt;
-&lt;h4 id=&#34;前提条件&#34;&gt;前提条件&lt;/h4&gt;
-&lt;ul&gt;
-&lt;li&gt;GitHub 仓库&lt;/li&gt;
-&lt;li&gt;开启 GitHub Pages&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g69e503ukoj21ig0hwad9.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;h4 id=&#34;证书签发&#34;&gt;证书签发&lt;/h4&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;购买证书后点击申请&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx2.sinaimg.cn/large/ad5fbf65gy1g69ee2r500j22cc078t9z.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;证书申请&lt;/p&gt;
-&lt;p&gt;如果该域名是由阿里云购买，则选择自动DNS验证，如果不是在阿里云购买的，可以选择手动验证。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/bmiddle/ad5fbf65gy1g69egsu7fuj20ye0swwh3.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx2.sinaimg.cn/bmiddle/ad5fbf65gy1g69eo1wls7j20ya0r0418.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;证书签发&lt;/p&gt;
-&lt;p&gt;证书通过申请后，会收到证书签发的邮件。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx2.sinaimg.cn/wap720/ad5fbf65gy1g69epoqw6uj21680cotaj.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h4 id=&#34;设置自定义域名&#34;&gt;设置自定义域名&lt;/h4&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;解析域名&lt;/p&gt;
-&lt;p&gt;在证书签发成功后，添加DNS解析，将绑定了SSL证书的域名解析到 &lt;code&gt;YourRepo.github.io&lt;/code&gt; 。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ws2.sinaimg.cn/large/ad5fbf65gy1g69evivrvqj21mi07it9g.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;配置域名&lt;/p&gt;
-&lt;p&gt;解析之后将域名添加到 &lt;code&gt;Custom domain&lt;/code&gt; 并且点击 &lt;code&gt;Save&lt;/code&gt; ，Github会自动验证，出现&lt;code&gt;Your site is published at https://YourDomainName.com/&lt;/code&gt;则证明解析成功。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx4.sinaimg.cn/large/ad5fbf65gy1g69esrcn2tj21a210wwk0.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3 id=&#34;gitee-pages-pro-服务部署ssl证书&#34;&gt;Gitee Pages Pro 服务部署SSL证书&lt;/h3&gt;
-&lt;h4 id=&#34;前提条件-1&#34;&gt;前提条件&lt;/h4&gt;
-&lt;ul&gt;
-&lt;li&gt;Gitee 仓库&lt;/li&gt;
-&lt;li&gt;开启 Gitee Pages Pro&lt;/li&gt;
-&lt;/ul&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Gitee 需要开启 Gitee Pages Pro 服务才支持自定义域名+HTTPS。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h4 id=&#34;证书签发-1&#34;&gt;证书签发&lt;/h4&gt;
-&lt;p&gt;证书签发同 Github Pages。这里介绍非阿里云购买的域名，进行证书申请。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;购买证书流程如上&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;申请证书&lt;/p&gt;
-&lt;p&gt;证书验证方式选择&lt;code&gt;手工DNS验证&lt;/code&gt;。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;拷贝验证信息&lt;/p&gt;
-&lt;p&gt;拷贝验证信息内的&lt;code&gt;记录值&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx2.sinaimg.cn/bmiddle/ad5fbf65gy1g69eo1wls7j20ya0r0418.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;验证解析&lt;/p&gt;
-&lt;p&gt;进入购买域名所在网站进行DNS解析，这里以&lt;a href=&#34;https://www.name.com/zh-cn/&#34;&gt;name.com&lt;/a&gt;为例：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ws4.sinaimg.cn/large/ad5fbf65gy1g69fqad2euj221g0700tt.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;p&gt;解析成功之后，返回阿里云SSL证书管理页面点击&lt;code&gt;验证&lt;/code&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;证书签发&lt;/p&gt;
-&lt;p&gt;签发成功后会收到签发成功的邮件。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h4 id=&#34;设置自定义域名-1&#34;&gt;设置自定义域名&lt;/h4&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;解析域名&lt;/p&gt;
-&lt;p&gt;进入域名所在网站，添加DNS解析记录，将绑定了SSL证书的域名解析到&lt;code&gt;gitee.gitee.io&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ws3.sinaimg.cn/large/ad5fbf65gy1g69fyy5it5j21z606mjs9.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;配置域名&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;域名添加到&lt;code&gt;自定义域名&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx2.sinaimg.cn/large/ad5fbf65gy1g69g11wx0qj21a60xiq7m.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;配置证书&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;证书下载，选择 nginx 类型。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ws4.sinaimg.cn/bmiddle/ad5fbf65gy1g69g3pua7xj20ne0v0jus.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;gitee pages 配置证书，将证书文件与私钥文件贴入并提交。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ws4.sinaimg.cn/large/ad5fbf65gy1g69g64n1btj21bs0yogq8.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;勾选&lt;code&gt;强制使用HTTPS&lt;/code&gt;，并保存。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3 id=&#34;验证&#34;&gt;验证&lt;/h3&gt;
-&lt;p&gt;在Github/Gitee配置成功之后，您可在浏览器中输入 &lt;a href=&#34;https://www.YourDomainName.com&#34;&gt;https://www.YourDomainName.com&lt;/a&gt; 验证证书安装结果。可以正常访问静态托管站点，并且浏览器地址栏显示绿色的小锁标识说明证书安装成功。&lt;/p&gt;
 
       </description>
     </item>
