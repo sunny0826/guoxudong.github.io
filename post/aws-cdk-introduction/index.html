@@ -51,11 +51,11 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://guoxudong.io/post/aws-cdk-introduction/" />
 <meta property="article:published_time" content="2021-01-21T10:43:11+08:00" />
-<meta property="article:modified_time" content="2021-01-21T18:22:55+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
+<meta property="article:modified_time" content="2021-01-21T18:23:48+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
 <meta itemprop="name" content="AWS CDK | IaC 何必只用 Yaml">
 <meta itemprop="description" content="使用 AWS CDK 破解 IaC 的 Yaml 困局。">
 <meta itemprop="datePublished" content="2021-01-21T10:43:11&#43;08:00" />
-<meta itemprop="dateModified" content="2021-01-21T18:22:55&#43;08:00" />
+<meta itemprop="dateModified" content="2021-01-21T18:23:48&#43;08:00" />
 <meta itemprop="wordCount" content="412">
 
 
@@ -642,7 +642,7 @@ if (!doNotTrack) {
 <p>虽然声明式的 IaC 看上去更简单且高效，但事实并非如此。和我一样主要工作是管理和运维 kubernetes 集群的同学，常常自称为 YAML 工程师，原因就是我们日常工作需要管理和维护数量庞大的 YAML 文件，小到一个微服务，大到一整套云环境，大部分情况都是采用 YAML 或 JSON 格式的配置文件进行管理，我们手中的 YAML 越来越多，而 YAML 文件的可读性并没有那么友好。<strong>“YAML 地狱”</strong> 这个词形容的就非常贴切。</p>
 <h3 id="如何破解-yaml-地狱">如何破解 YAML 地狱？</h3>
 <p>其实这个问题早就引起了开发者的广泛讨论，为了解决这个问题很多项目都做出了尝试，如 Helm 这样采用 template 的方式，或 kustomize 这样采用 overlay 的方式对 YAML 进行抽象和简化。</p>
-<p>目前比较受欢迎的还有一种方式，就是采用常规编程语言通过代码来生成声明式的配置，然后再基于声明式的配置进行部署，这样既不会重复造轮子，同时常规编程语言的可读性、代码量以及编写的难易程度都比直接编写 Yaml 文件要简单的多。比如我之前介绍过的 <code>Grabana</code> 就是采用这种模式，使用 Golang 来生成 Grafana Dashboard 配置并部署，详见：<a href="./grabana-create-grafana-dashboard">《Grabana：使用 Golang 或 Yaml 生成 Grafana Dashboard》</a>。</p>
+<p>目前比较受欢迎的还有一种方式，就是采用常规编程语言通过代码来生成声明式的配置，然后再基于声明式的配置进行部署，这样既不会重复造轮子，同时常规编程语言的可读性、代码量以及编写的难易程度都比直接编写 Yaml 文件要简单的多。比如我之前介绍过的 <code>Grabana</code> 就是采用这种模式，使用 Golang 来生成 Grafana Dashboard 配置并部署，详见：<a href="../grabana-create-grafana-dashboard">《Grabana：使用 Golang 或 Yaml 生成 Grafana Dashboard》</a>。</p>
 <p>这种方式融合了 Imperative 和 Declarative 的优点是一个非常不错的选择。</p>
 <h2 id="aws-cdk">AWS CDK</h2>
 <p>AWS Cloud Development Kit（AWS CDK） 是 AWS 开发的一种开源软件开发框架，可以使用 Python 或 Typescript 之类的编程语言，利用函数快速构建代码框架，快速的定义云资源，并且还提供了一系列默认选项，使得代码量进一步降低。</p>
