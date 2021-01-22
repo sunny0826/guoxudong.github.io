@@ -14,6 +14,139 @@
     
     
     <item>
+      <title>Post: 使用 AWS CDK Python 从零开始构建 EKS 集群</title>
+      <link>https://guoxudong.io/post/aws-cdk-python-eks/</link>
+      <pubDate>Fri, 22 Jan 2021 10:07:01 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/aws-cdk-python-eks/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;上篇文章&lt;a href=&#34;../aws-cdk-introduction&#34;&gt;《AWS CDK | IaC 何必只用 Yaml》&lt;/a&gt; 笔者介绍了 AWS CDK 的概念和基本使用方法，本篇文章就来使用 CDK 在 AWS 从零开始构建一个全新的 KES 集群，实际感受一下使用 AWS CDK 创建和管理云资源的简单和便捷。&lt;/p&gt;
+&lt;h2 id=&#34;资源清单&#34;&gt;资源清单&lt;/h2&gt;
+&lt;p&gt;本文中，笔者会创建以下资源：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;创建一个 EKS 集群&lt;/li&gt;
+&lt;li&gt;为 EKS master 配置一个 IAM Role&lt;/li&gt;
+&lt;li&gt;创建一个 VPC（包含子网和 NAT）&lt;/li&gt;
+&lt;li&gt;为 EKS 创建一个 Node Group 用来管理一组 Worker 节点&lt;/li&gt;
+&lt;li&gt;为 EKS 创建一个 Auto Scaling Group 用来管理弹性伸缩节点&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;show-me-the-code&#34;&gt;Show me the code&lt;/h2&gt;
+&lt;p&gt;本文代码已全部上传 GitHub，配合代码阅读本文体验更佳。&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Github 地址&lt;/h4&gt;
+&lt;a href=&#34;https://github.com/sunny0826/aws-cdk-eks&#34;&gt;https://github.com/sunny0826/aws-cdk-eks&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&#34;安装-aws-cdk&#34;&gt;安装 AWS CDK&lt;/h3&gt;
+&lt;p&gt;首先其实需要有 &lt;code&gt;AWS CLI&lt;/code&gt; 命令行工具，并配置了 &lt;code&gt;AWS_ACCESS_KEY_ID&lt;/code&gt;、&lt;code&gt;AWS_SECRET_ACCESS_KEY&lt;/code&gt; 和 &lt;code&gt;AWS_DEFAULT_REGION&lt;/code&gt;，这里就不做详细介绍了，同时还要安装 &lt;code&gt;Node.js&lt;/code&gt; 10.3.0 以上的版本。&lt;/p&gt;
+&lt;p&gt;使用 &lt;code&gt;npm&lt;/code&gt; 安装：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ npm install -g aws-cdk
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;安装完成后，检查 &lt;code&gt;AWS CDK&lt;/code&gt; 版本：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ cdk --version
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;创建-app&#34;&gt;创建 APP&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;AWS CDK&lt;/code&gt; 安装完成后，就可以开始创建项目了。&lt;/p&gt;
+&lt;p&gt;新建一个目录：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ mkdir aws-cdk-eks
+$ &lt;span style=&#34;color:#24909d&#34;&gt;cd&lt;/span&gt; aws-cdk-eks
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;初始化项目：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ cdk init app --language python
+$ &lt;span style=&#34;color:#24909d&#34;&gt;source&lt;/span&gt; .venv/bin/activate
+$ python -m pip install -r requirements.txt
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里就会生成一个 Python 项目，目录结构如下如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ tree
+.
+├── README.md
+├── app.py
+├── cdk.json
+├── cdk_python
+│   ├── __init__.py
+│   └── cdk_python_stack.py   &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 主要文件&lt;/span&gt;
+├── requirements.txt
+├── setup.py
+└── source.bat
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;之后的代码就是写在 &lt;code&gt;cdk_python_stack.py&lt;/code&gt; 中。&lt;/p&gt;
+&lt;h3 id=&#34;codeing&#34;&gt;Codeing&lt;/h3&gt;
+&lt;p&gt;接下来就是写代码时间了。&lt;/p&gt;
+&lt;h4 id=&#34;创建-vpc&#34;&gt;创建 VPC&lt;/h4&gt;
+&lt;p&gt;首先 EKS 需要一个 VPC，这里有三种方式：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;使用 &lt;code&gt;default&lt;/code&gt; VPC&lt;/li&gt;
+&lt;li&gt;指定一个已有 VPC&lt;/li&gt;
+&lt;li&gt;新建一个 VPC&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;直接使用 &lt;code&gt;default&lt;/code&gt; VPC:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;vpc = ec2.Vpc.from_lookup(self, &lt;span style=&#34;color:#24909d&#34;&gt;id&lt;/span&gt;=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;Vpc&amp;#39;&lt;/span&gt;, is_default=True)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;指定现有 VPC：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;vpc = ec2.Vpc.from_lookup(self, &lt;span style=&#34;color:#24909d&#34;&gt;id&lt;/span&gt;=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;Vpc&amp;#39;&lt;/span&gt;, vpc_id=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;vpc-0417e46d&amp;#39;&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;新建 VPC：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;vpc = ec2.Vpc(self,
+    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;eks-vpc&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# VPC id&lt;/span&gt;
+    cidr=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;10.3.0.0/16&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# CIDR&lt;/span&gt;
+    max_azs=&lt;span style=&#34;color:#3677a9&#34;&gt;3&lt;/span&gt;,  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 跨3个AZ&lt;/span&gt;
+    nat_gateways=&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 新建一个 NAT Gateway&lt;/span&gt;
+    )
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;还有很多其他参数可以配置，这里用不到直接使用默认值。&lt;/p&gt;
+&lt;h4 id=&#34;创建-iam&#34;&gt;创建 IAM&lt;/h4&gt;
+&lt;p&gt;这里需要给 k8s 的 master 创建一个  IAM Role，这样我们才能对 EKS 进行管理。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;eks_master_role = iam.Role(self, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;EksMasterRole&amp;#39;&lt;/span&gt;,
+    role_name=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;EksAdminRole&amp;#39;&lt;/span&gt;,
+    assumed_by=iam.AccountRootPrincipal()
+    )
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;创建-eks&#34;&gt;创建 EKS&lt;/h4&gt;
+&lt;p&gt;VPC 和 IAM 都已经准备好了，现在可以创建 EKS 集群了。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;cluster = eks.Cluster(self, 
+    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;Cluster&amp;#39;&lt;/span&gt;,  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 集群 id&lt;/span&gt;
+    vpc=vpc,  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 指定 VPC&lt;/span&gt;
+    version=eks.KubernetesVersion.V1_18,  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# K8S 版本&lt;/span&gt;
+    masters_role=eks_master_role, &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# naster 的 IAM Role&lt;/span&gt;
+    default_capacity=&lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 这里不需要 worker 节点，后面采用 MNG 或 ASG 来管理&lt;/span&gt;
+    )
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;可以看到先前定义的 &lt;code&gt;vpc&lt;/code&gt; 和 &lt;code&gt;eks_master_role&lt;/code&gt; 都作为参数被传给了 &lt;code&gt;cluster&lt;/code&gt;，而 &lt;code&gt;default_capacity&lt;/code&gt; 是定义默认 worker 节点的，下面我们会采用 MNG 和 ASG 来管理 worker 节点，所以这里设置为 0.&lt;/p&gt;
+&lt;h4 id=&#34;为-eks-添加-mng&#34;&gt;为 EKS 添加 MNG&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;cluster&lt;/code&gt; 定义好后，相当于 K8S 的 master 节点已经配置完成，接下来就是 worker 节点的配置。EKS 可以使用 MNG 和 ASG 来管理 worker 节点。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;cluster.add_nodegroup_capacity(
+    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;MNG&amp;#39;&lt;/span&gt;,  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# MNG id&lt;/span&gt;
+    capacity_type=eks.CapacityType.SPOT,  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 节点类型&lt;/span&gt;
+    desired_size=&lt;span style=&#34;color:#3677a9&#34;&gt;2&lt;/span&gt;, &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 节点数量&lt;/span&gt;
+    instance_types=[  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 节点规格&lt;/span&gt;
+        ec2.InstanceType(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;t3.large&amp;#39;&lt;/span&gt;),
+        ec2.InstanceType(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;m5.large&amp;#39;&lt;/span&gt;),
+        ec2.InstanceType(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;c5.large&amp;#39;&lt;/span&gt;),
+    ]),
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;为-eks-添加-asg&#34;&gt;为 EKS 添加 ASG&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;cluster.add_auto_scaling_group_capacity(
+  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;ASGNG&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# ASG id&lt;/span&gt;
+  instance_type=[  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 节点规格&lt;/span&gt;
+        ec2.InstanceType(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;t3.large&amp;#39;&lt;/span&gt;),
+        ec2.InstanceType(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;m5.large&amp;#39;&lt;/span&gt;),
+        ec2.InstanceType(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;c5.large&amp;#39;&lt;/span&gt;),
+  ],
+  desired_capacity=&lt;span style=&#34;color:#3677a9&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 节点数量&lt;/span&gt;
+  )
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;当然 MNG 和 ASG 都可以设置 &lt;code&gt;max_size&lt;/code&gt; 和 &lt;code&gt;min_size&lt;/code&gt;，也就是可以实现节点级别的弹性伸缩，但是目前测试下来只有 ASG 可以将配置的资源 TAG 带入 EC2 的配置，而 MNG 需要通过定制 &lt;code&gt;launch_template_spec&lt;/code&gt; 的方式才能实现。如果对这方面没有要求的话推荐使用 MNG。&lt;/p&gt;
+&lt;p&gt;到这里代码就写好了，只有几十行代码，下面我们就是检查和部署了。&lt;/p&gt;
+&lt;h3 id=&#34;bootstrap&#34;&gt;Bootstrap&lt;/h3&gt;
+&lt;p&gt;如果是第一次使用 &lt;code&gt;AWS CDK&lt;/code&gt; 需要先执行 &lt;code&gt;cdk bootstrap&lt;/code&gt; 命令，这个命令会在 S3 创建一个名为 &lt;code&gt;cdktoolkit-XXX&lt;/code&gt; 的 bucket 用来存放 CDK 配置。&lt;/p&gt;
+&lt;h3 id=&#34;检查&#34;&gt;检查&lt;/h3&gt;
+&lt;p&gt;执行 &lt;code&gt;cdk diff&lt;/code&gt; 命令，这时就会打印出一系列列表，告诉你会有哪些资源变化，大致内容如下图。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65gy1gmwkeqhlblj23qq1i27wh.jpg&#34; alt=&#34;cdk diff&#34;&gt;&lt;/p&gt;
+&lt;p&gt;可以执行 &lt;code&gt;cdk synth&lt;/code&gt; 命令用来查看生成的 AWS CloudFormation template，笔者统计了一下生成 AWS CloudFormation template 的行数，这几十行代码居然生成了 &lt;strong&gt;1156&lt;/strong&gt; 行的 CloudFormation 配置！&lt;/p&gt;
+&lt;h3 id=&#34;部署&#34;&gt;部署&lt;/h3&gt;
+&lt;p&gt;在检查无误后就可以开始部署了，执行命令 &lt;code&gt;cdk deploy&lt;/code&gt; 并输入 &lt;code&gt;y&lt;/code&gt; 确认，之后可以看到部署的进度条。如果部署中间出现错误， CDK 会自动进行回滚，之前创建和修改的资源都会被恢复原样，可以放心使用。&lt;/p&gt;
+&lt;h3 id=&#34;销毁&#34;&gt;销毁&lt;/h3&gt;
+&lt;p&gt;在完成测试后，执行命令 &lt;code&gt;cdk destroy&lt;/code&gt; 对创建的资源进行释放。&lt;/p&gt;
+&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
+&lt;p&gt;非常感谢来自 AWS 的 &lt;a href=&#34;https://github.com/pahud&#34;&gt;@pahud&lt;/a&gt; 同学的指导和帮助，总体来说 Python 版本的 CDK 使用起来比较方便，但文档和源码中的说明略有不足。&lt;code&gt;AWS CDK&lt;/code&gt; 的核心引擎其实是使用 Typescript 编写，其他语言的版本都是采用 &lt;a href=&#34;https://github.com/aws/jsii&#34;&gt;JSii&lt;/a&gt; 通过 TypeScript 转化而来。如果要深入使用，这里还是推荐使用 Typescript 的版本（其实我已经换成 Typescript 来写了），难度不是很大，值得一试。&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Post: AWS CDK | IaC 何必只用 Yaml</title>
       <link>https://guoxudong.io/post/aws-cdk-introduction/</link>
       <pubDate>Thu, 21 Jan 2021 10:43:11 +0800</pubDate>
@@ -7062,33 +7195,6 @@ service grafana-server restart
 &lt;h2 id=&#34;后记&#34;&gt;后记&lt;/h2&gt;
 &lt;p&gt;&lt;img src=&#34;https://tvax2.sinaimg.cn/large/ad5fbf65gy1g7hdrlln6vj21rm0ycwov.jpg&#34; alt=&#34;image&#34;&gt;
 关于容器服务的交流主要是以上几点，其他的还包括监控、存储和 CI/CD 方面进行了交流，同时也获得了不少建议。当面给阿里云提需求的机会并不多，我也是抓住机会，把日常使用 ACK 的问题汇总之后一股脑的丢了出去。有类似需求的同学可以在&lt;a href=&#34;https://connect.aliyun.com&#34;&gt;阿里云的聆听平台&lt;/a&gt;上给阿里云提交建议，以我的经验，合理的需求会很快审核通过并排期开发，换句话说就是“人人都可以是阿里云的产品经理”。&lt;/p&gt;
-
-      </description>
-    </item>
-    
-    <item>
-      <title>Post: 当码农遇见公益</title>
-      <link>https://guoxudong.io/post/alibaba-public-welfare/</link>
-      <pubDate>Sun, 29 Sep 2019 09:52:11 +0800</pubDate>
-      
-      <guid>https://guoxudong.io/post/alibaba-public-welfare/</guid>
-      <description>
-        
-        
-        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
-&lt;p&gt;本次参加云栖大会，除了受到阿里云开发者社区的邀请，同时也受到了阿里码上公益团队的邀请，于9月25日下午参加了&lt;strong&gt;阿里巴巴技术公益专场&lt;/strong&gt;。说来惭愧，作为一个码农关注并加入码上公益已半年有余，但是除了在平台上以自己的经验来给出各种建议外，并没有贡献什么实质的代码，这也可能是因为我专职运维开发，在devops和效能提升上有很多自己的见解，但对于前端UI和各种官网的构建并不是很在行。&lt;/p&gt;
-&lt;h2 id=&#34;阿里巴巴与公益&#34;&gt;阿里巴巴与公益&lt;/h2&gt;
-&lt;p&gt;&lt;img src=&#34;https://tvax4.sinaimg.cn/large/ad5fbf65gy1g7gdc2nfg5j21z819i4qv.jpg&#34; alt=&#34;image&#34;&gt;
-一直以来我对于公益的理解还是停留在很浅的阶段，而且很长一段时间以来，公益还是停留在有限的圈子内，像我这样的技术人与公益完全就是两个世界。而阿里巴巴推出的码上公益则改变了这一点，这个平台让我了解到，原来公益除了捐助之外还能以自己的技术能力做出更大的贡献。此次技术公益专场，阿里发布了技术公益基金，我也是第一次见到这么多的阿里合伙人，可见公益在阿里巴巴集团内部的重要。阿里巴巴不只在集团内部推进公益，而且还为我们这样的普通人提供了像码上公益、蚂蚁森林、一书等平台和产品，让越来越多的人参与到公益事业中，让更多的人平等的享有技术红利。&lt;/p&gt;
-&lt;h2 id=&#34;让代码更有温度&#34;&gt;让代码更有温度&lt;/h2&gt;
-&lt;p&gt;参加码上公益的初衷只不过是想为公益事业做一些力所能及的事情，尤其是使用代码这种方式，在公益事业上展示我们技术人的才华。也符合与我的价值观：&lt;strong&gt;技术让世界更美好&lt;/strong&gt;。我们技术人可以通过一种比捐助更有温度的方式：代码，来让我们的世界越来越美好。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1g7g8ywqxu5j21z01b87wp.jpg&#34; alt=&#34;image&#34;&gt;
-在公益专场中有幸结识了 Michael HERMANN 老师，作为一个德国人，他却操这一口流利的中文，十几年如一日的在中国偏远的乡村中为那里的孩子带去教育，同时也为孩子们带去了希望。在专场后的公益沟通会有幸与 Michael 老师一桌，这是一位可爱的老人，十分关注中国偏远地区孩子们的教育问题，在他的身上我看到了一个作为公益人的坚持，在他眼里国籍、文化、地域都没有差别，有的只是希望这些生活在偏远地区的孩子都享有受教育的权利，十分值得敬佩。同时还结识了许多志同道合的码农朋友，大家都希望用自己温暖的代码为公益事业做出自己的贡献。&lt;/p&gt;
-&lt;h2 id=&#34;我们只有一个地球&#34;&gt;我们只有一个地球&lt;/h2&gt;
-&lt;p&gt;&lt;img src=&#34;https://tvax2.sinaimg.cn/large/ad5fbf65gy1g7ge105htyj21z419mqvb.jpg&#34; alt=&#34;image&#34;&gt;
-之后《用现代科技助力中国虎豹保护》的主题分享，让我了解到了，环境的保护也是公益中很重要的一部分。而科技的发展，让从事动物保护的人员可以做的更仔细更完善，对于AI、大数据的应用，使得对于野生动物的保护更精准。技术赋能野生动物保护，可以更好的保护野生动物，同时也让动物保护人员的工作更轻松，让这些常年在大山密林中保护野生动物的科学家不再那么辛苦，同时更好的保护野生动物。&lt;/p&gt;
-&lt;h2 id=&#34;后记&#34;&gt;后记&lt;/h2&gt;
-&lt;p&gt;之后南都公益基金会理事长徐永光分享了《互联网带来的时代改变》，了解到了互联网公益并不只是刚刚兴起，而是一直在努力；而联合国世界粮食计划署驻华代表屈四喜则带来了《为了“零饥饿”目标》。感谢阿里巴巴提供了这个机会，让我这样的技术人可以参与到公益事业当中，为公益事业贡献出自己的力量。&lt;/p&gt;
 
       </description>
     </item>

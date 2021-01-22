@@ -29,40 +29,40 @@
            "@id": "https:\/\/guoxudong.io"
       },
       "articleSection" : "post",
-      "name" : "去指挥你的舰队吧！体验使用 Fleet 批量管理 K8S 集群",
-      "headline" : "去指挥你的舰队吧！体验使用 Fleet 批量管理 K8S 集群",
-      "description" : "体验 Fleet 是怎么管理海量 Kubernetes 集群的。",
+      "name" : "使用 AWS CDK Python 从零开始构建 EKS 集群",
+      "headline" : "使用 AWS CDK Python 从零开始构建 EKS 集群",
+      "description" : "使用 AWS CDK Python 版本从零开始构建一个 EKS 集群。",
       "inLanguage" : "en-US",
       "author" : "",
       "creator" : "",
       "publisher": "",
       "accountablePerson" : "",
       "copyrightHolder" : "",
-      "copyrightYear" : "2020",
-      "datePublished": "2020-04-23 14:03:53 \x2b0800 \x2b0800",
-      "dateModified" : "2020-04-23 14:03:53 \x2b0800 \x2b0800",
-      "url" : "https:\/\/guoxudong.io\/post\/rancher-fleet\/",
-      "wordCount" : "291",
-      "keywords" : [ "rancher","kubernetes","Guoxudong" ]
+      "copyrightYear" : "2021",
+      "datePublished": "2021-01-22 10:07:01 \x2b0800 \x2b0800",
+      "dateModified" : "2021-01-22 10:07:01 \x2b0800 \x2b0800",
+      "url" : "https:\/\/guoxudong.io\/post\/aws-cdk-python-eks\/",
+      "wordCount" : "421",
+      "keywords" : [ "AWS","AWS CDK","IaC","基础设施即代码","Guoxudong" ]
   }
   </script>
-<title>去指挥你的舰队吧！体验使用 Fleet 批量管理 K8S 集群 | Guo Xudong&#39;s Blog·郭旭东的博客</title><meta property="og:title" content="去指挥你的舰队吧！体验使用 Fleet 批量管理 K8S 集群" />
-<meta property="og:description" content="体验 Fleet 是怎么管理海量 Kubernetes 集群的。" />
+<title>使用 AWS CDK Python 从零开始构建 EKS 集群 | Guo Xudong&#39;s Blog·郭旭东的博客</title><meta property="og:title" content="使用 AWS CDK Python 从零开始构建 EKS 集群" />
+<meta property="og:description" content="使用 AWS CDK Python 版本从零开始构建一个 EKS 集群。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://guoxudong.io/post/rancher-fleet/" />
-<meta property="article:published_time" content="2020-04-23T14:03:53+08:00" />
+<meta property="og:url" content="https://guoxudong.io/post/aws-cdk-python-eks/" />
+<meta property="article:published_time" content="2021-01-22T10:07:01+08:00" />
 <meta property="article:modified_time" content="2021-01-22T17:49:36+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
-<meta itemprop="name" content="去指挥你的舰队吧！体验使用 Fleet 批量管理 K8S 集群">
-<meta itemprop="description" content="体验 Fleet 是怎么管理海量 Kubernetes 集群的。">
-<meta itemprop="datePublished" content="2020-04-23T14:03:53&#43;08:00" />
+<meta itemprop="name" content="使用 AWS CDK Python 从零开始构建 EKS 集群">
+<meta itemprop="description" content="使用 AWS CDK Python 版本从零开始构建一个 EKS 集群。">
+<meta itemprop="datePublished" content="2021-01-22T10:07:01&#43;08:00" />
 <meta itemprop="dateModified" content="2021-01-22T17:49:36&#43;08:00" />
-<meta itemprop="wordCount" content="291">
+<meta itemprop="wordCount" content="421">
 
 
 
-<meta itemprop="keywords" content="rancher,kubernetes," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="去指挥你的舰队吧！体验使用 Fleet 批量管理 K8S 集群"/>
-<meta name="twitter:description" content="体验 Fleet 是怎么管理海量 Kubernetes 集群的。"/>
+<meta itemprop="keywords" content="AWS,AWS CDK,IaC,基础设施即代码," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="使用 AWS CDK Python 从零开始构建 EKS 集群"/>
+<meta name="twitter:description" content="使用 AWS CDK Python 版本从零开始构建一个 EKS 集群。"/>
 
 
 <script type="application/javascript">
@@ -213,10 +213,19 @@ if (!doNotTrack) {
 <nav id="TableOfContents">
   <ul>
     <li><a href="#前言">前言</a></li>
-    <li><a href="#fleet">Fleet</a></li>
-    <li><a href="#尝鲜体验">尝鲜体验</a></li>
-    <li><a href="#总结">总结</a></li>
-    <li><a href="#参考">参考</a></li>
+    <li><a href="#资源清单">资源清单</a></li>
+    <li><a href="#show-me-the-code">Show me the code</a>
+      <ul>
+        <li><a href="#安装-aws-cdk">安装 AWS CDK</a></li>
+        <li><a href="#创建-app">创建 APP</a></li>
+        <li><a href="#codeing">Codeing</a></li>
+        <li><a href="#bootstrap">Bootstrap</a></li>
+        <li><a href="#检查">检查</a></li>
+        <li><a href="#部署">部署</a></li>
+        <li><a href="#销毁">销毁</a></li>
+      </ul>
+    </li>
+    <li><a href="#结语">结语</a></li>
   </ul>
 </nav>
 <hr>
@@ -251,15 +260,7 @@ if (!doNotTrack) {
               <h5>相关阅读</h5>
               <ul>
                 
-                <li><a href="/post/rancher-prometheus-fix-question/">Rancher 2.2.1 解决工作负载监控为空问题</a></li>
-                
-                <li><a href="/post/rancher-update-2.2.1/">单节点版rancher升级指南</a></li>
-                
-                <li><a href="/post/https-ingress/">为ingress配置SSL证书，实现HTTPS访问</a></li>
-                
-                <li><a href="/post/kubecm/">Kubecm：管理你的 kubeconfig</a></li>
-                
-                <li><a href="/post/kubewatch/">小工具介绍：KubeWatch</a></li>
+                <li><a href="/post/aws-cdk-introduction/">AWS CDK | IaC 何必只用 Yaml</a></li>
                 
               </ul>
             </div>
@@ -562,7 +563,7 @@ if (!doNotTrack) {
 
 
 <li class="breadcrumb-item active" aria-current="page">
-	<a href="https://guoxudong.io/post/rancher-fleet/">去指挥你的舰队吧！体验使用 Fleet 批量管理 K8S 集群</a>
+	<a href="https://guoxudong.io/post/aws-cdk-python-eks/">使用 AWS CDK Python 从零开始构建 EKS 集群</a>
 </li>
 
 	</ol>
@@ -571,7 +572,7 @@ if (!doNotTrack) {
             
 
 <div class="td-content" id="road">
-	<h1>去指挥你的舰队吧！体验使用 Fleet 批量管理 K8S 集群</h1>
+	<h1>使用 AWS CDK Python 从零开始构建 EKS 集群</h1>
 	
 	<div class="td-byline mb-4">
 		<span>By  <b>guoxudong</b> </span> ·
@@ -579,10 +580,10 @@ if (!doNotTrack) {
 			2 分钟阅读时间
 		</span> ·
 		<span>最近更新于 </span><time datetime="2021-01-22"
-			class="text-muted">2020年04月23日</time> ·
+			class="text-muted">2021年01月22日</time> ·
 		
-		<a href="/categories/kubernetes">
-			Kubernetes</a>
+		<a href="/categories/iac">
+			IaC</a>
 		
 	</div>
 
@@ -591,42 +592,42 @@ if (!doNotTrack) {
 <div class="share-box" aria-hidden="true">
   <ul class="share">
     <li>
-      <a href="https://twitter.com/intent/tweet?url=https%3a%2f%2fguoxudong.io%2fpost%2francher-fleet%2f&amp;text=%e5%8e%bb%e6%8c%87%e6%8c%a5%e4%bd%a0%e7%9a%84%e8%88%b0%e9%98%9f%e5%90%a7%ef%bc%81%e4%bd%93%e9%aa%8c%e4%bd%bf%e7%94%a8%20Fleet%20%e6%89%b9%e9%87%8f%e7%ae%a1%e7%90%86%20K8S%20%e9%9b%86%e7%be%a4" target="_blank" rel="noopener" class="share-btn-twitter">
+      <a href="https://twitter.com/intent/tweet?url=https%3a%2f%2fguoxudong.io%2fpost%2faws-cdk-python-eks%2f&amp;text=%e4%bd%bf%e7%94%a8%20AWS%20CDK%20Python%20%e4%bb%8e%e9%9b%b6%e5%bc%80%e5%a7%8b%e6%9e%84%e5%bb%ba%20EKS%20%e9%9b%86%e7%be%a4" target="_blank" rel="noopener" class="share-btn-twitter">
         <i class="fab fa-twitter"></i>
       </a>
     </li>
     <li>
-      <a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fguoxudong.io%2fpost%2francher-fleet%2f&amp;t=%e5%8e%bb%e6%8c%87%e6%8c%a5%e4%bd%a0%e7%9a%84%e8%88%b0%e9%98%9f%e5%90%a7%ef%bc%81%e4%bd%93%e9%aa%8c%e4%bd%bf%e7%94%a8%20Fleet%20%e6%89%b9%e9%87%8f%e7%ae%a1%e7%90%86%20K8S%20%e9%9b%86%e7%be%a4" target="_blank" rel="noopener" class="share-btn-facebook">
+      <a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fguoxudong.io%2fpost%2faws-cdk-python-eks%2f&amp;t=%e4%bd%bf%e7%94%a8%20AWS%20CDK%20Python%20%e4%bb%8e%e9%9b%b6%e5%bc%80%e5%a7%8b%e6%9e%84%e5%bb%ba%20EKS%20%e9%9b%86%e7%be%a4" target="_blank" rel="noopener" class="share-btn-facebook">
         <i class="fab fa-facebook-f"></i>
       </a>
     </li>
     <li>
-      <a href="mailto:?subject=%e5%8e%bb%e6%8c%87%e6%8c%a5%e4%bd%a0%e7%9a%84%e8%88%b0%e9%98%9f%e5%90%a7%ef%bc%81%e4%bd%93%e9%aa%8c%e4%bd%bf%e7%94%a8%20Fleet%20%e6%89%b9%e9%87%8f%e7%ae%a1%e7%90%86%20K8S%20%e9%9b%86%e7%be%a4&amp;body=https%3a%2f%2fguoxudong.io%2fpost%2francher-fleet%2f" target="_blank" rel="noopener" class="share-btn-email">
+      <a href="mailto:?subject=%e4%bd%bf%e7%94%a8%20AWS%20CDK%20Python%20%e4%bb%8e%e9%9b%b6%e5%bc%80%e5%a7%8b%e6%9e%84%e5%bb%ba%20EKS%20%e9%9b%86%e7%be%a4&amp;body=https%3a%2f%2fguoxudong.io%2fpost%2faws-cdk-python-eks%2f" target="_blank" rel="noopener" class="share-btn-email">
         <i class="fas fa-envelope"></i>
       </a>
     </li>
     <li>
-      <a href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fguoxudong.io%2fpost%2francher-fleet%2f&amp;title=%e5%8e%bb%e6%8c%87%e6%8c%a5%e4%bd%a0%e7%9a%84%e8%88%b0%e9%98%9f%e5%90%a7%ef%bc%81%e4%bd%93%e9%aa%8c%e4%bd%bf%e7%94%a8%20Fleet%20%e6%89%b9%e9%87%8f%e7%ae%a1%e7%90%86%20K8S%20%e9%9b%86%e7%be%a4" target="_blank" rel="noopener" class="share-btn-linkedin">
+      <a href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fguoxudong.io%2fpost%2faws-cdk-python-eks%2f&amp;title=%e4%bd%bf%e7%94%a8%20AWS%20CDK%20Python%20%e4%bb%8e%e9%9b%b6%e5%bc%80%e5%a7%8b%e6%9e%84%e5%bb%ba%20EKS%20%e9%9b%86%e7%be%a4" target="_blank" rel="noopener" class="share-btn-linkedin">
         <i class="fab fa-linkedin-in"></i>
       </a>
     </li>
     <li>
-      <a href="https://web.whatsapp.com/send?text=%e5%8e%bb%e6%8c%87%e6%8c%a5%e4%bd%a0%e7%9a%84%e8%88%b0%e9%98%9f%e5%90%a7%ef%bc%81%e4%bd%93%e9%aa%8c%e4%bd%bf%e7%94%a8%20Fleet%20%e6%89%b9%e9%87%8f%e7%ae%a1%e7%90%86%20K8S%20%e9%9b%86%e7%be%a4https%3a%2f%2fguoxudong.io%2fpost%2francher-fleet%2f/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+      <a href="https://web.whatsapp.com/send?text=%e4%bd%bf%e7%94%a8%20AWS%20CDK%20Python%20%e4%bb%8e%e9%9b%b6%e5%bc%80%e5%a7%8b%e6%9e%84%e5%bb%ba%20EKS%20%e9%9b%86%e7%be%a4https%3a%2f%2fguoxudong.io%2fpost%2faws-cdk-python-eks%2f/" target="_blank" rel="noopener" class="share-btn-whatsapp">
         <i class="fab fa-whatsapp"></i>
       </a>
     </li>
     <li>
-      <a href="https://service.weibo.com/share/share.php?url=https%3a%2f%2fguoxudong.io%2fpost%2francher-fleet%2f&amp;title=%e5%8e%bb%e6%8c%87%e6%8c%a5%e4%bd%a0%e7%9a%84%e8%88%b0%e9%98%9f%e5%90%a7%ef%bc%81%e4%bd%93%e9%aa%8c%e4%bd%bf%e7%94%a8%20Fleet%20%e6%89%b9%e9%87%8f%e7%ae%a1%e7%90%86%20K8S%20%e9%9b%86%e7%be%a4" target="_blank" rel="noopener" class="share-btn-weibo">
+      <a href="https://service.weibo.com/share/share.php?url=https%3a%2f%2fguoxudong.io%2fpost%2faws-cdk-python-eks%2f&amp;title=%e4%bd%bf%e7%94%a8%20AWS%20CDK%20Python%20%e4%bb%8e%e9%9b%b6%e5%bc%80%e5%a7%8b%e6%9e%84%e5%bb%ba%20EKS%20%e9%9b%86%e7%be%a4" target="_blank" rel="noopener" class="share-btn-weibo">
         <i class="fab fa-weibo"></i>
       </a>
     </li>
     <li>
-      <a href="https://reddit.com/submit?url=https%3a%2f%2fguoxudong.io%2fpost%2francher-fleet%2f&amp;title=%e5%8e%bb%e6%8c%87%e6%8c%a5%e4%bd%a0%e7%9a%84%e8%88%b0%e9%98%9f%e5%90%a7%ef%bc%81%e4%bd%93%e9%aa%8c%e4%bd%bf%e7%94%a8%20Fleet%20%e6%89%b9%e9%87%8f%e7%ae%a1%e7%90%86%20K8S%20%e9%9b%86%e7%be%a4" target="_blank" rel="noopener" class="share-btn-reddit">
+      <a href="https://reddit.com/submit?url=https%3a%2f%2fguoxudong.io%2fpost%2faws-cdk-python-eks%2f&amp;title=%e4%bd%bf%e7%94%a8%20AWS%20CDK%20Python%20%e4%bb%8e%e9%9b%b6%e5%bc%80%e5%a7%8b%e6%9e%84%e5%bb%ba%20EKS%20%e9%9b%86%e7%be%a4" target="_blank" rel="noopener" class="share-btn-reddit">
         <i class="fab fa-reddit-alien"></i>
       </a>
     </li>
     <li>
-      <a href=# onClick="javascript:window.open('/wechart?url=https:\/\/guoxudong.io\/post\/rancher-fleet\/','weixin','height=560, width=470, top=100, location=no, toolbar=no, menubar=no, status=no')" target="_blank" rel="noopener" class="share-btn-weixin">
+      <a href=# onClick="javascript:window.open('/wechart?url=https:\/\/guoxudong.io\/post\/aws-cdk-python-eks\/','weixin','height=560, width=470, top=100, location=no, toolbar=no, menubar=no, status=no')" target="_blank" rel="noopener" class="share-btn-weixin">
         <i class="fab fa-weixin"></i>
       </a>
     </li>
@@ -636,93 +637,145 @@ if (!doNotTrack) {
 
 	<div class="alert alert-primary mb-4" role="alert">
 		<h4 class="alert-heading">摘要</h4>
-		<span class="text-muted">体验 Fleet 是怎么管理海量 Kubernetes 集群的。</span>
+		<span class="text-muted">使用 AWS CDK Python 版本从零开始构建一个 EKS 集群。</span>
 	</div>
-	<img src="https://tva2.sinaimg.cn/large/ad5fbf65ly1ge3o9u1zfgj20e8086t99.jpg" alt="" style="max-width: 80%;">
+	<img src="https://tva1.sinaimg.cn/large/ad5fbf65gy1gmwl7ox518j20rs0kut9l.jpg" alt="" style="max-width: 80%;">
 
 	<h2 id="前言">前言</h2>
+<p>上篇文章<a href="../aws-cdk-introduction">《AWS CDK | IaC 何必只用 Yaml》</a> 笔者介绍了 AWS CDK 的概念和基本使用方法，本篇文章就来使用 CDK 在 AWS 从零开始构建一个全新的 KES 集群，实际感受一下使用 AWS CDK 创建和管理云资源的简单和便捷。</p>
+<h2 id="资源清单">资源清单</h2>
+<p>本文中，笔者会创建以下资源：</p>
+<ul>
+<li>创建一个 EKS 集群</li>
+<li>为 EKS master 配置一个 IAM Role</li>
+<li>创建一个 VPC（包含子网和 NAT）</li>
+<li>为 EKS 创建一个 Node Group 用来管理一组 Worker 节点</li>
+<li>为 EKS 创建一个 Auto Scaling Group 用来管理弹性伸缩节点</li>
+</ul>
+<h2 id="show-me-the-code">Show me the code</h2>
+<p>本文代码已全部上传 GitHub，配合代码阅读本文体验更佳。</p>
 
 
 <div class="alert alert-primary" role="alert">
-
-2020年4月3日，Rancher Labs 宣布推出全新开源项目 Fleet，致力于为用户提供海量 Kubernetes 集群的集中管理体验。
+<h4 class="alert-heading">Github 地址</h4>
+<a href="https://github.com/sunny0826/aws-cdk-eks">https://github.com/sunny0826/aws-cdk-eks</a>
 </div>
 
-<p>最早听说到这个消息时，我还是很疑惑的，Fleet 不是 CoreOS 早已经停止维护的一个项目吗？怎么又和 Rancher Labs 扯上了关系？</p>
-<p>**“为用户提供海量 Kubernetes 集群的集中管理体验”**这句话是否言过其实：</p>
+<h3 id="安装-aws-cdk">安装 AWS CDK</h3>
+<p>首先其实需要有 <code>AWS CLI</code> 命令行工具，并配置了 <code>AWS_ACCESS_KEY_ID</code>、<code>AWS_SECRET_ACCESS_KEY</code> 和 <code>AWS_DEFAULT_REGION</code>，这里就不做详细介绍了，同时还要安装 <code>Node.js</code> 10.3.0 以上的版本。</p>
+<p>使用 <code>npm</code> 安装：</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ npm install -g aws-cdk
+</code></pre></div><p>安装完成后，检查 <code>AWS CDK</code> 版本：</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ cdk --version
+</code></pre></div><h3 id="创建-app">创建 APP</h3>
+<p><code>AWS CDK</code> 安装完成后，就可以开始创建项目了。</p>
+<p>新建一个目录：</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ mkdir aws-cdk-eks
+$ <span style="color:#24909d">cd</span> aws-cdk-eks
+</code></pre></div><p>初始化项目：</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ cdk init app --language python
+$ <span style="color:#24909d">source</span> .venv/bin/activate
+$ python -m pip install -r requirements.txt
+</code></pre></div><p>这里就会生成一个 Python 项目，目录结构如下如下：</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ tree
+.
+├── README.md
+├── app.py
+├── cdk.json
+├── cdk_python
+│   ├── __init__.py
+│   └── cdk_python_stack.py   <span style="color:#999;font-style:italic"># 主要文件</span>
+├── requirements.txt
+├── setup.py
+└── source.bat
+</code></pre></div><p>之后的代码就是写在 <code>cdk_python_stack.py</code> 中。</p>
+<h3 id="codeing">Codeing</h3>
+<p>接下来就是写代码时间了。</p>
+<h4 id="创建-vpc">创建 VPC</h4>
+<p>首先 EKS 需要一个 VPC，这里有三种方式：</p>
 <ul>
-<li>“海量”这个量到底有多大？</li>
-<li>又有多少公司或团队有管理海量的 Kubernetes 集群的需求？</li>
-<li>又是怎么一个<strong>集中管理</strong>法？</li>
+<li>使用 <code>default</code> VPC</li>
+<li>指定一个已有 VPC</li>
+<li>新建一个 VPC</li>
 </ul>
-<p>带着这些疑问，我仔细了解了一下 Fleet 这个开源项目。</p>
-<h2 id="fleet">Fleet</h2>
-<p>首先，这里的 Fleet 是一个新项目，起这个名字应该算是一种致敬，经过了解后我个人觉得这个名字起的还是挺贴切的，比一大波 KubeXXX 有创意多了。</p>
-<blockquote>
-<p>“我一直是它的忠实粉丝，将这一项目命名为 Fleet 也包含了我的私心。”Darren Shepherd 解释道：“所以我希望重新使用 Fleet 这一名字，这是对这个非常出色的容器领域早期项目的致敬。同时，对于推动 Kubernetes 集群管理的演进，我们感到十分兴奋及万分期待。”</p>
-</blockquote>
-<blockquote>
-<p>&mdash; 摘自 RancherLabs 官方微信公众号《Rancher开源Fleet：业界首个海量K8S集群管理项目》</p>
-</blockquote>
-<p>顾名思义 Fleet 是“舰队”的意思，而 Kubernetes 在希腊语意为 “舵手”。从名称上看，Fleet 的目标就是管理或是指挥众多 Kubernetes 集群。而在了解这个项目时，我发现了这个项目和 Rancher Labs 另一个受欢迎项目 <a href="https://k3s.io/">k3s</a> 有个千丝万缕的联系，甚至在我看来 Fleet 可能就是就是为了管理众多 k3s 集群而生的，是 Rancher Labs 布局边缘计算和 IoT 领域的重要组成部分。</p>
-<p>k3s 是一款轻量级的 Kubernetes 集群，主要面向边缘计算和 IOT 领域，相比原生 Kubernetes，k3s 体量更轻、部署简单且快速，同时还具有完整的 Kubernetes 体验。可以说只要是 Linux 系统（配合周边工具甚至可以运行在 Mac 和 Windows 系统），无论是树莓派、各种开发板还是 PC 机，都可以独立运行起 k3s，<strong>这也为运行海量 Kubernetes 集群</strong>提供了可能。以汽车为例，我们可以为每一辆汽车都部署一个 k3s 集群，所有汽车相关的软件（导航、广播甚至是无人驾驶程序）都部署在 k3s 集群中，每次这些软件发布新版本，只需使用 Fleet 进行批量操作该种车型的所有 k3s 集群即可，无需将车开回 4S 店进行手动更新。</p>
-
-
-<div class="alert alert-primary" role="alert">
-
-联系美国空军是 Kubernetes 与 Istio 项目的重要用户，这种实践可能早就开始了。
-</div>
-
-<p>解释了海量 Kubernetes 集群的疑问，下面就从 Fleet 的架构入手，讲讲如何<strong>集中管理</strong>。</p>
-<p><img src="https://tva1.sinaimg.cn/large/ad5fbf65ly1ge3o40xe41j20qx0ljdm7.jpg" alt=""></p>
-<p>Fleet 包含<code>Manager</code>和<code>agent</code>，<code>Manager</code>所在集群作为控制平面管理所有<code>agent</code>集群，同时 Fleet 根据 Kubernetes 部署 Pod 的模型，定义了一个 Bundles 对象，并且提供了一种内置机制，可以使用诸如<code>Helm</code>和<code>Kustomize</code>等行业标准工具为每个目标集群定制 Bundles，在我看来这种模式以及<code>bundle.yaml</code>的写法都和<code>Kustomize</code>很像(套娃行为？)&hellip;一旦用户在集群之间部署了 Bundles，Fleet 就会主动监视资源是否已就绪，以及是否被更改过。总的来说就是通过部署 Bundles，就可以将部署内容批量分发到所有目标集群，从而达到<strong>集中管理</strong>的目的。</p>
-<h2 id="尝鲜体验">尝鲜体验</h2>
-<p>说那么多其实意义不大，好不好用，只有试过才知道。这里使用的 Fleet 版本为<code>v0.2.0</code>，是目前的最新版本。</p>
-<p><strong>下载 CLI 工具</strong></p>
-<p>首先需要下载<code>fleet</code>的 CLI 工具，这里的体验和 k3s 类似，都是直接<code>curl</code> GitHub 上的安装脚本并执行：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ curl -sfL https://raw.githubusercontent.com/rancher/fleet/master/install.sh | sh -
-</code></pre></div><p><strong>部署控制平面</strong></p>
-<p>使用 CLI 工具将<code>Fleet Manager</code>部署到 Kubernetes 集群上：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># Kubeconfig should point to Manager cluster</span>
-$ fleet install manager | kubectl apply -f -
-</code></pre></div><p><strong>生成 Cluster group token</strong></p>
-<p>到这控制平面就部署好了，接下来部署<code>agent</code>目标集群。这里生成的其实是一个 yaml 文件，内容包含 fleet 需要的 RBAC 权限和 fleet-agent 的 Deployment：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># Kubeconfig should point to Manager cluster</span>
-$ fleet install agent-token &gt; token
-</code></pre></div><p><strong>目标集群注册</strong></p>
-<p>将需要纳管的目标集群加入到 fleet 中，<strong>注意</strong>：这里需要将 kubeconfig 切换到目标集群，也就是需要部署<code>agent</code>的集，每个需要注册的集群都要部署<code>agent</code>：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># Kubeconfig should point to AGENT cluster</span>
-$ kubectl apply -f token
-</code></pre></div><p><strong>部署 bundles</strong></p>
-<p>这里就是向多个集群同时部署 bundles，使用方法也和<code>Kustomize</code>类似（<code>example</code> 目录是 fleet 官方仓库中的示例目录）：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># Kubeconfig should point to Manager cluster</span>
-$ fleet apply ./examples/helm-kustomize
-</code></pre></div><p><strong>查看状态</strong></p>
-<p>现在就可以查看所有集群 bundles 的状态了，这里可以看到 bundles 在多个集群都部署成功了（这里是我起的两个 k3s 集群做的测试）：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get fleet
-NAME                                   CLUSTER-COUNT   BUNDLES-READY   BUNDLES-DESIRED   STATUS
-clustergroup.fleet.cattle.io/default   <span style="color:#3677a9">2</span>               <span style="color:#3677a9">3</span>               <span style="color:#3677a9">4</span>                 Modified: <span style="color:#3677a9">1</span> (helm-kustomize )
-
-NAME                                    CLUSTERS-READY   CLUSTERS-DESIRED   STATUS
-bundle.fleet.cattle.io/fleet-agent      <span style="color:#3677a9">2</span>                <span style="color:#3677a9">2</span>
-bundle.fleet.cattle.io/helm-kustomize   <span style="color:#3677a9">1</span>                <span style="color:#3677a9">2</span>                  Modified: <span style="color:#3677a9">1</span> (default-default-group/cluster-5a186072-acbd-4f54-8f22-fb1651ce902f )
-</code></pre></div><h2 id="总结">总结</h2>
-<p>总的来说，Fleet 的架构简洁且十分轻量，部署方式简单，使用<code>YAML</code>、<code>Helm</code>、<code>Kustomez</code>都可以进行资源的描述和配置，甚至可以使用<code>Helm</code>+<code>Kustomeze</code>的模式，部署体验不错。</p>
-<p>但遗憾的是，目前 Fleet 还处于项目早期，实践也仅限于尝鲜体验，并不能用于生产环境，项目 README 中还专门提到了<strong>目前 Fleet 仅适用于 10 个集群以下的小规模部署</strong>。目前文档不足且项目维护人员并不积极，文档勘误的 <a href="https://github.com/rancher/fleet/pull/32">RP</a> 和相关 ISSUE 也没有得到相关的反馈。项目是做到了业界首个，但是要真正生产可用甚至做到业界第一还有很长的一段路要走。</p>
-<h2 id="参考">参考</h2>
-<ul>
-<li><a href="https://github.com/rancher/fleet">Fleet - Github</a></li>
-<li><a href="https://mp.weixin.qq.com/s/byErGqVBtm4kdv58OZFt_w">Rancher开源Fleet：业界首个海量K8S集群管理项目 - RancherLabs</a></li>
-</ul>
+<p>直接使用 <code>default</code> VPC:</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">vpc = ec2.Vpc.from_lookup(self, <span style="color:#24909d">id</span>=<span style="color:#ed9d13">&#39;Vpc&#39;</span>, is_default=True)
+</code></pre></div><p>指定现有 VPC：</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">vpc = ec2.Vpc.from_lookup(self, <span style="color:#24909d">id</span>=<span style="color:#ed9d13">&#39;Vpc&#39;</span>, vpc_id=<span style="color:#ed9d13">&#39;vpc-0417e46d&#39;</span>)
+</code></pre></div><p>新建 VPC：</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">vpc = ec2.Vpc(self,
+    <span style="color:#ed9d13">&#39;eks-vpc&#39;</span>, <span style="color:#999;font-style:italic"># VPC id</span>
+    cidr=<span style="color:#ed9d13">&#39;10.3.0.0/16&#39;</span>, <span style="color:#999;font-style:italic"># CIDR</span>
+    max_azs=<span style="color:#3677a9">3</span>,  <span style="color:#999;font-style:italic"># 跨3个AZ</span>
+    nat_gateways=<span style="color:#3677a9">1</span> <span style="color:#999;font-style:italic"># 新建一个 NAT Gateway</span>
+    )
+</code></pre></div><p>还有很多其他参数可以配置，这里用不到直接使用默认值。</p>
+<h4 id="创建-iam">创建 IAM</h4>
+<p>这里需要给 k8s 的 master 创建一个  IAM Role，这样我们才能对 EKS 进行管理。</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">eks_master_role = iam.Role(self, <span style="color:#ed9d13">&#39;EksMasterRole&#39;</span>,
+    role_name=<span style="color:#ed9d13">&#39;EksAdminRole&#39;</span>,
+    assumed_by=iam.AccountRootPrincipal()
+    )
+</code></pre></div><h4 id="创建-eks">创建 EKS</h4>
+<p>VPC 和 IAM 都已经准备好了，现在可以创建 EKS 集群了。</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">cluster = eks.Cluster(self, 
+    <span style="color:#ed9d13">&#39;Cluster&#39;</span>,  <span style="color:#999;font-style:italic"># 集群 id</span>
+    vpc=vpc,  <span style="color:#999;font-style:italic"># 指定 VPC</span>
+    version=eks.KubernetesVersion.V1_18,  <span style="color:#999;font-style:italic"># K8S 版本</span>
+    masters_role=eks_master_role, <span style="color:#999;font-style:italic"># naster 的 IAM Role</span>
+    default_capacity=<span style="color:#3677a9">0</span>  <span style="color:#999;font-style:italic"># 这里不需要 worker 节点，后面采用 MNG 或 ASG 来管理</span>
+    )
+</code></pre></div><p>可以看到先前定义的 <code>vpc</code> 和 <code>eks_master_role</code> 都作为参数被传给了 <code>cluster</code>，而 <code>default_capacity</code> 是定义默认 worker 节点的，下面我们会采用 MNG 和 ASG 来管理 worker 节点，所以这里设置为 0.</p>
+<h4 id="为-eks-添加-mng">为 EKS 添加 MNG</h4>
+<p><code>cluster</code> 定义好后，相当于 K8S 的 master 节点已经配置完成，接下来就是 worker 节点的配置。EKS 可以使用 MNG 和 ASG 来管理 worker 节点。</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">cluster.add_nodegroup_capacity(
+    <span style="color:#ed9d13">&#39;MNG&#39;</span>,  <span style="color:#999;font-style:italic"># MNG id</span>
+    capacity_type=eks.CapacityType.SPOT,  <span style="color:#999;font-style:italic"># 节点类型</span>
+    desired_size=<span style="color:#3677a9">2</span>, <span style="color:#999;font-style:italic"># 节点数量</span>
+    instance_types=[  <span style="color:#999;font-style:italic"># 节点规格</span>
+        ec2.InstanceType(<span style="color:#ed9d13">&#39;t3.large&#39;</span>),
+        ec2.InstanceType(<span style="color:#ed9d13">&#39;m5.large&#39;</span>),
+        ec2.InstanceType(<span style="color:#ed9d13">&#39;c5.large&#39;</span>),
+    ]),
+</code></pre></div><h4 id="为-eks-添加-asg">为 EKS 添加 ASG</h4>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">cluster.add_auto_scaling_group_capacity(
+  <span style="color:#ed9d13">&#39;ASGNG&#39;</span>, <span style="color:#999;font-style:italic"># ASG id</span>
+  instance_type=[  <span style="color:#999;font-style:italic"># 节点规格</span>
+        ec2.InstanceType(<span style="color:#ed9d13">&#39;t3.large&#39;</span>),
+        ec2.InstanceType(<span style="color:#ed9d13">&#39;m5.large&#39;</span>),
+        ec2.InstanceType(<span style="color:#ed9d13">&#39;c5.large&#39;</span>),
+  ],
+  desired_capacity=<span style="color:#3677a9">2</span> <span style="color:#999;font-style:italic"># 节点数量</span>
+  )
+</code></pre></div><p>当然 MNG 和 ASG 都可以设置 <code>max_size</code> 和 <code>min_size</code>，也就是可以实现节点级别的弹性伸缩，但是目前测试下来只有 ASG 可以将配置的资源 TAG 带入 EC2 的配置，而 MNG 需要通过定制 <code>launch_template_spec</code> 的方式才能实现。如果对这方面没有要求的话推荐使用 MNG。</p>
+<p>到这里代码就写好了，只有几十行代码，下面我们就是检查和部署了。</p>
+<h3 id="bootstrap">Bootstrap</h3>
+<p>如果是第一次使用 <code>AWS CDK</code> 需要先执行 <code>cdk bootstrap</code> 命令，这个命令会在 S3 创建一个名为 <code>cdktoolkit-XXX</code> 的 bucket 用来存放 CDK 配置。</p>
+<h3 id="检查">检查</h3>
+<p>执行 <code>cdk diff</code> 命令，这时就会打印出一系列列表，告诉你会有哪些资源变化，大致内容如下图。</p>
+<p><img src="https://tvax1.sinaimg.cn/large/ad5fbf65gy1gmwkeqhlblj23qq1i27wh.jpg" alt="cdk diff"></p>
+<p>可以执行 <code>cdk synth</code> 命令用来查看生成的 AWS CloudFormation template，笔者统计了一下生成 AWS CloudFormation template 的行数，这几十行代码居然生成了 <strong>1156</strong> 行的 CloudFormation 配置！</p>
+<h3 id="部署">部署</h3>
+<p>在检查无误后就可以开始部署了，执行命令 <code>cdk deploy</code> 并输入 <code>y</code> 确认，之后可以看到部署的进度条。如果部署中间出现错误， CDK 会自动进行回滚，之前创建和修改的资源都会被恢复原样，可以放心使用。</p>
+<h3 id="销毁">销毁</h3>
+<p>在完成测试后，执行命令 <code>cdk destroy</code> 对创建的资源进行释放。</p>
+<h2 id="结语">结语</h2>
+<p>非常感谢来自 AWS 的 <a href="https://github.com/pahud">@pahud</a> 同学的指导和帮助，总体来说 Python 版本的 CDK 使用起来比较方便，但文档和源码中的说明略有不足。<code>AWS CDK</code> 的核心引擎其实是使用 Typescript 编写，其他语言的版本都是采用 <a href="https://github.com/aws/jsii">JSii</a> 通过 TypeScript 转化而来。如果要深入使用，这里还是推荐使用 Typescript 的版本（其实我已经换成 Typescript 来写了），难度不是很大，值得一试。</p>
 
 	<br>
 	
 	
 	<a class="button button-glow button-rounded button-royal button-tiny mb-2"
-		href="/tags/rancher">#rancher</a>
+		href="/tags/aws">#AWS</a>
 	
 	<a class="button button-glow button-rounded button-royal button-tiny mb-2"
-		href="/tags/kubernetes">#kubernetes</a>
+		href="/tags/aws-cdk">#AWS CDK</a>
+	
+	<a class="button button-glow button-rounded button-royal button-tiny mb-2"
+		href="/tags/iac">#IaC</a>
+	
+	<a class="button button-glow button-rounded button-royal button-tiny mb-2"
+		href="/tags/%e5%9f%ba%e7%a1%80%e8%ae%be%e6%96%bd%e5%8d%b3%e4%bb%a3%e7%a0%81">#基础设施即代码</a>
 	
 	
 	
@@ -805,8 +858,8 @@ s.setAttribute('data-timestamp', +new Date());
 	
 
 	<div class="entry-shang pt-5">
-  <a href="/post/11-reasons-why-you-are-going-to-fail-with-microservices/" class=".-text-primary float-left"><i class="fas fa-angle-left"></i> 导致你的微服务走向失败的11个原因</a>
-  <a href="/post/helm-docs/" class=".-text-primary float-right">告别手写 Helm Chart README <i class="fas fa-angle-right"></i></a>
+  <a href="/post/aws-cdk-introduction/" class=".-text-primary float-left"><i class="fas fa-angle-left"></i> AWS CDK | IaC 何必只用 Yaml</a>
+  <a  class=".-text-primary float-right"></a>
 </div>
 	<script src="https://my.openwrite.cn/js/readmore.js" type="text/javascript"></script>
 	<script>
