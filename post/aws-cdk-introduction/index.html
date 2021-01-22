@@ -42,7 +42,7 @@
       "datePublished": "2021-01-21 10:43:11 \x2b0800 \x2b0800",
       "dateModified" : "2021-01-21 10:43:11 \x2b0800 \x2b0800",
       "url" : "https:\/\/guoxudong.io\/post\/aws-cdk-introduction\/",
-      "wordCount" : "412",
+      "wordCount" : "413",
       "keywords" : [ "AWS","AWS CDK","IaC","基础设施即代码","Guoxudong" ]
   }
   </script>
@@ -51,12 +51,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://guoxudong.io/post/aws-cdk-introduction/" />
 <meta property="article:published_time" content="2021-01-21T10:43:11+08:00" />
-<meta property="article:modified_time" content="2021-01-21T18:23:48+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
+<meta property="article:modified_time" content="2021-01-22T09:55:27+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
 <meta itemprop="name" content="AWS CDK | IaC 何必只用 Yaml">
 <meta itemprop="description" content="使用 AWS CDK 破解 IaC 的 Yaml 困局。">
 <meta itemprop="datePublished" content="2021-01-21T10:43:11&#43;08:00" />
-<meta itemprop="dateModified" content="2021-01-21T18:23:48&#43;08:00" />
-<meta itemprop="wordCount" content="412">
+<meta itemprop="dateModified" content="2021-01-22T09:55:27&#43;08:00" />
+<meta itemprop="wordCount" content="413">
 
 
 
@@ -570,7 +570,7 @@ if (!doNotTrack) {
 		<span>
 			2 分钟阅读时间
 		</span> ·
-		<span>最近更新于 </span><time datetime="2021-01-21"
+		<span>最近更新于 </span><time datetime="2021-01-22"
 			class="text-muted">2021年01月21日</time> ·
 		
 		<a href="/categories/iac">
@@ -656,7 +656,7 @@ if (!doNotTrack) {
 <li>C#</li>
 </ul>
 <p>AWS CDK 还提供了十分完善的脚手架工具，以 Python 为例，只需新建目录，并在目录中执行如下命令，即可拉起一套的 CDK Python 代码：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cdk init app --language python
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ cdk init app --language python
 </code></pre></div><p>之后只需在 <code>app/app_stack.py</code> 中编写相应代码即可，非常方便。</p>
 <h3 id="原理">原理</h3>
 <p>AWS CDK 将 Imperative 和 Declarative 进行了结合，通过编程语言生成 CloudFormation 的 template，之后再由 CloudFormation 生成对应的 Stack，最终在 AWS 上完成云资源的创建和变更。</p>

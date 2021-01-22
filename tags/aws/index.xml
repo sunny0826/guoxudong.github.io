@@ -48,7 +48,7 @@
 &lt;li&gt;C#&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;AWS CDK 还提供了十分完善的脚手架工具，以 Python 为例，只需新建目录，并在目录中执行如下命令，即可拉起一套的 CDK Python 代码：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;cdk init app --language python
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ cdk init app --language python
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;之后只需在 &lt;code&gt;app/app_stack.py&lt;/code&gt; 中编写相应代码即可，非常方便。&lt;/p&gt;
 &lt;h3 id=&#34;原理&#34;&gt;原理&lt;/h3&gt;
 &lt;p&gt;AWS CDK 将 Imperative 和 Declarative 进行了结合，通过编程语言生成 CloudFormation 的 template，之后再由 CloudFormation 生成对应的 Stack，最终在 AWS 上完成云资源的创建和变更。&lt;/p&gt;
