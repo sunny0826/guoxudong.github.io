@@ -138,7 +138,11 @@ $ python -m pip install -r requirements.txt
 &lt;p&gt;可以执行 &lt;code&gt;cdk synth&lt;/code&gt; 命令用来查看生成的 AWS CloudFormation template，笔者统计了一下生成 AWS CloudFormation template 的行数，这几十行代码居然生成了 &lt;strong&gt;1156&lt;/strong&gt; 行的 CloudFormation 配置！&lt;/p&gt;
 &lt;h3 id=&#34;部署&#34;&gt;部署&lt;/h3&gt;
 &lt;p&gt;在检查无误后就可以开始部署了，执行命令 &lt;code&gt;cdk deploy&lt;/code&gt; 并输入 &lt;code&gt;y&lt;/code&gt; 确认，之后可以看到部署的进度条。如果部署中间出现错误， CDK 会自动进行回滚，之前创建和修改的资源都会被恢复原样，可以放心使用。&lt;/p&gt;
-&lt;h3 id=&#34;销毁&#34;&gt;销毁&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1gmzpw3ltfkj21920h2n2q.jpg&#34; alt=&#34;部署成功&#34;&gt;&lt;/p&gt;
+&lt;p&gt;到这里，EKS 集群就已经部署成功了，执行两条命令，就能生成 &lt;code&gt;kubeconfig&lt;/code&gt; 并使用 &lt;code&gt;kubectl&lt;/code&gt; 访问了。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ aws eks updata-kubeconfig ...
+$ aws eks get-token ...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;销毁&#34;&gt;销毁&lt;/h3&gt;
 &lt;p&gt;在完成测试后，执行命令 &lt;code&gt;cdk destroy&lt;/code&gt; 对创建的资源进行释放。&lt;/p&gt;
 &lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
 &lt;p&gt;非常感谢来自 AWS 的 &lt;a href=&#34;https://github.com/pahud&#34;&gt;@pahud&lt;/a&gt; 同学的指导和帮助，总体来说 Python 版本的 CDK 使用起来比较方便，但文档和源码中的说明略有不足。&lt;code&gt;AWS CDK&lt;/code&gt; 的核心引擎其实是使用 Typescript 编写，其他语言的版本都是采用 &lt;a href=&#34;https://github.com/aws/jsii&#34;&gt;JSii&lt;/a&gt; 通过 TypeScript 转化而来。如果要深入使用，这里还是推荐使用 Typescript 的版本（其实我已经换成 Typescript 来写了），难度不是很大，值得一试。&lt;/p&gt;

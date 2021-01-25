@@ -42,7 +42,7 @@
       "datePublished": "2021-01-22 10:07:01 \x2b0800 \x2b0800",
       "dateModified" : "2021-01-22 10:07:01 \x2b0800 \x2b0800",
       "url" : "https:\/\/guoxudong.io\/post\/aws-cdk-python-eks\/",
-      "wordCount" : "421",
+      "wordCount" : "437",
       "keywords" : [ "AWS","AWS CDK","IaC","基础设施即代码","Guoxudong" ]
   }
   </script>
@@ -51,12 +51,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://guoxudong.io/post/aws-cdk-python-eks/" />
 <meta property="article:published_time" content="2021-01-22T10:07:01+08:00" />
-<meta property="article:modified_time" content="2021-01-22T17:49:36+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
+<meta property="article:modified_time" content="2021-01-25T10:17:35+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
 <meta itemprop="name" content="使用 AWS CDK Python 从零开始构建 EKS 集群">
 <meta itemprop="description" content="使用 AWS CDK Python 版本从零开始构建一个 EKS 集群。">
 <meta itemprop="datePublished" content="2021-01-22T10:07:01&#43;08:00" />
-<meta itemprop="dateModified" content="2021-01-22T17:49:36&#43;08:00" />
-<meta itemprop="wordCount" content="421">
+<meta itemprop="dateModified" content="2021-01-25T10:17:35&#43;08:00" />
+<meta itemprop="wordCount" content="437">
 
 
 
@@ -577,9 +577,9 @@ if (!doNotTrack) {
 	<div class="td-byline mb-4">
 		<span>By  <b>guoxudong</b> </span> ·
 		<span>
-			2 分钟阅读时间
+			3 分钟阅读时间
 		</span> ·
-		<span>最近更新于 </span><time datetime="2021-01-22"
+		<span>最近更新于 </span><time datetime="2021-01-25"
 			class="text-muted">2021年01月22日</time> ·
 		
 		<a href="/categories/iac">
@@ -757,7 +757,11 @@ $ python -m pip install -r requirements.txt
 <p>可以执行 <code>cdk synth</code> 命令用来查看生成的 AWS CloudFormation template，笔者统计了一下生成 AWS CloudFormation template 的行数，这几十行代码居然生成了 <strong>1156</strong> 行的 CloudFormation 配置！</p>
 <h3 id="部署">部署</h3>
 <p>在检查无误后就可以开始部署了，执行命令 <code>cdk deploy</code> 并输入 <code>y</code> 确认，之后可以看到部署的进度条。如果部署中间出现错误， CDK 会自动进行回滚，之前创建和修改的资源都会被恢复原样，可以放心使用。</p>
-<h3 id="销毁">销毁</h3>
+<p><img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1gmzpw3ltfkj21920h2n2q.jpg" alt="部署成功"></p>
+<p>到这里，EKS 集群就已经部署成功了，执行两条命令，就能生成 <code>kubeconfig</code> 并使用 <code>kubectl</code> 访问了。</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ aws eks updata-kubeconfig ...
+$ aws eks get-token ...
+</code></pre></div><h3 id="销毁">销毁</h3>
 <p>在完成测试后，执行命令 <code>cdk destroy</code> 对创建的资源进行释放。</p>
 <h2 id="结语">结语</h2>
 <p>非常感谢来自 AWS 的 <a href="https://github.com/pahud">@pahud</a> 同学的指导和帮助，总体来说 Python 版本的 CDK 使用起来比较方便，但文档和源码中的说明略有不足。<code>AWS CDK</code> 的核心引擎其实是使用 Typescript 编写，其他语言的版本都是采用 <a href="https://github.com/aws/jsii">JSii</a> 通过 TypeScript 转化而来。如果要深入使用，这里还是推荐使用 Typescript 的版本（其实我已经换成 Typescript 来写了），难度不是很大，值得一试。</p>
