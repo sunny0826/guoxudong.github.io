@@ -14,6 +14,69 @@
     
     
     <item>
+      <title>Post: 回顾 2020 | 柴猫双全程序猿的云原生之路</title>
+      <link>https://guoxudong.io/post/summary-2020/</link>
+      <pubDate>Mon, 01 Feb 2021 09:55:06 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/summary-2020/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;农历新年前的最后一篇文章，就来回顾一下我的 2020 吧。&lt;/p&gt;
+&lt;p&gt;2020 是魔幻的一年，这一年发生了很多事情，疫情、洪水、巨星陨落、美股的四次熔断&amp;hellip;仿佛每一天我们都在见证着历史。&lt;/p&gt;
+&lt;h2 id=&#34;写作&#34;&gt;写作&lt;/h2&gt;
+&lt;p&gt;2020 年总共写了 45 篇原创博客，公众号的关注者在 2020 年翻了 3 倍。8 月份启用了新域名 &lt;a href=&#34;https://guoxudong.io/&#34;&gt;guoxudong.io&lt;/a&gt;，使用 &lt;a href=&#34;https://www.docsy.dev&#34;&gt;docsy&lt;/a&gt; 重构了博客的页面，并对样式进行了定制。&lt;/p&gt;
+&lt;p&gt;内容方面，文章涉及范围有所拓宽，从理论到实践均有涉猎，并开始尝试写源码分析类文章。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/wap720/ad5fbf65gy1gn85ejee5xj20wy184gqj.jpg&#34; alt=&#34;涉及领域&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;开源&#34;&gt;开源&lt;/h2&gt;
+&lt;p&gt;如果要给我的 2020 年加一个关键词，那么一定是 &lt;strong&gt;“开源”&lt;/strong&gt;。&lt;/p&gt;
+&lt;h3 id=&#34;coding&#34;&gt;Coding&lt;/h3&gt;
+&lt;p&gt;2020 年我在 GitHub 上结识了很多志同道合的朋友，收获了他们的帮助与认可。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/wap720/ad5fbf65gy1gn85rhyxfmj20ra0akgs0.jpg&#34; alt=&#34;GitHub&#34;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/sunny0826/kubecm&#34;&gt;kubecm&lt;/a&gt; 在 2020 年迭代了 10 多个版本， star 数超过了 120，并迎来了多个贡献者&lt;/li&gt;
+&lt;li&gt;作为&lt;a href=&#34;https://github.com/servicemesher/istio-handbook/blob/master/wg/editorial-board.md&#34;&gt;编委会&lt;/a&gt;成员参与编写开源书籍 &lt;a href=&#34;https://github.com/servicemesher/istio-handbook/issues/42&#34;&gt;Istio handbook&lt;/a&gt;，并贡献了多章内容&lt;/li&gt;
+&lt;li&gt;成为 &lt;a href=&#34;https://github.com/chaosblade-io/chaosblade&#34;&gt;chaosblade&lt;/a&gt; 的 commiter&lt;/li&gt;
+&lt;li&gt;作为初创成员参与 &lt;a href=&#34;https://github.com/oam-dev/kubevela&#34;&gt;kubevela&lt;/a&gt; 并在 2021 年成为 reviewer&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;活动&#34;&gt;活动&lt;/h3&gt;
+&lt;p&gt;除了 coding 以外，2020 年我还成为了 &lt;a href=&#34;https://cloudnative.to/team/&#34;&gt;云原生社区管理委员会&lt;/a&gt;成员、&lt;a href=&#34;https://cloudnative.to/city/shanghai/&#34;&gt;上海站&lt;/a&gt;站长。发起并组织了云原生社区首次线下 meetup - &lt;a href=&#34;https://mp.weixin.qq.com/s/h1OqUAXvhKaYN5pIO7xI7w&#34;&gt;云原生社区第一期 meetup 上海站&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;这也是我第一次组织线下技术分享活动，从场地、赞助、讲师的邀请到宣传和主持，每一步都没有看上去那么容易，再加上新冠疫情反扑，让这场活动险些延期。所幸上海疫情得到了控制，活动有惊无险的举办了，现场的志愿者和来宾都十分给力，活动最终圆满结束。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1gn8zymurorj264w43cx6p.jpg&#34; alt=&#34;现场&#34;&gt;&lt;/p&gt;
+&lt;p&gt;最近还完成了 &lt;a href=&#34;https://community.cncf.io/shanghai/&#34;&gt;Cloud Native Community Groups&lt;/a&gt; 上海活动组织者的申请，2021 年我们会组织更多的云原生活动，让更多的朋友参与进来学习、成长。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1gn90qgpifkj223a1jwqe2.jpg&#34; alt=&#34;CNCG&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;分享&#34;&gt;分享&lt;/h3&gt;
+&lt;p&gt;由于疫情肆虐，2020 很多线下活动转为线上，我也进行了多场线上分享，内容主要是云原生相关工具的使用和实践。年末接受 Rancher 邀请，参加了 Rancher 与 SUSE 首次合体亮相的&lt;a href=&#34;https://mp.weixin.qq.com/s/0BJ3XyhUZCq_-HBMiSlAMA&#34;&gt;「释放云的全部价值」技术沙龙&lt;/a&gt;，分享了我在 K3S 上的实践。&lt;/p&gt;
+&lt;p&gt;总体来说，达到了 2020 年初给定下的小目标，但是由于生活和工作上的一些变动，整个下半年过的手忙脚乱，希望在 2021 年能更加从容的应对各种机遇与挑战。&lt;/p&gt;
+&lt;h2 id=&#34;其他&#34;&gt;其他&lt;/h2&gt;
+&lt;p&gt;年初我们复工的比较早，我现在还清晰的记的平时拥挤的上海地铁在当时空无一人，上下班乘坐公共交通都要全副武装。感觉到了同事们的担忧，我定制了一个用来展示疫情实时动态的 Grafana Dashboard，让办公室的同事可以实时看到疫情动态。看着这个监控，我们迎来了武汉的解封，迎来了全面复工。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1gn9ath44cbj21400u0hdt.jpg&#34; alt=&#34;疫情 Dashboard&#34;&gt;&lt;/p&gt;
+&lt;p&gt;10 月份，我参加了阿里云线上举办的 CodeSample 挑战赛，混了一个等奖。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax4.sinaimg.cn/large/ad5fbf65gy1gn96yyddlkj21400u0u0y.jpg&#34; alt=&#34;奖牌&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;柴猫双全&#34;&gt;柴猫双全&lt;/h2&gt;
+&lt;p&gt;熟悉我的朋友都知道我有一只叫做 &lt;strong&gt;毛线&lt;/strong&gt; 的橘猫和一只叫 &lt;strong&gt;Sunny&lt;/strong&gt; 的柴犬，2020 年他们也都有好好的吃饭，好好的长肉。年初在家办公时，他们陪着我写代码；年中加班时，他们在家默默地等我回家。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax2.sinaimg.cn/large/ad5fbf65gy1gn96wl4mcmj21hc0u07wj.jpg&#34; alt=&#34;在家办公&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax3.sinaimg.cn/large/ad5fbf65gy1gn9akhtd4uj21410u0e82.jpg&#34; alt=&#34;毛线&amp;Sunny&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;2021&#34;&gt;2021&lt;/h2&gt;
+&lt;p&gt;在这里给 2021 立点小 flag：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;开源项目方面：kubecm 会继续迭代，争取让更多的人了解和使用 kubecm，继续参与 chaosblade 和 kubevela 项目，为开源社区做出更多贡献&lt;/li&gt;
+&lt;li&gt;活动方面：云原生社区上海站计划在 2021 年举办 3 场规模不等的线下 meetup，这些活动都会更新到 Cloud Native Community Groups 的 Event 中，让更多的朋友看到，有兴趣赞助的公司也可以直接联系我&lt;/li&gt;
+&lt;li&gt;博客方面：目前 TODO List 已经积攒了很多题目，内容包括源码分析、工具介绍、实践分享&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;感谢您的关于与支持，祝好运，健康，佳肴伴您度过一个快乐新年。&lt;/p&gt;
+
+&lt;/div&gt;
+
+
+      </description>
+    </item>
+    
+    <item>
       <title>Post: 使用 AWS CDK Python 从零开始构建 EKS 集群</title>
       <link>https://guoxudong.io/post/aws-cdk-python-eks/</link>
       <pubDate>Fri, 22 Jan 2021 10:07:01 +0800</pubDate>
@@ -7171,34 +7234,6 @@ service grafana-server restart
 &lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65gy1g8pi8ss733j21h30pz7b6.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;后记&#34;&gt;后记&lt;/h2&gt;
 &lt;p&gt;为了满足公司需求，后续还开发 DataSource 定制部分，用于公司监控大屏的展示，这部分是另一个项目，不在这个项目里，就不细说了，之后有机会总结后再进行分享。&lt;/p&gt;
-
-      </description>
-    </item>
-    
-    <item>
-      <title>Post: 阿里云产品夜谈-容器服务交流</title>
-      <link>https://guoxudong.io/post/aliyun-product-meetup/</link>
-      <pubDate>Mon, 30 Sep 2019 09:32:35 +0800</pubDate>
-      
-      <guid>https://guoxudong.io/post/aliyun-product-meetup/</guid>
-      <description>
-        
-        
-        &lt;p&gt;&lt;img src=&#34;https://tvax4.sinaimg.cn/large/ad5fbf65gy1g7hb4iwdpvj213i0vs4qq.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
-&lt;p&gt;9月25日晚受邀来到阿里云飞天园区参加阿里云MVP产品夜谈，在会上遇到了容器服务团队的负责人易立，并就容器服务进行了交流。此次参加夜谈的除了来自全球各地的阿里云MVP，还有来自安全团队、容器团队、AIoT 团队、大数据团队、数据库团队、人工智能团队、中间件团队、搜索引擎&amp;amp;智能推荐团队的负责人&amp;amp;产品经理。各个参会的MVP可以根据自己的研究方向或者感兴趣的方向选择，直接与团队负责人面对面交流，获取阿里云产品的最新信息，并提出使用意见，促进产品的发展。由于主要从事云原生&amp;amp;容器方面的工作，我选择了容器团队，与阿里云容器服务团队负责人易立就容器服务进行交流，本文记录了部分交流内容。&lt;/p&gt;
-&lt;h2 id=&#34;容器服务交流&#34;&gt;容器服务交流&lt;/h2&gt;
-&lt;p&gt;&lt;img src=&#34;https://tva3.sinaimg.cn/large/ad5fbf65gy1g7hdbw7rwij21zk13ax6s.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;关于集群版本集群升级&#34;&gt;关于集群版本&amp;amp;集群升级&lt;/h3&gt;
-&lt;p&gt;众所周知，Kubernetes 以非常稳定的3个月发布一个版本速度在高速迭代这，Kubernetes v1.16.0 也即将 release ，但是目前 ACK 的 Kubernetes 版本依旧为 v1.12.6-aliyun.1 已落后官方4个大版本。得到的回复是新版本 1.14 已经上线，下周就可以升级了，1.14 版本之前已经上线，只不过一直在灰度测试，下周（2019年9月29日）就全面放开升级了。截止写这篇文章的时候，我们的多个 Kubernetes 集群已成功升级到 v1.14.6-aliyun.1 ，虽然在升级的时候出现了一点小问题，但是最后还是顺利解决了。&lt;/p&gt;
-&lt;p&gt;然后就是集群升级的问题，集群升级的时候会建议对所有节点打快照，确保节点安全，但是如果在节点升级当中失败，就会出现一半为新版本节点，一半为旧版本节点的问题。我们的一个节点升级失败，就出现了上述问题，最后还是将该节点容器驱散，并将该节点移出集群才解决了升级问题。希望集群升级提供整体状态保存&amp;amp;回退功能，确保如果升级失败（或者出现新旧版本不兼容问题）的时候可以安全回退到之前版本。&lt;/p&gt;
-&lt;h3 id=&#34;关于容器服务前端展示&#34;&gt;关于容器服务前端展示&lt;/h3&gt;
-&lt;p&gt;ACK 的 WEB 界面相对简陋，一直以来都是对 Kubernetes Dashboard 进行了简单的包装，和其他公有云相比确实不如。不过这也不是容器服务独有的问题，阿里云你产品众多，大部分都有这样的问题。与易立交流得知，容器服务团队目前主要的任务还是确保 Kubernetes 集群的安全稳定运行，他们在安全和可用性上花费的大量精力，貌似并没有拿到什么前端开发资源。我注意到像费用中心、日志服务等产品都有了新版页面，这里希望能容器服务页面也能尽快改版，提高页面操作的便捷和美观。&lt;/p&gt;
-&lt;h3 id=&#34;关于授权管理&#34;&gt;关于授权管理&lt;/h3&gt;
-&lt;p&gt;一直以来容器服务都有授权管理功能，后来都基于RAM重新做了授权管理功能。但是RAM权限管理策略十分复杂，配置起来也很麻烦，不同的策略结构和语法学习起来非常困难。在配置和管理起来非常困难，我们只能把所有权限收回，每项权限都要根据需求提工单来进行配置，还时长会出现配置不生效的问题。而且这个问题一提出，就引起了大家的共鸣，后了解得知，为了安全合规的要求，操作便捷和安全合规没法兼顾。这里希望授权管理上能在确保合规的同时，能提升RAM操作的便捷性。&lt;/p&gt;
-&lt;h2 id=&#34;后记&#34;&gt;后记&lt;/h2&gt;
-&lt;p&gt;&lt;img src=&#34;https://tvax2.sinaimg.cn/large/ad5fbf65gy1g7hdrlln6vj21rm0ycwov.jpg&#34; alt=&#34;image&#34;&gt;
-关于容器服务的交流主要是以上几点，其他的还包括监控、存储和 CI/CD 方面进行了交流，同时也获得了不少建议。当面给阿里云提需求的机会并不多，我也是抓住机会，把日常使用 ACK 的问题汇总之后一股脑的丢了出去。有类似需求的同学可以在&lt;a href=&#34;https://connect.aliyun.com&#34;&gt;阿里云的聆听平台&lt;/a&gt;上给阿里云提交建议，以我的经验，合理的需求会很快审核通过并排期开发，换句话说就是“人人都可以是阿里云的产品经理”。&lt;/p&gt;
 
       </description>
     </item>

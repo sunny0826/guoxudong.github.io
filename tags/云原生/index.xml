@@ -5,7 +5,7 @@
     <description>Recent content in 云原生 on Guo Xudong&#39;s Blog·郭旭东的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sat, 06 Jul 2019 09:40:42 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 01 Feb 2021 09:55:06 +0800</lastBuildDate>
     
 	  <atom:link href="https://guoxudong.io/tags/%E4%BA%91%E5%8E%9F%E7%94%9F/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,6 +14,69 @@
         
       
     
+    
+    <item>
+      <title>Post: 回顾 2020 | 柴猫双全程序猿的云原生之路</title>
+      <link>https://guoxudong.io/post/summary-2020/</link>
+      <pubDate>Mon, 01 Feb 2021 09:55:06 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/summary-2020/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;农历新年前的最后一篇文章，就来回顾一下我的 2020 吧。&lt;/p&gt;
+&lt;p&gt;2020 是魔幻的一年，这一年发生了很多事情，疫情、洪水、巨星陨落、美股的四次熔断&amp;hellip;仿佛每一天我们都在见证着历史。&lt;/p&gt;
+&lt;h2 id=&#34;写作&#34;&gt;写作&lt;/h2&gt;
+&lt;p&gt;2020 年总共写了 45 篇原创博客，公众号的关注者在 2020 年翻了 3 倍。8 月份启用了新域名 &lt;a href=&#34;https://guoxudong.io/&#34;&gt;guoxudong.io&lt;/a&gt;，使用 &lt;a href=&#34;https://www.docsy.dev&#34;&gt;docsy&lt;/a&gt; 重构了博客的页面，并对样式进行了定制。&lt;/p&gt;
+&lt;p&gt;内容方面，文章涉及范围有所拓宽，从理论到实践均有涉猎，并开始尝试写源码分析类文章。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/wap720/ad5fbf65gy1gn85ejee5xj20wy184gqj.jpg&#34; alt=&#34;涉及领域&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;开源&#34;&gt;开源&lt;/h2&gt;
+&lt;p&gt;如果要给我的 2020 年加一个关键词，那么一定是 &lt;strong&gt;“开源”&lt;/strong&gt;。&lt;/p&gt;
+&lt;h3 id=&#34;coding&#34;&gt;Coding&lt;/h3&gt;
+&lt;p&gt;2020 年我在 GitHub 上结识了很多志同道合的朋友，收获了他们的帮助与认可。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/wap720/ad5fbf65gy1gn85rhyxfmj20ra0akgs0.jpg&#34; alt=&#34;GitHub&#34;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/sunny0826/kubecm&#34;&gt;kubecm&lt;/a&gt; 在 2020 年迭代了 10 多个版本， star 数超过了 120，并迎来了多个贡献者&lt;/li&gt;
+&lt;li&gt;作为&lt;a href=&#34;https://github.com/servicemesher/istio-handbook/blob/master/wg/editorial-board.md&#34;&gt;编委会&lt;/a&gt;成员参与编写开源书籍 &lt;a href=&#34;https://github.com/servicemesher/istio-handbook/issues/42&#34;&gt;Istio handbook&lt;/a&gt;，并贡献了多章内容&lt;/li&gt;
+&lt;li&gt;成为 &lt;a href=&#34;https://github.com/chaosblade-io/chaosblade&#34;&gt;chaosblade&lt;/a&gt; 的 commiter&lt;/li&gt;
+&lt;li&gt;作为初创成员参与 &lt;a href=&#34;https://github.com/oam-dev/kubevela&#34;&gt;kubevela&lt;/a&gt; 并在 2021 年成为 reviewer&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;活动&#34;&gt;活动&lt;/h3&gt;
+&lt;p&gt;除了 coding 以外，2020 年我还成为了 &lt;a href=&#34;https://cloudnative.to/team/&#34;&gt;云原生社区管理委员会&lt;/a&gt;成员、&lt;a href=&#34;https://cloudnative.to/city/shanghai/&#34;&gt;上海站&lt;/a&gt;站长。发起并组织了云原生社区首次线下 meetup - &lt;a href=&#34;https://mp.weixin.qq.com/s/h1OqUAXvhKaYN5pIO7xI7w&#34;&gt;云原生社区第一期 meetup 上海站&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;这也是我第一次组织线下技术分享活动，从场地、赞助、讲师的邀请到宣传和主持，每一步都没有看上去那么容易，再加上新冠疫情反扑，让这场活动险些延期。所幸上海疫情得到了控制，活动有惊无险的举办了，现场的志愿者和来宾都十分给力，活动最终圆满结束。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1gn8zymurorj264w43cx6p.jpg&#34; alt=&#34;现场&#34;&gt;&lt;/p&gt;
+&lt;p&gt;最近还完成了 &lt;a href=&#34;https://community.cncf.io/shanghai/&#34;&gt;Cloud Native Community Groups&lt;/a&gt; 上海活动组织者的申请，2021 年我们会组织更多的云原生活动，让更多的朋友参与进来学习、成长。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1gn90qgpifkj223a1jwqe2.jpg&#34; alt=&#34;CNCG&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;分享&#34;&gt;分享&lt;/h3&gt;
+&lt;p&gt;由于疫情肆虐，2020 很多线下活动转为线上，我也进行了多场线上分享，内容主要是云原生相关工具的使用和实践。年末接受 Rancher 邀请，参加了 Rancher 与 SUSE 首次合体亮相的&lt;a href=&#34;https://mp.weixin.qq.com/s/0BJ3XyhUZCq_-HBMiSlAMA&#34;&gt;「释放云的全部价值」技术沙龙&lt;/a&gt;，分享了我在 K3S 上的实践。&lt;/p&gt;
+&lt;p&gt;总体来说，达到了 2020 年初给定下的小目标，但是由于生活和工作上的一些变动，整个下半年过的手忙脚乱，希望在 2021 年能更加从容的应对各种机遇与挑战。&lt;/p&gt;
+&lt;h2 id=&#34;其他&#34;&gt;其他&lt;/h2&gt;
+&lt;p&gt;年初我们复工的比较早，我现在还清晰的记的平时拥挤的上海地铁在当时空无一人，上下班乘坐公共交通都要全副武装。感觉到了同事们的担忧，我定制了一个用来展示疫情实时动态的 Grafana Dashboard，让办公室的同事可以实时看到疫情动态。看着这个监控，我们迎来了武汉的解封，迎来了全面复工。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1gn9ath44cbj21400u0hdt.jpg&#34; alt=&#34;疫情 Dashboard&#34;&gt;&lt;/p&gt;
+&lt;p&gt;10 月份，我参加了阿里云线上举办的 CodeSample 挑战赛，混了一个等奖。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax4.sinaimg.cn/large/ad5fbf65gy1gn96yyddlkj21400u0u0y.jpg&#34; alt=&#34;奖牌&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;柴猫双全&#34;&gt;柴猫双全&lt;/h2&gt;
+&lt;p&gt;熟悉我的朋友都知道我有一只叫做 &lt;strong&gt;毛线&lt;/strong&gt; 的橘猫和一只叫 &lt;strong&gt;Sunny&lt;/strong&gt; 的柴犬，2020 年他们也都有好好的吃饭，好好的长肉。年初在家办公时，他们陪着我写代码；年中加班时，他们在家默默地等我回家。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax2.sinaimg.cn/large/ad5fbf65gy1gn96wl4mcmj21hc0u07wj.jpg&#34; alt=&#34;在家办公&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax3.sinaimg.cn/large/ad5fbf65gy1gn9akhtd4uj21410u0e82.jpg&#34; alt=&#34;毛线&amp;Sunny&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;2021&#34;&gt;2021&lt;/h2&gt;
+&lt;p&gt;在这里给 2021 立点小 flag：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;开源项目方面：kubecm 会继续迭代，争取让更多的人了解和使用 kubecm，继续参与 chaosblade 和 kubevela 项目，为开源社区做出更多贡献&lt;/li&gt;
+&lt;li&gt;活动方面：云原生社区上海站计划在 2021 年举办 3 场规模不等的线下 meetup，这些活动都会更新到 Cloud Native Community Groups 的 Event 中，让更多的朋友看到，有兴趣赞助的公司也可以直接联系我&lt;/li&gt;
+&lt;li&gt;博客方面：目前 TODO List 已经积攒了很多题目，内容包括源码分析、工具介绍、实践分享&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;感谢您的关于与支持，祝好运，健康，佳肴伴您度过一个快乐新年。&lt;/p&gt;
+
+&lt;/div&gt;
+
+
+      </description>
+    </item>
     
     <item>
       <title>Post: 语义化版本控制规范（SemVer）</title>
