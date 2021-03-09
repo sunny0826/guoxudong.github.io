@@ -49,7 +49,7 @@ $ kubectl iexec --help
 &lt;p&gt;如果匹配到多个 Pod，则会出现下拉菜单来选择要进入的 Pod 和 Container。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1godnw22airj20pw0gajts.jpg&#34; alt=&#34;多个匹配&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;open-svc&#34;&gt;open-svc&lt;/h3&gt;
-&lt;p&gt;日常工作中，常常需要使用 &lt;code&gt;kubectl port-forward&lt;/code&gt; 命令来在本地访问部署在 k8s 中的服务，&lt;code&gt;open-svc&lt;/code&gt; 则简化了这一步骤，输入命令，直接打开浏览器访问 k8s 中的服务。&lt;/p&gt;
+&lt;p&gt;日常工作中，常常需要使用 &lt;code&gt;kubectl port-forward&lt;/code&gt; 命令来在本地访问部署在 k8s 中的服务，&lt;code&gt;open-svc&lt;/code&gt; 则简化了这一步骤，输入命令，相应服务会直接在浏览器中弹出。&lt;/p&gt;
 &lt;p&gt;项目地址：https://github.com/superbrothers/kubectl-open-svc-plugin&lt;/p&gt;
 &lt;h4 id=&#34;安装-2&#34;&gt;安装&lt;/h4&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl krew install open-svc
