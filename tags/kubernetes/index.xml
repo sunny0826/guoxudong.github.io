@@ -5,7 +5,7 @@
     <description>Recent content in Kubernetes on Guo Xudong&#39;s Blog·郭旭东的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Tue, 09 Mar 2021 11:18:48 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 17 Mar 2021 09:54:18 +0800</lastBuildDate>
     
 	  <atom:link href="https://guoxudong.io/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,6 +14,129 @@
         
       
     
+    
+    <item>
+      <title>Post: Kubectl Plugin 推荐（三）| 插件开发篇</title>
+      <link>https://guoxudong.io/post/kubectl-plugin-recommended-3/</link>
+      <pubDate>Wed, 17 Mar 2021 09:54:18 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/kubectl-plugin-recommended-3/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;之前的两篇文章中笔者推荐了一些好用的 Kubectl Plugin。但在实践中那些插件不一定能满足全部需求，这时不妨动手开发一个，花费时间不多，但却能极高的提升工作效率和使用体验。&lt;/p&gt;
+&lt;p&gt;本篇文章就来讲解如何快速开发一款自己的 Kubectl Plugin。&lt;/p&gt;
+&lt;h2 id=&#34;简介&#34;&gt;简介&lt;/h2&gt;
+&lt;p&gt;Kubectl Plugin 的开发流程和注意事项：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;编写一个二进制可执行文件以 &lt;code&gt;kubectl-xxx&lt;/code&gt; 命名&lt;/li&gt;
+&lt;li&gt;需要将可执行文件放在环境变量 &lt;code&gt;PATH&lt;/code&gt; 中&lt;/li&gt;
+&lt;li&gt;之后就可以使用 &lt;code&gt;kubectl xxx&lt;/code&gt; 来调用了&lt;/li&gt;
+&lt;li&gt;无法覆盖 &lt;code&gt;kubectl&lt;/code&gt; 内置的命令&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;二进制可执行文件可以是任何语言开发，本文主要讲解使用 go 语言开发，官方推荐使用 &lt;a href=&#34;https://github.com/kubernetes/cli-runtime/&#34;&gt;cli-runtime&lt;/a&gt; 项目，可以参考 &lt;a href=&#34;https://github.com/kubernetes/sample-cli-plugin&#34;&gt;sample-cli-plugin&lt;/a&gt; 示例。&lt;/p&gt;
+&lt;h2 id=&#34;使用-github-template&#34;&gt;使用 GitHub Template&lt;/h2&gt;
+&lt;p&gt;模板地址：https://github.com/replicatedhq/krew-plugin-template&lt;/p&gt;
+&lt;p&gt;推荐使用 GitHub Template 创建 Plugin 项目，该模板遵循最佳实践开发，并集成了一些简化开发流程的工具，使用 &lt;a href=&#34;https://goreleaser.com/&#34;&gt;GoReleaser&lt;/a&gt; 和 GitHub Action 进行自动化发布。该 template 也是官方文档推荐的 &lt;strong&gt;非官方 GitHub Template&lt;/strong&gt;。&lt;/p&gt;
+&lt;h3 id=&#34;创建项目&#34;&gt;创建项目&lt;/h3&gt;
+&lt;p&gt;进入 krew-plugin-template 项目，点击 &lt;code&gt;Use this template&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1gomp3m8xjqj22w81naaqb.jpg&#34; alt=&#34;使用模板&#34;&gt;&lt;/p&gt;
+&lt;p&gt;输入 &lt;code&gt;Repository name&lt;/code&gt;，点击 &lt;code&gt;Create repository from template&lt;/code&gt; 创建 repo&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax2.sinaimg.cn/large/ad5fbf65gy1gomp5bbcl2j21fk0x4wis.jpg&#34; alt=&#34;创建项目&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;配置项目&#34;&gt;配置项目&lt;/h3&gt;
+&lt;p&gt;待项目创建完成后， clone 该项目并在本地通过终端进入该项目所在目录。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ git clone https://github.com/sunny0826/kubectl-demo.git
+$ &lt;span style=&#34;color:#24909d&#34;&gt;cd&lt;/span&gt; kubectl-demo
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;使用 &lt;code&gt;make setup&lt;/code&gt; 命令开始配置&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax4.sinaimg.cn/large/ad5fbf65gy1gomq1rr8vzj20y80eg0wp.jpg&#34; alt=&#34;set up&#34;&gt;&lt;/p&gt;
+&lt;p&gt;根据提示，填入 &lt;code&gt;GitHub Organization or Username&lt;/code&gt;、&lt;code&gt;GitHub Repo Namek&lt;/code&gt; 和 &lt;code&gt;Plugin Name&lt;/code&gt; 后，会自动对项目进行配置。&lt;/p&gt;
+&lt;h3 id=&#34;项目结构&#34;&gt;项目结构&lt;/h3&gt;
+&lt;p&gt;配置完成后，一个 Kubectl Plugin 项目的基本框架就完成了，结构如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;.
+├── LICENSE
+├── Makefile
+├── README.md
+├── cmd
+│   └── plugin
+│       ├── cli
+│       │   └── root.go   &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# cli 配置&lt;/span&gt;
+│       └── main.go       &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 项目入口&lt;/span&gt;
+├── deploy
+│   └── krew
+│       └── plugin.yaml   &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# krew-index 配置&lt;/span&gt;
+├── doc
+│   └── USAGE.md
+├── go.mod
+├── go.sum
+└── pkg
+    ├── logger
+    │   └── logger.go
+    └── plugin
+        └── plugin.go     &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 业务逻辑代码&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;接下来就是业务逻辑的开发，主要的业务逻辑代码就写在 &lt;code&gt;pkg/plugn/plugin.go&lt;/code&gt; 中；CLI 的相关配置，如 &lt;code&gt;flag&lt;/code&gt; 和子命令的配置则在 &lt;code&gt;cmd/plugin/cli/root.go&lt;/code&gt; 中。开发所需的 client-go 、k8s API 等资源也都已经集成在项目中，可直接使用。&lt;/p&gt;
+&lt;h3 id=&#34;构建测试&#34;&gt;构建测试&lt;/h3&gt;
+&lt;p&gt;在业务逻辑完成后，需要先在本地进行测试。使用 &lt;code&gt;make bin&lt;/code&gt; 命令可以将项目构建为可执行文件并用来测试，该命令会完成基础的 &lt;code&gt;fmt&lt;/code&gt;、&lt;code&gt;vet&lt;/code&gt; 测试并完成 &lt;code&gt;build&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax4.sinaimg.cn/large/ad5fbf65gy1gomqjcj5krj21py0uiwnd.jpg&#34; alt=&#34;make bin&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;创建-release&#34;&gt;创建 Release&lt;/h3&gt;
+&lt;p&gt;在完成代码逻辑和测试后，就可以将其发布到 github release 了，GitHub Action 和 &lt;a href=&#34;https://goreleaser.com/&#34;&gt;GoReleaser&lt;/a&gt; 会自动完成 Release 相关操作，只需给项目打上 tag 并 push 代码，无需任何手动操作。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ git tag v0.1.0 -m &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;initial release&amp;#39;&lt;/span&gt;
+$ git push --tags
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;如果是首次 Release，会出现 Release 成功但是 GitHub Action 失败的情况，这里可以忽略，失败的是自动推送 PR 到 krew-index 的步骤。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;推送到-krew-index&#34;&gt;推送到 krew-index&lt;/h2&gt;
+&lt;p&gt;Release 完成后，就可以将已经开发好的 Kubectl Plugin 推送到 &lt;a href=&#34;https://github.com/kubernetes-sigs/krew-index&#34;&gt;krew-index&lt;/a&gt; 了，这样就可以使用 &lt;code&gt;kubectl krew install&lt;/code&gt; 安装了。&lt;/p&gt;
+&lt;h3 id=&#34;首次推送&#34;&gt;首次推送&lt;/h3&gt;
+&lt;p&gt;首次提交需要手动 fork krew-index 项目并提交 PR，拷贝 &lt;code&gt;deploy/krew/plugin.yaml&lt;/code&gt; 中的内容，根据 release &lt;code&gt;checksums.txt&lt;/code&gt; 内容补全不同平台可执行文件的 &lt;code&gt;sha256&lt;/code&gt; 和 &lt;code&gt;description&lt;/code&gt; 值，将其放入 &lt;code&gt;plugin&lt;/code&gt; 目录并提交 PR。&lt;/p&gt;
+&lt;h3 id=&#34;自动推送&#34;&gt;自动推送&lt;/h3&gt;
+&lt;p&gt;完成首次 PR 提交后，就可以使用 GitHub Action 自动提交 PR 到 krew-index 了，通过&lt;a href=&#34;https://github.com/rajatjindal/krew-release-bot&#34;&gt; krew-release-bot&lt;/a&gt; 机器人自动提交的 PR 无需 review 自动 merge，大大降低了更新流程。&lt;/p&gt;
+&lt;p&gt;使用这个 GitHub Action，首先需要一份 &lt;code&gt;.krew.yaml&lt;/code&gt; 配置文件，该项目作者提供了一个不错的工具，可以根据已经提交的 Kubectl Plugin 自动生成 &lt;code&gt;.krew.yaml&lt;/code&gt; 内容，将生成的配置拷贝到 &lt;code&gt;.krew.yaml&lt;/code&gt;，之后的 Release 成功后会自动提交 PR 到 krew-index。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva3.sinaimg.cn/large/ad5fbf65gy1gomu5iw2ngj22bk116afg.jpg&#34; alt=&#34;Krew Release Bot Helper&#34;&gt;&lt;/p&gt;
+&lt;p&gt;工具地址：https://rajatjindal.com/tools/krew-release-bot-helper/&lt;/p&gt;
+&lt;p&gt;在 &lt;code&gt;&amp;lt;your-git-root&amp;gt;/.github/workflows/release.yml&lt;/code&gt; 添加配置（GitHub Template 中已包含该配置）：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;release&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;on&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;push&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;tags&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;v*.*.*&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;jobs&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;goreleaser&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;runs-on&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;ubuntu-latest&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;steps&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Checkout&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;uses&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;actions/checkout@master&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Setup&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Go&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;uses&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;actions/setup-go@v1&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;with&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;go-version&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;1.13&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;GoReleaser&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;uses&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;goreleaser/goreleaser-action@v1&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;with&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;version&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;latest&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;args&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;release&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;--rm-dist&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;env&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;GITHUB_TOKEN&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;${{&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;secrets.GITHUB_TOKEN&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;}}&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Update&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;new&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;version&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;in&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;krew-index&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;uses&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;rajatjindal/krew-release-bot@v0&lt;span style=&#34;color:#3677a9&#34;&gt;.0.38&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;之后每次 Release 都会自动推送更新 PR，效果如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1gomu9xo7gij21ym1rgdu7.jpg&#34; alt=&#34;PR 自动合并&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;注意事项&#34;&gt;注意事项&lt;/h2&gt;
+&lt;p&gt;官方提供了&lt;a href=&#34;https://krew.sigs.k8s.io/docs/developer-guide/develop/naming-guide/&#34;&gt;插件命名指南&lt;/a&gt;，大致有以下内容：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;使用小写字母和连字符，不要使用驼峰式命名&lt;/li&gt;
+&lt;li&gt;表意明确，独一无二&lt;/li&gt;
+&lt;li&gt;使用动词和资源类型命名，如 &lt;code&gt;open-svc&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;如果是供应商插件，前缀请使用供应商，如 &lt;code&gt;gke-login&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;不能包含 &lt;code&gt;kube&lt;/code&gt; 前缀&lt;/li&gt;
+&lt;li&gt;避免资源缩写，如 &lt;code&gt;debug-ingress&lt;/code&gt; 而不能是 &lt;code&gt;new-ing&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;同时 &lt;code&gt;description&lt;/code&gt; 要描述清楚，且每行不要操作 80 个字符，这样可以方便窄屏幕的用户使用。&lt;/p&gt;
+&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
+&lt;p&gt;本篇为《Kubectl Plugin 推荐》系列最后一篇，授人以鱼不如授人以渔，开发一个 Kubectl Plugin 并不会花费很多时间，但根据实际使用情况，为 kubectl 增加更多的功能和拓展，大大提升工作效率和使用体验，非常值得一试。&lt;/p&gt;
+
+      </description>
+    </item>
     
     <item>
       <title>Post: Kubectl Plugin 推荐（二）| 简化操作篇</title>
@@ -5628,422 +5751,6 @@ alibaba-log-controller-85f8fbb498-nzhc8  1/1    Running  &lt;span style=&#34;col
 &lt;/li&gt;
 &lt;/ul&gt;
 
-      </description>
-    </item>
-    
-    <item>
-      <title>Post: centos7.2 安装k8s v1.11.0</title>
-      <link>https://guoxudong.io/post/install-k8s/</link>
-      <pubDate>Tue, 14 Aug 2018 20:07:03 +0800</pubDate>
-      
-      <guid>https://guoxudong.io/post/install-k8s/</guid>
-      <description>
-        
-        
-        &lt;h1 id=&#34;前言&#34;&gt;前言&lt;/h1&gt;
-&lt;blockquote&gt;
-&lt;p&gt;最近由于公司业务发展到了瓶颈，原有的技术架构已经逐渐无法满足业务开发和测试的需求，出现了应用测试环境搭建复杂，有许多套（真的很多很多）应用环境，应用在持续集成/持续交付也遇到了很大的困难，经过讨论研究决定对应用和微服务进行容器化，这就是我首次直面docker和k8s的契机.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h1 id=&#34;kubernetes-介绍&#34;&gt;Kubernetes 介绍&lt;/h1&gt;
-&lt;p&gt;Kubernetes 是 Google 团队发起的开源项目，它的目标是管理跨多个主机的容器，提供基本的部署，维护以及运用伸缩，主要实现语言为
-Go 语言。
-Kubernetes的特点：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;易学：轻量级，简单，容易理解&lt;/li&gt;
-&lt;li&gt;便携：支持公有云，私有云，混合云，以及多种云平台&lt;/li&gt;
-&lt;li&gt;可拓展：模块化，可插拔，支持钩子，可任意组合&lt;/li&gt;
-&lt;li&gt;自修复：自动重调度，自动重启，自动复制&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h1 id=&#34;准备工作&#34;&gt;准备工作&lt;/h1&gt;
-&lt;p&gt;&lt;strong&gt;注：以下操作都是在root权限下执行的&lt;/strong&gt;&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;安装docker-ce，这里使用docker-ce-17.09.0.c版本，安装方法见&lt;a href=&#34;https://guoxudong.io/2018/install-docker&#34;&gt;之前的教程&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;安装Kubeadm&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#安装 Kubeadm 首先我们要配置好阿里云的国内源，执行如下命令：&lt;/span&gt;
-cat &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;&amp;lt;EOF &amp;gt; /etc/yum.repos.d/kubernetes.repo
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;[kubernetes]
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;name=Kubernetes
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;enabled=1
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;gpgcheck=0
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;EOF&lt;/span&gt;
-
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#之后，执行以下命令来重建yum缓存：&lt;/span&gt;
-yum -y install epel-releaseyum
-clean all
-yum makecache
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;接下来需要安装指定版本的Kubeadm（这里要安装指定版本，因为后续依赖的镜像由于有墙无法拉取，这里我们只有指定版本的镜像），注意：&lt;strong&gt;这里是安装指定版本的Kubeadm，k8s的版本更新之快完全超出你的想象！&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;yum -y install kubelet-1.11.0-0
-yum -y install kubeadm-1.11.0-0
-yum -y install kubectl-1.11.0-0
-yum -y install kubernetes-cni
-   
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#执行命令启动Kubeadm服务：&lt;/span&gt;
-systemctl &lt;span style=&#34;color:#24909d&#34;&gt;enable&lt;/span&gt; kubelet &amp;amp;&amp;amp; systemctl start kubelet
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;配置 Kubeadm 所用到的镜像
-这里是重中之重，因为在国内的原因，无法访问到 Google 的镜像库，所以我们需要执行以下脚本来从 Docker Hub 仓库中获取相同的镜像，并且更改 TAG 让其变成与 Google 拉去镜像一致。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;新建一个 Shell 脚本，填入以下代码之后保存&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-vim&#34; data-lang=&#34;vim&#34;&gt;#docker.sh&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;#!&lt;span style=&#34;color:#ed9d13&#34;&gt;/bin/&lt;/span&gt;bash&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;images=(kube-proxy-amd64:v1.&lt;span style=&#34;color:#3677a9&#34;&gt;11&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt; kube-scheduler-amd64:v1.&lt;span style=&#34;color:#3677a9&#34;&gt;11&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt; kube-controller-manager-amd64:v1.&lt;span style=&#34;color:#3677a9&#34;&gt;11&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt; kube-apiserver-amd64:v1.&lt;span style=&#34;color:#3677a9&#34;&gt;11&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt; etcd-amd64:&lt;span style=&#34;color:#3677a9&#34;&gt;3&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;2&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;18&lt;/span&gt; coredns:&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;3&lt;/span&gt; pause-amd64:&lt;span style=&#34;color:#3677a9&#34;&gt;3&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt; kubernetes-dashboard-amd64:v1.&lt;span style=&#34;color:#3677a9&#34;&gt;8&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;3&lt;/span&gt; k8s-dns-sidecar-amd64:&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;14&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;9&lt;/span&gt; k8s-dns-kube-dns-amd64:&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;14&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;9&lt;/span&gt; k8s-dns-dnsmasq-nanny-amd64:&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;14&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;9&lt;/span&gt; )&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;for imageName in ${images[@]} ; do&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;docker pull keveon/$imageName&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;docker tag keveon&lt;span style=&#34;color:#ed9d13&#34;&gt;/$imageName k8s.gcr.io/&lt;/span&gt;$imageName&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;docker rmi keveon/$imageName&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;done&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;# 个人新加的一句，V &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;11&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt; 必加&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;docker tag da86e6ba6ca1 k8s.gcr.io/pause:&lt;span style=&#34;color:#3677a9&#34;&gt;3&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;保存后使用chmod命令赋予脚本执行权限&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;chmod -R &lt;span style=&#34;color:#3677a9&#34;&gt;777&lt;/span&gt; ./docker.sh
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;执行脚本拉取镜像&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;sh docker.sh
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#这里就开始了漫长的拉取镜像之路&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;关闭掉swap&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;sudo swapoff -a
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#要永久禁掉swap分区，打开如下文件注释掉swap那一行&lt;/span&gt;
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# sudo vi /etc/stab&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;关闭SELinux的&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 临时禁用selinux&lt;/span&gt;
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 永久关闭 修改/etc/sysconfig/selinux文件设置&lt;/span&gt;
-sed -i &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;s/SELINUX=permissive/SELINUX=disabled/&amp;#39;&lt;/span&gt; /etc/sysconfig/selinux
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 这里按回车，下面是第二条命令&lt;/span&gt;
-setenforce &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;关闭防火墙&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;systemctl disable firewalld.service &amp;amp;&amp;amp; systemctl stop firewalld.service
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;配置转发参数&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 配置转发相关参数，否则可能会出错&lt;/span&gt;
-cat &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;&amp;lt;EOF &amp;gt; /etc/sysctl.d/k8s.conf
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;net.bridge.bridge-nf-call-ip6tables = 1
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;net.bridge.bridge-nf-call-iptables = 1
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;vm.swappiness=0
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;EOF&lt;/span&gt;
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 这里按回车，下面是第二条命令&lt;/span&gt;
-sysctl --system
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;这里就完成了k8s集群搭建的准备工作，集群搭建的话以上操作结束后将操作完的系统制作成系统镜像，方便集群搭建&lt;/strong&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h1 id=&#34;正式安装&#34;&gt;正式安装&lt;/h1&gt;
-&lt;p&gt;&lt;strong&gt;以下的操作都只在主节点上进行：&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;初始化镜像&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;kubeadm init --kubernetes-version=v1.11.0 --pod-network-cidr=10.10.0.0/16  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#这里填写集群所在网段&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;之后的输出会是这样：&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;I0712 &lt;span style=&#34;color:#3677a9&#34;&gt;10&lt;/span&gt;:&lt;span style=&#34;color:#3677a9&#34;&gt;46&lt;/span&gt;:&lt;span style=&#34;color:#3677a9&#34;&gt;30.938979&lt;/span&gt;   &lt;span style=&#34;color:#3677a9&#34;&gt;13461&lt;/span&gt; feature_gate.&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;go&lt;/span&gt;:&lt;span style=&#34;color:#3677a9&#34;&gt;230&lt;/span&gt;] feature gates: &amp;amp;{&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;map&lt;/span&gt;[]}
-[init] using Kubernetes version: v1&lt;span style=&#34;color:#3677a9&#34;&gt;.11.0&lt;/span&gt;
-[preflight] running pre-flight checks
-I0712 &lt;span style=&#34;color:#3677a9&#34;&gt;10&lt;/span&gt;:&lt;span style=&#34;color:#3677a9&#34;&gt;46&lt;/span&gt;:&lt;span style=&#34;color:#3677a9&#34;&gt;30.961005&lt;/span&gt;   &lt;span style=&#34;color:#3677a9&#34;&gt;13461&lt;/span&gt; kernel_validator.&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;go&lt;/span&gt;:&lt;span style=&#34;color:#3677a9&#34;&gt;81&lt;/span&gt;] Validating kernel version
-I0712 &lt;span style=&#34;color:#3677a9&#34;&gt;10&lt;/span&gt;:&lt;span style=&#34;color:#3677a9&#34;&gt;46&lt;/span&gt;:&lt;span style=&#34;color:#3677a9&#34;&gt;30.961061&lt;/span&gt;   &lt;span style=&#34;color:#3677a9&#34;&gt;13461&lt;/span&gt; kernel_validator.&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;go&lt;/span&gt;:&lt;span style=&#34;color:#3677a9&#34;&gt;96&lt;/span&gt;] Validating kernel config
-    [WARNING SystemVerification]: docker version is greater than the most recently validated version. Docker version: &lt;span style=&#34;color:#3677a9&#34;&gt;18.03.1&lt;/span&gt;-ce. Max validated version: &lt;span style=&#34;color:#3677a9&#34;&gt;17.03&lt;/span&gt;
-    [WARNING Hostname]: hostname &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;g2-apigateway&amp;#34;&lt;/span&gt; could not be reached
-    [WARNING Hostname]: hostname &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;g2-apigateway&amp;#34;&lt;/span&gt; lookup g2-apigateway on &lt;span style=&#34;color:#3677a9&#34;&gt;100.100.2.138&lt;/span&gt;:&lt;span style=&#34;color:#3677a9&#34;&gt;53&lt;/span&gt;: no such host
-[preflight/images] Pulling images required &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; setting up a Kubernetes cluster
-[preflight/images] This might take a minute or two, depending on the speed of your internet connection
-[preflight/images] You can also perform this action in beforehand using &lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&amp;#39;&lt;/span&gt;kubeadm config images pull&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&amp;#39;&lt;/span&gt;
-[kubelet] Writing kubelet environment file with flags to file &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;/var/lib/kubelet/kubeadm-flags.env&amp;#34;&lt;/span&gt;
-[kubelet] Writing kubelet configuration to file &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;/var/lib/kubelet/config.yaml&amp;#34;&lt;/span&gt;
-[preflight] Activating the kubelet service
-[certificates] Generated ca certificate and key.
-[certificates] Generated apiserver certificate and key.
-[certificates] apiserver serving cert is signed &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; DNS names [g2-apigateway kubernetes kubernetes.&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;default&lt;/span&gt; kubernetes.&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;default&lt;/span&gt;.svc kubernetes.&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;default&lt;/span&gt;.svc.cluster.local] and IPs [&lt;span style=&#34;color:#3677a9&#34;&gt;10.96.0.1&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;172.16.8.62&lt;/span&gt;]
-[certificates] Generated apiserver-kubelet-client certificate and key.
-[certificates] Generated sa key and public key.
-[certificates] Generated front-proxy-ca certificate and key.
-[certificates] Generated front-proxy-client certificate and key.
-[certificates] Generated etcd/ca certificate and key.
-[certificates] Generated etcd/server certificate and key.
-[certificates] etcd/server serving cert is signed &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; DNS names [g2-apigateway localhost] and IPs [&lt;span style=&#34;color:#3677a9&#34;&gt;127.0.0.1&lt;/span&gt; ::&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;]
-[certificates] Generated etcd/peer certificate and key.
-[certificates] etcd/peer serving cert is signed &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; DNS names [g2-apigateway localhost] and IPs [&lt;span style=&#34;color:#3677a9&#34;&gt;172.16.8.62&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;127.0.0.1&lt;/span&gt; ::&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;]
-[certificates] Generated etcd/healthcheck-client certificate and key.
-[certificates] Generated apiserver-etcd-client certificate and key.
-[certificates] valid certificates and keys now exist in &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;/etc/kubernetes/pki&amp;#34;&lt;/span&gt;
-[kubeconfig] Wrote KubeConfig file to disk: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;/etc/kubernetes/admin.conf&amp;#34;&lt;/span&gt;
-[kubeconfig] Wrote KubeConfig file to disk: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;/etc/kubernetes/kubelet.conf&amp;#34;&lt;/span&gt;
-[kubeconfig] Wrote KubeConfig file to disk: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;/etc/kubernetes/controller-manager.conf&amp;#34;&lt;/span&gt;
-[kubeconfig] Wrote KubeConfig file to disk: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;/etc/kubernetes/scheduler.conf&amp;#34;&lt;/span&gt;
-[controlplane] wrote Static Pod manifest &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; component kube-apiserver to &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;/etc/kubernetes/manifests/kube-apiserver.yaml&amp;#34;&lt;/span&gt;
-[controlplane] wrote Static Pod manifest &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; component kube-controller-manager to &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;/etc/kubernetes/manifests/kube-controller-manager.yaml&amp;#34;&lt;/span&gt;
-[controlplane] wrote Static Pod manifest &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; component kube-scheduler to &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;/etc/kubernetes/manifests/kube-scheduler.yaml&amp;#34;&lt;/span&gt;
-[etcd] Wrote Static Pod manifest &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; a local etcd instance to &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;/etc/kubernetes/manifests/etcd.yaml&amp;#34;&lt;/span&gt;
-[init] waiting &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; the kubelet to boot up the control plane as Static Pods from directory &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;/etc/kubernetes/manifests&amp;#34;&lt;/span&gt;
-[init] this might take a minute or longer &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; the control plane images have to be pulled
-[apiclient] All control plane components are healthy after &lt;span style=&#34;color:#3677a9&#34;&gt;41.001672&lt;/span&gt; seconds
-[uploadconfig] storing the configuration used in ConfigMap &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;kubeadm-config&amp;#34;&lt;/span&gt; in the &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;kube-system&amp;#34;&lt;/span&gt; Namespace
-[kubelet] Creating a ConfigMap &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;kubelet-config-1.11&amp;#34;&lt;/span&gt; in namespace kube-system with the configuration &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; the kubelets in the cluster
-[markmaster] Marking the node g2-apigateway as master by adding the label &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;node-role.kubernetes.io/master=&amp;#39;&amp;#39;&amp;#34;&lt;/span&gt;
-[markmaster] Marking the node g2-apigateway as master by adding the taints [node-role.kubernetes.io/master:NoSchedule]
-[patchnode] Uploading the CRI Socket information &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;/var/run/dockershim.sock&amp;#34;&lt;/span&gt; to the Node API object &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;g2-apigateway&amp;#34;&lt;/span&gt; as an annotation
-[bootstraptoken] using token: o337m9.ceq32wg9g2gro7gx
-[bootstraptoken] configured RBAC rules to allow Node Bootstrap tokens to post CSRs in order &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; nodes to get long term certificate credentials
-[bootstraptoken] configured RBAC rules to allow the csrapprover controller automatically approve CSRs from a Node Bootstrap Token
-[bootstraptoken] configured RBAC rules to allow certificate rotation &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; all node client certificates in the cluster
-[bootstraptoken] creating the &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;cluster-info&amp;#34;&lt;/span&gt; ConfigMap in the &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;kube-public&amp;#34;&lt;/span&gt; namespace
-[addons] Applied essential addon: CoreDNS
-[addons] Applied essential addon: kube-proxy
-
-Your Kubernetes master has initialized successfully!
-
-To start using your cluster, you need to run the following as a regular user:
-
-mkdir -p &lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;$&lt;/span&gt;HOME/.kube
-sudo cp -i /etc/kubernetes/admin.conf &lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;$&lt;/span&gt;HOME/.kube/config
-sudo chown &lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;$&lt;/span&gt;(id -u):&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;$&lt;/span&gt;(id -g) &lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;$&lt;/span&gt;HOME/.kube/config
-
-You should now deploy a pod network to the cluster.
-Run &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;kubectl apply -f [podnetwork].yaml&amp;#34;&lt;/span&gt; with one of the options listed at:
-https:&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;//kubernetes.io/docs/concepts/cluster-administration/addons/
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;
-You can now join any number of machines by running the following on each node
-as root:
-
-kubeadm join &lt;span style=&#34;color:#3677a9&#34;&gt;10.10.207.253&lt;/span&gt;:&lt;span style=&#34;color:#3677a9&#34;&gt;6443&lt;/span&gt; --token t69z6h.lr2etdbg9mfx5r15 --discovery-token-ca-cert-hash sha256:&lt;span style=&#34;color:#3677a9&#34;&gt;90e3&lt;/span&gt;a748c0eb4cb7058f3d0ee8870ee5d746214ab0589b5e841fd5d68fec8f00
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;这里注意最后一行：&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;kubeadm join &lt;span style=&#34;color:#3677a9&#34;&gt;10.10.207.253&lt;/span&gt;:&lt;span style=&#34;color:#3677a9&#34;&gt;6443&lt;/span&gt; --token t69z6h.lr2etdbg9mfx5r15 --discovery-token-ca-cert-hash sha256:&lt;span style=&#34;color:#3677a9&#34;&gt;90e3&lt;/span&gt;a748c0eb4cb7058f3d0ee8870ee5d746214ab0589b5e841fd5d68fec8f00
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;证明集群主节点安装成功，这里要记得保存这条命令，以便之后各个节点加入集群&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;配置kubetl认证信息&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#24909d&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#40ffff&#34;&gt;KUBECONFIG&lt;/span&gt;=/etc/kubernetes/admin.conf
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 如果你想持久化的话，直接执行以下命令【推荐】&lt;/span&gt;
-&lt;span style=&#34;color:#24909d&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;export KUBECONFIG=/etc/kubernetes/admin.conf&amp;#34;&lt;/span&gt; &amp;gt;&amp;gt; ~/.bash_profile
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;安装flanel网络&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;mkdir -p /etc/cni/net.d/
-
-cat &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;&amp;lt;EOF&amp;gt; /etc/cni/net.d/10-flannel.conf
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;{
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;name&amp;#34;: &amp;#34;cbr0&amp;#34;,
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;type&amp;#34;: &amp;#34;flannel&amp;#34;,
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;delegate&amp;#34;: {
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;isDefaultGateway&amp;#34;: true
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;}
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;}
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;EOF&lt;/span&gt;
-
-mkdir /usr/share/oci-umount/oci-umount.d -p
-
-mkdir /run/flannel/
-
-cat &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;&amp;lt;EOF&amp;gt; /run/flannel/subnet.env
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;FLANNEL_NETWORK=10.244.0.0/16
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;FLANNEL_SUBNET=10.244.1.0/24
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;FLANNEL_MTU=1450
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;FLANNEL_IPMASQ=true
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;EOF&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;最后需要新建一个flannel.yml文件：&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;image&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;caption&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Image from: [**Pexels**](https://www.pexels.com)&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;focal_point&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;preview_only&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;---&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;ClusterRole&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;rbac.authorization.k8s.io/v1beta1&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;flannel&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;rules&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiGroups&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;resources&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- pods&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;verbs&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- get&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiGroups&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;resources&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- nodes&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;verbs&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- list&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- watch&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiGroups&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;resources&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- nodes/status&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;verbs&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- patch&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;image&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;caption&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Image from: [**Pexels**](https://www.pexels.com)&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;focal_point&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;preview_only&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;---&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;ClusterRoleBinding&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;rbac.authorization.k8s.io/v1beta1&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;flannel&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;roleRef&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiGroup&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;rbac.authorization.k8s.io&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;ClusterRole&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;flannel&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;subjects&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;ServiceAccount&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;flannel&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;namespace&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;kube-system&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;image&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;caption&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Image from: [**Pexels**](https://www.pexels.com)&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;focal_point&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;preview_only&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;---&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;v1&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;ServiceAccount&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;flannel&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;namespace&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;kube-system&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;image&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;caption&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Image from: [**Pexels**](https://www.pexels.com)&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;focal_point&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;preview_only&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;---&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;ConfigMap&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;v1&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;kube-flannel-cfg&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;namespace&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;kube-system&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;labels&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;tier&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;node&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;app&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;flannel&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;data&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;cni-conf.json&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;|
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;    {&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;name&amp;#34;: &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;cbr0&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;type&amp;#34;: &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;flannel&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;delegate&amp;#34;: &lt;/span&gt;{&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;isDefaultGateway&amp;#34;: &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;}&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;}&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;net-conf.json&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;|
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;    {&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;Network&amp;#34;: &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;10.10.0.0/16&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#这里换成集群所在的网段&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;Backend&amp;#34;: &lt;/span&gt;{&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;Type&amp;#34;: &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;vxlan&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;}&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;}&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;image&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;caption&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Image from: [**Pexels**](https://www.pexels.com)&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;focal_point&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;preview_only&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;---&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;extensions/v1beta1&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;DaemonSet&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;kube-flannel-ds&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;namespace&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;kube-system&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;labels&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;tier&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;node&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;app&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;flannel&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;spec&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;template&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;labels&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;tier&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;node&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;app&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;flannel&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;spec&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;hostNetwork&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nodeSelector&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;beta.kubernetes.io/arch&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;amd64&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;tolerations&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;key&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;node-role.kubernetes.io/master&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;operator&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Exists&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;effect&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;NoSchedule&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;serviceAccountName&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;flannel&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;initContainers&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;install-cni&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;image&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;quay.io/coreos/flannel:v0&lt;span style=&#34;color:#3677a9&#34;&gt;.9.1&lt;/span&gt;-amd64&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;command&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;- cp&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;args&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;- -f&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;- /etc/kube-flannel/cni-conf.json&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;- /etc/cni/net.d/&lt;span style=&#34;color:#3677a9&#34;&gt;10&lt;/span&gt;-flannel.conf&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;volumeMounts&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;cni&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;mountPath&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;/etc/cni/net.d&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;flannel-cfg&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;mountPath&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;/etc/kube-flannel/&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;containers&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;kube-flannel&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;image&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;quay.io/coreos/flannel:v0&lt;span style=&#34;color:#3677a9&#34;&gt;.9.1&lt;/span&gt;-amd64&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;command&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;[&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;/opt/bin/flanneld&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;--ip-masq&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;--kube-subnet-mgr&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;]&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;securityContext&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;privileged&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;env&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;POD_NAME&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;valueFrom&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;fieldRef&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;fieldPath&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;metadata.name&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;POD_NAMESPACE&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;valueFrom&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;fieldRef&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;fieldPath&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;metadata.namespace&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;volumeMounts&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;run&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;mountPath&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;/run&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;flannel-cfg&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;mountPath&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;/etc/kube-flannel/&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;volumes&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;run&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;hostPath&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;path&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;/run&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;cni&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;hostPath&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;path&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;/etc/cni/net.d&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;flannel-cfg&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;configMap&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;kube-flannel-cfg&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;执行：&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;kubectl create -f ./flannel.yml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;默认情况下，master节点不参与工作负载，但如果希望安装出一个all-in-one的k8s环境，则可以执行以下命令：&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;让master节点成为一个node节点：&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;kubectl taint nodes --all node-role.kubernetes.io/master-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;查看节点信息：&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;kubectl get nodes
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;会看到如下的输出：&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;NAME            STATUS     ROLES     AGE       VERSION
-k8s-master      Ready      master    18h       v1.11.0
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;以下是节点配置&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;在配置好主节点之后，就可以配置集群的其他节点了，这里建议直接安装之前做好准备工作的系统镜像
-进入节点机器之后，直接执行之前保存好的命令&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;kubeadm join 10.10.207.253:6443 --token t69z6h.lr2etdbg9mfx5r15 --discovery-token-ca-cert-hash sha256:90e3a748c0eb4cb7058f3d0ee8870ee5d746214ab0589b5e841fd5d68fec8f00
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;执行完后会看到：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;[preflight] running pre-flight checks
-        [WARNING RequiredIPVSKernelModulesAvailable]: the IPVS proxier will not be used, because the following required kernel modules are not loaded: [ip_vs_wrr ip_vs_sh ip_vs ip_vs_rr] or no builtin kernel ipvs support: &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;map&lt;/span&gt;[ip_vs_rr:{} ip_vs_wrr:{} ip_vs_sh:{} nf_conntrack_ipv4:{} ip_vs:{}]
-you can solve this problem with following methods:
-&lt;span style=&#34;color:#3677a9&#34;&gt;1.&lt;/span&gt; Run &lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&amp;#39;&lt;/span&gt;modprobe -- &lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&amp;#39;&lt;/span&gt; to load missing kernel modules;
-&lt;span style=&#34;color:#3677a9&#34;&gt;2.&lt;/span&gt; Provide the missing builtin kernel ipvs support
-
-I0725 &lt;span style=&#34;color:#3677a9&#34;&gt;09&lt;/span&gt;:&lt;span style=&#34;color:#3677a9&#34;&gt;59&lt;/span&gt;:&lt;span style=&#34;color:#3677a9&#34;&gt;27.929247&lt;/span&gt;   &lt;span style=&#34;color:#3677a9&#34;&gt;10196&lt;/span&gt; kernel_validator.&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;go&lt;/span&gt;:&lt;span style=&#34;color:#3677a9&#34;&gt;81&lt;/span&gt;] Validating kernel version
-I0725 &lt;span style=&#34;color:#3677a9&#34;&gt;09&lt;/span&gt;:&lt;span style=&#34;color:#3677a9&#34;&gt;59&lt;/span&gt;:&lt;span style=&#34;color:#3677a9&#34;&gt;27.929356&lt;/span&gt;   &lt;span style=&#34;color:#3677a9&#34;&gt;10196&lt;/span&gt; kernel_validator.&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;go&lt;/span&gt;:&lt;span style=&#34;color:#3677a9&#34;&gt;96&lt;/span&gt;] Validating kernel config
-[discovery] Trying to connect to API Server &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;10.10.207.253:6443&amp;#34;&lt;/span&gt;
-[discovery] Created cluster-info discovery client, requesting info from &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;https://10.10.207.253:6443&amp;#34;&lt;/span&gt;
-[discovery] Requesting info from &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;https://10.10.207.253:6443&amp;#34;&lt;/span&gt; again to validate TLS against the pinned public key
-[discovery] Cluster info signature and contents are valid and TLS certificate validates against pinned roots, will use API Server &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;10.10.207.253:6443&amp;#34;&lt;/span&gt;
-[discovery] Successfully established connection with API Server &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;10.10.207.253:6443&amp;#34;&lt;/span&gt;
-[kubelet] Downloading configuration &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; the kubelet from the &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;kubelet-config-1.11&amp;#34;&lt;/span&gt; ConfigMap in the kube-system namespace
-[kubelet] Writing kubelet configuration to file &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;/var/lib/kubelet/config.yaml&amp;#34;&lt;/span&gt;
-[kubelet] Writing kubelet environment file with flags to file &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;/var/lib/kubelet/kubeadm-flags.env&amp;#34;&lt;/span&gt;
-[preflight] Activating the kubelet service
-[tlsbootstrap] Waiting &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; the kubelet to perform the TLS Bootstrap...
-[patchnode] Uploading the CRI Socket information &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;/var/run/dockershim.sock&amp;#34;&lt;/span&gt; to the Node API object &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;k8s-node1&amp;#34;&lt;/span&gt; as an annotation
-
-This node has joined the cluster:
-* Certificate signing request was sent to master and a response
-was received.
-* The Kubelet was informed of the new secure connection details.
-
-Run &lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&amp;#39;&lt;/span&gt;kubectl get nodes&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&amp;#39;&lt;/span&gt; on the master to see this node join the cluster.
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;这里就表示执行完毕了，可以去主节点执行命令：&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;kubectl get nodes
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;可以看到节点已加入集群：&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;NAME        STATUS    ROLES     AGE       VERSION
-k8s-master  Ready     master    20h       v1.11.0
-k8s-node1   Ready     &amp;lt;none&amp;gt;    20h       v1.11.0
-k8s-node2   Ready     &amp;lt;none&amp;gt;    20h       v1.11.0
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这期间可能需要等待一段时间，状态才会全部变为ready&lt;/p&gt;
-&lt;h1 id=&#34;kubernetes-dashboard安装&#34;&gt;kubernetes-dashboard安装&lt;/h1&gt;
-&lt;p&gt;详见：&lt;a href=&#34;https://guoxudong.io/2018/dashboard-k8s&#34;&gt;kubernetes安装dashboard&lt;/a&gt;&lt;/p&gt;
-&lt;h1 id=&#34;采坑指南&#34;&gt;采坑指南&lt;/h1&gt;
-&lt;p&gt;有时会出现master节点一直处于notready的状态，这里可能是没有启动flannel，只需要按照上面的教程配置好flannel，然后执行：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;kubectl create -f ./flannel.yml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
       </description>
     </item>
     

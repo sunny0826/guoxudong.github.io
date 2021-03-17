@@ -14,6 +14,129 @@
     
     
     <item>
+      <title>Post: Kubectl Plugin 推荐（三）| 插件开发篇</title>
+      <link>https://guoxudong.io/post/kubectl-plugin-recommended-3/</link>
+      <pubDate>Wed, 17 Mar 2021 09:54:18 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/kubectl-plugin-recommended-3/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;之前的两篇文章中笔者推荐了一些好用的 Kubectl Plugin。但在实践中那些插件不一定能满足全部需求，这时不妨动手开发一个，花费时间不多，但却能极高的提升工作效率和使用体验。&lt;/p&gt;
+&lt;p&gt;本篇文章就来讲解如何快速开发一款自己的 Kubectl Plugin。&lt;/p&gt;
+&lt;h2 id=&#34;简介&#34;&gt;简介&lt;/h2&gt;
+&lt;p&gt;Kubectl Plugin 的开发流程和注意事项：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;编写一个二进制可执行文件以 &lt;code&gt;kubectl-xxx&lt;/code&gt; 命名&lt;/li&gt;
+&lt;li&gt;需要将可执行文件放在环境变量 &lt;code&gt;PATH&lt;/code&gt; 中&lt;/li&gt;
+&lt;li&gt;之后就可以使用 &lt;code&gt;kubectl xxx&lt;/code&gt; 来调用了&lt;/li&gt;
+&lt;li&gt;无法覆盖 &lt;code&gt;kubectl&lt;/code&gt; 内置的命令&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;二进制可执行文件可以是任何语言开发，本文主要讲解使用 go 语言开发，官方推荐使用 &lt;a href=&#34;https://github.com/kubernetes/cli-runtime/&#34;&gt;cli-runtime&lt;/a&gt; 项目，可以参考 &lt;a href=&#34;https://github.com/kubernetes/sample-cli-plugin&#34;&gt;sample-cli-plugin&lt;/a&gt; 示例。&lt;/p&gt;
+&lt;h2 id=&#34;使用-github-template&#34;&gt;使用 GitHub Template&lt;/h2&gt;
+&lt;p&gt;模板地址：https://github.com/replicatedhq/krew-plugin-template&lt;/p&gt;
+&lt;p&gt;推荐使用 GitHub Template 创建 Plugin 项目，该模板遵循最佳实践开发，并集成了一些简化开发流程的工具，使用 &lt;a href=&#34;https://goreleaser.com/&#34;&gt;GoReleaser&lt;/a&gt; 和 GitHub Action 进行自动化发布。该 template 也是官方文档推荐的 &lt;strong&gt;非官方 GitHub Template&lt;/strong&gt;。&lt;/p&gt;
+&lt;h3 id=&#34;创建项目&#34;&gt;创建项目&lt;/h3&gt;
+&lt;p&gt;进入 krew-plugin-template 项目，点击 &lt;code&gt;Use this template&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1gomp3m8xjqj22w81naaqb.jpg&#34; alt=&#34;使用模板&#34;&gt;&lt;/p&gt;
+&lt;p&gt;输入 &lt;code&gt;Repository name&lt;/code&gt;，点击 &lt;code&gt;Create repository from template&lt;/code&gt; 创建 repo&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax2.sinaimg.cn/large/ad5fbf65gy1gomp5bbcl2j21fk0x4wis.jpg&#34; alt=&#34;创建项目&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;配置项目&#34;&gt;配置项目&lt;/h3&gt;
+&lt;p&gt;待项目创建完成后， clone 该项目并在本地通过终端进入该项目所在目录。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ git clone https://github.com/sunny0826/kubectl-demo.git
+$ &lt;span style=&#34;color:#24909d&#34;&gt;cd&lt;/span&gt; kubectl-demo
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;使用 &lt;code&gt;make setup&lt;/code&gt; 命令开始配置&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax4.sinaimg.cn/large/ad5fbf65gy1gomq1rr8vzj20y80eg0wp.jpg&#34; alt=&#34;set up&#34;&gt;&lt;/p&gt;
+&lt;p&gt;根据提示，填入 &lt;code&gt;GitHub Organization or Username&lt;/code&gt;、&lt;code&gt;GitHub Repo Namek&lt;/code&gt; 和 &lt;code&gt;Plugin Name&lt;/code&gt; 后，会自动对项目进行配置。&lt;/p&gt;
+&lt;h3 id=&#34;项目结构&#34;&gt;项目结构&lt;/h3&gt;
+&lt;p&gt;配置完成后，一个 Kubectl Plugin 项目的基本框架就完成了，结构如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;.
+├── LICENSE
+├── Makefile
+├── README.md
+├── cmd
+│   └── plugin
+│       ├── cli
+│       │   └── root.go   &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# cli 配置&lt;/span&gt;
+│       └── main.go       &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 项目入口&lt;/span&gt;
+├── deploy
+│   └── krew
+│       └── plugin.yaml   &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# krew-index 配置&lt;/span&gt;
+├── doc
+│   └── USAGE.md
+├── go.mod
+├── go.sum
+└── pkg
+    ├── logger
+    │   └── logger.go
+    └── plugin
+        └── plugin.go     &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 业务逻辑代码&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;接下来就是业务逻辑的开发，主要的业务逻辑代码就写在 &lt;code&gt;pkg/plugn/plugin.go&lt;/code&gt; 中；CLI 的相关配置，如 &lt;code&gt;flag&lt;/code&gt; 和子命令的配置则在 &lt;code&gt;cmd/plugin/cli/root.go&lt;/code&gt; 中。开发所需的 client-go 、k8s API 等资源也都已经集成在项目中，可直接使用。&lt;/p&gt;
+&lt;h3 id=&#34;构建测试&#34;&gt;构建测试&lt;/h3&gt;
+&lt;p&gt;在业务逻辑完成后，需要先在本地进行测试。使用 &lt;code&gt;make bin&lt;/code&gt; 命令可以将项目构建为可执行文件并用来测试，该命令会完成基础的 &lt;code&gt;fmt&lt;/code&gt;、&lt;code&gt;vet&lt;/code&gt; 测试并完成 &lt;code&gt;build&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax4.sinaimg.cn/large/ad5fbf65gy1gomqjcj5krj21py0uiwnd.jpg&#34; alt=&#34;make bin&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;创建-release&#34;&gt;创建 Release&lt;/h3&gt;
+&lt;p&gt;在完成代码逻辑和测试后，就可以将其发布到 github release 了，GitHub Action 和 &lt;a href=&#34;https://goreleaser.com/&#34;&gt;GoReleaser&lt;/a&gt; 会自动完成 Release 相关操作，只需给项目打上 tag 并 push 代码，无需任何手动操作。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ git tag v0.1.0 -m &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;initial release&amp;#39;&lt;/span&gt;
+$ git push --tags
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;如果是首次 Release，会出现 Release 成功但是 GitHub Action 失败的情况，这里可以忽略，失败的是自动推送 PR 到 krew-index 的步骤。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;推送到-krew-index&#34;&gt;推送到 krew-index&lt;/h2&gt;
+&lt;p&gt;Release 完成后，就可以将已经开发好的 Kubectl Plugin 推送到 &lt;a href=&#34;https://github.com/kubernetes-sigs/krew-index&#34;&gt;krew-index&lt;/a&gt; 了，这样就可以使用 &lt;code&gt;kubectl krew install&lt;/code&gt; 安装了。&lt;/p&gt;
+&lt;h3 id=&#34;首次推送&#34;&gt;首次推送&lt;/h3&gt;
+&lt;p&gt;首次提交需要手动 fork krew-index 项目并提交 PR，拷贝 &lt;code&gt;deploy/krew/plugin.yaml&lt;/code&gt; 中的内容，根据 release &lt;code&gt;checksums.txt&lt;/code&gt; 内容补全不同平台可执行文件的 &lt;code&gt;sha256&lt;/code&gt; 和 &lt;code&gt;description&lt;/code&gt; 值，将其放入 &lt;code&gt;plugin&lt;/code&gt; 目录并提交 PR。&lt;/p&gt;
+&lt;h3 id=&#34;自动推送&#34;&gt;自动推送&lt;/h3&gt;
+&lt;p&gt;完成首次 PR 提交后，就可以使用 GitHub Action 自动提交 PR 到 krew-index 了，通过&lt;a href=&#34;https://github.com/rajatjindal/krew-release-bot&#34;&gt; krew-release-bot&lt;/a&gt; 机器人自动提交的 PR 无需 review 自动 merge，大大降低了更新流程。&lt;/p&gt;
+&lt;p&gt;使用这个 GitHub Action，首先需要一份 &lt;code&gt;.krew.yaml&lt;/code&gt; 配置文件，该项目作者提供了一个不错的工具，可以根据已经提交的 Kubectl Plugin 自动生成 &lt;code&gt;.krew.yaml&lt;/code&gt; 内容，将生成的配置拷贝到 &lt;code&gt;.krew.yaml&lt;/code&gt;，之后的 Release 成功后会自动提交 PR 到 krew-index。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva3.sinaimg.cn/large/ad5fbf65gy1gomu5iw2ngj22bk116afg.jpg&#34; alt=&#34;Krew Release Bot Helper&#34;&gt;&lt;/p&gt;
+&lt;p&gt;工具地址：https://rajatjindal.com/tools/krew-release-bot-helper/&lt;/p&gt;
+&lt;p&gt;在 &lt;code&gt;&amp;lt;your-git-root&amp;gt;/.github/workflows/release.yml&lt;/code&gt; 添加配置（GitHub Template 中已包含该配置）：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;release&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;on&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;push&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;tags&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;v*.*.*&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;jobs&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;goreleaser&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;runs-on&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;ubuntu-latest&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;steps&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Checkout&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;uses&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;actions/checkout@master&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Setup&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Go&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;uses&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;actions/setup-go@v1&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;with&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;go-version&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;1.13&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;GoReleaser&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;uses&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;goreleaser/goreleaser-action@v1&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;with&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;version&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;latest&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;args&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;release&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;--rm-dist&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;env&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;GITHUB_TOKEN&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;${{&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;secrets.GITHUB_TOKEN&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;}}&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Update&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;new&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;version&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;in&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;krew-index&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;uses&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;rajatjindal/krew-release-bot@v0&lt;span style=&#34;color:#3677a9&#34;&gt;.0.38&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;之后每次 Release 都会自动推送更新 PR，效果如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1gomu9xo7gij21ym1rgdu7.jpg&#34; alt=&#34;PR 自动合并&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;注意事项&#34;&gt;注意事项&lt;/h2&gt;
+&lt;p&gt;官方提供了&lt;a href=&#34;https://krew.sigs.k8s.io/docs/developer-guide/develop/naming-guide/&#34;&gt;插件命名指南&lt;/a&gt;，大致有以下内容：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;使用小写字母和连字符，不要使用驼峰式命名&lt;/li&gt;
+&lt;li&gt;表意明确，独一无二&lt;/li&gt;
+&lt;li&gt;使用动词和资源类型命名，如 &lt;code&gt;open-svc&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;如果是供应商插件，前缀请使用供应商，如 &lt;code&gt;gke-login&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;不能包含 &lt;code&gt;kube&lt;/code&gt; 前缀&lt;/li&gt;
+&lt;li&gt;避免资源缩写，如 &lt;code&gt;debug-ingress&lt;/code&gt; 而不能是 &lt;code&gt;new-ing&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;同时 &lt;code&gt;description&lt;/code&gt; 要描述清楚，且每行不要操作 80 个字符，这样可以方便窄屏幕的用户使用。&lt;/p&gt;
+&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
+&lt;p&gt;本篇为《Kubectl Plugin 推荐》系列最后一篇，授人以鱼不如授人以渔，开发一个 Kubectl Plugin 并不会花费很多时间，但根据实际使用情况，为 kubectl 增加更多的功能和拓展，大大提升工作效率和使用体验，非常值得一试。&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Post: Kubectl Plugin 推荐（二）| 简化操作篇</title>
       <link>https://guoxudong.io/post/kubectl-plugin-recommended-2/</link>
       <pubDate>Tue, 09 Mar 2021 11:18:48 +0800</pubDate>
@@ -6891,185 +7014,6 @@ kubecm ns kube-system
 &lt;/div&gt;
 &lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/sunny0826/kubecm&#34;&gt;kubecm&lt;/a&gt; 项目的初衷为学习 golang 并熟悉 client-go 的使用，随着使用的深入，断断续续增加了不少功能，开发出了一个看上去还算正规的项目。总的来说都是根据自己的喜好来开发的业余项目，欢迎各位通过 &lt;a href=&#34;https://github.com/sunny0826/kubecm/issues/new&#34;&gt;ISSUE&lt;/a&gt; 来进行交流和讨论。&lt;/p&gt;
-
-      </description>
-    </item>
-    
-    <item>
-      <title>Post: 小工具介绍：KubeWatch</title>
-      <link>https://guoxudong.io/post/kubewatch/</link>
-      <pubDate>Wed, 04 Dec 2019 17:09:51 +0800</pubDate>
-      
-      <guid>https://guoxudong.io/post/kubewatch/</guid>
-      <description>
-        
-        
-        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
-&lt;p&gt;这次要介绍一个 Kubernetes 资源观测工具，实时监控 Kubernetes 集群中各种资源的新建、更新和删除，并实时通知到各种协作软件/聊天软件，目前支持的通知渠道有：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;slack&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;hipchat&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;mattermost&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;flock&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;webhook&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;我这边开发了钉钉的通知渠道，但是在上游 &lt;a href=&#34;https://github.com/bitnami-labs/kubewatch/issues/198&#34;&gt;ISSUE#198&lt;/a&gt; 中提出的贡献请求并没有得到回应，所以这边只能 fork 了代码，然后自己进行了开发，以支持钉钉通知。&lt;/p&gt;
-&lt;h2 id=&#34;安装&#34;&gt;安装&lt;/h2&gt;
-&lt;p&gt;这里推荐使用 helm 进行安装，快速部署&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;helm install kubewatch stable/kubewatch &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;--set rbac.create=&lt;span style=&#34;color:#24909d&#34;&gt;true&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;--set slack.channel=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;#YOUR_CHANNEL&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;--set slack.token=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;xoxb-YOUR_TOKEN&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;--set resourcesToWatch.pod=&lt;span style=&#34;color:#24909d&#34;&gt;true&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;--set resourcesToWatch.daemonset=&lt;span style=&#34;color:#24909d&#34;&gt;true&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如果想使用钉钉通知，则可以在 &lt;a href=&#34;https://github.com/sunny0826/kubewatch-chat&#34;&gt;GitHub&lt;/a&gt; 上拉取我的代码，代码中包含 helm chart 包，可直接进行安装&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;git clone https://github.com/sunny0826/kubewatch-chat.git
-&lt;span style=&#34;color:#24909d&#34;&gt;cd&lt;/span&gt; kubewatch-chat
-helm install kubewatch kubewatch &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;--set dingtalk.sign=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;XXX&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;--set dingtalk.token=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;XXXX-XXXX-XXXX&amp;#34;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;钉钉配置&#34;&gt;钉钉配置&lt;/h2&gt;
-&lt;p&gt;在钉钉中创建 &lt;code&gt;智能群助手&lt;/code&gt; ，之后&lt;/p&gt;
-&lt;h3 id=&#34;获取-token&#34;&gt;获取 token&lt;/h3&gt;
-&lt;p&gt;复制的 webhook 中 &lt;code&gt;https://oapi.dingtalk.com/robot/send?access_token={YOUR_TOKEN}&lt;/code&gt;, &lt;code&gt;{YOUR_TOKEN}&lt;/code&gt; 就是要填入的 token。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1g9ku2hvs16j20ep05smxk.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;h2 id=&#34;安全设置&#34;&gt;安全设置&lt;/h2&gt;
-&lt;p&gt;钉钉智能群助手在更新后新增了安全设置，提供三种验证方式 &lt;code&gt;自定义关键词&lt;/code&gt; &lt;code&gt;加签&lt;/code&gt; &lt;code&gt;IP地址（段）&lt;/code&gt;，这里推荐使用 &lt;code&gt;IP地址（段）的方式&lt;/code&gt;，直接将 Kubernetes 集群的出口 IP 填入设置即可。同时也提供了 &lt;code&gt;加签&lt;/code&gt; 的方式，拷贝秘钥，将其填入 &lt;code&gt;dingtalk.sign&lt;/code&gt; 中。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1g9ku6qjwy2j20fo077glw.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;h2 id=&#34;项目配置&#34;&gt;项目配置&lt;/h2&gt;
-&lt;p&gt;编辑 &lt;code&gt;kubewatch/value.yaml&lt;/code&gt; ，修改配置&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;## Global Docker image parameters&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;## Please, note that this will override the image parameters, including dependencies, configured to use the global value&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;## Current available global Docker image parameters: imageRegistry and imagePullSecrets&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;##&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# global:&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#   imageRegistry: myRegistryName&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#   imagePullSecrets:&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#     - myRegistryKeySecretName&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;slack&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;enabled&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;channel&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;token&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;xoxb&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;hipchat&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;enabled&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# room: &amp;#34;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# token: &amp;#34;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# url: &amp;#34;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;mattermost&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;enabled&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# channel: &amp;#34;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# url: &amp;#34;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# username: &amp;#34;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;flock&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;enabled&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# url: &amp;#34;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;webhook&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;enabled&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# url: &amp;#34;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;dingtalk&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;enabled&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;token&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;sign&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# namespace to watch, leave it empty for watching all.&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;namespaceToWatch&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# Resources to watch&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;resourcesToWatch&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;deployment&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;replicationcontroller&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;replicaset&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;daemonset&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;services&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;pod&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;job&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;persistentvolume&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;image&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;registry&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;docker.io&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#  repository: bitnami/kubewatch&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;repository&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;guoxudongdocker/kubewatch-chart&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#  tag: 0.0.4-debian-9-r405&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;tag&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;latest&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;pullPolicy&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Always&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;## Optionally specify an array of imagePullSecrets.&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;## Secrets must be manually created in the namespace.&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;##&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# pullSecrets:&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#   - myRegistryKeySecretName&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;## String to partially override kubewatch.fullname template (will maintain the release name)&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;##&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# nameOverride:&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;## String to fully override kubewatch.fullname template&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;##&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# fullnameOverride:&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;rbac&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# If true, create &amp;amp; use RBAC resources&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;create&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;serviceAccount&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# Specifies whether a ServiceAccount should be created&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;create&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# The name of the ServiceAccount to use.&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# If not set and create is true, a name is generated using the fullname template&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;resources&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;{}&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# limits:&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#   cpu: 100m&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#   memory: 300Mi&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# requests:&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#   cpu: 100m&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#   memory: 300Mi&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# Affinity for pod assignment&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# affinity: {}&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# Tolerations for pod assignment&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# Ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;tolerations&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;[]&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# Node labels for pod assignment&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# Ref: https://kubernetes.io/docs/user-guide/node-selection/&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nodeSelector&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;{}&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;podAnnotations&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;{}&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;podLabels&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;{}&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;replicaCount&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;使用 &lt;code&gt;value.yaml&lt;/code&gt; 安装&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;git clone https://github.com/sunny0826/kubewatch-chat.git
-&lt;span style=&#34;color:#24909d&#34;&gt;cd&lt;/span&gt; kubewatch-chat
-helm install my-release -f kubewatch/values.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;slack-配置&#34;&gt;Slack 配置&lt;/h2&gt;
-&lt;p&gt;Slack 为 kubewatch 默认的通知软件，这里就不简介 Slack 的安装和注册，直接从创建 APP 开始&lt;/p&gt;
-&lt;h3 id=&#34;创建一个-app&#34;&gt;创建一个 APP&lt;/h3&gt;
-&lt;p&gt;进去创建 &lt;a href=&#34;https://api.slack.com/apps&#34;&gt;APP 页面&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1g9kum3x5npj21h40p6tdx.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;p&gt;选择 &lt;code&gt;App Name&lt;/code&gt; 和 &lt;code&gt;Development Slack Workspace&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1g9kupp0av1j210c0uejvj.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;添加-bot-用户&#34;&gt;添加 Bot 用户&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&#34;https://tvax3.sinaimg.cn/large/ad5fbf65gy1g9kuszmgggj21n4156gu2.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;添加-app-到-workspace&#34;&gt;添加 App 到 Workspace&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&#34;https://tva3.sinaimg.cn/large/ad5fbf65gy1g9kuyzwzetj21qu0wmq9n.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;获取-bot-token&#34;&gt;获取 Bot-token&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&#34;https://tvax3.sinaimg.cn/large/ad5fbf65gy1g9kv06dva8j21s60uajxf.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;h2 id=&#34;通知效果&#34;&gt;通知效果&lt;/h2&gt;
-&lt;p&gt;在 Slack 中，&lt;code&gt;创建&lt;/code&gt; &lt;code&gt;更新&lt;/code&gt; &lt;code&gt;删除&lt;/code&gt; 分别以绿、黄和红色代表&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65gy1g9kv23nvmoj213c0mewj4.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;p&gt;在钉钉中，我进行了汉化&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tvax3.sinaimg.cn/large/ad5fbf65gy1g9kv5fppglj20dd08zdgs.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tvax4.sinaimg.cn/large/ad5fbf65gy1g9kv5uuxn4j20ea08fgmk.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
-&lt;p&gt;对于 kubewatch 我们这里主要用作监控各种 CronJob 的定时触发状态，已经 ConfigMap 和 Secrets 的状态变化，同时也观察 HPA 触发的弹性伸缩的状态，可以实时观测到业务高峰的到来，是一个不错的小工具。&lt;/p&gt;
 
       </description>
     </item>

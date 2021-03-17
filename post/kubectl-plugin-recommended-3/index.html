@@ -29,40 +29,40 @@
            "@id": "https:\/\/guoxudong.io"
       },
       "articleSection" : "post",
-      "name" : "疫情期间【在家\/公司】远程办公指南",
-      "headline" : "疫情期间【在家\/公司】远程办公指南",
-      "description" : "在疫情期间，如何安全有效的 在家\/公司 办公",
+      "name" : "Kubectl Plugin 推荐（三）| 插件开发篇",
+      "headline" : "Kubectl Plugin 推荐（三）| 插件开发篇",
+      "description" : "讲解如何快速开发一款自己的 Kubectl Plugin。",
       "inLanguage" : "en-US",
       "author" : "",
       "creator" : "",
       "publisher": "",
       "accountablePerson" : "",
       "copyrightHolder" : "",
-      "copyrightYear" : "2020",
-      "datePublished": "2020-02-10 10:52:26 \x2b0800 \x2b0800",
-      "dateModified" : "2020-02-10 10:52:26 \x2b0800 \x2b0800",
-      "url" : "https:\/\/guoxudong.io\/post\/work-4-home\/",
-      "wordCount" : "77",
-      "keywords" : [ "远程办公","高效办公","安全办公","Guoxudong" ]
+      "copyrightYear" : "2021",
+      "datePublished": "2021-03-17 09:54:18 \x2b0800 \x2b0800",
+      "dateModified" : "2021-03-17 09:54:18 \x2b0800 \x2b0800",
+      "url" : "https:\/\/guoxudong.io\/post\/kubectl-plugin-recommended-3\/",
+      "wordCount" : "324",
+      "keywords" : [ "Kubernetes","Kubernetes Plugin","Krew","Guoxudong" ]
   }
   </script>
-<title>疫情期间【在家/公司】远程办公指南 | Guo Xudong&#39;s Blog·郭旭东的博客</title><meta property="og:title" content="疫情期间【在家/公司】远程办公指南" />
-<meta property="og:description" content="在疫情期间，如何安全有效的 在家/公司 办公" />
+<title>Kubectl Plugin 推荐（三）| 插件开发篇 | Guo Xudong&#39;s Blog·郭旭东的博客</title><meta property="og:title" content="Kubectl Plugin 推荐（三）| 插件开发篇" />
+<meta property="og:description" content="讲解如何快速开发一款自己的 Kubectl Plugin。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://guoxudong.io/post/work-4-home/" />
-<meta property="article:published_time" content="2020-02-10T10:52:26+08:00" />
+<meta property="og:url" content="https://guoxudong.io/post/kubectl-plugin-recommended-3/" />
+<meta property="article:published_time" content="2021-03-17T09:54:18+08:00" />
 <meta property="article:modified_time" content="2021-03-17T14:43:00+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
-<meta itemprop="name" content="疫情期间【在家/公司】远程办公指南">
-<meta itemprop="description" content="在疫情期间，如何安全有效的 在家/公司 办公">
-<meta itemprop="datePublished" content="2020-02-10T10:52:26&#43;08:00" />
+<meta itemprop="name" content="Kubectl Plugin 推荐（三）| 插件开发篇">
+<meta itemprop="description" content="讲解如何快速开发一款自己的 Kubectl Plugin。">
+<meta itemprop="datePublished" content="2021-03-17T09:54:18&#43;08:00" />
 <meta itemprop="dateModified" content="2021-03-17T14:43:00&#43;08:00" />
-<meta itemprop="wordCount" content="77">
+<meta itemprop="wordCount" content="324">
 
 
 
-<meta itemprop="keywords" content="远程办公,高效办公,安全办公," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="疫情期间【在家/公司】远程办公指南"/>
-<meta name="twitter:description" content="在疫情期间，如何安全有效的 在家/公司 办公"/>
+<meta itemprop="keywords" content="Kubernetes,Kubernetes Plugin,Krew," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Kubectl Plugin 推荐（三）| 插件开发篇"/>
+<meta name="twitter:description" content="讲解如何快速开发一款自己的 Kubectl Plugin。"/>
 
 
 <script type="application/javascript">
@@ -213,26 +213,24 @@ if (!doNotTrack) {
 <nav id="TableOfContents">
   <ul>
     <li><a href="#前言">前言</a></li>
-    <li><a href="#取消晨会">取消晨会</a></li>
-    <li><a href="#目标分级">目标分级</a></li>
-    <li><a href="#提升个人效率">提升个人效率</a>
+    <li><a href="#简介">简介</a></li>
+    <li><a href="#使用-github-template">使用 GitHub Template</a>
       <ul>
-        <li><a href="#清晰区分工作时间和休息时间">清晰区分工作时间和休息时间</a></li>
-        <li><a href="#按日程工作">按日程工作</a></li>
-        <li><a href="#珍惜自己的时间也珍惜他人的时间">珍惜自己的时间也珍惜他人的时间</a></li>
+        <li><a href="#创建项目">创建项目</a></li>
+        <li><a href="#配置项目">配置项目</a></li>
+        <li><a href="#项目结构">项目结构</a></li>
+        <li><a href="#构建测试">构建测试</a></li>
+        <li><a href="#创建-release">创建 Release</a></li>
       </ul>
     </li>
-    <li><a href="#榜样作用">榜样作用</a></li>
-    <li><a href="#安全保障">安全保障</a>
+    <li><a href="#推送到-krew-index">推送到 krew-index</a>
       <ul>
-        <li><a href="#上班路上">上班路上</a></li>
-        <li><a href="#办公室内">办公室内</a></li>
-        <li><a href="#会议室内">会议室内</a></li>
-        <li><a href="#午饭时间">午饭时间</a></li>
+        <li><a href="#首次推送">首次推送</a></li>
+        <li><a href="#自动推送">自动推送</a></li>
       </ul>
     </li>
-    <li><a href="#保持乐观的心态">保持乐观的心态</a></li>
-    <li><a href="#参考资料">参考资料</a></li>
+    <li><a href="#注意事项">注意事项</a></li>
+    <li><a href="#结语">结语</a></li>
   </ul>
 </nav>
 <hr>
@@ -261,6 +259,25 @@ if (!doNotTrack) {
             </div>
             <hr>
             
+            
+            <div class="article-widget">
+              <div class="hr-light"></div>
+              <h5>相关阅读</h5>
+              <ul>
+                
+                <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
+                
+                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
+                
+                <li><a href="/post/kubectl-rabbitmq/">使用 kubectl-rabbitmq 部署和运维 K8S 上的 RabbitMQ 集群</a></li>
+                
+                <li><a href="/post/kubectl-graph/">K8S 资源可视化利器：Kubectl-Graph</a></li>
+                
+                <li><a href="/post/diagrams-k8s-src-qos/">图解 K8S 源码 - QoS 篇</a></li>
+                
+              </ul>
+            </div>
+            <hr>
             
             <h5>分类</h5>
             <div>
@@ -559,7 +576,7 @@ if (!doNotTrack) {
 
 
 <li class="breadcrumb-item active" aria-current="page">
-	<a href="https://guoxudong.io/post/work-4-home/">疫情期间【在家/公司】远程办公指南</a>
+	<a href="https://guoxudong.io/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a>
 </li>
 
 	</ol>
@@ -568,20 +585,17 @@ if (!doNotTrack) {
             
 
 <div class="td-content" id="road">
-	<h1>疫情期间【在家/公司】远程办公指南</h1>
+	<h1>Kubectl Plugin 推荐（三）| 插件开发篇</h1>
 	
 	<div class="td-byline mb-4">
 		<span>By  <b>guoxudong</b> </span> ·
 		<span>
-			1 分钟阅读时间
+			2 分钟阅读时间
 		</span> ·
-		<span>发布于 </span><time datetime=" 2020-02-10" 
-			class="text-muted">2020年02月10日</time> ·
+		<span>发布于 </span><time datetime=" 2021-03-17" 
+			class="text-muted">2021年03月17日</time> ·
 		<span>最近更新于 </span><time datetime="2021-03-17"
 			class="text-muted">2021年03月17日</time> ·
-		
-		<a href="/categories/%e6%95%88%e7%8e%87">
-			效率</a>
 		
 	</div>
 
@@ -590,42 +604,42 @@ if (!doNotTrack) {
 <div class="share-box" aria-hidden="true">
   <ul class="share">
     <li>
-      <a href="https://twitter.com/intent/tweet?url=https%3a%2f%2fguoxudong.io%2fpost%2fwork-4-home%2f&amp;text=%e7%96%ab%e6%83%85%e6%9c%9f%e9%97%b4%e3%80%90%e5%9c%a8%e5%ae%b6%2f%e5%85%ac%e5%8f%b8%e3%80%91%e8%bf%9c%e7%a8%8b%e5%8a%9e%e5%85%ac%e6%8c%87%e5%8d%97" target="_blank" rel="noopener" class="share-btn-twitter">
+      <a href="https://twitter.com/intent/tweet?url=https%3a%2f%2fguoxudong.io%2fpost%2fkubectl-plugin-recommended-3%2f&amp;text=Kubectl%20Plugin%20%e6%8e%a8%e8%8d%90%ef%bc%88%e4%b8%89%ef%bc%89%7c%20%e6%8f%92%e4%bb%b6%e5%bc%80%e5%8f%91%e7%af%87" target="_blank" rel="noopener" class="share-btn-twitter">
         <i class="fab fa-twitter"></i>
       </a>
     </li>
     <li>
-      <a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fguoxudong.io%2fpost%2fwork-4-home%2f&amp;t=%e7%96%ab%e6%83%85%e6%9c%9f%e9%97%b4%e3%80%90%e5%9c%a8%e5%ae%b6%2f%e5%85%ac%e5%8f%b8%e3%80%91%e8%bf%9c%e7%a8%8b%e5%8a%9e%e5%85%ac%e6%8c%87%e5%8d%97" target="_blank" rel="noopener" class="share-btn-facebook">
+      <a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fguoxudong.io%2fpost%2fkubectl-plugin-recommended-3%2f&amp;t=Kubectl%20Plugin%20%e6%8e%a8%e8%8d%90%ef%bc%88%e4%b8%89%ef%bc%89%7c%20%e6%8f%92%e4%bb%b6%e5%bc%80%e5%8f%91%e7%af%87" target="_blank" rel="noopener" class="share-btn-facebook">
         <i class="fab fa-facebook-f"></i>
       </a>
     </li>
     <li>
-      <a href="mailto:?subject=%e7%96%ab%e6%83%85%e6%9c%9f%e9%97%b4%e3%80%90%e5%9c%a8%e5%ae%b6%2f%e5%85%ac%e5%8f%b8%e3%80%91%e8%bf%9c%e7%a8%8b%e5%8a%9e%e5%85%ac%e6%8c%87%e5%8d%97&amp;body=https%3a%2f%2fguoxudong.io%2fpost%2fwork-4-home%2f" target="_blank" rel="noopener" class="share-btn-email">
+      <a href="mailto:?subject=Kubectl%20Plugin%20%e6%8e%a8%e8%8d%90%ef%bc%88%e4%b8%89%ef%bc%89%7c%20%e6%8f%92%e4%bb%b6%e5%bc%80%e5%8f%91%e7%af%87&amp;body=https%3a%2f%2fguoxudong.io%2fpost%2fkubectl-plugin-recommended-3%2f" target="_blank" rel="noopener" class="share-btn-email">
         <i class="fas fa-envelope"></i>
       </a>
     </li>
     <li>
-      <a href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fguoxudong.io%2fpost%2fwork-4-home%2f&amp;title=%e7%96%ab%e6%83%85%e6%9c%9f%e9%97%b4%e3%80%90%e5%9c%a8%e5%ae%b6%2f%e5%85%ac%e5%8f%b8%e3%80%91%e8%bf%9c%e7%a8%8b%e5%8a%9e%e5%85%ac%e6%8c%87%e5%8d%97" target="_blank" rel="noopener" class="share-btn-linkedin">
+      <a href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fguoxudong.io%2fpost%2fkubectl-plugin-recommended-3%2f&amp;title=Kubectl%20Plugin%20%e6%8e%a8%e8%8d%90%ef%bc%88%e4%b8%89%ef%bc%89%7c%20%e6%8f%92%e4%bb%b6%e5%bc%80%e5%8f%91%e7%af%87" target="_blank" rel="noopener" class="share-btn-linkedin">
         <i class="fab fa-linkedin-in"></i>
       </a>
     </li>
     <li>
-      <a href="https://web.whatsapp.com/send?text=%e7%96%ab%e6%83%85%e6%9c%9f%e9%97%b4%e3%80%90%e5%9c%a8%e5%ae%b6%2f%e5%85%ac%e5%8f%b8%e3%80%91%e8%bf%9c%e7%a8%8b%e5%8a%9e%e5%85%ac%e6%8c%87%e5%8d%97https%3a%2f%2fguoxudong.io%2fpost%2fwork-4-home%2f/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+      <a href="https://web.whatsapp.com/send?text=Kubectl%20Plugin%20%e6%8e%a8%e8%8d%90%ef%bc%88%e4%b8%89%ef%bc%89%7c%20%e6%8f%92%e4%bb%b6%e5%bc%80%e5%8f%91%e7%af%87https%3a%2f%2fguoxudong.io%2fpost%2fkubectl-plugin-recommended-3%2f/" target="_blank" rel="noopener" class="share-btn-whatsapp">
         <i class="fab fa-whatsapp"></i>
       </a>
     </li>
     <li>
-      <a href="https://service.weibo.com/share/share.php?url=https%3a%2f%2fguoxudong.io%2fpost%2fwork-4-home%2f&amp;title=%e7%96%ab%e6%83%85%e6%9c%9f%e9%97%b4%e3%80%90%e5%9c%a8%e5%ae%b6%2f%e5%85%ac%e5%8f%b8%e3%80%91%e8%bf%9c%e7%a8%8b%e5%8a%9e%e5%85%ac%e6%8c%87%e5%8d%97" target="_blank" rel="noopener" class="share-btn-weibo">
+      <a href="https://service.weibo.com/share/share.php?url=https%3a%2f%2fguoxudong.io%2fpost%2fkubectl-plugin-recommended-3%2f&amp;title=Kubectl%20Plugin%20%e6%8e%a8%e8%8d%90%ef%bc%88%e4%b8%89%ef%bc%89%7c%20%e6%8f%92%e4%bb%b6%e5%bc%80%e5%8f%91%e7%af%87" target="_blank" rel="noopener" class="share-btn-weibo">
         <i class="fab fa-weibo"></i>
       </a>
     </li>
     <li>
-      <a href="https://reddit.com/submit?url=https%3a%2f%2fguoxudong.io%2fpost%2fwork-4-home%2f&amp;title=%e7%96%ab%e6%83%85%e6%9c%9f%e9%97%b4%e3%80%90%e5%9c%a8%e5%ae%b6%2f%e5%85%ac%e5%8f%b8%e3%80%91%e8%bf%9c%e7%a8%8b%e5%8a%9e%e5%85%ac%e6%8c%87%e5%8d%97" target="_blank" rel="noopener" class="share-btn-reddit">
+      <a href="https://reddit.com/submit?url=https%3a%2f%2fguoxudong.io%2fpost%2fkubectl-plugin-recommended-3%2f&amp;title=Kubectl%20Plugin%20%e6%8e%a8%e8%8d%90%ef%bc%88%e4%b8%89%ef%bc%89%7c%20%e6%8f%92%e4%bb%b6%e5%bc%80%e5%8f%91%e7%af%87" target="_blank" rel="noopener" class="share-btn-reddit">
         <i class="fab fa-reddit-alien"></i>
       </a>
     </li>
     <li>
-      <a href=# onClick="javascript:window.open('/wechart?url=https:\/\/guoxudong.io\/post\/work-4-home\/','weixin','height=560, width=470, top=100, location=no, toolbar=no, menubar=no, status=no')" target="_blank" rel="noopener" class="share-btn-weixin">
+      <a href=# onClick="javascript:window.open('/wechart?url=https:\/\/guoxudong.io\/post\/kubectl-plugin-recommended-3\/','weixin','height=560, width=470, top=100, location=no, toolbar=no, menubar=no, status=no')" target="_blank" rel="noopener" class="share-btn-weixin">
         <i class="fab fa-weixin"></i>
       </a>
     </li>
@@ -635,119 +649,132 @@ if (!doNotTrack) {
 
 	<div class="alert alert-primary mb-4" role="alert">
 		<h4 class="alert-heading">摘要</h4>
-		<span class="text-muted">在疫情期间，如何安全有效的 在家/公司 办公</span>
+		<span class="text-muted">讲解如何快速开发一款自己的 Kubectl Plugin。</span>
 	</div>
-	<img src="https://tvax2.sinaimg.cn/large/ad5fbf65ly1ge3jeoclz5j20yb0h9tfn.jpg" alt="" style="max-width: 80%;">
+	<img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1gomurdt886j20p00an3zg.jpg" alt="" style="max-width: 80%;">
 
 	<h2 id="前言">前言</h2>
-<hr>
-
-
-<div class="alert alert-primary" role="alert">
-
-“非常时期呼唤非常担当”
-</div>
-
-<p>这是我司 CEO 张世伟在复工当天致全体员工公开信的题目。2020年，在第一个不走亲戚的春节过后，我们鼠年的工作，以远程办公的形式开始了。</p>
-<p>在进行了一周的远程办公之后，我们于2月10日正式复工，但是由于我抵沪自我隔离未满7日，只得继续在家远程办公，但是不能因为在家办公就放低对自己的要求，故结合在假期浏览的一系列介绍远程办公的文章，以及疫情防控知识，总结了这篇远程及在公司办公指南，希望对大家有所帮助。</p>
-<h2 id="取消晨会">取消晨会</h2>
-<hr>
-<p>之所以将这个放在最前面，是由于这个在平时办公中的“正常操作”，在远程办公的环境下，<strong>成为了一场灾难</strong>。2月3日开始，企业开始复工，但由于疫情还在扩散，所以大家不约而同的选择了远程办公&hellip;而往日里那些“稳如老狗”的远程办公软件，阿里巴巴的钉钉，腾讯的企业微信，华为的 WeLink 相继出现了比较大的延迟甚至崩溃现象。同时还有其他的原因：</p>
+<p>之前的两篇文章中笔者推荐了一些好用的 Kubectl Plugin。但在实践中那些插件不一定能满足全部需求，这时不妨动手开发一个，花费时间不多，但却能极高的提升工作效率和使用体验。</p>
+<p>本篇文章就来讲解如何快速开发一款自己的 Kubectl Plugin。</p>
+<h2 id="简介">简介</h2>
+<p>Kubectl Plugin 的开发流程和注意事项：</p>
 <ul>
-<li>家里的网络条件不佳，可能出现延迟或者掉线的现象</li>
-<li>同一时间，只有能一个人说话，沟通效率很低</li>
-<li>一些不必要的发言，比如需要单独沟通的问题，占用大量大家的时间</li>
-<li>出现多人等一人的情况</li>
-<li>没洗脸，没洗头，素颜等其他问题</li>
+<li>编写一个二进制可执行文件以 <code>kubectl-xxx</code> 命名</li>
+<li>需要将可执行文件放在环境变量 <code>PATH</code> 中</li>
+<li>之后就可以使用 <code>kubectl xxx</code> 来调用了</li>
+<li>无法覆盖 <code>kubectl</code> 内置的命令</li>
 </ul>
-<p>同时由于中小学线上课堂的开始，各路人民教师纷纷转型十八线主播，网络环境更是变的拥挤不堪。</p>
-<p><img src="https://tvax1.sinaimg.cn/wap360/ad5fbf65gy1gbr5wkd8puj20c809f74q.jpg" alt=""></p>
-<p>故取消线上晨会，这里就显的比较合理，同时可以采用异步的协同方式，通过 jira 和 confluence 进行工作的协同。利用 jira 实时更新自己任务的状态，项目组长与组员也可以实时通过 jira 了解项目的实时进度，这样就减少了面对面的沟通，安全又高效。</p>
-<p><strong>例如：</strong></p>
-<p><img src="https://tva4.sinaimg.cn/wap360/ad5fbf65gy1gbr68kif3lj20me0xumzk.jpg" alt="image"></p>
-<h2 id="目标分级">目标分级</h2>
-<hr>
-<p>远程办公比统一办公需要更加细粒度的工作分级，什么事情应该马上做，什么事情可以放一放，什么时候对接的同事有时间，这些都需要规划的更加仔细。</p>
-<p>将工作内容进行细粒度拆分，使用个人看板，时间管理工具甚至记事本拆分自己每天的工作时间安排，每周对自己工作的任务列表进行回顾，将已完成的标记，将本周新增加的任务加入进来，这样很容易让我们在周一的时候对工作的优先级有个快速梳理，并且不容易遗漏一些细节工作。</p>
-<p>推荐使用<a href="https://wiki.mbalib.com/wiki/%E6%97%B6%E9%97%B4%E2%80%9C%E5%9B%9B%E8%B1%A1%E9%99%90%E2%80%9D%E6%B3%95">四象限法</a>来对自己目前的工作进行分级，根据紧急情况和重要情况，对自己的工作进行分级，优先处理那些紧急且重要的事情，同样个人看板也可以帮助您记录完成的任务和待完成的任务，这样写日报/周报就可以直接拿来用，不用再绞尽脑汁回忆今天/本周都做了什么，个人看板这里推荐 <a href="https://trello.com">Trello</a>，个人免费使用。</p>
-<p><img src="https://tvax3.sinaimg.cn/large/ad5fbf65gy1gbrai6ynydj20b407kdg6.jpg" alt=""></p>
-<h2 id="提升个人效率">提升个人效率</h2>
-<hr>
-<h3 id="清晰区分工作时间和休息时间">清晰区分工作时间和休息时间</h3>
-<p>在家办公，工作效率很容易变差。毕竟沙发和床就在身边，很容易工作着突然就想去休息一会儿。这里就需要在家里划分出一个 <strong>【工作区】</strong> ，并在工作区中准备上班所需的一切；同时要按时起床，穿戴整齐，吃好早点，然后进入工作区开始一天的工作，通过这种简单的 <strong>仪式感</strong> 可以让我们快速进入工作状态，更好的提高效率，不至于出现「在家工作居然比在公司下班晚」的情况。</p>
-<p><img src="https://tva3.sinaimg.cn/wap360/ad5fbf65gy1gbraur5ylbj20hi0fiwf8.jpg" alt=""></p>
-<h3 id="按日程工作">按日程工作</h3>
-<p>切记，<strong>在家办公只是地点变了，工作时间和内容并没有变</strong>。按照上文中提到的目标分级，合理的将目标分为日程，并在自己的看板中进行记录，保持钉钉/微信实时在线，防止突然出现紧急且重要的突发任务，同时也将非紧急问题都推后处理，让聚焦工作的整块时间尽量不受干扰。</p>
-<h3 id="珍惜自己的时间也珍惜他人的时间">珍惜自己的时间也珍惜他人的时间</h3>
-<p>这是每个职场人应有的自律，少开无效会议，多用异步协同代替实时协同；非紧急事件给对方更多响应缓冲时间；能在 Confluence 里搜到的内容尽量不在群里提问。（运维组提供钉钉应答机器人，基础资源相关的问题，可以先 <code>@</code> 群内机器人进行提问）。</p>
-<h2 id="榜样作用">榜样作用</h2>
-<hr>
-<p>主要负责人自主性地高效率完成工作，尽量少传播负面的信息。负责人主动去执行公司规章和在疫情期间发挥表率作用，为其他同事提供良好的表率，小到请假流程的规范，大到对疫区同事的生活的关心和支持。榜样的作用，可以让同事们心安，更快的投入到工作当中，齐心协力，共同度过难关。</p>
-<h2 id="安全保障">安全保障</h2>
-<hr>
-
-
-<div class="alert alert-primary" role="alert">
-
-安全第一！安全第一！安全第一！重要的事情说三遍。
-</div>
-
-<p>道路千万条，安全第一条。在这个特殊的时期，我们做的所有努力其实都是建立在自身安全的前提下，如果没有自身安全，那么一切工作就都变的没有意义了。</p>
-<p>下面介绍一些在不同场合中的安全建议：</p>
-<h3 id="上班路上">上班路上</h3>
-<p>尽量避免乘坐公共交通，建议步行、骑行或乘坐私家车上班。如必须乘坐公共交通工具时，务必全程佩戴口罩，途中尽量避免用手触摸车上物品。</p>
-<p>戴口罩的同时也要戴上手套（冬天的手套或者户外手套皆可），在地铁、汽车和公共场所不要摘下手套。同样要小心楼梯扶手、电梯按钮。尽量远离他人1米：特别是在公共场所时，应该适当与他人保持距离。如在路上时，尽可能远离其他人（至少1米）。</p>
-<p>到达园区之后，尽量走楼梯，不要乘电梯。</p>
-<p><img src="https://tva1.sinaimg.cn/large/ad5fbf65gy1gbrcy6k5cxg20dc07i0y1.gif" alt="走楼梯"></p>
-<center>照片提供人：@王沛</center>
-<h3 id="办公室内">办公室内</h3>
-
-
-<div class="alert alert-primary" role="alert">
-
-办公室内不开中央空调，请增添衣物
-</div>
-
-<p>保持办公区环境清洁，建议每日通风3次，每次20-30分钟，通风时注意保暖。人与人之间保持1米以上距离，办公室中不要摘除口罩，并且不要打开中央空调，请增添衣物。</p>
-<p>到达公司的第一件事，先洗手，之后再清理工位，有条件的同学使用酒精或者消毒湿巾将手可以接触到的地方进行消毒，键盘、鼠标、笔记本、桌面等都是首要清洁目标。同时不要用手触摸眼睛，有条件的同学可以带上护目镜。</p>
-<h3 id="会议室内">会议室内</h3>
-<p>工作办公中减少会议（可以用远程会议方式代替），如果非要开会需要做到以下三点：</p>
-<ol>
-<li>为参会人员配备一次性医用口罩等物品；</li>
-<li>会场座位间隔建议1米以上；</li>
-<li>会议时间较长的建议每小时通风1次。</li>
-</ol>
-<h3 id="午饭时间">午饭时间</h3>
-<p>饭前要洗手，建议自己带饭，带瓶装矿泉水，不要和别人一起进餐，<strong>尤其不要面对面进餐</strong>，避免肉类生食。建议营养配餐，清淡适口。</p>
-<h2 id="保持乐观的心态">保持乐观的心态</h2>
-<hr>
-<p>由于我的母亲是医生的缘故，在这次疫情期间多次听说有人感觉自己出现了肺炎症状，但是检测后却十分正常，这就是 <strong>过度焦虑</strong> 引发的身体不适。</p>
-<p>对于没有去过疫区，并且没有和疫区出来的人进行过接触的人，主要还是应该把精力放在预防和消毒上，不要疑神疑鬼，保持乐观的心态和充足的睡眠，相信我们一定能度过这次的难关！</p>
-<h2 id="参考资料">参考资料</h2>
-<hr>
+<p>二进制可执行文件可以是任何语言开发，本文主要讲解使用 go 语言开发，官方推荐使用 <a href="https://github.com/kubernetes/cli-runtime/">cli-runtime</a> 项目，可以参考 <a href="https://github.com/kubernetes/sample-cli-plugin">sample-cli-plugin</a> 示例。</p>
+<h2 id="使用-github-template">使用 GitHub Template</h2>
+<p>模板地址：https://github.com/replicatedhq/krew-plugin-template</p>
+<p>推荐使用 GitHub Template 创建 Plugin 项目，该模板遵循最佳实践开发，并集成了一些简化开发流程的工具，使用 <a href="https://goreleaser.com/">GoReleaser</a> 和 GitHub Action 进行自动化发布。该 template 也是官方文档推荐的 <strong>非官方 GitHub Template</strong>。</p>
+<h3 id="创建项目">创建项目</h3>
+<p>进入 krew-plugin-template 项目，点击 <code>Use this template</code></p>
+<p><img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1gomp3m8xjqj22w81naaqb.jpg" alt="使用模板"></p>
+<p>输入 <code>Repository name</code>，点击 <code>Create repository from template</code> 创建 repo</p>
+<p><img src="https://tvax2.sinaimg.cn/large/ad5fbf65gy1gomp5bbcl2j21fk0x4wis.jpg" alt="创建项目"></p>
+<h3 id="配置项目">配置项目</h3>
+<p>待项目创建完成后， clone 该项目并在本地通过终端进入该项目所在目录。</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git clone https://github.com/sunny0826/kubectl-demo.git
+$ <span style="color:#24909d">cd</span> kubectl-demo
+</code></pre></div><p>使用 <code>make setup</code> 命令开始配置</p>
+<p><img src="https://tvax4.sinaimg.cn/large/ad5fbf65gy1gomq1rr8vzj20y80eg0wp.jpg" alt="set up"></p>
+<p>根据提示，填入 <code>GitHub Organization or Username</code>、<code>GitHub Repo Namek</code> 和 <code>Plugin Name</code> 后，会自动对项目进行配置。</p>
+<h3 id="项目结构">项目结构</h3>
+<p>配置完成后，一个 Kubectl Plugin 项目的基本框架就完成了，结构如下：</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">.
+├── LICENSE
+├── Makefile
+├── README.md
+├── cmd
+│   └── plugin
+│       ├── cli
+│       │   └── root.go   <span style="color:#999;font-style:italic"># cli 配置</span>
+│       └── main.go       <span style="color:#999;font-style:italic"># 项目入口</span>
+├── deploy
+│   └── krew
+│       └── plugin.yaml   <span style="color:#999;font-style:italic"># krew-index 配置</span>
+├── doc
+│   └── USAGE.md
+├── go.mod
+├── go.sum
+└── pkg
+    ├── logger
+    │   └── logger.go
+    └── plugin
+        └── plugin.go     <span style="color:#999;font-style:italic"># 业务逻辑代码</span>
+</code></pre></div><p>接下来就是业务逻辑的开发，主要的业务逻辑代码就写在 <code>pkg/plugn/plugin.go</code> 中；CLI 的相关配置，如 <code>flag</code> 和子命令的配置则在 <code>cmd/plugin/cli/root.go</code> 中。开发所需的 client-go 、k8s API 等资源也都已经集成在项目中，可直接使用。</p>
+<h3 id="构建测试">构建测试</h3>
+<p>在业务逻辑完成后，需要先在本地进行测试。使用 <code>make bin</code> 命令可以将项目构建为可执行文件并用来测试，该命令会完成基础的 <code>fmt</code>、<code>vet</code> 测试并完成 <code>build</code>。</p>
+<p><img src="https://tvax4.sinaimg.cn/large/ad5fbf65gy1gomqjcj5krj21py0uiwnd.jpg" alt="make bin"></p>
+<h3 id="创建-release">创建 Release</h3>
+<p>在完成代码逻辑和测试后，就可以将其发布到 github release 了，GitHub Action 和 <a href="https://goreleaser.com/">GoReleaser</a> 会自动完成 Release 相关操作，只需给项目打上 tag 并 push 代码，无需任何手动操作。</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git tag v0.1.0 -m <span style="color:#ed9d13">&#39;initial release&#39;</span>
+$ git push --tags
+</code></pre></div><blockquote>
+<p>如果是首次 Release，会出现 Release 成功但是 GitHub Action 失败的情况，这里可以忽略，失败的是自动推送 PR 到 krew-index 的步骤。</p>
+</blockquote>
+<h2 id="推送到-krew-index">推送到 krew-index</h2>
+<p>Release 完成后，就可以将已经开发好的 Kubectl Plugin 推送到 <a href="https://github.com/kubernetes-sigs/krew-index">krew-index</a> 了，这样就可以使用 <code>kubectl krew install</code> 安装了。</p>
+<h3 id="首次推送">首次推送</h3>
+<p>首次提交需要手动 fork krew-index 项目并提交 PR，拷贝 <code>deploy/krew/plugin.yaml</code> 中的内容，根据 release <code>checksums.txt</code> 内容补全不同平台可执行文件的 <code>sha256</code> 和 <code>description</code> 值，将其放入 <code>plugin</code> 目录并提交 PR。</p>
+<h3 id="自动推送">自动推送</h3>
+<p>完成首次 PR 提交后，就可以使用 GitHub Action 自动提交 PR 到 krew-index 了，通过<a href="https://github.com/rajatjindal/krew-release-bot"> krew-release-bot</a> 机器人自动提交的 PR 无需 review 自动 merge，大大降低了更新流程。</p>
+<p>使用这个 GitHub Action，首先需要一份 <code>.krew.yaml</code> 配置文件，该项目作者提供了一个不错的工具，可以根据已经提交的 Kubectl Plugin 自动生成 <code>.krew.yaml</code> 内容，将生成的配置拷贝到 <code>.krew.yaml</code>，之后的 Release 成功后会自动提交 PR 到 krew-index。</p>
+<p><img src="https://tva3.sinaimg.cn/large/ad5fbf65gy1gomu5iw2ngj22bk116afg.jpg" alt="Krew Release Bot Helper"></p>
+<p>工具地址：https://rajatjindal.com/tools/krew-release-bot-helper/</p>
+<p>在 <code>&lt;your-git-root&gt;/.github/workflows/release.yml</code> 添加配置（GitHub Template 中已包含该配置）：</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>release<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">on</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">push</span>:<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">tags</span>:<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#ed9d13">&#39;v*.*.*&#39;</span><span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">jobs</span>:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">goreleaser</span>:<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">runs-on</span>:<span style="color:#666"> </span>ubuntu-latest<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">steps</span>:<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>Checkout<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">uses</span>:<span style="color:#666"> </span>actions/checkout@master<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>Setup<span style="color:#666"> </span>Go<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">uses</span>:<span style="color:#666"> </span>actions/setup-go@v1<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">with</span>:<span style="color:#666">
+</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">go-version</span>:<span style="color:#666"> </span><span style="color:#3677a9">1.13</span><span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>GoReleaser<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">uses</span>:<span style="color:#666"> </span>goreleaser/goreleaser-action@v1<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">with</span>:<span style="color:#666">
+</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">version</span>:<span style="color:#666"> </span>latest<span style="color:#666">
+</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">args</span>:<span style="color:#666"> </span>release<span style="color:#666"> </span>--rm-dist<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">env</span>:<span style="color:#666">
+</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">GITHUB_TOKEN</span>:<span style="color:#666"> </span>${{<span style="color:#666"> </span>secrets.GITHUB_TOKEN<span style="color:#666"> </span>}}<span style="color:#666">
+</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>Update<span style="color:#666"> </span>new<span style="color:#666"> </span>version<span style="color:#666"> </span>in<span style="color:#666"> </span>krew-index<span style="color:#666">
+</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">uses</span>:<span style="color:#666"> </span>rajatjindal/krew-release-bot@v0<span style="color:#3677a9">.0.38</span><span style="color:#666">
+</span></code></pre></div><p>之后每次 Release 都会自动推送更新 PR，效果如下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/ad5fbf65gy1gomu9xo7gij21ym1rgdu7.jpg" alt="PR 自动合并"></p>
+<h2 id="注意事项">注意事项</h2>
+<p>官方提供了<a href="https://krew.sigs.k8s.io/docs/developer-guide/develop/naming-guide/">插件命名指南</a>，大致有以下内容：</p>
 <ul>
-<li>
-<p><a href="https://mp.weixin.qq.com/s/4j715itQQPLivqfX0bseRw">疫情下的阿里员工，约定这样上班</a></p>
-</li>
-<li>
-<p><a href="https://mp.weixin.qq.com/s/P33JO0OS4CuN7M8alLIF_Q">调查完150个远程办公团队，我们发现了这几个真相</a></p>
-</li>
-<li>
-<p><a href="https://www.toutiao.com/a6791254617146524173/?timestamp=1581228897&amp;app=news_article&amp;group_id=6791254617146524173&amp;req_id=2020020914145701001203319422A09121">开工在即，在办公室中如何练成“百毒不侵”？</a></p>
-</li>
+<li>使用小写字母和连字符，不要使用驼峰式命名</li>
+<li>表意明确，独一无二</li>
+<li>使用动词和资源类型命名，如 <code>open-svc</code></li>
+<li>如果是供应商插件，前缀请使用供应商，如 <code>gke-login</code></li>
+<li>不能包含 <code>kube</code> 前缀</li>
+<li>避免资源缩写，如 <code>debug-ingress</code> 而不能是 <code>new-ing</code></li>
 </ul>
+<p>同时 <code>description</code> 要描述清楚，且每行不要操作 80 个字符，这样可以方便窄屏幕的用户使用。</p>
+<h2 id="结语">结语</h2>
+<p>本篇为《Kubectl Plugin 推荐》系列最后一篇，授人以鱼不如授人以渔，开发一个 Kubectl Plugin 并不会花费很多时间，但根据实际使用情况，为 kubectl 增加更多的功能和拓展，大大提升工作效率和使用体验，非常值得一试。</p>
 
 	<br>
 	
 	
 	<a class="button button-glow button-rounded button-royal button-tiny mb-2"
-		href="/tags/%e8%bf%9c%e7%a8%8b%e5%8a%9e%e5%85%ac">#远程办公</a>
+		href="/tags/kubernetes">#Kubernetes</a>
 	
 	<a class="button button-glow button-rounded button-royal button-tiny mb-2"
-		href="/tags/%e9%ab%98%e6%95%88%e5%8a%9e%e5%85%ac">#高效办公</a>
+		href="/tags/kubernetes-plugin">#Kubernetes Plugin</a>
 	
 	<a class="button button-glow button-rounded button-royal button-tiny mb-2"
-		href="/tags/%e5%ae%89%e5%85%a8%e5%8a%9e%e5%85%ac">#安全办公</a>
+		href="/tags/krew">#Krew</a>
 	
 	
 	
@@ -830,8 +857,8 @@ s.setAttribute('data-timestamp', +new Date());
 	
 
 	<div class="entry-shang pt-5">
-  <a href="/post/kubecm/" class=".-text-primary float-left"><i class="fas fa-angle-left"></i> Kubecm：管理你的 kubeconfig</a>
-  <a href="/post/feiyan-grafana/" class=".-text-primary float-right">使用 Grafana 展示肺炎疫情动态 <i class="fas fa-angle-right"></i></a>
+  <a href="/post/kubectl-plugin-recommended-2/" class=".-text-primary float-left"><i class="fas fa-angle-left"></i> Kubectl Plugin 推荐（二）| 简化操作篇</a>
+  <a  class=".-text-primary float-right"></a>
 </div>
 	<script src="https://my.openwrite.cn/js/readmore.js" type="text/javascript"></script>
 	<script>
