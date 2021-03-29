@@ -14,6 +14,54 @@
     
     
     <item>
+      <title>Post: 如何选择开源许可证</title>
+      <link>https://guoxudong.io/post/open-source-license/</link>
+      <pubDate>Mon, 29 Mar 2021 10:16:42 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/open-source-license/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;最近有同事需要在自己的项目中使用到开源软件，但是不知道是否存在风险，讨论中我发现大家对开源许可证好像都不是很了解，对如何选择开源许可证更是摸不着头脑，许可证的选择往往是跟着一些知名项目的选择进行选择。本文就来讲解一下开源许可证也就是我们常说的 License 都有哪些需要了解的知识。&lt;/p&gt;
+&lt;h2 id=&#34;什么是开源许可证协议&#34;&gt;什么是开源许可证/协议？&lt;/h2&gt;
+&lt;p&gt;首先要明确的是开源许可证是一种&lt;strong&gt;附带条件的合同/许可&lt;/strong&gt;，是&lt;strong&gt;具有法律效力的文件&lt;/strong&gt;。是作者自由意识的的体现，也就是说作者可以自行设计，其中要包括&lt;strong&gt;违反开源许可证的风险&lt;/strong&gt;，如停止侵权、损害赔偿、消除影响等。&lt;/p&gt;
+&lt;p&gt;也就是说，如果你愿意，可以自行设计开源许可证/协议。&lt;/p&gt;
+&lt;h3 id=&#34;开源许可证文本范式&#34;&gt;开源许可证文本范式&lt;/h3&gt;
+&lt;p&gt;开源许可证主要包含三部分：&lt;strong&gt;被许可人权利&lt;/strong&gt;、&lt;strong&gt;被许可人义务&lt;/strong&gt;、&lt;strong&gt;被许可人权利限制&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;其中&lt;strong&gt;被许可人权利&lt;/strong&gt;是“贡献”内容的“作者”授权任何“接收者”对其所“贡献”内容进行许可范围内的操作，如允许代码的自由复制/修改/分发、授予专利许可、禁止滥用商标等。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;被许可人义务&lt;/strong&gt;是“接收者”接受并履行“作者”设置的一些特定条件，如（再分发时）保留署名、注明修改、衍生开源、相同许可证等。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;被许可人权利限制&lt;/strong&gt;是所有“贡献”内容均在免责声明下分发，这是为了避免原作者的法律风险。&lt;/p&gt;
+&lt;h3 id=&#34;开源许可证类似&#34;&gt;开源许可证类似&lt;/h3&gt;
+&lt;p&gt;开源许可证主要分为三种类型：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;严格型/强著佐权（Copyleft）- 衍生作品必须全部使用相同许可证（开源），如 GPL v2、AGPL&lt;/li&gt;
+&lt;li&gt;弱著佐权（Weak Copyleft） - 允许衍生作品部分使用其他许可证（开源），如 LGPL&lt;/li&gt;
+&lt;li&gt;宽松型（Permissive） - 未限制衍生作品使用其他许可证（开源或闭源），如 BSD、MIT、Apache 2.0、木兰&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;开源许可证的兼容性&#34;&gt;开源许可证的兼容性&lt;/h2&gt;
+&lt;p&gt;如我在我的开源项目中用到了别人开源的库，这个时候就要看开源许可证的兼容性了，如果无法同时满足各部分代码的许可证要求，则不可能“合法地”分发，必然引发知识产权侵权风险。&lt;/p&gt;
+&lt;p&gt;其中兼容性一般具有以下规律：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;宽松型许可证通常互相兼容&lt;/li&gt;
+&lt;li&gt;宽松型许可证/弱著佐权许可证通常可以单向兼容严格型许可证&lt;/li&gt;
+&lt;li&gt;严格型许可证往往互不兼容&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax2.sinaimg.cn/large/ad5fbf65gy1gp0llx9xobj21o00r6hdt.jpg&#34; alt=&#34;开源许可证兼容性列表&#34;&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：《开源许可证兼容性指南》- 云计算开源产业联盟&lt;/p&gt;
+&lt;h2 id=&#34;开源许可证的选择&#34;&gt;开源许可证的选择&lt;/h2&gt;
+&lt;p&gt;随着开源产业的扩张，越来多的人参与其中，而宽松型的开源许可证（如 MIT、Apache 2.0）也被越来越的开源项目选择，如无特殊需要，笔者建议尽量选择宽松型的开源许可证，同时这也是整个开源产业的趋势。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax4.sinaimg.cn/large/ad5fbf65gy1gp0lqc78h3j20zl0k075j.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;图片来源：&lt;a href=&#34;https://resources.whitesourcesoftware.com/blog-whitesource/open-source-licenses-trends-and-predictions&#34;&gt;Open Source Licenses in 2021: Trends and Predictions&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;另外再附上一张网上流传很广的图，可以更直观的了解如何选择开源许可证：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1gp0lcmehjqj20m80dw3zd.jpg&#34; alt=&#34;图解分析&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
+&lt;p&gt;开源不等于免费、不等于没有商业模式、不等于没有争议，较之闭源，开源的优势在于：公开带来信任、自由带来高效、免费带来市场。越来越多开源公司的成功以及多种开源商业模式的出现也大大丰富了整个开源世界，吸引越来越多的开发者参与到开源活动中。&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Post: Kubectl Plugin 推荐（三）| 插件开发篇</title>
       <link>https://guoxudong.io/post/kubectl-plugin-recommended-3/</link>
       <pubDate>Wed, 17 Mar 2021 09:54:18 +0800</pubDate>
@@ -6889,131 +6937,6 @@ User:           user-&lt;span style=&#34;color:#3677a9&#34;&gt;485&lt;/span&gt;d
 &lt;p&gt;&lt;a href=&#34;https://www.toutiao.com/a6791254617146524173/?timestamp=1581228897&amp;amp;app=news_article&amp;amp;group_id=6791254617146524173&amp;amp;req_id=2020020914145701001203319422A09121&#34;&gt;开工在即，在办公室中如何练成“百毒不侵”？&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-
-      </description>
-    </item>
-    
-    <item>
-      <title>Post: Kubecm：管理你的 kubeconfig</title>
-      <link>https://guoxudong.io/post/kubecm/</link>
-      <pubDate>Mon, 09 Dec 2019 10:07:46 +0800</pubDate>
-      
-      <guid>https://guoxudong.io/post/kubecm/</guid>
-      <description>
-        
-        
-        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
-&lt;p&gt;该项目脱胎于 &lt;a href=&#34;https://github.com/sunny0826/mergeKubeConfig&#34;&gt;mergeKubeConfig&lt;/a&gt; 项目，最早写该项目的目的是在一堆杂乱无章的 kubeconfig 中自由的切换。随着需要操作的 Kubernetes 集群越来越多，在不同的集群之间切换也越来越麻烦，而操作 Kubernetes 集群的本质不过是通过 &lt;code&gt;kubeconfig&lt;/code&gt; 访问 Kubernetes 集群的 API Server，以操作 Kubernetes 的各种资源，而 &lt;code&gt;kubeconfig&lt;/code&gt; 不过是一个 yaml 文件，用来保存访问集群的密钥，最早的 &lt;a href=&#34;https://github.com/sunny0826/mergeKubeConfig&#34;&gt;mergeKubeConfig&lt;/a&gt; 不过是一个操作 yaml 文件的 Python 脚本。而随着 golang 学习的深入，也就动了重写这个项目的念头，就这样 &lt;a href=&#34;https://github.com/sunny0826/kubecm&#34;&gt;kubecm&lt;/a&gt; 诞生了。&lt;/p&gt;
-&lt;h2 id=&#34;kubecm&#34;&gt;kubecm&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&#34;https://github.com/sunny0826/kubecm&#34;&gt;kubecm&lt;/a&gt; 由 golang 编写，支持 &lt;code&gt;Mac&lt;/code&gt; &lt;code&gt;Linux&lt;/code&gt; 和 &lt;code&gt;windows&lt;/code&gt; 平台，&lt;code&gt;delete&lt;/code&gt; &lt;code&gt;rename&lt;/code&gt; &lt;code&gt;switch&lt;/code&gt; 提供比较实用的交互式的操作，目前的功能包括：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;add ：添加新的 &lt;code&gt;kubeconfig&lt;/code&gt; 到 &lt;code&gt;$HOME/.kube/config&lt;/code&gt; 中&lt;/li&gt;
-&lt;li&gt;completion ：命令行自动补全功能&lt;/li&gt;
-&lt;li&gt;delete：删除已有的 &lt;code&gt;context&lt;/code&gt; ，提供交互式和指定删除两种方式&lt;/li&gt;
-&lt;li&gt;merge：将指定目录中的 &lt;code&gt;kubeconfig&lt;/code&gt; 合并为一个 &lt;code&gt;kubeconfig&lt;/code&gt; 文件&lt;/li&gt;
-&lt;li&gt;rename：重名指定的 &lt;code&gt;context&lt;/code&gt;，提供交互式和指定重命名两种方式&lt;/li&gt;
-&lt;li&gt;switch：交互式切换 &lt;code&gt;context&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;安装&#34;&gt;安装&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&#34;https://github.com/sunny0826/kubecm&#34;&gt;kubecm&lt;/a&gt; 支持 &lt;code&gt;Mac&lt;/code&gt; &lt;code&gt;Linux&lt;/code&gt; 和 &lt;code&gt;windows&lt;/code&gt; 平台，安装方式也比较简单：&lt;/p&gt;
-&lt;h4 id=&#34;macos&#34;&gt;MacOS&lt;/h4&gt;
-
-
-&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
-
-使用 &lt;code&gt;brew&lt;/code&gt; 或者直接下载二进制可执行文件
-&lt;/div&gt;
-
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;brew install sunny0826/tap/kubecm
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;linux&#34;&gt;Linux&lt;/h4&gt;
-
-
-&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
-
-下载二进制可执行文件
-&lt;/div&gt;
-
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# linux x86_64&lt;/span&gt;
-curl -Lo kubecm.tar.gz https://github.com/sunny0826/kubecm/releases/download/v&lt;span style=&#34;color:#ed9d13&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#40ffff&#34;&gt;VERSION&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;}&lt;/span&gt;/kubecm_&lt;span style=&#34;color:#ed9d13&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#40ffff&#34;&gt;VERSION&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;}&lt;/span&gt;_Linux_x86_64.tar.gz
-tar -zxvf kubecm.tar.gz kubecm
-&lt;span style=&#34;color:#24909d&#34;&gt;cd&lt;/span&gt; kubecm
-sudo mv kubecm /usr/local/bin/
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;windows&#34;&gt;Windows&lt;/h4&gt;
-
-
-&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
-
-下载二进制可执行文件，并将文件移动到 &lt;code&gt;$PATH&lt;/code&gt; 中即可
-&lt;/div&gt;
-
-&lt;h2 id=&#34;命令行自动补全&#34;&gt;命令行自动补全&lt;/h2&gt;
-
-
-&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
-
-&lt;a href=&#34;https://github.com/sunny0826/kubecm&#34;&gt;kubecm&lt;/a&gt; 提供了和 &lt;a href=&#34;https://github.com/kubernetes/kubectl&#34;&gt;kubectl&lt;/a&gt; 一样的 completion 命令行自动补全功能（支持 bash/zsh）
-&lt;/div&gt;
-
-&lt;p&gt;以 &lt;code&gt;zsh&lt;/code&gt; 为例，在 &lt;code&gt;$HOME/.zshrc&lt;/code&gt; 中添加&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-vim&#34; data-lang=&#34;vim&#34;&gt;source &amp;lt;(kubecm completion zsh)&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后使用 &lt;code&gt;source&lt;/code&gt; 命令，使其生效&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-zsh&#34; data-lang=&#34;zsh&#34;&gt;&lt;span style=&#34;color:#24909d&#34;&gt;source&lt;/span&gt; &lt;span style=&#34;color:#40ffff&#34;&gt;$HOME&lt;/span&gt;/.zshrc
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;之后，在输入 &lt;code&gt;kubecm&lt;/code&gt; 后按 &lt;kbd&gt;tab&lt;/kbd&gt; 键，就可以看到命令行自动补全的内容&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g9qa0yy3bvj21co0f2hdt.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;h2 id=&#34;操作-kubeconfig&#34;&gt;操作 kubeconfig&lt;/h2&gt;
-
-
-&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
-
-&lt;a href=&#34;https://github.com/sunny0826/kubecm&#34;&gt;kubecm&lt;/a&gt; 可以实现 &lt;code&gt;kubeconfig&lt;/code&gt; 的查看、添加、删除、合并、重命名和切换
-&lt;/div&gt;
-
-&lt;h4 id=&#34;查看&#34;&gt;查看&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 查看 $HOME/.kube/config 中所有的 context&lt;/span&gt;
-kubecm
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;添加&#34;&gt;添加&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 添加 example.yaml 到 $HOME/.kube/config.yaml，该方式不会覆盖源 kubeconfig，只会在当前目录中生成一个 config.yaml 文件&lt;/span&gt;
-kubecm add -f example.yaml
-
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 功能同上，但是会将 example.yaml 中的 context 命名为 test&lt;/span&gt;
-kubecm add -f example.yaml -n &lt;span style=&#34;color:#24909d&#34;&gt;test&lt;/span&gt;
-
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 添加 -c 会覆盖源 kubeconfig&lt;/span&gt;
-kubecm add -f example.yaml -c
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;删除&#34;&gt;删除&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 交互式删除&lt;/span&gt;
-kubecm delete
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 删除指定 context&lt;/span&gt;
-kubecm delete my-context
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;合并&#34;&gt;合并&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 合并 test 目录中的 kubeconfig,该方式不会覆盖源 kubeconfig，只会在当前目录中生成一个 config.yaml 文件&lt;/span&gt;
-kubecm merge -f &lt;span style=&#34;color:#24909d&#34;&gt;test&lt;/span&gt; 
-
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 添加 -c 会覆盖源 kubeconfig&lt;/span&gt;
-kubecm merge -f &lt;span style=&#34;color:#24909d&#34;&gt;test&lt;/span&gt; -c
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;重命名&#34;&gt;重命名&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 交互式重命名&lt;/span&gt;
-kubecm rename
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 将 dev 重命名为 test&lt;/span&gt;
-kubecm rename -o dev -n &lt;span style=&#34;color:#24909d&#34;&gt;test&lt;/span&gt;
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 重命名 current-context 为 dev&lt;/span&gt;
-kubecm rename -n dev -c
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;切换默认-namespace&#34;&gt;切换默认 namespace&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 交互式切换 namespace&lt;/span&gt;
-kubecm namespace
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 或者&lt;/span&gt;
-kubecm ns
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 切换默认 namespace 为 kube-system&lt;/span&gt;
-kubecm ns kube-system
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;效果展示&#34;&gt;效果展示&lt;/h2&gt;
-&lt;p&gt;&lt;img src=&#34;Interaction.gif&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;h2 id=&#34;视频介绍&#34;&gt;视频介绍&lt;/h2&gt;
-
-&lt;div style=&#34;position: relative; width: 100%; height: 0; padding-bottom: 75%;&#34;&gt;
-    &lt;iframe src=&#34;//player.bilibili.com/player.html?aid=88259938&amp;amp;cid=150776221&amp;amp;page=1&#34; scrolling=&#34;no&#34; border=&#34;0&#34; frameborder=&#34;no&#34; framespacing=&#34;0&#34; allowfullscreen=&#34;true&#34;style=&#34;position: absolute; width: 100%; height: 100%; left: 0; top: 0;&#34;&gt; &lt;/iframe&gt;
-&lt;/div&gt;
-&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&#34;https://github.com/sunny0826/kubecm&#34;&gt;kubecm&lt;/a&gt; 项目的初衷为学习 golang 并熟悉 client-go 的使用，随着使用的深入，断断续续增加了不少功能，开发出了一个看上去还算正规的项目。总的来说都是根据自己的喜好来开发的业余项目，欢迎各位通过 &lt;a href=&#34;https://github.com/sunny0826/kubecm/issues/new&#34;&gt;ISSUE&lt;/a&gt; 来进行交流和讨论。&lt;/p&gt;
 
       </description>
     </item>
