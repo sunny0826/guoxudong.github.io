@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.68.3" />
+<meta name="generator" content="Hugo 0.79.0" />
 
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
@@ -39,10 +39,10 @@
       "accountablePerson" : "",
       "copyrightHolder" : "",
       "copyrightYear" : "2020",
-      "datePublished": "2020-08-26 09:35:23 \x2b0800 \x2b0800",
-      "dateModified" : "2020-08-26 09:35:23 \x2b0800 \x2b0800",
+      "datePublished": "2020-08-26 09:35:23 \u002b0800 \u002b0800",
+      "dateModified" : "2020-08-26 09:35:23 \u002b0800 \u002b0800",
       "url" : "https:\/\/guoxudong.io\/post\/grabana-create-grafana-dashboard\/",
-      "wordCount" : "367",
+      "wordCount" : "369",
       "keywords" : [ "grafana","Go","Guoxudong" ]
   }
   </script>
@@ -51,16 +51,17 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://guoxudong.io/post/grabana-create-grafana-dashboard/" />
 <meta property="article:published_time" content="2020-08-26T09:35:23+08:00" />
-<meta property="article:modified_time" content="2021-04-07T15:21:13+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
+<meta property="article:modified_time" content="2021-04-08T10:14:01+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
 <meta itemprop="name" content="Grabana：使用 Golang 或 Yaml 生成 Grafana Dashboard">
 <meta itemprop="description" content="使用 Golang 或 Yaml 生成 Grafana Dashboard">
-<meta itemprop="datePublished" content="2020-08-26T09:35:23&#43;08:00" />
-<meta itemprop="dateModified" content="2021-04-07T15:21:13&#43;08:00" />
-<meta itemprop="wordCount" content="367">
+<meta itemprop="datePublished" content="2020-08-26T09:35:23+08:00" />
+<meta itemprop="dateModified" content="2021-04-08T10:14:01+08:00" />
+<meta itemprop="wordCount" content="369">
 
 
 
-<meta itemprop="keywords" content="grafana,Go," /><meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="grafana,Go," />
+<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Grabana：使用 Golang 或 Yaml 生成 Grafana Dashboard"/>
 <meta name="twitter:description" content="使用 Golang 或 Yaml 生成 Grafana Dashboard"/>
 
@@ -81,8 +82,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.158d76c00fca58a52edd51f30d76fde1a20e4ce9694652e1a39f11d5b571aa9a.css" as="style">
-<link href="/scss/main.min.158d76c00fca58a52edd51f30d76fde1a20e4ce9694652e1a39f11d5b571aa9a.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.87b85a32032f5472f88e8c3732523718ef736a578cd9158953d51531ace9b185.css" as="style">
+<link href="/scss/main.min.87b85a32032f5472f88e8c3732523718ef736a578cd9158953d51531ace9b185.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -584,8 +585,8 @@ if (!doNotTrack) {
 		</span> ·
 		<span>发布于 </span><time datetime=" 2020-08-26" 
 			class="text-muted">2020年08月26日</time> ·
-		<span>最近更新于 </span><time datetime="2021-04-07"
-			class="text-muted">2021年04月07日</time> ·
+		<span>最近更新于 </span><time datetime="2021-04-08"
+			class="text-muted">2021年04月08日</time> ·
 		
 		<a href="/categories/%e5%b7%a5%e5%85%b7">
 			工具</a>
@@ -704,7 +705,7 @@ client := grabana.<span style="color:#447fcf">NewClient</span>(&amp;http.Client{
 <p>Grabana 的特别之处还在于他还提供了使用 yaml 创建 Dashboard 的方式，作为一名资深 yaml 工程师，每当看到 yaml 都会感到格外的亲切。</p>
 <p>同样的 Dashboard ，yaml 配置如下：</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#999;font-style:italic"># dashboard.yaml</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">title</span>:<span style="color:#666"> </span>Awesome<span style="color:#666"> </span>dashboard<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">title</span>:<span style="color:#666"> </span>Awesome dashboard<span style="color:#666">
 </span><span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">editable</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">true</span><span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">tags</span>:<span style="color:#666"> </span>[generated]<span style="color:#666">
@@ -720,7 +721,7 @@ client := grabana.<span style="color:#447fcf">NewClient</span>(&amp;http.Client{
 </span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>Prometheus<span style="color:#666">
 </span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">panels</span>:<span style="color:#666">
 </span><span style="color:#666">      </span>- <span style="color:#6ab825;font-weight:bold">graph</span>:<span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">title</span>:<span style="color:#666"> </span>HTTP<span style="color:#666"> </span>Rate<span style="color:#666">
+</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">title</span>:<span style="color:#666"> </span>HTTP Rate<span style="color:#666">
 </span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">height</span>:<span style="color:#666"> </span>400px<span style="color:#666">
 </span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">datasource</span>:<span style="color:#666"> </span>prometheus-default<span style="color:#666">
 </span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">targets</span>:<span style="color:#666">

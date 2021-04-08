@@ -737,10 +737,10 @@ go install
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;sudo&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;required&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;install&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- echo&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;install&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- echo &amp;#34;install&amp;#34;&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;script&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- echo&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;script&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- echo &amp;#34;script&amp;#34;&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里只是一个示例，在每次 push 代码之后，都会触发 CI，具体语法可以参看&lt;a href=&#34;https://docs.travis-ci.com/&#34;&gt;官方文档&lt;/a&gt;。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;装逼重点：&lt;/strong&gt; 你以为使用 Travis CI 就是为了持续集成吗？那就太天真了！使用 Travis CI 当然为了他的 Badges ，将 &lt;code&gt;RESULT&lt;/code&gt; 拷贝到你的 &lt;code&gt;README.md&lt;/code&gt; 里面就好了。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://ws2.sinaimg.cn/large/ad5fbf65gy1g558xf6io4j22dk15an4t.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;

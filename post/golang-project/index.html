@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.68.3" />
+<meta name="generator" content="Hugo 0.79.0" />
 
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
@@ -39,10 +39,10 @@
       "accountablePerson" : "",
       "copyrightHolder" : "",
       "copyrightYear" : "2019",
-      "datePublished": "2019-07-19 10:38:26 \x2b0800 \x2b0800",
-      "dateModified" : "2019-07-19 10:38:26 \x2b0800 \x2b0800",
+      "datePublished": "2019-07-19 10:38:26 \u002b0800 \u002b0800",
+      "dateModified" : "2019-07-19 10:38:26 \u002b0800 \u002b0800",
       "url" : "https:\/\/guoxudong.io\/post\/golang-project\/",
-      "wordCount" : "346",
+      "wordCount" : "348",
       "keywords" : [ "go","Guoxudong" ]
   }
   </script>
@@ -51,16 +51,17 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://guoxudong.io/post/golang-project/" />
 <meta property="article:published_time" content="2019-07-19T10:38:26+08:00" />
-<meta property="article:modified_time" content="2021-04-07T15:21:13+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
+<meta property="article:modified_time" content="2021-04-08T10:14:01+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
 <meta itemprop="name" content="Golang 装逼指南：在 GitHub 上构建一个看上去正规的 Golang 项目">
 <meta itemprop="description" content="接触 golang 时间很长，但是真正动手开始写 golang 也就是在最近。跟着我在 GitHub 上构建一个看上去正规的 Golang 项目。">
-<meta itemprop="datePublished" content="2019-07-19T10:38:26&#43;08:00" />
-<meta itemprop="dateModified" content="2021-04-07T15:21:13&#43;08:00" />
-<meta itemprop="wordCount" content="346">
+<meta itemprop="datePublished" content="2019-07-19T10:38:26+08:00" />
+<meta itemprop="dateModified" content="2021-04-08T10:14:01+08:00" />
+<meta itemprop="wordCount" content="348">
 
 
 
-<meta itemprop="keywords" content="go," /><meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="go," />
+<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Golang 装逼指南：在 GitHub 上构建一个看上去正规的 Golang 项目"/>
 <meta name="twitter:description" content="接触 golang 时间很长，但是真正动手开始写 golang 也就是在最近。跟着我在 GitHub 上构建一个看上去正规的 Golang 项目。"/>
 
@@ -81,8 +82,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.158d76c00fca58a52edd51f30d76fde1a20e4ce9694652e1a39f11d5b571aa9a.css" as="style">
-<link href="/scss/main.min.158d76c00fca58a52edd51f30d76fde1a20e4ce9694652e1a39f11d5b571aa9a.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.87b85a32032f5472f88e8c3732523718ef736a578cd9158953d51531ace9b185.css" as="style">
+<link href="/scss/main.min.87b85a32032f5472f88e8c3732523718ef736a578cd9158953d51531ace9b185.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -573,8 +574,8 @@ if (!doNotTrack) {
 		</span> ·
 		<span>发布于 </span><time datetime=" 2019-07-19" 
 			class="text-muted">2019年07月19日</time> ·
-		<span>最近更新于 </span><time datetime="2021-04-07"
-			class="text-muted">2021年04月07日</time> ·
+		<span>最近更新于 </span><time datetime="2021-04-08"
+			class="text-muted">2021年04月08日</time> ·
 		
 		<a href="/categories/go">
 			Go</a>
@@ -710,10 +711,10 @@ go install
 </span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">sudo</span>:<span style="color:#666"> </span>required<span style="color:#666">
 </span><span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">install</span>:<span style="color:#666">
-</span><span style="color:#666">  </span>- echo<span style="color:#666"> </span><span style="color:#ed9d13">&#34;install&#34;</span><span style="color:#666">
+</span><span style="color:#666">  </span>- echo &#34;install&#34;<span style="color:#666">
 </span><span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">script</span>:<span style="color:#666">
-</span><span style="color:#666">  </span>- echo<span style="color:#666"> </span><span style="color:#ed9d13">&#34;script&#34;</span><span style="color:#666">
+</span><span style="color:#666">  </span>- echo &#34;script&#34;<span style="color:#666">
 </span></code></pre></div><p>这里只是一个示例，在每次 push 代码之后，都会触发 CI，具体语法可以参看<a href="https://docs.travis-ci.com/">官方文档</a>。</p>
 <p><strong>装逼重点：</strong> 你以为使用 Travis CI 就是为了持续集成吗？那就太天真了！使用 Travis CI 当然为了他的 Badges ，将 <code>RESULT</code> 拷贝到你的 <code>README.md</code> 里面就好了。</p>
 <p><img src="https://ws2.sinaimg.cn/large/ad5fbf65gy1g558xf6io4j22dk15an4t.jpg" alt="image"></p>

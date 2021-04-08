@@ -248,7 +248,7 @@ http:
 &lt;/blockquote&gt;
 &lt;h2 id=&#34;service-mesh是什么&#34;&gt;Service mesh是什么&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;Service mesh&lt;/code&gt; 又译作 “服务网格”，作为服务间通信的基础设施层。随着规模和复杂性的增长，服务网格越来越难以理解和管理。它的需求包括服务发现、负载均衡、故障恢复、指标收集和监控以及通常更加复杂的运维需求，例如 A/B 测试、金丝雀发布、限流、访问控制和端到端认证等。它负责通过包含现代云原生应用程序的复杂服务拓扑来可靠地传递请求。实际上，服务网格通常通过一组轻量级网络代理来实现，这些代理与应用程序代码一起部署，而不需要感知应用程序本身。&lt;/p&gt;
-&lt;p&gt;**这里注意：**&lt;code&gt;istio&lt;/code&gt;只是&lt;code&gt;Service mesh&lt;/code&gt;服务网格的一种。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;这里注意：&lt;/strong&gt;&lt;code&gt;istio&lt;/code&gt;只是&lt;code&gt;Service mesh&lt;/code&gt;服务网格的一种。&lt;/p&gt;
 &lt;h3 id=&#34;服务网格的特点&#34;&gt;服务网格的特点&lt;/h3&gt;
 &lt;p&gt;服务网格有如下几个特点：&lt;/p&gt;
 &lt;ul&gt;

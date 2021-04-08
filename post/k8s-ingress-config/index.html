@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.68.3" />
+<meta name="generator" content="Hugo 0.79.0" />
 
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
@@ -39,8 +39,8 @@
       "accountablePerson" : "",
       "copyrightHolder" : "",
       "copyrightYear" : "2019",
-      "datePublished": "2019-03-06 14:42:05 \x2b0800 \x2b0800",
-      "dateModified" : "2019-03-06 14:42:05 \x2b0800 \x2b0800",
+      "datePublished": "2019-03-06 14:42:05 \u002b0800 \u002b0800",
+      "dateModified" : "2019-03-06 14:42:05 \u002b0800 \u002b0800",
       "url" : "https:\/\/guoxudong.io\/post\/k8s-ingress-config\/",
       "wordCount" : "203",
       "keywords" : [ "kubernetes","容器","Guoxudong" ]
@@ -51,16 +51,17 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://guoxudong.io/post/k8s-ingress-config/" />
 <meta property="article:published_time" content="2019-03-06T14:42:05+08:00" />
-<meta property="article:modified_time" content="2021-04-07T15:21:13+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
+<meta property="article:modified_time" content="2021-04-08T10:14:01+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
 <meta itemprop="name" content="解决kubernetes中ingress-nginx配置问题">
 <meta itemprop="description" content="随着公司容器化的深入，越来越多的服务陆续迁移到kubernetes集群中，有些问题在测试环境并未凸显，但是在生产环境中这些问题就显得格外的扎眼。这里就对实践中kubernetes集群中的7层负载均衡器ingress遇到的问题进行总结。">
-<meta itemprop="datePublished" content="2019-03-06T14:42:05&#43;08:00" />
-<meta itemprop="dateModified" content="2021-04-07T15:21:13&#43;08:00" />
+<meta itemprop="datePublished" content="2019-03-06T14:42:05+08:00" />
+<meta itemprop="dateModified" content="2021-04-08T10:14:01+08:00" />
 <meta itemprop="wordCount" content="203">
 
 
 
-<meta itemprop="keywords" content="kubernetes,容器," /><meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="kubernetes,容器," />
+<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="解决kubernetes中ingress-nginx配置问题"/>
 <meta name="twitter:description" content="随着公司容器化的深入，越来越多的服务陆续迁移到kubernetes集群中，有些问题在测试环境并未凸显，但是在生产环境中这些问题就显得格外的扎眼。这里就对实践中kubernetes集群中的7层负载均衡器ingress遇到的问题进行总结。"/>
 
@@ -81,8 +82,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.158d76c00fca58a52edd51f30d76fde1a20e4ce9694652e1a39f11d5b571aa9a.css" as="style">
-<link href="/scss/main.min.158d76c00fca58a52edd51f30d76fde1a20e4ce9694652e1a39f11d5b571aa9a.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.87b85a32032f5472f88e8c3732523718ef736a578cd9158953d51531ace9b185.css" as="style">
+<link href="/scss/main.min.87b85a32032f5472f88e8c3732523718ef736a578cd9158953d51531ace9b185.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -221,7 +222,7 @@ if (!doNotTrack) {
     </li>
     <li><a href="#preview_only-false">image:
 caption: &ldquo;Image from: <a href="https://www.pexels.com"><strong>Pexels</strong></a>&rdquo;
-focal_point: &quot;&rdquo;
+focal_point: &quot;&quot;
 preview_only: false</a>
       <ul>
         <li></li>
@@ -229,11 +230,11 @@ preview_only: false</a>
     </li>
     <li><a href="#preview_only-false-1">image:
 caption: &ldquo;Image from: <a href="https://www.pexels.com"><strong>Pexels</strong></a>&rdquo;
-focal_point: &quot;&rdquo;
+focal_point: &quot;&quot;
 preview_only: false</a></li>
     <li><a href="#preview_only-false-2">image:
 caption: &ldquo;Image from: <a href="https://www.pexels.com"><strong>Pexels</strong></a>&rdquo;
-focal_point: &quot;&rdquo;
+focal_point: &quot;&quot;
 preview_only: false</a>
       <ul>
         <li><a href="#2-解决请求超时问题">2. 解决请求超时问题</a></li>
@@ -242,7 +243,7 @@ preview_only: false</a>
     </li>
     <li><a href="#preview_only-false-3">image:
 caption: &ldquo;Image from: <a href="https://www.pexels.com"><strong>Pexels</strong></a>&rdquo;
-focal_point: &quot;&rdquo;
+focal_point: &quot;&quot;
 preview_only: false</a></li>
     <li><a href="#总结">总结</a></li>
   </ul>
@@ -611,8 +612,8 @@ preview_only: false</a></li>
 		</span> ·
 		<span>发布于 </span><time datetime=" 2019-03-06" 
 			class="text-muted">2019年03月06日</time> ·
-		<span>最近更新于 </span><time datetime="2021-04-07"
-			class="text-muted">2021年04月07日</time> ·
+		<span>最近更新于 </span><time datetime="2021-04-08"
+			class="text-muted">2021年04月08日</time> ·
 		
 		<a href="/categories/kubernetes">
 			Kubernetes</a>
@@ -683,7 +684,7 @@ preview_only: false</a></li>
 <h3 id="1-解决400-request-header-or-cookie-too-large问题">1. 解决400 Request Header Or Cookie Too Large问题</h3>
 <h2 id="preview_only-false">image:
 caption: &ldquo;Image from: <a href="https://www.pexels.com"><strong>Pexels</strong></a>&rdquo;
-focal_point: &quot;&rdquo;
+focal_point: &quot;&quot;
 preview_only: false</h2>
 <h4 id="现象">现象</h4>
 <p>微信小程序需要调用后端接口，需要在header中传一段很长的token参数，直接使用浏览器访问该端口可以访问通，但是在加上token访问之后，会报“400 Request Header Or Cookie Too Large”</p>
@@ -711,13 +712,13 @@ $ cat nginx.conf | grep large_client_header_buffers
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nginx" data-lang="nginx"><span style="color:#6ab825;font-weight:bold">nginx.ingress.kubernetes.io/server-snippet:</span> <span style="color:#ed9d13">client_header_buffer_size</span> <span style="color:#3677a9">2046k</span>;
 </code></pre></div><h2 id="preview_only-false-1">image:
 caption: &ldquo;Image from: <a href="https://www.pexels.com"><strong>Pexels</strong></a>&rdquo;
-focal_point: &quot;&rdquo;
+focal_point: &quot;&quot;
 preview_only: false</h2>
 <p><strong>Server snippet</strong><br>Using the annotation <code>nginx.ingress.kubernetes.io/server-snippet</code> it is possible to add custom configuration in the server configuration block.
 <br>该注释是将自定义配置加入nginx的server配置中</p>
 <h2 id="preview_only-false-2">image:
 caption: &ldquo;Image from: <a href="https://www.pexels.com"><strong>Pexels</strong></a>&rdquo;
-focal_point: &quot;&rdquo;
+focal_point: &quot;&quot;
 preview_only: false</h2>
 <h3 id="2-解决请求超时问题">2. 解决请求超时问题</h3>
 <h4 id="现象-1">现象</h4>
@@ -745,7 +746,7 @@ preview_only: false</h2>
 </code></pre></div><p>如果想全局适用，可以在阿里云 SLB 里操作，也可以将该配置加入到 <code>NGINX ConfigMap</code> 中。</p>
 <h2 id="preview_only-false-3">image:
 caption: &ldquo;Image from: <a href="https://www.pexels.com"><strong>Pexels</strong></a>&rdquo;
-focal_point: &quot;&rdquo;
+focal_point: &quot;&quot;
 preview_only: false</h2>
 <p>根据工作中遇到的实际问题，持续更新中&hellip;</p>
 <h2 id="总结">总结</h2>

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.68.3" />
+<meta name="generator" content="Hugo 0.79.0" />
 
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
@@ -39,10 +39,10 @@
       "accountablePerson" : "",
       "copyrightHolder" : "",
       "copyrightYear" : "2018",
-      "datePublished": "2018-08-14 20:07:03 \x2b0800 \x2b0800",
-      "dateModified" : "2018-08-14 20:07:03 \x2b0800 \x2b0800",
+      "datePublished": "2018-08-14 20:07:03 \u002b0800 \u002b0800",
+      "dateModified" : "2018-08-14 20:07:03 \u002b0800 \u002b0800",
       "url" : "https:\/\/guoxudong.io\/post\/install-k8s\/",
-      "wordCount" : "1193",
+      "wordCount" : "1203",
       "keywords" : [ "容器","kubernetes","Guoxudong" ]
   }
   </script>
@@ -51,16 +51,17 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://guoxudong.io/post/install-k8s/" />
 <meta property="article:published_time" content="2018-08-14T20:07:03+08:00" />
-<meta property="article:modified_time" content="2021-04-07T15:21:13+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
+<meta property="article:modified_time" content="2021-04-08T10:14:01+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
 <meta itemprop="name" content="centos7.2 安装k8s v1.11.0">
 <meta itemprop="description" content="最近由于公司业务发展到了瓶颈，原有的技术架构已经逐渐无法满足业务开发和测试的需求，出现了应用测试环境搭建复杂，有许多套（真的很多很多）应用环境，应用在持续集成/持续交付也遇到了很大的困难，经过讨论研究决定对应用和微服务进行容器化，这就是我首次直面docker和k8s的契机。">
-<meta itemprop="datePublished" content="2018-08-14T20:07:03&#43;08:00" />
-<meta itemprop="dateModified" content="2021-04-07T15:21:13&#43;08:00" />
-<meta itemprop="wordCount" content="1193">
+<meta itemprop="datePublished" content="2018-08-14T20:07:03+08:00" />
+<meta itemprop="dateModified" content="2021-04-08T10:14:01+08:00" />
+<meta itemprop="wordCount" content="1203">
 
 
 
-<meta itemprop="keywords" content="容器,kubernetes," /><meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="容器,kubernetes," />
+<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="centos7.2 安装k8s v1.11.0"/>
 <meta name="twitter:description" content="最近由于公司业务发展到了瓶颈，原有的技术架构已经逐渐无法满足业务开发和测试的需求，出现了应用测试环境搭建复杂，有许多套（真的很多很多）应用环境，应用在持续集成/持续交付也遇到了很大的困难，经过讨论研究决定对应用和微服务进行容器化，这就是我首次直面docker和k8s的契机。"/>
 
@@ -81,8 +82,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.158d76c00fca58a52edd51f30d76fde1a20e4ce9694652e1a39f11d5b571aa9a.css" as="style">
-<link href="/scss/main.min.158d76c00fca58a52edd51f30d76fde1a20e4ce9694652e1a39f11d5b571aa9a.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.87b85a32032f5472f88e8c3732523718ef736a578cd9158953d51531ace9b185.css" as="style">
+<link href="/scss/main.min.87b85a32032f5472f88e8c3732523718ef736a578cd9158953d51531ace9b185.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -563,8 +564,8 @@ if (!doNotTrack) {
 		</span> ·
 		<span>发布于 </span><time datetime=" 2018-08-14" 
 			class="text-muted">2018年08月14日</time> ·
-		<span>最近更新于 </span><time datetime="2021-04-07"
-			class="text-muted">2021年04月07日</time> ·
+		<span>最近更新于 </span><time datetime="2021-04-08"
+			class="text-muted">2021年04月08日</time> ·
 		
 		<a href="/categories/%e9%83%a8%e7%bd%b2%e5%ae%89%e8%a3%85">
 			部署安装</a>
@@ -821,7 +822,7 @@ cat <span style="color:#ed9d13">&lt;&lt;EOF&gt; /run/flannel/subnet.env
 </span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">caption</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;Image from: [**Pexels**](https://www.pexels.com)&#34;</span><span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">focal_point</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;&#34;</span><span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">preview_only</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
-</span><span style="color:#666"></span>---<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#447fcf;text-decoration:underline">---</span><span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ClusterRole<span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>rbac.authorization.k8s.io/v1beta1<span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
@@ -850,7 +851,7 @@ cat <span style="color:#ed9d13">&lt;&lt;EOF&gt; /run/flannel/subnet.env
 </span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">caption</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;Image from: [**Pexels**](https://www.pexels.com)&#34;</span><span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">focal_point</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;&#34;</span><span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">preview_only</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
-</span><span style="color:#666"></span>---<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#447fcf;text-decoration:underline">---</span><span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ClusterRoleBinding<span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>rbac.authorization.k8s.io/v1beta1<span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
@@ -867,7 +868,7 @@ cat <span style="color:#ed9d13">&lt;&lt;EOF&gt; /run/flannel/subnet.env
 </span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">caption</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;Image from: [**Pexels**](https://www.pexels.com)&#34;</span><span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">focal_point</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;&#34;</span><span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">preview_only</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
-</span><span style="color:#666"></span>---<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#447fcf;text-decoration:underline">---</span><span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>v1<span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ServiceAccount<span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
@@ -877,7 +878,7 @@ cat <span style="color:#ed9d13">&lt;&lt;EOF&gt; /run/flannel/subnet.env
 </span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">caption</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;Image from: [**Pexels**](https://www.pexels.com)&#34;</span><span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">focal_point</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;&#34;</span><span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">preview_only</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
-</span><span style="color:#666"></span>---<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#447fcf;text-decoration:underline">---</span><span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ConfigMap<span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>v1<span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
@@ -887,26 +888,26 @@ cat <span style="color:#ed9d13">&lt;&lt;EOF&gt; /run/flannel/subnet.env
 </span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">tier</span>:<span style="color:#666"> </span>node<span style="color:#666">
 </span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">app</span>:<span style="color:#666"> </span>flannel<span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">data</span>:<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">cni-conf.json</span>:<span style="color:#666"> </span><span style="color:#ed9d13">|
-</span><span style="color:#ed9d13">    {</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">&#34;name&#34;: </span><span style="color:#ed9d13">&#34;cbr0&#34;</span>,<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">&#34;type&#34;: </span><span style="color:#ed9d13">&#34;flannel&#34;</span>,<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">&#34;delegate&#34;: </span>{<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">&#34;isDefaultGateway&#34;: </span><span style="color:#6ab825;font-weight:bold">true</span><span style="color:#666">
-</span><span style="color:#666">    </span>}<span style="color:#666">
-</span><span style="color:#666">    </span>}<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">net-conf.json</span>:<span style="color:#666"> </span><span style="color:#ed9d13">|
-</span><span style="color:#ed9d13">    {</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">&#34;Network&#34;: </span><span style="color:#ed9d13">&#34;10.10.0.0/16&#34;</span>,<span style="color:#666">    </span><span style="color:#999;font-style:italic">#这里换成集群所在的网段</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">&#34;Backend&#34;: </span>{<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">&#34;Type&#34;: </span><span style="color:#ed9d13">&#34;vxlan&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>}<span style="color:#666">
-</span><span style="color:#666">    </span>}<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">cni-conf.json</span>:<span style="color:#666"> </span>|<span style="color:#ed9d13">
+</span><span style="color:#ed9d13">    {
+</span><span style="color:#ed9d13">    &#34;name&#34;: &#34;cbr0&#34;,
+</span><span style="color:#ed9d13">    &#34;type&#34;: &#34;flannel&#34;,
+</span><span style="color:#ed9d13">    &#34;delegate&#34;: {
+</span><span style="color:#ed9d13">        &#34;isDefaultGateway&#34;: true
+</span><span style="color:#ed9d13">    }
+</span><span style="color:#ed9d13">    }</span><span style="color:#666">    
+</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">net-conf.json</span>:<span style="color:#666"> </span>|<span style="color:#ed9d13">
+</span><span style="color:#ed9d13">    {
+</span><span style="color:#ed9d13">    &#34;Network&#34;: &#34;10.10.0.0/16&#34;,    #这里换成集群所在的网段
+</span><span style="color:#ed9d13">    &#34;Backend&#34;: {
+</span><span style="color:#ed9d13">        &#34;Type&#34;: &#34;vxlan&#34;
+</span><span style="color:#ed9d13">    }
+</span><span style="color:#ed9d13">    }</span><span style="color:#666">    
 </span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">caption</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;Image from: [**Pexels**](https://www.pexels.com)&#34;</span><span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">focal_point</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;&#34;</span><span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">preview_only</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
-</span><span style="color:#666"></span>---<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#447fcf;text-decoration:underline">---</span><span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>extensions/v1beta1<span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>DaemonSet<span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
@@ -932,13 +933,13 @@ cat <span style="color:#ed9d13">&lt;&lt;EOF&gt; /run/flannel/subnet.env
 </span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">serviceAccountName</span>:<span style="color:#666"> </span>flannel<span style="color:#666">
 </span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">initContainers</span>:<span style="color:#666">
 </span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>install-cni<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666"> </span>quay.io/coreos/flannel:v0<span style="color:#3677a9">.9.1</span>-amd64<span style="color:#666">
+</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666"> </span>quay.io/coreos/flannel:v0.9.1-amd64<span style="color:#666">
 </span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">command</span>:<span style="color:#666">
 </span><span style="color:#666">        </span>- cp<span style="color:#666">
 </span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">args</span>:<span style="color:#666">
 </span><span style="color:#666">        </span>- -f<span style="color:#666">
 </span><span style="color:#666">        </span>- /etc/kube-flannel/cni-conf.json<span style="color:#666">
-</span><span style="color:#666">        </span>- /etc/cni/net.d/<span style="color:#3677a9">10</span>-flannel.conf<span style="color:#666">
+</span><span style="color:#666">        </span>- /etc/cni/net.d/10-flannel.conf<span style="color:#666">
 </span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">volumeMounts</span>:<span style="color:#666">
 </span><span style="color:#666">        </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>cni<span style="color:#666">
 </span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">mountPath</span>:<span style="color:#666"> </span>/etc/cni/net.d<span style="color:#666">
@@ -946,7 +947,7 @@ cat <span style="color:#ed9d13">&lt;&lt;EOF&gt; /run/flannel/subnet.env
 </span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">mountPath</span>:<span style="color:#666"> </span>/etc/kube-flannel/<span style="color:#666">
 </span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">containers</span>:<span style="color:#666">
 </span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>kube-flannel<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666"> </span>quay.io/coreos/flannel:v0<span style="color:#3677a9">.9.1</span>-amd64<span style="color:#666">
+</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666"> </span>quay.io/coreos/flannel:v0.9.1-amd64<span style="color:#666">
 </span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">command</span>:<span style="color:#666"> </span>[<span style="color:#666"> </span><span style="color:#ed9d13">&#34;/opt/bin/flanneld&#34;</span>,<span style="color:#666"> </span><span style="color:#ed9d13">&#34;--ip-masq&#34;</span>,<span style="color:#666"> </span><span style="color:#ed9d13">&#34;--kube-subnet-mgr&#34;</span><span style="color:#666"> </span>]<span style="color:#666">
 </span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">securityContext</span>:<span style="color:#666">
 </span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">privileged</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">true</span><span style="color:#666">

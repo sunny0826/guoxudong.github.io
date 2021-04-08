@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.68.3" />
+<meta name="generator" content="Hugo 0.79.0" />
 
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
@@ -39,10 +39,10 @@
       "accountablePerson" : "",
       "copyrightHolder" : "",
       "copyrightYear" : "2019",
-      "datePublished": "2019-05-21 08:59:00 \x2b0800 \x2b0800",
-      "dateModified" : "2019-05-21 08:59:00 \x2b0800 \x2b0800",
+      "datePublished": "2019-05-21 08:59:00 \u002b0800 \u002b0800",
+      "dateModified" : "2019-05-21 08:59:00 \u002b0800 \u002b0800",
       "url" : "https:\/\/guoxudong.io\/post\/drone-ci\/",
-      "wordCount" : "376",
+      "wordCount" : "389",
       "keywords" : [ "devops","drone","工具","Guoxudong" ]
   }
   </script>
@@ -51,16 +51,17 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://guoxudong.io/post/drone-ci/" />
 <meta property="article:published_time" content="2019-05-21T08:59:00+08:00" />
-<meta property="article:modified_time" content="2021-04-07T15:21:13+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
+<meta property="article:modified_time" content="2021-04-08T10:14:01+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
 <meta itemprop="name" content="轻量快速的 CI 工具 Drone">
 <meta itemprop="description" content="本文介绍一款轻量级的 CI 工具 Drone ，同时也介绍在实践中遇到的一些坑，帮助你快速搭建持续集成流水线。">
-<meta itemprop="datePublished" content="2019-05-21T08:59:00&#43;08:00" />
-<meta itemprop="dateModified" content="2021-04-07T15:21:13&#43;08:00" />
-<meta itemprop="wordCount" content="376">
+<meta itemprop="datePublished" content="2019-05-21T08:59:00+08:00" />
+<meta itemprop="dateModified" content="2021-04-08T10:14:01+08:00" />
+<meta itemprop="wordCount" content="389">
 
 
 
-<meta itemprop="keywords" content="devops,drone,工具," /><meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="devops,drone,工具," />
+<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="轻量快速的 CI 工具 Drone"/>
 <meta name="twitter:description" content="本文介绍一款轻量级的 CI 工具 Drone ，同时也介绍在实践中遇到的一些坑，帮助你快速搭建持续集成流水线。"/>
 
@@ -81,8 +82,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.158d76c00fca58a52edd51f30d76fde1a20e4ce9694652e1a39f11d5b571aa9a.css" as="style">
-<link href="/scss/main.min.158d76c00fca58a52edd51f30d76fde1a20e4ce9694652e1a39f11d5b571aa9a.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.87b85a32032f5472f88e8c3732523718ef736a578cd9158953d51531ace9b185.css" as="style">
+<link href="/scss/main.min.87b85a32032f5472f88e8c3732523718ef736a578cd9158953d51531ace9b185.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -585,8 +586,8 @@ if (!doNotTrack) {
 		</span> ·
 		<span>发布于 </span><time datetime=" 2019-05-21" 
 			class="text-muted">2019年05月21日</time> ·
-		<span>最近更新于 </span><time datetime="2021-04-07"
-			class="text-muted">2021年04月07日</time> ·
+		<span>最近更新于 </span><time datetime="2021-04-08"
+			class="text-muted">2021年04月08日</time> ·
 		
 		<a href="/categories/devops">
 			Devops</a>
@@ -751,14 +752,14 @@ if (!doNotTrack) {
 </span><span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">steps</span>:<span style="color:#666">
 </span><span style="color:#666"></span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>Maven编译<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666"> </span>maven:<span style="color:#3677a9">3</span>-jdk<span style="color:#3677a9">-7</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666"> </span>maven:3-jdk-7<span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">volumes</span>:<span style="color:#666">
 </span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>cache<span style="color:#666">
 </span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">path</span>:<span style="color:#666"> </span>/root/.m2<span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">commands</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- mvn<span style="color:#666"> </span>clean<span style="color:#666"> </span>install<span style="color:#666">
+</span><span style="color:#666">    </span>- mvn clean install<span style="color:#666">
 </span><span style="color:#666">
-</span><span style="color:#666"></span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>构建镜像<span style="color:#666">  
+</span><span style="color:#666"></span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>构建镜像  <span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666"> </span>plugins/docker<span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">volumes</span>:<span style="color:#666">
 </span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>docker<span style="color:#666">
@@ -772,17 +773,17 @@ if (!doNotTrack) {
 </span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">registry</span>:<span style="color:#666"> </span>{your-registry}<span style="color:#666">
 </span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">tags</span>:<span style="color:#666"> </span>${DRONE_BUILD_NUMBER}<span style="color:#666">
 </span><span style="color:#666">
-</span><span style="color:#666"></span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>Kubernetes<span style="color:#666"> </span>部署<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666"> </span>guoxudongdocker/kubectl:v1<span style="color:#3677a9">.14.1</span><span style="color:#666"> 
+</span><span style="color:#666"></span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>Kubernetes 部署<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666"> </span>guoxudongdocker/kubectl:v1.14.1 <span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">volumes</span>:<span style="color:#666">
 </span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>kube<span style="color:#666">
 </span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">path</span>:<span style="color:#666"> </span>/root/.kube<span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">commands</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- sed<span style="color:#666"> </span>-i<span style="color:#666"> </span><span style="color:#ed9d13">&#34;s/#Tag/${DRONE_BUILD_NUMBER}/g&#34;</span><span style="color:#666"> </span>deployment.yaml<span style="color:#666">
-</span><span style="color:#666">    </span>- kubectl<span style="color:#666"> </span>apply<span style="color:#666"> </span>-f<span style="color:#666"> </span>deployment.yaml<span style="color:#666">
+</span><span style="color:#666">    </span>- sed -i &#34;s/#Tag/${DRONE_BUILD_NUMBER}/g&#34; deployment.yaml<span style="color:#666">
+</span><span style="color:#666">    </span>- kubectl apply -f deployment.yaml<span style="color:#666">
 </span><span style="color:#666">
 </span><span style="color:#666"></span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>钉钉通知<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666"> </span>guoxudongdocker/drone-dingtalk<span style="color:#666"> 
+</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666"> </span>guoxudongdocker/drone-dingtalk <span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">settings</span>:<span style="color:#666">
 </span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">token</span>:<span style="color:#666"> 
 </span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">from_secret</span>:<span style="color:#666"> </span>dingding<span style="color:#666">
@@ -791,7 +792,7 @@ if (!doNotTrack) {
 </span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">message_pic</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">true</span><span style="color:#666">
 </span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">sha_link</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">true</span><span style="color:#666">
 </span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">when</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">status</span>:<span style="color:#666"> </span>[failure,<span style="color:#666"> </span>success]<span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">status</span>:<span style="color:#666"> </span>[failure, success]<span style="color:#666">
 </span><span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">volumes</span>:<span style="color:#666">
 </span><span style="color:#666"></span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>cache<span style="color:#666">

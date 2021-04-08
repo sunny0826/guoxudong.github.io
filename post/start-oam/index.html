@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.68.3" />
+<meta name="generator" content="Hugo 0.79.0" />
 
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
@@ -39,10 +39,10 @@
       "accountablePerson" : "",
       "copyrightHolder" : "",
       "copyrightYear" : "2020",
-      "datePublished": "2020-06-28 14:53:23 \x2b0800 \x2b0800",
-      "dateModified" : "2020-06-28 14:53:23 \x2b0800 \x2b0800",
+      "datePublished": "2020-06-28 14:53:23 \u002b0800 \u002b0800",
+      "dateModified" : "2020-06-28 14:53:23 \u002b0800 \u002b0800",
       "url" : "https:\/\/guoxudong.io\/post\/start-oam\/",
-      "wordCount" : "544",
+      "wordCount" : "546",
       "keywords" : [ "OAM","kubernetes","Guoxudong" ]
   }
   </script>
@@ -51,16 +51,17 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://guoxudong.io/post/start-oam/" />
 <meta property="article:published_time" content="2020-06-28T14:53:23+08:00" />
-<meta property="article:modified_time" content="2021-04-07T15:21:13+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
+<meta property="article:modified_time" content="2021-04-08T10:14:01+08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
 <meta itemprop="name" content="以应用为中心：开放应用模型（OAM）初探">
 <meta itemprop="description" content="本文通过一个简单的示例，介绍开放应用模型（OAM）是如何实现以应用为中心，管理 Kubernetes 的。">
-<meta itemprop="datePublished" content="2020-06-28T14:53:23&#43;08:00" />
-<meta itemprop="dateModified" content="2021-04-07T15:21:13&#43;08:00" />
-<meta itemprop="wordCount" content="544">
+<meta itemprop="datePublished" content="2020-06-28T14:53:23+08:00" />
+<meta itemprop="dateModified" content="2021-04-08T10:14:01+08:00" />
+<meta itemprop="wordCount" content="546">
 
 
 
-<meta itemprop="keywords" content="OAM,kubernetes," /><meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="OAM,kubernetes," />
+<meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="以应用为中心：开放应用模型（OAM）初探"/>
 <meta name="twitter:description" content="本文通过一个简单的示例，介绍开放应用模型（OAM）是如何实现以应用为中心，管理 Kubernetes 的。"/>
 
@@ -81,8 +82,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.158d76c00fca58a52edd51f30d76fde1a20e4ce9694652e1a39f11d5b571aa9a.css" as="style">
-<link href="/scss/main.min.158d76c00fca58a52edd51f30d76fde1a20e4ce9694652e1a39f11d5b571aa9a.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.87b85a32032f5472f88e8c3732523718ef736a578cd9158953d51531ace9b185.css" as="style">
+<link href="/scss/main.min.87b85a32032f5472f88e8c3732523718ef736a578cd9158953d51531ace9b185.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -596,8 +597,8 @@ if (!doNotTrack) {
 		</span> ·
 		<span>发布于 </span><time datetime=" 2020-06-28" 
 			class="text-muted">2020年06月28日</time> ·
-		<span>最近更新于 </span><time datetime="2021-04-07"
-			class="text-muted">2021年04月07日</time> ·
+		<span>最近更新于 </span><time datetime="2021-04-08"
+			class="text-muted">2021年04月08日</time> ·
 		
 		<a href="/categories/oam">
 			OAM</a>
@@ -734,7 +735,7 @@ I0629 11:15:22.035708     <span style="color:#3677a9">802</span> request.go:621]
 </span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">verbs</span>:<span style="color:#666">
 </span><span style="color:#666">  </span>- <span style="color:#ed9d13">&#34;*&#34;</span><span style="color:#666">
 </span><span style="color:#666">
-</span><span style="color:#666"></span>---<span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#447fcf;text-decoration:underline">---</span><span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>rbac.authorization.k8s.io/v1<span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ClusterRoleBinding<span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
@@ -745,8 +746,8 @@ I0629 11:15:22.035708     <span style="color:#3677a9">802</span> request.go:621]
 </span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>deployment-clusterrole-poc<span style="color:#666">
 </span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">subjects</span>:<span style="color:#666">
 </span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ServiceAccount<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>crossplane-oam<span style="color:#666">              </span><span style="color:#999;font-style:italic"># Remember to use the actual ServiceAccount name</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">namespace</span>:<span style="color:#666"> </span>oam-system<span style="color:#666">             </span><span style="color:#999;font-style:italic"># Remember to use the actual ServiceAccount namespace</span><span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>crossplane-oam             <span style="color:#666"> </span><span style="color:#999;font-style:italic"># Remember to use the actual ServiceAccount name</span><span style="color:#666">
+</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">namespace</span>:<span style="color:#666"> </span>oam-system            <span style="color:#666"> </span><span style="color:#999;font-style:italic"># Remember to use the actual ServiceAccount namespace</span><span style="color:#666">
 </span><span style="color:#666">
 </span></code></pre></div><h4 id="部署-component">部署 Component</h4>
 <p>使用 <code>kubectl apply -f sample_component.yaml </code> 命令部署 Component，该 Component 中的 workload 为 Deployment。</p>
@@ -771,7 +772,7 @@ I0629 11:15:22.035708     <span style="color:#3677a9">802</span> request.go:621]
 </span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
 </span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">containers</span>:<span style="color:#666">
 </span><span style="color:#666">            </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>nginx<span style="color:#666">
-</span><span style="color:#666">              </span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666"> </span>nginx:<span style="color:#3677a9">1.17</span><span style="color:#666">
+</span><span style="color:#666">              </span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666"> </span>nginx:1.17<span style="color:#666">
 </span><span style="color:#666">              </span><span style="color:#6ab825;font-weight:bold">ports</span>:<span style="color:#666">
 </span><span style="color:#666">                </span>- <span style="color:#6ab825;font-weight:bold">containerPort</span>:<span style="color:#666"> </span><span style="color:#3677a9">80</span><span style="color:#666">
 </span><span style="color:#666">                  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>web<span style="color:#666">

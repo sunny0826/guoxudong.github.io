@@ -330,16 +330,16 @@ helm install my-release -f kubewatch/values.yaml
 &lt;p&gt;&lt;img src=&#34;https://ws4.sinaimg.cn/large/ad5fbf65gy1g4shv5vs1kj20hx0bvt9g.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;使用pvc&#34;&gt;使用PVC&lt;/h3&gt;
 &lt;p&gt;使用的方法这里就不做详细介绍了，相关文章也比较多，这里就只记录 Deployment 中使用的 yaml 片段：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;...&lt;span style=&#34;color:#666&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;...&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;volumeMounts&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;mountPath&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;/data&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 挂载路径&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;mountPath&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;/data     &lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 挂载路径&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;volume-nas-test&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;...&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;...&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;volumes&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;volume-nas-test&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;persistentVolumeClaim&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;claimName&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;nas-test&lt;span style=&#34;color:#666&#34;&gt;     &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# PVC 名称&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;...&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;claimName&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;nas-test    &lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# PVC 名称&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;...&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
 &lt;p&gt;这里只是做一个简单的记录，仅适用于阿里云 ACK 容器服务，同时也是 ACK 的一个简单应用。由于不经常对数据卷进行操作，这里做简单的记录，防止以后使用还要再看一遍文档。&lt;/p&gt;
 
@@ -803,7 +803,7 @@ bash-4.3# apk add &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;mongodb&amp
 &lt;h3 id=&#34;1-解决400-request-header-or-cookie-too-large问题&#34;&gt;1. 解决400 Request Header Or Cookie Too Large问题&lt;/h3&gt;
 &lt;h2 id=&#34;preview_only-false&#34;&gt;image:
 caption: &amp;ldquo;Image from: &lt;a href=&#34;https://www.pexels.com&#34;&gt;&lt;strong&gt;Pexels&lt;/strong&gt;&lt;/a&gt;&amp;rdquo;
-focal_point: &amp;quot;&amp;rdquo;
+focal_point: &amp;quot;&amp;quot;
 preview_only: false&lt;/h2&gt;
 &lt;h4 id=&#34;现象&#34;&gt;现象&lt;/h4&gt;
 &lt;p&gt;微信小程序需要调用后端接口，需要在header中传一段很长的token参数，直接使用浏览器访问该端口可以访问通，但是在加上token访问之后，会报“400 Request Header Or Cookie Too Large”&lt;/p&gt;
@@ -831,13 +831,13 @@ $ cat nginx.conf | grep large_client_header_buffers
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-nginx&#34; data-lang=&#34;nginx&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nginx.ingress.kubernetes.io/server-snippet:&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;client_header_buffer_size&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;2046k&lt;/span&gt;;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;preview_only-false-1&#34;&gt;image:
 caption: &amp;ldquo;Image from: &lt;a href=&#34;https://www.pexels.com&#34;&gt;&lt;strong&gt;Pexels&lt;/strong&gt;&lt;/a&gt;&amp;rdquo;
-focal_point: &amp;quot;&amp;rdquo;
+focal_point: &amp;quot;&amp;quot;
 preview_only: false&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;Server snippet&lt;/strong&gt;&lt;br&gt;Using the annotation &lt;code&gt;nginx.ingress.kubernetes.io/server-snippet&lt;/code&gt; it is possible to add custom configuration in the server configuration block.
 &lt;br&gt;该注释是将自定义配置加入nginx的server配置中&lt;/p&gt;
 &lt;h2 id=&#34;preview_only-false-2&#34;&gt;image:
 caption: &amp;ldquo;Image from: &lt;a href=&#34;https://www.pexels.com&#34;&gt;&lt;strong&gt;Pexels&lt;/strong&gt;&lt;/a&gt;&amp;rdquo;
-focal_point: &amp;quot;&amp;rdquo;
+focal_point: &amp;quot;&amp;quot;
 preview_only: false&lt;/h2&gt;
 &lt;h3 id=&#34;2-解决请求超时问题&#34;&gt;2. 解决请求超时问题&lt;/h3&gt;
 &lt;h4 id=&#34;现象-1&#34;&gt;现象&lt;/h4&gt;
@@ -865,7 +865,7 @@ preview_only: false&lt;/h2&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如果想全局适用，可以在阿里云 SLB 里操作，也可以将该配置加入到 &lt;code&gt;NGINX ConfigMap&lt;/code&gt; 中。&lt;/p&gt;
 &lt;h2 id=&#34;preview_only-false-3&#34;&gt;image:
 caption: &amp;ldquo;Image from: &lt;a href=&#34;https://www.pexels.com&#34;&gt;&lt;strong&gt;Pexels&lt;/strong&gt;&lt;/a&gt;&amp;rdquo;
-focal_point: &amp;quot;&amp;rdquo;
+focal_point: &amp;quot;&amp;quot;
 preview_only: false&lt;/h2&gt;
 &lt;p&gt;根据工作中遇到的实际问题，持续更新中&amp;hellip;&lt;/p&gt;
 &lt;h2 id=&#34;总结&#34;&gt;总结&lt;/h2&gt;
@@ -1105,7 +1105,7 @@ IMAGE               CREATED             CREATED BY          SIZE                
 6fb3f00b7a72        &lt;span style=&#34;color:#3677a9&#34;&gt;15&lt;/span&gt; seconds ago                          84.7MB              Imported from -
 root@k8s-master:/tmp/iops# docker &lt;span style=&#34;color:#24909d&#34;&gt;history&lt;/span&gt; test/test:0.2
 IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
-58468c0222ed        &lt;span style=&#34;color:#3677a9&#34;&gt;2&lt;/span&gt; hours ago         /bin/sh -c &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#(nop)  CMD [&amp;#34;redis-server&amp;#34;]         0B&lt;/span&gt;     
+58468c0222ed        &lt;span style=&#34;color:#3677a9&#34;&gt;2&lt;/span&gt; hours ago         /bin/sh -c &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#(nop)  CMD [&amp;#34;redis-server&amp;#34;]         0B     &lt;/span&gt;
 1af7ffe3d163        &lt;span style=&#34;color:#3677a9&#34;&gt;2&lt;/span&gt; hours ago         /bin/sh -c &lt;span style=&#34;color:#24909d&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;==&amp;gt; Install curl and helper...   15.7MB 
 &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;8bac6e733d54        2 hours ago         /bin/sh -c #(nop)  ENV TARBALL=http://downlo...   0B     
 &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;793282f3ef7a        2 hours ago         /bin/sh -c #(nop)  ENV VER=3.0.0                0B     
@@ -1410,7 +1410,7 @@ cat &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;&amp;lt;EOF&amp;gt; /run/f
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;caption&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Image from: [**Pexels**](https://www.pexels.com)&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;focal_point&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;preview_only&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;---&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;---&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;ClusterRole&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;rbac.authorization.k8s.io/v1beta1&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
@@ -1439,7 +1439,7 @@ cat &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;&amp;lt;EOF&amp;gt; /run/f
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;caption&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Image from: [**Pexels**](https://www.pexels.com)&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;focal_point&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;preview_only&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;---&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;---&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;ClusterRoleBinding&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;rbac.authorization.k8s.io/v1beta1&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
@@ -1456,7 +1456,7 @@ cat &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;&amp;lt;EOF&amp;gt; /run/f
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;caption&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Image from: [**Pexels**](https://www.pexels.com)&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;focal_point&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;preview_only&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;---&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;---&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;v1&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;ServiceAccount&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
@@ -1466,7 +1466,7 @@ cat &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;&amp;lt;EOF&amp;gt; /run/f
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;caption&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Image from: [**Pexels**](https://www.pexels.com)&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;focal_point&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;preview_only&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;---&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;---&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;ConfigMap&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;v1&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
@@ -1476,26 +1476,26 @@ cat &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;&amp;lt;EOF&amp;gt; /run/f
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;tier&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;node&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;app&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;flannel&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;data&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;cni-conf.json&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;|
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;    {&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;name&amp;#34;: &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;cbr0&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;type&amp;#34;: &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;flannel&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;delegate&amp;#34;: &lt;/span&gt;{&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;isDefaultGateway&amp;#34;: &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;}&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;}&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;net-conf.json&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;|
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;    {&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;Network&amp;#34;: &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;10.10.0.0/16&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#这里换成集群所在的网段&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;Backend&amp;#34;: &lt;/span&gt;{&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;Type&amp;#34;: &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;vxlan&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;}&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;}&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;cni-conf.json&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;|&lt;span style=&#34;color:#ed9d13&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;    {
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;    &amp;#34;name&amp;#34;: &amp;#34;cbr0&amp;#34;,
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;    &amp;#34;type&amp;#34;: &amp;#34;flannel&amp;#34;,
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;    &amp;#34;delegate&amp;#34;: {
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;        &amp;#34;isDefaultGateway&amp;#34;: true
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;    }
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;    }&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;net-conf.json&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;|&lt;span style=&#34;color:#ed9d13&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;    {
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;    &amp;#34;Network&amp;#34;: &amp;#34;10.10.0.0/16&amp;#34;,    #这里换成集群所在的网段
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;    &amp;#34;Backend&amp;#34;: {
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;        &amp;#34;Type&amp;#34;: &amp;#34;vxlan&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;    }
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;    }&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;image&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;caption&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Image from: [**Pexels**](https://www.pexels.com)&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;focal_point&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;preview_only&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;---&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;---&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;extensions/v1beta1&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;DaemonSet&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
@@ -1521,13 +1521,13 @@ cat &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;&amp;lt;EOF&amp;gt; /run/f
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;serviceAccountName&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;flannel&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;initContainers&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;install-cni&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;image&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;quay.io/coreos/flannel:v0&lt;span style=&#34;color:#3677a9&#34;&gt;.9.1&lt;/span&gt;-amd64&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;image&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;quay.io/coreos/flannel:v0.9.1-amd64&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;command&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;- cp&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;args&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;- -f&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;- /etc/kube-flannel/cni-conf.json&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;- /etc/cni/net.d/&lt;span style=&#34;color:#3677a9&#34;&gt;10&lt;/span&gt;-flannel.conf&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;- /etc/cni/net.d/10-flannel.conf&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;volumeMounts&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;cni&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;mountPath&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;/etc/cni/net.d&lt;span style=&#34;color:#666&#34;&gt;
@@ -1535,7 +1535,7 @@ cat &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;&amp;lt;EOF&amp;gt; /run/f
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;mountPath&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;/etc/kube-flannel/&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;containers&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;kube-flannel&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;image&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;quay.io/coreos/flannel:v0&lt;span style=&#34;color:#3677a9&#34;&gt;.9.1&lt;/span&gt;-amd64&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;image&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;quay.io/coreos/flannel:v0.9.1-amd64&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;command&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;[&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;/opt/bin/flanneld&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;--ip-masq&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;--kube-subnet-mgr&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;]&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;securityContext&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;privileged&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;

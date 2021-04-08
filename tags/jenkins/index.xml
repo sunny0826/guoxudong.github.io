@@ -27,7 +27,7 @@
         &lt;h2 id=&#34;简介&#34;&gt;简介&lt;/h2&gt;
 &lt;h2 id=&#34;preview_only-false&#34;&gt;image:
 caption: &amp;ldquo;Image from: &lt;a href=&#34;https://www.pexels.com&#34;&gt;&lt;strong&gt;Pexels&lt;/strong&gt;&lt;/a&gt;&amp;rdquo;
-focal_point: &amp;quot;&amp;rdquo;
+focal_point: &amp;quot;&amp;quot;
 preview_only: false&lt;/h2&gt;
 &lt;h3 id=&#34;jenkins-pipeline&#34;&gt;jenkins pipeline&lt;/h3&gt;
 &lt;p&gt;Jenkins Pipeline (或简称为 &amp;ldquo;Pipeline&amp;rdquo; )是一套插件，将持续交付的实现和实施集成到 Jenkins 中。&lt;/p&gt;

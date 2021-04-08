@@ -82,7 +82,7 @@ client := grabana.&lt;span style=&#34;color:#447fcf&#34;&gt;NewClient&lt;/span&g
 &lt;p&gt;Grabana 的特别之处还在于他还提供了使用 yaml 创建 Dashboard 的方式，作为一名资深 yaml 工程师，每当看到 yaml 都会感到格外的亲切。&lt;/p&gt;
 &lt;p&gt;同样的 Dashboard ，yaml 配置如下：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# dashboard.yaml&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;title&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Awesome&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;dashboard&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;title&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Awesome dashboard&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;editable&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;tags&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;[generated]&lt;span style=&#34;color:#666&#34;&gt;
@@ -98,7 +98,7 @@ client := grabana.&lt;span style=&#34;color:#447fcf&#34;&gt;NewClient&lt;/span&g
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Prometheus&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;panels&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;graph&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;title&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;HTTP&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Rate&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;title&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;HTTP Rate&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;height&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;400px&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;datasource&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;prometheus-default&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;targets&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
@@ -246,13 +246,13 @@ client := grabana.&lt;span style=&#34;color:#447fcf&#34;&gt;NewClient&lt;/span&g
 git clone https://github.com/aliyun/aliyun-cms-grafana.git 
 service grafana-server restart
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如果是使用 docker 或者部署在 k8s 集群，这里也可以使用环境变量在 Grafana 部署的时候进行安装&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;...&lt;span style=&#34;color:#666&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;...&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;spec&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;containers&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;env&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;GF_INSTALL_PLUGINS&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 多个插件请使用,隔开&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;GF_INSTALL_PLUGINS &lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 多个插件请使用,隔开&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;value&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;grafana-simple-json-datasource,https://github.com/aliyun/aliyun-cms-grafana/archive/master.zip;aliyun-cms-grafana&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;...&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;...&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;您也可以下载 aliyun-cms-grafana.zip 插件解压后，上传服务器的 Grafana 的 plugins 目录下，重启 grafana-server 即可。&lt;/p&gt;
 &lt;h3 id=&#34;配置云监控-datasource&#34;&gt;配置云监控 DataSource&lt;/h3&gt;
 &lt;ol&gt;
