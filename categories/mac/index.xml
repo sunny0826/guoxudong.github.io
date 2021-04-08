@@ -1,105 +1,74 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Guo Xudong&#39;s Blog·郭旭东的博客 – Mac</title>
-    <link>https://guoxudong.io/categories/mac/</link>
-    <description>Recent content in Mac on Guo Xudong&#39;s Blog·郭旭东的博客</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>zh</language>
-    <lastBuildDate>Mon, 04 Jan 2021 14:14:02 +0800</lastBuildDate>
-    
-	  <atom:link href="https://guoxudong.io/categories/mac/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-      
-        
-      
-    
-    
-    <item>
-      <title>Post: 使用 iTerm2 打造美观高效的 Mac 终端</title>
-      <link>https://guoxudong.io/post/iterm2/</link>
-      <pubDate>Mon, 04 Jan 2021 14:14:02 +0800</pubDate>
-      
-      <guid>https://guoxudong.io/post/iterm2/</guid>
-      <description>
-        
-        
-        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
-&lt;p&gt;最近换了一台新电脑，开发环境和软件都需要重新安装和配置，正好借着这个机会，介绍一下 macOS 终端神器 iTerm2 的安装配置，并推荐一些插件和好用的工具。&lt;/p&gt;
-&lt;h2 id=&#34;iterm2&#34;&gt;iTerm2&lt;/h2&gt;
-&lt;p&gt;iTerm2 是默认终端的替代品，也是目前 macOS 下最好用的终端工具，集颜值和效率于一身。&lt;/p&gt;
-&lt;h3 id=&#34;安装&#34;&gt;安装&lt;/h3&gt;
-&lt;p&gt;直接前往 &lt;a href=&#34;http://www.iterm2.com/&#34;&gt;iTerm2 官网&lt;/a&gt; 下载即可，下载完成后解压并双击安装。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tvax4.sinaimg.cn/large/ad5fbf65gy1gmbncotndlj21km1gu7hm.jpg&#34; alt=&#34;iTerm2 官网&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;设置热键&#34;&gt;设置热键&lt;/h3&gt;
-&lt;p&gt;为了快速唤出 iterm2 终端，这里推荐使用热键进行唤出。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1gmbnhmj7w8j21k20y87el.jpg&#34; alt=&#34;设置热键&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;设置-status-bar&#34;&gt;设置 Status bar&lt;/h3&gt;
-&lt;p&gt;iterm2 提供了很多 Status bar，可在在终端页面显示更多关于本机的信息，如：CPU、内存、电池电量等。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1gmbnkvtjloj21ey0tojwj.jpg&#34; alt=&#34;配置 Status bar&#34;&gt;&lt;/p&gt;
-&lt;p&gt;点击 &lt;code&gt;Configure Status bar&lt;/code&gt; 进入配置页面，这里将想要的 Status bar 拖入下面的方框即可。这里还推荐选择 &lt;code&gt;Auto-Rainbow&lt;/code&gt;，这样 Status bar 就是以彩色的形式展示了。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1gmbnn70borj21eu0skdjz.jpg&#34; alt=&#34;选择 Status bar&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;配色&#34;&gt;配色&lt;/h3&gt;
-&lt;p&gt;选择一个自己喜欢的配色方案。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1gmbnqt1lhej21fg0qqn26.jpg&#34; alt=&#34;选择配色方案&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;光标选择&#34;&gt;光标选择&lt;/h3&gt;
-&lt;p&gt;这里提供了三种光标可供选择：&lt;code&gt;_&lt;/code&gt;、&lt;code&gt;|&lt;/code&gt;、&lt;code&gt;[]&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1gmbnsyh5rqj21g00qu79h.jpg&#34; alt=&#34;光标选择&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;窗口设置&#34;&gt;窗口设置&lt;/h3&gt;
-&lt;p&gt;这里可以设置窗口透明度、背景图片、行列数以及风格等。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1gmbnw0mzfej21fi0wmagb.jpg&#34; alt=&#34;窗口设置&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;迁移配置&#34;&gt;迁移配置&lt;/h3&gt;
-&lt;p&gt;如果你已经有配置好的 iterm2，可以将配置导出，迁移到新 Mac 上。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tvax3.sinaimg.cn/large/ad5fbf65gy1gmboqetam4j21fi17gkjl.jpg&#34; alt=&#34;导出配置&#34;&gt;&lt;/p&gt;
-&lt;p&gt;之后在新 Mac 上导入即可。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1gmborddsylj21es176e81.jpg&#34; alt=&#34;导入配置&#34;&gt;&lt;/p&gt;
-&lt;h2 id=&#34;oh-my-zsh&#34;&gt;oh my zsh&lt;/h2&gt;
-&lt;p&gt;在设置好 iterm2 之后，就需要安装 &lt;a href=&#34;https://github.com/ohmyzsh/ohmyzsh&#34;&gt;oh-my-zsh&lt;/a&gt;。Oh My Zsh 是一款社区驱动的命令行工具，它基于 zsh 命令行，提供了主题配置，插件机制，大大提高了可玩性及使用效率。&lt;/p&gt;
-&lt;h3 id=&#34;安装-1&#34;&gt;安装&lt;/h3&gt;
-&lt;p&gt;可以使用 &lt;code&gt;curl&lt;/code&gt; 和 &lt;code&gt;wget&lt;/code&gt; 安装：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# curl&lt;/span&gt;
-sh -c &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;$(&lt;/span&gt;curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# wget&lt;/span&gt;
-sh -c &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;$(&lt;/span&gt;wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;powerlevel10k&#34;&gt;powerlevel10k&lt;/h3&gt;
-&lt;p&gt;&lt;a href=&#34;https://github.com/romkatv/powerlevel10k&#34;&gt;powerlevel10k&lt;/a&gt; 是一款 zsh 主题，是 &lt;a href=&#34;https://github.com/Powerlevel9k/powerlevel9k&#34;&gt;powerlevel9k&lt;/a&gt; 的升级版，强调快速、高效和开箱即用。powerlevel10k 免去了之前 powerlevel9k 比较繁琐的安装方式，如安装字体，配置样式、修改主题等一系列繁琐的操作，开箱即用，非常简单。&lt;/p&gt;
-&lt;h4 id=&#34;安装-2&#34;&gt;安装&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;git clone --depth=&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt; https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
-&lt;span style=&#34;color:#24909d&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;source ~/powerlevel10k/powerlevel10k.zsh-theme&amp;#39;&lt;/span&gt; &amp;gt;&amp;gt;~/.zshrc
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;配置&#34;&gt;配置&lt;/h4&gt;
-&lt;p&gt;在代码拉取成功后，执行命令 &lt;code&gt;source ~/.zshrc&lt;/code&gt; 会自动安装字体文件，无需任何其他操作。&lt;/p&gt;
-&lt;p&gt;之后执行命令，即可开始配置：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;p10k configure
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里会进行交互式的配置，只需根据提示进行选择即可。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1gmap0z93zdg20ok0l60xf.gif&#34; alt=&#34;交互式的配置&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;插件&#34;&gt;插件&lt;/h3&gt;
-&lt;p&gt;oh my zsh 还提供了多种好用的插件，这里介绍两款好用的插件。&lt;/p&gt;
-&lt;h4 id=&#34;语法高亮&#34;&gt;语法高亮&lt;/h4&gt;
-&lt;p&gt;可以在命令行高亮显示语法，效果如下：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tvax4.sinaimg.cn/large/ad5fbf65gy1gmbodvj2sej20lu0isdj6.jpg&#34; alt=&#34;语法高亮&#34;&gt;&lt;/p&gt;
-&lt;p&gt;安装方式：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# zsh-syntax-highlighting&lt;/span&gt;
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git  ~/.oh-my-zsh/plugins/zsh-syntax-highlighting
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;命令自动补全&#34;&gt;命令自动补全&lt;/h4&gt;
-&lt;p&gt;可以根据您的历史记录和完成情况给输入的命令提供建议，效果如下：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tvax3.sinaimg.cn/large/ad5fbf65gy1gmbojbb38wj20sy044wel.jpg&#34; alt=&#34;命令自动补全&#34;&gt;&lt;/p&gt;
-&lt;p&gt;安装方式&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# zsh-autosuggestion&lt;/span&gt;
-git clone https://github.com/zsh-users/zsh-autosuggestions.git  ~/.oh-my-zsh/plugins/zsh-autosuggestions
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;插件配置&#34;&gt;插件配置&lt;/h4&gt;
-&lt;p&gt;安装好之后，需要修改 &lt;code&gt;.zshrc&lt;/code&gt;：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# .zshrc&lt;/span&gt;
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Guo Xudong's Blog·郭旭东的博客 – Mac</title><link>https://guoxudong.io/categories/mac/</link><description>Recent content in Mac on Guo Xudong's Blog·郭旭东的博客</description><generator>Hugo -- gohugo.io</generator><language>zh</language><lastBuildDate>Mon, 04 Jan 2021 14:14:02 +0800</lastBuildDate><atom:link href="https://guoxudong.io/categories/mac/index.xml" rel="self" type="application/rss+xml"/><item><title>Post: 使用 iTerm2 打造美观高效的 Mac 终端</title><link>https://guoxudong.io/post/iterm2/</link><pubDate>Mon, 04 Jan 2021 14:14:02 +0800</pubDate><guid>https://guoxudong.io/post/iterm2/</guid><description>
+&lt;h2 id="前言">前言&lt;/h2>
+&lt;p>最近换了一台新电脑，开发环境和软件都需要重新安装和配置，正好借着这个机会，介绍一下 macOS 终端神器 iTerm2 的安装配置，并推荐一些插件和好用的工具。&lt;/p>
+&lt;h2 id="iterm2">iTerm2&lt;/h2>
+&lt;p>iTerm2 是默认终端的替代品，也是目前 macOS 下最好用的终端工具，集颜值和效率于一身。&lt;/p>
+&lt;h3 id="安装">安装&lt;/h3>
+&lt;p>直接前往 &lt;a href="http://www.iterm2.com/">iTerm2 官网&lt;/a> 下载即可，下载完成后解压并双击安装。&lt;/p>
+&lt;p>&lt;img src="https://tvax4.sinaimg.cn/large/ad5fbf65gy1gmbncotndlj21km1gu7hm.jpg" alt="iTerm2 官网">&lt;/p>
+&lt;h3 id="设置热键">设置热键&lt;/h3>
+&lt;p>为了快速唤出 iterm2 终端，这里推荐使用热键进行唤出。&lt;/p>
+&lt;p>&lt;img src="https://tva1.sinaimg.cn/large/ad5fbf65gy1gmbnhmj7w8j21k20y87el.jpg" alt="设置热键">&lt;/p>
+&lt;h3 id="设置-status-bar">设置 Status bar&lt;/h3>
+&lt;p>iterm2 提供了很多 Status bar，可在在终端页面显示更多关于本机的信息，如：CPU、内存、电池电量等。&lt;/p>
+&lt;p>&lt;img src="https://tva1.sinaimg.cn/large/ad5fbf65gy1gmbnkvtjloj21ey0tojwj.jpg" alt="配置 Status bar">&lt;/p>
+&lt;p>点击 &lt;code>Configure Status bar&lt;/code> 进入配置页面，这里将想要的 Status bar 拖入下面的方框即可。这里还推荐选择 &lt;code>Auto-Rainbow&lt;/code>，这样 Status bar 就是以彩色的形式展示了。&lt;/p>
+&lt;p>&lt;img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1gmbnn70borj21eu0skdjz.jpg" alt="选择 Status bar">&lt;/p>
+&lt;h3 id="配色">配色&lt;/h3>
+&lt;p>选择一个自己喜欢的配色方案。&lt;/p>
+&lt;p>&lt;img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1gmbnqt1lhej21fg0qqn26.jpg" alt="选择配色方案">&lt;/p>
+&lt;h3 id="光标选择">光标选择&lt;/h3>
+&lt;p>这里提供了三种光标可供选择：&lt;code>_&lt;/code>、&lt;code>|&lt;/code>、&lt;code>[]&lt;/code>。&lt;/p>
+&lt;p>&lt;img src="https://tva1.sinaimg.cn/large/ad5fbf65gy1gmbnsyh5rqj21g00qu79h.jpg" alt="光标选择">&lt;/p>
+&lt;h3 id="窗口设置">窗口设置&lt;/h3>
+&lt;p>这里可以设置窗口透明度、背景图片、行列数以及风格等。&lt;/p>
+&lt;p>&lt;img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1gmbnw0mzfej21fi0wmagb.jpg" alt="窗口设置">&lt;/p>
+&lt;h3 id="迁移配置">迁移配置&lt;/h3>
+&lt;p>如果你已经有配置好的 iterm2，可以将配置导出，迁移到新 Mac 上。&lt;/p>
+&lt;p>&lt;img src="https://tvax3.sinaimg.cn/large/ad5fbf65gy1gmboqetam4j21fi17gkjl.jpg" alt="导出配置">&lt;/p>
+&lt;p>之后在新 Mac 上导入即可。&lt;/p>
+&lt;p>&lt;img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1gmborddsylj21es176e81.jpg" alt="导入配置">&lt;/p>
+&lt;h2 id="oh-my-zsh">oh my zsh&lt;/h2>
+&lt;p>在设置好 iterm2 之后，就需要安装 &lt;a href="https://github.com/ohmyzsh/ohmyzsh">oh-my-zsh&lt;/a>。Oh My Zsh 是一款社区驱动的命令行工具，它基于 zsh 命令行，提供了主题配置，插件机制，大大提高了可玩性及使用效率。&lt;/p>
+&lt;h3 id="安装-1">安装&lt;/h3>
+&lt;p>可以使用 &lt;code>curl&lt;/code> 和 &lt;code>wget&lt;/code> 安装：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">&lt;span style="color:#999;font-style:italic"># curl&lt;/span>
+sh -c &lt;span style="color:#ed9d13">&amp;#34;&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">$(&lt;/span>curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh&lt;span style="color:#6ab825;font-weight:bold">)&lt;/span>&lt;span style="color:#ed9d13">&amp;#34;&lt;/span>
+&lt;span style="color:#999;font-style:italic"># wget&lt;/span>
+sh -c &lt;span style="color:#ed9d13">&amp;#34;&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">$(&lt;/span>wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh&lt;span style="color:#6ab825;font-weight:bold">)&lt;/span>&lt;span style="color:#ed9d13">&amp;#34;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="powerlevel10k">powerlevel10k&lt;/h3>
+&lt;p>&lt;a href="https://github.com/romkatv/powerlevel10k">powerlevel10k&lt;/a> 是一款 zsh 主题，是 &lt;a href="https://github.com/Powerlevel9k/powerlevel9k">powerlevel9k&lt;/a> 的升级版，强调快速、高效和开箱即用。powerlevel10k 免去了之前 powerlevel9k 比较繁琐的安装方式，如安装字体，配置样式、修改主题等一系列繁琐的操作，开箱即用，非常简单。&lt;/p>
+&lt;h4 id="安装-2">安装&lt;/h4>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">git clone --depth=&lt;span style="color:#3677a9">1&lt;/span> https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+&lt;span style="color:#24909d">echo&lt;/span> &lt;span style="color:#ed9d13">&amp;#39;source ~/powerlevel10k/powerlevel10k.zsh-theme&amp;#39;&lt;/span> &amp;gt;&amp;gt;~/.zshrc
+&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="配置">配置&lt;/h4>
+&lt;p>在代码拉取成功后，执行命令 &lt;code>source ~/.zshrc&lt;/code> 会自动安装字体文件，无需任何其他操作。&lt;/p>
+&lt;p>之后执行命令，即可开始配置：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">p10k configure
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>这里会进行交互式的配置，只需根据提示进行选择即可。&lt;/p>
+&lt;p>&lt;img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1gmap0z93zdg20ok0l60xf.gif" alt="交互式的配置">&lt;/p>
+&lt;h3 id="插件">插件&lt;/h3>
+&lt;p>oh my zsh 还提供了多种好用的插件，这里介绍两款好用的插件。&lt;/p>
+&lt;h4 id="语法高亮">语法高亮&lt;/h4>
+&lt;p>可以在命令行高亮显示语法，效果如下：&lt;/p>
+&lt;p>&lt;img src="https://tvax4.sinaimg.cn/large/ad5fbf65gy1gmbodvj2sej20lu0isdj6.jpg" alt="语法高亮">&lt;/p>
+&lt;p>安装方式：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">&lt;span style="color:#999;font-style:italic"># zsh-syntax-highlighting&lt;/span>
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/plugins/zsh-syntax-highlighting
+&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="命令自动补全">命令自动补全&lt;/h4>
+&lt;p>可以根据您的历史记录和完成情况给输入的命令提供建议，效果如下：&lt;/p>
+&lt;p>&lt;img src="https://tvax3.sinaimg.cn/large/ad5fbf65gy1gmbojbb38wj20sy044wel.jpg" alt="命令自动补全">&lt;/p>
+&lt;p>安装方式&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">&lt;span style="color:#999;font-style:italic"># zsh-autosuggestion&lt;/span>
+git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/plugins/zsh-autosuggestions
+&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="插件配置">插件配置&lt;/h4>
+&lt;p>安装好之后，需要修改 &lt;code>.zshrc&lt;/code>：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">&lt;span style="color:#999;font-style:italic"># .zshrc&lt;/span>
 ...
-&lt;span style=&#34;color:#40ffff&#34;&gt;plugins&lt;/span&gt;=(git zsh-autosuggestions zsh-syntax-highlighting)
+&lt;span style="color:#40ffff">plugins&lt;/span>=(git zsh-autosuggestions zsh-syntax-highlighting)
 ...
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;修改完成后，执行命令，完成设置：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#24909d&#34;&gt;source&lt;/span&gt; ~/.zshrc
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;更多插件，详见：https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins&lt;/p&gt;
-&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
-&lt;p&gt;iTerm2 其实还有很多好玩的配置，由于篇幅有限这里就不过多介绍了，感兴趣的朋友可以登录官网查看官方文档。&lt;/p&gt;
-
-      </description>
-    </item>
-    
-  </channel>
-</rss>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>修改完成后，执行命令，完成设置：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">&lt;span style="color:#24909d">source&lt;/span> ~/.zshrc
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>更多插件，详见：https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins&lt;/p>
+&lt;h2 id="结语">结语&lt;/h2>
+&lt;p>iTerm2 其实还有很多好玩的配置，由于篇幅有限这里就不过多介绍了，感兴趣的朋友可以登录官网查看官方文档。&lt;/p></description></item></channel></rss>

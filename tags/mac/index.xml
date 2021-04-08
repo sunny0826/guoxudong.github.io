@@ -1,388 +1,319 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Guo Xudong&#39;s Blog·郭旭东的博客 – Mac</title>
-    <link>https://guoxudong.io/tags/mac/</link>
-    <description>Recent content in Mac on Guo Xudong&#39;s Blog·郭旭东的博客</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>zh</language>
-    <lastBuildDate>Thu, 03 Dec 2020 11:17:34 +0800</lastBuildDate>
-    
-	  <atom:link href="https://guoxudong.io/tags/mac/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-      
-        
-      
-    
-    
-    <item>
-      <title>Post: 将项目发布到 Homebrew 官方仓库</title>
-      <link>https://guoxudong.io/post/homebrew-pull-request/</link>
-      <pubDate>Thu, 03 Dec 2020 11:17:34 +0800</pubDate>
-      
-      <guid>https://guoxudong.io/post/homebrew-pull-request/</guid>
-      <description>
-        
-        
-        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
-&lt;p&gt;Homebrew 标榜自己是 &lt;strong&gt;“macOS（或 Linux）缺失的软件包的管理器”&lt;/strong&gt;，使用 macOS 作为开发终端的用户，往往绕不过 &lt;code&gt;brew&lt;/code&gt; 这个软件包管理工具。确实在 macOS 上没有比 &lt;code&gt;brew&lt;/code&gt; 更好用的软件包管理工具了，基本上想用的 CLI 工具，只需一行命令就可一键安装，非常的方便。记得去年博主还写过一篇 &lt;a href=&#34;../golang-to-homebrew&#34;&gt;《Golang 装逼指南 Ⅱ：在 Homwebrew 上发布 Golang 项目》&lt;/a&gt;，当时只是介绍了如何将 Golang 开发的 CLI 工具发布到自建的 homebrew-tap 上。本文则是讲解如何将自己开发的软件，推送到官方的 &lt;a href=&#34;https://github.com/Homebrew/homebrew-core&#34;&gt;homebrew-core&lt;/a&gt; 仓库中，使用像 &lt;code&gt;brew install kubecm&lt;/code&gt; 这样的命令即可完成安装。&lt;/p&gt;
-&lt;h2 id=&#34;homebrew-core&#34;&gt;Homebrew-core&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&#34;https://github.com/Homebrew/homebrew-core&#34;&gt;homebrew-core&lt;/a&gt; 中存储着所有官方的安装脚本，而这些安装脚本都是由软件开发者自己提交 PR 合并到仓库中的。同时 homebrew 也提供了查询页面，用户可以在网页 &lt;a href=&#34;https://formulae.brew.sh/&#34;&gt;Homebrew Formulae&lt;/a&gt; 上查询自己的软件总共被下载安装了多少次，如下：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1glap8xxcrlj2164204qc9.jpg&#34; alt=&#34;kubecm&#34;&gt;&lt;/p&gt;
-&lt;p&gt;新的项目只需向这个仓库提交 PR 即可。&lt;/p&gt;
-&lt;h3 id=&#34;准备阶段&#34;&gt;准备阶段&lt;/h3&gt;
-&lt;p&gt;首先需要在 GitHub 上 fork &lt;a href=&#34;https://github.com/Homebrew/homebrew-core&#34;&gt;homebrew-core&lt;/a&gt; 项目。&lt;/p&gt;
-&lt;p&gt;然后在本地找到保存 homebrew-core 的目录：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ &lt;span style=&#34;color:#24909d&#34;&gt;cd&lt;/span&gt; &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;$(&lt;/span&gt;brew --repository homebrew/core&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;新增 remote 地址为 fork 仓库的地址：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ git remote add &amp;lt;YOUR_USERNAME&amp;gt; https://github.com/&amp;lt;YOUR_USERNAME&amp;gt;/homebrew-core.git
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里的 &lt;code&gt;YOUR_USERNAME&lt;/code&gt; 是 GitHub username。&lt;/p&gt;
-&lt;h3 id=&#34;新建分支&#34;&gt;新建分支&lt;/h3&gt;
-&lt;p&gt;这里的操作就和向开源项目提交 PR 一样，新建 branch 并创建安装脚本。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ git checkout master
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;更新 master 分支&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ brew update
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;从最新的 master 分支创建新 branch&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ git checkout -b &amp;lt;YOUR_BRANCH_NAME&amp;gt; origin/master
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;编写脚本&#34;&gt;编写脚本&lt;/h3&gt;
-&lt;p&gt;首先需要使用 &lt;code&gt;brew search &amp;lt;formula&amp;gt;&lt;/code&gt; 来查看上游仓库中是否有同名的项目，同时确保你的项目是稳定版且带有 &lt;code&gt;tag&lt;/code&gt;（不能只是一个 GitHub repo）。&lt;/p&gt;
-&lt;p&gt;使用 &lt;code&gt;brew create&lt;/code&gt; 创建一个脚本模板，命令如下：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ brew create https://example.com/foo-0.1.tar.gz
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里的 URL 地址，就是 GitHub Release 页面的 &lt;code&gt;Source code(tar.gz)&lt;/code&gt; 的 URL 地址。&lt;/p&gt;
-&lt;p&gt;打开 &lt;code&gt;Formula/foo.rb&lt;/code&gt; 可以看到：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;Foo&lt;/span&gt; &amp;lt; &lt;span style=&#34;color:#40ffff&#34;&gt;Formula&lt;/span&gt;
-  desc &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;
-  homepage &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;
-  url &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;https://example.com/foo-0.1.tar.gz&amp;#34;&lt;/span&gt;
-  sha256 &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;85cc828a96735bdafcf29eb6291ca91bac846579bcef7308536e0c875d6c81d7&amp;#34;&lt;/span&gt;
-  license &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;
-
-  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# depends_on &amp;#34;cmake&amp;#34; =&amp;gt; :build&lt;/span&gt;
-
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#447fcf&#34;&gt;install&lt;/span&gt;
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# ENV.deparallelize&lt;/span&gt;
-    &lt;span style=&#34;color:#24909d&#34;&gt;system&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;./configure&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;--disable-debug&amp;#34;&lt;/span&gt;,
-                          &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;--disable-dependency-tracking&amp;#34;&lt;/span&gt;,
-                          &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;--disable-silent-rules&amp;#34;&lt;/span&gt;,
-                          &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;--prefix=&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;#{&lt;/span&gt;prefix&lt;span style=&#34;color:#ed9d13&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# system &amp;#34;cmake&amp;#34;, &amp;#34;.&amp;#34;, *std_cmake_args&lt;/span&gt;
-    &lt;span style=&#34;color:#24909d&#34;&gt;system&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;make&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;install&amp;#34;&lt;/span&gt;
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;end&lt;/span&gt;
-
-  &lt;span style=&#34;color:#24909d&#34;&gt;test&lt;/span&gt; &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;do&lt;/span&gt;
-    &lt;span style=&#34;color:#24909d&#34;&gt;system&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;false&amp;#34;&lt;/span&gt;
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;end&lt;/span&gt;
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;之后就是完善这个脚本，&lt;code&gt;desc&lt;/code&gt;、&lt;code&gt;homepage&lt;/code&gt;、&lt;code&gt;license&lt;/code&gt; 都请根据项目情况填写。&lt;/p&gt;
-&lt;p&gt;如果是 Golang 项目，则需要添加 Go 依赖 &lt;code&gt;depends_on &amp;quot;go&amp;quot; =&amp;gt; :build&lt;/code&gt;，同时在 &lt;code&gt;install&lt;/code&gt; 中完善安装脚本，golang 开发的项目一般都是使用 &lt;code&gt;go build&lt;/code&gt; 来构建。&lt;/p&gt;
-
-
-&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
-&lt;h4 class=&#34;alert-heading&#34;&gt;注意&lt;/h4&gt;
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Guo Xudong's Blog·郭旭东的博客 – Mac</title><link>https://guoxudong.io/tags/mac/</link><description>Recent content in Mac on Guo Xudong's Blog·郭旭东的博客</description><generator>Hugo -- gohugo.io</generator><language>zh</language><lastBuildDate>Thu, 03 Dec 2020 11:17:34 +0800</lastBuildDate><atom:link href="https://guoxudong.io/tags/mac/index.xml" rel="self" type="application/rss+xml"/><item><title>Post: 将项目发布到 Homebrew 官方仓库</title><link>https://guoxudong.io/post/homebrew-pull-request/</link><pubDate>Thu, 03 Dec 2020 11:17:34 +0800</pubDate><guid>https://guoxudong.io/post/homebrew-pull-request/</guid><description>
+&lt;h2 id="前言">前言&lt;/h2>
+&lt;p>Homebrew 标榜自己是 &lt;strong>“macOS（或 Linux）缺失的软件包的管理器”&lt;/strong>，使用 macOS 作为开发终端的用户，往往绕不过 &lt;code>brew&lt;/code> 这个软件包管理工具。确实在 macOS 上没有比 &lt;code>brew&lt;/code> 更好用的软件包管理工具了，基本上想用的 CLI 工具，只需一行命令就可一键安装，非常的方便。记得去年博主还写过一篇 &lt;a href="../golang-to-homebrew">《Golang 装逼指南 Ⅱ：在 Homwebrew 上发布 Golang 项目》&lt;/a>，当时只是介绍了如何将 Golang 开发的 CLI 工具发布到自建的 homebrew-tap 上。本文则是讲解如何将自己开发的软件，推送到官方的 &lt;a href="https://github.com/Homebrew/homebrew-core">homebrew-core&lt;/a> 仓库中，使用像 &lt;code>brew install kubecm&lt;/code> 这样的命令即可完成安装。&lt;/p>
+&lt;h2 id="homebrew-core">Homebrew-core&lt;/h2>
+&lt;p>&lt;a href="https://github.com/Homebrew/homebrew-core">homebrew-core&lt;/a> 中存储着所有官方的安装脚本，而这些安装脚本都是由软件开发者自己提交 PR 合并到仓库中的。同时 homebrew 也提供了查询页面，用户可以在网页 &lt;a href="https://formulae.brew.sh/">Homebrew Formulae&lt;/a> 上查询自己的软件总共被下载安装了多少次，如下：&lt;/p>
+&lt;p>&lt;img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1glap8xxcrlj2164204qc9.jpg" alt="kubecm">&lt;/p>
+&lt;p>新的项目只需向这个仓库提交 PR 即可。&lt;/p>
+&lt;h3 id="准备阶段">准备阶段&lt;/h3>
+&lt;p>首先需要在 GitHub 上 fork &lt;a href="https://github.com/Homebrew/homebrew-core">homebrew-core&lt;/a> 项目。&lt;/p>
+&lt;p>然后在本地找到保存 homebrew-core 的目录：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ &lt;span style="color:#24909d">cd&lt;/span> &lt;span style="color:#6ab825;font-weight:bold">$(&lt;/span>brew --repository homebrew/core&lt;span style="color:#6ab825;font-weight:bold">)&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>新增 remote 地址为 fork 仓库的地址：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ git remote add &amp;lt;YOUR_USERNAME&amp;gt; https://github.com/&amp;lt;YOUR_USERNAME&amp;gt;/homebrew-core.git
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>这里的 &lt;code>YOUR_USERNAME&lt;/code> 是 GitHub username。&lt;/p>
+&lt;h3 id="新建分支">新建分支&lt;/h3>
+&lt;p>这里的操作就和向开源项目提交 PR 一样，新建 branch 并创建安装脚本。&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ git checkout master
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>更新 master 分支&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ brew update
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>从最新的 master 分支创建新 branch&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ git checkout -b &amp;lt;YOUR_BRANCH_NAME&amp;gt; origin/master
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="编写脚本">编写脚本&lt;/h3>
+&lt;p>首先需要使用 &lt;code>brew search &amp;lt;formula&amp;gt;&lt;/code> 来查看上游仓库中是否有同名的项目，同时确保你的项目是稳定版且带有 &lt;code>tag&lt;/code>（不能只是一个 GitHub repo）。&lt;/p>
+&lt;p>使用 &lt;code>brew create&lt;/code> 创建一个脚本模板，命令如下：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ brew create https://example.com/foo-0.1.tar.gz
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>这里的 URL 地址，就是 GitHub Release 页面的 &lt;code>Source code(tar.gz)&lt;/code> 的 URL 地址。&lt;/p>
+&lt;p>打开 &lt;code>Formula/foo.rb&lt;/code> 可以看到：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-ruby" data-lang="ruby">&lt;span style="color:#6ab825;font-weight:bold">class&lt;/span> &lt;span style="color:#447fcf;text-decoration:underline">Foo&lt;/span> &amp;lt; &lt;span style="color:#40ffff">Formula&lt;/span>
+desc &lt;span style="color:#ed9d13">&amp;#34;&amp;#34;&lt;/span>
+homepage &lt;span style="color:#ed9d13">&amp;#34;&amp;#34;&lt;/span>
+url &lt;span style="color:#ed9d13">&amp;#34;https://example.com/foo-0.1.tar.gz&amp;#34;&lt;/span>
+sha256 &lt;span style="color:#ed9d13">&amp;#34;85cc828a96735bdafcf29eb6291ca91bac846579bcef7308536e0c875d6c81d7&amp;#34;&lt;/span>
+license &lt;span style="color:#ed9d13">&amp;#34;&amp;#34;&lt;/span>
+&lt;span style="color:#999;font-style:italic"># depends_on &amp;#34;cmake&amp;#34; =&amp;gt; :build&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">def&lt;/span> &lt;span style="color:#447fcf">install&lt;/span>
+&lt;span style="color:#999;font-style:italic"># ENV.deparallelize&lt;/span>
+&lt;span style="color:#24909d">system&lt;/span> &lt;span style="color:#ed9d13">&amp;#34;./configure&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;--disable-debug&amp;#34;&lt;/span>,
+&lt;span style="color:#ed9d13">&amp;#34;--disable-dependency-tracking&amp;#34;&lt;/span>,
+&lt;span style="color:#ed9d13">&amp;#34;--disable-silent-rules&amp;#34;&lt;/span>,
+&lt;span style="color:#ed9d13">&amp;#34;--prefix=&lt;/span>&lt;span style="color:#ed9d13">#{&lt;/span>prefix&lt;span style="color:#ed9d13">}&lt;/span>&lt;span style="color:#ed9d13">&amp;#34;&lt;/span>
+&lt;span style="color:#999;font-style:italic"># system &amp;#34;cmake&amp;#34;, &amp;#34;.&amp;#34;, *std_cmake_args&lt;/span>
+&lt;span style="color:#24909d">system&lt;/span> &lt;span style="color:#ed9d13">&amp;#34;make&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;install&amp;#34;&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">end&lt;/span>
+&lt;span style="color:#24909d">test&lt;/span> &lt;span style="color:#6ab825;font-weight:bold">do&lt;/span>
+&lt;span style="color:#24909d">system&lt;/span> &lt;span style="color:#ed9d13">&amp;#34;false&amp;#34;&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">end&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">end&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>之后就是完善这个脚本，&lt;code>desc&lt;/code>、&lt;code>homepage&lt;/code>、&lt;code>license&lt;/code> 都请根据项目情况填写。&lt;/p>
+&lt;p>如果是 Golang 项目，则需要添加 Go 依赖 &lt;code>depends_on &amp;quot;go&amp;quot; =&amp;gt; :build&lt;/code>，同时在 &lt;code>install&lt;/code> 中完善安装脚本，golang 开发的项目一般都是使用 &lt;code>go build&lt;/code> 来构建。&lt;/p>
+&lt;div class="alert alert-warning" role="alert">
+&lt;h4 class="alert-heading">注意&lt;/h4>
 与自建 homebrew-tap 不同，向官方提交 PR，需要使用源码构建，不能只推送构建好的二进制文件！同时必须有 test 部分，否则将无法合并代码。
-&lt;/div&gt;
-
-&lt;p&gt;这里附上一份 &lt;a href=&#34;https://github.com/kubernetes-sigs/kind&#34;&gt;kind&lt;/a&gt; 的脚本供大家参考：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;Kind&lt;/span&gt; &amp;lt; &lt;span style=&#34;color:#40ffff&#34;&gt;Formula&lt;/span&gt;
-  desc &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Run local Kubernetes cluster in Docker&amp;#34;&lt;/span&gt;
-  homepage &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;https://kind.sigs.k8s.io/&amp;#34;&lt;/span&gt;
-  url &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;https://github.com/kubernetes-sigs/kind/archive/v0.9.0.tar.gz&amp;#34;&lt;/span&gt;
-  sha256 &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;c154289659a7ef30b301a0787ecfa2e08edaada6059bf5acefe9f3be1e026381&amp;#34;&lt;/span&gt;
-  license &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Apache-2.0&amp;#34;&lt;/span&gt;
-  head &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;https://github.com/kubernetes-sigs/kind.git&amp;#34;&lt;/span&gt;
-
-  bottle &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;do&lt;/span&gt;
-    cellar &lt;span style=&#34;color:#ed9d13&#34;&gt;:any_skip_relocation&lt;/span&gt;
-    rebuild &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;
-    sha256 &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;e40a2343bf999585fa4fcb1a1e9b801427e921c098fc3f7e3026c071a0e72520&amp;#34;&lt;/span&gt; =&amp;gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;:big_sur&lt;/span&gt;
-    sha256 &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;e5ba99b5f14711e0dcb121a992d74c5ee6c6b0468b27e5200bf796d4987e13c0&amp;#34;&lt;/span&gt; =&amp;gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;:catalina&lt;/span&gt;
-    sha256 &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;d52a780ad6af93a2a7c480a41c5178a461b9966ddc1adb66adde8ff3bce15238&amp;#34;&lt;/span&gt; =&amp;gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;:mojave&lt;/span&gt;
-    sha256 &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;423ea750ae8589d1a199847f746d8e9b5b1f1d81ceff3a9dab2d63f161532588&amp;#34;&lt;/span&gt; =&amp;gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;:high_sierra&lt;/span&gt;
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;end&lt;/span&gt;
-
-  depends_on &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;go&amp;#34;&lt;/span&gt; =&amp;gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;:build&lt;/span&gt;
-
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#447fcf&#34;&gt;install&lt;/span&gt;
-    &lt;span style=&#34;color:#24909d&#34;&gt;system&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;go&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;build&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;-o&amp;#34;&lt;/span&gt;, bin/&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;kind&amp;#34;&lt;/span&gt;
-    prefix.install_metafiles
-
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# Install bash completion&lt;/span&gt;
-    output = &lt;span style=&#34;color:#40ffff&#34;&gt;Utils&lt;/span&gt;.safe_popen_read(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;#{&lt;/span&gt;bin&lt;span style=&#34;color:#ed9d13&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;/kind&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;completion&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;bash&amp;#34;&lt;/span&gt;)
-    (bash_completion/&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;kind&amp;#34;&lt;/span&gt;).write output
-
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# Install zsh completion&lt;/span&gt;
-    output = &lt;span style=&#34;color:#40ffff&#34;&gt;Utils&lt;/span&gt;.safe_popen_read(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;#{&lt;/span&gt;bin&lt;span style=&#34;color:#ed9d13&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;/kind&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;completion&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;zsh&amp;#34;&lt;/span&gt;)
-    (zsh_completion/&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;_kind&amp;#34;&lt;/span&gt;).write output
-
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# Install fish completion&lt;/span&gt;
-    output = &lt;span style=&#34;color:#40ffff&#34;&gt;Utils&lt;/span&gt;.safe_popen_read(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;#{&lt;/span&gt;bin&lt;span style=&#34;color:#ed9d13&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;/kind&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;completion&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;fish&amp;#34;&lt;/span&gt;)
-    (fish_completion/&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;kind.fish&amp;#34;&lt;/span&gt;).write output
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;end&lt;/span&gt;
-
-  &lt;span style=&#34;color:#24909d&#34;&gt;test&lt;/span&gt; &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;do&lt;/span&gt;
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# Should error out as creating a kind cluster requires root&lt;/span&gt;
-    status_output = shell_output(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;#{&lt;/span&gt;bin&lt;span style=&#34;color:#ed9d13&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;/kind get kubeconfig --name homebrew 2&amp;gt;&amp;amp;1&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;)
-    assert_match &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;failed to list clusters&amp;#34;&lt;/span&gt;, status_output
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;end&lt;/span&gt;
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;更多内容见&lt;a href=&#34;https://docs.brew.sh/Formula-Cookbook&#34;&gt;官方文档&lt;/a&gt;。&lt;/p&gt;
-&lt;h3 id=&#34;检测脚本&#34;&gt;检测脚本&lt;/h3&gt;
-&lt;p&gt;在脚本完成后，请先进行如下测试，确保测试通过且无任何报错。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ brew tests
+&lt;/div>
+&lt;p>这里附上一份 &lt;a href="https://github.com/kubernetes-sigs/kind">kind&lt;/a> 的脚本供大家参考：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-ruby" data-lang="ruby">&lt;span style="color:#6ab825;font-weight:bold">class&lt;/span> &lt;span style="color:#447fcf;text-decoration:underline">Kind&lt;/span> &amp;lt; &lt;span style="color:#40ffff">Formula&lt;/span>
+desc &lt;span style="color:#ed9d13">&amp;#34;Run local Kubernetes cluster in Docker&amp;#34;&lt;/span>
+homepage &lt;span style="color:#ed9d13">&amp;#34;https://kind.sigs.k8s.io/&amp;#34;&lt;/span>
+url &lt;span style="color:#ed9d13">&amp;#34;https://github.com/kubernetes-sigs/kind/archive/v0.9.0.tar.gz&amp;#34;&lt;/span>
+sha256 &lt;span style="color:#ed9d13">&amp;#34;c154289659a7ef30b301a0787ecfa2e08edaada6059bf5acefe9f3be1e026381&amp;#34;&lt;/span>
+license &lt;span style="color:#ed9d13">&amp;#34;Apache-2.0&amp;#34;&lt;/span>
+head &lt;span style="color:#ed9d13">&amp;#34;https://github.com/kubernetes-sigs/kind.git&amp;#34;&lt;/span>
+bottle &lt;span style="color:#6ab825;font-weight:bold">do&lt;/span>
+cellar &lt;span style="color:#ed9d13">:any_skip_relocation&lt;/span>
+rebuild &lt;span style="color:#3677a9">1&lt;/span>
+sha256 &lt;span style="color:#ed9d13">&amp;#34;e40a2343bf999585fa4fcb1a1e9b801427e921c098fc3f7e3026c071a0e72520&amp;#34;&lt;/span> =&amp;gt; &lt;span style="color:#ed9d13">:big_sur&lt;/span>
+sha256 &lt;span style="color:#ed9d13">&amp;#34;e5ba99b5f14711e0dcb121a992d74c5ee6c6b0468b27e5200bf796d4987e13c0&amp;#34;&lt;/span> =&amp;gt; &lt;span style="color:#ed9d13">:catalina&lt;/span>
+sha256 &lt;span style="color:#ed9d13">&amp;#34;d52a780ad6af93a2a7c480a41c5178a461b9966ddc1adb66adde8ff3bce15238&amp;#34;&lt;/span> =&amp;gt; &lt;span style="color:#ed9d13">:mojave&lt;/span>
+sha256 &lt;span style="color:#ed9d13">&amp;#34;423ea750ae8589d1a199847f746d8e9b5b1f1d81ceff3a9dab2d63f161532588&amp;#34;&lt;/span> =&amp;gt; &lt;span style="color:#ed9d13">:high_sierra&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">end&lt;/span>
+depends_on &lt;span style="color:#ed9d13">&amp;#34;go&amp;#34;&lt;/span> =&amp;gt; &lt;span style="color:#ed9d13">:build&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">def&lt;/span> &lt;span style="color:#447fcf">install&lt;/span>
+&lt;span style="color:#24909d">system&lt;/span> &lt;span style="color:#ed9d13">&amp;#34;go&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;build&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;-o&amp;#34;&lt;/span>, bin/&lt;span style="color:#ed9d13">&amp;#34;kind&amp;#34;&lt;/span>
+prefix.install_metafiles
+&lt;span style="color:#999;font-style:italic"># Install bash completion&lt;/span>
+output = &lt;span style="color:#40ffff">Utils&lt;/span>.safe_popen_read(&lt;span style="color:#ed9d13">&amp;#34;&lt;/span>&lt;span style="color:#ed9d13">#{&lt;/span>bin&lt;span style="color:#ed9d13">}&lt;/span>&lt;span style="color:#ed9d13">/kind&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;completion&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;bash&amp;#34;&lt;/span>)
+(bash_completion/&lt;span style="color:#ed9d13">&amp;#34;kind&amp;#34;&lt;/span>).write output
+&lt;span style="color:#999;font-style:italic"># Install zsh completion&lt;/span>
+output = &lt;span style="color:#40ffff">Utils&lt;/span>.safe_popen_read(&lt;span style="color:#ed9d13">&amp;#34;&lt;/span>&lt;span style="color:#ed9d13">#{&lt;/span>bin&lt;span style="color:#ed9d13">}&lt;/span>&lt;span style="color:#ed9d13">/kind&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;completion&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;zsh&amp;#34;&lt;/span>)
+(zsh_completion/&lt;span style="color:#ed9d13">&amp;#34;_kind&amp;#34;&lt;/span>).write output
+&lt;span style="color:#999;font-style:italic"># Install fish completion&lt;/span>
+output = &lt;span style="color:#40ffff">Utils&lt;/span>.safe_popen_read(&lt;span style="color:#ed9d13">&amp;#34;&lt;/span>&lt;span style="color:#ed9d13">#{&lt;/span>bin&lt;span style="color:#ed9d13">}&lt;/span>&lt;span style="color:#ed9d13">/kind&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;completion&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;fish&amp;#34;&lt;/span>)
+(fish_completion/&lt;span style="color:#ed9d13">&amp;#34;kind.fish&amp;#34;&lt;/span>).write output
+&lt;span style="color:#6ab825;font-weight:bold">end&lt;/span>
+&lt;span style="color:#24909d">test&lt;/span> &lt;span style="color:#6ab825;font-weight:bold">do&lt;/span>
+&lt;span style="color:#999;font-style:italic"># Should error out as creating a kind cluster requires root&lt;/span>
+status_output = shell_output(&lt;span style="color:#ed9d13">&amp;#34;&lt;/span>&lt;span style="color:#ed9d13">#{&lt;/span>bin&lt;span style="color:#ed9d13">}&lt;/span>&lt;span style="color:#ed9d13">/kind get kubeconfig --name homebrew 2&amp;gt;&amp;amp;1&amp;#34;&lt;/span>, &lt;span style="color:#3677a9">1&lt;/span>)
+assert_match &lt;span style="color:#ed9d13">&amp;#34;failed to list clusters&amp;#34;&lt;/span>, status_output
+&lt;span style="color:#6ab825;font-weight:bold">end&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">end&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>更多内容见&lt;a href="https://docs.brew.sh/Formula-Cookbook">官方文档&lt;/a>。&lt;/p>
+&lt;h3 id="检测脚本">检测脚本&lt;/h3>
+&lt;p>在脚本完成后，请先进行如下测试，确保测试通过且无任何报错。&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ brew tests
 $ brew install --build-from-source &amp;lt;CHANGED_FORMULA&amp;gt;
-$ brew &lt;span style=&#34;color:#24909d&#34;&gt;test&lt;/span&gt; &amp;lt;CHANGED_FORMULA&amp;gt;
+$ brew &lt;span style="color:#24909d">test&lt;/span> &amp;lt;CHANGED_FORMULA&amp;gt;
 $ brew audit --strict &amp;lt;CHANGED_FORMULA&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;提交代码&#34;&gt;提交代码&lt;/h3&gt;
-&lt;p&gt;在通过所有测试后，就可以提交代码了，需要对每个更改单独提交 PR，且 commit 有格式要求，一般为 &lt;code&gt;&amp;lt;FORMULA_NAME&amp;gt; &amp;lt;NEW_VERSION&amp;gt;&lt;/code&gt; 如 &lt;code&gt;kbecm 0.10.3&lt;/code&gt;。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ git add Formula/foo.rb
-$ git commit -m &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;foo 0.0.1&amp;#39;&lt;/span&gt;
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="提交代码">提交代码&lt;/h3>
+&lt;p>在通过所有测试后，就可以提交代码了，需要对每个更改单独提交 PR，且 commit 有格式要求，一般为 &lt;code>&amp;lt;FORMULA_NAME&amp;gt; &amp;lt;NEW_VERSION&amp;gt;&lt;/code> 如 &lt;code>kbecm 0.10.3&lt;/code>。&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ git add Formula/foo.rb
+$ git commit -m &lt;span style="color:#ed9d13">&amp;#39;foo 0.0.1&amp;#39;&lt;/span>
 $ git push --set-upstream &amp;lt;YOUR_USERNAME&amp;gt; &amp;lt;YOUR_BRANCH_NAME&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在这里提交后，代码就会 push 到之前 fork 的 &lt;code&gt;homebrew/core&lt;/code&gt; 项目。&lt;/p&gt;
-&lt;h3 id=&#34;提交-pr&#34;&gt;提交 PR&lt;/h3&gt;
-&lt;p&gt;之后就可以在 GitHub 页面操作提交 PR 了。项目维护者的响应还是很及时的，在 PR 通过所有 CI test 后，就会有维护者进行 review 并指出需要修改的地方，根据要求修复即可。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65gy1glar44n4v3j22t61jck8j.jpg&#34; alt=&#34;提交 PR&#34;&gt;&lt;/p&gt;
-&lt;h2 id=&#34;提交新版本&#34;&gt;提交新版本&lt;/h2&gt;
-&lt;p&gt;PR 合并成功后，如果要发布新版本，这里推荐两种方式提交新版本。&lt;/p&gt;
-&lt;h3 id=&#34;cli&#34;&gt;CLI&lt;/h3&gt;
-&lt;p&gt;&lt;code&gt;brew&lt;/code&gt; 提供了十分简单的方式自动创建 PR，命令如下：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ brew bump-formula-pr --url https://example.com/foo-0.1.tar.gz
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;更多的信息可以通过 &lt;code&gt;brew bump-formula-pr --help&lt;/code&gt; 查看。&lt;/p&gt;
-&lt;h3 id=&#34;github-action&#34;&gt;GitHub action&lt;/h3&gt;
-&lt;p&gt;这一步也可以在 GitHub action 中自动完成，使用 &lt;a href=&#34;https://github.com/marketplace/actions/homebrew-bump-formula&#34;&gt;homebrew-bump-formula&lt;/a&gt; 插件。原理其实也是使用了 &lt;code&gt;brew bump-formula-pr&lt;/code&gt;，但是这样就无需手动触发，可以集成到 Release 的 CI 中。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Bump Homebrew kubecm formula&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;on&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;push&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;tags&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;v*&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;jobs&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;homebrew&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;runs-on&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;ubuntu-latest&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;steps&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Update Homebrew formula&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;uses&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;dawidd6/action-homebrew-bump-formula@v3&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;with&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# GitHub token, required, not the default one&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;token&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;${{secrets.TOKEN}}&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# Optional, defaults to homebrew/core&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;tap&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;USER/REPO&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# Formula name, required&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;formula&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;FORMULA&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# Optional, will be determined automatically&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;tag&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;${{github.ref}}&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# Optional, will be determined automatically&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;revision&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;${{github.sha}}&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# Optional, if don&amp;#39;t want to check for already open PRs&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;force&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# true&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
-&lt;h4 class=&#34;alert-heading&#34;&gt;注意&lt;/h4&gt;
-这里的 &lt;code&gt;TOKEN&lt;/code&gt; 需要在 &lt;a href=&#34;https://github.com/settings/tokens/new?scopes=public_repo&#34;&gt;Personal Access Token&lt;/a&gt; 上申请，并手动添加到 repo 的 setting 中。
-&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1glarq5rc3bj2258122n2n.jpg&#34; alt=&#34;TOKEN&#34;&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
-&lt;p&gt;总的来说，这一套流程都比较简单，笔者也只是在 GitHub action 的 &lt;code&gt;TOKEN&lt;/code&gt; 上浪费了一些时间。使用 &lt;code&gt;brew&lt;/code&gt; 不但简化了安装步骤，提升了用户体验，还可以把诸如 &lt;code&gt;completion&lt;/code&gt; 命令生成的自动补全脚本在安装时就注入到系统中，无需在装好后再进行其他操作，体验极佳。&lt;/p&gt;
-
-      </description>
-    </item>
-    
-    <item>
-      <title>Post: 使用 Golang 和 HTML5 开发一个 MacOS App</title>
-      <link>https://guoxudong.io/post/go-h5-codeing-mac-app/</link>
-      <pubDate>Tue, 18 Aug 2020 09:23:28 +0800</pubDate>
-      
-      <guid>https://guoxudong.io/post/go-h5-codeing-mac-app/</guid>
-      <description>
-        
-        
-        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
-&lt;p&gt;Go语言（也称为Golang）是 google 在 2009 年推出的一种编译型编程语言。相对于其他编程语言，golang 具有编写并发程序或网络交互简单、数据类型丰富、编译速度快等特点，比较适合于高性能、高并发场景。Go 语言一直在网络编程、云平台开发、分布式系统等领域占据着重要的地位，尤其在云原生领域，杀手级项目 Docker 和 Kubernetes 都是采用 Go 语言开发的。而在其他领域，比如桌面应用开发，也有一些框架可以使用，本篇文章就来介绍如何使用 Go 语言 和 HTML5 来开发一个 MacOS App。&lt;/p&gt;
-&lt;h2 id=&#34;框架选择&#34;&gt;框架选择&lt;/h2&gt;
-&lt;p&gt;这里我选用了 &lt;a href=&#34;https://github.com/labstack/echo&#34;&gt;echo&lt;/a&gt; 作为 web 框架，当然也可以选择其他的 web 框架，选择 echo 只不过因为其比较轻量。要做桌面应用，还需要一个 GUI 框架来构建应用，这里我选择的是 &lt;a href=&#34;https://github.com/zserge/lorca&#34;&gt;Lorca&lt;/a&gt;，使用 Lorca 可以用 Go 编写 HTML5 桌面程序，依赖 Chrome 进行 UI 渲染，但却不需要把 Chrome 打包到应用中，也就是说使用应用的电脑，需要安装 Chrome。&lt;/p&gt;
-&lt;h3 id=&#34;lorca&#34;&gt;lorca&lt;/h3&gt;
-&lt;p&gt;echo 的使用方式中规中矩，没有什么需要介绍的。这里简要介绍一下 lorca，其的使用方法和原理都很简单，可以将其看做是一个浏览器，可在其上运行 web 应用，lorca 可直接将 web 应用包装成桌面应用。这里提供一个简单的示例：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;ui, _ := lorca.&lt;span style=&#34;color:#447fcf&#34;&gt;New&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#3677a9&#34;&gt;480&lt;/span&gt;, &lt;span style=&#34;color:#3677a9&#34;&gt;320&lt;/span&gt;)
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;defer&lt;/span&gt; ui.&lt;span style=&#34;color:#447fcf&#34;&gt;Close&lt;/span&gt;()
-
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Bind Go function to be available in JS. Go function may be long-running and
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// blocking - in JS it&amp;#39;s represented with a Promise.
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;ui.&lt;span style=&#34;color:#447fcf&#34;&gt;Bind&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;add&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;func&lt;/span&gt;(a, b &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;int&lt;/span&gt;) &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;int&lt;/span&gt; { &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; a + b })
-
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Call JS function from Go. Functions may be asynchronous, i.e. return promises
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;n := ui.&lt;span style=&#34;color:#447fcf&#34;&gt;Eval&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;`Math.random()`&lt;/span&gt;).&lt;span style=&#34;color:#447fcf&#34;&gt;Float&lt;/span&gt;()
-fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Println&lt;/span&gt;(n)
-
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Call JS that calls Go and so on and so on...
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;m := ui.&lt;span style=&#34;color:#447fcf&#34;&gt;Eval&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;`add(2, 3)`&lt;/span&gt;).&lt;span style=&#34;color:#447fcf&#34;&gt;Int&lt;/span&gt;()
-fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Println&lt;/span&gt;(m)
-
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Wait for the browser window to be closed
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&amp;lt;-ui.&lt;span style=&#34;color:#447fcf&#34;&gt;Done&lt;/span&gt;()
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;制作-macos-app&#34;&gt;制作 MacOS App&lt;/h2&gt;
-&lt;p&gt;在完成基本的编码后，接下来的工作才是重点：将应用包装成一个 MacOS APP。&lt;/p&gt;
-&lt;h3 id=&#34;制作图标&#34;&gt;制作图标&lt;/h3&gt;
-&lt;p&gt;一个 MacOS APP 首先需要一个图标，这里请选择一个 1024 X 1024 分辨率，背景透明的 PNG 图片。这里假设该图片名为 &lt;code&gt;logo.png&lt;/code&gt;：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;新建一个名为 &lt;code&gt;tmp.iconset&lt;/code&gt; 的临时目录，用于存放不同大小的临时图片&lt;/li&gt;
-&lt;li&gt;执行如下命令，将原图转为不同大小的图片并放入临时目录&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;16&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;16&lt;/span&gt;     logo.png --out tmp.iconset/icon_16x16.png
-$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;32&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;32&lt;/span&gt;     logo.png --out tmp.iconset/icon_16x16@2x.png
-$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;32&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;32&lt;/span&gt;     logo.png --out tmp.iconset/icon_32x32.png
-$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;64&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;64&lt;/span&gt;     logo.png --out tmp.iconset/icon_32x32@2x.png
-$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;128&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;128&lt;/span&gt;   logo.png --out tmp.iconset/icon_128x128.png
-$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;256&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;256&lt;/span&gt;   logo.png --out tmp.iconset/icon_128x128@2x.png
-$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;256&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;256&lt;/span&gt;   logo.png --out tmp.iconset/icon_256x256.png
-$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;512&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;512&lt;/span&gt;   logo.png --out tmp.iconset/icon_256x256@2x.png
-$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;512&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;512&lt;/span&gt;   logo.png --out tmp.iconset/icon_512x512.png
-$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;1024&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;1024&lt;/span&gt;   logo.png --out tmp.iconset/icon_512x512@2x.png
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
-&lt;li&gt;使用 &lt;a href=&#34;https://developer.apple.com/library/content/documentation/GraphicsAnimation/Conceptual/HighResolutionOSX/Optimizing/Optimizing.html#//apple_ref/doc/uid/TP40012302-CH7-SW2&#34;&gt;iconutil&lt;/a&gt; 生成图标&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ iconutil -c icns tmp.iconset -o icon.icns
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;icon.icns&lt;/code&gt; 就是制作好的 MacOS App 图标。&lt;/p&gt;
-&lt;h3 id=&#34;制作-app-bundle&#34;&gt;制作 .app bundle&lt;/h3&gt;
-&lt;p&gt;macOS 上安装的可运行程序是一个 &lt;code&gt;.app&lt;/code&gt; 的目录，里面包含了应用的二进制文件、资源文件以及清单文件。其的目录结构为（也可以通过”右键-显示包内容“来查看 &lt;code&gt;.app&lt;/code&gt; 文件内容）：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ tree Kustomize.app
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>在这里提交后，代码就会 push 到之前 fork 的 &lt;code>homebrew/core&lt;/code> 项目。&lt;/p>
+&lt;h3 id="提交-pr">提交 PR&lt;/h3>
+&lt;p>之后就可以在 GitHub 页面操作提交 PR 了。项目维护者的响应还是很及时的，在 PR 通过所有 CI test 后，就会有维护者进行 review 并指出需要修改的地方，根据要求修复即可。&lt;/p>
+&lt;p>&lt;img src="https://tvax1.sinaimg.cn/large/ad5fbf65gy1glar44n4v3j22t61jck8j.jpg" alt="提交 PR">&lt;/p>
+&lt;h2 id="提交新版本">提交新版本&lt;/h2>
+&lt;p>PR 合并成功后，如果要发布新版本，这里推荐两种方式提交新版本。&lt;/p>
+&lt;h3 id="cli">CLI&lt;/h3>
+&lt;p>&lt;code>brew&lt;/code> 提供了十分简单的方式自动创建 PR，命令如下：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ brew bump-formula-pr --url https://example.com/foo-0.1.tar.gz
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>更多的信息可以通过 &lt;code>brew bump-formula-pr --help&lt;/code> 查看。&lt;/p>
+&lt;h3 id="github-action">GitHub action&lt;/h3>
+&lt;p>这一步也可以在 GitHub action 中自动完成，使用 &lt;a href="https://github.com/marketplace/actions/homebrew-bump-formula">homebrew-bump-formula&lt;/a> 插件。原理其实也是使用了 &lt;code>brew bump-formula-pr&lt;/code>，但是这样就无需手动触发，可以集成到 Release 的 CI 中。&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="color:#6ab825;font-weight:bold">name&lt;/span>:&lt;span style="color:#666"> &lt;/span>Bump Homebrew kubecm formula&lt;span style="color:#666">
+&lt;/span>&lt;span style="color:#666">
+&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">on&lt;/span>:&lt;span style="color:#666">
+&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">push&lt;/span>:&lt;span style="color:#666">
+&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">tags&lt;/span>:&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#ed9d13">&amp;#39;v*&amp;#39;&lt;/span>&lt;span style="color:#666">
+&lt;/span>&lt;span style="color:#666">
+&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">jobs&lt;/span>:&lt;span style="color:#666">
+&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">homebrew&lt;/span>:&lt;span style="color:#666">
+&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">runs-on&lt;/span>:&lt;span style="color:#666"> &lt;/span>ubuntu-latest&lt;span style="color:#666">
+&lt;/span>&lt;span style="color:#666">
+&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">steps&lt;/span>:&lt;span style="color:#666">
+&lt;/span>&lt;span style="color:#666"> &lt;/span>- &lt;span style="color:#6ab825;font-weight:bold">name&lt;/span>:&lt;span style="color:#666"> &lt;/span>Update Homebrew formula&lt;span style="color:#666">
+&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">uses&lt;/span>:&lt;span style="color:#666"> &lt;/span>dawidd6/action-homebrew-bump-formula@v3&lt;span style="color:#666">
+&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">with&lt;/span>:&lt;span style="color:#666">
+&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#999;font-style:italic"># GitHub token, required, not the default one&lt;/span>&lt;span style="color:#666">
+&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">token&lt;/span>:&lt;span style="color:#666"> &lt;/span>${{secrets.TOKEN}}&lt;span style="color:#666">
+&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#999;font-style:italic"># Optional, defaults to homebrew/core&lt;/span>&lt;span style="color:#666">
+&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">tap&lt;/span>:&lt;span style="color:#666"> &lt;/span>USER/REPO&lt;span style="color:#666">
+&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#999;font-style:italic"># Formula name, required&lt;/span>&lt;span style="color:#666">
+&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">formula&lt;/span>:&lt;span style="color:#666"> &lt;/span>FORMULA&lt;span style="color:#666">
+&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#999;font-style:italic"># Optional, will be determined automatically&lt;/span>&lt;span style="color:#666">
+&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">tag&lt;/span>:&lt;span style="color:#666"> &lt;/span>${{github.ref}}&lt;span style="color:#666">
+&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#999;font-style:italic"># Optional, will be determined automatically&lt;/span>&lt;span style="color:#666">
+&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">revision&lt;/span>:&lt;span style="color:#666"> &lt;/span>${{github.sha}}&lt;span style="color:#666">
+&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#999;font-style:italic"># Optional, if don&amp;#39;t want to check for already open PRs&lt;/span>&lt;span style="color:#666">
+&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">force&lt;/span>:&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">false&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#999;font-style:italic"># true&lt;/span>&lt;span style="color:#666">
+&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;div class="alert alert-warning" role="alert">
+&lt;h4 class="alert-heading">注意&lt;/h4>
+这里的 &lt;code>TOKEN&lt;/code> 需要在 &lt;a href="https://github.com/settings/tokens/new?scopes=public_repo">Personal Access Token&lt;/a> 上申请，并手动添加到 repo 的 setting 中。
+&lt;img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1glarq5rc3bj2258122n2n.jpg" alt="TOKEN">
+&lt;/div>
+&lt;h2 id="结语">结语&lt;/h2>
+&lt;p>总的来说，这一套流程都比较简单，笔者也只是在 GitHub action 的 &lt;code>TOKEN&lt;/code> 上浪费了一些时间。使用 &lt;code>brew&lt;/code> 不但简化了安装步骤，提升了用户体验，还可以把诸如 &lt;code>completion&lt;/code> 命令生成的自动补全脚本在安装时就注入到系统中，无需在装好后再进行其他操作，体验极佳。&lt;/p></description></item><item><title>Post: 使用 Golang 和 HTML5 开发一个 MacOS App</title><link>https://guoxudong.io/post/go-h5-codeing-mac-app/</link><pubDate>Tue, 18 Aug 2020 09:23:28 +0800</pubDate><guid>https://guoxudong.io/post/go-h5-codeing-mac-app/</guid><description>
+&lt;h2 id="前言">前言&lt;/h2>
+&lt;p>Go语言（也称为Golang）是 google 在 2009 年推出的一种编译型编程语言。相对于其他编程语言，golang 具有编写并发程序或网络交互简单、数据类型丰富、编译速度快等特点，比较适合于高性能、高并发场景。Go 语言一直在网络编程、云平台开发、分布式系统等领域占据着重要的地位，尤其在云原生领域，杀手级项目 Docker 和 Kubernetes 都是采用 Go 语言开发的。而在其他领域，比如桌面应用开发，也有一些框架可以使用，本篇文章就来介绍如何使用 Go 语言 和 HTML5 来开发一个 MacOS App。&lt;/p>
+&lt;h2 id="框架选择">框架选择&lt;/h2>
+&lt;p>这里我选用了 &lt;a href="https://github.com/labstack/echo">echo&lt;/a> 作为 web 框架，当然也可以选择其他的 web 框架，选择 echo 只不过因为其比较轻量。要做桌面应用，还需要一个 GUI 框架来构建应用，这里我选择的是 &lt;a href="https://github.com/zserge/lorca">Lorca&lt;/a>，使用 Lorca 可以用 Go 编写 HTML5 桌面程序，依赖 Chrome 进行 UI 渲染，但却不需要把 Chrome 打包到应用中，也就是说使用应用的电脑，需要安装 Chrome。&lt;/p>
+&lt;h3 id="lorca">lorca&lt;/h3>
+&lt;p>echo 的使用方式中规中矩，没有什么需要介绍的。这里简要介绍一下 lorca，其的使用方法和原理都很简单，可以将其看做是一个浏览器，可在其上运行 web 应用，lorca 可直接将 web 应用包装成桌面应用。这里提供一个简单的示例：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">ui, _ := lorca.&lt;span style="color:#447fcf">New&lt;/span>(&lt;span style="color:#ed9d13">&amp;#34;&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;&amp;#34;&lt;/span>, &lt;span style="color:#3677a9">480&lt;/span>, &lt;span style="color:#3677a9">320&lt;/span>)
+&lt;span style="color:#6ab825;font-weight:bold">defer&lt;/span> ui.&lt;span style="color:#447fcf">Close&lt;/span>()
+&lt;span style="color:#999;font-style:italic">// Bind Go function to be available in JS. Go function may be long-running and
+&lt;/span>&lt;span style="color:#999;font-style:italic">// blocking - in JS it&amp;#39;s represented with a Promise.
+&lt;/span>&lt;span style="color:#999;font-style:italic">&lt;/span>ui.&lt;span style="color:#447fcf">Bind&lt;/span>(&lt;span style="color:#ed9d13">&amp;#34;add&amp;#34;&lt;/span>, &lt;span style="color:#6ab825;font-weight:bold">func&lt;/span>(a, b &lt;span style="color:#6ab825;font-weight:bold">int&lt;/span>) &lt;span style="color:#6ab825;font-weight:bold">int&lt;/span> { &lt;span style="color:#6ab825;font-weight:bold">return&lt;/span> a + b })
+&lt;span style="color:#999;font-style:italic">// Call JS function from Go. Functions may be asynchronous, i.e. return promises
+&lt;/span>&lt;span style="color:#999;font-style:italic">&lt;/span>n := ui.&lt;span style="color:#447fcf">Eval&lt;/span>(&lt;span style="color:#ed9d13">`Math.random()`&lt;/span>).&lt;span style="color:#447fcf">Float&lt;/span>()
+fmt.&lt;span style="color:#447fcf">Println&lt;/span>(n)
+&lt;span style="color:#999;font-style:italic">// Call JS that calls Go and so on and so on...
+&lt;/span>&lt;span style="color:#999;font-style:italic">&lt;/span>m := ui.&lt;span style="color:#447fcf">Eval&lt;/span>(&lt;span style="color:#ed9d13">`add(2, 3)`&lt;/span>).&lt;span style="color:#447fcf">Int&lt;/span>()
+fmt.&lt;span style="color:#447fcf">Println&lt;/span>(m)
+&lt;span style="color:#999;font-style:italic">// Wait for the browser window to be closed
+&lt;/span>&lt;span style="color:#999;font-style:italic">&lt;/span>&amp;lt;-ui.&lt;span style="color:#447fcf">Done&lt;/span>()
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="制作-macos-app">制作 MacOS App&lt;/h2>
+&lt;p>在完成基本的编码后，接下来的工作才是重点：将应用包装成一个 MacOS APP。&lt;/p>
+&lt;h3 id="制作图标">制作图标&lt;/h3>
+&lt;p>一个 MacOS APP 首先需要一个图标，这里请选择一个 1024 X 1024 分辨率，背景透明的 PNG 图片。这里假设该图片名为 &lt;code>logo.png&lt;/code>：&lt;/p>
+&lt;ul>
+&lt;li>新建一个名为 &lt;code>tmp.iconset&lt;/code> 的临时目录，用于存放不同大小的临时图片&lt;/li>
+&lt;li>执行如下命令，将原图转为不同大小的图片并放入临时目录&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ sips -z &lt;span style="color:#3677a9">16&lt;/span> &lt;span style="color:#3677a9">16&lt;/span> logo.png --out tmp.iconset/icon_16x16.png
+$ sips -z &lt;span style="color:#3677a9">32&lt;/span> &lt;span style="color:#3677a9">32&lt;/span> logo.png --out tmp.iconset/icon_16x16@2x.png
+$ sips -z &lt;span style="color:#3677a9">32&lt;/span> &lt;span style="color:#3677a9">32&lt;/span> logo.png --out tmp.iconset/icon_32x32.png
+$ sips -z &lt;span style="color:#3677a9">64&lt;/span> &lt;span style="color:#3677a9">64&lt;/span> logo.png --out tmp.iconset/icon_32x32@2x.png
+$ sips -z &lt;span style="color:#3677a9">128&lt;/span> &lt;span style="color:#3677a9">128&lt;/span> logo.png --out tmp.iconset/icon_128x128.png
+$ sips -z &lt;span style="color:#3677a9">256&lt;/span> &lt;span style="color:#3677a9">256&lt;/span> logo.png --out tmp.iconset/icon_128x128@2x.png
+$ sips -z &lt;span style="color:#3677a9">256&lt;/span> &lt;span style="color:#3677a9">256&lt;/span> logo.png --out tmp.iconset/icon_256x256.png
+$ sips -z &lt;span style="color:#3677a9">512&lt;/span> &lt;span style="color:#3677a9">512&lt;/span> logo.png --out tmp.iconset/icon_256x256@2x.png
+$ sips -z &lt;span style="color:#3677a9">512&lt;/span> &lt;span style="color:#3677a9">512&lt;/span> logo.png --out tmp.iconset/icon_512x512.png
+$ sips -z &lt;span style="color:#3677a9">1024&lt;/span> &lt;span style="color:#3677a9">1024&lt;/span> logo.png --out tmp.iconset/icon_512x512@2x.png
+&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>使用 &lt;a href="https://developer.apple.com/library/content/documentation/GraphicsAnimation/Conceptual/HighResolutionOSX/Optimizing/Optimizing.html#//apple_ref/doc/uid/TP40012302-CH7-SW2">iconutil&lt;/a> 生成图标&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ iconutil -c icns tmp.iconset -o icon.icns
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>icon.icns&lt;/code> 就是制作好的 MacOS App 图标。&lt;/p>
+&lt;h3 id="制作-app-bundle">制作 .app bundle&lt;/h3>
+&lt;p>macOS 上安装的可运行程序是一个 &lt;code>.app&lt;/code> 的目录，里面包含了应用的二进制文件、资源文件以及清单文件。其的目录结构为（也可以通过”右键-显示包内容“来查看 &lt;code>.app&lt;/code> 文件内容）：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ tree Kustomize.app
 Kustomize.app
 └── Contents
-    ├── Info.plist
-    ├── MacOS
-    │   └── kustomize
-    └── Resources
-        ├── assets
-        │   ├── css
-        │   │   ├── page.css
-        │   │   ├── prism.css
-        │   │   └── weui.min.css
-        │   ├── images
-        │   │   └── favicon.ico
-        │   └── js
-        │       ├── jquery.min.js
-        │       ├── prism.js
-        │       └── weui.min.js
-        ├── icon.icns
-        └── views
-            ├── copyreght.html
-            ├── footer.html
-            ├── header.html
-            ├── index.html
-            └── yaml.html
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;可以看到：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;Info.plist&lt;/code&gt; 为清单文件，存储应用信息&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;MacOS&lt;/code&gt; 中存放二进制可执行文件&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;Resources&lt;/code&gt; 存放静态资源文件和图标&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;infoplist-文件&#34;&gt;Info.plist 文件&lt;/h3&gt;
-&lt;p&gt;这是一个清单文件，根据自己应用的内容对齐进行修改，更多内容可以参考 &lt;a href=&#34;https://github.com/shurcooL/trayhost&#34;&gt;trayhost&lt;/a&gt; 项目的说明。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#cd2828;font-weight:bold&#34;&gt;&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#cd2828;font-weight:bold&#34;&gt;&amp;lt;!DOCTYPE plist PUBLIC &amp;#34;-//Apple//DTD PLIST 1.0//EN&amp;#34; &amp;#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&amp;#34;&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;plist&lt;/span&gt; &lt;span style=&#34;color:#bbb&#34;&gt;version=&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;1.0&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;dict&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;CFBundleExecutable&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;kustomize&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;CFBundleIconFile&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;icon.icns&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;CFBundleIdentifier&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;io.guoxudong.kustomize-remote-observer&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;NSHighResolutionCapable&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;true/&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;LSUIElement&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;1&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/dict&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/plist&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;使用脚本构建-app&#34;&gt;使用脚本构建 App&lt;/h3&gt;
-&lt;p&gt;上面的这些只不过是介绍一下原理及手动修改方式，实际应用中可以使用脚本来完成这些工作。使用如下脚本，可以一键完成：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;.app&lt;/code&gt; 应用的构建&lt;/li&gt;
-&lt;li&gt;go 应用的打包&lt;/li&gt;
-&lt;li&gt;清单文件的生成&lt;/li&gt;
-&lt;li&gt;静态资源的拷贝&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#cd2828;font-weight:bold&#34;&gt;#!/bin/sh
-&lt;/span&gt;&lt;span style=&#34;color:#cd2828;font-weight:bold&#34;&gt;&lt;/span&gt;
-&lt;span style=&#34;color:#40ffff&#34;&gt;APP&lt;/span&gt;=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Kustomize.app&amp;#34;&lt;/span&gt;
-mkdir -p &lt;span style=&#34;color:#40ffff&#34;&gt;$APP&lt;/span&gt;/Contents/{MacOS,Resources}
-go build -o &lt;span style=&#34;color:#40ffff&#34;&gt;$APP&lt;/span&gt;/Contents/MacOS/kustomize
-cat &amp;gt; &lt;span style=&#34;color:#40ffff&#34;&gt;$APP&lt;/span&gt;/Contents/Info.plist &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;&amp;lt; EOF
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;!DOCTYPE plist PUBLIC &amp;#34;-//Apple//DTD PLIST 1.0//EN&amp;#34; &amp;#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&amp;#34;&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;plist version=&amp;#34;1.0&amp;#34;&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;dict&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;	&amp;lt;key&amp;gt;CFBundleExecutable&amp;lt;/key&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;	&amp;lt;string&amp;gt;kustomize&amp;lt;/string&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;	&amp;lt;key&amp;gt;CFBundleIconFile&amp;lt;/key&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;	&amp;lt;string&amp;gt;icon.icns&amp;lt;/string&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;	&amp;lt;key&amp;gt;CFBundleIdentifier&amp;lt;/key&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;	&amp;lt;string&amp;gt;io.guoxudong.kustomize-remote-observer&amp;lt;/string&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;	&amp;lt;key&amp;gt;NSHighResolutionCapable&amp;lt;/key&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;  &amp;lt;true/&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;	&amp;lt;key&amp;gt;LSUIElement&amp;lt;/key&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;  &amp;lt;string&amp;gt;1&amp;lt;/string&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;/dict&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;/plist&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;EOF&lt;/span&gt;
-cp icons/icon.icns &lt;span style=&#34;color:#40ffff&#34;&gt;$APP&lt;/span&gt;/Contents/Resources/icon.icns
-cp -r assets &lt;span style=&#34;color:#40ffff&#34;&gt;$APP&lt;/span&gt;/Contents/Resources/assets
-cp -r views &lt;span style=&#34;color:#40ffff&#34;&gt;$APP&lt;/span&gt;/Contents/Resources/views
-find &lt;span style=&#34;color:#40ffff&#34;&gt;$APP&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
-&lt;h4 class=&#34;alert-heading&#34;&gt;注意&lt;/h4&gt;
-&lt;p&gt;在 MacOS 中，当您运行 App bundle 时，进程的工作目录是根目录（&lt;code&gt;/&lt;/code&gt;），而不是 &lt;code&gt;Contents/Resources&lt;/code&gt; 目录。如果需要从 &lt;code&gt;Resources&lt;/code&gt; 加载资源，则需要进行如下更改：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;ep, err := os.&lt;span style=&#34;color:#447fcf&#34;&gt;Executable&lt;/span&gt;()
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
-	log.&lt;span style=&#34;color:#447fcf&#34;&gt;Fatalln&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;os.Executable:&amp;#34;&lt;/span&gt;, err)
+├── Info.plist
+├── MacOS
+│   └── kustomize
+└── Resources
+├── assets
+│   ├── css
+│   │   ├── page.css
+│   │   ├── prism.css
+│   │   └── weui.min.css
+│   ├── images
+│   │   └── favicon.ico
+│   └── js
+│   ├── jquery.min.js
+│   ├── prism.js
+│   └── weui.min.js
+├── icon.icns
+└── views
+├── copyreght.html
+├── footer.html
+├── header.html
+├── index.html
+└── yaml.html
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>可以看到：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>Info.plist&lt;/code> 为清单文件，存储应用信息&lt;/li>
+&lt;li>&lt;code>MacOS&lt;/code> 中存放二进制可执行文件&lt;/li>
+&lt;li>&lt;code>Resources&lt;/code> 存放静态资源文件和图标&lt;/li>
+&lt;/ul>
+&lt;h3 id="infoplist-文件">Info.plist 文件&lt;/h3>
+&lt;p>这是一个清单文件，根据自己应用的内容对齐进行修改，更多内容可以参考 &lt;a href="https://github.com/shurcooL/trayhost">trayhost&lt;/a> 项目的说明。&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-xml" data-lang="xml">&lt;span style="color:#cd2828;font-weight:bold">&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt;&lt;/span>
+&lt;span style="color:#cd2828;font-weight:bold">&amp;lt;!DOCTYPE plist PUBLIC &amp;#34;-//Apple//DTD PLIST 1.0//EN&amp;#34; &amp;#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&amp;#34;&amp;gt;&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;plist&lt;/span> &lt;span style="color:#bbb">version=&lt;/span>&lt;span style="color:#ed9d13">&amp;#34;1.0&amp;#34;&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">&amp;gt;&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;dict&amp;gt;&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;key&amp;gt;&lt;/span>CFBundleExecutable&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;/key&amp;gt;&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;string&amp;gt;&lt;/span>kustomize&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;/string&amp;gt;&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;key&amp;gt;&lt;/span>CFBundleIconFile&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;/key&amp;gt;&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;string&amp;gt;&lt;/span>icon.icns&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;/string&amp;gt;&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;key&amp;gt;&lt;/span>CFBundleIdentifier&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;/key&amp;gt;&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;string&amp;gt;&lt;/span>io.guoxudong.kustomize-remote-observer&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;/string&amp;gt;&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;key&amp;gt;&lt;/span>NSHighResolutionCapable&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;/key&amp;gt;&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;true/&amp;gt;&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;key&amp;gt;&lt;/span>LSUIElement&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;/key&amp;gt;&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;string&amp;gt;&lt;/span>1&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;/string&amp;gt;&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;/dict&amp;gt;&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;/plist&amp;gt;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="使用脚本构建-app">使用脚本构建 App&lt;/h3>
+&lt;p>上面的这些只不过是介绍一下原理及手动修改方式，实际应用中可以使用脚本来完成这些工作。使用如下脚本，可以一键完成：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>.app&lt;/code> 应用的构建&lt;/li>
+&lt;li>go 应用的打包&lt;/li>
+&lt;li>清单文件的生成&lt;/li>
+&lt;li>静态资源的拷贝&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">&lt;span style="color:#cd2828;font-weight:bold">#!/bin/sh
+&lt;/span>&lt;span style="color:#cd2828;font-weight:bold">&lt;/span>
+&lt;span style="color:#40ffff">APP&lt;/span>=&lt;span style="color:#ed9d13">&amp;#34;Kustomize.app&amp;#34;&lt;/span>
+mkdir -p &lt;span style="color:#40ffff">$APP&lt;/span>/Contents/{MacOS,Resources}
+go build -o &lt;span style="color:#40ffff">$APP&lt;/span>/Contents/MacOS/kustomize
+cat &amp;gt; &lt;span style="color:#40ffff">$APP&lt;/span>/Contents/Info.plist &lt;span style="color:#ed9d13">&amp;lt;&amp;lt; EOF
+&lt;/span>&lt;span style="color:#ed9d13">&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt;
+&lt;/span>&lt;span style="color:#ed9d13">&amp;lt;!DOCTYPE plist PUBLIC &amp;#34;-//Apple//DTD PLIST 1.0//EN&amp;#34; &amp;#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&amp;#34;&amp;gt;
+&lt;/span>&lt;span style="color:#ed9d13">&amp;lt;plist version=&amp;#34;1.0&amp;#34;&amp;gt;
+&lt;/span>&lt;span style="color:#ed9d13">&amp;lt;dict&amp;gt;
+&lt;/span>&lt;span style="color:#ed9d13"> &amp;lt;key&amp;gt;CFBundleExecutable&amp;lt;/key&amp;gt;
+&lt;/span>&lt;span style="color:#ed9d13"> &amp;lt;string&amp;gt;kustomize&amp;lt;/string&amp;gt;
+&lt;/span>&lt;span style="color:#ed9d13"> &amp;lt;key&amp;gt;CFBundleIconFile&amp;lt;/key&amp;gt;
+&lt;/span>&lt;span style="color:#ed9d13"> &amp;lt;string&amp;gt;icon.icns&amp;lt;/string&amp;gt;
+&lt;/span>&lt;span style="color:#ed9d13"> &amp;lt;key&amp;gt;CFBundleIdentifier&amp;lt;/key&amp;gt;
+&lt;/span>&lt;span style="color:#ed9d13"> &amp;lt;string&amp;gt;io.guoxudong.kustomize-remote-observer&amp;lt;/string&amp;gt;
+&lt;/span>&lt;span style="color:#ed9d13"> &amp;lt;key&amp;gt;NSHighResolutionCapable&amp;lt;/key&amp;gt;
+&lt;/span>&lt;span style="color:#ed9d13"> &amp;lt;true/&amp;gt;
+&lt;/span>&lt;span style="color:#ed9d13"> &amp;lt;key&amp;gt;LSUIElement&amp;lt;/key&amp;gt;
+&lt;/span>&lt;span style="color:#ed9d13"> &amp;lt;string&amp;gt;1&amp;lt;/string&amp;gt;
+&lt;/span>&lt;span style="color:#ed9d13">&amp;lt;/dict&amp;gt;
+&lt;/span>&lt;span style="color:#ed9d13">&amp;lt;/plist&amp;gt;
+&lt;/span>&lt;span style="color:#ed9d13">EOF&lt;/span>
+cp icons/icon.icns &lt;span style="color:#40ffff">$APP&lt;/span>/Contents/Resources/icon.icns
+cp -r assets &lt;span style="color:#40ffff">$APP&lt;/span>/Contents/Resources/assets
+cp -r views &lt;span style="color:#40ffff">$APP&lt;/span>/Contents/Resources/views
+find &lt;span style="color:#40ffff">$APP&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>
+&lt;div class="alert alert-warning" role="alert">
+&lt;h4 class="alert-heading">注意&lt;/h4>
+&lt;p>在 MacOS 中，当您运行 App bundle 时，进程的工作目录是根目录（&lt;code>/&lt;/code>），而不是 &lt;code>Contents/Resources&lt;/code> 目录。如果需要从 &lt;code>Resources&lt;/code> 加载资源，则需要进行如下更改：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">ep, err := os.&lt;span style="color:#447fcf">Executable&lt;/span>()
+&lt;span style="color:#6ab825;font-weight:bold">if&lt;/span> err != &lt;span style="color:#6ab825;font-weight:bold">nil&lt;/span> {
+log.&lt;span style="color:#447fcf">Fatalln&lt;/span>(&lt;span style="color:#ed9d13">&amp;#34;os.Executable:&amp;#34;&lt;/span>, err)
 }
-err = os.&lt;span style=&#34;color:#447fcf&#34;&gt;Chdir&lt;/span&gt;(filepath.&lt;span style=&#34;color:#447fcf&#34;&gt;Join&lt;/span&gt;(filepath.&lt;span style=&#34;color:#447fcf&#34;&gt;Dir&lt;/span&gt;(ep), &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;..&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Resources&amp;#34;&lt;/span&gt;))
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
-	log.&lt;span style=&#34;color:#447fcf&#34;&gt;Fatalln&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;os.Chdir:&amp;#34;&lt;/span&gt;, err)
+err = os.&lt;span style="color:#447fcf">Chdir&lt;/span>(filepath.&lt;span style="color:#447fcf">Join&lt;/span>(filepath.&lt;span style="color:#447fcf">Dir&lt;/span>(ep), &lt;span style="color:#ed9d13">&amp;#34;..&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;Resources&amp;#34;&lt;/span>))
+&lt;span style="color:#6ab825;font-weight:bold">if&lt;/span> err != &lt;span style="color:#6ab825;font-weight:bold">nil&lt;/span> {
+log.&lt;span style="color:#447fcf">Fatalln&lt;/span>(&lt;span style="color:#ed9d13">&amp;#34;os.Chdir:&amp;#34;&lt;/span>, err)
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&#34;制作-dmg-文件&#34;&gt;制作 DMG 文件&lt;/h3&gt;
-&lt;p&gt;DMG 文件用于分发应用程序，将 &lt;code&gt;.app&lt;/code&gt; 文件压缩制成镜像，可以很方便的通过拖拽的形式完成安装。&lt;/p&gt;
-&lt;h4 id=&#34;制作模板&#34;&gt;制作模板&lt;/h4&gt;
-&lt;p&gt;制作 DMG 文件首先需要制作模板。打开&lt;code&gt;磁盘工具 - 文件 - 新建映象 - 空白映象&lt;/code&gt;（或直接按 &lt;code&gt;⌘N&lt;/code&gt;）创建一个新的磁盘镜像。给它取个名字，设置足够的空间空间，分区选择&lt;code&gt;CD/DVD&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65gy1ghuwoma7w4j20bd09odig.jpg&#34; alt=&#34;新建模板&#34;&gt;&lt;/p&gt;
-&lt;p&gt;制作好后，打开该镜像，进行文件夹视图定制（按&lt;code&gt;⌘J&lt;/code&gt;），选择展示图标的大小及背景图片，这里可以隐藏工具栏&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tva3.sinaimg.cn/large/ad5fbf65gy1ghuwwafpr1j20uy0jhb29.jpg&#34; alt=&#34;文件夹视图定制&#34;&gt;&lt;/p&gt;
-&lt;p&gt;右键&lt;code&gt;应用程序&lt;/code&gt;选择制作替身，将替身移动到镜像中&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1ghuwthtnxqj20bh05xwey.jpg&#34; alt=&#34;制作替身&#34;&gt;&lt;/p&gt;
-&lt;p&gt;将打包好的 app 加入到 DMG 镜像中就完成了 DMG 模板的定制&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65gy1ghuwzoih10j20lo0cqtof.jpg&#34; alt=&#34;定制好的视图&#34;&gt;&lt;/p&gt;
-&lt;h4 id=&#34;转换-dmg-文件&#34;&gt;转换 DMG 文件&lt;/h4&gt;
-&lt;p&gt;目前的 DMG 模板文件还没有经过压缩并且是可写的状态，这样是不能作为程序发布的，所以这里需要对模板进行转换。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65gy1ghux3e65ngj20ct04676t.jpg&#34; alt=&#34;转换&#34;&gt;&lt;/p&gt;
-&lt;p&gt;打开 &lt;code&gt;磁盘工具 - 映象 - 转换&lt;/code&gt;，然后选择压缩后存储的目录就完成了最后一步 DMG 文件的转换。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65gy1ghux55kyzdj20pn0fqgt6.jpg&#34; alt=&#34;转换成功&#34;&gt;&lt;/p&gt;
-&lt;p&gt;现在点开 DMG 文件，将应用拖动到应用程序中，就可以在启动台中看到我们的应用程序了！&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65gy1ghux7e0g5tj20hn0fq7e7.jpg&#34; alt=&#34;启动台&#34;&gt;&lt;/p&gt;
-&lt;h4 id=&#34;自动化&#34;&gt;自动化&lt;/h4&gt;
-&lt;p&gt;上面只是展示了如何手动制作 DMG 镜像，实际使用当然是要将这些步骤自动化的。我将这部分内容做成了一个 go 脚本，原理其实就是使用 &lt;code&gt;hdiutil&lt;/code&gt; 这个命令行工具，有兴趣的同学可以文末找到项目地址，&lt;code&gt;Makefile&lt;/code&gt; 中有详细构建的命令。&lt;/p&gt;
-&lt;h2 id=&#34;项目展示&#34;&gt;项目展示&lt;/h2&gt;
-&lt;p&gt;我使用 Go + HTML5 制作了一个 &lt;code&gt;Kustomize Remote&lt;/code&gt; 的项目，可以从远程 kustomize 项目中获取配置，并 build 成 yaml 文件，UI样式为微信风格，支持 public 和 private 项目。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1ghuxhffoe1j20dc0h8wf1.jpg&#34; alt=&#34;kustomize-remote-observer&#34;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1ghuxk4zxv2j20dc0h83zl.jpg&#34; alt=&#34;yaml result&#34;&gt;&lt;/p&gt;
-
-
-&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
-&lt;p&gt;项目地址：&lt;a href=&#34;https://github.com/sunny0826/kustomize-remote-observer&#34;&gt;https://github.com/sunny0826/kustomize-remote-observer&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;也可以直接在 &lt;a href=&#34;https://github.com/sunny0826/kustomize-remote-observer/releases&#34;&gt;release 页面&lt;/a&gt; 下载 DMG 文件安装试用，只需 Mac 上有 Chrome 即可。&lt;/p&gt;
-
-&lt;/div&gt;
-
-&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
-&lt;p&gt;Go 语言一直在网络编程、云平台开发、分布式系统等领域占据着重要的地位，但是像桌面应用或者机器学习这样的领域，同样也能做出不错的效果。作为一门受欢迎的编程语言 Golang 已经有十多年的历史了，相信它在将来还能在更多的领域焕发生机，创造辉煌。&lt;/p&gt;
-
-      </description>
-    </item>
-    
-  </channel>
-</rss>
+&lt;/code>&lt;/pre>&lt;/div>
+&lt;/div>
+&lt;h3 id="制作-dmg-文件">制作 DMG 文件&lt;/h3>
+&lt;p>DMG 文件用于分发应用程序，将 &lt;code>.app&lt;/code> 文件压缩制成镜像，可以很方便的通过拖拽的形式完成安装。&lt;/p>
+&lt;h4 id="制作模板">制作模板&lt;/h4>
+&lt;p>制作 DMG 文件首先需要制作模板。打开&lt;code>磁盘工具 - 文件 - 新建映象 - 空白映象&lt;/code>（或直接按 &lt;code>⌘N&lt;/code>）创建一个新的磁盘镜像。给它取个名字，设置足够的空间空间，分区选择&lt;code>CD/DVD&lt;/code>。&lt;/p>
+&lt;p>&lt;img src="https://tvax1.sinaimg.cn/large/ad5fbf65gy1ghuwoma7w4j20bd09odig.jpg" alt="新建模板">&lt;/p>
+&lt;p>制作好后，打开该镜像，进行文件夹视图定制（按&lt;code>⌘J&lt;/code>），选择展示图标的大小及背景图片，这里可以隐藏工具栏&lt;/p>
+&lt;p>&lt;img src="https://tva3.sinaimg.cn/large/ad5fbf65gy1ghuwwafpr1j20uy0jhb29.jpg" alt="文件夹视图定制">&lt;/p>
+&lt;p>右键&lt;code>应用程序&lt;/code>选择制作替身，将替身移动到镜像中&lt;/p>
+&lt;p>&lt;img src="https://tva1.sinaimg.cn/large/ad5fbf65gy1ghuwthtnxqj20bh05xwey.jpg" alt="制作替身">&lt;/p>
+&lt;p>将打包好的 app 加入到 DMG 镜像中就完成了 DMG 模板的定制&lt;/p>
+&lt;p>&lt;img src="https://tvax1.sinaimg.cn/large/ad5fbf65gy1ghuwzoih10j20lo0cqtof.jpg" alt="定制好的视图">&lt;/p>
+&lt;h4 id="转换-dmg-文件">转换 DMG 文件&lt;/h4>
+&lt;p>目前的 DMG 模板文件还没有经过压缩并且是可写的状态，这样是不能作为程序发布的，所以这里需要对模板进行转换。&lt;/p>
+&lt;p>&lt;img src="https://tvax1.sinaimg.cn/large/ad5fbf65gy1ghux3e65ngj20ct04676t.jpg" alt="转换">&lt;/p>
+&lt;p>打开 &lt;code>磁盘工具 - 映象 - 转换&lt;/code>，然后选择压缩后存储的目录就完成了最后一步 DMG 文件的转换。&lt;/p>
+&lt;p>&lt;img src="https://tvax1.sinaimg.cn/large/ad5fbf65gy1ghux55kyzdj20pn0fqgt6.jpg" alt="转换成功">&lt;/p>
+&lt;p>现在点开 DMG 文件，将应用拖动到应用程序中，就可以在启动台中看到我们的应用程序了！&lt;/p>
+&lt;p>&lt;img src="https://tvax1.sinaimg.cn/large/ad5fbf65gy1ghux7e0g5tj20hn0fq7e7.jpg" alt="启动台">&lt;/p>
+&lt;h4 id="自动化">自动化&lt;/h4>
+&lt;p>上面只是展示了如何手动制作 DMG 镜像，实际使用当然是要将这些步骤自动化的。我将这部分内容做成了一个 go 脚本，原理其实就是使用 &lt;code>hdiutil&lt;/code> 这个命令行工具，有兴趣的同学可以文末找到项目地址，&lt;code>Makefile&lt;/code> 中有详细构建的命令。&lt;/p>
+&lt;h2 id="项目展示">项目展示&lt;/h2>
+&lt;p>我使用 Go + HTML5 制作了一个 &lt;code>Kustomize Remote&lt;/code> 的项目，可以从远程 kustomize 项目中获取配置，并 build 成 yaml 文件，UI样式为微信风格，支持 public 和 private 项目。&lt;/p>
+&lt;p>&lt;img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1ghuxhffoe1j20dc0h8wf1.jpg" alt="kustomize-remote-observer">&lt;/p>
+&lt;p>&lt;img src="https://tva1.sinaimg.cn/large/ad5fbf65gy1ghuxk4zxv2j20dc0h83zl.jpg" alt="yaml result">&lt;/p>
+&lt;div class="pageinfo pageinfo-primary">
+&lt;p>项目地址：&lt;a href="https://github.com/sunny0826/kustomize-remote-observer">https://github.com/sunny0826/kustomize-remote-observer&lt;/a>&lt;/p>
+&lt;p>也可以直接在 &lt;a href="https://github.com/sunny0826/kustomize-remote-observer/releases">release 页面&lt;/a> 下载 DMG 文件安装试用，只需 Mac 上有 Chrome 即可。&lt;/p>
+&lt;/div>
+&lt;h2 id="结语">结语&lt;/h2>
+&lt;p>Go 语言一直在网络编程、云平台开发、分布式系统等领域占据着重要的地位，但是像桌面应用或者机器学习这样的领域，同样也能做出不错的效果。作为一门受欢迎的编程语言 Golang 已经有十多年的历史了，相信它在将来还能在更多的领域焕发生机，创造辉煌。&lt;/p></description></item></channel></rss>

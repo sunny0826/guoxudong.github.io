@@ -1,272 +1,222 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Guo Xudong&#39;s Blog·郭旭东的博客 – AWS</title>
-    <link>https://guoxudong.io/tags/aws/</link>
-    <description>Recent content in AWS on Guo Xudong&#39;s Blog·郭旭东的博客</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>zh</language>
-    <lastBuildDate>Fri, 22 Jan 2021 10:07:01 +0800</lastBuildDate>
-    
-	  <atom:link href="https://guoxudong.io/tags/aws/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-      
-        
-      
-    
-    
-    <item>
-      <title>Post: 使用 AWS CDK Python 从零开始构建 EKS 集群</title>
-      <link>https://guoxudong.io/post/aws-cdk-python-eks/</link>
-      <pubDate>Fri, 22 Jan 2021 10:07:01 +0800</pubDate>
-      
-      <guid>https://guoxudong.io/post/aws-cdk-python-eks/</guid>
-      <description>
-        
-        
-        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
-&lt;p&gt;上篇文章&lt;a href=&#34;../aws-cdk-introduction&#34;&gt;《AWS CDK | IaC 何必只用 Yaml》&lt;/a&gt; 笔者介绍了 AWS CDK 的概念和基本使用方法，本篇文章就来使用 CDK 在 AWS 从零开始构建一个全新的 KES 集群，实际感受一下使用 AWS CDK 创建和管理云资源的简单和便捷。&lt;/p&gt;
-&lt;h2 id=&#34;资源清单&#34;&gt;资源清单&lt;/h2&gt;
-&lt;p&gt;本文中，笔者会创建以下资源：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;创建一个 EKS 集群&lt;/li&gt;
-&lt;li&gt;为 EKS master 配置一个 IAM Role&lt;/li&gt;
-&lt;li&gt;创建一个 VPC（包含子网和 NAT）&lt;/li&gt;
-&lt;li&gt;为 EKS 创建一个 Node Group 用来管理一组 Worker 节点&lt;/li&gt;
-&lt;li&gt;为 EKS 创建一个 Auto Scaling Group 用来管理弹性伸缩节点&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;show-me-the-code&#34;&gt;Show me the code&lt;/h2&gt;
-&lt;p&gt;本文代码已全部上传 GitHub，配合代码阅读本文体验更佳。&lt;/p&gt;
-
-
-&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
-&lt;h4 class=&#34;alert-heading&#34;&gt;Github 地址&lt;/h4&gt;
-&lt;a href=&#34;https://github.com/sunny0826/aws-cdk-eks&#34;&gt;https://github.com/sunny0826/aws-cdk-eks&lt;/a&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&#34;安装-aws-cdk&#34;&gt;安装 AWS CDK&lt;/h3&gt;
-&lt;p&gt;首先其实需要有 &lt;code&gt;AWS CLI&lt;/code&gt; 命令行工具，并配置了 &lt;code&gt;AWS_ACCESS_KEY_ID&lt;/code&gt;、&lt;code&gt;AWS_SECRET_ACCESS_KEY&lt;/code&gt; 和 &lt;code&gt;AWS_DEFAULT_REGION&lt;/code&gt;，这里就不做详细介绍了，同时还要安装 &lt;code&gt;Node.js&lt;/code&gt; 10.3.0 以上的版本。&lt;/p&gt;
-&lt;p&gt;使用 &lt;code&gt;npm&lt;/code&gt; 安装：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ npm install -g aws-cdk
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;安装完成后，检查 &lt;code&gt;AWS CDK&lt;/code&gt; 版本：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ cdk --version
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;创建-app&#34;&gt;创建 APP&lt;/h3&gt;
-&lt;p&gt;&lt;code&gt;AWS CDK&lt;/code&gt; 安装完成后，就可以开始创建项目了。&lt;/p&gt;
-&lt;p&gt;新建一个目录：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ mkdir aws-cdk-eks
-$ &lt;span style=&#34;color:#24909d&#34;&gt;cd&lt;/span&gt; aws-cdk-eks
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;初始化项目：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ cdk init app --language python
-$ &lt;span style=&#34;color:#24909d&#34;&gt;source&lt;/span&gt; .venv/bin/activate
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Guo Xudong's Blog·郭旭东的博客 – AWS</title><link>https://guoxudong.io/tags/aws/</link><description>Recent content in AWS on Guo Xudong's Blog·郭旭东的博客</description><generator>Hugo -- gohugo.io</generator><language>zh</language><lastBuildDate>Fri, 22 Jan 2021 10:07:01 +0800</lastBuildDate><atom:link href="https://guoxudong.io/tags/aws/index.xml" rel="self" type="application/rss+xml"/><item><title>Post: 使用 AWS CDK Python 从零开始构建 EKS 集群</title><link>https://guoxudong.io/post/aws-cdk-python-eks/</link><pubDate>Fri, 22 Jan 2021 10:07:01 +0800</pubDate><guid>https://guoxudong.io/post/aws-cdk-python-eks/</guid><description>
+&lt;h2 id="前言">前言&lt;/h2>
+&lt;p>上篇文章&lt;a href="../aws-cdk-introduction">《AWS CDK | IaC 何必只用 Yaml》&lt;/a> 笔者介绍了 AWS CDK 的概念和基本使用方法，本篇文章就来使用 CDK 在 AWS 从零开始构建一个全新的 KES 集群，实际感受一下使用 AWS CDK 创建和管理云资源的简单和便捷。&lt;/p>
+&lt;h2 id="资源清单">资源清单&lt;/h2>
+&lt;p>本文中，笔者会创建以下资源：&lt;/p>
+&lt;ul>
+&lt;li>创建一个 EKS 集群&lt;/li>
+&lt;li>为 EKS master 配置一个 IAM Role&lt;/li>
+&lt;li>创建一个 VPC（包含子网和 NAT）&lt;/li>
+&lt;li>为 EKS 创建一个 Node Group 用来管理一组 Worker 节点&lt;/li>
+&lt;li>为 EKS 创建一个 Auto Scaling Group 用来管理弹性伸缩节点&lt;/li>
+&lt;/ul>
+&lt;h2 id="show-me-the-code">Show me the code&lt;/h2>
+&lt;p>本文代码已全部上传 GitHub，配合代码阅读本文体验更佳。&lt;/p>
+&lt;div class="alert alert-primary" role="alert">
+&lt;h4 class="alert-heading">Github 地址&lt;/h4>
+&lt;a href="https://github.com/sunny0826/aws-cdk-eks">https://github.com/sunny0826/aws-cdk-eks&lt;/a>
+&lt;/div>
+&lt;h3 id="安装-aws-cdk">安装 AWS CDK&lt;/h3>
+&lt;p>首先其实需要有 &lt;code>AWS CLI&lt;/code> 命令行工具，并配置了 &lt;code>AWS_ACCESS_KEY_ID&lt;/code>、&lt;code>AWS_SECRET_ACCESS_KEY&lt;/code> 和 &lt;code>AWS_DEFAULT_REGION&lt;/code>，这里就不做详细介绍了，同时还要安装 &lt;code>Node.js&lt;/code> 10.3.0 以上的版本。&lt;/p>
+&lt;p>使用 &lt;code>npm&lt;/code> 安装：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ npm install -g aws-cdk
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>安装完成后，检查 &lt;code>AWS CDK&lt;/code> 版本：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ cdk --version
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="创建-app">创建 APP&lt;/h3>
+&lt;p>&lt;code>AWS CDK&lt;/code> 安装完成后，就可以开始创建项目了。&lt;/p>
+&lt;p>新建一个目录：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ mkdir aws-cdk-eks
+$ &lt;span style="color:#24909d">cd&lt;/span> aws-cdk-eks
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>初始化项目：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ cdk init app --language python
+$ &lt;span style="color:#24909d">source&lt;/span> .venv/bin/activate
 $ python -m pip install -r requirements.txt
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里就会生成一个 Python 项目，目录结构如下如下：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ tree
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>这里就会生成一个 Python 项目，目录结构如下如下：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ tree
 .
 ├── README.md
 ├── app.py
 ├── cdk.json
 ├── cdk_python
 │   ├── __init__.py
-│   └── cdk_python_stack.py   &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 主要文件&lt;/span&gt;
+│   └── cdk_python_stack.py &lt;span style="color:#999;font-style:italic"># 主要文件&lt;/span>
 ├── requirements.txt
 ├── setup.py
 └── source.bat
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;之后的代码就是写在 &lt;code&gt;cdk_python_stack.py&lt;/code&gt; 中。&lt;/p&gt;
-&lt;h3 id=&#34;codeing&#34;&gt;Codeing&lt;/h3&gt;
-&lt;p&gt;接下来就是写代码时间了。&lt;/p&gt;
-&lt;h4 id=&#34;创建-vpc&#34;&gt;创建 VPC&lt;/h4&gt;
-&lt;p&gt;首先 EKS 需要一个 VPC，这里有三种方式：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;使用 &lt;code&gt;default&lt;/code&gt; VPC&lt;/li&gt;
-&lt;li&gt;指定一个已有 VPC&lt;/li&gt;
-&lt;li&gt;新建一个 VPC&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;直接使用 &lt;code&gt;default&lt;/code&gt; VPC:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;vpc = ec2.Vpc.from_lookup(self, &lt;span style=&#34;color:#24909d&#34;&gt;id&lt;/span&gt;=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;Vpc&amp;#39;&lt;/span&gt;, is_default=True)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;指定现有 VPC：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;vpc = ec2.Vpc.from_lookup(self, &lt;span style=&#34;color:#24909d&#34;&gt;id&lt;/span&gt;=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;Vpc&amp;#39;&lt;/span&gt;, vpc_id=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;vpc-0417e46d&amp;#39;&lt;/span&gt;)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;新建 VPC：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;vpc = ec2.Vpc(self,
-    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;eks-vpc&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# VPC id&lt;/span&gt;
-    cidr=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;10.3.0.0/16&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# CIDR&lt;/span&gt;
-    max_azs=&lt;span style=&#34;color:#3677a9&#34;&gt;3&lt;/span&gt;,  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 跨3个AZ&lt;/span&gt;
-    nat_gateways=&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 新建一个 NAT Gateway&lt;/span&gt;
-    )
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;还有很多其他参数可以配置，这里用不到直接使用默认值。&lt;/p&gt;
-&lt;h4 id=&#34;创建-iam&#34;&gt;创建 IAM&lt;/h4&gt;
-&lt;p&gt;这里需要给 k8s 的 master 创建一个  IAM Role，这样我们才能对 EKS 进行管理。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;eks_master_role = iam.Role(self, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;EksMasterRole&amp;#39;&lt;/span&gt;,
-    role_name=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;EksAdminRole&amp;#39;&lt;/span&gt;,
-    assumed_by=iam.AccountRootPrincipal()
-    )
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;创建-eks&#34;&gt;创建 EKS&lt;/h4&gt;
-&lt;p&gt;VPC 和 IAM 都已经准备好了，现在可以创建 EKS 集群了。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;cluster = eks.Cluster(self, 
-    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;Cluster&amp;#39;&lt;/span&gt;,  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 集群 id&lt;/span&gt;
-    vpc=vpc,  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 指定 VPC&lt;/span&gt;
-    version=eks.KubernetesVersion.V1_18,  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# K8S 版本&lt;/span&gt;
-    masters_role=eks_master_role, &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# naster 的 IAM Role&lt;/span&gt;
-    default_capacity=&lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 这里不需要 worker 节点，后面采用 MNG 或 ASG 来管理&lt;/span&gt;
-    )
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;可以看到先前定义的 &lt;code&gt;vpc&lt;/code&gt; 和 &lt;code&gt;eks_master_role&lt;/code&gt; 都作为参数被传给了 &lt;code&gt;cluster&lt;/code&gt;，而 &lt;code&gt;default_capacity&lt;/code&gt; 是定义默认 worker 节点的，下面我们会采用 MNG 和 ASG 来管理 worker 节点，所以这里设置为 0.&lt;/p&gt;
-&lt;h4 id=&#34;为-eks-添加-mng&#34;&gt;为 EKS 添加 MNG&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;cluster&lt;/code&gt; 定义好后，相当于 K8S 的 master 节点已经配置完成，接下来就是 worker 节点的配置。EKS 可以使用 MNG 和 ASG 来管理 worker 节点。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;cluster.add_nodegroup_capacity(
-    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;MNG&amp;#39;&lt;/span&gt;,  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# MNG id&lt;/span&gt;
-    capacity_type=eks.CapacityType.SPOT,  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 节点类型&lt;/span&gt;
-    desired_size=&lt;span style=&#34;color:#3677a9&#34;&gt;2&lt;/span&gt;, &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 节点数量&lt;/span&gt;
-    instance_types=[  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 节点规格&lt;/span&gt;
-        ec2.InstanceType(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;t3.large&amp;#39;&lt;/span&gt;),
-        ec2.InstanceType(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;m5.large&amp;#39;&lt;/span&gt;),
-        ec2.InstanceType(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;c5.large&amp;#39;&lt;/span&gt;),
-    ]),
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;为-eks-添加-asg&#34;&gt;为 EKS 添加 ASG&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;cluster.add_auto_scaling_group_capacity(
-  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;ASGNG&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# ASG id&lt;/span&gt;
-  instance_type=[  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 节点规格&lt;/span&gt;
-        ec2.InstanceType(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;t3.large&amp;#39;&lt;/span&gt;),
-        ec2.InstanceType(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;m5.large&amp;#39;&lt;/span&gt;),
-        ec2.InstanceType(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;c5.large&amp;#39;&lt;/span&gt;),
-  ],
-  desired_capacity=&lt;span style=&#34;color:#3677a9&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 节点数量&lt;/span&gt;
-  )
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;当然 MNG 和 ASG 都可以设置 &lt;code&gt;max_size&lt;/code&gt; 和 &lt;code&gt;min_size&lt;/code&gt;，也就是可以实现节点级别的弹性伸缩，但是目前测试下来只有 ASG 可以将配置的资源 TAG 带入 EC2 的配置，而 MNG 需要通过定制 &lt;code&gt;launch_template_spec&lt;/code&gt; 的方式才能实现。如果对这方面没有要求的话推荐使用 MNG。&lt;/p&gt;
-&lt;p&gt;到这里代码就写好了，只有几十行代码，下面我们就是检查和部署了。&lt;/p&gt;
-&lt;h3 id=&#34;bootstrap&#34;&gt;Bootstrap&lt;/h3&gt;
-&lt;p&gt;如果是第一次使用 &lt;code&gt;AWS CDK&lt;/code&gt; 需要先执行 &lt;code&gt;cdk bootstrap&lt;/code&gt; 命令，这个命令会在 S3 创建一个名为 &lt;code&gt;cdktoolkit-XXX&lt;/code&gt; 的 bucket 用来存放 CDK 配置。&lt;/p&gt;
-&lt;h3 id=&#34;检查&#34;&gt;检查&lt;/h3&gt;
-&lt;p&gt;执行 &lt;code&gt;cdk diff&lt;/code&gt; 命令，这时就会打印出一系列列表，告诉你会有哪些资源变化，大致内容如下图。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65gy1gmwkeqhlblj23qq1i27wh.jpg&#34; alt=&#34;cdk diff&#34;&gt;&lt;/p&gt;
-&lt;p&gt;可以执行 &lt;code&gt;cdk synth&lt;/code&gt; 命令用来查看生成的 AWS CloudFormation template，笔者统计了一下生成 AWS CloudFormation template 的行数，这几十行代码居然生成了 &lt;strong&gt;1156&lt;/strong&gt; 行的 CloudFormation 配置！&lt;/p&gt;
-&lt;h3 id=&#34;部署&#34;&gt;部署&lt;/h3&gt;
-&lt;p&gt;在检查无误后就可以开始部署了，执行命令 &lt;code&gt;cdk deploy&lt;/code&gt; 并输入 &lt;code&gt;y&lt;/code&gt; 确认，之后可以看到部署的进度条。如果部署中间出现错误， CDK 会自动进行回滚，之前创建和修改的资源都会被恢复原样，可以放心使用。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1gmzpw3ltfkj21920h2n2q.jpg&#34; alt=&#34;部署成功&#34;&gt;&lt;/p&gt;
-&lt;p&gt;到这里，EKS 集群就已经部署成功了，执行两条命令，就能生成 &lt;code&gt;kubeconfig&lt;/code&gt; 并使用 &lt;code&gt;kubectl&lt;/code&gt; 访问了。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ aws eks updata-kubeconfig ...
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>之后的代码就是写在 &lt;code>cdk_python_stack.py&lt;/code> 中。&lt;/p>
+&lt;h3 id="codeing">Codeing&lt;/h3>
+&lt;p>接下来就是写代码时间了。&lt;/p>
+&lt;h4 id="创建-vpc">创建 VPC&lt;/h4>
+&lt;p>首先 EKS 需要一个 VPC，这里有三种方式：&lt;/p>
+&lt;ul>
+&lt;li>使用 &lt;code>default&lt;/code> VPC&lt;/li>
+&lt;li>指定一个已有 VPC&lt;/li>
+&lt;li>新建一个 VPC&lt;/li>
+&lt;/ul>
+&lt;p>直接使用 &lt;code>default&lt;/code> VPC:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-python" data-lang="python">vpc = ec2.Vpc.from_lookup(self, &lt;span style="color:#24909d">id&lt;/span>=&lt;span style="color:#ed9d13">&amp;#39;Vpc&amp;#39;&lt;/span>, is_default=True)
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>指定现有 VPC：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-python" data-lang="python">vpc = ec2.Vpc.from_lookup(self, &lt;span style="color:#24909d">id&lt;/span>=&lt;span style="color:#ed9d13">&amp;#39;Vpc&amp;#39;&lt;/span>, vpc_id=&lt;span style="color:#ed9d13">&amp;#39;vpc-0417e46d&amp;#39;&lt;/span>)
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>新建 VPC：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-python" data-lang="python">vpc = ec2.Vpc(self,
+&lt;span style="color:#ed9d13">&amp;#39;eks-vpc&amp;#39;&lt;/span>, &lt;span style="color:#999;font-style:italic"># VPC id&lt;/span>
+cidr=&lt;span style="color:#ed9d13">&amp;#39;10.3.0.0/16&amp;#39;&lt;/span>, &lt;span style="color:#999;font-style:italic"># CIDR&lt;/span>
+max_azs=&lt;span style="color:#3677a9">3&lt;/span>, &lt;span style="color:#999;font-style:italic"># 跨3个AZ&lt;/span>
+nat_gateways=&lt;span style="color:#3677a9">1&lt;/span> &lt;span style="color:#999;font-style:italic"># 新建一个 NAT Gateway&lt;/span>
+)
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>还有很多其他参数可以配置，这里用不到直接使用默认值。&lt;/p>
+&lt;h4 id="创建-iam">创建 IAM&lt;/h4>
+&lt;p>这里需要给 k8s 的 master 创建一个 IAM Role，这样我们才能对 EKS 进行管理。&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-python" data-lang="python">eks_master_role = iam.Role(self, &lt;span style="color:#ed9d13">&amp;#39;EksMasterRole&amp;#39;&lt;/span>,
+role_name=&lt;span style="color:#ed9d13">&amp;#39;EksAdminRole&amp;#39;&lt;/span>,
+assumed_by=iam.AccountRootPrincipal()
+)
+&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="创建-eks">创建 EKS&lt;/h4>
+&lt;p>VPC 和 IAM 都已经准备好了，现在可以创建 EKS 集群了。&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-python" data-lang="python">cluster = eks.Cluster(self,
+&lt;span style="color:#ed9d13">&amp;#39;Cluster&amp;#39;&lt;/span>, &lt;span style="color:#999;font-style:italic"># 集群 id&lt;/span>
+vpc=vpc, &lt;span style="color:#999;font-style:italic"># 指定 VPC&lt;/span>
+version=eks.KubernetesVersion.V1_18, &lt;span style="color:#999;font-style:italic"># K8S 版本&lt;/span>
+masters_role=eks_master_role, &lt;span style="color:#999;font-style:italic"># naster 的 IAM Role&lt;/span>
+default_capacity=&lt;span style="color:#3677a9">0&lt;/span> &lt;span style="color:#999;font-style:italic"># 这里不需要 worker 节点，后面采用 MNG 或 ASG 来管理&lt;/span>
+)
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>可以看到先前定义的 &lt;code>vpc&lt;/code> 和 &lt;code>eks_master_role&lt;/code> 都作为参数被传给了 &lt;code>cluster&lt;/code>，而 &lt;code>default_capacity&lt;/code> 是定义默认 worker 节点的，下面我们会采用 MNG 和 ASG 来管理 worker 节点，所以这里设置为 0.&lt;/p>
+&lt;h4 id="为-eks-添加-mng">为 EKS 添加 MNG&lt;/h4>
+&lt;p>&lt;code>cluster&lt;/code> 定义好后，相当于 K8S 的 master 节点已经配置完成，接下来就是 worker 节点的配置。EKS 可以使用 MNG 和 ASG 来管理 worker 节点。&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-python" data-lang="python">cluster.add_nodegroup_capacity(
+&lt;span style="color:#ed9d13">&amp;#39;MNG&amp;#39;&lt;/span>, &lt;span style="color:#999;font-style:italic"># MNG id&lt;/span>
+capacity_type=eks.CapacityType.SPOT, &lt;span style="color:#999;font-style:italic"># 节点类型&lt;/span>
+desired_size=&lt;span style="color:#3677a9">2&lt;/span>, &lt;span style="color:#999;font-style:italic"># 节点数量&lt;/span>
+instance_types=[ &lt;span style="color:#999;font-style:italic"># 节点规格&lt;/span>
+ec2.InstanceType(&lt;span style="color:#ed9d13">&amp;#39;t3.large&amp;#39;&lt;/span>),
+ec2.InstanceType(&lt;span style="color:#ed9d13">&amp;#39;m5.large&amp;#39;&lt;/span>),
+ec2.InstanceType(&lt;span style="color:#ed9d13">&amp;#39;c5.large&amp;#39;&lt;/span>),
+]),
+&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="为-eks-添加-asg">为 EKS 添加 ASG&lt;/h4>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-python" data-lang="python">cluster.add_auto_scaling_group_capacity(
+&lt;span style="color:#ed9d13">&amp;#39;ASGNG&amp;#39;&lt;/span>, &lt;span style="color:#999;font-style:italic"># ASG id&lt;/span>
+instance_type=[ &lt;span style="color:#999;font-style:italic"># 节点规格&lt;/span>
+ec2.InstanceType(&lt;span style="color:#ed9d13">&amp;#39;t3.large&amp;#39;&lt;/span>),
+ec2.InstanceType(&lt;span style="color:#ed9d13">&amp;#39;m5.large&amp;#39;&lt;/span>),
+ec2.InstanceType(&lt;span style="color:#ed9d13">&amp;#39;c5.large&amp;#39;&lt;/span>),
+],
+desired_capacity=&lt;span style="color:#3677a9">2&lt;/span> &lt;span style="color:#999;font-style:italic"># 节点数量&lt;/span>
+)
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>当然 MNG 和 ASG 都可以设置 &lt;code>max_size&lt;/code> 和 &lt;code>min_size&lt;/code>，也就是可以实现节点级别的弹性伸缩，但是目前测试下来只有 ASG 可以将配置的资源 TAG 带入 EC2 的配置，而 MNG 需要通过定制 &lt;code>launch_template_spec&lt;/code> 的方式才能实现。如果对这方面没有要求的话推荐使用 MNG。&lt;/p>
+&lt;p>到这里代码就写好了，只有几十行代码，下面我们就是检查和部署了。&lt;/p>
+&lt;h3 id="bootstrap">Bootstrap&lt;/h3>
+&lt;p>如果是第一次使用 &lt;code>AWS CDK&lt;/code> 需要先执行 &lt;code>cdk bootstrap&lt;/code> 命令，这个命令会在 S3 创建一个名为 &lt;code>cdktoolkit-XXX&lt;/code> 的 bucket 用来存放 CDK 配置。&lt;/p>
+&lt;h3 id="检查">检查&lt;/h3>
+&lt;p>执行 &lt;code>cdk diff&lt;/code> 命令，这时就会打印出一系列列表，告诉你会有哪些资源变化，大致内容如下图。&lt;/p>
+&lt;p>&lt;img src="https://tvax1.sinaimg.cn/large/ad5fbf65gy1gmwkeqhlblj23qq1i27wh.jpg" alt="cdk diff">&lt;/p>
+&lt;p>可以执行 &lt;code>cdk synth&lt;/code> 命令用来查看生成的 AWS CloudFormation template，笔者统计了一下生成 AWS CloudFormation template 的行数，这几十行代码居然生成了 &lt;strong>1156&lt;/strong> 行的 CloudFormation 配置！&lt;/p>
+&lt;h3 id="部署">部署&lt;/h3>
+&lt;p>在检查无误后就可以开始部署了，执行命令 &lt;code>cdk deploy&lt;/code> 并输入 &lt;code>y&lt;/code> 确认，之后可以看到部署的进度条。如果部署中间出现错误， CDK 会自动进行回滚，之前创建和修改的资源都会被恢复原样，可以放心使用。&lt;/p>
+&lt;p>&lt;img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1gmzpw3ltfkj21920h2n2q.jpg" alt="部署成功">&lt;/p>
+&lt;p>到这里，EKS 集群就已经部署成功了，执行两条命令，就能生成 &lt;code>kubeconfig&lt;/code> 并使用 &lt;code>kubectl&lt;/code> 访问了。&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ aws eks updata-kubeconfig ...
 $ aws eks get-token ...
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;销毁&#34;&gt;销毁&lt;/h3&gt;
-&lt;p&gt;在完成测试后，执行命令 &lt;code&gt;cdk destroy&lt;/code&gt; 对创建的资源进行释放。&lt;/p&gt;
-&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
-&lt;p&gt;非常感谢来自 AWS 的 &lt;a href=&#34;https://github.com/pahud&#34;&gt;@pahud&lt;/a&gt; 同学的指导和帮助，总体来说 Python 版本的 CDK 使用起来比较方便，但文档和源码中的说明略有不足。&lt;code&gt;AWS CDK&lt;/code&gt; 的核心引擎其实是使用 Typescript 编写，其他语言的版本都是采用 &lt;a href=&#34;https://github.com/aws/jsii&#34;&gt;JSii&lt;/a&gt; 通过 TypeScript 转化而来。如果要深入使用，这里还是推荐使用 Typescript 的版本（其实我已经换成 Typescript 来写了），难度不是很大，值得一试。&lt;/p&gt;
-
-      </description>
-    </item>
-    
-    <item>
-      <title>Post: AWS CDK | IaC 何必只用 Yaml</title>
-      <link>https://guoxudong.io/post/aws-cdk-introduction/</link>
-      <pubDate>Thu, 21 Jan 2021 10:43:11 +0800</pubDate>
-      
-      <guid>https://guoxudong.io/post/aws-cdk-introduction/</guid>
-      <description>
-        
-        
-        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
-&lt;p&gt;近年来基础设施即代码（IaC）的方式被越来越多的开发者和管理者所采用，各大公有云都提供了使用 IaC 管理自己云资源的方式，如 AWS 的 CloudFormation、阿里云的 ROS 等，而第三方的 Terraform 也有各大公有云的 Provider。越来越多像我一样的云资源运维和管理者开始采用 IaC 的方式对云资源进行创建、运维和管理。&lt;/p&gt;
-&lt;h2 id=&#34;iac-管理之惑&#34;&gt;IaC 管理之惑&lt;/h2&gt;
-&lt;p&gt;但在实际使用中，IaC 其实并没有看上去的那么美丽。&lt;/p&gt;
-&lt;h3 id=&#34;imperative-iac-vs-declarative-iac&#34;&gt;Imperative IaC vs. Declarative IaC&lt;/h3&gt;
-&lt;p&gt;Imperative 和 Declarative 也就是&lt;strong&gt;命令式&lt;/strong&gt;和&lt;strong&gt;声明式&lt;/strong&gt;的 IaC，他们的不同点在于命令式的 IaC 是由代码编写者来确定如何达到自己想要目的的，如：我需要一个创建 VPC，就需要编写代码或命令来完成这个创建 VPC 的动作，直接操作公有云的 OpenAPI 和 CLI 工具就是这种方式；而声明式的 IaC 则是由代码编写者定义了系统期望的状态，并不需要关心云平台如何去实现我的这个要求，这其中就以 kubernetes 的 Yaml 配置为代表。两相对比声明式的 IaC 显然更容易上手。&lt;/p&gt;
-&lt;h3 id=&#34;这样就够了吗&#34;&gt;这样就够了吗？&lt;/h3&gt;
-&lt;p&gt;虽然声明式的 IaC 看上去更简单且高效，但事实并非如此。和我一样主要工作是管理和运维 kubernetes 集群的同学，常常自称为 YAML 工程师，原因就是我们日常工作需要管理和维护数量庞大的 YAML 文件，小到一个微服务，大到一整套云环境，大部分情况都是采用 YAML 或 JSON 格式的配置文件进行管理，我们手中的 YAML 越来越多，而 YAML 文件的可读性并没有那么友好。&lt;strong&gt;“YAML 地狱”&lt;/strong&gt; 这个词形容的就非常贴切。&lt;/p&gt;
-&lt;h3 id=&#34;如何破解-yaml-地狱&#34;&gt;如何破解 YAML 地狱？&lt;/h3&gt;
-&lt;p&gt;其实这个问题早就引起了开发者的广泛讨论，为了解决这个问题很多项目都做出了尝试，如 Helm 这样采用 template 的方式，或 kustomize 这样采用 overlay 的方式对 YAML 进行抽象和简化。&lt;/p&gt;
-&lt;p&gt;目前比较受欢迎的还有一种方式，就是采用常规编程语言通过代码来生成声明式的配置，然后再基于声明式的配置进行部署，这样既不会重复造轮子，同时常规编程语言的可读性、代码量以及编写的难易程度都比直接编写 Yaml 文件要简单的多。比如我之前介绍过的 &lt;code&gt;Grabana&lt;/code&gt; 就是采用这种模式，使用 Golang 来生成 Grafana Dashboard 配置并部署，详见：&lt;a href=&#34;../grabana-create-grafana-dashboard&#34;&gt;《Grabana：使用 Golang 或 Yaml 生成 Grafana Dashboard》&lt;/a&gt;。&lt;/p&gt;
-&lt;p&gt;这种方式融合了 Imperative 和 Declarative 的优点是一个非常不错的选择。&lt;/p&gt;
-&lt;h2 id=&#34;aws-cdk&#34;&gt;AWS CDK&lt;/h2&gt;
-&lt;p&gt;AWS Cloud Development Kit（AWS CDK） 是 AWS 开发的一种开源软件开发框架，可以使用 Python 或 Typescript 之类的编程语言，利用函数快速构建代码框架，快速的定义云资源，并且还提供了一系列默认选项，使得代码量进一步降低。&lt;/p&gt;
-&lt;h3 id=&#34;支持的语言&#34;&gt;支持的语言&lt;/h3&gt;
-&lt;p&gt;AWS CDK 目前支持的语言有：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Typescript&lt;/li&gt;
-&lt;li&gt;JavaScript&lt;/li&gt;
-&lt;li&gt;Python&lt;/li&gt;
-&lt;li&gt;Java&lt;/li&gt;
-&lt;li&gt;C#&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;AWS CDK 还提供了十分完善的脚手架工具，以 Python 为例，只需新建目录，并在目录中执行如下命令，即可拉起一套的 CDK Python 代码：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ cdk init app --language python
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;之后只需在 &lt;code&gt;app/app_stack.py&lt;/code&gt; 中编写相应代码即可，非常方便。&lt;/p&gt;
-&lt;h3 id=&#34;原理&#34;&gt;原理&lt;/h3&gt;
-&lt;p&gt;AWS CDK 将 Imperative 和 Declarative 进行了结合，通过编程语言生成 CloudFormation 的 template，之后再由 CloudFormation 生成对应的 Stack，最终在 AWS 上完成云资源的创建和变更。&lt;/p&gt;
-&lt;p&gt;这种方法完美的绕过了 CloudFormation 配置本身的复杂性和较差的可读性，用户可以选择一个自己熟悉的编程语言，以代码的形式来对基础资源进行编排，同时还有很多默认选项，为不想关心太多细节的开发者提供了便利。&lt;/p&gt;
-&lt;p&gt;比如只使用这样一行代码，就能创建一个全新的 VPC：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;CdkPythonStack&lt;/span&gt;(core.Stack):
-    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;def&lt;/span&gt; __init__(self, scope: core.Construct, construct_id: &lt;span style=&#34;color:#24909d&#34;&gt;str&lt;/span&gt;, **kwargs) -&amp;gt; None:
-        &lt;span style=&#34;color:#24909d&#34;&gt;super&lt;/span&gt;().__init__(scope, construct_id, **kwargs)
-        ...
-        vpc = ec2.Vpc(self,
-                      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;eks-vpc&amp;#39;&lt;/span&gt;,
-                      cidr=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;10.3.0.0/16&amp;#39;&lt;/span&gt;,
-                      max_azs=&lt;span style=&#34;color:#3677a9&#34;&gt;3&lt;/span&gt;,
-                      nat_gateways=&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;
-                      )
-        ...
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;cli-command&#34;&gt;CLI Command&lt;/h3&gt;
-&lt;p&gt;AWS CDK 还提供了一些命令来帮助开发者完成代码构建、资源检查和部署等功能。&lt;/p&gt;
-&lt;h4 id=&#34;init&#34;&gt;init&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;cdk init&lt;/code&gt; 帮助开发者生成一个指定语言的 cdk 项目，目前支持 5 种语言。&lt;/p&gt;
-&lt;h4 id=&#34;diff&#34;&gt;diff&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;cdk diff&lt;/code&gt; 是最常用的一个命令了，会帮助用户检查当前 Stack 和 云上资源的不同，并作出标记：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ cdk diff
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="销毁">销毁&lt;/h3>
+&lt;p>在完成测试后，执行命令 &lt;code>cdk destroy&lt;/code> 对创建的资源进行释放。&lt;/p>
+&lt;h2 id="结语">结语&lt;/h2>
+&lt;p>非常感谢来自 AWS 的 &lt;a href="https://github.com/pahud">@pahud&lt;/a> 同学的指导和帮助，总体来说 Python 版本的 CDK 使用起来比较方便，但文档和源码中的说明略有不足。&lt;code>AWS CDK&lt;/code> 的核心引擎其实是使用 Typescript 编写，其他语言的版本都是采用 &lt;a href="https://github.com/aws/jsii">JSii&lt;/a> 通过 TypeScript 转化而来。如果要深入使用，这里还是推荐使用 Typescript 的版本（其实我已经换成 Typescript 来写了），难度不是很大，值得一试。&lt;/p></description></item><item><title>Post: AWS CDK | IaC 何必只用 Yaml</title><link>https://guoxudong.io/post/aws-cdk-introduction/</link><pubDate>Thu, 21 Jan 2021 10:43:11 +0800</pubDate><guid>https://guoxudong.io/post/aws-cdk-introduction/</guid><description>
+&lt;h2 id="前言">前言&lt;/h2>
+&lt;p>近年来基础设施即代码（IaC）的方式被越来越多的开发者和管理者所采用，各大公有云都提供了使用 IaC 管理自己云资源的方式，如 AWS 的 CloudFormation、阿里云的 ROS 等，而第三方的 Terraform 也有各大公有云的 Provider。越来越多像我一样的云资源运维和管理者开始采用 IaC 的方式对云资源进行创建、运维和管理。&lt;/p>
+&lt;h2 id="iac-管理之惑">IaC 管理之惑&lt;/h2>
+&lt;p>但在实际使用中，IaC 其实并没有看上去的那么美丽。&lt;/p>
+&lt;h3 id="imperative-iac-vs-declarative-iac">Imperative IaC vs. Declarative IaC&lt;/h3>
+&lt;p>Imperative 和 Declarative 也就是&lt;strong>命令式&lt;/strong>和&lt;strong>声明式&lt;/strong>的 IaC，他们的不同点在于命令式的 IaC 是由代码编写者来确定如何达到自己想要目的的，如：我需要一个创建 VPC，就需要编写代码或命令来完成这个创建 VPC 的动作，直接操作公有云的 OpenAPI 和 CLI 工具就是这种方式；而声明式的 IaC 则是由代码编写者定义了系统期望的状态，并不需要关心云平台如何去实现我的这个要求，这其中就以 kubernetes 的 Yaml 配置为代表。两相对比声明式的 IaC 显然更容易上手。&lt;/p>
+&lt;h3 id="这样就够了吗">这样就够了吗？&lt;/h3>
+&lt;p>虽然声明式的 IaC 看上去更简单且高效，但事实并非如此。和我一样主要工作是管理和运维 kubernetes 集群的同学，常常自称为 YAML 工程师，原因就是我们日常工作需要管理和维护数量庞大的 YAML 文件，小到一个微服务，大到一整套云环境，大部分情况都是采用 YAML 或 JSON 格式的配置文件进行管理，我们手中的 YAML 越来越多，而 YAML 文件的可读性并没有那么友好。&lt;strong>“YAML 地狱”&lt;/strong> 这个词形容的就非常贴切。&lt;/p>
+&lt;h3 id="如何破解-yaml-地狱">如何破解 YAML 地狱？&lt;/h3>
+&lt;p>其实这个问题早就引起了开发者的广泛讨论，为了解决这个问题很多项目都做出了尝试，如 Helm 这样采用 template 的方式，或 kustomize 这样采用 overlay 的方式对 YAML 进行抽象和简化。&lt;/p>
+&lt;p>目前比较受欢迎的还有一种方式，就是采用常规编程语言通过代码来生成声明式的配置，然后再基于声明式的配置进行部署，这样既不会重复造轮子，同时常规编程语言的可读性、代码量以及编写的难易程度都比直接编写 Yaml 文件要简单的多。比如我之前介绍过的 &lt;code>Grabana&lt;/code> 就是采用这种模式，使用 Golang 来生成 Grafana Dashboard 配置并部署，详见：&lt;a href="../grabana-create-grafana-dashboard">《Grabana：使用 Golang 或 Yaml 生成 Grafana Dashboard》&lt;/a>。&lt;/p>
+&lt;p>这种方式融合了 Imperative 和 Declarative 的优点是一个非常不错的选择。&lt;/p>
+&lt;h2 id="aws-cdk">AWS CDK&lt;/h2>
+&lt;p>AWS Cloud Development Kit（AWS CDK） 是 AWS 开发的一种开源软件开发框架，可以使用 Python 或 Typescript 之类的编程语言，利用函数快速构建代码框架，快速的定义云资源，并且还提供了一系列默认选项，使得代码量进一步降低。&lt;/p>
+&lt;h3 id="支持的语言">支持的语言&lt;/h3>
+&lt;p>AWS CDK 目前支持的语言有：&lt;/p>
+&lt;ul>
+&lt;li>Typescript&lt;/li>
+&lt;li>JavaScript&lt;/li>
+&lt;li>Python&lt;/li>
+&lt;li>Java&lt;/li>
+&lt;li>C#&lt;/li>
+&lt;/ul>
+&lt;p>AWS CDK 还提供了十分完善的脚手架工具，以 Python 为例，只需新建目录，并在目录中执行如下命令，即可拉起一套的 CDK Python 代码：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ cdk init app --language python
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>之后只需在 &lt;code>app/app_stack.py&lt;/code> 中编写相应代码即可，非常方便。&lt;/p>
+&lt;h3 id="原理">原理&lt;/h3>
+&lt;p>AWS CDK 将 Imperative 和 Declarative 进行了结合，通过编程语言生成 CloudFormation 的 template，之后再由 CloudFormation 生成对应的 Stack，最终在 AWS 上完成云资源的创建和变更。&lt;/p>
+&lt;p>这种方法完美的绕过了 CloudFormation 配置本身的复杂性和较差的可读性，用户可以选择一个自己熟悉的编程语言，以代码的形式来对基础资源进行编排，同时还有很多默认选项，为不想关心太多细节的开发者提供了便利。&lt;/p>
+&lt;p>比如只使用这样一行代码，就能创建一个全新的 VPC：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-python" data-lang="python">&lt;span style="color:#6ab825;font-weight:bold">class&lt;/span> &lt;span style="color:#447fcf;text-decoration:underline">CdkPythonStack&lt;/span>(core.Stack):
+&lt;span style="color:#6ab825;font-weight:bold">def&lt;/span> __init__(self, scope: core.Construct, construct_id: &lt;span style="color:#24909d">str&lt;/span>, **kwargs) -&amp;gt; None:
+&lt;span style="color:#24909d">super&lt;/span>().__init__(scope, construct_id, **kwargs)
+...
+vpc = ec2.Vpc(self,
+&lt;span style="color:#ed9d13">&amp;#39;eks-vpc&amp;#39;&lt;/span>,
+cidr=&lt;span style="color:#ed9d13">&amp;#39;10.3.0.0/16&amp;#39;&lt;/span>,
+max_azs=&lt;span style="color:#3677a9">3&lt;/span>,
+nat_gateways=&lt;span style="color:#3677a9">1&lt;/span>
+)
+...
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="cli-command">CLI Command&lt;/h3>
+&lt;p>AWS CDK 还提供了一些命令来帮助开发者完成代码构建、资源检查和部署等功能。&lt;/p>
+&lt;h4 id="init">init&lt;/h4>
+&lt;p>&lt;code>cdk init&lt;/code> 帮助开发者生成一个指定语言的 cdk 项目，目前支持 5 种语言。&lt;/p>
+&lt;h4 id="diff">diff&lt;/h4>
+&lt;p>&lt;code>cdk diff&lt;/code> 是最常用的一个命令了，会帮助用户检查当前 Stack 和 云上资源的不同，并作出标记：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ cdk diff
 Stack HelloCdkStack
 IAM Statement Changes
 ┌───┬────────────────────────┬────────┬──────────────┬───────────┬───────────┐
-│   │ Resource               │ Effect │ Action       │ Principal │ Condition │
+│ │ Resource │ Effect │ Action │ Principal │ Condition │
 ├───┼────────────────────────┼────────┼──────────────┼───────────┼───────────┤
-│ + │ &lt;span style=&#34;color:#ed9d13&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#40ffff&#34;&gt;MyFirstBucket&lt;/span&gt;.Arn&lt;span style=&#34;color:#ed9d13&#34;&gt;}&lt;/span&gt;/* │ Allow  │ s3:GetObject │ *         │           │
+│ + │ &lt;span style="color:#ed9d13">${&lt;/span>&lt;span style="color:#40ffff">MyFirstBucket&lt;/span>.Arn&lt;span style="color:#ed9d13">}&lt;/span>/* │ Allow │ s3:GetObject │ * │ │
 └───┴────────────────────────┴────────┴──────────────┴───────────┴───────────┘
 (NOTE: There may be security-related changes not in this list. See https://github.com/aws/aws-cdk/issues/1299)
-
 Resources
 [+] AWS::S3::BucketPolicy MyFirstBucket/Policy MyFirstBucketPolicy3243DEFD
 [~] AWS::S3::Bucket MyFirstBucket MyFirstBucketB8884501
- ├─ [~] DeletionPolicy
- │   ├─ [-] Retain
- │   └─ [+] Delete
- └─ [~] UpdateReplacePolicy
-     ├─ [-] Retain
-     └─ [+] Delete
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;ls&#34;&gt;ls&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;cdk ls&lt;/code&gt; 可以列出当前 app 所有的 stack。&lt;/p&gt;
-&lt;h4 id=&#34;synth&#34;&gt;synth&lt;/h4&gt;
-&lt;p&gt;前面说到了 CDK 会生成 CloudFormation template， &lt;code&gt;cdk synth&lt;/code&gt; 就是会生成这样一个 template 方便用户检查。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ cdk synth
+├─ [~] DeletionPolicy
+│ ├─ [-] Retain
+│ └─ [+] Delete
+└─ [~] UpdateReplacePolicy
+├─ [-] Retain
+└─ [+] Delete
+&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="ls">ls&lt;/h4>
+&lt;p>&lt;code>cdk ls&lt;/code> 可以列出当前 app 所有的 stack。&lt;/p>
+&lt;h4 id="synth">synth&lt;/h4>
+&lt;p>前面说到了 CDK 会生成 CloudFormation template， &lt;code>cdk synth&lt;/code> 就是会生成这样一个 template 方便用户检查。&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ cdk synth
 Resources:
-  MyFirstBucketB8884501:
-    Type: AWS::S3::Bucket
-    Properties:
-      VersioningConfiguration:
-        Status: Enabled
-    UpdateReplacePolicy: Retain
-    DeletionPolicy: Retain
-    Metadata:
-      aws:cdk:path: HelloCdkStack/MyFirstBucket/Resource
-  CDKMetadata:
-    Type: AWS::CDK::Metadata
-    Properties:
-      Modules: aws-cdk=1.XX.X,@aws-cdk/aws-events=1.XX.X,@aws-cdk/aws-iam=1.XX.X,@aws-cdk/aws-kms=1.XX.X,@aws-cdk/aws-s3=1.XX.X,@aws-cdk/cdk-assets-schema=1.XX.X,@aws-cdk/cloud-assembly-schema=1.XX.X,@aws-cdk/core=1.XX.X,@aws-cdk/cx-api=1.XX.X,@aws-cdk/region-info=1.XX.X,jsii-runtime=node.js/vXX.XX.X
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;deploy&#34;&gt;deploy&lt;/h4&gt;
-&lt;p&gt;在检查无误后，就可以进行部署了，使用 &lt;code&gt;cdk deploy&lt;/code&gt; 命令，就会开始部署 CloudFormation，可以看到实时进度，如果遇到问题，也会进行回滚。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ cdk deploy
+MyFirstBucketB8884501:
+Type: AWS::S3::Bucket
+Properties:
+VersioningConfiguration:
+Status: Enabled
+UpdateReplacePolicy: Retain
+DeletionPolicy: Retain
+Metadata:
+aws:cdk:path: HelloCdkStack/MyFirstBucket/Resource
+CDKMetadata:
+Type: AWS::CDK::Metadata
+Properties:
+Modules: aws-cdk=1.XX.X,@aws-cdk/aws-events=1.XX.X,@aws-cdk/aws-iam=1.XX.X,@aws-cdk/aws-kms=1.XX.X,@aws-cdk/aws-s3=1.XX.X,@aws-cdk/cdk-assets-schema=1.XX.X,@aws-cdk/cloud-assembly-schema=1.XX.X,@aws-cdk/core=1.XX.X,@aws-cdk/cx-api=1.XX.X,@aws-cdk/region-info=1.XX.X,jsii-runtime=node.js/vXX.XX.X
+&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="deploy">deploy&lt;/h4>
+&lt;p>在检查无误后，就可以进行部署了，使用 &lt;code>cdk deploy&lt;/code> 命令，就会开始部署 CloudFormation，可以看到实时进度，如果遇到问题，也会进行回滚。&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ cdk deploy
 HelloCdkStack: deploying...
 HelloCdkStack: creating CloudFormation changeset...
- 1/1 | 8:39:43 AM | UPDATE_COMPLETE      | AWS::S3::Bucket    | MyFirstBucket (MyFirstBucketB8884501)
- 1/1 | 8:39:44 AM | UPDATE_COMPLETE_CLEA | AWS::CloudFormation::Stack | HelloCdkStack
- 2/1 | 8:39:45 AM | UPDATE_COMPLETE      | AWS::CloudFormation::Stack | HelloCdkStack
-
- ✅  HelloCdkStack
-
+1/1 | 8:39:43 AM | UPDATE_COMPLETE | AWS::S3::Bucket | MyFirstBucket (MyFirstBucketB8884501)
+1/1 | 8:39:44 AM | UPDATE_COMPLETE_CLEA | AWS::CloudFormation::Stack | HelloCdkStack
+2/1 | 8:39:45 AM | UPDATE_COMPLETE | AWS::CloudFormation::Stack | HelloCdkStack
+✅ HelloCdkStack
 Stack ARN:
 arn:aws:cloudformation:REGION:ACCOUNT:stack/HelloCdkStack/ID
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;destroy&#34;&gt;destroy&lt;/h4&gt;
-&lt;p&gt;在体验完后，可以使用 &lt;code&gt;cdk destroy&lt;/code&gt; 对 CloudFormation 以及 CloudFormation 创建的资源进行清理和回收。&lt;/p&gt;
-&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
-&lt;p&gt;如果你是 AWS 用户，推荐可以尝试使用 AWS CDK，无论是使用体验还是开发速度都十分突出，只需不到 100 行的代码，就可以生成 上千行 CloudFormation 配置，随着基础设施越来越复杂，使用 AWS CDK 获得的红利也会越多。后续我也会出一篇使用 AWS CDK Python 从 0 开始创建 EKS 集群的文章，感兴趣的同学可以关注一下。&lt;/p&gt;
-&lt;p&gt;如果你不是 AWS 用户，但是也想采用这种方式创建和维护你的基础资源，也可以关注一下 &lt;a href=&#34;https://github.com/pulumi/pulumi&#34;&gt;pulumi&lt;/a&gt; 项目，这是一个开源项目，其支持包括 AWS、Azure、Google Cloud 和阿里云。后续我同样会出一篇相关内容的文章，敬请期待。&lt;/p&gt;
-
-      </description>
-    </item>
-    
-  </channel>
-</rss>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="destroy">destroy&lt;/h4>
+&lt;p>在体验完后，可以使用 &lt;code>cdk destroy&lt;/code> 对 CloudFormation 以及 CloudFormation 创建的资源进行清理和回收。&lt;/p>
+&lt;h2 id="结语">结语&lt;/h2>
+&lt;p>如果你是 AWS 用户，推荐可以尝试使用 AWS CDK，无论是使用体验还是开发速度都十分突出，只需不到 100 行的代码，就可以生成 上千行 CloudFormation 配置，随着基础设施越来越复杂，使用 AWS CDK 获得的红利也会越多。后续我也会出一篇使用 AWS CDK Python 从 0 开始创建 EKS 集群的文章，感兴趣的同学可以关注一下。&lt;/p>
+&lt;p>如果你不是 AWS 用户，但是也想采用这种方式创建和维护你的基础资源，也可以关注一下 &lt;a href="https://github.com/pulumi/pulumi">pulumi&lt;/a> 项目，这是一个开源项目，其支持包括 AWS、Azure、Google Cloud 和阿里云。后续我同样会出一篇相关内容的文章，敬请期待。&lt;/p></description></item></channel></rss>

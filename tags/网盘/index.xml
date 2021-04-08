@@ -1,121 +1,77 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Guo Xudong&#39;s Blog·郭旭东的博客 – 网盘</title>
-    <link>https://guoxudong.io/tags/%E7%BD%91%E7%9B%98/</link>
-    <description>Recent content in 网盘 on Guo Xudong&#39;s Blog·郭旭东的博客</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>zh</language>
-    <lastBuildDate>Wed, 11 Nov 2020 11:23:40 +0800</lastBuildDate>
-    
-	  <atom:link href="https://guoxudong.io/tags/%E7%BD%91%E7%9B%98/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-      
-        
-      
-    
-    
-    <item>
-      <title>Post: Teambition 网盘 VS 阿里云盘：阿里这个浓眉大眼的也开始玩赛马了？</title>
-      <link>https://guoxudong.io/post/teambition-disk-vs-aliyun-disk/</link>
-      <pubDate>Wed, 11 Nov 2020 11:23:40 +0800</pubDate>
-      
-      <guid>https://guoxudong.io/post/teambition-disk-vs-aliyun-disk/</guid>
-      <description>
-        
-        
-        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
-&lt;p&gt;在之前的文章&lt;a href=&#34;../alibaba-teambition-disk/&#34;&gt;《试用阿里网盘内测版-不限速、无广告、隐私安全我全都要》&lt;/a&gt;中笔者分享了阿里巴巴旗下 Teambition 网盘的内测试用体验。就在文章发布的当天，机缘巧合笔者获得了阿里巴巴另一款网盘产品：「&lt;strong&gt;阿里云盘&lt;/strong&gt;」的 ”个人云种子用户“ 邀请码。惊奇的发现原来阿里巴巴同时存在两款不同的网盘产品，分别属于 &lt;strong&gt;Teambition 团队&lt;/strong&gt;和&lt;strong&gt;阿里云基础产品事业部的智能存储团队&lt;/strong&gt;。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tvax2.sinaimg.cn/wap800/ad5fbf65gy1gkl3hrdu81j20k80z27ii.jpg&#34; alt=&#34;个人云种子用户邀请页&#34;&gt;&lt;/p&gt;
-&lt;p&gt;一直以来，最为大众所知的是腾讯的赛马机制，如微信、王者荣耀都是这个机制的产物，而阿里的赛马机制鲜有人提。但据公开的信息显示，阿里内部其实早就存在了这一机制，只是笔者没有关注到而已。本文并不对这一机制做过多评价，而是着力于这两个网盘产品的使用体验，以一个网盘使用者的视角对比这两个产品的特点与差异。&lt;/p&gt;
-&lt;h2 id=&#34;阿里云盘&#34;&gt;阿里云盘&lt;/h2&gt;
-&lt;p&gt;早在今年8月份&lt;a href=&#34;https://www.aliyundrive.com/&#34;&gt;阿里云盘&lt;/a&gt;就开放了下载试用（当时的测试用户可以拿到 6T 的 VIP 容量），但当笔者注意到时已经从 Apple Store 下架。而在10月底又再度上架 Apple Store（然而笔者已经换了安卓）并开始发放邀请码，这次笔者没有错过试用机会，下载并注册了阿里云盘 APP，但存储空间只有 1T 了，这个存储空间应该就是免费提供给用户的空间大小。&lt;/p&gt;
-&lt;p&gt;阿里云盘目前只有 IOS 和安卓的 APP，Windows 和 Mac 端暂时没有上线，并且也没有 web 端可以登录。官网极端的简洁，宛如一个直男&amp;hellip;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1gkl80aczdnj21h70q67wh.jpg&#34; alt=&#34;阿里云盘官网&#34;&gt;&lt;/p&gt;
-&lt;h2 id=&#34;阿里云盘-vs-teambition-网盘&#34;&gt;阿里云盘 vs Teambition 网盘&lt;/h2&gt;
-&lt;p&gt;与 Teambition 相比，阿里云盘 APP 的界面也十分直男，阿里橙搭配极简的风格组成了 APP 的整个页面。与 Teambition 不同，阿里云盘更贴近手机用户，其中的相册功能可以快速浏览网盘中的照片，同时也提供了手机相册同步功能，可以非常简单的同步手机相册到网盘。&lt;/p&gt;
-&lt;p&gt;比较有意思的是「虎符保险箱」这个功能，可以在 APP 内再设置一层密码，用来保存隐私文件。分享功能分为口令分享和私密连接，很遗憾和 Teambition 一样，也是暂时不可用。&lt;/p&gt;
-&lt;p&gt;与 Teambition 相同的是上传下载同样不限速，实测都可以达到宽带提供的最大速率。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tvax4.sinaimg.cn/wap800/ad5fbf65ly1gkl84rikc7j20u01t0403.jpg&#34; alt=&#34;APP 页面&#34;&gt;&lt;/p&gt;
-&lt;p&gt;不难发现，Teambition 网盘和阿里云盘的策略还是有差异的，Teambition 更强调协作，并且和 Teambition 产品绑定，没有独立的 APP；而阿里云盘则从手机用户入手，有独立的 APP 且操作更为丝滑。同样是没有 Windows 和 Mac 端，但 Teambition 提供了 web 端，而阿里云盘的手机操作体验更佳，也算是各有千秋。&lt;/p&gt;
-&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
-&lt;p&gt;可以看出两个产品同样都处在比较早期的阶段，并没有如在线解压、微信备份、文件格式转换等功能，还不是成熟的网盘产品，但核心的存储与上传下载功能都比较优秀，很有竞争力。&lt;/p&gt;
-&lt;p&gt;随着阿里的入局，为本已如同一潭死水般的网盘市场带来一丝竞争的活力，为用户提供了更多选择的空间。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;PS：Teambition 团队和阿里云盘团队都在疯狂招人，阿里云盘更是在内网放出话说现在内推可以拿终身会员，有兴趣的朋友可以去尝试一下：）&lt;/p&gt;
-&lt;/blockquote&gt;
-
-      </description>
-    </item>
-    
-    <item>
-      <title>Post: 试用阿里网盘内测版-不限速、无广告、隐私安全我全都要</title>
-      <link>https://guoxudong.io/post/alibaba-teambition-disk/</link>
-      <pubDate>Mon, 02 Nov 2020 09:26:27 +0800</pubDate>
-      
-      <guid>https://guoxudong.io/post/alibaba-teambition-disk/</guid>
-      <description>
-        
-        
-        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
-&lt;p&gt;Teambition 网盘自开放内测申请以来已经过去了数月，上周五终于收到了心心念念内测码，于是立马上手体验。Teambition 网盘宣称是不限速、不打扰、够安全、易于协作的网盘，属于阿里巴巴工作学习套件 Teambition，提供能够满足日常需求的超大存储空间，有趣、好用的协作等功能。&lt;/p&gt;
-&lt;p&gt;从官网可以看出 Teambition 网盘准确的抓到了个人网盘用户的痛点：&lt;strong&gt;上传下载限速&lt;/strong&gt;、&lt;strong&gt;各种广告弹窗&lt;/strong&gt;、&lt;strong&gt;隐私安全&lt;/strong&gt;以及&lt;strong&gt;操作困难&lt;/strong&gt;，而作为工作学习套件的一部分还增加了协作功能，除了分享资源，还提供了各种协作功能，大大提升协作效率。&lt;/p&gt;
-&lt;p&gt;目前 Teambition 网盘还处于 Beta 内测版，申请地址：&lt;a href=&#34;https://survey.aliyun.com/apps/zhiliao/jqBinngVQ&#34;&gt;https://survey.aliyun.com/apps/zhiliao/jqBinngVQ&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&#34;优势&#34;&gt;优势&lt;/h2&gt;
-&lt;p&gt;总的来说优势体现在不限速、无广告、隐私安全和协作方面。&lt;/p&gt;
-&lt;h3 id=&#34;速度&#34;&gt;速度&lt;/h3&gt;
-&lt;p&gt;经实测 Teambition 网盘的上传下载速度都能达到本地带宽的最大值，上传下载速度都非常丝滑。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65ly1gkamt4yh6tj20b604p74d.jpg&#34; alt=&#34;上传速度&#34;&gt;&lt;/p&gt;
-&lt;br&gt;
-&lt;p&gt;Teambition 网盘背靠阿里巴巴集团，由阿里云提供资源支持，所以 Teambition 可以以极低成本拿到海量的资源，这也就是他们敢于宣传资源上传下载不限速的原因。&lt;/p&gt;
-&lt;p&gt;上传下载速度应该是所有功能的核心，也是和友商比较最多的一点。作为一名云资源管理者和维护者，我深知存储和网络带宽消耗成本的巨大，企业为了保证各种图片、视频、文件资源的可用性，会花费不菲的成本来采购 OSS 或 S3 这样的对象存储，这些资源的上传下载自然不会限速，甚至还有配套的加速服务。&lt;/p&gt;
-&lt;p&gt;所以对于网盘的限速从情感上是可以接受的，因为这些资源成本巨大，但是如果限速到&lt;strong&gt;几k、几十k/秒&lt;/strong&gt;，那这样的策略就不是基于成本的考虑，而是垄断后的特权了。&lt;/p&gt;
-&lt;h3 id=&#34;容量&#34;&gt;容量&lt;/h3&gt;
-&lt;p&gt;内测版开放了 2T 的免费容量，这个大小基本满足了个人用户的使用需求，后续应该会开放购买更大的容量。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65gy1gkasv8u9fzj208n03xglh.jpg&#34; alt=&#34;网盘容量&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;隐私安全&#34;&gt;隐私安全&lt;/h3&gt;
-&lt;p&gt;在直接咨询了阿里的开发人员后，得知 Teambition 网盘采用与天猫双十一相同的技术架构，确保用户个人隐私和文件的绝对安全。&lt;/p&gt;
-&lt;h3 id=&#34;页面&#34;&gt;页面&lt;/h3&gt;
-&lt;p&gt;网盘页面简洁明了，功能一目了然，可以识别众多文件格式。确实也和承诺中的一样，没有广告推送和弹窗，整体保持简洁清新的风格。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65gy1gkamyvsv50j21h60q7dj9.jpg&#34; alt=&#34;网盘页面&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;协作&#34;&gt;协作&lt;/h3&gt;
-&lt;p&gt;除了一般网盘的功能外，Teambition 网盘还突出了协作的功能。&lt;/p&gt;
-&lt;h4 id=&#34;讨论功能&#34;&gt;讨论功能&lt;/h4&gt;
-&lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65ly1gkanbqdngbj20dd09dq3w.jpg&#34; alt=&#34;讨论&#34;&gt;&lt;/p&gt;
-&lt;p&gt;参与协作的用户可以使用不同的颜色，将想要讨论的对象&lt;strong&gt;圈出来&lt;/strong&gt;，这样就可以在同一幅图片或者视频中进行多组讨论，不用添加多余的描述。这个功能在视频中效果会更加明显，可以逐帧&lt;strong&gt;圈&lt;/strong&gt;出修改对象并发表意见（剪辑师、设计师狂怒）。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1gkandlm1cfj21780ppqil.jpg&#34; alt=&#34;圈出讨论&#34;&gt;&lt;/p&gt;
-&lt;p&gt;你觉得是狗可爱还是猫可爱呢？：）&lt;/p&gt;
-&lt;h4 id=&#34;图像识别&#34;&gt;图像识别&lt;/h4&gt;
-&lt;p&gt;文档中并没有提到这个功能，是我在测试时偶然发现的，Teambition 网盘会自动识别你上传图像的内容，并在详情中的 &lt;strong&gt;“包含的事物”&lt;/strong&gt; 中展示，如下图：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tvax2.sinaimg.cn/large/ad5fbf65gy1gkanoe8od2j214l0jo1gt.jpg&#34; alt=&#34;图像识别&#34;&gt;&lt;/p&gt;
-&lt;h4 id=&#34;分享&#34;&gt;分享&lt;/h4&gt;
-&lt;p&gt;目前分享功能是关闭的，原因是内测期间有用户利用 Teambition 网盘分享违规文件，所以暂时无法体验 Teambition 网盘的分享功能。不过从 &lt;strong&gt;&lt;a href=&#34;https://thoughts.teambition.com/sharespace/5f72e44becf9290016f85c8c/docs/5f99203decf9290016f85ce3&#34;&gt;「分享」功能升级说明&lt;/a&gt;&lt;/strong&gt; 可以看到目前已经开启了安全升级，同时还增加了更多功能。&lt;/p&gt;
-&lt;p&gt;多种分享权限：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;限时分享有效期增加更细致的时间颗粒度（7天、永久、自定义）&lt;/li&gt;
-&lt;li&gt;分享支持增加添加密码&lt;/li&gt;
-&lt;li&gt;批量分享支持画册、缩略图两种模式查看文件&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;粒度更细的分享管理：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;支持查看分享文件的浏览量和被下载量&lt;/li&gt;
-&lt;li&gt;支持查看分享文件的有效期&lt;/li&gt;
-&lt;li&gt;分享中的文件支持随时取消&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;不足&#34;&gt;不足&lt;/h2&gt;
-&lt;p&gt;Teambition 网盘的核心功能确实直击网盘使用的痛点，但还处于 Beta 内测版，有很多不足。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;目前只有 web 端和手机端可以使用，微信小程序、桌面端（Mac 和 Windows）、平板设备端还未开放&lt;/li&gt;
-&lt;li&gt;手机端目前还不能删除文件，删除文件要在 web 端操作，而且手机端网盘的加载速度也很慢，且多次出现加载不出来的情况&lt;/li&gt;
-&lt;li&gt;分享功能暂时不可用&lt;/li&gt;
-&lt;li&gt;暂时还没有与各种设备打通，还没有手机相册/内容备份等功能&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
-&lt;p&gt;总的来说，Teambition 网盘抓住了网盘使用的痛点，并以此收获了众多的关注与好评。但要走的路还很长，在海量用户使用下网盘本身的可用性、对各种设备的支持、对违规内容的识别和管控都将是 Teambition 网盘面临的挑战。&lt;/p&gt;
-&lt;p&gt;往长远了看 Teambition 网盘的出现给了用户更多的选择，同时打破了目前网盘市场的局面，逼着“一家独大”的同行去改善自己的产品和服务，从用户的角度这都是好事情。&lt;/p&gt;
-
-      </description>
-    </item>
-    
-  </channel>
-</rss>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Guo Xudong's Blog·郭旭东的博客 – 网盘</title><link>https://guoxudong.io/tags/%E7%BD%91%E7%9B%98/</link><description>Recent content in 网盘 on Guo Xudong's Blog·郭旭东的博客</description><generator>Hugo -- gohugo.io</generator><language>zh</language><lastBuildDate>Wed, 11 Nov 2020 11:23:40 +0800</lastBuildDate><atom:link href="https://guoxudong.io/tags/%E7%BD%91%E7%9B%98/index.xml" rel="self" type="application/rss+xml"/><item><title>Post: Teambition 网盘 VS 阿里云盘：阿里这个浓眉大眼的也开始玩赛马了？</title><link>https://guoxudong.io/post/teambition-disk-vs-aliyun-disk/</link><pubDate>Wed, 11 Nov 2020 11:23:40 +0800</pubDate><guid>https://guoxudong.io/post/teambition-disk-vs-aliyun-disk/</guid><description>
+&lt;h2 id="前言">前言&lt;/h2>
+&lt;p>在之前的文章&lt;a href="../alibaba-teambition-disk/">《试用阿里网盘内测版-不限速、无广告、隐私安全我全都要》&lt;/a>中笔者分享了阿里巴巴旗下 Teambition 网盘的内测试用体验。就在文章发布的当天，机缘巧合笔者获得了阿里巴巴另一款网盘产品：「&lt;strong>阿里云盘&lt;/strong>」的 ”个人云种子用户“ 邀请码。惊奇的发现原来阿里巴巴同时存在两款不同的网盘产品，分别属于 &lt;strong>Teambition 团队&lt;/strong>和&lt;strong>阿里云基础产品事业部的智能存储团队&lt;/strong>。&lt;/p>
+&lt;p>&lt;img src="https://tvax2.sinaimg.cn/wap800/ad5fbf65gy1gkl3hrdu81j20k80z27ii.jpg" alt="个人云种子用户邀请页">&lt;/p>
+&lt;p>一直以来，最为大众所知的是腾讯的赛马机制，如微信、王者荣耀都是这个机制的产物，而阿里的赛马机制鲜有人提。但据公开的信息显示，阿里内部其实早就存在了这一机制，只是笔者没有关注到而已。本文并不对这一机制做过多评价，而是着力于这两个网盘产品的使用体验，以一个网盘使用者的视角对比这两个产品的特点与差异。&lt;/p>
+&lt;h2 id="阿里云盘">阿里云盘&lt;/h2>
+&lt;p>早在今年8月份&lt;a href="https://www.aliyundrive.com/">阿里云盘&lt;/a>就开放了下载试用（当时的测试用户可以拿到 6T 的 VIP 容量），但当笔者注意到时已经从 Apple Store 下架。而在10月底又再度上架 Apple Store（然而笔者已经换了安卓）并开始发放邀请码，这次笔者没有错过试用机会，下载并注册了阿里云盘 APP，但存储空间只有 1T 了，这个存储空间应该就是免费提供给用户的空间大小。&lt;/p>
+&lt;p>阿里云盘目前只有 IOS 和安卓的 APP，Windows 和 Mac 端暂时没有上线，并且也没有 web 端可以登录。官网极端的简洁，宛如一个直男&amp;hellip;&lt;/p>
+&lt;p>&lt;img src="https://tva1.sinaimg.cn/large/ad5fbf65gy1gkl80aczdnj21h70q67wh.jpg" alt="阿里云盘官网">&lt;/p>
+&lt;h2 id="阿里云盘-vs-teambition-网盘">阿里云盘 vs Teambition 网盘&lt;/h2>
+&lt;p>与 Teambition 相比，阿里云盘 APP 的界面也十分直男，阿里橙搭配极简的风格组成了 APP 的整个页面。与 Teambition 不同，阿里云盘更贴近手机用户，其中的相册功能可以快速浏览网盘中的照片，同时也提供了手机相册同步功能，可以非常简单的同步手机相册到网盘。&lt;/p>
+&lt;p>比较有意思的是「虎符保险箱」这个功能，可以在 APP 内再设置一层密码，用来保存隐私文件。分享功能分为口令分享和私密连接，很遗憾和 Teambition 一样，也是暂时不可用。&lt;/p>
+&lt;p>与 Teambition 相同的是上传下载同样不限速，实测都可以达到宽带提供的最大速率。&lt;/p>
+&lt;p>&lt;img src="https://tvax4.sinaimg.cn/wap800/ad5fbf65ly1gkl84rikc7j20u01t0403.jpg" alt="APP 页面">&lt;/p>
+&lt;p>不难发现，Teambition 网盘和阿里云盘的策略还是有差异的，Teambition 更强调协作，并且和 Teambition 产品绑定，没有独立的 APP；而阿里云盘则从手机用户入手，有独立的 APP 且操作更为丝滑。同样是没有 Windows 和 Mac 端，但 Teambition 提供了 web 端，而阿里云盘的手机操作体验更佳，也算是各有千秋。&lt;/p>
+&lt;h2 id="结语">结语&lt;/h2>
+&lt;p>可以看出两个产品同样都处在比较早期的阶段，并没有如在线解压、微信备份、文件格式转换等功能，还不是成熟的网盘产品，但核心的存储与上传下载功能都比较优秀，很有竞争力。&lt;/p>
+&lt;p>随着阿里的入局，为本已如同一潭死水般的网盘市场带来一丝竞争的活力，为用户提供了更多选择的空间。&lt;/p>
+&lt;blockquote>
+&lt;p>PS：Teambition 团队和阿里云盘团队都在疯狂招人，阿里云盘更是在内网放出话说现在内推可以拿终身会员，有兴趣的朋友可以去尝试一下：）&lt;/p>
+&lt;/blockquote></description></item><item><title>Post: 试用阿里网盘内测版-不限速、无广告、隐私安全我全都要</title><link>https://guoxudong.io/post/alibaba-teambition-disk/</link><pubDate>Mon, 02 Nov 2020 09:26:27 +0800</pubDate><guid>https://guoxudong.io/post/alibaba-teambition-disk/</guid><description>
+&lt;h2 id="前言">前言&lt;/h2>
+&lt;p>Teambition 网盘自开放内测申请以来已经过去了数月，上周五终于收到了心心念念内测码，于是立马上手体验。Teambition 网盘宣称是不限速、不打扰、够安全、易于协作的网盘，属于阿里巴巴工作学习套件 Teambition，提供能够满足日常需求的超大存储空间，有趣、好用的协作等功能。&lt;/p>
+&lt;p>从官网可以看出 Teambition 网盘准确的抓到了个人网盘用户的痛点：&lt;strong>上传下载限速&lt;/strong>、&lt;strong>各种广告弹窗&lt;/strong>、&lt;strong>隐私安全&lt;/strong>以及&lt;strong>操作困难&lt;/strong>，而作为工作学习套件的一部分还增加了协作功能，除了分享资源，还提供了各种协作功能，大大提升协作效率。&lt;/p>
+&lt;p>目前 Teambition 网盘还处于 Beta 内测版，申请地址：&lt;a href="https://survey.aliyun.com/apps/zhiliao/jqBinngVQ">https://survey.aliyun.com/apps/zhiliao/jqBinngVQ&lt;/a>&lt;/p>
+&lt;h2 id="优势">优势&lt;/h2>
+&lt;p>总的来说优势体现在不限速、无广告、隐私安全和协作方面。&lt;/p>
+&lt;h3 id="速度">速度&lt;/h3>
+&lt;p>经实测 Teambition 网盘的上传下载速度都能达到本地带宽的最大值，上传下载速度都非常丝滑。&lt;/p>
+&lt;p>&lt;img src="https://tvax1.sinaimg.cn/large/ad5fbf65ly1gkamt4yh6tj20b604p74d.jpg" alt="上传速度">&lt;/p>
+&lt;br>
+&lt;p>Teambition 网盘背靠阿里巴巴集团，由阿里云提供资源支持，所以 Teambition 可以以极低成本拿到海量的资源，这也就是他们敢于宣传资源上传下载不限速的原因。&lt;/p>
+&lt;p>上传下载速度应该是所有功能的核心，也是和友商比较最多的一点。作为一名云资源管理者和维护者，我深知存储和网络带宽消耗成本的巨大，企业为了保证各种图片、视频、文件资源的可用性，会花费不菲的成本来采购 OSS 或 S3 这样的对象存储，这些资源的上传下载自然不会限速，甚至还有配套的加速服务。&lt;/p>
+&lt;p>所以对于网盘的限速从情感上是可以接受的，因为这些资源成本巨大，但是如果限速到&lt;strong>几k、几十k/秒&lt;/strong>，那这样的策略就不是基于成本的考虑，而是垄断后的特权了。&lt;/p>
+&lt;h3 id="容量">容量&lt;/h3>
+&lt;p>内测版开放了 2T 的免费容量，这个大小基本满足了个人用户的使用需求，后续应该会开放购买更大的容量。&lt;/p>
+&lt;p>&lt;img src="https://tvax1.sinaimg.cn/large/ad5fbf65gy1gkasv8u9fzj208n03xglh.jpg" alt="网盘容量">&lt;/p>
+&lt;h3 id="隐私安全">隐私安全&lt;/h3>
+&lt;p>在直接咨询了阿里的开发人员后，得知 Teambition 网盘采用与天猫双十一相同的技术架构，确保用户个人隐私和文件的绝对安全。&lt;/p>
+&lt;h3 id="页面">页面&lt;/h3>
+&lt;p>网盘页面简洁明了，功能一目了然，可以识别众多文件格式。确实也和承诺中的一样，没有广告推送和弹窗，整体保持简洁清新的风格。&lt;/p>
+&lt;p>&lt;img src="https://tvax1.sinaimg.cn/large/ad5fbf65gy1gkamyvsv50j21h60q7dj9.jpg" alt="网盘页面">&lt;/p>
+&lt;h3 id="协作">协作&lt;/h3>
+&lt;p>除了一般网盘的功能外，Teambition 网盘还突出了协作的功能。&lt;/p>
+&lt;h4 id="讨论功能">讨论功能&lt;/h4>
+&lt;p>&lt;img src="https://tvax1.sinaimg.cn/large/ad5fbf65ly1gkanbqdngbj20dd09dq3w.jpg" alt="讨论">&lt;/p>
+&lt;p>参与协作的用户可以使用不同的颜色，将想要讨论的对象&lt;strong>圈出来&lt;/strong>，这样就可以在同一幅图片或者视频中进行多组讨论，不用添加多余的描述。这个功能在视频中效果会更加明显，可以逐帧&lt;strong>圈&lt;/strong>出修改对象并发表意见（剪辑师、设计师狂怒）。&lt;/p>
+&lt;p>&lt;img src="https://tva1.sinaimg.cn/large/ad5fbf65gy1gkandlm1cfj21780ppqil.jpg" alt="圈出讨论">&lt;/p>
+&lt;p>你觉得是狗可爱还是猫可爱呢？：）&lt;/p>
+&lt;h4 id="图像识别">图像识别&lt;/h4>
+&lt;p>文档中并没有提到这个功能，是我在测试时偶然发现的，Teambition 网盘会自动识别你上传图像的内容，并在详情中的 &lt;strong>“包含的事物”&lt;/strong> 中展示，如下图：&lt;/p>
+&lt;p>&lt;img src="https://tvax2.sinaimg.cn/large/ad5fbf65gy1gkanoe8od2j214l0jo1gt.jpg" alt="图像识别">&lt;/p>
+&lt;h4 id="分享">分享&lt;/h4>
+&lt;p>目前分享功能是关闭的，原因是内测期间有用户利用 Teambition 网盘分享违规文件，所以暂时无法体验 Teambition 网盘的分享功能。不过从 &lt;strong>&lt;a href="https://thoughts.teambition.com/sharespace/5f72e44becf9290016f85c8c/docs/5f99203decf9290016f85ce3">「分享」功能升级说明&lt;/a>&lt;/strong> 可以看到目前已经开启了安全升级，同时还增加了更多功能。&lt;/p>
+&lt;p>多种分享权限：&lt;/p>
+&lt;ul>
+&lt;li>限时分享有效期增加更细致的时间颗粒度（7天、永久、自定义）&lt;/li>
+&lt;li>分享支持增加添加密码&lt;/li>
+&lt;li>批量分享支持画册、缩略图两种模式查看文件&lt;/li>
+&lt;/ul>
+&lt;p>粒度更细的分享管理：&lt;/p>
+&lt;ul>
+&lt;li>支持查看分享文件的浏览量和被下载量&lt;/li>
+&lt;li>支持查看分享文件的有效期&lt;/li>
+&lt;li>分享中的文件支持随时取消&lt;/li>
+&lt;/ul>
+&lt;h2 id="不足">不足&lt;/h2>
+&lt;p>Teambition 网盘的核心功能确实直击网盘使用的痛点，但还处于 Beta 内测版，有很多不足。&lt;/p>
+&lt;ul>
+&lt;li>目前只有 web 端和手机端可以使用，微信小程序、桌面端（Mac 和 Windows）、平板设备端还未开放&lt;/li>
+&lt;li>手机端目前还不能删除文件，删除文件要在 web 端操作，而且手机端网盘的加载速度也很慢，且多次出现加载不出来的情况&lt;/li>
+&lt;li>分享功能暂时不可用&lt;/li>
+&lt;li>暂时还没有与各种设备打通，还没有手机相册/内容备份等功能&lt;/li>
+&lt;/ul>
+&lt;h2 id="结语">结语&lt;/h2>
+&lt;p>总的来说，Teambition 网盘抓住了网盘使用的痛点，并以此收获了众多的关注与好评。但要走的路还很长，在海量用户使用下网盘本身的可用性、对各种设备的支持、对违规内容的识别和管控都将是 Teambition 网盘面临的挑战。&lt;/p>
+&lt;p>往长远了看 Teambition 网盘的出现给了用户更多的选择，同时打破了目前网盘市场的局面，逼着“一家独大”的同行去改善自己的产品和服务，从用户的角度这都是好事情。&lt;/p></description></item></channel></rss>

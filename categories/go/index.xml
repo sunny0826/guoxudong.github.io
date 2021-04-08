@@ -1,781 +1,660 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Guo Xudong&#39;s Blog·郭旭东的博客 – Go</title>
-    <link>https://guoxudong.io/categories/go/</link>
-    <description>Recent content in Go on Guo Xudong&#39;s Blog·郭旭东的博客</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>zh</language>
-    <lastBuildDate>Fri, 16 Oct 2020 14:51:08 +0800</lastBuildDate>
-    
-	  <atom:link href="https://guoxudong.io/categories/go/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-      
-        
-      
-    
-    
-    <item>
-      <title>Post: 浅析 Golang 垃圾回收机制</title>
-      <link>https://guoxudong.io/post/golang-gc/</link>
-      <pubDate>Fri, 16 Oct 2020 14:51:08 +0800</pubDate>
-      
-      <guid>https://guoxudong.io/post/golang-gc/</guid>
-      <description>
-        
-        
-        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
-&lt;p&gt;Google 搜索 &lt;strong&gt;Golang GC&lt;/strong&gt; 排名靠前的文章都讲的不错，从设计到实现，从演进到源码，一应俱全。但是庞杂的信息会给人一种恐惧感，让人望而却步。本文尝试使用较为简单易懂的语言和图像，讲解 Golang 的垃圾回收机制。&lt;/p&gt;
-&lt;h2 id=&#34;垃圾回收算法&#34;&gt;垃圾回收算法&lt;/h2&gt;
-&lt;p&gt;目前比较常见的垃圾回收算法有三种：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;引用计数：为每个对象维护一个引用计数，当引用该对象的对象销毁时，引用计数 -1，当对象引用计数为 0 时回收该对象。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;代表语言：&lt;strong&gt;Python&lt;/strong&gt;、&lt;strong&gt;PHP&lt;/strong&gt;、&lt;strong&gt;Swift&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;优点：对象回收快，不会出现内存耗尽或达到某个阈值时才回收。&lt;/li&gt;
-&lt;li&gt;缺点：不能很好的处理循环引用，而实时维护引用计数也是有损耗的。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;标记-清除：从根变量开始遍历所有引用的对象，标记引用的对象，没有被标记的进行回收。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;代表语言：&lt;strong&gt;Golang&lt;/strong&gt;（三色标记法）&lt;/li&gt;
-&lt;li&gt;优点：解决了引用计数的缺点。&lt;/li&gt;
-&lt;li&gt;缺点：需要 STW，暂时停掉程序运行。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;分代收集：按照对象生命周期长短划分不同的代空间，生命周期长的放入老年代，短的放入新生代，不同代有不同的回收算法和回收频率。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;代表语言：&lt;strong&gt;Java&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;优点：回收性能好&lt;/li&gt;
-&lt;li&gt;缺点：算法复杂&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&#34;golang-垃圾回收&#34;&gt;Golang 垃圾回收&lt;/h2&gt;
-&lt;p&gt;跳过原理，我们先来介绍 Golang 的三色标记法。&lt;/p&gt;
-&lt;h3 id=&#34;三色标记法&#34;&gt;三色标记法&lt;/h3&gt;
-&lt;p&gt;三色标记法只是为了叙述方便而抽象出来的一种说法，实际上的对象是没有三色之分的。这里的三色，对应了垃圾回收过程中对象的三种状态：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;灰色：对象还在标记队列中等待&lt;/li&gt;
-&lt;li&gt;黑色：对象已被标记，&lt;code&gt;gcmarkBits&lt;/code&gt; 对应位为 &lt;code&gt;1&lt;/code&gt; &amp;ndash; 该对象不会在本次 GC 中被回收&lt;/li&gt;
-&lt;li&gt;白色：对象未被标记，&lt;code&gt;gcmarkBits&lt;/code&gt; 对应位为 &lt;code&gt;0&lt;/code&gt; &amp;ndash; 该对象将会在本次 GC 中被清理&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;具体流程如下图：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65ly1gjr5wkuzduj20mr0ra15z.jpg&#34; alt=&#34;三色标记法&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;回收原理&#34;&gt;回收原理&lt;/h3&gt;
-&lt;p&gt;通过上图，应该对三色标记法有了一个比较直观的了解，那么我们现在来讲讲原理。简单的讲，就是标记内存中那些还在使用中（即被引用了）的部分，而内存中不再使用（即未被引用）的部分，就是要回收的垃圾，需要将其回收，以供后续内存分配使用。上图中的 A、B、D 就是被引用正在使用的内存，而C、F、E 曾经被使用过，但现在没有任何对象引用，就需要被回收掉。&lt;/p&gt;
-&lt;p&gt;而 Root 区域主要是程序运行到当前时刻的栈和全局数据区域，是实时正在使用到的内存，当然应该优先标记。而考虑到内存块中存放的可能是指针，所以还需要递归的进行标记，待全部标记完后，就会对未被标记的内存进行回收。&lt;/p&gt;
-&lt;h3 id=&#34;内存标记&#34;&gt;内存标记&lt;/h3&gt;
-&lt;p&gt;golang 中采用 span 数据结构管理内存，span 中维护了一个个内存块，并由一个位图 &lt;code&gt;allocBits&lt;/code&gt; 表示内存块的分配情况，而上文中提到的 &lt;code&gt;gcmarkBits&lt;/code&gt; 是记录每块内存块被引用情况的。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tvax4.sinaimg.cn/large/ad5fbf65ly1gjr43y6br8j20mr07aq50.jpg&#34; alt=&#34;内存标记&#34;&gt;&lt;/p&gt;
-&lt;p&gt;如上图，&lt;code&gt;allocBits&lt;/code&gt; 记录了每块内存的分配情况，而 &lt;code&gt;gcmarkBits&lt;/code&gt; 记录了每块内存的标记情况。在标记阶段会对每块内存进行标记，有对象引用的内存标记为 1，没有对象引用的为 0。而 &lt;code&gt;allocBits&lt;/code&gt; 和 &lt;code&gt;gcmarkBits&lt;/code&gt; 的数据结构是完全一样的，在结束标记后，将 &lt;code&gt;allocBits&lt;/code&gt; 指向 &lt;code&gt;gcmarkBits&lt;/code&gt;，则有标记的才是存活的，这样就完成了内存回收。而 &lt;code&gt;gcmarkBits&lt;/code&gt; 则会在下次标记时重新分配内存。&lt;/p&gt;
-&lt;h3 id=&#34;垃圾回收优化&#34;&gt;垃圾回收优化&lt;/h3&gt;
-&lt;p&gt;在前文中提到，golang 的垃圾回收算法属于 &lt;strong&gt;标记-清除&lt;/strong&gt;，是需要 STW 的。STW 就是 &lt;strong&gt;Stop The World&lt;/strong&gt; 的意思，在 golang 中就是要停掉所有的 goroutine，专心进行垃圾回收，待垃圾回收结束后再恢复 goroutine。而 STW 时间的长短直接影响了应用的执行，如果时间过长，那将是灾难性的。为了缩短 STW 时间，golang 不对优化垃圾回收算法，其中**写屏障（Write Barrier）&lt;strong&gt;和&lt;/strong&gt;辅助GC（Mutator Assist）**就是两种优化垃圾回收的方法。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;写屏障（Write Barrier）&lt;/strong&gt;：上面说到的 STW 的目的是防止 GC 扫描时内存变化引起的混乱，而写屏障就是让 goroutine 与 GC 同时运行的手段，虽然不能完全消除 STW，但是可以大大减少 STW 的时间。写屏障在 GC 的特定时间开启，开启后指针传递时会把指针标记，即本轮不回收，下次 GC 时再确定。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;辅助 GC（Mutator Assist）&lt;/strong&gt;：为了防止内存分配过快，在 GC 执行过程中，GC 过程中 mutator 线程会并发运行，而 mutator assist 机制会协助 GC 做一部分的工作。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;垃圾回收触发机制&#34;&gt;垃圾回收触发机制&lt;/h3&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;内存分配量达到阈值&lt;/strong&gt;：每次内存分配都会检查当前内存分配量是否达到阈值，如果达到阈值则触发 GC。&lt;code&gt;阈值 = 上次 GC 内存分配量 * 内存增长率&lt;/code&gt;，内存增长率由环境变量 &lt;code&gt;GOGC&lt;/code&gt; 控制，默认为 100，即每当内存扩大一倍时启动 GC。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;定时触发 GC&lt;/strong&gt;：默认情况下，2分钟触发一次 GC，该间隔由 &lt;code&gt;src/runtime/proc.go&lt;/code&gt; 中的 &lt;code&gt;forcegcperiod&lt;/code&gt; 声明。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;手动触发 GC&lt;/strong&gt;：在代码中，可通过使用 &lt;code&gt;runtime.GC()&lt;/code&gt; 手动触发 GC。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3 id=&#34;gc-优化建议&#34;&gt;GC 优化建议&lt;/h3&gt;
-&lt;p&gt;由上文可知，GC 性能是与对象数量有关的，对象越多 GC 性能越差，对程序的影响也越大。所以在开发中要尽量减少对象分配个数，采用对象复用、将小对象组合成大对象或采用小数据类型（如使用 &lt;code&gt;int8&lt;/code&gt; 代替 &lt;code&gt;int&lt;/code&gt;）等。&lt;/p&gt;
-&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
-&lt;p&gt;一门编程语言的垃圾回收机制会直接影响使用其开发应用的性能。在日常开发工作中也因注意到其作用，有助于开发出高性能的应用，这也是 GC 常常在面试中被问到的原因。同时，了解 GC 对了解内存管理也很有帮助。&lt;/p&gt;
-&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.bookstack.cn/read/GoExpertProgramming/chapter04-4.2-garbage_collection.md&#34;&gt;Go 专家编程 - 4.2 垃圾回收原理&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-      </description>
-    </item>
-    
-    <item>
-      <title>Post: 使用 Golang 和 HTML5 开发一个 MacOS App</title>
-      <link>https://guoxudong.io/post/go-h5-codeing-mac-app/</link>
-      <pubDate>Tue, 18 Aug 2020 09:23:28 +0800</pubDate>
-      
-      <guid>https://guoxudong.io/post/go-h5-codeing-mac-app/</guid>
-      <description>
-        
-        
-        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
-&lt;p&gt;Go语言（也称为Golang）是 google 在 2009 年推出的一种编译型编程语言。相对于其他编程语言，golang 具有编写并发程序或网络交互简单、数据类型丰富、编译速度快等特点，比较适合于高性能、高并发场景。Go 语言一直在网络编程、云平台开发、分布式系统等领域占据着重要的地位，尤其在云原生领域，杀手级项目 Docker 和 Kubernetes 都是采用 Go 语言开发的。而在其他领域，比如桌面应用开发，也有一些框架可以使用，本篇文章就来介绍如何使用 Go 语言 和 HTML5 来开发一个 MacOS App。&lt;/p&gt;
-&lt;h2 id=&#34;框架选择&#34;&gt;框架选择&lt;/h2&gt;
-&lt;p&gt;这里我选用了 &lt;a href=&#34;https://github.com/labstack/echo&#34;&gt;echo&lt;/a&gt; 作为 web 框架，当然也可以选择其他的 web 框架，选择 echo 只不过因为其比较轻量。要做桌面应用，还需要一个 GUI 框架来构建应用，这里我选择的是 &lt;a href=&#34;https://github.com/zserge/lorca&#34;&gt;Lorca&lt;/a&gt;，使用 Lorca 可以用 Go 编写 HTML5 桌面程序，依赖 Chrome 进行 UI 渲染，但却不需要把 Chrome 打包到应用中，也就是说使用应用的电脑，需要安装 Chrome。&lt;/p&gt;
-&lt;h3 id=&#34;lorca&#34;&gt;lorca&lt;/h3&gt;
-&lt;p&gt;echo 的使用方式中规中矩，没有什么需要介绍的。这里简要介绍一下 lorca，其的使用方法和原理都很简单，可以将其看做是一个浏览器，可在其上运行 web 应用，lorca 可直接将 web 应用包装成桌面应用。这里提供一个简单的示例：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;ui, _ := lorca.&lt;span style=&#34;color:#447fcf&#34;&gt;New&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#3677a9&#34;&gt;480&lt;/span&gt;, &lt;span style=&#34;color:#3677a9&#34;&gt;320&lt;/span&gt;)
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;defer&lt;/span&gt; ui.&lt;span style=&#34;color:#447fcf&#34;&gt;Close&lt;/span&gt;()
-
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Bind Go function to be available in JS. Go function may be long-running and
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// blocking - in JS it&amp;#39;s represented with a Promise.
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;ui.&lt;span style=&#34;color:#447fcf&#34;&gt;Bind&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;add&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;func&lt;/span&gt;(a, b &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;int&lt;/span&gt;) &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;int&lt;/span&gt; { &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; a + b })
-
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Call JS function from Go. Functions may be asynchronous, i.e. return promises
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;n := ui.&lt;span style=&#34;color:#447fcf&#34;&gt;Eval&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;`Math.random()`&lt;/span&gt;).&lt;span style=&#34;color:#447fcf&#34;&gt;Float&lt;/span&gt;()
-fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Println&lt;/span&gt;(n)
-
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Call JS that calls Go and so on and so on...
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;m := ui.&lt;span style=&#34;color:#447fcf&#34;&gt;Eval&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;`add(2, 3)`&lt;/span&gt;).&lt;span style=&#34;color:#447fcf&#34;&gt;Int&lt;/span&gt;()
-fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Println&lt;/span&gt;(m)
-
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Wait for the browser window to be closed
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&amp;lt;-ui.&lt;span style=&#34;color:#447fcf&#34;&gt;Done&lt;/span&gt;()
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;制作-macos-app&#34;&gt;制作 MacOS App&lt;/h2&gt;
-&lt;p&gt;在完成基本的编码后，接下来的工作才是重点：将应用包装成一个 MacOS APP。&lt;/p&gt;
-&lt;h3 id=&#34;制作图标&#34;&gt;制作图标&lt;/h3&gt;
-&lt;p&gt;一个 MacOS APP 首先需要一个图标，这里请选择一个 1024 X 1024 分辨率，背景透明的 PNG 图片。这里假设该图片名为 &lt;code&gt;logo.png&lt;/code&gt;：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;新建一个名为 &lt;code&gt;tmp.iconset&lt;/code&gt; 的临时目录，用于存放不同大小的临时图片&lt;/li&gt;
-&lt;li&gt;执行如下命令，将原图转为不同大小的图片并放入临时目录&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;16&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;16&lt;/span&gt;     logo.png --out tmp.iconset/icon_16x16.png
-$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;32&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;32&lt;/span&gt;     logo.png --out tmp.iconset/icon_16x16@2x.png
-$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;32&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;32&lt;/span&gt;     logo.png --out tmp.iconset/icon_32x32.png
-$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;64&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;64&lt;/span&gt;     logo.png --out tmp.iconset/icon_32x32@2x.png
-$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;128&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;128&lt;/span&gt;   logo.png --out tmp.iconset/icon_128x128.png
-$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;256&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;256&lt;/span&gt;   logo.png --out tmp.iconset/icon_128x128@2x.png
-$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;256&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;256&lt;/span&gt;   logo.png --out tmp.iconset/icon_256x256.png
-$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;512&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;512&lt;/span&gt;   logo.png --out tmp.iconset/icon_256x256@2x.png
-$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;512&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;512&lt;/span&gt;   logo.png --out tmp.iconset/icon_512x512.png
-$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;1024&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;1024&lt;/span&gt;   logo.png --out tmp.iconset/icon_512x512@2x.png
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
-&lt;li&gt;使用 &lt;a href=&#34;https://developer.apple.com/library/content/documentation/GraphicsAnimation/Conceptual/HighResolutionOSX/Optimizing/Optimizing.html#//apple_ref/doc/uid/TP40012302-CH7-SW2&#34;&gt;iconutil&lt;/a&gt; 生成图标&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ iconutil -c icns tmp.iconset -o icon.icns
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;icon.icns&lt;/code&gt; 就是制作好的 MacOS App 图标。&lt;/p&gt;
-&lt;h3 id=&#34;制作-app-bundle&#34;&gt;制作 .app bundle&lt;/h3&gt;
-&lt;p&gt;macOS 上安装的可运行程序是一个 &lt;code&gt;.app&lt;/code&gt; 的目录，里面包含了应用的二进制文件、资源文件以及清单文件。其的目录结构为（也可以通过”右键-显示包内容“来查看 &lt;code&gt;.app&lt;/code&gt; 文件内容）：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ tree Kustomize.app
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Guo Xudong's Blog·郭旭东的博客 – Go</title><link>https://guoxudong.io/categories/go/</link><description>Recent content in Go on Guo Xudong's Blog·郭旭东的博客</description><generator>Hugo -- gohugo.io</generator><language>zh</language><lastBuildDate>Fri, 16 Oct 2020 14:51:08 +0800</lastBuildDate><atom:link href="https://guoxudong.io/categories/go/index.xml" rel="self" type="application/rss+xml"/><item><title>Post: 浅析 Golang 垃圾回收机制</title><link>https://guoxudong.io/post/golang-gc/</link><pubDate>Fri, 16 Oct 2020 14:51:08 +0800</pubDate><guid>https://guoxudong.io/post/golang-gc/</guid><description>
+&lt;h2 id="前言">前言&lt;/h2>
+&lt;p>Google 搜索 &lt;strong>Golang GC&lt;/strong> 排名靠前的文章都讲的不错，从设计到实现，从演进到源码，一应俱全。但是庞杂的信息会给人一种恐惧感，让人望而却步。本文尝试使用较为简单易懂的语言和图像，讲解 Golang 的垃圾回收机制。&lt;/p>
+&lt;h2 id="垃圾回收算法">垃圾回收算法&lt;/h2>
+&lt;p>目前比较常见的垃圾回收算法有三种：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>引用计数：为每个对象维护一个引用计数，当引用该对象的对象销毁时，引用计数 -1，当对象引用计数为 0 时回收该对象。&lt;/p>
+&lt;ul>
+&lt;li>代表语言：&lt;strong>Python&lt;/strong>、&lt;strong>PHP&lt;/strong>、&lt;strong>Swift&lt;/strong>&lt;/li>
+&lt;li>优点：对象回收快，不会出现内存耗尽或达到某个阈值时才回收。&lt;/li>
+&lt;li>缺点：不能很好的处理循环引用，而实时维护引用计数也是有损耗的。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>标记-清除：从根变量开始遍历所有引用的对象，标记引用的对象，没有被标记的进行回收。&lt;/p>
+&lt;ul>
+&lt;li>代表语言：&lt;strong>Golang&lt;/strong>（三色标记法）&lt;/li>
+&lt;li>优点：解决了引用计数的缺点。&lt;/li>
+&lt;li>缺点：需要 STW，暂时停掉程序运行。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>分代收集：按照对象生命周期长短划分不同的代空间，生命周期长的放入老年代，短的放入新生代，不同代有不同的回收算法和回收频率。&lt;/p>
+&lt;ul>
+&lt;li>代表语言：&lt;strong>Java&lt;/strong>&lt;/li>
+&lt;li>优点：回收性能好&lt;/li>
+&lt;li>缺点：算法复杂&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;h2 id="golang-垃圾回收">Golang 垃圾回收&lt;/h2>
+&lt;p>跳过原理，我们先来介绍 Golang 的三色标记法。&lt;/p>
+&lt;h3 id="三色标记法">三色标记法&lt;/h3>
+&lt;p>三色标记法只是为了叙述方便而抽象出来的一种说法，实际上的对象是没有三色之分的。这里的三色，对应了垃圾回收过程中对象的三种状态：&lt;/p>
+&lt;ul>
+&lt;li>灰色：对象还在标记队列中等待&lt;/li>
+&lt;li>黑色：对象已被标记，&lt;code>gcmarkBits&lt;/code> 对应位为 &lt;code>1&lt;/code> &amp;ndash; 该对象不会在本次 GC 中被回收&lt;/li>
+&lt;li>白色：对象未被标记，&lt;code>gcmarkBits&lt;/code> 对应位为 &lt;code>0&lt;/code> &amp;ndash; 该对象将会在本次 GC 中被清理&lt;/li>
+&lt;/ul>
+&lt;p>具体流程如下图：&lt;/p>
+&lt;p>&lt;img src="https://tva2.sinaimg.cn/large/ad5fbf65ly1gjr5wkuzduj20mr0ra15z.jpg" alt="三色标记法">&lt;/p>
+&lt;h3 id="回收原理">回收原理&lt;/h3>
+&lt;p>通过上图，应该对三色标记法有了一个比较直观的了解，那么我们现在来讲讲原理。简单的讲，就是标记内存中那些还在使用中（即被引用了）的部分，而内存中不再使用（即未被引用）的部分，就是要回收的垃圾，需要将其回收，以供后续内存分配使用。上图中的 A、B、D 就是被引用正在使用的内存，而C、F、E 曾经被使用过，但现在没有任何对象引用，就需要被回收掉。&lt;/p>
+&lt;p>而 Root 区域主要是程序运行到当前时刻的栈和全局数据区域，是实时正在使用到的内存，当然应该优先标记。而考虑到内存块中存放的可能是指针，所以还需要递归的进行标记，待全部标记完后，就会对未被标记的内存进行回收。&lt;/p>
+&lt;h3 id="内存标记">内存标记&lt;/h3>
+&lt;p>golang 中采用 span 数据结构管理内存，span 中维护了一个个内存块，并由一个位图 &lt;code>allocBits&lt;/code> 表示内存块的分配情况，而上文中提到的 &lt;code>gcmarkBits&lt;/code> 是记录每块内存块被引用情况的。&lt;/p>
+&lt;p>&lt;img src="https://tvax4.sinaimg.cn/large/ad5fbf65ly1gjr43y6br8j20mr07aq50.jpg" alt="内存标记">&lt;/p>
+&lt;p>如上图，&lt;code>allocBits&lt;/code> 记录了每块内存的分配情况，而 &lt;code>gcmarkBits&lt;/code> 记录了每块内存的标记情况。在标记阶段会对每块内存进行标记，有对象引用的内存标记为 1，没有对象引用的为 0。而 &lt;code>allocBits&lt;/code> 和 &lt;code>gcmarkBits&lt;/code> 的数据结构是完全一样的，在结束标记后，将 &lt;code>allocBits&lt;/code> 指向 &lt;code>gcmarkBits&lt;/code>，则有标记的才是存活的，这样就完成了内存回收。而 &lt;code>gcmarkBits&lt;/code> 则会在下次标记时重新分配内存。&lt;/p>
+&lt;h3 id="垃圾回收优化">垃圾回收优化&lt;/h3>
+&lt;p>在前文中提到，golang 的垃圾回收算法属于 &lt;strong>标记-清除&lt;/strong>，是需要 STW 的。STW 就是 &lt;strong>Stop The World&lt;/strong> 的意思，在 golang 中就是要停掉所有的 goroutine，专心进行垃圾回收，待垃圾回收结束后再恢复 goroutine。而 STW 时间的长短直接影响了应用的执行，如果时间过长，那将是灾难性的。为了缩短 STW 时间，golang 不对优化垃圾回收算法，其中**写屏障（Write Barrier）&lt;strong>和&lt;/strong>辅助GC（Mutator Assist）**就是两种优化垃圾回收的方法。&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>写屏障（Write Barrier）&lt;/strong>：上面说到的 STW 的目的是防止 GC 扫描时内存变化引起的混乱，而写屏障就是让 goroutine 与 GC 同时运行的手段，虽然不能完全消除 STW，但是可以大大减少 STW 的时间。写屏障在 GC 的特定时间开启，开启后指针传递时会把指针标记，即本轮不回收，下次 GC 时再确定。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>辅助 GC（Mutator Assist）&lt;/strong>：为了防止内存分配过快，在 GC 执行过程中，GC 过程中 mutator 线程会并发运行，而 mutator assist 机制会协助 GC 做一部分的工作。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="垃圾回收触发机制">垃圾回收触发机制&lt;/h3>
+&lt;ol>
+&lt;li>&lt;strong>内存分配量达到阈值&lt;/strong>：每次内存分配都会检查当前内存分配量是否达到阈值，如果达到阈值则触发 GC。&lt;code>阈值 = 上次 GC 内存分配量 * 内存增长率&lt;/code>，内存增长率由环境变量 &lt;code>GOGC&lt;/code> 控制，默认为 100，即每当内存扩大一倍时启动 GC。&lt;/li>
+&lt;li>&lt;strong>定时触发 GC&lt;/strong>：默认情况下，2分钟触发一次 GC，该间隔由 &lt;code>src/runtime/proc.go&lt;/code> 中的 &lt;code>forcegcperiod&lt;/code> 声明。&lt;/li>
+&lt;li>&lt;strong>手动触发 GC&lt;/strong>：在代码中，可通过使用 &lt;code>runtime.GC()&lt;/code> 手动触发 GC。&lt;/li>
+&lt;/ol>
+&lt;h3 id="gc-优化建议">GC 优化建议&lt;/h3>
+&lt;p>由上文可知，GC 性能是与对象数量有关的，对象越多 GC 性能越差，对程序的影响也越大。所以在开发中要尽量减少对象分配个数，采用对象复用、将小对象组合成大对象或采用小数据类型（如使用 &lt;code>int8&lt;/code> 代替 &lt;code>int&lt;/code>）等。&lt;/p>
+&lt;h2 id="结语">结语&lt;/h2>
+&lt;p>一门编程语言的垃圾回收机制会直接影响使用其开发应用的性能。在日常开发工作中也因注意到其作用，有助于开发出高性能的应用，这也是 GC 常常在面试中被问到的原因。同时，了解 GC 对了解内存管理也很有帮助。&lt;/p>
+&lt;h2 id="参考">参考&lt;/h2>
+&lt;ul>
+&lt;li>&lt;a href="https://www.bookstack.cn/read/GoExpertProgramming/chapter04-4.2-garbage_collection.md">Go 专家编程 - 4.2 垃圾回收原理&lt;/a>&lt;/li>
+&lt;/ul></description></item><item><title>Post: 使用 Golang 和 HTML5 开发一个 MacOS App</title><link>https://guoxudong.io/post/go-h5-codeing-mac-app/</link><pubDate>Tue, 18 Aug 2020 09:23:28 +0800</pubDate><guid>https://guoxudong.io/post/go-h5-codeing-mac-app/</guid><description>
+&lt;h2 id="前言">前言&lt;/h2>
+&lt;p>Go语言（也称为Golang）是 google 在 2009 年推出的一种编译型编程语言。相对于其他编程语言，golang 具有编写并发程序或网络交互简单、数据类型丰富、编译速度快等特点，比较适合于高性能、高并发场景。Go 语言一直在网络编程、云平台开发、分布式系统等领域占据着重要的地位，尤其在云原生领域，杀手级项目 Docker 和 Kubernetes 都是采用 Go 语言开发的。而在其他领域，比如桌面应用开发，也有一些框架可以使用，本篇文章就来介绍如何使用 Go 语言 和 HTML5 来开发一个 MacOS App。&lt;/p>
+&lt;h2 id="框架选择">框架选择&lt;/h2>
+&lt;p>这里我选用了 &lt;a href="https://github.com/labstack/echo">echo&lt;/a> 作为 web 框架，当然也可以选择其他的 web 框架，选择 echo 只不过因为其比较轻量。要做桌面应用，还需要一个 GUI 框架来构建应用，这里我选择的是 &lt;a href="https://github.com/zserge/lorca">Lorca&lt;/a>，使用 Lorca 可以用 Go 编写 HTML5 桌面程序，依赖 Chrome 进行 UI 渲染，但却不需要把 Chrome 打包到应用中，也就是说使用应用的电脑，需要安装 Chrome。&lt;/p>
+&lt;h3 id="lorca">lorca&lt;/h3>
+&lt;p>echo 的使用方式中规中矩，没有什么需要介绍的。这里简要介绍一下 lorca，其的使用方法和原理都很简单，可以将其看做是一个浏览器，可在其上运行 web 应用，lorca 可直接将 web 应用包装成桌面应用。这里提供一个简单的示例：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">ui, _ := lorca.&lt;span style="color:#447fcf">New&lt;/span>(&lt;span style="color:#ed9d13">&amp;#34;&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;&amp;#34;&lt;/span>, &lt;span style="color:#3677a9">480&lt;/span>, &lt;span style="color:#3677a9">320&lt;/span>)
+&lt;span style="color:#6ab825;font-weight:bold">defer&lt;/span> ui.&lt;span style="color:#447fcf">Close&lt;/span>()
+&lt;span style="color:#999;font-style:italic">// Bind Go function to be available in JS. Go function may be long-running and
+&lt;/span>&lt;span style="color:#999;font-style:italic">// blocking - in JS it&amp;#39;s represented with a Promise.
+&lt;/span>&lt;span style="color:#999;font-style:italic">&lt;/span>ui.&lt;span style="color:#447fcf">Bind&lt;/span>(&lt;span style="color:#ed9d13">&amp;#34;add&amp;#34;&lt;/span>, &lt;span style="color:#6ab825;font-weight:bold">func&lt;/span>(a, b &lt;span style="color:#6ab825;font-weight:bold">int&lt;/span>) &lt;span style="color:#6ab825;font-weight:bold">int&lt;/span> { &lt;span style="color:#6ab825;font-weight:bold">return&lt;/span> a + b })
+&lt;span style="color:#999;font-style:italic">// Call JS function from Go. Functions may be asynchronous, i.e. return promises
+&lt;/span>&lt;span style="color:#999;font-style:italic">&lt;/span>n := ui.&lt;span style="color:#447fcf">Eval&lt;/span>(&lt;span style="color:#ed9d13">`Math.random()`&lt;/span>).&lt;span style="color:#447fcf">Float&lt;/span>()
+fmt.&lt;span style="color:#447fcf">Println&lt;/span>(n)
+&lt;span style="color:#999;font-style:italic">// Call JS that calls Go and so on and so on...
+&lt;/span>&lt;span style="color:#999;font-style:italic">&lt;/span>m := ui.&lt;span style="color:#447fcf">Eval&lt;/span>(&lt;span style="color:#ed9d13">`add(2, 3)`&lt;/span>).&lt;span style="color:#447fcf">Int&lt;/span>()
+fmt.&lt;span style="color:#447fcf">Println&lt;/span>(m)
+&lt;span style="color:#999;font-style:italic">// Wait for the browser window to be closed
+&lt;/span>&lt;span style="color:#999;font-style:italic">&lt;/span>&amp;lt;-ui.&lt;span style="color:#447fcf">Done&lt;/span>()
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="制作-macos-app">制作 MacOS App&lt;/h2>
+&lt;p>在完成基本的编码后，接下来的工作才是重点：将应用包装成一个 MacOS APP。&lt;/p>
+&lt;h3 id="制作图标">制作图标&lt;/h3>
+&lt;p>一个 MacOS APP 首先需要一个图标，这里请选择一个 1024 X 1024 分辨率，背景透明的 PNG 图片。这里假设该图片名为 &lt;code>logo.png&lt;/code>：&lt;/p>
+&lt;ul>
+&lt;li>新建一个名为 &lt;code>tmp.iconset&lt;/code> 的临时目录，用于存放不同大小的临时图片&lt;/li>
+&lt;li>执行如下命令，将原图转为不同大小的图片并放入临时目录&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ sips -z &lt;span style="color:#3677a9">16&lt;/span> &lt;span style="color:#3677a9">16&lt;/span> logo.png --out tmp.iconset/icon_16x16.png
+$ sips -z &lt;span style="color:#3677a9">32&lt;/span> &lt;span style="color:#3677a9">32&lt;/span> logo.png --out tmp.iconset/icon_16x16@2x.png
+$ sips -z &lt;span style="color:#3677a9">32&lt;/span> &lt;span style="color:#3677a9">32&lt;/span> logo.png --out tmp.iconset/icon_32x32.png
+$ sips -z &lt;span style="color:#3677a9">64&lt;/span> &lt;span style="color:#3677a9">64&lt;/span> logo.png --out tmp.iconset/icon_32x32@2x.png
+$ sips -z &lt;span style="color:#3677a9">128&lt;/span> &lt;span style="color:#3677a9">128&lt;/span> logo.png --out tmp.iconset/icon_128x128.png
+$ sips -z &lt;span style="color:#3677a9">256&lt;/span> &lt;span style="color:#3677a9">256&lt;/span> logo.png --out tmp.iconset/icon_128x128@2x.png
+$ sips -z &lt;span style="color:#3677a9">256&lt;/span> &lt;span style="color:#3677a9">256&lt;/span> logo.png --out tmp.iconset/icon_256x256.png
+$ sips -z &lt;span style="color:#3677a9">512&lt;/span> &lt;span style="color:#3677a9">512&lt;/span> logo.png --out tmp.iconset/icon_256x256@2x.png
+$ sips -z &lt;span style="color:#3677a9">512&lt;/span> &lt;span style="color:#3677a9">512&lt;/span> logo.png --out tmp.iconset/icon_512x512.png
+$ sips -z &lt;span style="color:#3677a9">1024&lt;/span> &lt;span style="color:#3677a9">1024&lt;/span> logo.png --out tmp.iconset/icon_512x512@2x.png
+&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>使用 &lt;a href="https://developer.apple.com/library/content/documentation/GraphicsAnimation/Conceptual/HighResolutionOSX/Optimizing/Optimizing.html#//apple_ref/doc/uid/TP40012302-CH7-SW2">iconutil&lt;/a> 生成图标&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ iconutil -c icns tmp.iconset -o icon.icns
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>icon.icns&lt;/code> 就是制作好的 MacOS App 图标。&lt;/p>
+&lt;h3 id="制作-app-bundle">制作 .app bundle&lt;/h3>
+&lt;p>macOS 上安装的可运行程序是一个 &lt;code>.app&lt;/code> 的目录，里面包含了应用的二进制文件、资源文件以及清单文件。其的目录结构为（也可以通过”右键-显示包内容“来查看 &lt;code>.app&lt;/code> 文件内容）：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ tree Kustomize.app
 Kustomize.app
 └── Contents
-    ├── Info.plist
-    ├── MacOS
-    │   └── kustomize
-    └── Resources
-        ├── assets
-        │   ├── css
-        │   │   ├── page.css
-        │   │   ├── prism.css
-        │   │   └── weui.min.css
-        │   ├── images
-        │   │   └── favicon.ico
-        │   └── js
-        │       ├── jquery.min.js
-        │       ├── prism.js
-        │       └── weui.min.js
-        ├── icon.icns
-        └── views
-            ├── copyreght.html
-            ├── footer.html
-            ├── header.html
-            ├── index.html
-            └── yaml.html
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;可以看到：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;Info.plist&lt;/code&gt; 为清单文件，存储应用信息&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;MacOS&lt;/code&gt; 中存放二进制可执行文件&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;Resources&lt;/code&gt; 存放静态资源文件和图标&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;infoplist-文件&#34;&gt;Info.plist 文件&lt;/h3&gt;
-&lt;p&gt;这是一个清单文件，根据自己应用的内容对齐进行修改，更多内容可以参考 &lt;a href=&#34;https://github.com/shurcooL/trayhost&#34;&gt;trayhost&lt;/a&gt; 项目的说明。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#cd2828;font-weight:bold&#34;&gt;&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#cd2828;font-weight:bold&#34;&gt;&amp;lt;!DOCTYPE plist PUBLIC &amp;#34;-//Apple//DTD PLIST 1.0//EN&amp;#34; &amp;#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&amp;#34;&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;plist&lt;/span&gt; &lt;span style=&#34;color:#bbb&#34;&gt;version=&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;1.0&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;dict&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;CFBundleExecutable&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;kustomize&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;CFBundleIconFile&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;icon.icns&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;CFBundleIdentifier&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;io.guoxudong.kustomize-remote-observer&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;NSHighResolutionCapable&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;true/&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;LSUIElement&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;1&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/dict&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/plist&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;使用脚本构建-app&#34;&gt;使用脚本构建 App&lt;/h3&gt;
-&lt;p&gt;上面的这些只不过是介绍一下原理及手动修改方式，实际应用中可以使用脚本来完成这些工作。使用如下脚本，可以一键完成：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;.app&lt;/code&gt; 应用的构建&lt;/li&gt;
-&lt;li&gt;go 应用的打包&lt;/li&gt;
-&lt;li&gt;清单文件的生成&lt;/li&gt;
-&lt;li&gt;静态资源的拷贝&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#cd2828;font-weight:bold&#34;&gt;#!/bin/sh
-&lt;/span&gt;&lt;span style=&#34;color:#cd2828;font-weight:bold&#34;&gt;&lt;/span&gt;
-&lt;span style=&#34;color:#40ffff&#34;&gt;APP&lt;/span&gt;=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Kustomize.app&amp;#34;&lt;/span&gt;
-mkdir -p &lt;span style=&#34;color:#40ffff&#34;&gt;$APP&lt;/span&gt;/Contents/{MacOS,Resources}
-go build -o &lt;span style=&#34;color:#40ffff&#34;&gt;$APP&lt;/span&gt;/Contents/MacOS/kustomize
-cat &amp;gt; &lt;span style=&#34;color:#40ffff&#34;&gt;$APP&lt;/span&gt;/Contents/Info.plist &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;&amp;lt; EOF
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;!DOCTYPE plist PUBLIC &amp;#34;-//Apple//DTD PLIST 1.0//EN&amp;#34; &amp;#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&amp;#34;&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;plist version=&amp;#34;1.0&amp;#34;&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;dict&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;	&amp;lt;key&amp;gt;CFBundleExecutable&amp;lt;/key&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;	&amp;lt;string&amp;gt;kustomize&amp;lt;/string&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;	&amp;lt;key&amp;gt;CFBundleIconFile&amp;lt;/key&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;	&amp;lt;string&amp;gt;icon.icns&amp;lt;/string&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;	&amp;lt;key&amp;gt;CFBundleIdentifier&amp;lt;/key&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;	&amp;lt;string&amp;gt;io.guoxudong.kustomize-remote-observer&amp;lt;/string&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;	&amp;lt;key&amp;gt;NSHighResolutionCapable&amp;lt;/key&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;  &amp;lt;true/&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;	&amp;lt;key&amp;gt;LSUIElement&amp;lt;/key&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;  &amp;lt;string&amp;gt;1&amp;lt;/string&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;/dict&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;/plist&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;EOF&lt;/span&gt;
-cp icons/icon.icns &lt;span style=&#34;color:#40ffff&#34;&gt;$APP&lt;/span&gt;/Contents/Resources/icon.icns
-cp -r assets &lt;span style=&#34;color:#40ffff&#34;&gt;$APP&lt;/span&gt;/Contents/Resources/assets
-cp -r views &lt;span style=&#34;color:#40ffff&#34;&gt;$APP&lt;/span&gt;/Contents/Resources/views
-find &lt;span style=&#34;color:#40ffff&#34;&gt;$APP&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
-&lt;h4 class=&#34;alert-heading&#34;&gt;注意&lt;/h4&gt;
-&lt;p&gt;在 MacOS 中，当您运行 App bundle 时，进程的工作目录是根目录（&lt;code&gt;/&lt;/code&gt;），而不是 &lt;code&gt;Contents/Resources&lt;/code&gt; 目录。如果需要从 &lt;code&gt;Resources&lt;/code&gt; 加载资源，则需要进行如下更改：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;ep, err := os.&lt;span style=&#34;color:#447fcf&#34;&gt;Executable&lt;/span&gt;()
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
-	log.&lt;span style=&#34;color:#447fcf&#34;&gt;Fatalln&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;os.Executable:&amp;#34;&lt;/span&gt;, err)
+├── Info.plist
+├── MacOS
+│   └── kustomize
+└── Resources
+├── assets
+│   ├── css
+│   │   ├── page.css
+│   │   ├── prism.css
+│   │   └── weui.min.css
+│   ├── images
+│   │   └── favicon.ico
+│   └── js
+│   ├── jquery.min.js
+│   ├── prism.js
+│   └── weui.min.js
+├── icon.icns
+└── views
+├── copyreght.html
+├── footer.html
+├── header.html
+├── index.html
+└── yaml.html
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>可以看到：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>Info.plist&lt;/code> 为清单文件，存储应用信息&lt;/li>
+&lt;li>&lt;code>MacOS&lt;/code> 中存放二进制可执行文件&lt;/li>
+&lt;li>&lt;code>Resources&lt;/code> 存放静态资源文件和图标&lt;/li>
+&lt;/ul>
+&lt;h3 id="infoplist-文件">Info.plist 文件&lt;/h3>
+&lt;p>这是一个清单文件，根据自己应用的内容对齐进行修改，更多内容可以参考 &lt;a href="https://github.com/shurcooL/trayhost">trayhost&lt;/a> 项目的说明。&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-xml" data-lang="xml">&lt;span style="color:#cd2828;font-weight:bold">&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt;&lt;/span>
+&lt;span style="color:#cd2828;font-weight:bold">&amp;lt;!DOCTYPE plist PUBLIC &amp;#34;-//Apple//DTD PLIST 1.0//EN&amp;#34; &amp;#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&amp;#34;&amp;gt;&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;plist&lt;/span> &lt;span style="color:#bbb">version=&lt;/span>&lt;span style="color:#ed9d13">&amp;#34;1.0&amp;#34;&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">&amp;gt;&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;dict&amp;gt;&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;key&amp;gt;&lt;/span>CFBundleExecutable&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;/key&amp;gt;&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;string&amp;gt;&lt;/span>kustomize&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;/string&amp;gt;&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;key&amp;gt;&lt;/span>CFBundleIconFile&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;/key&amp;gt;&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;string&amp;gt;&lt;/span>icon.icns&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;/string&amp;gt;&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;key&amp;gt;&lt;/span>CFBundleIdentifier&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;/key&amp;gt;&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;string&amp;gt;&lt;/span>io.guoxudong.kustomize-remote-observer&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;/string&amp;gt;&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;key&amp;gt;&lt;/span>NSHighResolutionCapable&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;/key&amp;gt;&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;true/&amp;gt;&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;key&amp;gt;&lt;/span>LSUIElement&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;/key&amp;gt;&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;string&amp;gt;&lt;/span>1&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;/string&amp;gt;&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;/dict&amp;gt;&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">&amp;lt;/plist&amp;gt;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="使用脚本构建-app">使用脚本构建 App&lt;/h3>
+&lt;p>上面的这些只不过是介绍一下原理及手动修改方式，实际应用中可以使用脚本来完成这些工作。使用如下脚本，可以一键完成：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>.app&lt;/code> 应用的构建&lt;/li>
+&lt;li>go 应用的打包&lt;/li>
+&lt;li>清单文件的生成&lt;/li>
+&lt;li>静态资源的拷贝&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">&lt;span style="color:#cd2828;font-weight:bold">#!/bin/sh
+&lt;/span>&lt;span style="color:#cd2828;font-weight:bold">&lt;/span>
+&lt;span style="color:#40ffff">APP&lt;/span>=&lt;span style="color:#ed9d13">&amp;#34;Kustomize.app&amp;#34;&lt;/span>
+mkdir -p &lt;span style="color:#40ffff">$APP&lt;/span>/Contents/{MacOS,Resources}
+go build -o &lt;span style="color:#40ffff">$APP&lt;/span>/Contents/MacOS/kustomize
+cat &amp;gt; &lt;span style="color:#40ffff">$APP&lt;/span>/Contents/Info.plist &lt;span style="color:#ed9d13">&amp;lt;&amp;lt; EOF
+&lt;/span>&lt;span style="color:#ed9d13">&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt;
+&lt;/span>&lt;span style="color:#ed9d13">&amp;lt;!DOCTYPE plist PUBLIC &amp;#34;-//Apple//DTD PLIST 1.0//EN&amp;#34; &amp;#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&amp;#34;&amp;gt;
+&lt;/span>&lt;span style="color:#ed9d13">&amp;lt;plist version=&amp;#34;1.0&amp;#34;&amp;gt;
+&lt;/span>&lt;span style="color:#ed9d13">&amp;lt;dict&amp;gt;
+&lt;/span>&lt;span style="color:#ed9d13"> &amp;lt;key&amp;gt;CFBundleExecutable&amp;lt;/key&amp;gt;
+&lt;/span>&lt;span style="color:#ed9d13"> &amp;lt;string&amp;gt;kustomize&amp;lt;/string&amp;gt;
+&lt;/span>&lt;span style="color:#ed9d13"> &amp;lt;key&amp;gt;CFBundleIconFile&amp;lt;/key&amp;gt;
+&lt;/span>&lt;span style="color:#ed9d13"> &amp;lt;string&amp;gt;icon.icns&amp;lt;/string&amp;gt;
+&lt;/span>&lt;span style="color:#ed9d13"> &amp;lt;key&amp;gt;CFBundleIdentifier&amp;lt;/key&amp;gt;
+&lt;/span>&lt;span style="color:#ed9d13"> &amp;lt;string&amp;gt;io.guoxudong.kustomize-remote-observer&amp;lt;/string&amp;gt;
+&lt;/span>&lt;span style="color:#ed9d13"> &amp;lt;key&amp;gt;NSHighResolutionCapable&amp;lt;/key&amp;gt;
+&lt;/span>&lt;span style="color:#ed9d13"> &amp;lt;true/&amp;gt;
+&lt;/span>&lt;span style="color:#ed9d13"> &amp;lt;key&amp;gt;LSUIElement&amp;lt;/key&amp;gt;
+&lt;/span>&lt;span style="color:#ed9d13"> &amp;lt;string&amp;gt;1&amp;lt;/string&amp;gt;
+&lt;/span>&lt;span style="color:#ed9d13">&amp;lt;/dict&amp;gt;
+&lt;/span>&lt;span style="color:#ed9d13">&amp;lt;/plist&amp;gt;
+&lt;/span>&lt;span style="color:#ed9d13">EOF&lt;/span>
+cp icons/icon.icns &lt;span style="color:#40ffff">$APP&lt;/span>/Contents/Resources/icon.icns
+cp -r assets &lt;span style="color:#40ffff">$APP&lt;/span>/Contents/Resources/assets
+cp -r views &lt;span style="color:#40ffff">$APP&lt;/span>/Contents/Resources/views
+find &lt;span style="color:#40ffff">$APP&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>
+&lt;div class="alert alert-warning" role="alert">
+&lt;h4 class="alert-heading">注意&lt;/h4>
+&lt;p>在 MacOS 中，当您运行 App bundle 时，进程的工作目录是根目录（&lt;code>/&lt;/code>），而不是 &lt;code>Contents/Resources&lt;/code> 目录。如果需要从 &lt;code>Resources&lt;/code> 加载资源，则需要进行如下更改：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">ep, err := os.&lt;span style="color:#447fcf">Executable&lt;/span>()
+&lt;span style="color:#6ab825;font-weight:bold">if&lt;/span> err != &lt;span style="color:#6ab825;font-weight:bold">nil&lt;/span> {
+log.&lt;span style="color:#447fcf">Fatalln&lt;/span>(&lt;span style="color:#ed9d13">&amp;#34;os.Executable:&amp;#34;&lt;/span>, err)
 }
-err = os.&lt;span style=&#34;color:#447fcf&#34;&gt;Chdir&lt;/span&gt;(filepath.&lt;span style=&#34;color:#447fcf&#34;&gt;Join&lt;/span&gt;(filepath.&lt;span style=&#34;color:#447fcf&#34;&gt;Dir&lt;/span&gt;(ep), &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;..&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Resources&amp;#34;&lt;/span&gt;))
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
-	log.&lt;span style=&#34;color:#447fcf&#34;&gt;Fatalln&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;os.Chdir:&amp;#34;&lt;/span&gt;, err)
+err = os.&lt;span style="color:#447fcf">Chdir&lt;/span>(filepath.&lt;span style="color:#447fcf">Join&lt;/span>(filepath.&lt;span style="color:#447fcf">Dir&lt;/span>(ep), &lt;span style="color:#ed9d13">&amp;#34;..&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;Resources&amp;#34;&lt;/span>))
+&lt;span style="color:#6ab825;font-weight:bold">if&lt;/span> err != &lt;span style="color:#6ab825;font-weight:bold">nil&lt;/span> {
+log.&lt;span style="color:#447fcf">Fatalln&lt;/span>(&lt;span style="color:#ed9d13">&amp;#34;os.Chdir:&amp;#34;&lt;/span>, err)
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&#34;制作-dmg-文件&#34;&gt;制作 DMG 文件&lt;/h3&gt;
-&lt;p&gt;DMG 文件用于分发应用程序，将 &lt;code&gt;.app&lt;/code&gt; 文件压缩制成镜像，可以很方便的通过拖拽的形式完成安装。&lt;/p&gt;
-&lt;h4 id=&#34;制作模板&#34;&gt;制作模板&lt;/h4&gt;
-&lt;p&gt;制作 DMG 文件首先需要制作模板。打开&lt;code&gt;磁盘工具 - 文件 - 新建映象 - 空白映象&lt;/code&gt;（或直接按 &lt;code&gt;⌘N&lt;/code&gt;）创建一个新的磁盘镜像。给它取个名字，设置足够的空间空间，分区选择&lt;code&gt;CD/DVD&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65gy1ghuwoma7w4j20bd09odig.jpg&#34; alt=&#34;新建模板&#34;&gt;&lt;/p&gt;
-&lt;p&gt;制作好后，打开该镜像，进行文件夹视图定制（按&lt;code&gt;⌘J&lt;/code&gt;），选择展示图标的大小及背景图片，这里可以隐藏工具栏&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tva3.sinaimg.cn/large/ad5fbf65gy1ghuwwafpr1j20uy0jhb29.jpg&#34; alt=&#34;文件夹视图定制&#34;&gt;&lt;/p&gt;
-&lt;p&gt;右键&lt;code&gt;应用程序&lt;/code&gt;选择制作替身，将替身移动到镜像中&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1ghuwthtnxqj20bh05xwey.jpg&#34; alt=&#34;制作替身&#34;&gt;&lt;/p&gt;
-&lt;p&gt;将打包好的 app 加入到 DMG 镜像中就完成了 DMG 模板的定制&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65gy1ghuwzoih10j20lo0cqtof.jpg&#34; alt=&#34;定制好的视图&#34;&gt;&lt;/p&gt;
-&lt;h4 id=&#34;转换-dmg-文件&#34;&gt;转换 DMG 文件&lt;/h4&gt;
-&lt;p&gt;目前的 DMG 模板文件还没有经过压缩并且是可写的状态，这样是不能作为程序发布的，所以这里需要对模板进行转换。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65gy1ghux3e65ngj20ct04676t.jpg&#34; alt=&#34;转换&#34;&gt;&lt;/p&gt;
-&lt;p&gt;打开 &lt;code&gt;磁盘工具 - 映象 - 转换&lt;/code&gt;，然后选择压缩后存储的目录就完成了最后一步 DMG 文件的转换。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65gy1ghux55kyzdj20pn0fqgt6.jpg&#34; alt=&#34;转换成功&#34;&gt;&lt;/p&gt;
-&lt;p&gt;现在点开 DMG 文件，将应用拖动到应用程序中，就可以在启动台中看到我们的应用程序了！&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65gy1ghux7e0g5tj20hn0fq7e7.jpg&#34; alt=&#34;启动台&#34;&gt;&lt;/p&gt;
-&lt;h4 id=&#34;自动化&#34;&gt;自动化&lt;/h4&gt;
-&lt;p&gt;上面只是展示了如何手动制作 DMG 镜像，实际使用当然是要将这些步骤自动化的。我将这部分内容做成了一个 go 脚本，原理其实就是使用 &lt;code&gt;hdiutil&lt;/code&gt; 这个命令行工具，有兴趣的同学可以文末找到项目地址，&lt;code&gt;Makefile&lt;/code&gt; 中有详细构建的命令。&lt;/p&gt;
-&lt;h2 id=&#34;项目展示&#34;&gt;项目展示&lt;/h2&gt;
-&lt;p&gt;我使用 Go + HTML5 制作了一个 &lt;code&gt;Kustomize Remote&lt;/code&gt; 的项目，可以从远程 kustomize 项目中获取配置，并 build 成 yaml 文件，UI样式为微信风格，支持 public 和 private 项目。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1ghuxhffoe1j20dc0h8wf1.jpg&#34; alt=&#34;kustomize-remote-observer&#34;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1ghuxk4zxv2j20dc0h83zl.jpg&#34; alt=&#34;yaml result&#34;&gt;&lt;/p&gt;
-
-
-&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
-&lt;p&gt;项目地址：&lt;a href=&#34;https://github.com/sunny0826/kustomize-remote-observer&#34;&gt;https://github.com/sunny0826/kustomize-remote-observer&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;也可以直接在 &lt;a href=&#34;https://github.com/sunny0826/kustomize-remote-observer/releases&#34;&gt;release 页面&lt;/a&gt; 下载 DMG 文件安装试用，只需 Mac 上有 Chrome 即可。&lt;/p&gt;
-
-&lt;/div&gt;
-
-&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
-&lt;p&gt;Go 语言一直在网络编程、云平台开发、分布式系统等领域占据着重要的地位，但是像桌面应用或者机器学习这样的领域，同样也能做出不错的效果。作为一门受欢迎的编程语言 Golang 已经有十多年的历史了，相信它在将来还能在更多的领域焕发生机，创造辉煌。&lt;/p&gt;
-
-      </description>
-    </item>
-    
-    <item>
-      <title>Post: Cobra 命令自动补全指北</title>
-      <link>https://guoxudong.io/post/cobra-shell-completions/</link>
-      <pubDate>Wed, 12 Aug 2020 16:48:34 +0800</pubDate>
-      
-      <guid>https://guoxudong.io/post/cobra-shell-completions/</guid>
-      <description>
-        
-        
-        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
-&lt;p&gt;用过类 Unix 系统中 Unix shell(Shell/Bash/Zsh) 的同学都应该对 &lt;kbd&gt;TAB&lt;/kbd&gt; 键印象深刻，因为它可以帮忙补全或提示后续的命令，用户不用记住完整的命令，只需输入前几个字符，按 &lt;kbd&gt;TAB&lt;/kbd&gt; 键，就会提示后续的命令供用户选择，用户体验极佳。目前流行的一些使用 Go 语言开发的 CLI 工具，如 &lt;code&gt;kubectl&lt;/code&gt; 和 &lt;code&gt;helm&lt;/code&gt;，他们也都有 &lt;code&gt;completion&lt;/code&gt; 也就是命令自动补全功能，通过将 &lt;code&gt;source &amp;lt;(kubectl completion zsh)&lt;/code&gt; 加入 &lt;code&gt;.zshrc&lt;/code&gt; 文件中，就可以在每次启动 shell 时自动加载自动补全脚本，之后就可以体验到与原生 shell 相同的自动补全功能了。这些 CLI 工具，都是基于 &lt;a href=&#34;https://github.com/spf13/cobra&#34;&gt;Cobra&lt;/a&gt; 库开发，命令自动补全功能也是该库提供的一个功能，本篇文章就来讲讲如何使用 Cobra 实现命令自动补全的。&lt;/p&gt;
-&lt;h2 id=&#34;cobra-shell-completion&#34;&gt;Cobra Shell Completion&lt;/h2&gt;
-&lt;p&gt;Cobra 可以作为一个 Golang 包，用来构建功能强大的命令行程序；同时也可以作为 CLI 工具，用来生成应用程序和命令文件。&lt;/p&gt;
-&lt;p&gt;由于文本主要介绍 Cobra 的命令自动补全功能，更多内容请查阅&lt;a href=&#34;https://github.com/spf13/cobra&#34;&gt;官网&lt;/a&gt;。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://tvax2.sinaimg.cn/large/ad5fbf65gy1gho68w1h0sj20tn09e0td.jpg&#34; alt=&#34;Cobra&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;基础用法&#34;&gt;基础用法&lt;/h3&gt;
-&lt;p&gt;Cobra 当前的最新版本为 &lt;code&gt;v1.0.0&lt;/code&gt;，支持生成多种 Shell 的自动补全脚本，目前支持：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Bash&lt;/li&gt;
-&lt;li&gt;Zsh&lt;/li&gt;
-&lt;li&gt;Fish&lt;/li&gt;
-&lt;li&gt;PowerShell&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;如上所述，Cobra 不但是一个功能强大的 Golang 包，还是一个 CLI 工具，可以用来生成应用程序和命令文件。使用如下命令，即可生成用于命令自动补全的代码：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ cobra add completion
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;或者也可以创建 &lt;code&gt;cmd/completion.go&lt;/code&gt; 文件，来放置用于生成命令自动补全脚本的代码：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;var&lt;/span&gt; completionCmd = &amp;amp;cobra.Command{
-    Use:                   &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;completion [bash|zsh|fish|powershell]&amp;#34;&lt;/span&gt;,
-    Short:                 &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Generate completion script&amp;#34;&lt;/span&gt;,
-    Long: &lt;span style=&#34;color:#ed9d13&#34;&gt;`To load completions:
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;Bash:
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;$ source &amp;lt;(yourprogram completion bash)
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;# To load completions for each session, execute once:
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;Linux:
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;  $ yourprogram completion bash &amp;gt; /etc/bash_completion.d/yourprogram
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;MacOS:
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;  $ yourprogram completion bash &amp;gt; /usr/local/etc/bash_completion.d/yourprogram
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;Zsh:
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;# If shell completion is not already enabled in your environment you will need
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;# to enable it.  You can execute the following once:
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;$ echo &amp;#34;autoload -U compinit; compinit&amp;#34; &amp;gt;&amp;gt; ~/.zshrc
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;# To load completions for each session, execute once:
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;$ yourprogram completion zsh &amp;gt; &amp;#34;${fpath[1]}/_yourprogram&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;# You will need to start a new shell for this setup to take effect.
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;Fish:
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;$ yourprogram completion fish | source
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;# To load completions for each session, execute once:
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;$ yourprogram completion fish &amp;gt; ~/.config/fish/completions/yourprogram.fish
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;`&lt;/span&gt;,
-    DisableFlagsInUseLine: &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;true&lt;/span&gt;,
-    ValidArgs:             []&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;{&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;bash&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;zsh&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;fish&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;powershell&amp;#34;&lt;/span&gt;},
-    Args:                  cobra.&lt;span style=&#34;color:#447fcf&#34;&gt;ExactValidArgs&lt;/span&gt;(&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;),
-    Run: &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;func&lt;/span&gt;(cmd *cobra.Command, args []&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;) {
-      &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;switch&lt;/span&gt; args[&lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;] {
-      &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;bash&amp;#34;&lt;/span&gt;:
-        cmd.&lt;span style=&#34;color:#447fcf&#34;&gt;Root&lt;/span&gt;().&lt;span style=&#34;color:#447fcf&#34;&gt;GenBashCompletion&lt;/span&gt;(os.Stdout)
-      &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;zsh&amp;#34;&lt;/span&gt;:
-        cmd.&lt;span style=&#34;color:#447fcf&#34;&gt;Root&lt;/span&gt;().&lt;span style=&#34;color:#447fcf&#34;&gt;GenZshCompletion&lt;/span&gt;(os.Stdout)
-      &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;fish&amp;#34;&lt;/span&gt;:
-        cmd.&lt;span style=&#34;color:#447fcf&#34;&gt;Root&lt;/span&gt;().&lt;span style=&#34;color:#447fcf&#34;&gt;GenFishCompletion&lt;/span&gt;(os.Stdout, &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;true&lt;/span&gt;)
-      &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;powershell&amp;#34;&lt;/span&gt;:
-        cmd.&lt;span style=&#34;color:#447fcf&#34;&gt;Root&lt;/span&gt;().&lt;span style=&#34;color:#447fcf&#34;&gt;GenPowerShellCompletion&lt;/span&gt;(os.Stdout)
-      }
-    },
+&lt;/code>&lt;/pre>&lt;/div>
+&lt;/div>
+&lt;h3 id="制作-dmg-文件">制作 DMG 文件&lt;/h3>
+&lt;p>DMG 文件用于分发应用程序，将 &lt;code>.app&lt;/code> 文件压缩制成镜像，可以很方便的通过拖拽的形式完成安装。&lt;/p>
+&lt;h4 id="制作模板">制作模板&lt;/h4>
+&lt;p>制作 DMG 文件首先需要制作模板。打开&lt;code>磁盘工具 - 文件 - 新建映象 - 空白映象&lt;/code>（或直接按 &lt;code>⌘N&lt;/code>）创建一个新的磁盘镜像。给它取个名字，设置足够的空间空间，分区选择&lt;code>CD/DVD&lt;/code>。&lt;/p>
+&lt;p>&lt;img src="https://tvax1.sinaimg.cn/large/ad5fbf65gy1ghuwoma7w4j20bd09odig.jpg" alt="新建模板">&lt;/p>
+&lt;p>制作好后，打开该镜像，进行文件夹视图定制（按&lt;code>⌘J&lt;/code>），选择展示图标的大小及背景图片，这里可以隐藏工具栏&lt;/p>
+&lt;p>&lt;img src="https://tva3.sinaimg.cn/large/ad5fbf65gy1ghuwwafpr1j20uy0jhb29.jpg" alt="文件夹视图定制">&lt;/p>
+&lt;p>右键&lt;code>应用程序&lt;/code>选择制作替身，将替身移动到镜像中&lt;/p>
+&lt;p>&lt;img src="https://tva1.sinaimg.cn/large/ad5fbf65gy1ghuwthtnxqj20bh05xwey.jpg" alt="制作替身">&lt;/p>
+&lt;p>将打包好的 app 加入到 DMG 镜像中就完成了 DMG 模板的定制&lt;/p>
+&lt;p>&lt;img src="https://tvax1.sinaimg.cn/large/ad5fbf65gy1ghuwzoih10j20lo0cqtof.jpg" alt="定制好的视图">&lt;/p>
+&lt;h4 id="转换-dmg-文件">转换 DMG 文件&lt;/h4>
+&lt;p>目前的 DMG 模板文件还没有经过压缩并且是可写的状态，这样是不能作为程序发布的，所以这里需要对模板进行转换。&lt;/p>
+&lt;p>&lt;img src="https://tvax1.sinaimg.cn/large/ad5fbf65gy1ghux3e65ngj20ct04676t.jpg" alt="转换">&lt;/p>
+&lt;p>打开 &lt;code>磁盘工具 - 映象 - 转换&lt;/code>，然后选择压缩后存储的目录就完成了最后一步 DMG 文件的转换。&lt;/p>
+&lt;p>&lt;img src="https://tvax1.sinaimg.cn/large/ad5fbf65gy1ghux55kyzdj20pn0fqgt6.jpg" alt="转换成功">&lt;/p>
+&lt;p>现在点开 DMG 文件，将应用拖动到应用程序中，就可以在启动台中看到我们的应用程序了！&lt;/p>
+&lt;p>&lt;img src="https://tvax1.sinaimg.cn/large/ad5fbf65gy1ghux7e0g5tj20hn0fq7e7.jpg" alt="启动台">&lt;/p>
+&lt;h4 id="自动化">自动化&lt;/h4>
+&lt;p>上面只是展示了如何手动制作 DMG 镜像，实际使用当然是要将这些步骤自动化的。我将这部分内容做成了一个 go 脚本，原理其实就是使用 &lt;code>hdiutil&lt;/code> 这个命令行工具，有兴趣的同学可以文末找到项目地址，&lt;code>Makefile&lt;/code> 中有详细构建的命令。&lt;/p>
+&lt;h2 id="项目展示">项目展示&lt;/h2>
+&lt;p>我使用 Go + HTML5 制作了一个 &lt;code>Kustomize Remote&lt;/code> 的项目，可以从远程 kustomize 项目中获取配置，并 build 成 yaml 文件，UI样式为微信风格，支持 public 和 private 项目。&lt;/p>
+&lt;p>&lt;img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1ghuxhffoe1j20dc0h8wf1.jpg" alt="kustomize-remote-observer">&lt;/p>
+&lt;p>&lt;img src="https://tva1.sinaimg.cn/large/ad5fbf65gy1ghuxk4zxv2j20dc0h83zl.jpg" alt="yaml result">&lt;/p>
+&lt;div class="pageinfo pageinfo-primary">
+&lt;p>项目地址：&lt;a href="https://github.com/sunny0826/kustomize-remote-observer">https://github.com/sunny0826/kustomize-remote-observer&lt;/a>&lt;/p>
+&lt;p>也可以直接在 &lt;a href="https://github.com/sunny0826/kustomize-remote-observer/releases">release 页面&lt;/a> 下载 DMG 文件安装试用，只需 Mac 上有 Chrome 即可。&lt;/p>
+&lt;/div>
+&lt;h2 id="结语">结语&lt;/h2>
+&lt;p>Go 语言一直在网络编程、云平台开发、分布式系统等领域占据着重要的地位，但是像桌面应用或者机器学习这样的领域，同样也能做出不错的效果。作为一门受欢迎的编程语言 Golang 已经有十多年的历史了，相信它在将来还能在更多的领域焕发生机，创造辉煌。&lt;/p></description></item><item><title>Post: Cobra 命令自动补全指北</title><link>https://guoxudong.io/post/cobra-shell-completions/</link><pubDate>Wed, 12 Aug 2020 16:48:34 +0800</pubDate><guid>https://guoxudong.io/post/cobra-shell-completions/</guid><description>
+&lt;h2 id="前言">前言&lt;/h2>
+&lt;p>用过类 Unix 系统中 Unix shell(Shell/Bash/Zsh) 的同学都应该对 &lt;kbd>TAB&lt;/kbd> 键印象深刻，因为它可以帮忙补全或提示后续的命令，用户不用记住完整的命令，只需输入前几个字符，按 &lt;kbd>TAB&lt;/kbd> 键，就会提示后续的命令供用户选择，用户体验极佳。目前流行的一些使用 Go 语言开发的 CLI 工具，如 &lt;code>kubectl&lt;/code> 和 &lt;code>helm&lt;/code>，他们也都有 &lt;code>completion&lt;/code> 也就是命令自动补全功能，通过将 &lt;code>source &amp;lt;(kubectl completion zsh)&lt;/code> 加入 &lt;code>.zshrc&lt;/code> 文件中，就可以在每次启动 shell 时自动加载自动补全脚本，之后就可以体验到与原生 shell 相同的自动补全功能了。这些 CLI 工具，都是基于 &lt;a href="https://github.com/spf13/cobra">Cobra&lt;/a> 库开发，命令自动补全功能也是该库提供的一个功能，本篇文章就来讲讲如何使用 Cobra 实现命令自动补全的。&lt;/p>
+&lt;h2 id="cobra-shell-completion">Cobra Shell Completion&lt;/h2>
+&lt;p>Cobra 可以作为一个 Golang 包，用来构建功能强大的命令行程序；同时也可以作为 CLI 工具，用来生成应用程序和命令文件。&lt;/p>
+&lt;p>由于文本主要介绍 Cobra 的命令自动补全功能，更多内容请查阅&lt;a href="https://github.com/spf13/cobra">官网&lt;/a>。&lt;/p>
+&lt;p>&lt;img src="https://tvax2.sinaimg.cn/large/ad5fbf65gy1gho68w1h0sj20tn09e0td.jpg" alt="Cobra">&lt;/p>
+&lt;h3 id="基础用法">基础用法&lt;/h3>
+&lt;p>Cobra 当前的最新版本为 &lt;code>v1.0.0&lt;/code>，支持生成多种 Shell 的自动补全脚本，目前支持：&lt;/p>
+&lt;ul>
+&lt;li>Bash&lt;/li>
+&lt;li>Zsh&lt;/li>
+&lt;li>Fish&lt;/li>
+&lt;li>PowerShell&lt;/li>
+&lt;/ul>
+&lt;p>如上所述，Cobra 不但是一个功能强大的 Golang 包，还是一个 CLI 工具，可以用来生成应用程序和命令文件。使用如下命令，即可生成用于命令自动补全的代码：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ cobra add completion
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>或者也可以创建 &lt;code>cmd/completion.go&lt;/code> 文件，来放置用于生成命令自动补全脚本的代码：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#6ab825;font-weight:bold">var&lt;/span> completionCmd = &amp;amp;cobra.Command{
+Use: &lt;span style="color:#ed9d13">&amp;#34;completion [bash|zsh|fish|powershell]&amp;#34;&lt;/span>,
+Short: &lt;span style="color:#ed9d13">&amp;#34;Generate completion script&amp;#34;&lt;/span>,
+Long: &lt;span style="color:#ed9d13">`To load completions:
+&lt;/span>&lt;span style="color:#ed9d13">
+&lt;/span>&lt;span style="color:#ed9d13">Bash:
+&lt;/span>&lt;span style="color:#ed9d13">
+&lt;/span>&lt;span style="color:#ed9d13">$ source &amp;lt;(yourprogram completion bash)
+&lt;/span>&lt;span style="color:#ed9d13">
+&lt;/span>&lt;span style="color:#ed9d13"># To load completions for each session, execute once:
+&lt;/span>&lt;span style="color:#ed9d13">Linux:
+&lt;/span>&lt;span style="color:#ed9d13"> $ yourprogram completion bash &amp;gt; /etc/bash_completion.d/yourprogram
+&lt;/span>&lt;span style="color:#ed9d13">MacOS:
+&lt;/span>&lt;span style="color:#ed9d13"> $ yourprogram completion bash &amp;gt; /usr/local/etc/bash_completion.d/yourprogram
+&lt;/span>&lt;span style="color:#ed9d13">
+&lt;/span>&lt;span style="color:#ed9d13">Zsh:
+&lt;/span>&lt;span style="color:#ed9d13">
+&lt;/span>&lt;span style="color:#ed9d13"># If shell completion is not already enabled in your environment you will need
+&lt;/span>&lt;span style="color:#ed9d13"># to enable it. You can execute the following once:
+&lt;/span>&lt;span style="color:#ed9d13">
+&lt;/span>&lt;span style="color:#ed9d13">$ echo &amp;#34;autoload -U compinit; compinit&amp;#34; &amp;gt;&amp;gt; ~/.zshrc
+&lt;/span>&lt;span style="color:#ed9d13">
+&lt;/span>&lt;span style="color:#ed9d13"># To load completions for each session, execute once:
+&lt;/span>&lt;span style="color:#ed9d13">$ yourprogram completion zsh &amp;gt; &amp;#34;${fpath[1]}/_yourprogram&amp;#34;
+&lt;/span>&lt;span style="color:#ed9d13">
+&lt;/span>&lt;span style="color:#ed9d13"># You will need to start a new shell for this setup to take effect.
+&lt;/span>&lt;span style="color:#ed9d13">
+&lt;/span>&lt;span style="color:#ed9d13">Fish:
+&lt;/span>&lt;span style="color:#ed9d13">
+&lt;/span>&lt;span style="color:#ed9d13">$ yourprogram completion fish | source
+&lt;/span>&lt;span style="color:#ed9d13">
+&lt;/span>&lt;span style="color:#ed9d13"># To load completions for each session, execute once:
+&lt;/span>&lt;span style="color:#ed9d13">$ yourprogram completion fish &amp;gt; ~/.config/fish/completions/yourprogram.fish
+&lt;/span>&lt;span style="color:#ed9d13">`&lt;/span>,
+DisableFlagsInUseLine: &lt;span style="color:#6ab825;font-weight:bold">true&lt;/span>,
+ValidArgs: []&lt;span style="color:#6ab825;font-weight:bold">string&lt;/span>{&lt;span style="color:#ed9d13">&amp;#34;bash&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;zsh&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;fish&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;powershell&amp;#34;&lt;/span>},
+Args: cobra.&lt;span style="color:#447fcf">ExactValidArgs&lt;/span>(&lt;span style="color:#3677a9">1&lt;/span>),
+Run: &lt;span style="color:#6ab825;font-weight:bold">func&lt;/span>(cmd *cobra.Command, args []&lt;span style="color:#6ab825;font-weight:bold">string&lt;/span>) {
+&lt;span style="color:#6ab825;font-weight:bold">switch&lt;/span> args[&lt;span style="color:#3677a9">0&lt;/span>] {
+&lt;span style="color:#6ab825;font-weight:bold">case&lt;/span> &lt;span style="color:#ed9d13">&amp;#34;bash&amp;#34;&lt;/span>:
+cmd.&lt;span style="color:#447fcf">Root&lt;/span>().&lt;span style="color:#447fcf">GenBashCompletion&lt;/span>(os.Stdout)
+&lt;span style="color:#6ab825;font-weight:bold">case&lt;/span> &lt;span style="color:#ed9d13">&amp;#34;zsh&amp;#34;&lt;/span>:
+cmd.&lt;span style="color:#447fcf">Root&lt;/span>().&lt;span style="color:#447fcf">GenZshCompletion&lt;/span>(os.Stdout)
+&lt;span style="color:#6ab825;font-weight:bold">case&lt;/span> &lt;span style="color:#ed9d13">&amp;#34;fish&amp;#34;&lt;/span>:
+cmd.&lt;span style="color:#447fcf">Root&lt;/span>().&lt;span style="color:#447fcf">GenFishCompletion&lt;/span>(os.Stdout, &lt;span style="color:#6ab825;font-weight:bold">true&lt;/span>)
+&lt;span style="color:#6ab825;font-weight:bold">case&lt;/span> &lt;span style="color:#ed9d13">&amp;#34;powershell&amp;#34;&lt;/span>:
+cmd.&lt;span style="color:#447fcf">Root&lt;/span>().&lt;span style="color:#447fcf">GenPowerShellCompletion&lt;/span>(os.Stdout)
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;官方推荐将生成内容输出到 &lt;code&gt;os.Stdout&lt;/code&gt;，只需上面这些简单的命令，即可在你的 CLI 工具中新增 &lt;code&gt;completion&lt;/code&gt; 子命令，执行该命令即可生成相应 Shell 的命令自动补全脚本，将其插入或保存到相应 Shell 的指定位置即可实现命令自动补全功能。&lt;/p&gt;
-
-
-&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
-&lt;h4 class=&#34;alert-heading&#34;&gt;注意&lt;/h4&gt;
-如果加载了配置文件，&lt;code&gt;os.Stdout&lt;/code&gt; 可能会打印多余的信息，这会导致自动补全脚本失效，所以请避免这种情况。
-&lt;/div&gt;
-
-&lt;h3 id=&#34;进阶用法&#34;&gt;进阶用法&lt;/h3&gt;
-&lt;p&gt;上面的这些只是基本用法，完成的只是命令补全的基本功能，但一些定制化的需求是无法实现的。比如，&lt;code&gt;kubectl get [tab]&lt;/code&gt; 这里的预期内容是返回所有 k8s 资源名称，但是只靠上面的代码是无法实现的。这里就需要用到自定义补全，通过为每个命令增加不同的参数或方法，可以实现静态和动态补全等功能。&lt;/p&gt;
-&lt;h4 id=&#34;名称补全&#34;&gt;名称补全&lt;/h4&gt;
-&lt;p&gt;名称补全其实也分静态名称和动态名称，静态名称就像 &lt;code&gt;kubectl completion [tab]&lt;/code&gt; 预期返回的多种 shell 名称，内容为事先在代码中已经定义好的内容；而动态名称，就是像 &lt;code&gt;helm status [tab]&lt;/code&gt; 预期返回的所有 release 名称，并不是以静态内容体现，而是通过函数动态获取的内容。&lt;/p&gt;
-&lt;h5 id=&#34;静态名称补全&#34;&gt;静态名称补全&lt;/h5&gt;
-&lt;p&gt;静态名称补全比较简单，只要在想要自动补全的子命令中加入 &lt;code&gt;ValidArgs&lt;/code&gt; 字段，传入一组包含预期结果的字符串数组即可，代码如下：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;validArgs []&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt; = { &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;pod&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;node&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;service&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;replicationcontroller&amp;#34;&lt;/span&gt; }
-
+},
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>官方推荐将生成内容输出到 &lt;code>os.Stdout&lt;/code>，只需上面这些简单的命令，即可在你的 CLI 工具中新增 &lt;code>completion&lt;/code> 子命令，执行该命令即可生成相应 Shell 的命令自动补全脚本，将其插入或保存到相应 Shell 的指定位置即可实现命令自动补全功能。&lt;/p>
+&lt;div class="alert alert-warning" role="alert">
+&lt;h4 class="alert-heading">注意&lt;/h4>
+如果加载了配置文件，&lt;code>os.Stdout&lt;/code> 可能会打印多余的信息，这会导致自动补全脚本失效，所以请避免这种情况。
+&lt;/div>
+&lt;h3 id="进阶用法">进阶用法&lt;/h3>
+&lt;p>上面的这些只是基本用法，完成的只是命令补全的基本功能，但一些定制化的需求是无法实现的。比如，&lt;code>kubectl get [tab]&lt;/code> 这里的预期内容是返回所有 k8s 资源名称，但是只靠上面的代码是无法实现的。这里就需要用到自定义补全，通过为每个命令增加不同的参数或方法，可以实现静态和动态补全等功能。&lt;/p>
+&lt;h4 id="名称补全">名称补全&lt;/h4>
+&lt;p>名称补全其实也分静态名称和动态名称，静态名称就像 &lt;code>kubectl completion [tab]&lt;/code> 预期返回的多种 shell 名称，内容为事先在代码中已经定义好的内容；而动态名称，就是像 &lt;code>helm status [tab]&lt;/code> 预期返回的所有 release 名称，并不是以静态内容体现，而是通过函数动态获取的内容。&lt;/p>
+&lt;h5 id="静态名称补全">静态名称补全&lt;/h5>
+&lt;p>静态名称补全比较简单，只要在想要自动补全的子命令中加入 &lt;code>ValidArgs&lt;/code> 字段，传入一组包含预期结果的字符串数组即可，代码如下：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">validArgs []&lt;span style="color:#6ab825;font-weight:bold">string&lt;/span> = { &lt;span style="color:#ed9d13">&amp;#34;pod&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;node&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;service&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;replicationcontroller&amp;#34;&lt;/span> }
 cmd := &amp;amp;cobra.Command{
-    Use:     &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;get [(-o|--output=)json|yaml|template|...] (RESOURCE [NAME] | RESOURCE/NAME ...)&amp;#34;&lt;/span&gt;,
-    Short:   &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Display one or many resources&amp;#34;&lt;/span&gt;,
-    Long:    get_long,
-    Example: get_example,
-    Run: &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;func&lt;/span&gt;(cmd *cobra.Command, args []&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;) {
-      err := &lt;span style=&#34;color:#447fcf&#34;&gt;RunGet&lt;/span&gt;(f, out, cmd, args)
-      util.&lt;span style=&#34;color:#447fcf&#34;&gt;CheckErr&lt;/span&gt;(err)
-    },
-    ValidArgs: validArgs,
+Use: &lt;span style="color:#ed9d13">&amp;#34;get [(-o|--output=)json|yaml|template|...] (RESOURCE [NAME] | RESOURCE/NAME ...)&amp;#34;&lt;/span>,
+Short: &lt;span style="color:#ed9d13">&amp;#34;Display one or many resources&amp;#34;&lt;/span>,
+Long: get_long,
+Example: get_example,
+Run: &lt;span style="color:#6ab825;font-weight:bold">func&lt;/span>(cmd *cobra.Command, args []&lt;span style="color:#6ab825;font-weight:bold">string&lt;/span>) {
+err := &lt;span style="color:#447fcf">RunGet&lt;/span>(f, out, cmd, args)
+util.&lt;span style="color:#447fcf">CheckErr&lt;/span>(err)
+},
+ValidArgs: validArgs,
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里是模仿 kubectl 的 &lt;code&gt;get&lt;/code&gt; 子命令，在执行该命令时效果如下：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl get [tab][tab]
-node   pod   replicationcontroller   service
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如果命令有别名（Aliases）的话，则可以使用 &lt;code&gt;ArgAliases&lt;/code&gt;，代码如下：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;argAliases []&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt; = { &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;pods&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;nodes&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;services&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;svc&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;replicationcontrollers&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;rc&amp;#34;&lt;/span&gt; }
-
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>这里是模仿 kubectl 的 &lt;code>get&lt;/code> 子命令，在执行该命令时效果如下：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ kubectl get [tab][tab]
+node pod replicationcontroller service
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>如果命令有别名（Aliases）的话，则可以使用 &lt;code>ArgAliases&lt;/code>，代码如下：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">argAliases []&lt;span style="color:#6ab825;font-weight:bold">string&lt;/span> = { &lt;span style="color:#ed9d13">&amp;#34;pods&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;nodes&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;services&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;svc&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;replicationcontrollers&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;rc&amp;#34;&lt;/span> }
 cmd := &amp;amp;cobra.Command{
-    ...
-    ValidArgs:  validArgs,
-    ArgAliases: argAliases
+...
+ValidArgs: validArgs,
+ArgAliases: argAliases
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
-&lt;h4 class=&#34;alert-heading&#34;&gt;注意&lt;/h4&gt;
-别名不会在按 &lt;kbd&gt;TAB&lt;/kbd&gt; 时提示给用户，但如果手动输入，则补全算法会将其视为有效参数，并提供后续的补全。
-&lt;/div&gt;
-
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl get rc [tab][tab]
-backend        frontend       database
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里如果不声明 &lt;code&gt;rc&lt;/code&gt; 为别名，则补全算法将无法补全后续的内容。&lt;/p&gt;
-&lt;h5 id=&#34;动态名称补全&#34;&gt;动态名称补全&lt;/h5&gt;
-&lt;p&gt;如果需要补全的名称是动态生成的，例如 &lt;code&gt;helm status [tab]&lt;/code&gt; 这里的 &lt;code&gt;release&lt;/code&gt; 值，就需要用到 &lt;code&gt;ValidArgsFunction&lt;/code&gt; 字段，将需要返回的内容以 function 的形式声明在 &lt;code&gt;cobra.Command&lt;/code&gt; 中，代码如下：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;cmd := &amp;amp;cobra.Command{
-    Use:   &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;status RELEASE_NAME&amp;#34;&lt;/span&gt;,
-    Short: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Display the status of the named release&amp;#34;&lt;/span&gt;,
-    Long:  status_long,
-    RunE: &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;func&lt;/span&gt;(cmd *cobra.Command, args []&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;) {
-      &lt;span style=&#34;color:#447fcf&#34;&gt;RunGet&lt;/span&gt;(args[&lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;])
-    },
-    ValidArgsFunction: &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;func&lt;/span&gt;(cmd *cobra.Command, args []&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;, toComplete &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;) ([]&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;, cobra.ShellCompDirective) {
-      &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#24909d&#34;&gt;len&lt;/span&gt;(args) != &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt; {
-        &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt;, cobra.ShellCompDirectiveNoFileComp
-      }
-      &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#447fcf&#34;&gt;getReleasesFromCluster&lt;/span&gt;(toComplete), cobra.ShellCompDirectiveNoFileComp
-    },
+&lt;/code>&lt;/pre>&lt;/div>
+&lt;div class="alert alert-warning" role="alert">
+&lt;h4 class="alert-heading">注意&lt;/h4>
+别名不会在按 &lt;kbd>TAB&lt;/kbd> 时提示给用户，但如果手动输入，则补全算法会将其视为有效参数，并提供后续的补全。
+&lt;/div>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ kubectl get rc [tab][tab]
+backend frontend database
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>这里如果不声明 &lt;code>rc&lt;/code> 为别名，则补全算法将无法补全后续的内容。&lt;/p>
+&lt;h5 id="动态名称补全">动态名称补全&lt;/h5>
+&lt;p>如果需要补全的名称是动态生成的，例如 &lt;code>helm status [tab]&lt;/code> 这里的 &lt;code>release&lt;/code> 值，就需要用到 &lt;code>ValidArgsFunction&lt;/code> 字段，将需要返回的内容以 function 的形式声明在 &lt;code>cobra.Command&lt;/code> 中，代码如下：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">cmd := &amp;amp;cobra.Command{
+Use: &lt;span style="color:#ed9d13">&amp;#34;status RELEASE_NAME&amp;#34;&lt;/span>,
+Short: &lt;span style="color:#ed9d13">&amp;#34;Display the status of the named release&amp;#34;&lt;/span>,
+Long: status_long,
+RunE: &lt;span style="color:#6ab825;font-weight:bold">func&lt;/span>(cmd *cobra.Command, args []&lt;span style="color:#6ab825;font-weight:bold">string&lt;/span>) {
+&lt;span style="color:#447fcf">RunGet&lt;/span>(args[&lt;span style="color:#3677a9">0&lt;/span>])
+},
+ValidArgsFunction: &lt;span style="color:#6ab825;font-weight:bold">func&lt;/span>(cmd *cobra.Command, args []&lt;span style="color:#6ab825;font-weight:bold">string&lt;/span>, toComplete &lt;span style="color:#6ab825;font-weight:bold">string&lt;/span>) ([]&lt;span style="color:#6ab825;font-weight:bold">string&lt;/span>, cobra.ShellCompDirective) {
+&lt;span style="color:#6ab825;font-weight:bold">if&lt;/span> &lt;span style="color:#24909d">len&lt;/span>(args) != &lt;span style="color:#3677a9">0&lt;/span> {
+&lt;span style="color:#6ab825;font-weight:bold">return&lt;/span> &lt;span style="color:#6ab825;font-weight:bold">nil&lt;/span>, cobra.ShellCompDirectiveNoFileComp
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;上面这段代码是 &lt;code&gt;helm&lt;/code&gt; 的源码，也是 Cobra 的官方示例代码，很好的展示了这个 function 的结构及返回格式，有兴趣的同学可以去看一下 &lt;code&gt;helm&lt;/code&gt; 的源码，也是很有意思的。&lt;code&gt;getReleasesFromCluster&lt;/code&gt; 方法是用来获取 Helm release 列表，在执行命令时，效果如下：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ helm status [tab][tab]
+&lt;span style="color:#6ab825;font-weight:bold">return&lt;/span> &lt;span style="color:#447fcf">getReleasesFromCluster&lt;/span>(toComplete), cobra.ShellCompDirectiveNoFileComp
+},
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>上面这段代码是 &lt;code>helm&lt;/code> 的源码，也是 Cobra 的官方示例代码，很好的展示了这个 function 的结构及返回格式，有兴趣的同学可以去看一下 &lt;code>helm&lt;/code> 的源码，也是很有意思的。&lt;code>getReleasesFromCluster&lt;/code> 方法是用来获取 Helm release 列表，在执行命令时，效果如下：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ helm status [tab][tab]
 harbor notary rook thanos
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;cobra.ShellCompDirective&lt;/code&gt; 可以控制自动补全的特定行为，你可以用或运算符来组合它们，像这样 &lt;code&gt;cobra.ShellCompDirectiveNoSpace | cobra.ShellCompDirectiveNoFileComp&lt;/code&gt;，下面是它们的介绍（摘自官方文档）：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Indicates that the shell will perform its default behavior after completions
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// have been provided (this implies none of the other directives).
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;ShellCompDirectiveDefault
-
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Indicates an error occurred and completions should be ignored.
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;ShellCompDirectiveError
-
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Indicates that the shell should not add a space after the completion,
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// even if there is a single completion provided.
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;ShellCompDirectiveNoSpace
-
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Indicates that the shell should not provide file completion even when
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// no completion is provided.
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;ShellCompDirectiveNoFileComp
-
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Indicates that the returned completions should be used as file extension filters.
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// For example, to complete only files of the form *.json or *.yaml:
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;//    return []string{&amp;#34;yaml&amp;#34;, &amp;#34;json&amp;#34;}, ShellCompDirectiveFilterFileExt
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// For flags, using MarkFlagFilename() and MarkPersistentFlagFilename()
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// is a shortcut to using this directive explicitly.
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;//
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;ShellCompDirectiveFilterFileExt
-
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Indicates that only directory names should be provided in file completion.
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// For example:
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;//    return nil, ShellCompDirectiveFilterDirs
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// For flags, using MarkFlagDirname() is a shortcut to using this directive explicitly.
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;//
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// To request directory names within another directory, the returned completions
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// should specify a single directory name within which to search. For example,
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// to complete directories within &amp;#34;themes/&amp;#34;:
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;//    return []string{&amp;#34;themes&amp;#34;}, ShellCompDirectiveFilterDirs
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;//
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;ShellCompDirectiveFilterDirs
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
-&lt;h4 class=&#34;alert-heading&#34;&gt;注意&lt;/h4&gt;
-&lt;code&gt;ValidArgs&lt;/code&gt; 和 &lt;code&gt;ValidArgsFunction&lt;/code&gt; 同时只能存在一个。在使用 &lt;code&gt;ValidArgsFunction&lt;/code&gt; 时，Cobra 将在解析了命令行中提供的所有 flag 和参数之后才会调用您的注册函数。
-&lt;/div&gt;
-
-&lt;h4 id=&#34;flag-补全&#34;&gt;Flag 补全&lt;/h4&gt;
-&lt;h5 id=&#34;指定必选-flag&#34;&gt;指定必选 flag&lt;/h5&gt;
-&lt;p&gt;大多时候，名字补全只会提示子命令的补全，但如果一些 flag 是必须的，也可以在用户按 &lt;kbd&gt;TAB&lt;/kbd&gt; 键时进行自动补全，代码如下：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;cmd.&lt;span style=&#34;color:#447fcf&#34;&gt;MarkFlagRequired&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;pod&amp;#34;&lt;/span&gt;)
-cmd.&lt;span style=&#34;color:#447fcf&#34;&gt;MarkFlagRequired&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;container&amp;#34;&lt;/span&gt;)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后在执行命令时，就可以看到：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl &lt;span style=&#34;color:#24909d&#34;&gt;exec&lt;/span&gt; [tab][tab]
--c            --container=  -p            --pod=  
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id=&#34;动态-flag&#34;&gt;动态 flag&lt;/h5&gt;
-&lt;p&gt;同名称补全类似，Cobra 提供了一个字段来完成该功能，需要使用 &lt;code&gt;command.RegisterFlagCompletionFunc()&lt;/code&gt; 来注册自动补全的函数，代码如下：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;flagName := &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;output&amp;#34;&lt;/span&gt;
-cmd.&lt;span style=&#34;color:#447fcf&#34;&gt;RegisterFlagCompletionFunc&lt;/span&gt;(flagName, &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;func&lt;/span&gt;(cmd *cobra.Command, args []&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;, toComplete &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;) ([]&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;, cobra.ShellCompDirective) {
-    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; []&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;{&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;json&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;table&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;yaml&amp;#34;&lt;/span&gt;}, cobra.ShellCompDirectiveDefault
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>cobra.ShellCompDirective&lt;/code> 可以控制自动补全的特定行为，你可以用或运算符来组合它们，像这样 &lt;code>cobra.ShellCompDirectiveNoSpace | cobra.ShellCompDirectiveNoFileComp&lt;/code>，下面是它们的介绍（摘自官方文档）：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#999;font-style:italic">// Indicates that the shell will perform its default behavior after completions
+&lt;/span>&lt;span style="color:#999;font-style:italic">// have been provided (this implies none of the other directives).
+&lt;/span>&lt;span style="color:#999;font-style:italic">&lt;/span>ShellCompDirectiveDefault
+&lt;span style="color:#999;font-style:italic">// Indicates an error occurred and completions should be ignored.
+&lt;/span>&lt;span style="color:#999;font-style:italic">&lt;/span>ShellCompDirectiveError
+&lt;span style="color:#999;font-style:italic">// Indicates that the shell should not add a space after the completion,
+&lt;/span>&lt;span style="color:#999;font-style:italic">// even if there is a single completion provided.
+&lt;/span>&lt;span style="color:#999;font-style:italic">&lt;/span>ShellCompDirectiveNoSpace
+&lt;span style="color:#999;font-style:italic">// Indicates that the shell should not provide file completion even when
+&lt;/span>&lt;span style="color:#999;font-style:italic">// no completion is provided.
+&lt;/span>&lt;span style="color:#999;font-style:italic">&lt;/span>ShellCompDirectiveNoFileComp
+&lt;span style="color:#999;font-style:italic">// Indicates that the returned completions should be used as file extension filters.
+&lt;/span>&lt;span style="color:#999;font-style:italic">// For example, to complete only files of the form *.json or *.yaml:
+&lt;/span>&lt;span style="color:#999;font-style:italic">// return []string{&amp;#34;yaml&amp;#34;, &amp;#34;json&amp;#34;}, ShellCompDirectiveFilterFileExt
+&lt;/span>&lt;span style="color:#999;font-style:italic">// For flags, using MarkFlagFilename() and MarkPersistentFlagFilename()
+&lt;/span>&lt;span style="color:#999;font-style:italic">// is a shortcut to using this directive explicitly.
+&lt;/span>&lt;span style="color:#999;font-style:italic">//
+&lt;/span>&lt;span style="color:#999;font-style:italic">&lt;/span>ShellCompDirectiveFilterFileExt
+&lt;span style="color:#999;font-style:italic">// Indicates that only directory names should be provided in file completion.
+&lt;/span>&lt;span style="color:#999;font-style:italic">// For example:
+&lt;/span>&lt;span style="color:#999;font-style:italic">// return nil, ShellCompDirectiveFilterDirs
+&lt;/span>&lt;span style="color:#999;font-style:italic">// For flags, using MarkFlagDirname() is a shortcut to using this directive explicitly.
+&lt;/span>&lt;span style="color:#999;font-style:italic">//
+&lt;/span>&lt;span style="color:#999;font-style:italic">// To request directory names within another directory, the returned completions
+&lt;/span>&lt;span style="color:#999;font-style:italic">// should specify a single directory name within which to search. For example,
+&lt;/span>&lt;span style="color:#999;font-style:italic">// to complete directories within &amp;#34;themes/&amp;#34;:
+&lt;/span>&lt;span style="color:#999;font-style:italic">// return []string{&amp;#34;themes&amp;#34;}, ShellCompDirectiveFilterDirs
+&lt;/span>&lt;span style="color:#999;font-style:italic">//
+&lt;/span>&lt;span style="color:#999;font-style:italic">&lt;/span>ShellCompDirectiveFilterDirs
+&lt;/code>&lt;/pre>&lt;/div>
+&lt;div class="alert alert-warning" role="alert">
+&lt;h4 class="alert-heading">注意&lt;/h4>
+&lt;code>ValidArgs&lt;/code> 和 &lt;code>ValidArgsFunction&lt;/code> 同时只能存在一个。在使用 &lt;code>ValidArgsFunction&lt;/code> 时，Cobra 将在解析了命令行中提供的所有 flag 和参数之后才会调用您的注册函数。
+&lt;/div>
+&lt;h4 id="flag-补全">Flag 补全&lt;/h4>
+&lt;h5 id="指定必选-flag">指定必选 flag&lt;/h5>
+&lt;p>大多时候，名字补全只会提示子命令的补全，但如果一些 flag 是必须的，也可以在用户按 &lt;kbd>TAB&lt;/kbd> 键时进行自动补全，代码如下：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">cmd.&lt;span style="color:#447fcf">MarkFlagRequired&lt;/span>(&lt;span style="color:#ed9d13">&amp;#34;pod&amp;#34;&lt;/span>)
+cmd.&lt;span style="color:#447fcf">MarkFlagRequired&lt;/span>(&lt;span style="color:#ed9d13">&amp;#34;container&amp;#34;&lt;/span>)
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>然后在执行命令时，就可以看到：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ kubectl &lt;span style="color:#24909d">exec&lt;/span> [tab][tab]
+-c --container= -p --pod=
+&lt;/code>&lt;/pre>&lt;/div>&lt;h5 id="动态-flag">动态 flag&lt;/h5>
+&lt;p>同名称补全类似，Cobra 提供了一个字段来完成该功能，需要使用 &lt;code>command.RegisterFlagCompletionFunc()&lt;/code> 来注册自动补全的函数，代码如下：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">flagName := &lt;span style="color:#ed9d13">&amp;#34;output&amp;#34;&lt;/span>
+cmd.&lt;span style="color:#447fcf">RegisterFlagCompletionFunc&lt;/span>(flagName, &lt;span style="color:#6ab825;font-weight:bold">func&lt;/span>(cmd *cobra.Command, args []&lt;span style="color:#6ab825;font-weight:bold">string&lt;/span>, toComplete &lt;span style="color:#6ab825;font-weight:bold">string&lt;/span>) ([]&lt;span style="color:#6ab825;font-weight:bold">string&lt;/span>, cobra.ShellCompDirective) {
+&lt;span style="color:#6ab825;font-weight:bold">return&lt;/span> []&lt;span style="color:#6ab825;font-weight:bold">string&lt;/span>{&lt;span style="color:#ed9d13">&amp;#34;json&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;table&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;yaml&amp;#34;&lt;/span>}, cobra.ShellCompDirectiveDefault
 })
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;RegisterFlagCompletionFunc()&lt;/code&gt; 是通过 &lt;code&gt;command&lt;/code&gt; 与该 flag 的进行关联的，在本示例中可以看到：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ helm status --output [tab][tab]
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>RegisterFlagCompletionFunc()&lt;/code> 是通过 &lt;code>command&lt;/code> 与该 flag 的进行关联的，在本示例中可以看到：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ helm status --output [tab][tab]
 json table yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;使用方式和名称补全相同，这里就不做详细介绍了。&lt;/p&gt;
-&lt;h4 id=&#34;debug&#34;&gt;Debug&lt;/h4&gt;
-&lt;p&gt;命令自动补全与其他功能不同，调试起来比较麻烦，所以 Cobra 提供了调用隐藏命令，模拟自动补全脚本的方式来帮助调试代码，你可以直接使用以下隐藏命令来模拟触发：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ helm __complete status har[ENTER]
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>使用方式和名称补全相同，这里就不做详细介绍了。&lt;/p>
+&lt;h4 id="debug">Debug&lt;/h4>
+&lt;p>命令自动补全与其他功能不同，调试起来比较麻烦，所以 Cobra 提供了调用隐藏命令，模拟自动补全脚本的方式来帮助调试代码，你可以直接使用以下隐藏命令来模拟触发：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ helm __complete status har[ENTER]
 harbor
 :4
-Completion ended with directive: ShellCompDirectiveNoFileComp &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# This is on stderr&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
-&lt;h4 class=&#34;alert-heading&#34;&gt;注意&lt;/h4&gt;
-如果需要提示名称而非补全（就是输入命令后直接按 &lt;kbd&gt;TAB&lt;/kbd&gt; 键），则必须将空参数传递给 &lt;code&gt;__complete&lt;/code&gt; 命令：
-&lt;/div&gt;
-
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ helm __complete status &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;[ENTER]
+Completion ended with directive: ShellCompDirectiveNoFileComp &lt;span style="color:#999;font-style:italic"># This is on stderr&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>
+&lt;div class="alert alert-warning" role="alert">
+&lt;h4 class="alert-heading">注意&lt;/h4>
+如果需要提示名称而非补全（就是输入命令后直接按 &lt;kbd>TAB&lt;/kbd> 键），则必须将空参数传递给 &lt;code>__complete&lt;/code> 命令：
+&lt;/div>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ helm __complete status &lt;span style="color:#ed9d13">&amp;#34;&amp;#34;&lt;/span>[ENTER]
 harbor
 notary
 rook
 thanos
 :4
-Completion ended with directive: ShellCompDirectiveNoFileComp &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# This is on stderr&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;同样可以用来调试 flag 的自动补全：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ helm __complete status --output &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;[ENTER]
+Completion ended with directive: ShellCompDirectiveNoFileComp &lt;span style="color:#999;font-style:italic"># This is on stderr&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>同样可以用来调试 flag 的自动补全：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ helm __complete status --output &lt;span style="color:#ed9d13">&amp;#34;&amp;#34;&lt;/span>[ENTER]
 json
 table
 yaml
 :4
-Completion ended with directive: ShellCompDirectiveNoFileComp &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# This is on stderr&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
-&lt;p&gt;以上内容是作者挑选的一些较为常用的功能，更多的内容详见&lt;a href=&#34;https://github.com/spf13/cobra&#34;&gt;官方文档&lt;/a&gt;。如果想看示例的话，推荐 &lt;a href=&#34;https://github.com/kubernetes/kubectl&#34;&gt;kubectl&lt;/a&gt; 和 &lt;a href=&#34;https://github.com/helm/helm&#34;&gt;helm&lt;/a&gt; 的源码。&lt;/p&gt;
-&lt;p&gt;当然 Cobra 还不是完美的，比如生成的 Zsh 脚本有些问题，&lt;code&gt;kubectl&lt;/code&gt; 和 &lt;code&gt;helm&lt;/code&gt; 都是使用将其生成的 Bash 自动补全脚本转化为 Zsh 的自动补全脚本的方式。但不得不承认，Cobra 是一个非常好用的 CLI 工具构建框架，很多流行的 CLI 工具都是使用它来构建的，这也是为什么使用 GO 语言编写的 CLI 工具如雨后春笋般快速的出现并占据了云原生工具的关键位置。&lt;/p&gt;
-&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/spf13/cobra&#34;&gt;Cobra - github.com&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-      </description>
-    </item>
-    
-    <item>
-      <title>Post: Golang 装逼指南 Ⅱ：在 Homwebrew 上发布 Golang 项目</title>
-      <link>https://guoxudong.io/post/golang-to-homebrew/</link>
-      <pubDate>Thu, 25 Jul 2019 16:27:57 +0800</pubDate>
-      
-      <guid>https://guoxudong.io/post/golang-to-homebrew/</guid>
-      <description>
-        
-        
-        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
-&lt;p&gt;经过上篇文章，我们已经可以在 GitHub 上构建一个看上去正经的 Golang 项目了，但这并不是结束。一个真正的用 Golang 构建的可执行文件是可以在全平台运行的，前文中我们使用 &lt;code&gt;goreleaser&lt;/code&gt; 发布了一个非常漂亮的 release 页面，并在 release 页面上提供多平台的可执行文件下载。但是如果只是拿着可执行文件到处拷贝执行，总归不够优雅，所以这里就介绍如何在 Homebrew 上发布自己的 Golang 应用，如何像各种牛逼的项目那样使用 &lt;code&gt;brew&lt;/code&gt; 一键安装自己的项目。&lt;/p&gt;
-&lt;h2 id=&#34;homebrew&#34;&gt;Homebrew&lt;/h2&gt;
-&lt;p&gt;对于使用 macOS 的用户来说，Homebrew 一点也不陌生，它类似于 CentOS 的 &lt;code&gt;yum&lt;/code&gt; 和 Ubuntu 的 &lt;code&gt;apt-get&lt;/code&gt; 。&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://brew.sh/&#34;&gt;Homebrew&lt;/a&gt; 是最初由 Max Howell 用 Ruby 写的 OS X 软件管理系统，其代码开源在 &lt;a href=&#34;https://github.com/Homebrew/brew/&#34;&gt;GitHub&lt;/a&gt; 上。&lt;/p&gt;
-&lt;p&gt;Homebrew 给自己贴了个一句话简介：The missing package manager for OS X。翻译过来成中文就是：macOS 缺失的软件包的管理器。名副其实地是，Homebrew 真的很好用。安装、升级、卸载等操作，在 Homebrew 的生态下，都只需要一条命令就可以了。并且 Homebrew 会自动为你解决软件包的依赖问题。&lt;/p&gt;
-&lt;h2 id=&#34;发布步骤&#34;&gt;发布步骤&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;创建 Formula&lt;/li&gt;
-&lt;li&gt;修改 rb 脚本&lt;/li&gt;
-&lt;li&gt;本地测试&lt;/li&gt;
-&lt;li&gt;创建 Tap&lt;/li&gt;
-&lt;li&gt;实际安装&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;创建-formula&#34;&gt;创建 Formula&lt;/h3&gt;
-&lt;p&gt;首先进入 release 页面，拷贝 macOS 的 Darwin 包地址&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ws4.sinaimg.cn/large/ad5fbf65gy1g5c7b4mi5fj21lq0se4ck.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;p&gt;然后通过命令在本地创建 Formula&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;brew create https://github.com/sunny0826/kubecm/releases/download/v0.0.1/kubecm_0.0.1_Darwin_x86_64.tar.gz
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;通过这个命令，&lt;code&gt;brew&lt;/code&gt; 会创建一个名为 &lt;code&gt;kubecm.rb&lt;/code&gt; 的文件在 &lt;code&gt;/usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula/&lt;/code&gt; 目录。&lt;/p&gt;
-&lt;h3 id=&#34;修改-rb-脚本&#34;&gt;修改 rb 脚本&lt;/h3&gt;
-&lt;p&gt;然后在该目录可以看到 &lt;code&gt;kubecm.rb&lt;/code&gt; 这个脚本：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-Ruby&#34; data-lang=&#34;Ruby&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# Documentation: https://github.com/Homebrew/brew/blob/master/share/doc/homebrew/Formula-Cookbook.md&lt;/span&gt;
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#                http://www.rubydoc.info/github/Homebrew/brew/master/Formula&lt;/span&gt;
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# PLEASE REMOVE ALL GENERATED COMMENTS BEFORE SUBMITTING YOUR PULL REQUEST!&lt;/span&gt;
-
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;OtfccMac64&lt;/span&gt; &amp;lt; &lt;span style=&#34;color:#40ffff&#34;&gt;Formula&lt;/span&gt;
-  desc &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;
-  homepage &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;
-  url &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;https://github.com/sunny0826/kubecm/releases/download/v0.0.1/kubecm_0.0.1_Darwin_x86_64.tar.gz&amp;#34;&lt;/span&gt;
-  version &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;0.0.1&amp;#34;&lt;/span&gt;
-  sha256 &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;f393b14f9c42c890b8a60949b13a8f9b5c3f814daa8b18901656ccc3b866f646&amp;#34;&lt;/span&gt;
-
-  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# depends_on &amp;#34;cmake&amp;#34; =&amp;gt; :build&lt;/span&gt;
-  depends_on &lt;span style=&#34;color:#ed9d13&#34;&gt;:x11&lt;/span&gt; &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# if your formula requires any X11/XQuartz components&lt;/span&gt;
-
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#447fcf&#34;&gt;install&lt;/span&gt;
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# ENV.deparallelize  # if your formula fails when building in parallel&lt;/span&gt;
-
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# Remove unrecognized options if warned by configure&lt;/span&gt;
-    &lt;span style=&#34;color:#24909d&#34;&gt;system&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;./configure&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;--disable-debug&amp;#34;&lt;/span&gt;,
-                          &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;--disable-dependency-tracking&amp;#34;&lt;/span&gt;,
-                          &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;--disable-silent-rules&amp;#34;&lt;/span&gt;,
-                          &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;--prefix=&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;#{&lt;/span&gt;prefix&lt;span style=&#34;color:#ed9d13&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# system &amp;#34;cmake&amp;#34;, &amp;#34;.&amp;#34;, *std_cmake_args&lt;/span&gt;
-    &lt;span style=&#34;color:#24909d&#34;&gt;system&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;make&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;install&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# if this fails, try separate make/make install steps&lt;/span&gt;
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;end&lt;/span&gt;
-
-  &lt;span style=&#34;color:#24909d&#34;&gt;test&lt;/span&gt; &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;do&lt;/span&gt;
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# `test do` will create, run in and delete a temporary directory.&lt;/span&gt;
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#&lt;/span&gt;
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# This test will fail and we won&amp;#39;t accept that! It&amp;#39;s enough to just replace&lt;/span&gt;
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# &amp;#34;false&amp;#34; with the main program this formula installs, but it&amp;#39;d be nice if you&lt;/span&gt;
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# were more thorough. Run the test with `brew test otfcc-win32`. Options passed&lt;/span&gt;
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# to `brew install` such as `--HEAD` also need to be provided to `brew test`.&lt;/span&gt;
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#&lt;/span&gt;
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# The installed folder is not in the path, so use the entire path to any&lt;/span&gt;
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# executables being tested: `system &amp;#34;#{bin}/program&amp;#34;, &amp;#34;do&amp;#34;, &amp;#34;something&amp;#34;`.&lt;/span&gt;
-    &lt;span style=&#34;color:#24909d&#34;&gt;system&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;false&amp;#34;&lt;/span&gt;
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;end&lt;/span&gt;
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;默认提供的脚本并不适合我们，修改这个脚本：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-Ruby&#34; data-lang=&#34;Ruby&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;Kubecm&lt;/span&gt; &amp;lt; &lt;span style=&#34;color:#40ffff&#34;&gt;Formula&lt;/span&gt;
-  desc &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Merge multiple kubeconfig&amp;#34;&lt;/span&gt;
-  homepage &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;https://github.com/sunny0826/kubecm&amp;#34;&lt;/span&gt;
-  url &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;https://github.com/sunny0826/kubecm/releases/download/v0.0.1/kubecm_0.0.1_Darwin_x86_64.tar.gz&amp;#34;&lt;/span&gt;
-  version &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;0.0.1&amp;#34;&lt;/span&gt;
-  sha256 &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;8c2766e7720049ba0ce9e3d20b7511796a6ba224ce1386cd1d4ef8cc6e1315cd&amp;#34;&lt;/span&gt;
-  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# depends_on &amp;#34;cmake&amp;#34; =&amp;gt; :build&lt;/span&gt;
-
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#447fcf&#34;&gt;install&lt;/span&gt;
-    bin.install &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;kubecm&amp;#34;&lt;/span&gt;
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;end&lt;/span&gt;
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;分布填上 &lt;code&gt;desc&lt;/code&gt; 、 &lt;code&gt;homepage&lt;/code&gt; 、&lt;code&gt;url&lt;/code&gt; 等信息，由于这里下载的是 darwin 包，所以直接在 &lt;code&gt;install&lt;/code&gt; 中填上 &lt;code&gt;bin.install &amp;quot;kubecm&amp;quot;&lt;/code&gt; 即可。&lt;/p&gt;
-&lt;h3 id=&#34;本地测试&#34;&gt;本地测试&lt;/h3&gt;
-&lt;p&gt;保存脚本，然后使用 &lt;code&gt;brew install kubecm&lt;/code&gt; 进行测试，查看结果：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;Updating Homebrew...
+Completion ended with directive: ShellCompDirectiveNoFileComp &lt;span style="color:#999;font-style:italic"># This is on stderr&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="结语">结语&lt;/h2>
+&lt;p>以上内容是作者挑选的一些较为常用的功能，更多的内容详见&lt;a href="https://github.com/spf13/cobra">官方文档&lt;/a>。如果想看示例的话，推荐 &lt;a href="https://github.com/kubernetes/kubectl">kubectl&lt;/a> 和 &lt;a href="https://github.com/helm/helm">helm&lt;/a> 的源码。&lt;/p>
+&lt;p>当然 Cobra 还不是完美的，比如生成的 Zsh 脚本有些问题，&lt;code>kubectl&lt;/code> 和 &lt;code>helm&lt;/code> 都是使用将其生成的 Bash 自动补全脚本转化为 Zsh 的自动补全脚本的方式。但不得不承认，Cobra 是一个非常好用的 CLI 工具构建框架，很多流行的 CLI 工具都是使用它来构建的，这也是为什么使用 GO 语言编写的 CLI 工具如雨后春笋般快速的出现并占据了云原生工具的关键位置。&lt;/p>
+&lt;h2 id="参考">参考&lt;/h2>
+&lt;ul>
+&lt;li>&lt;a href="https://github.com/spf13/cobra">Cobra - github.com&lt;/a>&lt;/li>
+&lt;/ul></description></item><item><title>Post: Golang 装逼指南 Ⅱ：在 Homwebrew 上发布 Golang 项目</title><link>https://guoxudong.io/post/golang-to-homebrew/</link><pubDate>Thu, 25 Jul 2019 16:27:57 +0800</pubDate><guid>https://guoxudong.io/post/golang-to-homebrew/</guid><description>
+&lt;h2 id="前言">前言&lt;/h2>
+&lt;p>经过上篇文章，我们已经可以在 GitHub 上构建一个看上去正经的 Golang 项目了，但这并不是结束。一个真正的用 Golang 构建的可执行文件是可以在全平台运行的，前文中我们使用 &lt;code>goreleaser&lt;/code> 发布了一个非常漂亮的 release 页面，并在 release 页面上提供多平台的可执行文件下载。但是如果只是拿着可执行文件到处拷贝执行，总归不够优雅，所以这里就介绍如何在 Homebrew 上发布自己的 Golang 应用，如何像各种牛逼的项目那样使用 &lt;code>brew&lt;/code> 一键安装自己的项目。&lt;/p>
+&lt;h2 id="homebrew">Homebrew&lt;/h2>
+&lt;p>对于使用 macOS 的用户来说，Homebrew 一点也不陌生，它类似于 CentOS 的 &lt;code>yum&lt;/code> 和 Ubuntu 的 &lt;code>apt-get&lt;/code> 。&lt;/p>
+&lt;p>&lt;a href="https://brew.sh/">Homebrew&lt;/a> 是最初由 Max Howell 用 Ruby 写的 OS X 软件管理系统，其代码开源在 &lt;a href="https://github.com/Homebrew/brew/">GitHub&lt;/a> 上。&lt;/p>
+&lt;p>Homebrew 给自己贴了个一句话简介：The missing package manager for OS X。翻译过来成中文就是：macOS 缺失的软件包的管理器。名副其实地是，Homebrew 真的很好用。安装、升级、卸载等操作，在 Homebrew 的生态下，都只需要一条命令就可以了。并且 Homebrew 会自动为你解决软件包的依赖问题。&lt;/p>
+&lt;h2 id="发布步骤">发布步骤&lt;/h2>
+&lt;ul>
+&lt;li>创建 Formula&lt;/li>
+&lt;li>修改 rb 脚本&lt;/li>
+&lt;li>本地测试&lt;/li>
+&lt;li>创建 Tap&lt;/li>
+&lt;li>实际安装&lt;/li>
+&lt;/ul>
+&lt;h3 id="创建-formula">创建 Formula&lt;/h3>
+&lt;p>首先进入 release 页面，拷贝 macOS 的 Darwin 包地址&lt;/p>
+&lt;p>&lt;img src="https://ws4.sinaimg.cn/large/ad5fbf65gy1g5c7b4mi5fj21lq0se4ck.jpg" alt="image">&lt;/p>
+&lt;p>然后通过命令在本地创建 Formula&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">brew create https://github.com/sunny0826/kubecm/releases/download/v0.0.1/kubecm_0.0.1_Darwin_x86_64.tar.gz
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>通过这个命令，&lt;code>brew&lt;/code> 会创建一个名为 &lt;code>kubecm.rb&lt;/code> 的文件在 &lt;code>/usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula/&lt;/code> 目录。&lt;/p>
+&lt;h3 id="修改-rb-脚本">修改 rb 脚本&lt;/h3>
+&lt;p>然后在该目录可以看到 &lt;code>kubecm.rb&lt;/code> 这个脚本：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-Ruby" data-lang="Ruby">&lt;span style="color:#999;font-style:italic"># Documentation: https://github.com/Homebrew/brew/blob/master/share/doc/homebrew/Formula-Cookbook.md&lt;/span>
+&lt;span style="color:#999;font-style:italic"># http://www.rubydoc.info/github/Homebrew/brew/master/Formula&lt;/span>
+&lt;span style="color:#999;font-style:italic"># PLEASE REMOVE ALL GENERATED COMMENTS BEFORE SUBMITTING YOUR PULL REQUEST!&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">class&lt;/span> &lt;span style="color:#447fcf;text-decoration:underline">OtfccMac64&lt;/span> &amp;lt; &lt;span style="color:#40ffff">Formula&lt;/span>
+desc &lt;span style="color:#ed9d13">&amp;#34;&amp;#34;&lt;/span>
+homepage &lt;span style="color:#ed9d13">&amp;#34;&amp;#34;&lt;/span>
+url &lt;span style="color:#ed9d13">&amp;#34;https://github.com/sunny0826/kubecm/releases/download/v0.0.1/kubecm_0.0.1_Darwin_x86_64.tar.gz&amp;#34;&lt;/span>
+version &lt;span style="color:#ed9d13">&amp;#34;0.0.1&amp;#34;&lt;/span>
+sha256 &lt;span style="color:#ed9d13">&amp;#34;f393b14f9c42c890b8a60949b13a8f9b5c3f814daa8b18901656ccc3b866f646&amp;#34;&lt;/span>
+&lt;span style="color:#999;font-style:italic"># depends_on &amp;#34;cmake&amp;#34; =&amp;gt; :build&lt;/span>
+depends_on &lt;span style="color:#ed9d13">:x11&lt;/span> &lt;span style="color:#999;font-style:italic"># if your formula requires any X11/XQuartz components&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">def&lt;/span> &lt;span style="color:#447fcf">install&lt;/span>
+&lt;span style="color:#999;font-style:italic"># ENV.deparallelize # if your formula fails when building in parallel&lt;/span>
+&lt;span style="color:#999;font-style:italic"># Remove unrecognized options if warned by configure&lt;/span>
+&lt;span style="color:#24909d">system&lt;/span> &lt;span style="color:#ed9d13">&amp;#34;./configure&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;--disable-debug&amp;#34;&lt;/span>,
+&lt;span style="color:#ed9d13">&amp;#34;--disable-dependency-tracking&amp;#34;&lt;/span>,
+&lt;span style="color:#ed9d13">&amp;#34;--disable-silent-rules&amp;#34;&lt;/span>,
+&lt;span style="color:#ed9d13">&amp;#34;--prefix=&lt;/span>&lt;span style="color:#ed9d13">#{&lt;/span>prefix&lt;span style="color:#ed9d13">}&lt;/span>&lt;span style="color:#ed9d13">&amp;#34;&lt;/span>
+&lt;span style="color:#999;font-style:italic"># system &amp;#34;cmake&amp;#34;, &amp;#34;.&amp;#34;, *std_cmake_args&lt;/span>
+&lt;span style="color:#24909d">system&lt;/span> &lt;span style="color:#ed9d13">&amp;#34;make&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;install&amp;#34;&lt;/span> &lt;span style="color:#999;font-style:italic"># if this fails, try separate make/make install steps&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">end&lt;/span>
+&lt;span style="color:#24909d">test&lt;/span> &lt;span style="color:#6ab825;font-weight:bold">do&lt;/span>
+&lt;span style="color:#999;font-style:italic"># `test do` will create, run in and delete a temporary directory.&lt;/span>
+&lt;span style="color:#999;font-style:italic">#&lt;/span>
+&lt;span style="color:#999;font-style:italic"># This test will fail and we won&amp;#39;t accept that! It&amp;#39;s enough to just replace&lt;/span>
+&lt;span style="color:#999;font-style:italic"># &amp;#34;false&amp;#34; with the main program this formula installs, but it&amp;#39;d be nice if you&lt;/span>
+&lt;span style="color:#999;font-style:italic"># were more thorough. Run the test with `brew test otfcc-win32`. Options passed&lt;/span>
+&lt;span style="color:#999;font-style:italic"># to `brew install` such as `--HEAD` also need to be provided to `brew test`.&lt;/span>
+&lt;span style="color:#999;font-style:italic">#&lt;/span>
+&lt;span style="color:#999;font-style:italic"># The installed folder is not in the path, so use the entire path to any&lt;/span>
+&lt;span style="color:#999;font-style:italic"># executables being tested: `system &amp;#34;#{bin}/program&amp;#34;, &amp;#34;do&amp;#34;, &amp;#34;something&amp;#34;`.&lt;/span>
+&lt;span style="color:#24909d">system&lt;/span> &lt;span style="color:#ed9d13">&amp;#34;false&amp;#34;&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">end&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">end&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>默认提供的脚本并不适合我们，修改这个脚本：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-Ruby" data-lang="Ruby">&lt;span style="color:#6ab825;font-weight:bold">class&lt;/span> &lt;span style="color:#447fcf;text-decoration:underline">Kubecm&lt;/span> &amp;lt; &lt;span style="color:#40ffff">Formula&lt;/span>
+desc &lt;span style="color:#ed9d13">&amp;#34;Merge multiple kubeconfig&amp;#34;&lt;/span>
+homepage &lt;span style="color:#ed9d13">&amp;#34;https://github.com/sunny0826/kubecm&amp;#34;&lt;/span>
+url &lt;span style="color:#ed9d13">&amp;#34;https://github.com/sunny0826/kubecm/releases/download/v0.0.1/kubecm_0.0.1_Darwin_x86_64.tar.gz&amp;#34;&lt;/span>
+version &lt;span style="color:#ed9d13">&amp;#34;0.0.1&amp;#34;&lt;/span>
+sha256 &lt;span style="color:#ed9d13">&amp;#34;8c2766e7720049ba0ce9e3d20b7511796a6ba224ce1386cd1d4ef8cc6e1315cd&amp;#34;&lt;/span>
+&lt;span style="color:#999;font-style:italic"># depends_on &amp;#34;cmake&amp;#34; =&amp;gt; :build&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">def&lt;/span> &lt;span style="color:#447fcf">install&lt;/span>
+bin.install &lt;span style="color:#ed9d13">&amp;#34;kubecm&amp;#34;&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">end&lt;/span>
+&lt;span style="color:#6ab825;font-weight:bold">end&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>分布填上 &lt;code>desc&lt;/code> 、 &lt;code>homepage&lt;/code> 、&lt;code>url&lt;/code> 等信息，由于这里下载的是 darwin 包，所以直接在 &lt;code>install&lt;/code> 中填上 &lt;code>bin.install &amp;quot;kubecm&amp;quot;&lt;/code> 即可。&lt;/p>
+&lt;h3 id="本地测试">本地测试&lt;/h3>
+&lt;p>保存脚本，然后使用 &lt;code>brew install kubecm&lt;/code> 进行测试，查看结果：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">Updating Homebrew...
 Fast-forwarded master to origin/master.
 Fast-forwarded master to origin/master.
 ==&amp;gt; Auto-updated Homebrew!
-Updated &lt;span style=&#34;color:#3677a9&#34;&gt;2&lt;/span&gt; taps (sunny0826/tap, homebrew/cask).
+Updated &lt;span style="color:#3677a9">2&lt;/span> taps (sunny0826/tap, homebrew/cask).
 ==&amp;gt; Updated Formulae
 sunny0826/tap/kubecm
-
 ==&amp;gt; Downloading https://github.com/sunny0826/kubecm/releases/download/v0.0.1/kubecm_0.0.1_Darwin_x86_64.tar.gz
 Already downloaded: /Users/guoxudong/Library/Caches/Homebrew/kubecm-86.64.tar.gz
-🍺  /usr/local/Cellar/kubecm/86.64: &lt;span style=&#34;color:#3677a9&#34;&gt;5&lt;/span&gt; files, 5.4MB, built in &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt; second
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;可以看到已经安装成功了！&lt;/p&gt;
-&lt;h3 id=&#34;创建-tap&#34;&gt;创建 Tap&lt;/h3&gt;
-&lt;p&gt;在本地测试成功之后，就可以把他发布了。这里需要在 GitHub 上创建一个名为 &lt;code&gt;homebrew-tap&lt;/code&gt; 的 repo 注意该 repo 需要以 &lt;code&gt;homebrew-&lt;/code&gt; 为前缀，像是&lt;a href=&#34;https://github.com/sunny0826/homebrew-tap&#34;&gt;这样&lt;/a&gt;。&lt;/p&gt;
-&lt;p&gt;然后将刚才的 &lt;code&gt;kubecm.rb&lt;/code&gt; 脚本上传到这个 repo ，然后就可以通过 &lt;code&gt;brew&lt;/code&gt; 的方式安装了。&lt;/p&gt;
-&lt;h3 id=&#34;实际测试&#34;&gt;实际测试&lt;/h3&gt;
-&lt;p&gt;发布好之后，就可以测试发布成功没有了。&lt;/p&gt;
-&lt;p&gt;首先卸载之前使用本地脚本安装的应用：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ brew uninstall kubecm
-Uninstalling /usr/local/Cellar/kubecm/86.64... (&lt;span style=&#34;color:#3677a9&#34;&gt;5&lt;/span&gt; files, 5.4MB)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后使用&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;brew tap sunny0826/tap &amp;amp;&amp;amp; brew install kubecm
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;或者&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;brew install sunny0826/tap/kubecm
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;来进行安装。&lt;/p&gt;
-&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
-&lt;p&gt;到这我们就成功的在 Homebrew 上发布了自己的 Golang 应用，本篇中的方法仅适合 Golang 开发的二进制可执行文件的发布，其他语言的发布需要在 &lt;code&gt;.rb&lt;/code&gt; 脚本上有所修改，更多内容请参考&lt;a href=&#34;https://docs.brew.sh/&#34;&gt;官方文档&lt;/a&gt;。这里要再介绍一下我用 Golang 开发的另一个小工具 &lt;a href=&#34;https://github.com/sunny0826/kubecm&#34;&gt;kubecm&lt;/a&gt; ，该项目之前我是使用 python 开发的，用于合并多个 kubeconfig 文件，本次重写新增了查看所有 kubeconfig 和 删除 kubeconfig 中 context 等功能，同时也在 Homebrew 上发布，欢迎拍砖。&lt;/p&gt;
-
-      </description>
-    </item>
-    
-    <item>
-      <title>Post: Golang 装逼指南：在 GitHub 上构建一个看上去正规的 Golang 项目</title>
-      <link>https://guoxudong.io/post/golang-project/</link>
-      <pubDate>Fri, 19 Jul 2019 10:38:26 +0800</pubDate>
-      
-      <guid>https://guoxudong.io/post/golang-project/</guid>
-      <description>
-        
-        
-        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
-&lt;p&gt;接触 golang 时间很长，但是真正动手开始写 golang 也就是在最近。虽然写的不多，但是见过的 golang 项目可是不计其数，从 &lt;a href=&#34;https://github.com/kubernetes/kubernetes&#34;&gt;Kubernetes&lt;/a&gt; 和 &lt;a href=&#34;https://github.com/istio/istio&#34;&gt;istio&lt;/a&gt; 到亲身参与的 &lt;a href=&#34;https://github.com/kubernetes-sigs/kustomize&#34;&gt;kustomize&lt;/a&gt; 再到 Kubernetes 生态圈的众多小工具，比如： &lt;a href=&#34;https://github.com/instrumenta/kubeval&#34;&gt;kubeval&lt;/a&gt; 、 &lt;a href=&#34;https://github.com/flant/kubedog&#34;&gt;kubedog&lt;/a&gt; 等。从项目使用者和贡献者的角度接触了各种形形色色的 golang 项目。作为一个开发人员，在享受各种开源项目带来便利的同时，也希望自己动手开发一个 golang 项目。以我阅项目无数的经验，那么肯定要构建一个看上去正规的 GitHub 项目。&lt;/p&gt;
-&lt;h2 id=&#34;goland-设置&#34;&gt;GoLand 设置&lt;/h2&gt;
-&lt;p&gt;Go 开发环境的安装网上教程很多，这里就不做介绍了。这里主要介绍一下在 GoLand 上开发环境的设置，这里的设置主要在 MacOS 上进行，其他系统可能有所不同。&lt;/p&gt;
-&lt;h3 id=&#34;使用goland-ide-vgo&#34;&gt;使用Goland IDE vgo&lt;/h3&gt;
-&lt;p&gt;&lt;code&gt;vgo&lt;/code&gt; 是基于 Go Module 规范的包管理工具，同官方的 go mod 命令工具类似。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;开启 &lt;code&gt;vgo&lt;/code&gt;，&lt;code&gt;GoLand&lt;/code&gt;-&amp;gt;&lt;code&gt;Preferences&lt;/code&gt;-&amp;gt;&lt;code&gt;GO&lt;/code&gt;-&amp;gt;&lt;code&gt;Go Modules(vgo)&lt;/code&gt;
-&lt;img src=&#34;https://ws2.sinaimg.cn/large/ad5fbf65gy1g556yudwh8j20s20jhgn4.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;手动修改 &lt;code&gt;go.mod&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;其中 latest 为最新版本，GoLand 会去下载最新依赖代码，下载成功后会修改 &lt;code&gt;go.mod&lt;/code&gt; 并且生成 &lt;code&gt;go.sum&lt;/code&gt; 依赖分析文件。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;module github.com/sunny0826/hamal
-
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;1.12&lt;/span&gt;
-
-&lt;span style=&#34;color:#447fcf&#34;&gt;require&lt;/span&gt; (
-    github.com/mitchellh/&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;go&lt;/span&gt;-homedir latest
-    github.com/spf13/cobra latest
-    github.com/spf13/viper latest
+🍺 /usr/local/Cellar/kubecm/86.64: &lt;span style="color:#3677a9">5&lt;/span> files, 5.4MB, built in &lt;span style="color:#3677a9">1&lt;/span> second
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>可以看到已经安装成功了！&lt;/p>
+&lt;h3 id="创建-tap">创建 Tap&lt;/h3>
+&lt;p>在本地测试成功之后，就可以把他发布了。这里需要在 GitHub 上创建一个名为 &lt;code>homebrew-tap&lt;/code> 的 repo 注意该 repo 需要以 &lt;code>homebrew-&lt;/code> 为前缀，像是&lt;a href="https://github.com/sunny0826/homebrew-tap">这样&lt;/a>。&lt;/p>
+&lt;p>然后将刚才的 &lt;code>kubecm.rb&lt;/code> 脚本上传到这个 repo ，然后就可以通过 &lt;code>brew&lt;/code> 的方式安装了。&lt;/p>
+&lt;h3 id="实际测试">实际测试&lt;/h3>
+&lt;p>发布好之后，就可以测试发布成功没有了。&lt;/p>
+&lt;p>首先卸载之前使用本地脚本安装的应用：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ brew uninstall kubecm
+Uninstalling /usr/local/Cellar/kubecm/86.64... (&lt;span style="color:#3677a9">5&lt;/span> files, 5.4MB)
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>然后使用&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">brew tap sunny0826/tap &amp;amp;&amp;amp; brew install kubecm
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>或者&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">brew install sunny0826/tap/kubecm
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>来进行安装。&lt;/p>
+&lt;h2 id="结语">结语&lt;/h2>
+&lt;p>到这我们就成功的在 Homebrew 上发布了自己的 Golang 应用，本篇中的方法仅适合 Golang 开发的二进制可执行文件的发布，其他语言的发布需要在 &lt;code>.rb&lt;/code> 脚本上有所修改，更多内容请参考&lt;a href="https://docs.brew.sh/">官方文档&lt;/a>。这里要再介绍一下我用 Golang 开发的另一个小工具 &lt;a href="https://github.com/sunny0826/kubecm">kubecm&lt;/a> ，该项目之前我是使用 python 开发的，用于合并多个 kubeconfig 文件，本次重写新增了查看所有 kubeconfig 和 删除 kubeconfig 中 context 等功能，同时也在 Homebrew 上发布，欢迎拍砖。&lt;/p></description></item><item><title>Post: Golang 装逼指南：在 GitHub 上构建一个看上去正规的 Golang 项目</title><link>https://guoxudong.io/post/golang-project/</link><pubDate>Fri, 19 Jul 2019 10:38:26 +0800</pubDate><guid>https://guoxudong.io/post/golang-project/</guid><description>
+&lt;h2 id="前言">前言&lt;/h2>
+&lt;p>接触 golang 时间很长，但是真正动手开始写 golang 也就是在最近。虽然写的不多，但是见过的 golang 项目可是不计其数，从 &lt;a href="https://github.com/kubernetes/kubernetes">Kubernetes&lt;/a> 和 &lt;a href="https://github.com/istio/istio">istio&lt;/a> 到亲身参与的 &lt;a href="https://github.com/kubernetes-sigs/kustomize">kustomize&lt;/a> 再到 Kubernetes 生态圈的众多小工具，比如： &lt;a href="https://github.com/instrumenta/kubeval">kubeval&lt;/a> 、 &lt;a href="https://github.com/flant/kubedog">kubedog&lt;/a> 等。从项目使用者和贡献者的角度接触了各种形形色色的 golang 项目。作为一个开发人员，在享受各种开源项目带来便利的同时，也希望自己动手开发一个 golang 项目。以我阅项目无数的经验，那么肯定要构建一个看上去正规的 GitHub 项目。&lt;/p>
+&lt;h2 id="goland-设置">GoLand 设置&lt;/h2>
+&lt;p>Go 开发环境的安装网上教程很多，这里就不做介绍了。这里主要介绍一下在 GoLand 上开发环境的设置，这里的设置主要在 MacOS 上进行，其他系统可能有所不同。&lt;/p>
+&lt;h3 id="使用goland-ide-vgo">使用Goland IDE vgo&lt;/h3>
+&lt;p>&lt;code>vgo&lt;/code> 是基于 Go Module 规范的包管理工具，同官方的 go mod 命令工具类似。&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>开启 &lt;code>vgo&lt;/code>，&lt;code>GoLand&lt;/code>-&amp;gt;&lt;code>Preferences&lt;/code>-&amp;gt;&lt;code>GO&lt;/code>-&amp;gt;&lt;code>Go Modules(vgo)&lt;/code>
+&lt;img src="https://ws2.sinaimg.cn/large/ad5fbf65gy1g556yudwh8j20s20jhgn4.jpg" alt="image">&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>手动修改 &lt;code>go.mod&lt;/code>&lt;/p>
+&lt;p>其中 latest 为最新版本，GoLand 会去下载最新依赖代码，下载成功后会修改 &lt;code>go.mod&lt;/code> 并且生成 &lt;code>go.sum&lt;/code> 依赖分析文件。&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">module github.com/sunny0826/hamal
+&lt;span style="color:#6ab825;font-weight:bold">go&lt;/span> &lt;span style="color:#3677a9">1.12&lt;/span>
+&lt;span style="color:#447fcf">require&lt;/span> (
+github.com/mitchellh/&lt;span style="color:#6ab825;font-weight:bold">go&lt;/span>-homedir latest
+github.com/spf13/cobra latest
+github.com/spf13/viper latest
 )
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;更新成功&lt;/p&gt;
-&lt;p&gt;在更新成功后，会生成 &lt;code&gt;go.sum&lt;/code&gt; 文件并修改 &lt;code&gt;go.mod&lt;/code&gt; 文件。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;module github.com/sunny0826/hamal
-
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;1.12&lt;/span&gt;
-
-&lt;span style=&#34;color:#447fcf&#34;&gt;require&lt;/span&gt; (
-    github.com/mitchellh/&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;go&lt;/span&gt;-homedir v1&lt;span style=&#34;color:#3677a9&#34;&gt;.1.0&lt;/span&gt;
-    github.com/spf13/cobra v0&lt;span style=&#34;color:#3677a9&#34;&gt;.0.5&lt;/span&gt;
-    github.com/spf13/viper v1&lt;span style=&#34;color:#3677a9&#34;&gt;.4.0&lt;/span&gt;
+&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>更新成功&lt;/p>
+&lt;p>在更新成功后，会生成 &lt;code>go.sum&lt;/code> 文件并修改 &lt;code>go.mod&lt;/code> 文件。&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">module github.com/sunny0826/hamal
+&lt;span style="color:#6ab825;font-weight:bold">go&lt;/span> &lt;span style="color:#3677a9">1.12&lt;/span>
+&lt;span style="color:#447fcf">require&lt;/span> (
+github.com/mitchellh/&lt;span style="color:#6ab825;font-weight:bold">go&lt;/span>-homedir v1&lt;span style="color:#3677a9">.1.0&lt;/span>
+github.com/spf13/cobra v0&lt;span style="color:#3677a9">.0.5&lt;/span>
+github.com/spf13/viper v1&lt;span style="color:#3677a9">.4.0&lt;/span>
 )
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;使用快捷键 &lt;code&gt;⌥(option)+↩(return)&lt;/code&gt; 或者点击鼠标右键, 选择 &lt;code&gt;Sync packages of github.com/sunny0826/hamal&lt;/code&gt; 在 import 处导入依赖。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3 id=&#34;配置代理&#34;&gt;配置代理&lt;/h3&gt;
-&lt;p&gt;如果要选出 golang 最劝退一个原因，那么依赖下载难肯定得票最高！这个时候一个合适的梯子就很重要了，如果没有这个梯子，上面的这步就完全无法完成。这里主要介绍 GoLand 上的配置，Shadowsocks 的安装和配置就不做介绍了。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;GoLand&lt;/code&gt;-&amp;gt;&lt;code&gt;Preferences&lt;/code&gt;-&amp;gt;&lt;code&gt;Appearance &amp;amp; Behavior&lt;/code&gt;-&amp;gt;&lt;code&gt;System Settings&lt;/code&gt;-&amp;gt;&lt;code&gt;HTTP Proxy&lt;/code&gt; 这里设置好之后，别忘了点击 &lt;code&gt;Check connection&lt;/code&gt; 测试一下梯子搭成没有。
-&lt;img src=&#34;https://ws4.sinaimg.cn/large/ad5fbf65gy1g557j6it07j20s20je40p.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;配置-go-fmt-goimports-和-golangci-lint&#34;&gt;配置 &lt;code&gt;go fmt&lt;/code&gt;、 &lt;code&gt;goimports&lt;/code&gt; 和 &lt;code&gt;golangci-lint&lt;/code&gt;&lt;/h3&gt;
-&lt;p&gt;这三个工具都是 GoLand 自带的，设置起来十分简单:&lt;code&gt;GoLand&lt;/code&gt;-&amp;gt;&lt;code&gt;Preferences&lt;/code&gt;-&amp;gt;&lt;code&gt;Tools&lt;/code&gt;-&amp;gt;&lt;code&gt;File Watchers&lt;/code&gt;，点击添加即可。之后在写完代码之后就会自动触发这3个工具的自动检测，工具作用：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;go fmt&lt;/code&gt; : 统一的代码格式化工具。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;golangci-lint&lt;/code&gt; : 静态代码质量检测工具，用于包的质量分析。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;goimports&lt;/code&gt; : 自动 import 依赖包工具。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;img src=&#34;https://ws3.sinaimg.cn/large/ad5fbf65gy1g557ps83gsj20s30njtbs.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;安装配置-golint&#34;&gt;安装配置 &lt;code&gt;golint&lt;/code&gt;&lt;/h3&gt;
-&lt;p&gt;GoLand 没有自带 &lt;code&gt;golint&lt;/code&gt; 工具，需要手动安装：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;mkdir -p &lt;span style=&#34;color:#40ffff&#34;&gt;$GOPATH&lt;/span&gt;/src/golang.org/x/
-&lt;span style=&#34;color:#24909d&#34;&gt;cd&lt;/span&gt; &lt;span style=&#34;color:#40ffff&#34;&gt;$GOPATH&lt;/span&gt;/src/golang.org/x/
+&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>使用快捷键 &lt;code>⌥(option)+↩(return)&lt;/code> 或者点击鼠标右键, 选择 &lt;code>Sync packages of github.com/sunny0826/hamal&lt;/code> 在 import 处导入依赖。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;h3 id="配置代理">配置代理&lt;/h3>
+&lt;p>如果要选出 golang 最劝退一个原因，那么依赖下载难肯定得票最高！这个时候一个合适的梯子就很重要了，如果没有这个梯子，上面的这步就完全无法完成。这里主要介绍 GoLand 上的配置，Shadowsocks 的安装和配置就不做介绍了。&lt;/p>
+&lt;p>&lt;code>GoLand&lt;/code>-&amp;gt;&lt;code>Preferences&lt;/code>-&amp;gt;&lt;code>Appearance &amp;amp; Behavior&lt;/code>-&amp;gt;&lt;code>System Settings&lt;/code>-&amp;gt;&lt;code>HTTP Proxy&lt;/code> 这里设置好之后，别忘了点击 &lt;code>Check connection&lt;/code> 测试一下梯子搭成没有。
+&lt;img src="https://ws4.sinaimg.cn/large/ad5fbf65gy1g557j6it07j20s20je40p.jpg" alt="image">&lt;/p>
+&lt;h3 id="配置-go-fmt-goimports-和-golangci-lint">配置 &lt;code>go fmt&lt;/code>、 &lt;code>goimports&lt;/code> 和 &lt;code>golangci-lint&lt;/code>&lt;/h3>
+&lt;p>这三个工具都是 GoLand 自带的，设置起来十分简单:&lt;code>GoLand&lt;/code>-&amp;gt;&lt;code>Preferences&lt;/code>-&amp;gt;&lt;code>Tools&lt;/code>-&amp;gt;&lt;code>File Watchers&lt;/code>，点击添加即可。之后在写完代码之后就会自动触发这3个工具的自动检测，工具作用：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>go fmt&lt;/code> : 统一的代码格式化工具。&lt;/li>
+&lt;li>&lt;code>golangci-lint&lt;/code> : 静态代码质量检测工具，用于包的质量分析。&lt;/li>
+&lt;li>&lt;code>goimports&lt;/code> : 自动 import 依赖包工具。&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img src="https://ws3.sinaimg.cn/large/ad5fbf65gy1g557ps83gsj20s30njtbs.jpg" alt="image">&lt;/p>
+&lt;h3 id="安装配置-golint">安装配置 &lt;code>golint&lt;/code>&lt;/h3>
+&lt;p>GoLand 没有自带 &lt;code>golint&lt;/code> 工具，需要手动安装：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">mkdir -p &lt;span style="color:#40ffff">$GOPATH&lt;/span>/src/golang.org/x/
+&lt;span style="color:#24909d">cd&lt;/span> &lt;span style="color:#40ffff">$GOPATH&lt;/span>/src/golang.org/x/
 git clone https://github.com/golang/lint.git
 git clone https://github.com/golang/tools.git
-&lt;span style=&#34;color:#24909d&#34;&gt;cd&lt;/span&gt; &lt;span style=&#34;color:#40ffff&#34;&gt;$GOPATH&lt;/span&gt;/src/golang.org/x/lint/golint
+&lt;span style="color:#24909d">cd&lt;/span> &lt;span style="color:#40ffff">$GOPATH&lt;/span>/src/golang.org/x/lint/golint
 go install
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;安装成功之后将会在 &lt;code&gt;$GOPATH/bin&lt;/code&gt; 目录下看到自动生成了 &lt;code&gt;golint&lt;/code&gt; 二进制工具文件。&lt;/p&gt;
-&lt;p&gt;GoLand 配置 &lt;code&gt;golint&lt;/code&gt;，修改 &lt;code&gt;Name&lt;/code&gt;, &lt;code&gt;Program&lt;/code&gt;, &lt;code&gt;Arguments&lt;/code&gt; 三项配置，其中 &lt;code&gt;Arguments&lt;/code&gt; 需要加上 &lt;code&gt;-set_exit_status&lt;/code&gt; 参数，如图所示：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx4.sinaimg.cn/large/ad5fbf65gy1g557z8a5jgj20ln0i0t9z.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;h2 id=&#34;travis-ci-持续集成&#34;&gt;Travis CI 持续集成&lt;/h2&gt;
-&lt;p&gt;在 Github 上装逼怎么能少的了 Travis CI ，直接登录 &lt;a href=&#34;https://travis-ci.org/&#34;&gt;Travis CI&lt;/a&gt;，使用 GitHub 登录，然后选择需要使用 Travis CI 的项目，在项目根目录添加 &lt;code&gt;.travis.yml&lt;/code&gt; ，内容如下：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;language&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;go&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;go&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- &lt;span style=&#34;color:#3677a9&#34;&gt;1.12.5&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;sudo&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;required&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;install&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- echo &amp;#34;install&amp;#34;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;script&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- echo &amp;#34;script&amp;#34;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里只是一个示例，在每次 push 代码之后，都会触发 CI，具体语法可以参看&lt;a href=&#34;https://docs.travis-ci.com/&#34;&gt;官方文档&lt;/a&gt;。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;装逼重点：&lt;/strong&gt; 你以为使用 Travis CI 就是为了持续集成吗？那就太天真了！使用 Travis CI 当然为了他的 Badges ，将 &lt;code&gt;RESULT&lt;/code&gt; 拷贝到你的 &lt;code&gt;README.md&lt;/code&gt; 里面就好了。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ws2.sinaimg.cn/large/ad5fbf65gy1g558xf6io4j22dk15an4t.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;h2 id=&#34;go-report-card&#34;&gt;GO Report Card&lt;/h2&gt;
-&lt;p&gt;&lt;strong&gt;又一装逼重点&lt;/strong&gt;：我们在 GoLand 上安装了 &lt;code&gt;golint&lt;/code&gt; 等工具进行代码质量检测，在撸码的时候就能进行代码检查，那么这个就是为了纯装逼了。&lt;a href=&#34;https://goreportcard.com/&#34;&gt;GO Report Card&lt;/a&gt; 是一个 golang 代码检测网站，你只需把 Github 地址填上去即可。获取 Badges 的方法和 Travis CI 类似，将 MarkDown 中的内容拷贝到 &lt;code&gt;RERADME.md&lt;/code&gt; 中就好。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ws3.sinaimg.cn/large/ad5fbf65gy1g559flsl3xj21t410ok1a.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;h2 id=&#34;goreleaser&#34;&gt;GoReleaser&lt;/h2&gt;
-&lt;p&gt;持续集成有了，代码检查也有了，再下面就是怎么发布一个漂亮的 release 了。如果还在手动发布 release ，那么就又掉 low 了。使用 GoReleaser 一行命令来发布一个漂亮的 release 吧。&lt;/p&gt;
-&lt;p&gt;由于使用的的 MacOS ，这里使用 &lt;code&gt;brew&lt;/code&gt; 来安装：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;brew install goreleaser
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在项目根目录生成 &lt;code&gt;.goreleaser.yml&lt;/code&gt; 配置：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;goreleaser init
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;配置好了以后要记得往 &lt;code&gt;.gitignore&lt;/code&gt; 加上 &lt;code&gt;dist&lt;/code&gt;，因为 goreleaser 会默认把编译编译好的文件输出到 &lt;code&gt;dist&lt;/code&gt; 目录中。&lt;/p&gt;
-&lt;p&gt;goreleaser 配置好后，可以先编译测试一下：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;goreleaser --skip-validate --skip-publish --snapshot
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;注意：&lt;/strong&gt; 首次使用 goreleaser 要配置 GITHUB_TOKEN ，可以在&lt;a href=&#34;https://github.com/settings/tokens/new&#34;&gt;这里&lt;/a&gt;申请，申请好之后运行下面的命令配置&lt;code&gt;GITHUB_TOKEN&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#24909d&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#40ffff&#34;&gt;GITHUB_TOKEN&lt;/span&gt;=&amp;lt;YOUR_TOKEN&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;确保没有问题，那么就可以操作 git 和 goreleaser 来发布 release 了。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;git add .
-git commit -m &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;add goreleaser&amp;#34;&lt;/span&gt;
-git tag -a v0.0.3 -m &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;First release&amp;#34;&lt;/span&gt;
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>安装成功之后将会在 &lt;code>$GOPATH/bin&lt;/code> 目录下看到自动生成了 &lt;code>golint&lt;/code> 二进制工具文件。&lt;/p>
+&lt;p>GoLand 配置 &lt;code>golint&lt;/code>，修改 &lt;code>Name&lt;/code>, &lt;code>Program&lt;/code>, &lt;code>Arguments&lt;/code> 三项配置，其中 &lt;code>Arguments&lt;/code> 需要加上 &lt;code>-set_exit_status&lt;/code> 参数，如图所示：&lt;/p>
+&lt;p>&lt;img src="https://wx4.sinaimg.cn/large/ad5fbf65gy1g557z8a5jgj20ln0i0t9z.jpg" alt="image">&lt;/p>
+&lt;h2 id="travis-ci-持续集成">Travis CI 持续集成&lt;/h2>
+&lt;p>在 Github 上装逼怎么能少的了 Travis CI ，直接登录 &lt;a href="https://travis-ci.org/">Travis CI&lt;/a>，使用 GitHub 登录，然后选择需要使用 Travis CI 的项目，在项目根目录添加 &lt;code>.travis.yml&lt;/code> ，内容如下：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="color:#6ab825;font-weight:bold">language&lt;/span>:&lt;span style="color:#666"> &lt;/span>go&lt;span style="color:#666">
+&lt;/span>&lt;span style="color:#666">
+&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">go&lt;/span>:&lt;span style="color:#666">
+&lt;/span>&lt;span style="color:#666"> &lt;/span>- &lt;span style="color:#3677a9">1.12.5&lt;/span>&lt;span style="color:#666">
+&lt;/span>&lt;span style="color:#666">
+&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">sudo&lt;/span>:&lt;span style="color:#666"> &lt;/span>required&lt;span style="color:#666">
+&lt;/span>&lt;span style="color:#666">
+&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">install&lt;/span>:&lt;span style="color:#666">
+&lt;/span>&lt;span style="color:#666"> &lt;/span>- echo &amp;#34;install&amp;#34;&lt;span style="color:#666">
+&lt;/span>&lt;span style="color:#666">
+&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">script&lt;/span>:&lt;span style="color:#666">
+&lt;/span>&lt;span style="color:#666"> &lt;/span>- echo &amp;#34;script&amp;#34;&lt;span style="color:#666">
+&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>这里只是一个示例，在每次 push 代码之后，都会触发 CI，具体语法可以参看&lt;a href="https://docs.travis-ci.com/">官方文档&lt;/a>。&lt;/p>
+&lt;p>&lt;strong>装逼重点：&lt;/strong> 你以为使用 Travis CI 就是为了持续集成吗？那就太天真了！使用 Travis CI 当然为了他的 Badges ，将 &lt;code>RESULT&lt;/code> 拷贝到你的 &lt;code>README.md&lt;/code> 里面就好了。&lt;/p>
+&lt;p>&lt;img src="https://ws2.sinaimg.cn/large/ad5fbf65gy1g558xf6io4j22dk15an4t.jpg" alt="image">&lt;/p>
+&lt;h2 id="go-report-card">GO Report Card&lt;/h2>
+&lt;p>&lt;strong>又一装逼重点&lt;/strong>：我们在 GoLand 上安装了 &lt;code>golint&lt;/code> 等工具进行代码质量检测，在撸码的时候就能进行代码检查，那么这个就是为了纯装逼了。&lt;a href="https://goreportcard.com/">GO Report Card&lt;/a> 是一个 golang 代码检测网站，你只需把 Github 地址填上去即可。获取 Badges 的方法和 Travis CI 类似，将 MarkDown 中的内容拷贝到 &lt;code>RERADME.md&lt;/code> 中就好。&lt;/p>
+&lt;p>&lt;img src="https://ws3.sinaimg.cn/large/ad5fbf65gy1g559flsl3xj21t410ok1a.jpg" alt="image">&lt;/p>
+&lt;h2 id="goreleaser">GoReleaser&lt;/h2>
+&lt;p>持续集成有了，代码检查也有了，再下面就是怎么发布一个漂亮的 release 了。如果还在手动发布 release ，那么就又掉 low 了。使用 GoReleaser 一行命令来发布一个漂亮的 release 吧。&lt;/p>
+&lt;p>由于使用的的 MacOS ，这里使用 &lt;code>brew&lt;/code> 来安装：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">brew install goreleaser
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>在项目根目录生成 &lt;code>.goreleaser.yml&lt;/code> 配置：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">goreleaser init
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>配置好了以后要记得往 &lt;code>.gitignore&lt;/code> 加上 &lt;code>dist&lt;/code>，因为 goreleaser 会默认把编译编译好的文件输出到 &lt;code>dist&lt;/code> 目录中。&lt;/p>
+&lt;p>goreleaser 配置好后，可以先编译测试一下：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">goreleaser --skip-validate --skip-publish --snapshot
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>注意：&lt;/strong> 首次使用 goreleaser 要配置 GITHUB_TOKEN ，可以在&lt;a href="https://github.com/settings/tokens/new">这里&lt;/a>申请，申请好之后运行下面的命令配置&lt;code>GITHUB_TOKEN&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">&lt;span style="color:#24909d">export&lt;/span> &lt;span style="color:#40ffff">GITHUB_TOKEN&lt;/span>=&amp;lt;YOUR_TOKEN&amp;gt;
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>确保没有问题，那么就可以操作 git 和 goreleaser 来发布 release 了。&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">git add .
+git commit -m &lt;span style="color:#ed9d13">&amp;#34;add goreleaser&amp;#34;&lt;/span>
+git tag -a v0.0.3 -m &lt;span style="color:#ed9d13">&amp;#34;First release&amp;#34;&lt;/span>
 git push origin master
 git push origin v0.0.3
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;全部搞定后，一行命令起飞：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;goreleaser
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;goreleaser&lt;/code&gt; 配合 CI 食用，效果更佳，这里就不做介绍了。
-&lt;img src=&#34;https://wx2.sinaimg.cn/large/ad5fbf65gy1g55a7t8bq4j20sq0liacm.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;h2 id=&#34;badges-展示神器&#34;&gt;Badges 展示神器&lt;/h2&gt;
-&lt;p&gt;这里介绍一个展示 Badges 的神器：&lt;a href=&#34;https://shields.io/&#34;&gt;https://shields.io/&lt;/a&gt; 。这个网站提供各种各样的 Badges ，如果你愿意，完全可以把你的 GitHub README.md 填满，有兴趣的同学可以自取。
-&lt;img src=&#34;https://wx4.sinaimg.cn/large/ad5fbf65gy1g55aendhrwj22fg19igz0.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
-&lt;h2 id=&#34;后记&#34;&gt;后记&lt;/h2&gt;
-&lt;p&gt;到这里可以在 GitHub 上装逼的 golang 配置已经介绍的差不多了，其实还有 &lt;a href=&#34;https://codecov.io/&#34;&gt;Codecov&lt;/a&gt;、&lt;a href=&#34;https://circleci.com/&#34;&gt;CircleCI&lt;/a&gt; 等工具，这里就不做介绍了。这里要介绍的是我们的第一个 golang 项目 &lt;a href=&#34;https://github.com/sunny0826/hamal&#34;&gt;Hamal&lt;/a&gt;，该项目是一个命令行工具，用来在不同的镜像仓库之间同步镜像。由于我司推行混合云，使用了阿里云与华为云，而在阿里云或华为云环境互相推镜像的时候时间都比较长，所以开发这个小工具用于在办公网络镜像同步，同时也可以用来将我在 dockerhub 上托管的镜像同步到我们的私有仓库，欢迎拍砖。&lt;/p&gt;
-
-      </description>
-    </item>
-    
-  </channel>
-</rss>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>全部搞定后，一行命令起飞：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">goreleaser
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>goreleaser&lt;/code> 配合 CI 食用，效果更佳，这里就不做介绍了。
+&lt;img src="https://wx2.sinaimg.cn/large/ad5fbf65gy1g55a7t8bq4j20sq0liacm.jpg" alt="image">&lt;/p>
+&lt;h2 id="badges-展示神器">Badges 展示神器&lt;/h2>
+&lt;p>这里介绍一个展示 Badges 的神器：&lt;a href="https://shields.io/">https://shields.io/&lt;/a> 。这个网站提供各种各样的 Badges ，如果你愿意，完全可以把你的 GitHub README.md 填满，有兴趣的同学可以自取。
+&lt;img src="https://wx4.sinaimg.cn/large/ad5fbf65gy1g55aendhrwj22fg19igz0.jpg" alt="image">&lt;/p>
+&lt;h2 id="后记">后记&lt;/h2>
+&lt;p>到这里可以在 GitHub 上装逼的 golang 配置已经介绍的差不多了，其实还有 &lt;a href="https://codecov.io/">Codecov&lt;/a>、&lt;a href="https://circleci.com/">CircleCI&lt;/a> 等工具，这里就不做介绍了。这里要介绍的是我们的第一个 golang 项目 &lt;a href="https://github.com/sunny0826/hamal">Hamal&lt;/a>，该项目是一个命令行工具，用来在不同的镜像仓库之间同步镜像。由于我司推行混合云，使用了阿里云与华为云，而在阿里云或华为云环境互相推镜像的时候时间都比较长，所以开发这个小工具用于在办公网络镜像同步，同时也可以用来将我在 dockerhub 上托管的镜像同步到我们的私有仓库，欢迎拍砖。&lt;/p></description></item></channel></rss>
