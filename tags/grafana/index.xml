@@ -1,233 +1,305 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Guo Xudong's Blog·郭旭东的博客 – grafana</title><link>https://guoxudong.io/tags/grafana/</link><description>Recent content in grafana on Guo Xudong's Blog·郭旭东的博客</description><generator>Hugo -- gohugo.io</generator><language>zh</language><lastBuildDate>Wed, 26 Aug 2020 09:35:23 +0800</lastBuildDate><atom:link href="https://guoxudong.io/tags/grafana/index.xml" rel="self" type="application/rss+xml"/><item><title>Post: Grabana：使用 Golang 或 Yaml 生成 Grafana Dashboard</title><link>https://guoxudong.io/post/grabana-create-grafana-dashboard/</link><pubDate>Wed, 26 Aug 2020 09:35:23 +0800</pubDate><guid>https://guoxudong.io/post/grabana-create-grafana-dashboard/</guid><description>
-&lt;h2 id="前言">前言&lt;/h2>
-&lt;p>在之前的一篇文章&lt;a href="./how-to-configure-grafana-as-code">《如何使 Grafana as code》&lt;/a>中介绍了使用 &lt;a href="http://jsonnet.org/">Jsonnet&lt;/a> 实现 Grafana as code，通过代码来批量、动态、可复用的生成 Grafana Dashboard。但毕竟 &lt;code>Jsonnet&lt;/code> 是一门小众的编程语言，可用文档不多且示例较少，那么有没有使用我们熟悉的编程语言来生成 Grafana Dashboard 的办法呢？答案是肯定的，本篇文章就介绍一款用于生成 Grafana Dashboard 的 Golang 库：&lt;a href="https://github.com/K-Phoen/grabana">Grabana&lt;/a>&lt;/p>
-&lt;h2 id="grabana">Grabana&lt;/h2>
-&lt;p>Grabana 提供了一种面向开发人员友好的创建 Grafana Dashboard 的方式，也就是俗称的 Grafana as code。&lt;/p>
-&lt;p>不止于此，Grabana 还支持使用 yaml 文件来生成 Dashboard。并且完全不需要像 Jsonnet 那样先生成 json 配置，再将配置导入 Grafana，而是直接基于写好的代码或者 yaml 文件，通过封装好的 Grafana API 直接将 Dashboard 发布到指定 Grafana 中，省去了繁琐的操作，实现了完全的自动化。&lt;/p>
-&lt;h3 id="dashboard-as-code">Dashboard as code&lt;/h3>
-&lt;p>使用 Golang 可以通过如下方式构建 Dashboard 配置：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">builder := dashboard.&lt;span style="color:#447fcf">New&lt;/span>(
-&lt;span style="color:#ed9d13">&amp;#34;Awesome dashboard&amp;#34;&lt;/span>,
-dashboard.&lt;span style="color:#447fcf">AutoRefresh&lt;/span>(&lt;span style="color:#ed9d13">&amp;#34;5s&amp;#34;&lt;/span>),
-dashboard.&lt;span style="color:#447fcf">Tags&lt;/span>([]&lt;span style="color:#6ab825;font-weight:bold">string&lt;/span>{&lt;span style="color:#ed9d13">&amp;#34;generated&amp;#34;&lt;/span>}),
-dashboard.&lt;span style="color:#447fcf">VariableAsInterval&lt;/span>(
-&lt;span style="color:#ed9d13">&amp;#34;interval&amp;#34;&lt;/span>,
-interval.&lt;span style="color:#447fcf">Values&lt;/span>([]&lt;span style="color:#6ab825;font-weight:bold">string&lt;/span>{&lt;span style="color:#ed9d13">&amp;#34;30s&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;1m&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;5m&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;10m&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;30m&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;1h&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;6h&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;12h&amp;#34;&lt;/span>}),
-),
-dashboard.&lt;span style="color:#447fcf">Row&lt;/span>(
-&lt;span style="color:#ed9d13">&amp;#34;Prometheus&amp;#34;&lt;/span>,
-row.&lt;span style="color:#447fcf">WithGraph&lt;/span>(
-&lt;span style="color:#ed9d13">&amp;#34;HTTP Rate&amp;#34;&lt;/span>,
-graph.&lt;span style="color:#447fcf">DataSource&lt;/span>(&lt;span style="color:#ed9d13">&amp;#34;prometheus-default&amp;#34;&lt;/span>),
-graph.&lt;span style="color:#447fcf">WithPrometheusTarget&lt;/span>(
-&lt;span style="color:#ed9d13">&amp;#34;rate(prometheus_http_requests_total[30s])&amp;#34;&lt;/span>,
-prometheus.&lt;span style="color:#447fcf">Legend&lt;/span>(&lt;span style="color:#ed9d13">&amp;#34;{{handler}} - {{ code }}&amp;#34;&lt;/span>),
-),
-),
-),
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Guo Xudong&#39;s Blog·郭旭东的博客 – grafana</title>
+    <link>https://guoxudong.io/tags/grafana/</link>
+    <description>Recent content in grafana on Guo Xudong&#39;s Blog·郭旭东的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Wed, 26 Aug 2020 09:35:23 +0800</lastBuildDate>
+    
+	  <atom:link href="https://guoxudong.io/tags/grafana/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Post: Grabana：使用 Golang 或 Yaml 生成 Grafana Dashboard</title>
+      <link>https://guoxudong.io/post/grabana-create-grafana-dashboard/</link>
+      <pubDate>Wed, 26 Aug 2020 09:35:23 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/grabana-create-grafana-dashboard/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;在之前的一篇文章&lt;a href=&#34;./how-to-configure-grafana-as-code&#34;&gt;《如何使 Grafana as code》&lt;/a&gt;中介绍了使用 &lt;a href=&#34;http://jsonnet.org/&#34;&gt;Jsonnet&lt;/a&gt; 实现 Grafana as code，通过代码来批量、动态、可复用的生成 Grafana Dashboard。但毕竟 &lt;code&gt;Jsonnet&lt;/code&gt; 是一门小众的编程语言，可用文档不多且示例较少，那么有没有使用我们熟悉的编程语言来生成 Grafana Dashboard 的办法呢？答案是肯定的，本篇文章就介绍一款用于生成 Grafana Dashboard 的 Golang 库：&lt;a href=&#34;https://github.com/K-Phoen/grabana&#34;&gt;Grabana&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;grabana&#34;&gt;Grabana&lt;/h2&gt;
+&lt;p&gt;Grabana 提供了一种面向开发人员友好的创建 Grafana Dashboard 的方式，也就是俗称的 Grafana as code。&lt;/p&gt;
+&lt;p&gt;不止于此，Grabana 还支持使用 yaml 文件来生成 Dashboard。并且完全不需要像 Jsonnet 那样先生成 json 配置，再将配置导入 Grafana，而是直接基于写好的代码或者 yaml 文件，通过封装好的 Grafana API 直接将 Dashboard 发布到指定 Grafana 中，省去了繁琐的操作，实现了完全的自动化。&lt;/p&gt;
+&lt;h3 id=&#34;dashboard-as-code&#34;&gt;Dashboard as code&lt;/h3&gt;
+&lt;p&gt;使用 Golang 可以通过如下方式构建 Dashboard 配置：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;builder := dashboard.&lt;span style=&#34;color:#447fcf&#34;&gt;New&lt;/span&gt;(
+    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Awesome dashboard&amp;#34;&lt;/span&gt;,
+    dashboard.&lt;span style=&#34;color:#447fcf&#34;&gt;AutoRefresh&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;5s&amp;#34;&lt;/span&gt;),
+    dashboard.&lt;span style=&#34;color:#447fcf&#34;&gt;Tags&lt;/span&gt;([]&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;{&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;generated&amp;#34;&lt;/span&gt;}),
+    dashboard.&lt;span style=&#34;color:#447fcf&#34;&gt;VariableAsInterval&lt;/span&gt;(
+        &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;interval&amp;#34;&lt;/span&gt;,
+        interval.&lt;span style=&#34;color:#447fcf&#34;&gt;Values&lt;/span&gt;([]&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;{&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;30s&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;1m&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;5m&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;10m&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;30m&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;1h&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;6h&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;12h&amp;#34;&lt;/span&gt;}),
+    ),
+    dashboard.&lt;span style=&#34;color:#447fcf&#34;&gt;Row&lt;/span&gt;(
+        &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Prometheus&amp;#34;&lt;/span&gt;,
+        row.&lt;span style=&#34;color:#447fcf&#34;&gt;WithGraph&lt;/span&gt;(
+            &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;HTTP Rate&amp;#34;&lt;/span&gt;,
+            graph.&lt;span style=&#34;color:#447fcf&#34;&gt;DataSource&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;prometheus-default&amp;#34;&lt;/span&gt;),
+            graph.&lt;span style=&#34;color:#447fcf&#34;&gt;WithPrometheusTarget&lt;/span&gt;(
+                &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;rate(prometheus_http_requests_total[30s])&amp;#34;&lt;/span&gt;,
+                prometheus.&lt;span style=&#34;color:#447fcf&#34;&gt;Legend&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;{{handler}} - {{ code }}&amp;#34;&lt;/span&gt;),
+            ),
+        ),
+    ),
 )
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>配置构建好之后，只需调用 Grabana 的 &lt;code>client&lt;/code>，传入 Grafana 的地址，以及事先创建的 Grafana API Key 即可一键发布 Dashboard。&lt;/p>
-&lt;div class="alert alert-primary" role="alert">
-&lt;h4 class="alert-heading">Tips&lt;/h4>
-&lt;p>API Key 的创建方法 &lt;code>Configuration&lt;/code> - &lt;code>API Keys&lt;/code> - &lt;code>Add API Keys&lt;/code> 如下图：&lt;/p>
-&lt;p>&lt;img src="https://tva1.sinaimg.cn/large/ad5fbf65gy1gi41u4pq30j21h10pn76o.jpg" alt="新建 API Key">&lt;/p>
-&lt;p>&lt;img src="https://tvax2.sinaimg.cn/large/ad5fbf65gy1gi41y39kz1j20li0biaaz.jpg" alt="获得 API Key">&lt;/p>
-&lt;/div>
-&lt;p>创建好 API Key 之后，将其填入 &lt;code>grabana.WithAPIToken()&lt;/code> 中即可，创建/更新 Dashboard 代码如下：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">ctx := context.&lt;span style="color:#447fcf">Background&lt;/span>()
-client := grabana.&lt;span style="color:#447fcf">NewClient&lt;/span>(&amp;amp;http.Client{}, grafanaHost, grabana.&lt;span style="color:#447fcf">WithAPIToken&lt;/span>(&lt;span style="color:#ed9d13">&amp;#34;such secret, much wow&amp;#34;&lt;/span>))
-&lt;span style="color:#999;font-style:italic">// create the folder holding the dashboard for the service
-&lt;/span>&lt;span style="color:#999;font-style:italic">&lt;/span>folder, err := client.&lt;span style="color:#447fcf">FindOrCreateFolder&lt;/span>(ctx, &lt;span style="color:#ed9d13">&amp;#34;Test Folder&amp;#34;&lt;/span>)
-&lt;span style="color:#6ab825;font-weight:bold">if&lt;/span> err != &lt;span style="color:#6ab825;font-weight:bold">nil&lt;/span> {
-fmt.&lt;span style="color:#447fcf">Printf&lt;/span>(&lt;span style="color:#ed9d13">&amp;#34;Could not find or create folder: %s\n&amp;#34;&lt;/span>, err)
-os.&lt;span style="color:#447fcf">Exit&lt;/span>(&lt;span style="color:#3677a9">1&lt;/span>)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;配置构建好之后，只需调用 Grabana 的 &lt;code&gt;client&lt;/code&gt;，传入 Grafana 的地址，以及事先创建的 Grafana API Key 即可一键发布 Dashboard。&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Tips&lt;/h4&gt;
+&lt;p&gt;API Key 的创建方法 &lt;code&gt;Configuration&lt;/code&gt; - &lt;code&gt;API Keys&lt;/code&gt; - &lt;code&gt;Add API Keys&lt;/code&gt; 如下图：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1gi41u4pq30j21h10pn76o.jpg&#34; alt=&#34;新建 API Key&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax2.sinaimg.cn/large/ad5fbf65gy1gi41y39kz1j20li0biaaz.jpg&#34; alt=&#34;获得 API Key&#34;&gt;&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;创建好 API Key 之后，将其填入 &lt;code&gt;grabana.WithAPIToken()&lt;/code&gt; 中即可，创建/更新 Dashboard 代码如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;ctx := context.&lt;span style=&#34;color:#447fcf&#34;&gt;Background&lt;/span&gt;()
+client := grabana.&lt;span style=&#34;color:#447fcf&#34;&gt;NewClient&lt;/span&gt;(&amp;amp;http.Client{}, grafanaHost, grabana.&lt;span style=&#34;color:#447fcf&#34;&gt;WithAPIToken&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;such secret, much wow&amp;#34;&lt;/span&gt;))
+
+&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// create the folder holding the dashboard for the service
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;folder, err := client.&lt;span style=&#34;color:#447fcf&#34;&gt;FindOrCreateFolder&lt;/span&gt;(ctx, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Test Folder&amp;#34;&lt;/span&gt;)
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+    fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Could not find or create folder: %s\n&amp;#34;&lt;/span&gt;, err)
+    os.&lt;span style=&#34;color:#447fcf&#34;&gt;Exit&lt;/span&gt;(&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;)
 }
-&lt;span style="color:#6ab825;font-weight:bold">if&lt;/span> _, err := client.&lt;span style="color:#447fcf">UpsertDashboard&lt;/span>(ctx, folder, builder); err != &lt;span style="color:#6ab825;font-weight:bold">nil&lt;/span> {
-fmt.&lt;span style="color:#447fcf">Printf&lt;/span>(&lt;span style="color:#ed9d13">&amp;#34;Could not create dashboard: %s\n&amp;#34;&lt;/span>, err)
-os.&lt;span style="color:#447fcf">Exit&lt;/span>(&lt;span style="color:#3677a9">1&lt;/span>)
+
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; _, err := client.&lt;span style=&#34;color:#447fcf&#34;&gt;UpsertDashboard&lt;/span&gt;(ctx, folder, builder); err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+    fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Could not create dashboard: %s\n&amp;#34;&lt;/span&gt;, err)
+    os.&lt;span style=&#34;color:#447fcf&#34;&gt;Exit&lt;/span&gt;(&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;)
 }
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>当然官方还提供了一个比较完整的 &lt;a href="https://github.com/K-Phoen/grabana/blob/master/cmd/example">example&lt;/a>，直接使用 &lt;code>go run main.go&lt;/code> 即可体验一键创建 Dashboard。&lt;/p>
-&lt;h3 id="dashboard-as-yaml">Dashboard as YAML&lt;/h3>
-&lt;p>Grabana 的特别之处还在于他还提供了使用 yaml 创建 Dashboard 的方式，作为一名资深 yaml 工程师，每当看到 yaml 都会感到格外的亲切。&lt;/p>
-&lt;p>同样的 Dashboard ，yaml 配置如下：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="color:#999;font-style:italic"># dashboard.yaml&lt;/span>&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">title&lt;/span>:&lt;span style="color:#666"> &lt;/span>Awesome dashboard&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">editable&lt;/span>:&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">true&lt;/span>&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">tags&lt;/span>:&lt;span style="color:#666"> &lt;/span>[generated]&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">auto_refresh&lt;/span>:&lt;span style="color:#666"> &lt;/span>5s&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">variables&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>- &lt;span style="color:#6ab825;font-weight:bold">interval&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">name&lt;/span>:&lt;span style="color:#666"> &lt;/span>interval&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">label&lt;/span>:&lt;span style="color:#666"> &lt;/span>Interval&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">values&lt;/span>:&lt;span style="color:#666"> &lt;/span>[&lt;span style="color:#ed9d13">&amp;#34;30s&amp;#34;&lt;/span>,&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#ed9d13">&amp;#34;1m&amp;#34;&lt;/span>,&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#ed9d13">&amp;#34;5m&amp;#34;&lt;/span>,&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#ed9d13">&amp;#34;10m&amp;#34;&lt;/span>,&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#ed9d13">&amp;#34;30m&amp;#34;&lt;/span>,&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#ed9d13">&amp;#34;1h&amp;#34;&lt;/span>,&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#ed9d13">&amp;#34;6h&amp;#34;&lt;/span>,&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#ed9d13">&amp;#34;12h&amp;#34;&lt;/span>]&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">rows&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>- &lt;span style="color:#6ab825;font-weight:bold">name&lt;/span>:&lt;span style="color:#666"> &lt;/span>Prometheus&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">panels&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>- &lt;span style="color:#6ab825;font-weight:bold">graph&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">title&lt;/span>:&lt;span style="color:#666"> &lt;/span>HTTP Rate&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">height&lt;/span>:&lt;span style="color:#666"> &lt;/span>400px&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">datasource&lt;/span>:&lt;span style="color:#666"> &lt;/span>prometheus-default&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">targets&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>- &lt;span style="color:#6ab825;font-weight:bold">prometheus&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">query&lt;/span>:&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#ed9d13">&amp;#34;rate(promhttp_metric_handler_requests_total[$interval])&amp;#34;&lt;/span>&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">legend&lt;/span>:&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#ed9d13">&amp;#34;{{handler}} - {{ code }}&amp;#34;&lt;/span>&lt;span style="color:#666">
-&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>目前官方还没有提供类似 &lt;code>grabana apply -f dashboard.yaml&lt;/code> 这样的 CLI 命令来发布 Dashboard，还是要使用 Golang 代码才能将其发布，代码如下：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">content, err := ioutil.&lt;span style="color:#447fcf">ReadFile&lt;/span>(&lt;span style="color:#ed9d13">&amp;#34;dashboard.yaml&amp;#34;&lt;/span>)
-&lt;span style="color:#6ab825;font-weight:bold">if&lt;/span> err != &lt;span style="color:#6ab825;font-weight:bold">nil&lt;/span> {
-fmt.&lt;span style="color:#447fcf">Fprintf&lt;/span>(os.Stderr, &lt;span style="color:#ed9d13">&amp;#34;Could not read file: %s\n&amp;#34;&lt;/span>, err)
-os.&lt;span style="color:#447fcf">Exit&lt;/span>(&lt;span style="color:#3677a9">1&lt;/span>)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;当然官方还提供了一个比较完整的 &lt;a href=&#34;https://github.com/K-Phoen/grabana/blob/master/cmd/example&#34;&gt;example&lt;/a&gt;，直接使用 &lt;code&gt;go run main.go&lt;/code&gt; 即可体验一键创建 Dashboard。&lt;/p&gt;
+&lt;h3 id=&#34;dashboard-as-yaml&#34;&gt;Dashboard as YAML&lt;/h3&gt;
+&lt;p&gt;Grabana 的特别之处还在于他还提供了使用 yaml 创建 Dashboard 的方式，作为一名资深 yaml 工程师，每当看到 yaml 都会感到格外的亲切。&lt;/p&gt;
+&lt;p&gt;同样的 Dashboard ，yaml 配置如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# dashboard.yaml&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;title&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Awesome dashboard&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;editable&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;tags&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;[generated]&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;auto_refresh&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;5s&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;variables&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;interval&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;interval&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;label&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Interval&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;values&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;[&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;30s&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;1m&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;5m&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;10m&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;30m&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;1h&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;6h&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;12h&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;rows&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Prometheus&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;panels&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;graph&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;title&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;HTTP Rate&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;height&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;400px&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;datasource&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;prometheus-default&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;targets&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;prometheus&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;                &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;query&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;rate(promhttp_metric_handler_requests_total[$interval])&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;                &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;legend&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;{{handler}} - {{ code }}&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;目前官方还没有提供类似 &lt;code&gt;grabana apply -f dashboard.yaml&lt;/code&gt; 这样的 CLI 命令来发布 Dashboard，还是要使用 Golang 代码才能将其发布，代码如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;content, err := ioutil.&lt;span style=&#34;color:#447fcf&#34;&gt;ReadFile&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;dashboard.yaml&amp;#34;&lt;/span&gt;)
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+    fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Fprintf&lt;/span&gt;(os.Stderr, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Could not read file: %s\n&amp;#34;&lt;/span&gt;, err)
+    os.&lt;span style=&#34;color:#447fcf&#34;&gt;Exit&lt;/span&gt;(&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;)
 }
-dashboard, err := decoder.&lt;span style="color:#447fcf">UnmarshalYAML&lt;/span>(bytes.&lt;span style="color:#447fcf">NewBuffer&lt;/span>(content))
-&lt;span style="color:#6ab825;font-weight:bold">if&lt;/span> err != &lt;span style="color:#6ab825;font-weight:bold">nil&lt;/span> {
-fmt.&lt;span style="color:#447fcf">Fprintf&lt;/span>(os.Stderr, &lt;span style="color:#ed9d13">&amp;#34;Could not parse file: %s\n&amp;#34;&lt;/span>, err)
-os.&lt;span style="color:#447fcf">Exit&lt;/span>(&lt;span style="color:#3677a9">1&lt;/span>)
+
+dashboard, err := decoder.&lt;span style=&#34;color:#447fcf&#34;&gt;UnmarshalYAML&lt;/span&gt;(bytes.&lt;span style=&#34;color:#447fcf&#34;&gt;NewBuffer&lt;/span&gt;(content))
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+    fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Fprintf&lt;/span&gt;(os.Stderr, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Could not parse file: %s\n&amp;#34;&lt;/span&gt;, err)
+    os.&lt;span style=&#34;color:#447fcf&#34;&gt;Exit&lt;/span&gt;(&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;)
 }
-ctx := context.&lt;span style="color:#447fcf">Background&lt;/span>()
-client := grabana.&lt;span style="color:#447fcf">NewClient&lt;/span>(&amp;amp;http.Client{}, grafanaHost, grabana.&lt;span style="color:#447fcf">WithAPIToken&lt;/span>(&lt;span style="color:#ed9d13">&amp;#34;such secret, much wow&amp;#34;&lt;/span>))
-&lt;span style="color:#999;font-style:italic">// create the folder holding the dashboard for the service
-&lt;/span>&lt;span style="color:#999;font-style:italic">&lt;/span>folder, err := client.&lt;span style="color:#447fcf">FindOrCreateFolder&lt;/span>(ctx, &lt;span style="color:#ed9d13">&amp;#34;Test Folder&amp;#34;&lt;/span>)
-&lt;span style="color:#6ab825;font-weight:bold">if&lt;/span> err != &lt;span style="color:#6ab825;font-weight:bold">nil&lt;/span> {
-fmt.&lt;span style="color:#447fcf">Printf&lt;/span>(&lt;span style="color:#ed9d13">&amp;#34;Could not find or create folder: %s\n&amp;#34;&lt;/span>, err)
-os.&lt;span style="color:#447fcf">Exit&lt;/span>(&lt;span style="color:#3677a9">1&lt;/span>)
+
+ctx := context.&lt;span style=&#34;color:#447fcf&#34;&gt;Background&lt;/span&gt;()
+client := grabana.&lt;span style=&#34;color:#447fcf&#34;&gt;NewClient&lt;/span&gt;(&amp;amp;http.Client{}, grafanaHost, grabana.&lt;span style=&#34;color:#447fcf&#34;&gt;WithAPIToken&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;such secret, much wow&amp;#34;&lt;/span&gt;))
+
+&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// create the folder holding the dashboard for the service
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;folder, err := client.&lt;span style=&#34;color:#447fcf&#34;&gt;FindOrCreateFolder&lt;/span&gt;(ctx, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Test Folder&amp;#34;&lt;/span&gt;)
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+    fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Could not find or create folder: %s\n&amp;#34;&lt;/span&gt;, err)
+    os.&lt;span style=&#34;color:#447fcf&#34;&gt;Exit&lt;/span&gt;(&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;)
 }
-&lt;span style="color:#6ab825;font-weight:bold">if&lt;/span> _, err := client.&lt;span style="color:#447fcf">UpsertDashboard&lt;/span>(ctx, folder, dashboard); err != &lt;span style="color:#6ab825;font-weight:bold">nil&lt;/span> {
-fmt.&lt;span style="color:#447fcf">Printf&lt;/span>(&lt;span style="color:#ed9d13">&amp;#34;Could not create dashboard: %s\n&amp;#34;&lt;/span>, err)
-os.&lt;span style="color:#447fcf">Exit&lt;/span>(&lt;span style="color:#3677a9">1&lt;/span>)
+
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; _, err := client.&lt;span style=&#34;color:#447fcf&#34;&gt;UpsertDashboard&lt;/span&gt;(ctx, folder, dashboard); err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+    fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Could not create dashboard: %s\n&amp;#34;&lt;/span&gt;, err)
+    os.&lt;span style=&#34;color:#447fcf&#34;&gt;Exit&lt;/span&gt;(&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;)
 }
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>同样也可以找到比较完整的 &lt;a href="https://github.com/K-Phoen/grabana/tree/master/cmd/yaml">example&lt;/a>，这些示例都可以在官方 GitHub 仓库中找到，有兴趣的同学可以看一下。&lt;/p>
-&lt;h2 id="结语">结语&lt;/h2>
-&lt;p>总的来说，这是一个挺有意思的项目，使用 Golang 代码或 yaml 文件来生成 Grafana Dashboard，方便易用不繁琐。美中不足的是，使用 yaml 生成 Dashboard 并没有完全脱离 Golang 代码。就像笔者上文中提到的，其实可以将项目包装成一个 CLI 工具，使用类似 &lt;code>grabana apply -f dashboard.yaml&lt;/code> 的方式来发布 yaml 配置可能会更好，并且实现起来也并不困难：）。&lt;/p>
-&lt;p>生成 Grafana Dashboard 其实还有很多其他语言的实现方式，比如使用 Python 实现的 &lt;a href="https://github.com/weaveworks/grafanalib">grafanalib&lt;/a>，与 Grabana 相比 grafanalib 的来头更大，贡献者和 star 数也更多，有兴趣的朋友可以关注一下，这里就不展开详细介绍了。&lt;/p></description></item><item><title>Post: 如何使 Grafana as code</title><link>https://guoxudong.io/post/how-to-configure-grafana-as-code/</link><pubDate>Wed, 19 Aug 2020 11:51:17 +0800</pubDate><guid>https://guoxudong.io/post/how-to-configure-grafana-as-code/</guid><description>
-&lt;h2 id="前言">前言&lt;/h2>
-&lt;p>Grafana Dashboard 可以做很多事情，但您知道其实是可以通过代码来配置管理 Grafana Dashboard 的吗？本文是 Grafana Labs 软件开发工程师 Malcolm Holmes 和 Inuits 的开源顾问 Julien Pivotto 在 FOSDEM 2020 上的 topic 演讲记录。 演讲中，两人讨论了如何使用代码来管理您的 Grafana 实例，并介绍了一些使用 &lt;a href="http://jsonnet.org/">Jsonnet&lt;/a> 的秘诀和技巧以及 &lt;a href="https://github.com/grafana/grafonnet-libs">Grafonnet&lt;/a>（一个用于生成 Grafana Dashboard 的 &lt;a href="http://jsonnet.org/">Jsonnet&lt;/a> 库）。&lt;/p>
-&lt;h2 id="铺天盖地的-dashboard">铺天盖地的 Dashboard&lt;/h2>
-&lt;p>Pivotto 在演讲中首先肯定了 Grafana 丰富的 UI，创建一个漂亮的 Dashboard 非常简单。因此用户会创建大量的 Dashboard：当拥有的 Dashboard 越多，也就能越快地了解基础设施的情况。&lt;/p>
-&lt;p>这一切看起来都很棒，直到一段时间后，因为习惯和目标的冲突不得不需要去维护这套 Dashboard 时；或者处理不同的 graph 使用不同的颜色表示错误而引发的混乱时；又或者需要修改 50 个 Dashboard 才能使用 Grafana 的一个新功能时。这些时候，确保 Dashboard 正常工作且好看不再是一个简单的过程了。&lt;/p>
-&lt;p>从开发到运维，看到相同的 Dashboard 并对 Dashboard 具有相同的理解是很重要的，但是实现这个目标却很困难，这也就是您需要 Grafana as code 的原因。&lt;/p>
-&lt;p>Grafana Dashboard 可以通过很多方式创建：通过 Grafana UI、通过 Grafana REST API、Terraform，甚至可以直接将数据推送到 Grafana 数据库。&lt;/p>
-&lt;p>不仅如此，现在 Grafana 还支持开箱即用的文件配置，这意味着您可以对 Grafana 说，“嘿，请进入指定的目录，检查里面所有的 JSON 文件，并将它们作为 Dashboard 加载到 Grafana 中。”而当更新那些文件时，Grafana 会自动读取它们并更新 Dashboard，这真的很棒，您可以对文件进行编码并使 Dashboard 内容与的文件配置保持一致。&lt;/p>
-&lt;p>Grafana Dashboard 面板中的所有内容均为 JSON，非常简单易懂。但 JSON 本身“并不够好”，很难使用传统的模板系统为其制作模板。&lt;/p>
-&lt;p>&lt;img src="https://tvax1.sinaimg.cn/large/ad5fbf65gy1ghw6c59vh8j22bc1avwlg.jpg" alt="">&lt;/p>
-&lt;h2 id="jsonnet">Jsonnet&lt;/h2>
-&lt;p>“对此我们能做些什么？” Holmes 在演讲开始时提出了这个问题。&lt;/p>
-&lt;p>之后他提出了一种使用 JSON 更好的办法：一种名为 &lt;strong>Jsonnet&lt;/strong> 编程语言，其也可用于将资源部署到 Kubernetes，Jsonnet 脚本的输出结果就是 JSON。&lt;/p>
-&lt;p>“Jsonnet 具有许多种语言功能，这使得生成 JSON 以及与他人合作生成 JSON 成为一种乐趣。” Holmes 补充到。&lt;/p>
-&lt;p>&lt;img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1ghw6vj3mn3j22bc1av450.jpg" alt="">&lt;/p>
-&lt;p>上面这个示例：&lt;/p>
-&lt;ul>
-&lt;li>定义一个局部变量，稍后引用该变量。&lt;/li>
-&lt;li>不必使用引号即可获得“不错的语法糖”。&lt;/li>
-&lt;li>双冒号语法意味着 &lt;code>hidden&lt;/code> 可以在程序的其他地方使用，但不会最终出现在最终的 JSON 输出中。&lt;/li>
-&lt;/ul>
-&lt;h2 id="关于语言">关于语言&lt;/h2>
-&lt;p>Holmes 还强调了 Jsonnet 三个与众不同之处。&lt;/p>
-&lt;h3 id="functions">Functions&lt;/h3>
-&lt;p>&lt;img src="https://tvax1.sinaimg.cn/large/ad5fbf65gy1ghw76mjmj8j22bc1av0yt.jpg" alt="">&lt;/p>
-&lt;p>在这个简化的示例中，定义了一个名为 &lt;code>dashboard()&lt;/code> 的函数，包含两个参数：&lt;code>title&lt;/code> 和 &lt;code>uid&lt;/code>。Jsonnet 可以将很长的 JSON 内容封装在非常简单的命令中。&lt;/p>
-&lt;p>但在上面的示例中，&lt;code>schemaVersion&lt;/code> 字段是写死的，如果想使用 &lt;code>schemaVersion:22&lt;/code> 而不是函数中提供的 &lt;code>schemaVersion:20&lt;/code>，&lt;code>dashboard()&lt;/code>函数就没法解决这个问题的。&lt;/p>
-&lt;h3 id="patches">Patches&lt;/h3>
-&lt;p>而 Jsonnet 的 patches 功能，可以解决这个问题。在调用 Jsonnet 函数时可以为其添加 JSON 代码段，从而达到添加/覆盖指定字段的目的。&lt;/p>
-&lt;p>如下所示，&lt;code>schemaVersion&lt;/code> 字段值被覆盖了：&lt;/p>
-&lt;p>&lt;img src="https://tva1.sinaimg.cn/large/ad5fbf65gy1ghw7lembckj22bc1av0y8.jpg" alt="">&lt;/p>
-&lt;p>这些代码“功能非常强大”，其使您拥有了拓展更多内容的能力。&lt;/p>
-&lt;h3 id="imports">Imports&lt;/h3>
-&lt;p>Jsonnet 不仅可以创建函数，还可以将写好的函数 Import 到文件中。&lt;/p>
-&lt;p>&lt;img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1ghw8jfq0s1j22bc1avjyc.jpg" alt="">&lt;/p>
-&lt;p>在上述示例中，事先已经写好了一个函数，并将该函数放入名为 &lt;code>dashboard.libsonnet&lt;/code> 的文件中。然后在 &lt;code>main.jsonnet&lt;/code> 文件中，将该 Dashboard 文件加载到名为 &lt;code>dashboard&lt;/code> 的局部变量中，并调用 &lt;code>new()&lt;/code> 方法。然后添加&lt;code>schemaVersion: 22&lt;/code> 字段，获得与之前相同的结果。&lt;/p>
-&lt;p>通过 Import 我们可以复用大量代码，最终生成更多的 Dashboard。&lt;/p>
-&lt;p>Jsonnet 还有有一个名为 Jsonnet bundler 的工具，有点类似于 Golang 的 vendor，它可以从 GitHub 或者类似的地方获取 Jsonnet 库，因此您可以与其他人分享 Dashboard 和资源，这使得协作更加有效。&lt;/p>
-&lt;h3 id="现成的轮子">现成的轮子&lt;/h3>
-&lt;p>这是两个现成的库：&lt;/p>
-&lt;ul>
-&lt;li>&lt;a href="https://github.com/grafana/grafonnet-lib">https://github.com/grafana/grafonnet-lib&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://github.com/grafana/jsonnet-libs/tree/master/grafana-builder">https://github.com/grafana/jsonnet-libs/tree/master/grafana-builder&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;p>其中最突出的是 Grafonnet，也是 Holmes 和 Pivotto 在演示中使用的，这是一个非常简洁的库，提供了：创建 Dashboard ，创建 panel，创建 single stat panel 等基本功能。&lt;/p>
-&lt;p>&lt;img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1ghw9403k2zj22bc1avk2w.jpg" alt="">&lt;/p>
-&lt;h2 id="演示">演示&lt;/h2>
-&lt;p>然后他们进行了快速演示。&lt;/p>
-&lt;div style="position: relative; width: 100%; height: 0; padding-bottom: 75%;">
-&lt;iframe src="//player.bilibili.com/player.html?aid=796818511&amp;amp;bvid=BV18C4y1t7rZ&amp;amp;cid=226548812&amp;amp;page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;"> &lt;/iframe>
-&lt;/div>
-&lt;h2 id="未来">未来&lt;/h2>
-&lt;p>Holmes 说，在 Grafana Lab 内部已经有不少关于如何能让 Grafana 实例作为代码被管理得更好的讨论。我们相信这很有用，讨论已经带来了很多点子。比如，如果 Grafana 本身带有原生 Jsonnet 功能，那么就可以不用运行 Jsonnet 来生成 JSON，而是只要使用 Grafana 本身的能力就可以了。&lt;/p>
-&lt;p>我们可以预先对应用程序进行包装，其中既嵌入了代码又包含 Dashboard 和监视的配置。这样的话， Dashboard（及其附带的所有内容）的运行方式将与其余代码相同。这是特别有用的，因为人们喜欢把 Dashboard 放在 CI/CD pipline 的版本控制和集成中，就像他们其他的代码一样。&lt;/p>
-&lt;p>Grafonnet 是一个开源项目，在未来一年左右的时间里，Grafonnet 将会快速的发展。&lt;/p>
-&lt;div class="pageinfo pageinfo-primary">
-&lt;p>原文地址：&lt;a href="https://grafana.com/blog/2020/02/26/how-to-configure-grafana-as-code/">https://grafana.com/blog/2020/02/26/how-to-configure-grafana-as-code/&lt;/a>&lt;/p>
-&lt;/div></description></item><item><title>Post: 使用 Grafana 展示阿里云监控指标</title><link>https://guoxudong.io/post/aliyun-cms-grafana/</link><pubDate>Thu, 07 Nov 2019 11:08:36 +0800</pubDate><guid>https://guoxudong.io/post/aliyun-cms-grafana/</guid><description>
-&lt;h2 id="前言">前言&lt;/h2>
-&lt;p>对于阿里云用户来说，阿里云监控是一个很不错的产品，首先它在配额内使用是免费的！免费的！免费的！重要的事情说三遍。他的功能类似于 zabbix，但是比 zabbix 提供了更多的监控项，基本上在云上使用的资源都可以通过云监控来实时监控。而它提供的开箱即用方式，天然集成云资源，并提供多种告警方式，免去了监控与告警系统搭建与维护的繁琐，并且减少了资源的消耗，比购买 ECS 自己搭建 zabbix 要少消耗很多资源。同时阿里云监控和阿里云其他服务一样，也提供了比较完整的 OpenApi 以及各种语言的 sdk，可以基于阿里云的 OpenApi 将其与自己的系统集成。我们之前也是这么做的，但是随着监控项的增加，以及经常需要在办公场地监控投屏的专项监控页，光凭我们的运维开发工程师使用 vue 写速度明显跟不上，而且页面的美观程度也差很多。&lt;/p>
-&lt;h3 id="手写前端-vs-grafana">手写前端 VS Grafana&lt;/h3>
-&lt;p>手写前端虽然可定制化程度更高，但是需要消耗大量精力进行调试，对于运维人员，哪怕是运维开发也是吃不消的（前端小哥哥和小姐姐是不会来帮你的，下图就是我去年拿 vue 写的伪 Grafana 展示页面，花费了大约一周时间在调整这些前端元素）。
-&lt;img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1g8pfrw1licj22ye1gg4qp.jpg" alt="image">&lt;/p>
-&lt;p>Grafana 则标准化程度很高，展示也更加符合大众审美，某些定制化需求可以通过自定义 DataSource 或者 AJAX 插件的 iframe 模式完成。开发后端 DataSource 肯定就没有前端调整 css 那么痛苦和耗时了，整体配置开发一个这样的页面可能只消耗一人天就能完成。而在新产品上线时，构建一个专项监控展示页面速度就更快了，几分钟内就能完成。
-&lt;img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1g8pfvp0keej22yc1g2khm.jpg" alt="image">&lt;/p>
-&lt;h2 id="关于阿里云监控">关于阿里云监控&lt;/h2>
-&lt;p>云监控（CloudMonitor）是一项针对阿里云资源和互联网应用进行监控的服务。&lt;/p>
-&lt;p>云监控为云上用户提供开箱即用的企业级开放型一站式监控解决方案。涵盖 IT 设施基础监控，外网网络质量拨测监控，基于事件、自定义指标、日志的业务监控。为您全方位提供更高效、更全面、更省钱的监控服务。通过提供跨产品、跨地域的应用分组管理模型和报警模板，帮助您快速构建支持几十种云产品、管理数万实例的高效监控报警管理体系。通过提供 Dashboard，帮助您快速构建自定义业务监控大盘。使用云监控，不但可以帮助您提升您的系统服务可用时长，还可以降低企业 IT 运维监控成本。&lt;/p>
-&lt;p>云监控服务可用于收集获取阿里云资源的监控指标或用户自定义的监控指标，探测服务可用性，以及针对指标设置警报。使您全面了解阿里云上的资源使用情况、业务的运行状况和健康度，并及时收到异常报警做出反应，保证应用程序顺畅运行。&lt;/p>
-&lt;h2 id="关于-grafana">关于 Grafana&lt;/h2>
-&lt;p>Grafana 是一个跨平台的开源的度量分析和可视化工具，可以通过将采集的数据查询然后可视化的展示，并及时通知。由于云监控的 Grafana 还没有支持告警，所以我们这里只用了 Grafana 的可视化功能，而告警本身就是云监控自带的，所以也不需要依赖 Grafana 来实现。而我们的 Prometheus 也使用了 Grafana 进行数据可视化，所以有现成的 Grafana-Server 使用。&lt;/p>
-&lt;h2 id="阿里云监控对接-grafana">阿里云监控对接 Grafana&lt;/h2>
-&lt;p>首先 Grafana 服务的部署方式这里就不做介绍了，请使用较新版本的 Grafana，最好是 5.5.0+。后文中也有我开源的基于阿里云云监控的 Grafana 的 helm chart，可以使用 helm 安装，并会直接导入云监控的指标，这个会在后文中介绍。&lt;/p>
-&lt;h3 id="安装阿里云监控插件">安装阿里云监控插件&lt;/h3>
-&lt;p>进入插件目录进行安装&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">&lt;span style="color:#24909d">cd&lt;/span> /var/lib/grafana/plugins/
-git clone https://github.com/aliyun/aliyun-cms-grafana.git
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;同样也可以找到比较完整的 &lt;a href=&#34;https://github.com/K-Phoen/grabana/tree/master/cmd/yaml&#34;&gt;example&lt;/a&gt;，这些示例都可以在官方 GitHub 仓库中找到，有兴趣的同学可以看一下。&lt;/p&gt;
+&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
+&lt;p&gt;总的来说，这是一个挺有意思的项目，使用 Golang 代码或 yaml 文件来生成 Grafana Dashboard，方便易用不繁琐。美中不足的是，使用 yaml 生成 Dashboard 并没有完全脱离 Golang 代码。就像笔者上文中提到的，其实可以将项目包装成一个 CLI 工具，使用类似 &lt;code&gt;grabana apply -f dashboard.yaml&lt;/code&gt; 的方式来发布 yaml 配置可能会更好，并且实现起来也并不困难：）。&lt;/p&gt;
+&lt;p&gt;生成 Grafana Dashboard 其实还有很多其他语言的实现方式，比如使用 Python 实现的 &lt;a href=&#34;https://github.com/weaveworks/grafanalib&#34;&gt;grafanalib&lt;/a&gt;，与 Grabana 相比 grafanalib 的来头更大，贡献者和 star 数也更多，有兴趣的朋友可以关注一下，这里就不展开详细介绍了。&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Post: 如何使 Grafana as code</title>
+      <link>https://guoxudong.io/post/how-to-configure-grafana-as-code/</link>
+      <pubDate>Wed, 19 Aug 2020 11:51:17 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/how-to-configure-grafana-as-code/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;Grafana Dashboard 可以做很多事情，但您知道其实是可以通过代码来配置管理 Grafana Dashboard 的吗？本文是 Grafana Labs 软件开发工程师 Malcolm Holmes 和 Inuits 的开源顾问 Julien Pivotto 在 FOSDEM 2020 上的 topic 演讲记录。 演讲中，两人讨论了如何使用代码来管理您的 Grafana 实例，并介绍了一些使用 &lt;a href=&#34;http://jsonnet.org/&#34;&gt;Jsonnet&lt;/a&gt; 的秘诀和技巧以及 &lt;a href=&#34;https://github.com/grafana/grafonnet-libs&#34;&gt;Grafonnet&lt;/a&gt;（一个用于生成 Grafana Dashboard 的 &lt;a href=&#34;http://jsonnet.org/&#34;&gt;Jsonnet&lt;/a&gt; 库）。&lt;/p&gt;
+&lt;h2 id=&#34;铺天盖地的-dashboard&#34;&gt;铺天盖地的 Dashboard&lt;/h2&gt;
+&lt;p&gt;Pivotto 在演讲中首先肯定了 Grafana 丰富的 UI，创建一个漂亮的 Dashboard 非常简单。因此用户会创建大量的 Dashboard：当拥有的 Dashboard 越多，也就能越快地了解基础设施的情况。&lt;/p&gt;
+&lt;p&gt;这一切看起来都很棒，直到一段时间后，因为习惯和目标的冲突不得不需要去维护这套 Dashboard 时；或者处理不同的 graph 使用不同的颜色表示错误而引发的混乱时；又或者需要修改 50 个 Dashboard 才能使用 Grafana 的一个新功能时。这些时候，确保 Dashboard 正常工作且好看不再是一个简单的过程了。&lt;/p&gt;
+&lt;p&gt;从开发到运维，看到相同的 Dashboard 并对 Dashboard 具有相同的理解是很重要的，但是实现这个目标却很困难，这也就是您需要 Grafana as code 的原因。&lt;/p&gt;
+&lt;p&gt;Grafana Dashboard 可以通过很多方式创建：通过 Grafana UI、通过 Grafana REST API、Terraform，甚至可以直接将数据推送到 Grafana 数据库。&lt;/p&gt;
+&lt;p&gt;不仅如此，现在 Grafana 还支持开箱即用的文件配置，这意味着您可以对 Grafana 说，“嘿，请进入指定的目录，检查里面所有的 JSON 文件，并将它们作为 Dashboard 加载到 Grafana 中。”而当更新那些文件时，Grafana 会自动读取它们并更新 Dashboard，这真的很棒，您可以对文件进行编码并使  Dashboard 内容与的文件配置保持一致。&lt;/p&gt;
+&lt;p&gt;Grafana Dashboard 面板中的所有内容均为 JSON，非常简单易懂。但 JSON 本身“并不够好”，很难使用传统的模板系统为其制作模板。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65gy1ghw6c59vh8j22bc1avwlg.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;jsonnet&#34;&gt;Jsonnet&lt;/h2&gt;
+&lt;p&gt;“对此我们能做些什么？” Holmes 在演讲开始时提出了这个问题。&lt;/p&gt;
+&lt;p&gt;之后他提出了一种使用 JSON 更好的办法：一种名为 &lt;strong&gt;Jsonnet&lt;/strong&gt; 编程语言，其也可用于将资源部署到 Kubernetes，Jsonnet 脚本的输出结果就是 JSON。&lt;/p&gt;
+&lt;p&gt;“Jsonnet 具有许多种语言功能，这使得生成 JSON 以及与他人合作生成 JSON 成为一种乐趣。” Holmes 补充到。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1ghw6vj3mn3j22bc1av450.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;上面这个示例：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;定义一个局部变量，稍后引用该变量。&lt;/li&gt;
+&lt;li&gt;不必使用引号即可获得“不错的语法糖”。&lt;/li&gt;
+&lt;li&gt;双冒号语法意味着 &lt;code&gt;hidden&lt;/code&gt; 可以在程序的其他地方使用，但不会最终出现在最终的 JSON 输出中。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;关于语言&#34;&gt;关于语言&lt;/h2&gt;
+&lt;p&gt;Holmes 还强调了 Jsonnet 三个与众不同之处。&lt;/p&gt;
+&lt;h3 id=&#34;functions&#34;&gt;Functions&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65gy1ghw76mjmj8j22bc1av0yt.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;在这个简化的示例中，定义了一个名为 &lt;code&gt;dashboard()&lt;/code&gt; 的函数，包含两个参数：&lt;code&gt;title&lt;/code&gt; 和 &lt;code&gt;uid&lt;/code&gt;。Jsonnet 可以将很长的 JSON 内容封装在非常简单的命令中。&lt;/p&gt;
+&lt;p&gt;但在上面的示例中，&lt;code&gt;schemaVersion&lt;/code&gt; 字段是写死的，如果想使用 &lt;code&gt;schemaVersion:22&lt;/code&gt; 而不是函数中提供的 &lt;code&gt;schemaVersion:20&lt;/code&gt;，&lt;code&gt;dashboard()&lt;/code&gt;函数就没法解决这个问题的。&lt;/p&gt;
+&lt;h3 id=&#34;patches&#34;&gt;Patches&lt;/h3&gt;
+&lt;p&gt;而 Jsonnet 的 patches 功能，可以解决这个问题。在调用 Jsonnet 函数时可以为其添加 JSON 代码段，从而达到添加/覆盖指定字段的目的。&lt;/p&gt;
+&lt;p&gt;如下所示，&lt;code&gt;schemaVersion&lt;/code&gt; 字段值被覆盖了：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1ghw7lembckj22bc1av0y8.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;这些代码“功能非常强大”，其使您拥有了拓展更多内容的能力。&lt;/p&gt;
+&lt;h3 id=&#34;imports&#34;&gt;Imports&lt;/h3&gt;
+&lt;p&gt;Jsonnet 不仅可以创建函数，还可以将写好的函数 Import 到文件中。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1ghw8jfq0s1j22bc1avjyc.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;在上述示例中，事先已经写好了一个函数，并将该函数放入名为 &lt;code&gt;dashboard.libsonnet&lt;/code&gt; 的文件中。然后在 &lt;code&gt;main.jsonnet&lt;/code&gt; 文件中，将该 Dashboard 文件加载到名为 &lt;code&gt;dashboard&lt;/code&gt; 的局部变量中，并调用 &lt;code&gt;new()&lt;/code&gt; 方法。然后添加&lt;code&gt;schemaVersion: 22&lt;/code&gt; 字段，获得与之前相同的结果。&lt;/p&gt;
+&lt;p&gt;通过 Import 我们可以复用大量代码，最终生成更多的 Dashboard。&lt;/p&gt;
+&lt;p&gt;Jsonnet 还有有一个名为 Jsonnet bundler 的工具，有点类似于 Golang 的 vendor，它可以从 GitHub 或者类似的地方获取 Jsonnet 库，因此您可以与其他人分享 Dashboard 和资源，这使得协作更加有效。&lt;/p&gt;
+&lt;h3 id=&#34;现成的轮子&#34;&gt;现成的轮子&lt;/h3&gt;
+&lt;p&gt;这是两个现成的库：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/grafana/grafonnet-lib&#34;&gt;https://github.com/grafana/grafonnet-lib&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/grafana/jsonnet-libs/tree/master/grafana-builder&#34;&gt;https://github.com/grafana/jsonnet-libs/tree/master/grafana-builder&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;其中最突出的是 Grafonnet，也是 Holmes 和 Pivotto 在演示中使用的，这是一个非常简洁的库，提供了：创建 Dashboard ，创建 panel，创建 single stat panel 等基本功能。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1ghw9403k2zj22bc1avk2w.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;演示&#34;&gt;演示&lt;/h2&gt;
+&lt;p&gt;然后他们进行了快速演示。&lt;/p&gt;
+
+&lt;div style=&#34;position: relative; width: 100%; height: 0; padding-bottom: 75%;&#34;&gt;
+    &lt;iframe src=&#34;//player.bilibili.com/player.html?aid=796818511&amp;amp;bvid=BV18C4y1t7rZ&amp;amp;cid=226548812&amp;amp;page=1&#34; scrolling=&#34;no&#34; border=&#34;0&#34; frameborder=&#34;no&#34; framespacing=&#34;0&#34; allowfullscreen=&#34;true&#34;style=&#34;position: absolute; width: 100%; height: 100%; left: 0; top: 0;&#34;&gt; &lt;/iframe&gt;
+&lt;/div&gt;
+&lt;h2 id=&#34;未来&#34;&gt;未来&lt;/h2&gt;
+&lt;p&gt;Holmes 说，在 Grafana Lab 内部已经有不少关于如何能让 Grafana 实例作为代码被管理得更好的讨论。我们相信这很有用，讨论已经带来了很多点子。比如，如果 Grafana 本身带有原生 Jsonnet 功能，那么就可以不用运行 Jsonnet 来生成 JSON，而是只要使用 Grafana 本身的能力就可以了。&lt;/p&gt;
+&lt;p&gt;我们可以预先对应用程序进行包装，其中既嵌入了代码又包含 Dashboard 和监视的配置。这样的话， Dashboard（及其附带的所有内容）的运行方式将与其余代码相同。这是特别有用的，因为人们喜欢把 Dashboard 放在 CI/CD pipline 的版本控制和集成中，就像他们其他的代码一样。&lt;/p&gt;
+&lt;p&gt;Grafonnet 是一个开源项目，在未来一年左右的时间里，Grafonnet 将会快速的发展。&lt;/p&gt;
+
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;原文地址：&lt;a href=&#34;https://grafana.com/blog/2020/02/26/how-to-configure-grafana-as-code/&#34;&gt;https://grafana.com/blog/2020/02/26/how-to-configure-grafana-as-code/&lt;/a&gt;&lt;/p&gt;
+
+&lt;/div&gt;
+
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Post: 使用 Grafana 展示阿里云监控指标</title>
+      <link>https://guoxudong.io/post/aliyun-cms-grafana/</link>
+      <pubDate>Thu, 07 Nov 2019 11:08:36 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/aliyun-cms-grafana/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;对于阿里云用户来说，阿里云监控是一个很不错的产品，首先它在配额内使用是免费的！免费的！免费的！重要的事情说三遍。他的功能类似于 zabbix，但是比 zabbix 提供了更多的监控项，基本上在云上使用的资源都可以通过云监控来实时监控。而它提供的开箱即用方式，天然集成云资源，并提供多种告警方式，免去了监控与告警系统搭建与维护的繁琐，并且减少了资源的消耗，比购买 ECS 自己搭建 zabbix 要少消耗很多资源。同时阿里云监控和阿里云其他服务一样，也提供了比较完整的 OpenApi 以及各种语言的 sdk，可以基于阿里云的 OpenApi 将其与自己的系统集成。我们之前也是这么做的，但是随着监控项的增加，以及经常需要在办公场地监控投屏的专项监控页，光凭我们的运维开发工程师使用 vue 写速度明显跟不上，而且页面的美观程度也差很多。&lt;/p&gt;
+&lt;h3 id=&#34;手写前端-vs-grafana&#34;&gt;手写前端 VS Grafana&lt;/h3&gt;
+&lt;p&gt;手写前端虽然可定制化程度更高，但是需要消耗大量精力进行调试，对于运维人员，哪怕是运维开发也是吃不消的（前端小哥哥和小姐姐是不会来帮你的，下图就是我去年拿 vue 写的伪 Grafana 展示页面，花费了大约一周时间在调整这些前端元素）。
+&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1g8pfrw1licj22ye1gg4qp.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Grafana 则标准化程度很高，展示也更加符合大众审美，某些定制化需求可以通过自定义 DataSource 或者 AJAX 插件的 iframe 模式完成。开发后端 DataSource 肯定就没有前端调整 css 那么痛苦和耗时了，整体配置开发一个这样的页面可能只消耗一人天就能完成。而在新产品上线时，构建一个专项监控展示页面速度就更快了，几分钟内就能完成。
+&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1g8pfvp0keej22yc1g2khm.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;关于阿里云监控&#34;&gt;关于阿里云监控&lt;/h2&gt;
+&lt;p&gt;云监控（CloudMonitor）是一项针对阿里云资源和互联网应用进行监控的服务。&lt;/p&gt;
+&lt;p&gt;云监控为云上用户提供开箱即用的企业级开放型一站式监控解决方案。涵盖 IT 设施基础监控，外网网络质量拨测监控，基于事件、自定义指标、日志的业务监控。为您全方位提供更高效、更全面、更省钱的监控服务。通过提供跨产品、跨地域的应用分组管理模型和报警模板，帮助您快速构建支持几十种云产品、管理数万实例的高效监控报警管理体系。通过提供 Dashboard，帮助您快速构建自定义业务监控大盘。使用云监控，不但可以帮助您提升您的系统服务可用时长，还可以降低企业 IT 运维监控成本。&lt;/p&gt;
+&lt;p&gt;云监控服务可用于收集获取阿里云资源的监控指标或用户自定义的监控指标，探测服务可用性，以及针对指标设置警报。使您全面了解阿里云上的资源使用情况、业务的运行状况和健康度，并及时收到异常报警做出反应，保证应用程序顺畅运行。&lt;/p&gt;
+&lt;h2 id=&#34;关于-grafana&#34;&gt;关于 Grafana&lt;/h2&gt;
+&lt;p&gt;Grafana 是一个跨平台的开源的度量分析和可视化工具，可以通过将采集的数据查询然后可视化的展示，并及时通知。由于云监控的 Grafana 还没有支持告警，所以我们这里只用了 Grafana 的可视化功能，而告警本身就是云监控自带的，所以也不需要依赖 Grafana 来实现。而我们的 Prometheus 也使用了 Grafana 进行数据可视化，所以有现成的 Grafana-Server 使用。&lt;/p&gt;
+&lt;h2 id=&#34;阿里云监控对接-grafana&#34;&gt;阿里云监控对接 Grafana&lt;/h2&gt;
+&lt;p&gt;首先 Grafana 服务的部署方式这里就不做介绍了，请使用较新版本的 Grafana，最好是 5.5.0+。后文中也有我开源的基于阿里云云监控的 Grafana 的 helm chart，可以使用 helm 安装，并会直接导入云监控的指标，这个会在后文中介绍。&lt;/p&gt;
+&lt;h3 id=&#34;安装阿里云监控插件&#34;&gt;安装阿里云监控插件&lt;/h3&gt;
+&lt;p&gt;进入插件目录进行安装&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#24909d&#34;&gt;cd&lt;/span&gt; /var/lib/grafana/plugins/
+git clone https://github.com/aliyun/aliyun-cms-grafana.git 
 service grafana-server restart
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>如果是使用 docker 或者部署在 k8s 集群，这里也可以使用环境变量在 Grafana 部署的时候进行安装&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="color:#447fcf;text-decoration:underline">...&lt;/span>&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">spec&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">containers&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>- &lt;span style="color:#6ab825;font-weight:bold">env&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>- &lt;span style="color:#6ab825;font-weight:bold">name&lt;/span>:&lt;span style="color:#666"> &lt;/span>GF_INSTALL_PLUGINS &lt;span style="color:#666"> &lt;/span>&lt;span style="color:#999;font-style:italic"># 多个插件请使用,隔开&lt;/span>&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">value&lt;/span>:&lt;span style="color:#666"> &lt;/span>grafana-simple-json-datasource,https://github.com/aliyun/aliyun-cms-grafana/archive/master.zip;aliyun-cms-grafana&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#447fcf;text-decoration:underline">...&lt;/span>&lt;span style="color:#666">
-&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>您也可以下载 aliyun-cms-grafana.zip 插件解压后，上传服务器的 Grafana 的 plugins 目录下，重启 grafana-server 即可。&lt;/p>
-&lt;h3 id="配置云监控-datasource">配置云监控 DataSource&lt;/h3>
-&lt;ol>
-&lt;li>Grafana 启动后，进入 &lt;code>Configuration&lt;/code> 页面，选择 &lt;code>DataSource&lt;/code> Tab 页，单击右上方的&lt;code>Add data source&lt;/code>，添加数据源。&lt;/li>
-&lt;li>选中&lt;code>CMS Grafana Service&lt;/code>，单击&lt;code>select&lt;/code>。
-&lt;img src="https://tvax2.sinaimg.cn/large/ad5fbf65gy1g8ph0ukr0pj21nm0jk76m.jpg" alt="image">&lt;/li>
-&lt;li>填写配置项，URL 根据云监控所在地域填写，并且填写阿里云账号的 accessKeyId 和 accessSecret，完成后单击&lt;code>Save&amp;amp;Test&lt;/code>。
-&lt;img src="https://tvax3.sinaimg.cn/large/ad5fbf65gy1g8ph4bg2bij218m194n9f.jpg" alt="image">&lt;/li>
-&lt;/ol>
-&lt;h3 id="创建-dashboard">创建 Dashboard&lt;/h3>
-&lt;ol>
-&lt;li>单击 &lt;code>Create&lt;/code> -&amp;gt; &lt;code>Dashboard&lt;/code> -&amp;gt; &lt;code>Add Query&lt;/code>&lt;/li>
-&lt;li>配置图标，数据源选择之前添加的 &lt;code>CMS Grafana Service&lt;/code>，然后文档中的配置项填入指标即可（这里要注意的是，云监控 API 给返回的只有实例 ID，并没有自定义的实例名称，这里需要手动将其填入 &lt;code>Y - column describe&lt;/code> 中；而且只支持输入单个 Dimension，若输入多个，默认选第一个，由于这些问题才有了后续我开发的 &lt;code>cms-grafana-builder&lt;/code> 的动机）。
-&lt;img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1g8phck0irbj22ye13in79.jpg" alt="image">&lt;/li>
-&lt;li>配置参考 &lt;a href="https://help.aliyun.com/document_detail/28619.html">云产品监控项&lt;/a>，
-&lt;img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1g8phg832uvj21a40vo793.jpg" alt="image">&lt;/li>
-&lt;/ol>
-&lt;h2 id="使用-helm-chart-的方式部署-grafana">使用 helm chart 的方式部署 Grafana&lt;/h2>
-&lt;p>项目地址：https://github.com/sunny0826/cms-grafana-builder&lt;/p>
-&lt;h3 id="cms-grafana-builder">cms-grafana-builder&lt;/h3>
-&lt;p>由于上文中的问题，我们需要手动选择每个实例 ID 到 Dimension 中，并且还要讲该实例的名称键入 &lt;code>Y - column describe&lt;/code> 中，十分的繁琐，根本不可能大批量的输入。&lt;/p>
-&lt;p>这就是我开发这个 Grafana 指标参数生成器的原因，起初只是一个 python 脚本，用来将我们要监控的指标组装成一个 Grafana 可以使用 json 文件，之后结合 Grafana 的容器化部署方法，将其做成了一个 helm chart。可以在启动的时候自动将需要的参数生成，并且每日会对所有指标进行更新，这样就不用每次新购或者释放掉资源后还需要再跑一遍脚本。&lt;/p>
-&lt;h3 id="部署">部署&lt;/h3>
-&lt;p>只需要将项目拉取下来运行 &lt;code>helm install&lt;/code> 命令&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">helm install my-release kk-grafana-cms &lt;span style="color:#ed9d13">\
-&lt;/span>&lt;span style="color:#ed9d13">&lt;/span>--namespace {your_namespace} &lt;span style="color:#ed9d13">\
-&lt;/span>&lt;span style="color:#ed9d13">&lt;/span>--set &lt;span style="color:#40ffff">access_key_id&lt;/span>={your_access_key_id} &lt;span style="color:#ed9d13">\
-&lt;/span>&lt;span style="color:#ed9d13">&lt;/span>--set &lt;span style="color:#40ffff">access_secret&lt;/span>={your_access_secret} &lt;span style="color:#ed9d13">\
-&lt;/span>&lt;span style="color:#ed9d13">&lt;/span>--set &lt;span style="color:#40ffff">region_id&lt;/span>={your_aliyun_region_id} &lt;span style="color:#ed9d13">\
-&lt;/span>&lt;span style="color:#ed9d13">&lt;/span>--set &lt;span style="color:#40ffff">password&lt;/span>={admin_password}
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>更多详情见 &lt;a href="https://github.com/sunny0826/cms-grafana-builder">github README&lt;/a>，欢迎提 issue 交流。&lt;/p>
-&lt;h3 id="指标选择">指标选择&lt;/h3>
-&lt;p>在部署成功后，可修改 ConfigMap：&lt;code>grafana-cms-metric&lt;/code>，然后修改对应的监控指标项。&lt;/p>
-&lt;h3 id="效果">效果&lt;/h3>
-&lt;p>ECS:
-&lt;img src="https://tvax1.sinaimg.cn/large/ad5fbf65gy1g8pi9toh3dj21gv0pldyf.jpg" alt="">&lt;/p>
-&lt;p>RDS:
-&lt;img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1g8pi9o91ejj21h80q316p.jpg" alt="">&lt;/p>
-&lt;p>EIP:
-&lt;img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1g8pi9i9if3j21h70q3aif.jpg" alt="">&lt;/p>
-&lt;p>Redis:
-&lt;img src="https://tvax1.sinaimg.cn/large/ad5fbf65gy1g8pi8ss733j21h30pz7b6.jpg" alt="">&lt;/p>
-&lt;h2 id="后记">后记&lt;/h2>
-&lt;p>为了满足公司需求，后续还开发 DataSource 定制部分，用于公司监控大屏的展示，这部分是另一个项目，不在这个项目里，就不细说了，之后有机会总结后再进行分享。&lt;/p></description></item></channel></rss>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如果是使用 docker 或者部署在 k8s 集群，这里也可以使用环境变量在 Grafana 部署的时候进行安装&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;...&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;spec&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;containers&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;env&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;GF_INSTALL_PLUGINS &lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 多个插件请使用,隔开&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;value&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;grafana-simple-json-datasource,https://github.com/aliyun/aliyun-cms-grafana/archive/master.zip;aliyun-cms-grafana&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;...&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;您也可以下载 aliyun-cms-grafana.zip 插件解压后，上传服务器的 Grafana 的 plugins 目录下，重启 grafana-server 即可。&lt;/p&gt;
+&lt;h3 id=&#34;配置云监控-datasource&#34;&gt;配置云监控 DataSource&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;Grafana 启动后，进入 &lt;code&gt;Configuration&lt;/code&gt; 页面，选择 &lt;code&gt;DataSource&lt;/code&gt; Tab 页，单击右上方的&lt;code&gt;Add data source&lt;/code&gt;，添加数据源。&lt;/li&gt;
+&lt;li&gt;选中&lt;code&gt;CMS Grafana Service&lt;/code&gt;，单击&lt;code&gt;select&lt;/code&gt;。
+&lt;img src=&#34;https://tvax2.sinaimg.cn/large/ad5fbf65gy1g8ph0ukr0pj21nm0jk76m.jpg&#34; alt=&#34;image&#34;&gt;&lt;/li&gt;
+&lt;li&gt;填写配置项，URL 根据云监控所在地域填写，并且填写阿里云账号的 accessKeyId 和 accessSecret，完成后单击&lt;code&gt;Save&amp;amp;Test&lt;/code&gt;。
+&lt;img src=&#34;https://tvax3.sinaimg.cn/large/ad5fbf65gy1g8ph4bg2bij218m194n9f.jpg&#34; alt=&#34;image&#34;&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;创建-dashboard&#34;&gt;创建 Dashboard&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;单击 &lt;code&gt;Create&lt;/code&gt; -&amp;gt; &lt;code&gt;Dashboard&lt;/code&gt; -&amp;gt; &lt;code&gt;Add Query&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;配置图标，数据源选择之前添加的 &lt;code&gt;CMS Grafana Service&lt;/code&gt;，然后文档中的配置项填入指标即可（这里要注意的是，云监控 API 给返回的只有实例 ID，并没有自定义的实例名称，这里需要手动将其填入 &lt;code&gt;Y - column describe&lt;/code&gt; 中；而且只支持输入单个 Dimension，若输入多个，默认选第一个，由于这些问题才有了后续我开发的 &lt;code&gt;cms-grafana-builder&lt;/code&gt; 的动机）。
+&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1g8phck0irbj22ye13in79.jpg&#34; alt=&#34;image&#34;&gt;&lt;/li&gt;
+&lt;li&gt;配置参考 &lt;a href=&#34;https://help.aliyun.com/document_detail/28619.html&#34;&gt;云产品监控项&lt;/a&gt;，
+&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g8phg832uvj21a40vo793.jpg&#34; alt=&#34;image&#34;&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;使用-helm-chart-的方式部署-grafana&#34;&gt;使用 helm chart 的方式部署 Grafana&lt;/h2&gt;
+&lt;p&gt;项目地址：https://github.com/sunny0826/cms-grafana-builder&lt;/p&gt;
+&lt;h3 id=&#34;cms-grafana-builder&#34;&gt;cms-grafana-builder&lt;/h3&gt;
+&lt;p&gt;由于上文中的问题，我们需要手动选择每个实例 ID 到 Dimension 中，并且还要讲该实例的名称键入 &lt;code&gt;Y - column describe&lt;/code&gt; 中，十分的繁琐，根本不可能大批量的输入。&lt;/p&gt;
+&lt;p&gt;这就是我开发这个 Grafana 指标参数生成器的原因，起初只是一个 python 脚本，用来将我们要监控的指标组装成一个 Grafana 可以使用 json 文件，之后结合 Grafana 的容器化部署方法，将其做成了一个 helm chart。可以在启动的时候自动将需要的参数生成，并且每日会对所有指标进行更新，这样就不用每次新购或者释放掉资源后还需要再跑一遍脚本。&lt;/p&gt;
+&lt;h3 id=&#34;部署&#34;&gt;部署&lt;/h3&gt;
+&lt;p&gt;只需要将项目拉取下来运行 &lt;code&gt;helm install&lt;/code&gt; 命令&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;helm install my-release kk-grafana-cms &lt;span style=&#34;color:#ed9d13&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;--namespace {your_namespace} &lt;span style=&#34;color:#ed9d13&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;--set &lt;span style=&#34;color:#40ffff&#34;&gt;access_key_id&lt;/span&gt;={your_access_key_id} &lt;span style=&#34;color:#ed9d13&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;--set &lt;span style=&#34;color:#40ffff&#34;&gt;access_secret&lt;/span&gt;={your_access_secret} &lt;span style=&#34;color:#ed9d13&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;--set &lt;span style=&#34;color:#40ffff&#34;&gt;region_id&lt;/span&gt;={your_aliyun_region_id} &lt;span style=&#34;color:#ed9d13&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;--set &lt;span style=&#34;color:#40ffff&#34;&gt;password&lt;/span&gt;={admin_password}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;更多详情见 &lt;a href=&#34;https://github.com/sunny0826/cms-grafana-builder&#34;&gt;github README&lt;/a&gt;，欢迎提 issue 交流。&lt;/p&gt;
+&lt;h3 id=&#34;指标选择&#34;&gt;指标选择&lt;/h3&gt;
+&lt;p&gt;在部署成功后，可修改 ConfigMap：&lt;code&gt;grafana-cms-metric&lt;/code&gt;，然后修改对应的监控指标项。&lt;/p&gt;
+&lt;h3 id=&#34;效果&#34;&gt;效果&lt;/h3&gt;
+&lt;p&gt;ECS:
+&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65gy1g8pi9toh3dj21gv0pldyf.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;RDS:
+&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g8pi9o91ejj21h80q316p.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;EIP:
+&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1g8pi9i9if3j21h70q3aif.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Redis:
+&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65gy1g8pi8ss733j21h30pz7b6.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;后记&#34;&gt;后记&lt;/h2&gt;
+&lt;p&gt;为了满足公司需求，后续还开发 DataSource 定制部分，用于公司监控大屏的展示，这部分是另一个项目，不在这个项目里，就不细说了，之后有机会总结后再进行分享。&lt;/p&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>

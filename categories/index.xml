@@ -1,1 +1,19 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Guo Xudong's Blog·郭旭东的博客 – Categories</title><link>https://guoxudong.io/categories/</link><description>Recent content in Categories on Guo Xudong's Blog·郭旭东的博客</description><generator>Hugo -- gohugo.io</generator><language>zh</language><lastBuildDate>Tue, 06 Apr 2021 09:40:41 +0800</lastBuildDate><atom:link href="https://guoxudong.io/categories/index.xml" rel="self" type="application/rss+xml"/></channel></rss>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Guo Xudong&#39;s Blog·郭旭东的博客 – Categories</title>
+    <link>https://guoxudong.io/categories/</link>
+    <description>Recent content in Categories on Guo Xudong&#39;s Blog·郭旭东的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Tue, 06 Apr 2021 09:40:41 +0800</lastBuildDate>
+    
+	  <atom:link href="https://guoxudong.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+  </channel>
+</rss>

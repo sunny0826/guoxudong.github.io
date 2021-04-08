@@ -1,425 +1,486 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Guo Xudong's Blog·郭旭东的博客 – OAM</title><link>https://guoxudong.io/categories/oam/</link><description>Recent content in OAM on Guo Xudong's Blog·郭旭东的博客</description><generator>Hugo -- gohugo.io</generator><language>zh</language><lastBuildDate>Tue, 06 Apr 2021 09:40:41 +0800</lastBuildDate><atom:link href="https://guoxudong.io/categories/oam/index.xml" rel="self" type="application/rss+xml"/><item><title>Post: 让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</title><link>https://guoxudong.io/post/kubevela-1-0/</link><pubDate>Tue, 06 Apr 2021 09:40:41 +0800</pubDate><guid>https://guoxudong.io/post/kubevela-1-0/</guid><description>
-&lt;h2 id="背景">背景&lt;/h2>
-&lt;p>在去年的 KubeCon+CloudNativeCon 2020 北美峰会上，来自 CNCF 应用交付领域小组（CNCF SIG App Delivery) 与 Open Application Model (OAM) 社区，以及阿里云、Azure 的 OAM 项目维护者正式宣布了 KubeVela 开源项目的发布。笔者有幸作为初创成员参与到 kubeVela 的早期开发中，见证了 KubeVela 的诞生及高速发展。就在3月份的最后一天，KubeVela 迎来的 1.0 版本。&lt;/p>
-&lt;h2 id="kubevela-与-oam">KubeVela 与 OAM&lt;/h2>
-&lt;p>从 KubeVela 诞生的第一天起，就有很多朋友询问 KubeVela 和 OAM 的关系。OAM 是一种&lt;strong>标准模型&lt;/strong>，不同的团队可以基于这个标准模型开发出不同的实现；而 KubeVela 则是 OAM 标准模型的实现，是&lt;strong>一个简单易用且高度可扩展的应用管理平台与核心引擎&lt;/strong>。&lt;/p>
-&lt;h2 id="kubevela-给-kubernetes-插上翅膀">KubeVela 给 Kubernetes 插上翅膀&lt;/h2>
-&lt;p>Kubernetes 本身十分灵活且功能丰富，但正是由于其灵活多变，导致了复杂度及管理难度的直线上升。在实践中，如没有一个统一的标准，全面使用 Kubernetes 一段时间后，集群将变的十分复杂且难以维护，并且随着人员变动或核心成员的离开，集群很可能会陷入无人敢动，无法维护的境地。&lt;/p>
-&lt;p>为了规避这种情况，各个公司的平台团队会基于 Kubernetes 开发自己的 PaaS 平台，平台团队通过“限制” Kubernetes 的能力，只放出有限的字段供业务团队使用，也就是基于自己的使用场景定制化开发一个上层平台，这样只是重复的造轮子且极大的限制了 Kubernetes 本身的拓展性。&lt;/p>
-&lt;p>&lt;img src="https://tvax4.sinaimg.cn/large/ad5fbf65gy1gp9ucbg6zbj21b60qi12v.jpg" alt="传统 PaaS 的能力困境">&lt;/p>
-&lt;p>KubeVela 的出现很好的解决了这些问题。&lt;/p>
-&lt;h3 id="高度拓展-kubernetes打破传统-paas-的限制">高度拓展 Kubernetes，打破传统 PaaS 的限制&lt;/h3>
-&lt;p>OAM 的出现提供了一种可拓展、方便快捷的将 Kubernetes 的能力进行组装与合成的能力。在原生 Kubernetes 中，搭建一个简单的 web 应用至少需要一个 Deployment 和一个 Service，它们之间通过 labels 进行绑定，所以在 Deployment 的描述文件中，无法看到是哪个 Service 绑定了它，同理 service 也无法在描述文件中看到它绑定了哪个 Deployment，而这还只是最简单的场景，如果 Deployment 还挂载了 PVC、ConfigMap 和 Secrets 呢？如果 Service 还绑定了多个 Ingress 呢？&lt;/p>
-&lt;p>所以传统基于 Kubernetes 的 PaaS 平台会根据平台本身的某种垂直场景来制定一些内部的标准并提供部分 Kubernetes 的能力。而 KubeVela 打破了这些限制，KubeVela 为 Kubernetes 增加了一层抽象，平台团队只需定制自己的 &lt;code>ComponentDefinition&lt;/code> 及 &lt;code>Traits&lt;/code> 即可将 Kubernetes 的能力开放给应用研发团队，开发团队只需要编写一个 docker-compose 风格应用描述文件 &lt;code>Appfile&lt;/code> 即可，不需要接触和学习任何 Kubernetes 层的相关细节。同时社区也会有很多现成的模板供用户使用，每个模板都像插件一样可以轻松的“安装”与“卸载”。&lt;/p>
-&lt;p>&lt;img src="https://tvax3.sinaimg.cn/large/ad5fbf65gy1gpa43rkaq9j21em0qadll.jpg" alt="">&lt;/p>
-&lt;p>而作为应用的管理和维护者，可以轻松的从 &lt;code>Application&lt;/code> 这个 CR 中查看应用都包含哪些组件与运维特性，极大的提升了应用的可描述性及可维护性，非常方便新人接手运维以及问题排查。让云原生真正走进 &lt;strong>“以应用为中心”&lt;/strong> 的时代。&lt;/p>
-&lt;h3 id="多种模式纳管全部-kubernetes-资源">多种模式，纳管全部 Kubernetes 资源&lt;/h3>
-&lt;p>此次 KubeVela 的 v1.0 版本较之 v0.X 版本最大的亮点除了 API 版本升级至 &lt;code>v1beta1&lt;/code>，标志着 API Resource 基本稳定以外，最大的亮点就是支持 CUE 、Helm 和原生 Kubernetes 资源模板三种应用抽象模式。&lt;/p>
-&lt;p>CUE 是一门强大的 DSL 语言，其专为大规模配置而设计，借助 CUE 用户可以定制非常复杂的模板，十分适合用来定义抽象模板。关于 CUE 的更多内容见&lt;a href="https://kubevela.io/zh/docs/cue/basic">官方文档&lt;/a>，这里不做详细介绍。&lt;/p>
-&lt;p>而在 v1.0 版本中最大的惊喜则是支持纳管 Helm 为 &lt;code>ComponentDefinition&lt;/code>。在实际场景中，常常会用到 Helm 来部署第三方应用，但 Helm chart 本身是一个黑盒，如果有一些定制需求则需要手动去修改 Helm chart 的 template，十分的痛苦。而 KubeVela 1.0 版本提供了纳管 Helm chart 的功能，通过如下代码即可将一个 &lt;code>elasticsearch&lt;/code> 的 Helm chart 定义为 &lt;code>ComponentDefinition&lt;/code>：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="color:#6ab825;font-weight:bold">apiVersion&lt;/span>:&lt;span style="color:#666"> &lt;/span>core.oam.dev/v1beta1&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">kind&lt;/span>:&lt;span style="color:#666"> &lt;/span>ComponentDefinition&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">metadata&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">name&lt;/span>:&lt;span style="color:#666"> &lt;/span>elasticsearch-chart&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">annotations&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">definition.oam.dev/description&lt;/span>:&lt;span style="color:#666"> &lt;/span>helm chart for elasticsearch&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">spec&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">workload&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">definition&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">apiVersion&lt;/span>:&lt;span style="color:#666"> &lt;/span>apps/v1&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">kind&lt;/span>:&lt;span style="color:#666"> &lt;/span>StatefulSet&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">schematic&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">helm&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">release&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">chart&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">spec&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">chart&lt;/span>:&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#ed9d13">&amp;#34;elasticsearch&amp;#34;&lt;/span>&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">version&lt;/span>:&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#ed9d13">&amp;#34;7.11.1&amp;#34;&lt;/span>&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">repository&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">url&lt;/span>:&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#ed9d13">&amp;#34;https://helm.elastic.co/&amp;#34;&lt;/span>&lt;span style="color:#666">
-&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>使用同样的方式定义一个 kibana 的 &lt;code>ComponentDefinition&lt;/code>，即可轻松的描述一个 &lt;code>elasticsearch&lt;/code> + &lt;code>kibana&lt;/code> 的应用：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="color:#6ab825;font-weight:bold">apiVersion&lt;/span>:&lt;span style="color:#666"> &lt;/span>core.oam.dev/v1beta1&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">kind&lt;/span>:&lt;span style="color:#666"> &lt;/span>Application&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">metadata&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">name&lt;/span>:&lt;span style="color:#666"> &lt;/span>elasticsearch&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">namespace&lt;/span>:&lt;span style="color:#666"> &lt;/span>default&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">spec&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">components&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>- &lt;span style="color:#6ab825;font-weight:bold">name&lt;/span>:&lt;span style="color:#666"> &lt;/span>elasticsearch-web&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">type&lt;/span>:&lt;span style="color:#666"> &lt;/span>elasticsearch-chart&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">properties&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">imageTag&lt;/span>:&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#ed9d13">&amp;#34;7.11.1&amp;#34;&lt;/span>&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">replicas&lt;/span>:&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#3677a9">1&lt;/span>&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">volumeClaimTemplate&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">accessModes&lt;/span>:&lt;span style="color:#666"> &lt;/span>[&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#ed9d13">&amp;#34;ReadWriteOnce&amp;#34;&lt;/span>&lt;span style="color:#666"> &lt;/span>]&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">resources&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">requests&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">storage&lt;/span>:&lt;span style="color:#666"> &lt;/span>20Gi&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">fullnameOverride&lt;/span>:&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#ed9d13">&amp;#34;elasticsearch-web&amp;#34;&lt;/span>&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>- &lt;span style="color:#6ab825;font-weight:bold">name&lt;/span>:&lt;span style="color:#666"> &lt;/span>kibana-test&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">type&lt;/span>:&lt;span style="color:#666"> &lt;/span>kibana-chart&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">properties&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">fullnameOverride&lt;/span>:&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#ed9d13">&amp;#34;kibana-web&amp;#34;&lt;/span>&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">elasticsearchHosts&lt;/span>:&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#ed9d13">&amp;#34;http://elasticsearch-web:9200&amp;#34;&lt;/span>&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">imageTag&lt;/span>:&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#ed9d13">&amp;#34;7.11.1&amp;#34;&lt;/span>&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">traits&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>- &lt;span style="color:#6ab825;font-weight:bold">type&lt;/span>:&lt;span style="color:#666"> &lt;/span>ingress&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">properties&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">domain&lt;/span>:&lt;span style="color:#666"> &lt;/span>kibana.guoxudong.io&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">http&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">&amp;#34;/&amp;#34;: &lt;/span>&lt;span style="color:#3677a9">5610&lt;/span>&lt;span style="color:#666">
-&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Helm chart 中所有 value 值都可以在 &lt;code>properties&lt;/code> 进行定义，同时还可以为 components 绑定已经定义好的 Trait（运维特性），无需修改 Helm chart 本身的 template，非常方便！&lt;/p>
-&lt;p>如果只是开放一些简单的参数，则可以使用原生 Kubernetes 资源模板，虽然没有 CUE 那么灵活，但是可以快速上手且无缝对接 Trait 的能力，非常适合一些简单的场景。&lt;/p>
-&lt;p>同时在 1.0 版本，所有的抽象定义都会自动生成 &lt;code>Open-API-v3&lt;/code> 架构 JSON 格式的表单数据，方便前端进行集成。无论是 CUE、Helm 还是原生 Kubernetes 资源模板，都会已生成一个名为 &lt;code>schema-&amp;lt;your-definition-name&amp;gt;&lt;/code> 的 ConfigMap，其中的 key &lt;code>openapi-v3-json-schema&lt;/code> 的值就是 JSON 格式的参数，可以非常方便生成一个前端表单供平台和应用团队使用，效果如下：&lt;/p>
-&lt;p>&lt;img src="https://tvax3.sinaimg.cn/large/ad5fbf65gy1gp9zsaw9cxj21cn0ebdhd.jpg" alt="">&lt;/p>
-&lt;p>查看 ConfigMap 内容：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ kubectl get configmaps schema-webservice -n vela-system -o &lt;span style="color:#40ffff">jsonpath&lt;/span>=&lt;span style="color:#ed9d13">&amp;#34;{.data.openapi-v3-json-schema}&amp;#34;&lt;/span> | jq .
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Guo Xudong&#39;s Blog·郭旭东的博客 – OAM</title>
+    <link>https://guoxudong.io/categories/oam/</link>
+    <description>Recent content in OAM on Guo Xudong&#39;s Blog·郭旭东的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Tue, 06 Apr 2021 09:40:41 +0800</lastBuildDate>
+    
+	  <atom:link href="https://guoxudong.io/categories/oam/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Post: 让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</title>
+      <link>https://guoxudong.io/post/kubevela-1-0/</link>
+      <pubDate>Tue, 06 Apr 2021 09:40:41 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/kubevela-1-0/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;背景&#34;&gt;背景&lt;/h2&gt;
+&lt;p&gt;在去年的 KubeCon+CloudNativeCon 2020 北美峰会上，来自 CNCF 应用交付领域小组（CNCF SIG App Delivery) 与 Open Application Model (OAM) 社区，以及阿里云、Azure 的 OAM 项目维护者正式宣布了 KubeVela 开源项目的发布。笔者有幸作为初创成员参与到 kubeVela 的早期开发中，见证了 KubeVela 的诞生及高速发展。就在3月份的最后一天，KubeVela 迎来的 1.0 版本。&lt;/p&gt;
+&lt;h2 id=&#34;kubevela-与-oam&#34;&gt;KubeVela 与 OAM&lt;/h2&gt;
+&lt;p&gt;从 KubeVela 诞生的第一天起，就有很多朋友询问 KubeVela 和 OAM 的关系。OAM 是一种&lt;strong&gt;标准模型&lt;/strong&gt;，不同的团队可以基于这个标准模型开发出不同的实现；而 KubeVela 则是 OAM 标准模型的实现，是&lt;strong&gt;一个简单易用且高度可扩展的应用管理平台与核心引擎&lt;/strong&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;kubevela-给-kubernetes-插上翅膀&#34;&gt;KubeVela 给 Kubernetes 插上翅膀&lt;/h2&gt;
+&lt;p&gt;Kubernetes 本身十分灵活且功能丰富，但正是由于其灵活多变，导致了复杂度及管理难度的直线上升。在实践中，如没有一个统一的标准，全面使用 Kubernetes 一段时间后，集群将变的十分复杂且难以维护，并且随着人员变动或核心成员的离开，集群很可能会陷入无人敢动，无法维护的境地。&lt;/p&gt;
+&lt;p&gt;为了规避这种情况，各个公司的平台团队会基于 Kubernetes 开发自己的 PaaS 平台，平台团队通过“限制” Kubernetes 的能力，只放出有限的字段供业务团队使用，也就是基于自己的使用场景定制化开发一个上层平台，这样只是重复的造轮子且极大的限制了 Kubernetes 本身的拓展性。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax4.sinaimg.cn/large/ad5fbf65gy1gp9ucbg6zbj21b60qi12v.jpg&#34; alt=&#34;传统 PaaS 的能力困境&#34;&gt;&lt;/p&gt;
+&lt;p&gt;KubeVela 的出现很好的解决了这些问题。&lt;/p&gt;
+&lt;h3 id=&#34;高度拓展-kubernetes打破传统-paas-的限制&#34;&gt;高度拓展 Kubernetes，打破传统 PaaS 的限制&lt;/h3&gt;
+&lt;p&gt;OAM 的出现提供了一种可拓展、方便快捷的将 Kubernetes 的能力进行组装与合成的能力。在原生 Kubernetes 中，搭建一个简单的 web 应用至少需要一个 Deployment 和一个 Service，它们之间通过 labels 进行绑定，所以在 Deployment 的描述文件中，无法看到是哪个 Service 绑定了它，同理 service 也无法在描述文件中看到它绑定了哪个 Deployment，而这还只是最简单的场景，如果 Deployment 还挂载了 PVC、ConfigMap 和 Secrets 呢？如果 Service 还绑定了多个 Ingress 呢？&lt;/p&gt;
+&lt;p&gt;所以传统基于 Kubernetes 的 PaaS 平台会根据平台本身的某种垂直场景来制定一些内部的标准并提供部分 Kubernetes 的能力。而 KubeVela 打破了这些限制，KubeVela 为 Kubernetes 增加了一层抽象，平台团队只需定制自己的 &lt;code&gt;ComponentDefinition&lt;/code&gt; 及 &lt;code&gt;Traits&lt;/code&gt; 即可将 Kubernetes 的能力开放给应用研发团队，开发团队只需要编写一个 docker-compose 风格应用描述文件 &lt;code&gt;Appfile&lt;/code&gt; 即可，不需要接触和学习任何 Kubernetes 层的相关细节。同时社区也会有很多现成的模板供用户使用，每个模板都像插件一样可以轻松的“安装”与“卸载”。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax3.sinaimg.cn/large/ad5fbf65gy1gpa43rkaq9j21em0qadll.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;而作为应用的管理和维护者，可以轻松的从 &lt;code&gt;Application&lt;/code&gt; 这个 CR 中查看应用都包含哪些组件与运维特性，极大的提升了应用的可描述性及可维护性，非常方便新人接手运维以及问题排查。让云原生真正走进 &lt;strong&gt;“以应用为中心”&lt;/strong&gt; 的时代。&lt;/p&gt;
+&lt;h3 id=&#34;多种模式纳管全部-kubernetes-资源&#34;&gt;多种模式，纳管全部 Kubernetes 资源&lt;/h3&gt;
+&lt;p&gt;此次 KubeVela 的 v1.0 版本较之 v0.X 版本最大的亮点除了 API 版本升级至 &lt;code&gt;v1beta1&lt;/code&gt;，标志着 API Resource 基本稳定以外，最大的亮点就是支持 CUE 、Helm 和原生 Kubernetes 资源模板三种应用抽象模式。&lt;/p&gt;
+&lt;p&gt;CUE 是一门强大的 DSL 语言，其专为大规模配置而设计，借助 CUE 用户可以定制非常复杂的模板，十分适合用来定义抽象模板。关于 CUE 的更多内容见&lt;a href=&#34;https://kubevela.io/zh/docs/cue/basic&#34;&gt;官方文档&lt;/a&gt;，这里不做详细介绍。&lt;/p&gt;
+&lt;p&gt;而在 v1.0 版本中最大的惊喜则是支持纳管 Helm 为 &lt;code&gt;ComponentDefinition&lt;/code&gt;。在实际场景中，常常会用到 Helm 来部署第三方应用，但 Helm chart 本身是一个黑盒，如果有一些定制需求则需要手动去修改 Helm chart 的 template，十分的痛苦。而 KubeVela 1.0 版本提供了纳管 Helm chart 的功能，通过如下代码即可将一个 &lt;code&gt;elasticsearch&lt;/code&gt; 的 Helm chart 定义为 &lt;code&gt;ComponentDefinition&lt;/code&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;core.oam.dev/v1beta1&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;ComponentDefinition&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;elasticsearch-chart&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;annotations&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;definition.oam.dev/description&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;helm chart for elasticsearch&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;spec&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;workload&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;definition&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;apps/v1&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;StatefulSet&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;schematic&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;helm&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;release&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;chart&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;spec&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;chart&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;elasticsearch&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;version&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;7.11.1&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;repository&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;url&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;https://helm.elastic.co/&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;使用同样的方式定义一个 kibana 的 &lt;code&gt;ComponentDefinition&lt;/code&gt;，即可轻松的描述一个 &lt;code&gt;elasticsearch&lt;/code&gt; + &lt;code&gt;kibana&lt;/code&gt; 的应用：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;core.oam.dev/v1beta1&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Application&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;elasticsearch&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;namespace&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;default&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;spec&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;components&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;elasticsearch-web&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;type&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;elasticsearch-chart&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;properties&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; 
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;imageTag&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;7.11.1&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;replicas&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;volumeClaimTemplate&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;accessModes&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;[&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;ReadWriteOnce&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;]&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;resources&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;requests&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;storage&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;20Gi&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;fullnameOverride&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;elasticsearch-web&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;kibana-test&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;type&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;kibana-chart&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;properties&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; 
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;fullnameOverride&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;kibana-web&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;elasticsearchHosts&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;http://elasticsearch-web:9200&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;imageTag&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;7.11.1&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;traits&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;type&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;ingress&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;properties&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;domain&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;kibana.guoxudong.io&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;http&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;/&amp;#34;: &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;5610&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Helm chart 中所有 value 值都可以在 &lt;code&gt;properties&lt;/code&gt; 进行定义，同时还可以为 components 绑定已经定义好的 Trait（运维特性），无需修改 Helm chart 本身的 template，非常方便！&lt;/p&gt;
+&lt;p&gt;如果只是开放一些简单的参数，则可以使用原生 Kubernetes 资源模板，虽然没有 CUE 那么灵活，但是可以快速上手且无缝对接 Trait 的能力，非常适合一些简单的场景。&lt;/p&gt;
+&lt;p&gt;同时在 1.0 版本，所有的抽象定义都会自动生成 &lt;code&gt;Open-API-v3&lt;/code&gt; 架构 JSON 格式的表单数据，方便前端进行集成。无论是 CUE、Helm 还是原生 Kubernetes 资源模板，都会已生成一个名为 &lt;code&gt;schema-&amp;lt;your-definition-name&amp;gt;&lt;/code&gt; 的 ConfigMap，其中的 key  &lt;code&gt;openapi-v3-json-schema&lt;/code&gt; 的值就是 JSON 格式的参数，可以非常方便生成一个前端表单供平台和应用团队使用，效果如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax3.sinaimg.cn/large/ad5fbf65gy1gp9zsaw9cxj21cn0ebdhd.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;查看 ConfigMap 内容：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl get configmaps schema-webservice  -n vela-system  -o &lt;span style=&#34;color:#40ffff&#34;&gt;jsonpath&lt;/span&gt;=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;{.data.openapi-v3-json-schema}&amp;#34;&lt;/span&gt; | jq .
 {
-&lt;span style="color:#ed9d13">&amp;#34;properties&amp;#34;&lt;/span>: {
-&lt;span style="color:#ed9d13">&amp;#34;addRevisionLabel&amp;#34;&lt;/span>: {
-&lt;span style="color:#ed9d13">&amp;#34;default&amp;#34;&lt;/span>: false,
-&lt;span style="color:#ed9d13">&amp;#34;description&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;If addRevisionLabel is true, the appRevision label will be added to the underlying pods&amp;#34;&lt;/span>,
-&lt;span style="color:#ed9d13">&amp;#34;title&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;addRevisionLabel&amp;#34;&lt;/span>,
-&lt;span style="color:#ed9d13">&amp;#34;type&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;boolean&amp;#34;&lt;/span>
-},
-&lt;span style="color:#ed9d13">&amp;#34;cmd&amp;#34;&lt;/span>: {
-&lt;span style="color:#ed9d13">&amp;#34;description&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;Commands to run in the container&amp;#34;&lt;/span>,
-&lt;span style="color:#ed9d13">&amp;#34;items&amp;#34;&lt;/span>: {
-&lt;span style="color:#ed9d13">&amp;#34;type&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;string&amp;#34;&lt;/span>
-},
-&lt;span style="color:#ed9d13">&amp;#34;title&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;cmd&amp;#34;&lt;/span>,
-&lt;span style="color:#ed9d13">&amp;#34;type&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;array&amp;#34;&lt;/span>
-},
-&lt;span style="color:#ed9d13">&amp;#34;cpu&amp;#34;&lt;/span>: {
-&lt;span style="color:#ed9d13">&amp;#34;description&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;Number of CPU units for the service, like `0.5` (0.5 CPU core), `1` (1 CPU core)&amp;#34;&lt;/span>,
-&lt;span style="color:#ed9d13">&amp;#34;title&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;cpu&amp;#34;&lt;/span>,
-&lt;span style="color:#ed9d13">&amp;#34;type&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;string&amp;#34;&lt;/span>
-},
-&lt;span style="color:#ed9d13">&amp;#34;env&amp;#34;&lt;/span>: {
-&lt;span style="color:#ed9d13">&amp;#34;description&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;Define arguments by using environment variables&amp;#34;&lt;/span>,
-&lt;span style="color:#ed9d13">&amp;#34;items&amp;#34;&lt;/span>: {
-&lt;span style="color:#ed9d13">&amp;#34;properties&amp;#34;&lt;/span>: {
-&lt;span style="color:#ed9d13">&amp;#34;name&amp;#34;&lt;/span>: {
-&lt;span style="color:#ed9d13">&amp;#34;description&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;Environment variable name&amp;#34;&lt;/span>,
-&lt;span style="color:#ed9d13">&amp;#34;title&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;name&amp;#34;&lt;/span>,
-&lt;span style="color:#ed9d13">&amp;#34;type&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;string&amp;#34;&lt;/span>
-},
-&lt;span style="color:#ed9d13">&amp;#34;value&amp;#34;&lt;/span>: {
-&lt;span style="color:#ed9d13">&amp;#34;description&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;The value of the environment variable&amp;#34;&lt;/span>,
-&lt;span style="color:#ed9d13">&amp;#34;title&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;value&amp;#34;&lt;/span>,
-&lt;span style="color:#ed9d13">&amp;#34;type&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;string&amp;#34;&lt;/span>
-},
-&lt;span style="color:#ed9d13">&amp;#34;valueFrom&amp;#34;&lt;/span>: {
-&lt;span style="color:#ed9d13">&amp;#34;description&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;Specifies a source the value of this var should come from&amp;#34;&lt;/span>,
-&lt;span style="color:#ed9d13">&amp;#34;properties&amp;#34;&lt;/span>: {
-&lt;span style="color:#ed9d13">&amp;#34;secretKeyRef&amp;#34;&lt;/span>: {
-&lt;span style="color:#ed9d13">&amp;#34;description&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;Selects a key of a secret in the pod&amp;#39;s namespace&amp;#34;&lt;/span>,
-&lt;span style="color:#ed9d13">&amp;#34;properties&amp;#34;&lt;/span>: {
-&lt;span style="color:#ed9d13">&amp;#34;key&amp;#34;&lt;/span>: {
-&lt;span style="color:#ed9d13">&amp;#34;description&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;The key of the secret to select from. Must be a valid secret key&amp;#34;&lt;/span>,
-&lt;span style="color:#ed9d13">&amp;#34;title&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;key&amp;#34;&lt;/span>,
-&lt;span style="color:#ed9d13">&amp;#34;type&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;string&amp;#34;&lt;/span>
-},
-&lt;span style="color:#ed9d13">&amp;#34;name&amp;#34;&lt;/span>: {
-&lt;span style="color:#ed9d13">&amp;#34;description&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;The name of the secret in the pod&amp;#39;s namespace to select from&amp;#34;&lt;/span>,
-&lt;span style="color:#ed9d13">&amp;#34;title&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;name&amp;#34;&lt;/span>,
-&lt;span style="color:#ed9d13">&amp;#34;type&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;string&amp;#34;&lt;/span>
+  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;properties&amp;#34;&lt;/span&gt;: {
+    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;addRevisionLabel&amp;#34;&lt;/span&gt;: {
+      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;default&amp;#34;&lt;/span&gt;: false,
+      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;description&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;If addRevisionLabel is true, the appRevision label will be added to the underlying pods&amp;#34;&lt;/span&gt;,
+      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;addRevisionLabel&amp;#34;&lt;/span&gt;,
+      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;boolean&amp;#34;&lt;/span&gt;
+    },
+    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;cmd&amp;#34;&lt;/span&gt;: {
+      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;description&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Commands to run in the container&amp;#34;&lt;/span&gt;,
+      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;items&amp;#34;&lt;/span&gt;: {
+        &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;string&amp;#34;&lt;/span&gt;
+      },
+      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;cmd&amp;#34;&lt;/span&gt;,
+      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;array&amp;#34;&lt;/span&gt;
+    },
+    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;cpu&amp;#34;&lt;/span&gt;: {
+      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;description&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Number of CPU units for the service, like `0.5` (0.5 CPU core), `1` (1 CPU core)&amp;#34;&lt;/span&gt;,
+      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;cpu&amp;#34;&lt;/span&gt;,
+      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;string&amp;#34;&lt;/span&gt;
+    },
+    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;env&amp;#34;&lt;/span&gt;: {
+      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;description&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Define arguments by using environment variables&amp;#34;&lt;/span&gt;,
+      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;items&amp;#34;&lt;/span&gt;: {
+        &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;properties&amp;#34;&lt;/span&gt;: {
+          &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt;: {
+            &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;description&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Environment variable name&amp;#34;&lt;/span&gt;,
+            &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt;,
+            &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;string&amp;#34;&lt;/span&gt;
+          },
+          &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;value&amp;#34;&lt;/span&gt;: {
+            &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;description&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;The value of the environment variable&amp;#34;&lt;/span&gt;,
+            &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;value&amp;#34;&lt;/span&gt;,
+            &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;string&amp;#34;&lt;/span&gt;
+          },
+          &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;valueFrom&amp;#34;&lt;/span&gt;: {
+            &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;description&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Specifies a source the value of this var should come from&amp;#34;&lt;/span&gt;,
+            &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;properties&amp;#34;&lt;/span&gt;: {
+              &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;secretKeyRef&amp;#34;&lt;/span&gt;: {
+                &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;description&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Selects a key of a secret in the pod&amp;#39;s namespace&amp;#34;&lt;/span&gt;,
+                &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;properties&amp;#34;&lt;/span&gt;: {
+                  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;key&amp;#34;&lt;/span&gt;: {
+                    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;description&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;The key of the secret to select from. Must be a valid secret key&amp;#34;&lt;/span&gt;,
+                    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;key&amp;#34;&lt;/span&gt;,
+                    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;string&amp;#34;&lt;/span&gt;
+                  },
+                  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt;: {
+                    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;description&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;The name of the secret in the pod&amp;#39;s namespace to select from&amp;#34;&lt;/span&gt;,
+                    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt;,
+                    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;string&amp;#34;&lt;/span&gt;
+                  }
+                },
+                &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;required&amp;#34;&lt;/span&gt;: [
+                  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt;,
+                  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;key&amp;#34;&lt;/span&gt;
+                ],
+                &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;secretKeyRef&amp;#34;&lt;/span&gt;,
+                &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;object&amp;#34;&lt;/span&gt;
+              }
+            },
+            &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;required&amp;#34;&lt;/span&gt;: [
+              &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;secretKeyRef&amp;#34;&lt;/span&gt;
+            ],
+            &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;valueFrom&amp;#34;&lt;/span&gt;,
+            &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;object&amp;#34;&lt;/span&gt;
+          }
+        },
+        &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;required&amp;#34;&lt;/span&gt;: [
+          &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt;
+        ],
+        &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;object&amp;#34;&lt;/span&gt;
+      },
+      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;env&amp;#34;&lt;/span&gt;,
+      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;array&amp;#34;&lt;/span&gt;
+    },
+    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;image&amp;#34;&lt;/span&gt;: {
+      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;description&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Which image would you like to use for your service&amp;#34;&lt;/span&gt;,
+      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;image&amp;#34;&lt;/span&gt;,
+      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;string&amp;#34;&lt;/span&gt;
+    },
+    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;port&amp;#34;&lt;/span&gt;: {
+      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;default&amp;#34;&lt;/span&gt;: 80,
+      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;description&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Which port do you want customer traffic sent to&amp;#34;&lt;/span&gt;,
+      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;port&amp;#34;&lt;/span&gt;,
+      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;integer&amp;#34;&lt;/span&gt;
+    }
+  },
+  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;required&amp;#34;&lt;/span&gt;: [
+    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;addRevisionLabel&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;image&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;port&amp;#34;&lt;/span&gt;
+  ],
+  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;object&amp;#34;&lt;/span&gt;
 }
-},
-&lt;span style="color:#ed9d13">&amp;#34;required&amp;#34;&lt;/span>: [
-&lt;span style="color:#ed9d13">&amp;#34;name&amp;#34;&lt;/span>,
-&lt;span style="color:#ed9d13">&amp;#34;key&amp;#34;&lt;/span>
-],
-&lt;span style="color:#ed9d13">&amp;#34;title&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;secretKeyRef&amp;#34;&lt;/span>,
-&lt;span style="color:#ed9d13">&amp;#34;type&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;object&amp;#34;&lt;/span>
-}
-},
-&lt;span style="color:#ed9d13">&amp;#34;required&amp;#34;&lt;/span>: [
-&lt;span style="color:#ed9d13">&amp;#34;secretKeyRef&amp;#34;&lt;/span>
-],
-&lt;span style="color:#ed9d13">&amp;#34;title&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;valueFrom&amp;#34;&lt;/span>,
-&lt;span style="color:#ed9d13">&amp;#34;type&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;object&amp;#34;&lt;/span>
-}
-},
-&lt;span style="color:#ed9d13">&amp;#34;required&amp;#34;&lt;/span>: [
-&lt;span style="color:#ed9d13">&amp;#34;name&amp;#34;&lt;/span>
-],
-&lt;span style="color:#ed9d13">&amp;#34;type&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;object&amp;#34;&lt;/span>
-},
-&lt;span style="color:#ed9d13">&amp;#34;title&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;env&amp;#34;&lt;/span>,
-&lt;span style="color:#ed9d13">&amp;#34;type&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;array&amp;#34;&lt;/span>
-},
-&lt;span style="color:#ed9d13">&amp;#34;image&amp;#34;&lt;/span>: {
-&lt;span style="color:#ed9d13">&amp;#34;description&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;Which image would you like to use for your service&amp;#34;&lt;/span>,
-&lt;span style="color:#ed9d13">&amp;#34;title&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;image&amp;#34;&lt;/span>,
-&lt;span style="color:#ed9d13">&amp;#34;type&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;string&amp;#34;&lt;/span>
-},
-&lt;span style="color:#ed9d13">&amp;#34;port&amp;#34;&lt;/span>: {
-&lt;span style="color:#ed9d13">&amp;#34;default&amp;#34;&lt;/span>: 80,
-&lt;span style="color:#ed9d13">&amp;#34;description&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;Which port do you want customer traffic sent to&amp;#34;&lt;/span>,
-&lt;span style="color:#ed9d13">&amp;#34;title&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;port&amp;#34;&lt;/span>,
-&lt;span style="color:#ed9d13">&amp;#34;type&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;integer&amp;#34;&lt;/span>
-}
-},
-&lt;span style="color:#ed9d13">&amp;#34;required&amp;#34;&lt;/span>: [
-&lt;span style="color:#ed9d13">&amp;#34;addRevisionLabel&amp;#34;&lt;/span>,
-&lt;span style="color:#ed9d13">&amp;#34;image&amp;#34;&lt;/span>,
-&lt;span style="color:#ed9d13">&amp;#34;port&amp;#34;&lt;/span>
-],
-&lt;span style="color:#ed9d13">&amp;#34;type&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;object&amp;#34;&lt;/span>
-}
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>基于该功能，通过一条命令，即可在本地浏览器查看 &lt;code>Components Types&lt;/code> 和 &lt;code>Traits&lt;/code> 的文档，效果如下：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ vela show webservice --web
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1gpax5vem5hj22qq202tmu.jpg" alt="CLI 打开文档页面">&lt;/p>
-&lt;h3 id="关注点分离实现真正的-devops">关注点分离，实现真正的 DevOps&lt;/h3>
-&lt;p>关注点分离是 OAM 和 KubeVela 用来解决最终用户与平台团队所面临的困境的方式。&lt;/p>
-&lt;p>对于&lt;strong>最终用户（应用开发团队）&lt;/strong>，KubeVela 是一个简单、易用且高拓展的云原生应用管理工具，其可以让开发者以极低的心智负担和上手成本在 Kubernetes 上部署应用，只需一行命令 &lt;code>vela up&lt;/code> 即可拉起一整套云原生应用。&lt;/p>
-&lt;p>对于&lt;strong>平台团队&lt;/strong>，KubeVela 是一个可以任意扩展的云原生平台内核，平台工程师可以轻松的将 Kubernetes 生态中的能力，通过 KubeVela 以类似插件的形式注入到 Kubernetes 集群中，简单高效且易于维护。&lt;/p>
-&lt;p>&lt;img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1gp9zu2k1iaj20q00ds0yt.jpg" alt="">&lt;/p>
-&lt;p>KubeVela 的出现，终结了应用开发团队和平台开发团队之间的”灰色地带“，大家对各自关注点有了清楚的认知，降低了团队之间的沟通成本及扯皮风险，真正的实现了 DevOps 的理念。&lt;/p>
-&lt;h2 id="功能展望">功能展望&lt;/h2>
-&lt;p>除了上述的功能外，KubeVela v1.0 还提供声明和使用云资源，支持蓝绿和金丝雀发布，使用 Service Mesh 实现多版本多集群部署的能力，以及一些性能的优化、功能的加强及 bug 的修复等。&lt;/p>
-&lt;p>在之后的版本中，KubeVela 还会将 Terraform 集成到核心模板引擎中，以提供使用多种云资源的能力，并会完善各种功能，并&lt;strong>在合适的时候将项目捐献给 CNCF&lt;/strong>。&lt;/p>
-&lt;h2 id="关于社区">关于社区&lt;/h2>
-&lt;p>KubeVela 诞生于 OAM 社区，甚至 KubeVela 这个名字都是由社区用户投票产生的，是真正由社区发起的开源项目。笔者作为社区成员从项目成立之初就参与其中，除了部分功能及代码外，还先后为 KubeVela 制作了两版官方网站并成为了 KubeVela 网站项目 &lt;a href="https://github.com/oam-dev/kubevela.io">kubevela.io&lt;/a> 的 maintainer。&lt;/p>
-&lt;p>KubeVela 社区是一个非常开放的社区，目前还有大量的新功能在规划和实现中，欢迎大家的贡献、使用和反馈。想要参与的同学也可以在项目 &lt;a href="https://github.com/oam-dev/kubevela/issues">issues&lt;/a> 中找到 &lt;code>good first issue&lt;/code> 标签的 issue 完成并提交你的第一个 PR。&lt;/p>
-&lt;h2 id="总结">总结&lt;/h2>
-&lt;p>发布至今 KubeVela 从单一的 CLI 命令行工具，发展成具备强大功能的应用管理平台与核心引擎。在笔者看来，现在的 KubeVela 就像是一套可以随意定制的乐高，用户可以根据自己的需要自由的将所需能力进行组装，这里每一块拼装的部分都可以根据用户喜好进行定制，且这种定制是低成本、可复用的。&lt;/p>
-&lt;p>站在一个应用管理者和维护者的角度，使用了 KubeVela 以后，通过一份描述文件，就可以清楚的看到一个应用到底由几个 workload 组成，每个 workload 都绑定了什么运维能力，大大降低了运维人员的心智负担及重复劳动时间。&lt;/p>
-&lt;p>在 v1.0 版本我们也为 KubeVela 构建了新的官网，更多内容&lt;a href="https://kubevela.io">详见官网&lt;/a>。KubeVela 旨在构建一个面向未来的云原生 PaaS 架构，将横向可扩展性和以应用为中心这些最佳实践带给社区用户，推动甚至引领云原生社区在应用层的发展。&lt;/p>
-&lt;ul>
-&lt;li>KubeVela 官网：https://kubevela.io&lt;/li>
-&lt;li>KubeVela 项目地址：https://github.com/oam-dev/kubevela&lt;/li>
-&lt;/ul>
-&lt;h2 id="参考资料">参考资料&lt;/h2>
-&lt;ul>
-&lt;li>&lt;a href="https://kubevela.io/blog/kubevela-the-extensible-app-platform-based-on-open-application-model-and-kubernetes/">KubeVela - The Extensible App Platform Based on Open Application Model and Kubernetes&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://github.com/oam-dev/kubevela/releases/tag/v1.0.0">KubeVela - Release v1.0.0&lt;/a>&lt;/li>
-&lt;/ul></description></item><item><title>Post: 读完《云原生架构白皮书》，我们来谈谈开放应用模型（OAM）</title><link>https://guoxudong.io/post/the-cloud-native-architecture-white-paper-oam/</link><pubDate>Fri, 24 Jul 2020 10:53:04 +0800</pubDate><guid>https://guoxudong.io/post/the-cloud-native-architecture-white-paper-oam/</guid><description>
-&lt;h2 id="前言">前言&lt;/h2>
-&lt;p>7月21日阿里云发布了《云原生架构白皮书》，该书由阿里云众多技术专家共同编撰而成，从云原生定义、技术、架构、产品、实践和发展趋势几个方面详细介绍了云原生这一近些年来大火的技术概念。受阿里云邀请，我有幸在该书发布前试读了该书，但是由于最近比较忙，现在才有空和大家分享我的试读感受。&lt;/p>
-&lt;p>熟悉我的朋友肯定知道，去年开放应用模型（OAM）概念一经提出，我就十分关注这一技术模型，最近更是参与到了该模型的实现项目 &lt;a href="https://github.com/crossplane/oam-kubernetes-runtime">Crossplane&lt;/a> 中，同社区中的同学共同实现云原生技术“以应用为中心”这一终极愿景。但是苦于社区中的资料都是英文，同时自己的理解又比较片面，在向身边同事和其他不了解该项技术的同学科普 OAM 时，往往很难准确表达我的观点。&lt;/p>
-&lt;p>OAM 是什么？OAM 能做什么？我们为什么需要 OAM？每每被同事进行灵魂拷问时，总是不能拿出完整、条理、有说服力的东西，只能根据自己的理解以及一些零零散散的技术文章来说明我的观点，很是不爽。但是当我读到《云原生架构白皮书》第三章中的开放应用模型（OAM）章节时，我知道我的问题解决了。该章系统的介绍了 OAM 这项技术的背景、定义、概念、实现和未来，读者只要对云原生稍有理解，就能轻松从这章中找到前面那些问题的答案。&lt;/p>
-&lt;h2 id="那么-oam-到底是什么">那么 OAM 到底是什么？&lt;/h2>
-&lt;p>从《云原生架构白皮书》的内容出发，结合我的理解，大致将 OAM 的特点分为以下三点：&lt;/p>
-&lt;h3 id="以应用为中心">以应用为中心&lt;/h3>
-&lt;p>今年是 Kubernetes 项目诞生的第六年，在这六年中，以 Kubernetes 为首的云原生技术快速的改变着我们的技术架构，一个又一个的应用被拆分成微服务，打包成容器，运行在 Kubernetes 上。然而随着微服务越拆越多，管理微服务的难度也呈指数型增长，Kubernetes 中并没有”应用“这一概念，提供给我们的只有 deployment、StatefulSet 这样工作负载粒度的资源，而一个应用，可能由多个 Deployment、Service、以及各种相关配套资源组成（如：HPA 用于弹性伸缩、Ingress 用于外部访问等）。Kubernetes 并没有提供给我们一个统一的资源或者说是方法来管理这些相关资源，各个公司只能开发自己的 PaaS 平台或设立规范约束自己的应用。&lt;/p>
-&lt;p>OAM 的出现补充了“应用”这一概念，建立对应用和它所需的运维能力定义与描述的标准规范。换言之，OAM 既是标准“应用定义”同时也是帮助封装、组织和管理 Kubernetes 中各种“运维能力”的工具。通过 OAM 中应用的可交付对象 - Application Configuration，我们可以轻松的掌握我们的应用到底有那些 Kubernetes 工作负载组成，这些工作负载都使用了哪些运维特性，这些内容都会以 Kubernetes API 对象的形式展示，查看起来和查看 Deployment 与 Service 资源一样方便。&lt;/p>
-&lt;p>&lt;img src="https://tvax4.sinaimg.cn/large/ad5fbf65gy1gh3bn5n23zj20t80f0myj.jpg" alt="Application Configuration">&lt;/p>
-&lt;h3 id="关注点分离">关注点分离&lt;/h3>
-&lt;p>在实践中，如果基础架构和应用是由不同团队维护的，由于各个团队的关注点不同、对 Kubernetes 了解的程度不同、使用习惯不同，很容易产生混乱。实际上，对于业务研发人员和运维人员而言，他们并不想配置这些如此底层的资源信息，而希望有更高维度的抽象。这就要求一个真正面向最终用户侧的应用定义，一个能够为业务研发和应用运维人员提供各自所需的应用定义原语。&lt;/p>
-&lt;p>&lt;img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1gh3cl2hzsaj20w80gmgnl.jpg" alt="">&lt;/p>
-&lt;p>通过组件（Component）和运维特征（Trait）将业务研发人员与运维人员关注的不同特征进行分离，再将不同的运维特征（Trait）与业务组件（Component）进行绑定，最终再由OAM 可交付物 – Application Configuration 将所有组件组装为一个统一的应用。研发与运维对资源的控制进行细粒度的划分，可以有效的解决实际情况中存在的类似”我比你更懂 Kubernetes，要听我的“的现象，避免了研发与运维之间的甩锅与扯皮的情况。&lt;/p>
-&lt;h3 id="面向最终用户的应用管理平台">面向最终用户的应用管理平台&lt;/h3>
-&lt;p>这部分白皮书中并未详细提及，但这也是我们现阶段的主要工作和努力方向，经过不到一年的时间，OAM 的概念、思想已经基本成熟，而基于 OAM 的实现也已经出现 - Crossplane 项目，该项目目前为 CNCF 的 &lt;a href="https://www.cncf.io/sandbox-projects/">Sandbox&lt;/a> 项目。&lt;/p>
-&lt;p>Crossplane 的出现解决了平台维护者，也就是负责维护 Kubernetes 的基础设施工程师的难题。但是对于应用研发和运维人员，也就是 OAM 的最终用户，操作起来并不是十分的友好。基础设施工程师为他们提供了一堆 CRD，他们必须逐个去挑选、测试和甄别，尤其是一些运维特征（Trait）可能存在功能冲突，不能同时与一个业务组件（Component）绑定，这都都要应用研发和运维人员自己去学习和测试，虽然可以通过文档来规范，但显然这样做并不优雅，这时 OAM App Engine（暂定名 RdurX）就出现了。&lt;/p>
-&lt;p>&lt;img src="https://tva3.sinaimg.cn/large/ad5fbf65gy1gh3da963ouj20sj0at0ux.jpg" alt="OAM App Engine 所在位置">&lt;/p>
-&lt;p>OAM App Engine 的目标用户群体是应用开发者，是希望终端开发者用户可以感受到 OAM 提倡的各类应用管理理念带来的价值。相比于其他基于 K8s 的应用管理平台（如 &lt;a href="https://github.com/rancher/rio">rio&lt;/a> ），OAM App Engine 将至少具备如下三大核心价值。&lt;/p>
-&lt;ol>
-&lt;li>插件系统：App Engine 可以通过 OAM 具备快速纳管 operator 的能力，轻松扩展各种能力。&lt;/li>
-&lt;li>用户体验：贴近开发者，一切设计以最终开发者使用体验至上，复杂的概念做抽象，用户熟悉的概念不隐藏。&lt;/li>
-&lt;li>最佳实践：App Engine 将成为 OAM 实现的最佳实践。&lt;/li>
-&lt;/ol>
-&lt;p>&lt;img src="https://tva1.sinaimg.cn/large/ad5fbf65gy1gh3cutnty0j227415w1kx.jpg" alt="OAM 架构">&lt;/p>
-&lt;p>OAM App Engine 由 CLI 命令行工具、 Dashboard UI 管理页面和一系列编排文件/DSL 组成，目前还处于功能设计与开发当中，预计在8月底会和用户见面。OAM App Engine 的开发者均来自 OAM 中国社区，来自不同的公司和组织，是真正的从社区中来，服务社区用户。&lt;/p>
-&lt;p>欢迎对 OAM 有兴趣的朋友加入，社区每双周都会进行视频例会，欢迎大家发表自己的见解或提出相关疑问。&lt;/p>
-&lt;p>&lt;img src="https://tva1.sinaimg.cn/wap360/ad5fbf65gy1gh3cx41p0gj20nc0uqtfu.jpg" alt="OAM 中国社区">&lt;/p>
-&lt;h2 id="结语">结语&lt;/h2>
-&lt;p>《云原生架构白皮书》的编写集合了阿里云众多技术专家，基于这些年阿里云海量的技术实践，对云原生这一当下十分火爆概念进行了十分深入的剖析，在分享知识和实践经验的同时还对云原生相关技术、架构设计和发展趋势等内容进行分析和描述，为那些对于云原生这一概念还十分陌生和迷茫的开发者/管理者提供了一份干货满满的参考资料。这里借用白皮书序言里的一句话：&lt;/p>
-&lt;blockquote>
-&lt;p>云计算的下一站，就是云原生；&lt;/p>
-&lt;p>IT 架构的下一站，就是云原生架构 ;&lt;/p>
-&lt;p>希望所有的开发者、架构师和技术决策者们，共同定义、共同迎接云原生时代。&lt;/p>
-&lt;/blockquote>
-&lt;p>《云原生架构白皮书》下载链接 ： &lt;a href="https://developer.aliyun.com/topic/download?id=721">https://developer.aliyun.com/topic/download?id=721&lt;/a>&lt;/p>
-&lt;h2 id="参考">参考&lt;/h2>
-&lt;ul>
-&lt;li>&lt;a href="https://developer.aliyun.com/topic/download?id=721">《云原生架构白皮书》&lt;/a>&lt;/li>
-&lt;li>基 Kubernetes 与 OAM 构建统一、标准化的应用管理平台&lt;/li>
-&lt;li>OAM App Engine CLI 设计文档【实现基准】&lt;/li>
-&lt;/ul></description></item><item><title>Post: 以应用为中心：开放应用模型（OAM）初探</title><link>https://guoxudong.io/post/start-oam/</link><pubDate>Sun, 28 Jun 2020 14:53:23 +0800</pubDate><guid>https://guoxudong.io/post/start-oam/</guid><description>
-&lt;h2 id="前言">前言&lt;/h2>
-&lt;p>不久前，Kubernetes 也迎来了他 6 岁的生日，在这 6 年中，从孵化之初的三足鼎立，到后来的一统天下，Kubernetes 成为容器编排领域的事实标准已经有段时间了。在这期间，云原生的概念开始深入人心，越来越的公司组织和开发者开始接受、了解、实践云原生。如今，已有无数的应用以容器的形式运行在各种版本 Kubernetes 中了。&lt;/p>
-&lt;h2 id="应用管理之惑">应用管理之惑&lt;/h2>
-&lt;p>然而我们慢慢发现，随着应用和服务数量、使用场景以及承载业务的增加，Kubernetes 资源越来越难以管理。比如，有时候可能多个运维人员重复为一个 Deployment 配置了多个 Service 或 Ingress，而在一个 namespace 中动辄就有上百个 Service，在这些 Service 中找到那些重复、无效、甚至错误的 Service 可不是一件容易的事情。&lt;/p>
-&lt;p>上面描述的只是运维人员内部可能存在的冲突，更多的冲突来自开发与运维人员之间，由于各自关注的角度不同，出现了对 Deployment 配置权的争夺，他们各自关心的字段不尽相同，但同时还要面对同一份 &lt;code>deployment.yaml&lt;/code>，这就是冲突的根源。我们的做法是使用 kustomize 将一份 &lt;code>deployment.yaml&lt;/code> 分成不同的 &lt;a href="https://kubernetes-sigs.github.io/kustomize/api-reference/glossary/#overlay">overlays&lt;/a>，将开发和运维关注的字段分开管理，而这只是缓兵之计，依旧没有一个统一的配置文件来描述整个应用，比如这个应用由几个 Deployment、Service、 Ingress 组成，一个新手如果想要查看一个资源相关的其他资源，只能通过 label 和“相似”的名称去找或者猜。而这样做显然是很危险的，这也是为什么我不敢轻易清理生产环境中无用的 Service 和 ConfigMap 的原因，你永远也想不到有什么地方可能引用了他们。&lt;/p>
-&lt;p>相对标准 Kubernetes 资源，Operator 的管理难度就更大了，各式各样的 Operator 存在于我的 Kubernetes 集群中，&lt;code>kubectl get crd&lt;/code> 命令输出的结果更是长的可怕。&lt;/p>
-&lt;p>而开放应用模型（OAM）可能是助我脱离苦海的一味良药。&lt;/p>
-&lt;h2 id="开放应用模型oam">开放应用模型（OAM）&lt;/h2>
-&lt;p>OAM 是阿里云与 Azure 在 2019 年末联合推出的标准化云原生应用管理模型。相比于传统 PaaS 封闭、不能同“以 Operator 为基础的云原生生态”衔接的现状，基于 OAM 和 Kubernetes 构建的现代云原生应用管理平台，本质上是一个 &lt;strong>“以应用为中心”&lt;/strong> 的 Kubernetes ，保证了这个应用平台在能够无缝接入整个云原生生态。同时，OAM 可以进一步屏蔽掉容器基础设施的复杂性和差异性，为平台的使用者带来低心智负担的、标准化的、一致的应用管理与交付体验。&lt;/p>
-&lt;p>所谓 “应用模型”，其实是一个专门用来对云原生应用本身和它所需运维能力进行定义与描述的标准开源规范。所以对于 Kubernetes 来说，OAM 即是一个标准的“应用定义”项目（类比已经不再活跃的 Kubernetes Application CRD 项目），同时也是一个专注于封装、组织和管理 Kubernetes 中各种 “运维能力”、以及连接 “运维能力” 与 “应用” 的平台层项目。而通过 “定义应用” 和 “组织管理应用的运维能力” 这两大核心功能，我们可以构建一个更容易管理、维护和发展的云原生平台。&lt;/p>
-&lt;p>以下是 OAM 的一些基本概念：&lt;/p>
-&lt;h3 id="component">Component&lt;/h3>
-&lt;p>在 OAM 中，&lt;strong>Component（组件）&lt;/strong> 就是一个完全面向业务研发人员设计的、用于定义应用程序而不必考虑其运维详细信息的载体。一个应用程序包含一个或多个 Component 。例如，一个网站应用可以由一个 Java web 组件和一个数据库组件组成。&lt;/p>
-&lt;p>OAM 中的 Component 包含两个部分：&lt;/p>
-&lt;ul>
-&lt;li>工作负载描述 —— 如何运行此 Component，以及它的运行内容，实际上就是一个完整的 K8s CR；&lt;/li>
-&lt;li>可重写参数列表 —— 研发通过这个字段表示该 Component 的哪些字段后续可以被运维或者系统覆盖。&lt;/li>
-&lt;/ul>
-&lt;h3 id="trait">Trait&lt;/h3>
-&lt;p>在 OAM 中，我们通过 &lt;strong>Trait（运维特征）&lt;/strong> 来描述和构建具备可发现性和可管理性的平台层能力。&lt;/p>
-&lt;p>Trait 是与 Component 绑定的，一个 Component 可以绑定多个 Trait，从而把运维能力也加入到应用描述中，方便底层基础设施统一管理。&lt;/p>
-&lt;h3 id="application-configuration">Application Configuration&lt;/h3>
-&lt;p>最终，通过引用 Component 名称并对它绑定 Trait ，运维人员就可以使用 &lt;strong>ApplicationConfiguration（应用配置）&lt;/strong> 来实例化应用程序。ApplicationConfiguration 的主要功能，就是让应用运维人员（或系统）了解和使用业务研发人员传达的信息，然后自由的为 Component 组合绑定不同的运维能力以相应实现其最终的运维目的。&lt;/p>
-&lt;p>下面这张图很好的描述了 OAM 架构的使用场景，开发与运维的&lt;strong>关注点分离&lt;/strong>，而最终都由一份 &lt;code>ApplicationConfiguration&lt;/code> 来描述整个应用：&lt;/p>
-&lt;p>&lt;img src="https://tvax4.sinaimg.cn/large/ad5fbf65ly1gg82h3v1o1j20jg0bg77i.jpg" alt="image">&lt;/p>
-&lt;h2 id="上手实践">上手实践&lt;/h2>
-&lt;p>上面只是对 OAM 进行了简单的介绍，由于篇幅有限，如 Scope 这样的概念并没有进行介绍，更多内容欢迎加入 &lt;a href="https://oam.dev/">OAM 社区&lt;/a>。&lt;/p>
-&lt;p>下面就以一个简单的示例，开启我们的 OAM 之旅：&lt;/p>
-&lt;h3 id="前提条件">前提条件&lt;/h3>
-&lt;p>本示例为官方示例，使用 OAM 部署一个 &lt;code>nginx&lt;/code> 应用，该应用包含 Deployment、Service 和 Ingress。&lt;/p>
-&lt;ul>
-&lt;li>Kubernetes 集群&lt;/li>
-&lt;li>&lt;a href="https://helm.sh/docs/intro/">Helm 3&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;h3 id="安装控制端">安装控制端&lt;/h3>
-&lt;h4 id="安装-crossplane-和-oam">安装 Crossplane 和 OAM&lt;/h4>
-&lt;p>注意，这里的 &lt;code>crossplane-oam-sample&lt;/code> 是官方维护的一个 crossplane 示例，只是用作开发和演示，并不是生产可用，关于 crossplane 的更多内容，请见&lt;a href="https://crossplane.io/">项目官网&lt;/a>。&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ helm repo add oam https://oam-dev.github.io/crossplane-oam-sample/archives/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;基于该功能，通过一条命令，即可在本地浏览器查看 &lt;code&gt;Components Types&lt;/code&gt; 和 &lt;code&gt;Traits&lt;/code&gt; 的文档，效果如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ vela show webservice --web
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1gpax5vem5hj22qq202tmu.jpg&#34; alt=&#34;CLI 打开文档页面&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;关注点分离实现真正的-devops&#34;&gt;关注点分离，实现真正的 DevOps&lt;/h3&gt;
+&lt;p&gt;关注点分离是 OAM 和 KubeVela 用来解决最终用户与平台团队所面临的困境的方式。&lt;/p&gt;
+&lt;p&gt;对于&lt;strong&gt;最终用户（应用开发团队）&lt;/strong&gt;，KubeVela 是一个简单、易用且高拓展的云原生应用管理工具，其可以让开发者以极低的心智负担和上手成本在 Kubernetes 上部署应用，只需一行命令 &lt;code&gt;vela up&lt;/code&gt; 即可拉起一整套云原生应用。&lt;/p&gt;
+&lt;p&gt;对于&lt;strong&gt;平台团队&lt;/strong&gt;，KubeVela 是一个可以任意扩展的云原生平台内核，平台工程师可以轻松的将 Kubernetes 生态中的能力，通过 KubeVela 以类似插件的形式注入到 Kubernetes 集群中，简单高效且易于维护。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1gp9zu2k1iaj20q00ds0yt.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;KubeVela 的出现，终结了应用开发团队和平台开发团队之间的”灰色地带“，大家对各自关注点有了清楚的认知，降低了团队之间的沟通成本及扯皮风险，真正的实现了 DevOps 的理念。&lt;/p&gt;
+&lt;h2 id=&#34;功能展望&#34;&gt;功能展望&lt;/h2&gt;
+&lt;p&gt;除了上述的功能外，KubeVela v1.0 还提供声明和使用云资源，支持蓝绿和金丝雀发布，使用 Service Mesh 实现多版本多集群部署的能力，以及一些性能的优化、功能的加强及 bug 的修复等。&lt;/p&gt;
+&lt;p&gt;在之后的版本中，KubeVela 还会将 Terraform 集成到核心模板引擎中，以提供使用多种云资源的能力，并会完善各种功能，并&lt;strong&gt;在合适的时候将项目捐献给 CNCF&lt;/strong&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;关于社区&#34;&gt;关于社区&lt;/h2&gt;
+&lt;p&gt;KubeVela 诞生于 OAM 社区，甚至 KubeVela 这个名字都是由社区用户投票产生的，是真正由社区发起的开源项目。笔者作为社区成员从项目成立之初就参与其中，除了部分功能及代码外，还先后为 KubeVela 制作了两版官方网站并成为了 KubeVela 网站项目 &lt;a href=&#34;https://github.com/oam-dev/kubevela.io&#34;&gt;kubevela.io&lt;/a&gt; 的 maintainer。&lt;/p&gt;
+&lt;p&gt;KubeVela 社区是一个非常开放的社区，目前还有大量的新功能在规划和实现中，欢迎大家的贡献、使用和反馈。想要参与的同学也可以在项目 &lt;a href=&#34;https://github.com/oam-dev/kubevela/issues&#34;&gt;issues&lt;/a&gt; 中找到 &lt;code&gt;good first issue&lt;/code&gt; 标签的 issue 完成并提交你的第一个 PR。&lt;/p&gt;
+&lt;h2 id=&#34;总结&#34;&gt;总结&lt;/h2&gt;
+&lt;p&gt;发布至今 KubeVela 从单一的 CLI 命令行工具，发展成具备强大功能的应用管理平台与核心引擎。在笔者看来，现在的 KubeVela 就像是一套可以随意定制的乐高，用户可以根据自己的需要自由的将所需能力进行组装，这里每一块拼装的部分都可以根据用户喜好进行定制，且这种定制是低成本、可复用的。&lt;/p&gt;
+&lt;p&gt;站在一个应用管理者和维护者的角度，使用了 KubeVela 以后，通过一份描述文件，就可以清楚的看到一个应用到底由几个 workload 组成，每个 workload 都绑定了什么运维能力，大大降低了运维人员的心智负担及重复劳动时间。&lt;/p&gt;
+&lt;p&gt;在 v1.0 版本我们也为 KubeVela 构建了新的官网，更多内容&lt;a href=&#34;https://kubevela.io&#34;&gt;详见官网&lt;/a&gt;。KubeVela 旨在构建一个面向未来的云原生 PaaS 架构，将横向可扩展性和以应用为中心这些最佳实践带给社区用户，推动甚至引领云原生社区在应用层的发展。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;KubeVela 官网：https://kubevela.io&lt;/li&gt;
+&lt;li&gt;KubeVela 项目地址：https://github.com/oam-dev/kubevela&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;参考资料&#34;&gt;参考资料&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://kubevela.io/blog/kubevela-the-extensible-app-platform-based-on-open-application-model-and-kubernetes/&#34;&gt;KubeVela - The Extensible App Platform Based on Open Application Model and Kubernetes&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/oam-dev/kubevela/releases/tag/v1.0.0&#34;&gt;KubeVela - Release v1.0.0&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Post: 读完《云原生架构白皮书》，我们来谈谈开放应用模型（OAM）</title>
+      <link>https://guoxudong.io/post/the-cloud-native-architecture-white-paper-oam/</link>
+      <pubDate>Fri, 24 Jul 2020 10:53:04 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/the-cloud-native-architecture-white-paper-oam/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;7月21日阿里云发布了《云原生架构白皮书》，该书由阿里云众多技术专家共同编撰而成，从云原生定义、技术、架构、产品、实践和发展趋势几个方面详细介绍了云原生这一近些年来大火的技术概念。受阿里云邀请，我有幸在该书发布前试读了该书，但是由于最近比较忙，现在才有空和大家分享我的试读感受。&lt;/p&gt;
+&lt;p&gt;熟悉我的朋友肯定知道，去年开放应用模型（OAM）概念一经提出，我就十分关注这一技术模型，最近更是参与到了该模型的实现项目 &lt;a href=&#34;https://github.com/crossplane/oam-kubernetes-runtime&#34;&gt;Crossplane&lt;/a&gt; 中，同社区中的同学共同实现云原生技术“以应用为中心”这一终极愿景。但是苦于社区中的资料都是英文，同时自己的理解又比较片面，在向身边同事和其他不了解该项技术的同学科普 OAM 时，往往很难准确表达我的观点。&lt;/p&gt;
+&lt;p&gt;OAM 是什么？OAM 能做什么？我们为什么需要 OAM？每每被同事进行灵魂拷问时，总是不能拿出完整、条理、有说服力的东西，只能根据自己的理解以及一些零零散散的技术文章来说明我的观点，很是不爽。但是当我读到《云原生架构白皮书》第三章中的开放应用模型（OAM）章节时，我知道我的问题解决了。该章系统的介绍了 OAM 这项技术的背景、定义、概念、实现和未来，读者只要对云原生稍有理解，就能轻松从这章中找到前面那些问题的答案。&lt;/p&gt;
+&lt;h2 id=&#34;那么-oam-到底是什么&#34;&gt;那么 OAM 到底是什么？&lt;/h2&gt;
+&lt;p&gt;从《云原生架构白皮书》的内容出发，结合我的理解，大致将 OAM 的特点分为以下三点：&lt;/p&gt;
+&lt;h3 id=&#34;以应用为中心&#34;&gt;以应用为中心&lt;/h3&gt;
+&lt;p&gt;今年是 Kubernetes 项目诞生的第六年，在这六年中，以 Kubernetes 为首的云原生技术快速的改变着我们的技术架构，一个又一个的应用被拆分成微服务，打包成容器，运行在 Kubernetes 上。然而随着微服务越拆越多，管理微服务的难度也呈指数型增长，Kubernetes 中并没有”应用“这一概念，提供给我们的只有 deployment、StatefulSet 这样工作负载粒度的资源，而一个应用，可能由多个 Deployment、Service、以及各种相关配套资源组成（如：HPA 用于弹性伸缩、Ingress 用于外部访问等）。Kubernetes 并没有提供给我们一个统一的资源或者说是方法来管理这些相关资源，各个公司只能开发自己的 PaaS 平台或设立规范约束自己的应用。&lt;/p&gt;
+&lt;p&gt;OAM 的出现补充了“应用”这一概念，建立对应用和它所需的运维能力定义与描述的标准规范。换言之，OAM 既是标准“应用定义”同时也是帮助封装、组织和管理 Kubernetes 中各种“运维能力”的工具。通过 OAM 中应用的可交付对象 - Application Configuration，我们可以轻松的掌握我们的应用到底有那些 Kubernetes 工作负载组成，这些工作负载都使用了哪些运维特性，这些内容都会以 Kubernetes API 对象的形式展示，查看起来和查看 Deployment 与 Service 资源一样方便。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax4.sinaimg.cn/large/ad5fbf65gy1gh3bn5n23zj20t80f0myj.jpg&#34; alt=&#34;Application Configuration&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;关注点分离&#34;&gt;关注点分离&lt;/h3&gt;
+&lt;p&gt;在实践中，如果基础架构和应用是由不同团队维护的，由于各个团队的关注点不同、对 Kubernetes 了解的程度不同、使用习惯不同，很容易产生混乱。实际上，对于业务研发人员和运维人员而言，他们并不想配置这些如此底层的资源信息，而希望有更高维度的抽象。这就要求一个真正面向最终用户侧的应用定义，一个能够为业务研发和应用运维人员提供各自所需的应用定义原语。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1gh3cl2hzsaj20w80gmgnl.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;通过组件（Component）和运维特征（Trait）将业务研发人员与运维人员关注的不同特征进行分离，再将不同的运维特征（Trait）与业务组件（Component）进行绑定，最终再由OAM 可交付物 – Application Configuration 将所有组件组装为一个统一的应用。研发与运维对资源的控制进行细粒度的划分，可以有效的解决实际情况中存在的类似”我比你更懂 Kubernetes，要听我的“的现象，避免了研发与运维之间的甩锅与扯皮的情况。&lt;/p&gt;
+&lt;h3 id=&#34;面向最终用户的应用管理平台&#34;&gt;面向最终用户的应用管理平台&lt;/h3&gt;
+&lt;p&gt;这部分白皮书中并未详细提及，但这也是我们现阶段的主要工作和努力方向，经过不到一年的时间，OAM 的概念、思想已经基本成熟，而基于 OAM 的实现也已经出现 -  Crossplane 项目，该项目目前为 CNCF 的 &lt;a href=&#34;https://www.cncf.io/sandbox-projects/&#34;&gt;Sandbox&lt;/a&gt; 项目。&lt;/p&gt;
+&lt;p&gt;Crossplane 的出现解决了平台维护者，也就是负责维护 Kubernetes 的基础设施工程师的难题。但是对于应用研发和运维人员，也就是 OAM 的最终用户，操作起来并不是十分的友好。基础设施工程师为他们提供了一堆 CRD，他们必须逐个去挑选、测试和甄别，尤其是一些运维特征（Trait）可能存在功能冲突，不能同时与一个业务组件（Component）绑定，这都都要应用研发和运维人员自己去学习和测试，虽然可以通过文档来规范，但显然这样做并不优雅，这时 OAM App Engine（暂定名 RdurX）就出现了。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva3.sinaimg.cn/large/ad5fbf65gy1gh3da963ouj20sj0at0ux.jpg&#34; alt=&#34;OAM App Engine 所在位置&#34;&gt;&lt;/p&gt;
+&lt;p&gt;OAM App Engine 的目标用户群体是应用开发者，是希望终端开发者用户可以感受到 OAM 提倡的各类应用管理理念带来的价值。相比于其他基于 K8s 的应用管理平台（如 &lt;a href=&#34;https://github.com/rancher/rio&#34;&gt;rio&lt;/a&gt; ），OAM App Engine 将至少具备如下三大核心价值。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;插件系统：App Engine 可以通过 OAM 具备快速纳管 operator 的能力，轻松扩展各种能力。&lt;/li&gt;
+&lt;li&gt;用户体验：贴近开发者，一切设计以最终开发者使用体验至上，复杂的概念做抽象，用户熟悉的概念不隐藏。&lt;/li&gt;
+&lt;li&gt;最佳实践：App Engine 将成为 OAM 实现的最佳实践。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1gh3cutnty0j227415w1kx.jpg&#34; alt=&#34;OAM 架构&#34;&gt;&lt;/p&gt;
+&lt;p&gt;OAM App Engine 由 CLI 命令行工具、 Dashboard UI 管理页面和一系列编排文件/DSL 组成，目前还处于功能设计与开发当中，预计在8月底会和用户见面。OAM App Engine 的开发者均来自 OAM 中国社区，来自不同的公司和组织，是真正的从社区中来，服务社区用户。&lt;/p&gt;
+&lt;p&gt;欢迎对 OAM 有兴趣的朋友加入，社区每双周都会进行视频例会，欢迎大家发表自己的见解或提出相关疑问。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/wap360/ad5fbf65gy1gh3cx41p0gj20nc0uqtfu.jpg&#34; alt=&#34;OAM 中国社区&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
+&lt;p&gt;《云原生架构白皮书》的编写集合了阿里云众多技术专家，基于这些年阿里云海量的技术实践，对云原生这一当下十分火爆概念进行了十分深入的剖析，在分享知识和实践经验的同时还对云原生相关技术、架构设计和发展趋势等内容进行分析和描述，为那些对于云原生这一概念还十分陌生和迷茫的开发者/管理者提供了一份干货满满的参考资料。这里借用白皮书序言里的一句话：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;云计算的下一站，就是云原生；&lt;/p&gt;
+&lt;p&gt;IT 架构的下一站，就是云原生架构 ;&lt;/p&gt;
+&lt;p&gt;希望所有的开发者、架构师和技术决策者们，共同定义、共同迎接云原生时代。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;《云原生架构白皮书》下载链接 ： &lt;a href=&#34;https://developer.aliyun.com/topic/download?id=721&#34;&gt;https://developer.aliyun.com/topic/download?id=721&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://developer.aliyun.com/topic/download?id=721&#34;&gt;《云原生架构白皮书》&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;基 Kubernetes 与 OAM 构建统一、标准化的应用管理平台&lt;/li&gt;
+&lt;li&gt;OAM App Engine CLI 设计文档【实现基准】&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Post: 以应用为中心：开放应用模型（OAM）初探</title>
+      <link>https://guoxudong.io/post/start-oam/</link>
+      <pubDate>Sun, 28 Jun 2020 14:53:23 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/start-oam/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;不久前，Kubernetes 也迎来了他 6 岁的生日，在这 6 年中，从孵化之初的三足鼎立，到后来的一统天下，Kubernetes 成为容器编排领域的事实标准已经有段时间了。在这期间，云原生的概念开始深入人心，越来越的公司组织和开发者开始接受、了解、实践云原生。如今，已有无数的应用以容器的形式运行在各种版本 Kubernetes 中了。&lt;/p&gt;
+&lt;h2 id=&#34;应用管理之惑&#34;&gt;应用管理之惑&lt;/h2&gt;
+&lt;p&gt;然而我们慢慢发现，随着应用和服务数量、使用场景以及承载业务的增加，Kubernetes 资源越来越难以管理。比如，有时候可能多个运维人员重复为一个 Deployment 配置了多个 Service 或 Ingress，而在一个 namespace 中动辄就有上百个 Service，在这些 Service 中找到那些重复、无效、甚至错误的 Service 可不是一件容易的事情。&lt;/p&gt;
+&lt;p&gt;上面描述的只是运维人员内部可能存在的冲突，更多的冲突来自开发与运维人员之间，由于各自关注的角度不同，出现了对 Deployment 配置权的争夺，他们各自关心的字段不尽相同，但同时还要面对同一份 &lt;code&gt;deployment.yaml&lt;/code&gt;，这就是冲突的根源。我们的做法是使用 kustomize 将一份 &lt;code&gt;deployment.yaml&lt;/code&gt; 分成不同的 &lt;a href=&#34;https://kubernetes-sigs.github.io/kustomize/api-reference/glossary/#overlay&#34;&gt;overlays&lt;/a&gt;，将开发和运维关注的字段分开管理，而这只是缓兵之计，依旧没有一个统一的配置文件来描述整个应用，比如这个应用由几个 Deployment、Service、 Ingress 组成，一个新手如果想要查看一个资源相关的其他资源，只能通过 label 和“相似”的名称去找或者猜。而这样做显然是很危险的，这也是为什么我不敢轻易清理生产环境中无用的 Service 和 ConfigMap 的原因，你永远也想不到有什么地方可能引用了他们。&lt;/p&gt;
+&lt;p&gt;相对标准 Kubernetes 资源，Operator 的管理难度就更大了，各式各样的 Operator 存在于我的 Kubernetes 集群中，&lt;code&gt;kubectl get crd&lt;/code&gt; 命令输出的结果更是长的可怕。&lt;/p&gt;
+&lt;p&gt;而开放应用模型（OAM）可能是助我脱离苦海的一味良药。&lt;/p&gt;
+&lt;h2 id=&#34;开放应用模型oam&#34;&gt;开放应用模型（OAM）&lt;/h2&gt;
+&lt;p&gt;OAM 是阿里云与 Azure 在 2019 年末联合推出的标准化云原生应用管理模型。相比于传统 PaaS 封闭、不能同“以 Operator 为基础的云原生生态”衔接的现状，基于 OAM 和 Kubernetes 构建的现代云原生应用管理平台，本质上是一个 &lt;strong&gt;“以应用为中心”&lt;/strong&gt; 的 Kubernetes ，保证了这个应用平台在能够无缝接入整个云原生生态。同时，OAM 可以进一步屏蔽掉容器基础设施的复杂性和差异性，为平台的使用者带来低心智负担的、标准化的、一致的应用管理与交付体验。&lt;/p&gt;
+&lt;p&gt;所谓 “应用模型”，其实是一个专门用来对云原生应用本身和它所需运维能力进行定义与描述的标准开源规范。所以对于 Kubernetes 来说，OAM 即是一个标准的“应用定义”项目（类比已经不再活跃的 Kubernetes Application CRD 项目），同时也是一个专注于封装、组织和管理 Kubernetes 中各种 “运维能力”、以及连接 “运维能力” 与 “应用” 的平台层项目。而通过 “定义应用” 和 “组织管理应用的运维能力” 这两大核心功能，我们可以构建一个更容易管理、维护和发展的云原生平台。&lt;/p&gt;
+&lt;p&gt;以下是 OAM 的一些基本概念：&lt;/p&gt;
+&lt;h3 id=&#34;component&#34;&gt;Component&lt;/h3&gt;
+&lt;p&gt;在 OAM 中，&lt;strong&gt;Component（组件）&lt;/strong&gt; 就是一个完全面向业务研发人员设计的、用于定义应用程序而不必考虑其运维详细信息的载体。一个应用程序包含一个或多个 Component 。例如，一个网站应用可以由一个 Java web 组件和一个数据库组件组成。&lt;/p&gt;
+&lt;p&gt;OAM 中的 Component 包含两个部分：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;工作负载描述 —— 如何运行此 Component，以及它的运行内容，实际上就是一个完整的 K8s CR；&lt;/li&gt;
+&lt;li&gt;可重写参数列表 —— 研发通过这个字段表示该 Component 的哪些字段后续可以被运维或者系统覆盖。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;trait&#34;&gt;Trait&lt;/h3&gt;
+&lt;p&gt;在 OAM 中，我们通过 &lt;strong&gt;Trait（运维特征）&lt;/strong&gt; 来描述和构建具备可发现性和可管理性的平台层能力。&lt;/p&gt;
+&lt;p&gt;Trait 是与 Component 绑定的，一个 Component 可以绑定多个 Trait，从而把运维能力也加入到应用描述中，方便底层基础设施统一管理。&lt;/p&gt;
+&lt;h3 id=&#34;application-configuration&#34;&gt;Application Configuration&lt;/h3&gt;
+&lt;p&gt;最终，通过引用 Component 名称并对它绑定 Trait ，运维人员就可以使用 &lt;strong&gt;ApplicationConfiguration（应用配置）&lt;/strong&gt; 来实例化应用程序。ApplicationConfiguration 的主要功能，就是让应用运维人员（或系统）了解和使用业务研发人员传达的信息，然后自由的为 Component 组合绑定不同的运维能力以相应实现其最终的运维目的。&lt;/p&gt;
+&lt;p&gt;下面这张图很好的描述了 OAM 架构的使用场景，开发与运维的&lt;strong&gt;关注点分离&lt;/strong&gt;，而最终都由一份 &lt;code&gt;ApplicationConfiguration&lt;/code&gt; 来描述整个应用：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax4.sinaimg.cn/large/ad5fbf65ly1gg82h3v1o1j20jg0bg77i.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;上手实践&#34;&gt;上手实践&lt;/h2&gt;
+&lt;p&gt;上面只是对 OAM 进行了简单的介绍，由于篇幅有限，如 Scope 这样的概念并没有进行介绍，更多内容欢迎加入 &lt;a href=&#34;https://oam.dev/&#34;&gt;OAM 社区&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;下面就以一个简单的示例，开启我们的 OAM 之旅：&lt;/p&gt;
+&lt;h3 id=&#34;前提条件&#34;&gt;前提条件&lt;/h3&gt;
+&lt;p&gt;本示例为官方示例，使用 OAM 部署一个 &lt;code&gt;nginx&lt;/code&gt; 应用，该应用包含 Deployment、Service 和 Ingress。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Kubernetes 集群&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://helm.sh/docs/intro/&#34;&gt;Helm 3&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;安装控制端&#34;&gt;安装控制端&lt;/h3&gt;
+&lt;h4 id=&#34;安装-crossplane-和-oam&#34;&gt;安装 Crossplane 和 OAM&lt;/h4&gt;
+&lt;p&gt;注意，这里的 &lt;code&gt;crossplane-oam-sample&lt;/code&gt; 是官方维护的一个 crossplane 示例，只是用作开发和演示，并不是生产可用，关于 crossplane 的更多内容，请见&lt;a href=&#34;https://crossplane.io/&#34;&gt;项目官网&lt;/a&gt;。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ helm repo add oam https://oam-dev.github.io/crossplane-oam-sample/archives/
 $ kubectl create namespace oam-system
 $ helm install crossplane --namespace oam-system oam/crossplane-oam
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>这里如果由于墙的原因无法拉取 &lt;code>gcr.io/kubebuilder/kube-rbac-proxy:v0.4.1&lt;/code> 镜像，导致 &lt;code>crossplane-oam-localstack&lt;/code> 无法启动的话，可以使用我提供的替代镜像 &lt;code>guoxudongdocker/kube-rbac-proxy:v0.4.1&lt;/code>。&lt;/p>
-&lt;h4 id="拉取示例仓库">拉取示例仓库&lt;/h4>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ git clone https://github.com/oam-dev/catalog.git
-&lt;span style="color:#999;font-style:italic"># 进入示例&lt;/span>
-$ &lt;span style="color:#24909d">cd&lt;/span> catalog/traits/ingresstrait
-&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="部署-crd-并启动-controller">部署 CRD 并启动 controller&lt;/h4>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">&lt;span style="color:#999;font-style:italic"># 部署 CRD&lt;/span>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里如果由于墙的原因无法拉取 &lt;code&gt;gcr.io/kubebuilder/kube-rbac-proxy:v0.4.1&lt;/code&gt; 镜像，导致 &lt;code&gt;crossplane-oam-localstack&lt;/code&gt; 无法启动的话，可以使用我提供的替代镜像 &lt;code&gt;guoxudongdocker/kube-rbac-proxy:v0.4.1&lt;/code&gt;。&lt;/p&gt;
+&lt;h4 id=&#34;拉取示例仓库&#34;&gt;拉取示例仓库&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ git clone https://github.com/oam-dev/catalog.git
+&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 进入示例&lt;/span&gt;
+$ &lt;span style=&#34;color:#24909d&#34;&gt;cd&lt;/span&gt; catalog/traits/ingresstrait
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;部署-crd-并启动-controller&#34;&gt;部署 CRD 并启动 controller&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 部署 CRD&lt;/span&gt;
 $ make install
-~/go/bin/controller-gen &lt;span style="color:#ed9d13">&amp;#34;crd:trivialVersions=true&amp;#34;&lt;/span> rbac:roleName=manager-role webhook &lt;span style="color:#40ffff">paths&lt;/span>=&lt;span style="color:#ed9d13">&amp;#34;./...&amp;#34;&lt;/span> output:crd:artifacts:config=config/crd/bases
+~/go/bin/controller-gen &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;crd:trivialVersions=true&amp;#34;&lt;/span&gt; rbac:roleName=manager-role webhook &lt;span style=&#34;color:#40ffff&#34;&gt;paths&lt;/span&gt;=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;./...&amp;#34;&lt;/span&gt; output:crd:artifacts:config=config/crd/bases
 kustomize build config/crd | kubectl apply -f -
 customresourcedefinition.apiextensions.k8s.io/ingresstraits.core.oam.dev created
-&lt;span style="color:#999;font-style:italic"># 启动 IngressTrait controller&lt;/span>
+&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 启动 IngressTrait controller&lt;/span&gt;
 $ go run main.go
-I0629 11:15:22.035708 &lt;span style="color:#3677a9">802&lt;/span> request.go:621] Throttling request took 1.000526734s, request: GET:https://192.168.4.210:6443/apis/apiregistration.k8s.io/v1?timeout=32s
-2020-06-29T11:15:22.088+0800 INFO controller-runtime.metrics metrics server is starting to listen {&lt;span style="color:#ed9d13">&amp;#34;addr&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;:8080&amp;#34;&lt;/span>}
-2020-06-29T11:15:22.089+0800 INFO setup starting manager
-2020-06-29T11:15:22.089+0800 INFO controller-runtime.manager starting metrics server {&lt;span style="color:#ed9d13">&amp;#34;path&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;/metrics&amp;#34;&lt;/span>}
-2020-06-29T11:15:22.089+0800 INFO controller-runtime.controller Starting EventSource {&lt;span style="color:#ed9d13">&amp;#34;controller&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;ingresstrait&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;source&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;kind source: /, Kind=&amp;#34;&lt;/span>}
-2020-06-29T11:15:22.193+0800 INFO controller-runtime.controller Starting Controller {&lt;span style="color:#ed9d13">&amp;#34;controller&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;ingresstrait&amp;#34;&lt;/span>}
-2020-06-29T11:15:22.193+0800 INFO controller-runtime.controller Starting workers {&lt;span style="color:#ed9d13">&amp;#34;controller&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;ingresstrait&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;worker count&amp;#34;&lt;/span>: 1}
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>由于这里只是简单演示，没有将 IngressTrait controller 打包成镜像，而是在本地运行 controller，所以需要 go 环境。&lt;/p>
-&lt;h3 id="部署应用">部署应用&lt;/h3>
-&lt;h4 id="配置-rbac">配置 RBAC&lt;/h4>
-&lt;p>使用命令：&lt;code>kubectl apply -f rbac.yaml&lt;/code>，配置 RBAC。这里需要注意的是官方 IngressTrait 的 sample 示例中并没有 &lt;code>rbac.yaml&lt;/code>，需要我们自己配置，否则的话会在部署时由于权限原因无法拉起 Deployment。&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="color:#6ab825;font-weight:bold">apiVersion&lt;/span>:&lt;span style="color:#666"> &lt;/span>rbac.authorization.k8s.io/v1&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">kind&lt;/span>:&lt;span style="color:#666"> &lt;/span>ClusterRole&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">metadata&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">name&lt;/span>:&lt;span style="color:#666"> &lt;/span>deployment-clusterrole-poc&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">rules&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">&lt;/span>- &lt;span style="color:#6ab825;font-weight:bold">apiGroups&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>- apps&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">resources&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>- deployments&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">verbs&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>- &lt;span style="color:#ed9d13">&amp;#34;*&amp;#34;&lt;/span>&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#447fcf;text-decoration:underline">---&lt;/span>&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">apiVersion&lt;/span>:&lt;span style="color:#666"> &lt;/span>rbac.authorization.k8s.io/v1&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">kind&lt;/span>:&lt;span style="color:#666"> &lt;/span>ClusterRoleBinding&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">metadata&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">name&lt;/span>:&lt;span style="color:#666"> &lt;/span>component-deployment-workload-poc&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">roleRef&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">apiGroup&lt;/span>:&lt;span style="color:#666"> &lt;/span>rbac.authorization.k8s.io&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">kind&lt;/span>:&lt;span style="color:#666"> &lt;/span>ClusterRole&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">name&lt;/span>:&lt;span style="color:#666"> &lt;/span>deployment-clusterrole-poc&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">subjects&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>- &lt;span style="color:#6ab825;font-weight:bold">kind&lt;/span>:&lt;span style="color:#666"> &lt;/span>ServiceAccount&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">name&lt;/span>:&lt;span style="color:#666"> &lt;/span>crossplane-oam &lt;span style="color:#666"> &lt;/span>&lt;span style="color:#999;font-style:italic"># Remember to use the actual ServiceAccount name&lt;/span>&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">namespace&lt;/span>:&lt;span style="color:#666"> &lt;/span>oam-system &lt;span style="color:#666"> &lt;/span>&lt;span style="color:#999;font-style:italic"># Remember to use the actual ServiceAccount namespace&lt;/span>&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">
-&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="部署-component">部署 Component&lt;/h4>
-&lt;p>使用 &lt;code>kubectl apply -f sample_component.yaml &lt;/code> 命令部署 Component，该 Component 中的 workload 为 Deployment。&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="color:#6ab825;font-weight:bold">apiVersion&lt;/span>:&lt;span style="color:#666"> &lt;/span>core.oam.dev/v1alpha2&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">kind&lt;/span>:&lt;span style="color:#666"> &lt;/span>Component&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">metadata&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">name&lt;/span>:&lt;span style="color:#666"> &lt;/span>example-deploy&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">spec&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">workload&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">apiVersion&lt;/span>:&lt;span style="color:#666"> &lt;/span>apps/v1&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">kind&lt;/span>:&lt;span style="color:#666"> &lt;/span>Deployment&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">metadata&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">name&lt;/span>:&lt;span style="color:#666"> &lt;/span>web&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">spec&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">selector&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">matchLabels&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">app&lt;/span>:&lt;span style="color:#666"> &lt;/span>test&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">template&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">metadata&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">labels&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">app&lt;/span>:&lt;span style="color:#666"> &lt;/span>test&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">spec&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">containers&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>- &lt;span style="color:#6ab825;font-weight:bold">name&lt;/span>:&lt;span style="color:#666"> &lt;/span>nginx&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">image&lt;/span>:&lt;span style="color:#666"> &lt;/span>nginx:1.17&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">ports&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>- &lt;span style="color:#6ab825;font-weight:bold">containerPort&lt;/span>:&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#3677a9">80&lt;/span>&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">name&lt;/span>:&lt;span style="color:#666"> &lt;/span>web&lt;span style="color:#666">
-&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="部署-applicationconfiguration">部署 ApplicationConfiguration&lt;/h4>
-&lt;p>可以看到这个 ApplicationConfiguration 中包含一个 Component，而 Component 中又绑定了 一个 IngressTrait 类型的 Trait，由于这只是一个简单示例，所有只有一个 Component 和一个 Trait，在实际的生产环境中，一个 ApplicationConfiguration 可由多个 Component 组成，一个 Component 又可绑定多个 Trait 为其提供诸如流量管控、弹性伸缩等运维特性。&lt;/p>
-&lt;p>使用命令：&lt;code>kubectl apply -f sample_application_config.yaml&lt;/code>&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="color:#6ab825;font-weight:bold">apiVersion&lt;/span>:&lt;span style="color:#666"> &lt;/span>core.oam.dev/v1alpha2&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">kind&lt;/span>:&lt;span style="color:#666"> &lt;/span>ApplicationConfiguration&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">metadata&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">name&lt;/span>:&lt;span style="color:#666"> &lt;/span>example-appconfig&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">spec&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">components&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>- &lt;span style="color:#6ab825;font-weight:bold">componentName&lt;/span>:&lt;span style="color:#666"> &lt;/span>example-deploy&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">traits&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>- &lt;span style="color:#6ab825;font-weight:bold">trait&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">apiVersion&lt;/span>:&lt;span style="color:#666"> &lt;/span>core.oam.dev/v1alpha2&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">kind&lt;/span>:&lt;span style="color:#666"> &lt;/span>IngressTrait&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">metadata&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">name&lt;/span>:&lt;span style="color:#666"> &lt;/span>example-ingress-trait&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">spec&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">rules&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>- &lt;span style="color:#6ab825;font-weight:bold">host&lt;/span>:&lt;span style="color:#666"> &lt;/span>nginx.oam.com&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">paths&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>- &lt;span style="color:#6ab825;font-weight:bold">path&lt;/span>:&lt;span style="color:#666"> &lt;/span>/&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">backend&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">serviceName&lt;/span>:&lt;span style="color:#666"> &lt;/span>deploy-test&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">servicePort&lt;/span>:&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#3677a9">8080&lt;/span>&lt;span style="color:#666">
-&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="检查结果">检查结果&lt;/h4>
-&lt;p>可以看到 Deployment、Service 和 Ingress 已经部署成功：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ kubectl get deploy,svc,ing
-NAME READY UP-TO-DATE AVAILABLE AGE
-deployment.apps/web 1/1 &lt;span style="color:#3677a9">1&lt;/span> &lt;span style="color:#3677a9">1&lt;/span> 8m29s
-NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE
-service/deploy-test ClusterIP 10.43.170.228 &amp;lt;none&amp;gt; 8080/TCP 8m29s
-NAME HOSTS ADDRESS PORTS AGE
-ingress.extensions/example-ingress-trait nginx.oam.com 192.168.1.129,192.168.4.210 &lt;span style="color:#3677a9">80&lt;/span> 8m29s
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>访问服务：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ curl -H &lt;span style="color:#ed9d13">&amp;#34;Host: nginx.oam.com&amp;#34;&lt;/span> http://192.168.1.129
+I0629 11:15:22.035708     &lt;span style=&#34;color:#3677a9&#34;&gt;802&lt;/span&gt; request.go:621] Throttling request took 1.000526734s, request: GET:https://192.168.4.210:6443/apis/apiregistration.k8s.io/v1?timeout=32s
+2020-06-29T11:15:22.088+0800    INFO    controller-runtime.metrics      metrics server is starting to listen    {&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;addr&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;:8080&amp;#34;&lt;/span&gt;}
+2020-06-29T11:15:22.089+0800    INFO    setup   starting manager
+2020-06-29T11:15:22.089+0800    INFO    controller-runtime.manager      starting metrics server {&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;path&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;/metrics&amp;#34;&lt;/span&gt;}
+2020-06-29T11:15:22.089+0800    INFO    controller-runtime.controller   Starting EventSource    {&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;controller&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;ingresstrait&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;source&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;kind source: /, Kind=&amp;#34;&lt;/span&gt;}
+2020-06-29T11:15:22.193+0800    INFO    controller-runtime.controller   Starting Controller     {&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;controller&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;ingresstrait&amp;#34;&lt;/span&gt;}
+2020-06-29T11:15:22.193+0800    INFO    controller-runtime.controller   Starting workers        {&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;controller&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;ingresstrait&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;worker count&amp;#34;&lt;/span&gt;: 1}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;由于这里只是简单演示，没有将 IngressTrait controller 打包成镜像，而是在本地运行 controller，所以需要 go 环境。&lt;/p&gt;
+&lt;h3 id=&#34;部署应用&#34;&gt;部署应用&lt;/h3&gt;
+&lt;h4 id=&#34;配置-rbac&#34;&gt;配置 RBAC&lt;/h4&gt;
+&lt;p&gt;使用命令：&lt;code&gt;kubectl apply -f rbac.yaml&lt;/code&gt;，配置 RBAC。这里需要注意的是官方 IngressTrait 的 sample 示例中并没有 &lt;code&gt;rbac.yaml&lt;/code&gt;，需要我们自己配置，否则的话会在部署时由于权限原因无法拉起 Deployment。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;rbac.authorization.k8s.io/v1&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;ClusterRole&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;deployment-clusterrole-poc&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;rules&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiGroups&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- apps&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;resources&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- deployments&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;verbs&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;*&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;---&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;rbac.authorization.k8s.io/v1&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;ClusterRoleBinding&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;component-deployment-workload-poc&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;roleRef&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiGroup&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;rbac.authorization.k8s.io&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;ClusterRole&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;deployment-clusterrole-poc&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;subjects&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;ServiceAccount&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;crossplane-oam             &lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# Remember to use the actual ServiceAccount name&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;namespace&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;oam-system            &lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# Remember to use the actual ServiceAccount namespace&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;部署-component&#34;&gt;部署 Component&lt;/h4&gt;
+&lt;p&gt;使用 &lt;code&gt;kubectl apply -f sample_component.yaml &lt;/code&gt; 命令部署 Component，该 Component 中的 workload 为 Deployment。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;core.oam.dev/v1alpha2&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Component&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;example-deploy&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;spec&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;workload&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;apps/v1&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Deployment&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;web&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;spec&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;selector&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;matchLabels&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;app&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;test&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;template&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;labels&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;app&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;test&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;spec&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;containers&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;nginx&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;image&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;nginx:1.17&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;ports&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;                &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;containerPort&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;80&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;                  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;web&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;部署-applicationconfiguration&#34;&gt;部署 ApplicationConfiguration&lt;/h4&gt;
+&lt;p&gt;可以看到这个 ApplicationConfiguration 中包含一个 Component，而 Component 中又绑定了 一个 IngressTrait 类型的 Trait，由于这只是一个简单示例，所有只有一个 Component 和一个 Trait，在实际的生产环境中，一个 ApplicationConfiguration 可由多个 Component 组成，一个 Component 又可绑定多个 Trait 为其提供诸如流量管控、弹性伸缩等运维特性。&lt;/p&gt;
+&lt;p&gt;使用命令：&lt;code&gt;kubectl apply -f sample_application_config.yaml&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;core.oam.dev/v1alpha2&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;ApplicationConfiguration&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;example-appconfig&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;spec&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;components&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;componentName&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;example-deploy&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;traits&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;trait&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;core.oam.dev/v1alpha2&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;IngressTrait&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;example-ingress-trait&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;spec&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;                &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;rules&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;                  &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;host&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;nginx.oam.com&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;                    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;paths&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;                      &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;path&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;/&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;                        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;backend&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;                          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;serviceName&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;deploy-test&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;                          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;servicePort&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;8080&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;检查结果&#34;&gt;检查结果&lt;/h4&gt;
+&lt;p&gt;可以看到 Deployment、Service 和 Ingress 已经部署成功：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl get deploy,svc,ing
+NAME                  READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/web   1/1     &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;            &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;           8m29s
+
+NAME                  TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+service/deploy-test   ClusterIP   10.43.170.228   &amp;lt;none&amp;gt;        8080/TCP   8m29s
+
+NAME                                       HOSTS           ADDRESS                       PORTS   AGE
+ingress.extensions/example-ingress-trait   nginx.oam.com   192.168.1.129,192.168.4.210   &lt;span style=&#34;color:#3677a9&#34;&gt;80&lt;/span&gt;      8m29s
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;访问服务：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ curl -H &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Host: nginx.oam.com&amp;#34;&lt;/span&gt;  http://192.168.1.129
 &amp;lt;!DOCTYPE html&amp;gt;
 &amp;lt;html&amp;gt;
 &amp;lt;head&amp;gt;
 &amp;lt;title&amp;gt;Welcome to nginx!&amp;lt;/title&amp;gt;
 &amp;lt;style&amp;gt;
-body {
-width: 35em;
-margin: &lt;span style="color:#3677a9">0&lt;/span> auto;
-font-family: Tahoma, Verdana, Arial, sans-serif;
-}
+    body {
+        width: 35em;
+        margin: &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt; auto;
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+    }
 &amp;lt;/style&amp;gt;
 &amp;lt;/head&amp;gt;
 &amp;lt;body&amp;gt;
 &amp;lt;h1&amp;gt;Welcome to nginx!&amp;lt;/h1&amp;gt;
 &amp;lt;p&amp;gt;If you see this page, the nginx web server is successfully installed and
 working. Further configuration is required.&amp;lt;/p&amp;gt;
+
 &amp;lt;p&amp;gt;For online documentation and support please refer to
-&amp;lt;a &lt;span style="color:#40ffff">href&lt;/span>=&lt;span style="color:#ed9d13">&amp;#34;http://nginx.org/&amp;#34;&lt;/span>&amp;gt;nginx.org&amp;lt;/a&amp;gt;.&amp;lt;br/&amp;gt;
+&amp;lt;a &lt;span style=&#34;color:#40ffff&#34;&gt;href&lt;/span&gt;=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;http://nginx.org/&amp;#34;&lt;/span&gt;&amp;gt;nginx.org&amp;lt;/a&amp;gt;.&amp;lt;br/&amp;gt;
 Commercial support is available at
-&amp;lt;a &lt;span style="color:#40ffff">href&lt;/span>=&lt;span style="color:#ed9d13">&amp;#34;http://nginx.com/&amp;#34;&lt;/span>&amp;gt;nginx.com&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
-&amp;lt;p&amp;gt;&amp;lt;em&amp;gt;Thank you &lt;span style="color:#6ab825;font-weight:bold">for&lt;/span> using nginx.&amp;lt;/em&amp;gt;&amp;lt;/p&amp;gt;
+&amp;lt;a &lt;span style=&#34;color:#40ffff&#34;&gt;href&lt;/span&gt;=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;http://nginx.com/&amp;#34;&lt;/span&gt;&amp;gt;nginx.com&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;&amp;lt;em&amp;gt;Thank you &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; using nginx.&amp;lt;/em&amp;gt;&amp;lt;/p&amp;gt;
 &amp;lt;/body&amp;gt;
 &amp;lt;/html&amp;gt;
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>应用的整体结构如下图所示：&lt;/p>
-&lt;p>&lt;img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1gg94rq5fyij20ef0drdgg.jpg" alt="OMA">&lt;/p>
-&lt;h2 id="结语">结语&lt;/h2>
-&lt;p>通过上面这个简单的示例，可以看出如果遵循 OAM 模型来划分应用，我们可以从 ApplicationConfiguration 入手，看到应用中都包含哪些组件（Component），同时又可以看到每个组件都有哪些运维特性（Trait）来支持这个组件，逐层的查看每个模块的描述和配置，最终全面了解这个应用，而不用像现在这样使用 label 和 name，漫无目的的靠运气来理清整个架构，真正的做到&lt;strong>以应用为中心&lt;/strong>。&lt;/p>
-&lt;p>OAM 的本质是将云原生应用定义中的研发、运维关注点分离，资源对象进行进一步抽象，化繁为简，包罗万象。&lt;/p>
-&lt;h2 id="参考">参考&lt;/h2>
-&lt;ul>
-&lt;li>&lt;a href="https://mp.weixin.qq.com/s/rRaHl5a5PU9Xg5psMservA?from=timeline&amp;amp;isappinstalled=0&amp;amp;scene=2&amp;amp;clicktime=1588769747&amp;amp;enterid=1588769747">深度解读！阿里统一应用管理架构升级的教训与实践 - CSDN&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://github.com/oam-dev/catalog">oam-dev/catalog - github.com&lt;/a>&lt;/li>
-&lt;/ul></description></item></channel></rss>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;应用的整体结构如下图所示：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1gg94rq5fyij20ef0drdgg.jpg&#34; alt=&#34;OMA&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
+&lt;p&gt;通过上面这个简单的示例，可以看出如果遵循 OAM 模型来划分应用，我们可以从 ApplicationConfiguration 入手，看到应用中都包含哪些组件（Component），同时又可以看到每个组件都有哪些运维特性（Trait）来支持这个组件，逐层的查看每个模块的描述和配置，最终全面了解这个应用，而不用像现在这样使用 label 和 name，漫无目的的靠运气来理清整个架构，真正的做到&lt;strong&gt;以应用为中心&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;OAM 的本质是将云原生应用定义中的研发、运维关注点分离，资源对象进行进一步抽象，化繁为简，包罗万象。&lt;/p&gt;
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://mp.weixin.qq.com/s/rRaHl5a5PU9Xg5psMservA?from=timeline&amp;amp;isappinstalled=0&amp;amp;scene=2&amp;amp;clicktime=1588769747&amp;amp;enterid=1588769747&#34;&gt;深度解读！阿里统一应用管理架构升级的教训与实践 - CSDN&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/oam-dev/catalog&#34;&gt;oam-dev/catalog - github.com&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,318 +1,407 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Guo Xudong's Blog·郭旭东的博客 – 阿里云</title><link>https://guoxudong.io/categories/%E9%98%BF%E9%87%8C%E4%BA%91/</link><description>Recent content in 阿里云 on Guo Xudong's Blog·郭旭东的博客</description><generator>Hugo -- gohugo.io</generator><language>zh</language><lastBuildDate>Wed, 11 Nov 2020 11:23:40 +0800</lastBuildDate><atom:link href="https://guoxudong.io/categories/%E9%98%BF%E9%87%8C%E4%BA%91/index.xml" rel="self" type="application/rss+xml"/><item><title>Post: Teambition 网盘 VS 阿里云盘：阿里这个浓眉大眼的也开始玩赛马了？</title><link>https://guoxudong.io/post/teambition-disk-vs-aliyun-disk/</link><pubDate>Wed, 11 Nov 2020 11:23:40 +0800</pubDate><guid>https://guoxudong.io/post/teambition-disk-vs-aliyun-disk/</guid><description>
-&lt;h2 id="前言">前言&lt;/h2>
-&lt;p>在之前的文章&lt;a href="../alibaba-teambition-disk/">《试用阿里网盘内测版-不限速、无广告、隐私安全我全都要》&lt;/a>中笔者分享了阿里巴巴旗下 Teambition 网盘的内测试用体验。就在文章发布的当天，机缘巧合笔者获得了阿里巴巴另一款网盘产品：「&lt;strong>阿里云盘&lt;/strong>」的 ”个人云种子用户“ 邀请码。惊奇的发现原来阿里巴巴同时存在两款不同的网盘产品，分别属于 &lt;strong>Teambition 团队&lt;/strong>和&lt;strong>阿里云基础产品事业部的智能存储团队&lt;/strong>。&lt;/p>
-&lt;p>&lt;img src="https://tvax2.sinaimg.cn/wap800/ad5fbf65gy1gkl3hrdu81j20k80z27ii.jpg" alt="个人云种子用户邀请页">&lt;/p>
-&lt;p>一直以来，最为大众所知的是腾讯的赛马机制，如微信、王者荣耀都是这个机制的产物，而阿里的赛马机制鲜有人提。但据公开的信息显示，阿里内部其实早就存在了这一机制，只是笔者没有关注到而已。本文并不对这一机制做过多评价，而是着力于这两个网盘产品的使用体验，以一个网盘使用者的视角对比这两个产品的特点与差异。&lt;/p>
-&lt;h2 id="阿里云盘">阿里云盘&lt;/h2>
-&lt;p>早在今年8月份&lt;a href="https://www.aliyundrive.com/">阿里云盘&lt;/a>就开放了下载试用（当时的测试用户可以拿到 6T 的 VIP 容量），但当笔者注意到时已经从 Apple Store 下架。而在10月底又再度上架 Apple Store（然而笔者已经换了安卓）并开始发放邀请码，这次笔者没有错过试用机会，下载并注册了阿里云盘 APP，但存储空间只有 1T 了，这个存储空间应该就是免费提供给用户的空间大小。&lt;/p>
-&lt;p>阿里云盘目前只有 IOS 和安卓的 APP，Windows 和 Mac 端暂时没有上线，并且也没有 web 端可以登录。官网极端的简洁，宛如一个直男&amp;hellip;&lt;/p>
-&lt;p>&lt;img src="https://tva1.sinaimg.cn/large/ad5fbf65gy1gkl80aczdnj21h70q67wh.jpg" alt="阿里云盘官网">&lt;/p>
-&lt;h2 id="阿里云盘-vs-teambition-网盘">阿里云盘 vs Teambition 网盘&lt;/h2>
-&lt;p>与 Teambition 相比，阿里云盘 APP 的界面也十分直男，阿里橙搭配极简的风格组成了 APP 的整个页面。与 Teambition 不同，阿里云盘更贴近手机用户，其中的相册功能可以快速浏览网盘中的照片，同时也提供了手机相册同步功能，可以非常简单的同步手机相册到网盘。&lt;/p>
-&lt;p>比较有意思的是「虎符保险箱」这个功能，可以在 APP 内再设置一层密码，用来保存隐私文件。分享功能分为口令分享和私密连接，很遗憾和 Teambition 一样，也是暂时不可用。&lt;/p>
-&lt;p>与 Teambition 相同的是上传下载同样不限速，实测都可以达到宽带提供的最大速率。&lt;/p>
-&lt;p>&lt;img src="https://tvax4.sinaimg.cn/wap800/ad5fbf65ly1gkl84rikc7j20u01t0403.jpg" alt="APP 页面">&lt;/p>
-&lt;p>不难发现，Teambition 网盘和阿里云盘的策略还是有差异的，Teambition 更强调协作，并且和 Teambition 产品绑定，没有独立的 APP；而阿里云盘则从手机用户入手，有独立的 APP 且操作更为丝滑。同样是没有 Windows 和 Mac 端，但 Teambition 提供了 web 端，而阿里云盘的手机操作体验更佳，也算是各有千秋。&lt;/p>
-&lt;h2 id="结语">结语&lt;/h2>
-&lt;p>可以看出两个产品同样都处在比较早期的阶段，并没有如在线解压、微信备份、文件格式转换等功能，还不是成熟的网盘产品，但核心的存储与上传下载功能都比较优秀，很有竞争力。&lt;/p>
-&lt;p>随着阿里的入局，为本已如同一潭死水般的网盘市场带来一丝竞争的活力，为用户提供了更多选择的空间。&lt;/p>
-&lt;blockquote>
-&lt;p>PS：Teambition 团队和阿里云盘团队都在疯狂招人，阿里云盘更是在内网放出话说现在内推可以拿终身会员，有兴趣的朋友可以去尝试一下：）&lt;/p>
-&lt;/blockquote></description></item><item><title>Post: 试用阿里网盘内测版-不限速、无广告、隐私安全我全都要</title><link>https://guoxudong.io/post/alibaba-teambition-disk/</link><pubDate>Mon, 02 Nov 2020 09:26:27 +0800</pubDate><guid>https://guoxudong.io/post/alibaba-teambition-disk/</guid><description>
-&lt;h2 id="前言">前言&lt;/h2>
-&lt;p>Teambition 网盘自开放内测申请以来已经过去了数月，上周五终于收到了心心念念内测码，于是立马上手体验。Teambition 网盘宣称是不限速、不打扰、够安全、易于协作的网盘，属于阿里巴巴工作学习套件 Teambition，提供能够满足日常需求的超大存储空间，有趣、好用的协作等功能。&lt;/p>
-&lt;p>从官网可以看出 Teambition 网盘准确的抓到了个人网盘用户的痛点：&lt;strong>上传下载限速&lt;/strong>、&lt;strong>各种广告弹窗&lt;/strong>、&lt;strong>隐私安全&lt;/strong>以及&lt;strong>操作困难&lt;/strong>，而作为工作学习套件的一部分还增加了协作功能，除了分享资源，还提供了各种协作功能，大大提升协作效率。&lt;/p>
-&lt;p>目前 Teambition 网盘还处于 Beta 内测版，申请地址：&lt;a href="https://survey.aliyun.com/apps/zhiliao/jqBinngVQ">https://survey.aliyun.com/apps/zhiliao/jqBinngVQ&lt;/a>&lt;/p>
-&lt;h2 id="优势">优势&lt;/h2>
-&lt;p>总的来说优势体现在不限速、无广告、隐私安全和协作方面。&lt;/p>
-&lt;h3 id="速度">速度&lt;/h3>
-&lt;p>经实测 Teambition 网盘的上传下载速度都能达到本地带宽的最大值，上传下载速度都非常丝滑。&lt;/p>
-&lt;p>&lt;img src="https://tvax1.sinaimg.cn/large/ad5fbf65ly1gkamt4yh6tj20b604p74d.jpg" alt="上传速度">&lt;/p>
-&lt;br>
-&lt;p>Teambition 网盘背靠阿里巴巴集团，由阿里云提供资源支持，所以 Teambition 可以以极低成本拿到海量的资源，这也就是他们敢于宣传资源上传下载不限速的原因。&lt;/p>
-&lt;p>上传下载速度应该是所有功能的核心，也是和友商比较最多的一点。作为一名云资源管理者和维护者，我深知存储和网络带宽消耗成本的巨大，企业为了保证各种图片、视频、文件资源的可用性，会花费不菲的成本来采购 OSS 或 S3 这样的对象存储，这些资源的上传下载自然不会限速，甚至还有配套的加速服务。&lt;/p>
-&lt;p>所以对于网盘的限速从情感上是可以接受的，因为这些资源成本巨大，但是如果限速到&lt;strong>几k、几十k/秒&lt;/strong>，那这样的策略就不是基于成本的考虑，而是垄断后的特权了。&lt;/p>
-&lt;h3 id="容量">容量&lt;/h3>
-&lt;p>内测版开放了 2T 的免费容量，这个大小基本满足了个人用户的使用需求，后续应该会开放购买更大的容量。&lt;/p>
-&lt;p>&lt;img src="https://tvax1.sinaimg.cn/large/ad5fbf65gy1gkasv8u9fzj208n03xglh.jpg" alt="网盘容量">&lt;/p>
-&lt;h3 id="隐私安全">隐私安全&lt;/h3>
-&lt;p>在直接咨询了阿里的开发人员后，得知 Teambition 网盘采用与天猫双十一相同的技术架构，确保用户个人隐私和文件的绝对安全。&lt;/p>
-&lt;h3 id="页面">页面&lt;/h3>
-&lt;p>网盘页面简洁明了，功能一目了然，可以识别众多文件格式。确实也和承诺中的一样，没有广告推送和弹窗，整体保持简洁清新的风格。&lt;/p>
-&lt;p>&lt;img src="https://tvax1.sinaimg.cn/large/ad5fbf65gy1gkamyvsv50j21h60q7dj9.jpg" alt="网盘页面">&lt;/p>
-&lt;h3 id="协作">协作&lt;/h3>
-&lt;p>除了一般网盘的功能外，Teambition 网盘还突出了协作的功能。&lt;/p>
-&lt;h4 id="讨论功能">讨论功能&lt;/h4>
-&lt;p>&lt;img src="https://tvax1.sinaimg.cn/large/ad5fbf65ly1gkanbqdngbj20dd09dq3w.jpg" alt="讨论">&lt;/p>
-&lt;p>参与协作的用户可以使用不同的颜色，将想要讨论的对象&lt;strong>圈出来&lt;/strong>，这样就可以在同一幅图片或者视频中进行多组讨论，不用添加多余的描述。这个功能在视频中效果会更加明显，可以逐帧&lt;strong>圈&lt;/strong>出修改对象并发表意见（剪辑师、设计师狂怒）。&lt;/p>
-&lt;p>&lt;img src="https://tva1.sinaimg.cn/large/ad5fbf65gy1gkandlm1cfj21780ppqil.jpg" alt="圈出讨论">&lt;/p>
-&lt;p>你觉得是狗可爱还是猫可爱呢？：）&lt;/p>
-&lt;h4 id="图像识别">图像识别&lt;/h4>
-&lt;p>文档中并没有提到这个功能，是我在测试时偶然发现的，Teambition 网盘会自动识别你上传图像的内容，并在详情中的 &lt;strong>“包含的事物”&lt;/strong> 中展示，如下图：&lt;/p>
-&lt;p>&lt;img src="https://tvax2.sinaimg.cn/large/ad5fbf65gy1gkanoe8od2j214l0jo1gt.jpg" alt="图像识别">&lt;/p>
-&lt;h4 id="分享">分享&lt;/h4>
-&lt;p>目前分享功能是关闭的，原因是内测期间有用户利用 Teambition 网盘分享违规文件，所以暂时无法体验 Teambition 网盘的分享功能。不过从 &lt;strong>&lt;a href="https://thoughts.teambition.com/sharespace/5f72e44becf9290016f85c8c/docs/5f99203decf9290016f85ce3">「分享」功能升级说明&lt;/a>&lt;/strong> 可以看到目前已经开启了安全升级，同时还增加了更多功能。&lt;/p>
-&lt;p>多种分享权限：&lt;/p>
-&lt;ul>
-&lt;li>限时分享有效期增加更细致的时间颗粒度（7天、永久、自定义）&lt;/li>
-&lt;li>分享支持增加添加密码&lt;/li>
-&lt;li>批量分享支持画册、缩略图两种模式查看文件&lt;/li>
-&lt;/ul>
-&lt;p>粒度更细的分享管理：&lt;/p>
-&lt;ul>
-&lt;li>支持查看分享文件的浏览量和被下载量&lt;/li>
-&lt;li>支持查看分享文件的有效期&lt;/li>
-&lt;li>分享中的文件支持随时取消&lt;/li>
-&lt;/ul>
-&lt;h2 id="不足">不足&lt;/h2>
-&lt;p>Teambition 网盘的核心功能确实直击网盘使用的痛点，但还处于 Beta 内测版，有很多不足。&lt;/p>
-&lt;ul>
-&lt;li>目前只有 web 端和手机端可以使用，微信小程序、桌面端（Mac 和 Windows）、平板设备端还未开放&lt;/li>
-&lt;li>手机端目前还不能删除文件，删除文件要在 web 端操作，而且手机端网盘的加载速度也很慢，且多次出现加载不出来的情况&lt;/li>
-&lt;li>分享功能暂时不可用&lt;/li>
-&lt;li>暂时还没有与各种设备打通，还没有手机相册/内容备份等功能&lt;/li>
-&lt;/ul>
-&lt;h2 id="结语">结语&lt;/h2>
-&lt;p>总的来说，Teambition 网盘抓住了网盘使用的痛点，并以此收获了众多的关注与好评。但要走的路还很长，在海量用户使用下网盘本身的可用性、对各种设备的支持、对违规内容的识别和管控都将是 Teambition 网盘面临的挑战。&lt;/p>
-&lt;p>往长远了看 Teambition 网盘的出现给了用户更多的选择，同时打破了目前网盘市场的局面，逼着“一家独大”的同行去改善自己的产品和服务，从用户的角度这都是好事情。&lt;/p></description></item><item><title>Post: 听说，阿里云给它的 OpenAPI 开发了一套编程语言</title><link>https://guoxudong.io/post/aliyun-darabonba/</link><pubDate>Tue, 01 Sep 2020 11:49:12 +0800</pubDate><guid>https://guoxudong.io/post/aliyun-darabonba/</guid><description>
-&lt;h2 id="openapi">OpenAPI&lt;/h2>
-&lt;p>熟悉公有云的同学对 OpenAPI 都不会陌生，OpenAPI 可以称之为公有云与用户之间的一座桥梁。直接使用公有云的大多是技术人员，而对于技术人员，尤其是开发者来说，往往并不满足于只使用 Web UI 界面来与公有云交互，尤其是当使用的公有云产品日益增多时。由于 Web UI 是面向全体用户设计，并不能满足用户的全部需求。这时 OpenAPI 就出现了，用户通过 OpenAPI 将自己的系统直接对接公有云，并根据自己的使用场景和需求进行设计，开发出一套满足自己需求的公有云管理系统或流程，这样既提高了用户本身的自动化水平，还降低了误操作带来的风险。&lt;/p>
-&lt;h2 id="背景">背景&lt;/h2>
-&lt;p>最早的 OpenAPI 往往是云厂商开放出来的一系列 RESTful API 接口，用户需要根据接口要求自己封装认证方法、传入参数，但是由于部分 OpenAPI 并不是 RESTful 风格、产品升级导致的接口参数变化、文档更新不及时等问题，导致云厂商开始寻求新的解决办法。SDK 就是一种解决办法，通过云厂商自己封装的 SDK，可以提高用户体验并屏蔽部分直接使用 OpenAPI 带来的麻烦，但是随着云产品的增加，需要开发的 SDK 越来越多，并且由于 SDK 往往是多语言的，云厂商需要投入大量人手来维护这些 SDK，导致某些产品由于人力资源有限并没有提供 SDK 或者 SDK 语言不全。&lt;/p>
-&lt;p>在这种背景下，阿里云的同学提出了一种新办法：他们重新定义了一门 DSL 语言 Darabonba 来描述各种各样的 OpenAPI，就如题目所说给 OpenAPI 开发了一种编程语言，从某种程度上来说，可以称之为：&lt;strong>OpenAPI as code&lt;/strong>。&lt;/p>
-&lt;h2 id="darabonba">Darabonba&lt;/h2>
-&lt;p>Darabonba(原名 TeaDSL)，是一种 OpenAPI 应用的领域特定语言。可以利用它为任意风格的接口生成多语言的 SDK、代码示例、测试用例、接口编排等。&lt;/p>
-&lt;p>&lt;img src="https://tva3.sinaimg.cn/large/ad5fbf65ly1giba4r6z4aj20rs0ci400.jpg" alt="Darabonba 设计理念">&lt;/p>
-&lt;p>在笔者看来，操作云产品的功能是开发者的目的，而 OpenAPI 是实现这个目的的手段，SDK 则简化了这种手段，Darabonba 的作用则降低了开发 SDK 的成本，并提高了开发 SDK 的速度，对云厂商的效率会有非常明显的提升。同时 Darabonba 也为使用多种编程语言的团队提供了一条捷径，原先需要每种编程语言都要出人来参加 OpenAPI 的集成，现在只需要公有云维护团队出一名或几名同学即可完成全语言 SDK 的生成。而如果公司本身有需要开发大量的 OpenAPI，甚至可以直接使用 Darabonba，开发符合自己系统 OpenAPI 的工具，&lt;a href="https://github.com/aliyun/darabonba">Darabonba&lt;/a> 目前已经开源，使用 &lt;a href="https://github.com/aliyun/darabonba/blob/master/LICENSE">Apache-2.0 LICENSE&lt;/a>。&lt;/p>
-&lt;h3 id="组件">组件&lt;/h3>
-&lt;p>Darabonba 目前支持：&lt;strong>Java&lt;/strong>、&lt;strong>C#&lt;/strong>、&lt;strong>TypeScript&lt;/strong>、&lt;strong>PHP&lt;/strong>、&lt;strong>Golang&lt;/strong> 和 &lt;strong>Python&lt;/strong> 代码的生成，除了解析器和多语言生成器，还提供了：&lt;/p>
-&lt;ul>
-&lt;li>&lt;a href="https://github.com/aliyun/darabonba-vscode">VS Code 插件&lt;/a>：提供语法高亮、代码提示、代码格式化、语法检查等功能。&lt;/li>
-&lt;li>&lt;a href="https://github.com/aliyun/darabonba-cli">CLI&lt;/a>：命令行工具，快速在本地拉起一个 Darabonba 项目。&lt;/li>
-&lt;li>&lt;a href="https://darabonba.api.aliyun.com/module">Darabonba 模块仓库&lt;/a>：模块仓库，提供 Darabonba 模块的发布和下载。&lt;/li>
-&lt;/ul>
-&lt;h3 id="darabonba-语言优势">Darabonba 语言优势&lt;/h3>
-&lt;ul>
-&lt;li>更宽泛的风格支持：支持 RESTful 风格的 OpenAPI，及其他所有基于 HTTP 协议的 OpenAPI。对非 RESTful 风格的 OpenAPI 更友好。&lt;/li>
-&lt;li>编程逻辑化：将 OpenAPI 从元数据定义走向编程化，封装复杂的 HTTP 处理过程为简单的方法接口。&lt;/li>
-&lt;li>运行时事务性支持：支持配置或设置 OpenAPI 的幂等、重试、超时、退避，将复杂的 OpenAPI 调用过程收敛在方法中。&lt;/li>
-&lt;/ul>
-&lt;h2 id="快速上手">快速上手&lt;/h2>
-&lt;p>下图可以看到完整的 Darabonba 运行流程，现在我们就来快速制作一套 Code Sample 吧。&lt;/p>
-&lt;p>&lt;img src="https://tva3.sinaimg.cn/large/ad5fbf65ly1gibatrt4puj21ao1e8tet.jpg" alt="">&lt;/p>
-&lt;h3 id="安装">安装&lt;/h3>
-&lt;p>阿里云提供了Darabonba 的 Web UI 界面，但是在网页上不好调试，我们选择本地安装 CLI 命令行工具。&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">&lt;span style="color:#999;font-style:italic"># Darabonba CLI 是由 Node.js 开发的，使用 npm 来安装&lt;/span>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Guo Xudong&#39;s Blog·郭旭东的博客 – 阿里云</title>
+    <link>https://guoxudong.io/categories/%E9%98%BF%E9%87%8C%E4%BA%91/</link>
+    <description>Recent content in 阿里云 on Guo Xudong&#39;s Blog·郭旭东的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Wed, 11 Nov 2020 11:23:40 +0800</lastBuildDate>
+    
+	  <atom:link href="https://guoxudong.io/categories/%E9%98%BF%E9%87%8C%E4%BA%91/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Post: Teambition 网盘 VS 阿里云盘：阿里这个浓眉大眼的也开始玩赛马了？</title>
+      <link>https://guoxudong.io/post/teambition-disk-vs-aliyun-disk/</link>
+      <pubDate>Wed, 11 Nov 2020 11:23:40 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/teambition-disk-vs-aliyun-disk/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;在之前的文章&lt;a href=&#34;../alibaba-teambition-disk/&#34;&gt;《试用阿里网盘内测版-不限速、无广告、隐私安全我全都要》&lt;/a&gt;中笔者分享了阿里巴巴旗下 Teambition 网盘的内测试用体验。就在文章发布的当天，机缘巧合笔者获得了阿里巴巴另一款网盘产品：「&lt;strong&gt;阿里云盘&lt;/strong&gt;」的 ”个人云种子用户“ 邀请码。惊奇的发现原来阿里巴巴同时存在两款不同的网盘产品，分别属于 &lt;strong&gt;Teambition 团队&lt;/strong&gt;和&lt;strong&gt;阿里云基础产品事业部的智能存储团队&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax2.sinaimg.cn/wap800/ad5fbf65gy1gkl3hrdu81j20k80z27ii.jpg&#34; alt=&#34;个人云种子用户邀请页&#34;&gt;&lt;/p&gt;
+&lt;p&gt;一直以来，最为大众所知的是腾讯的赛马机制，如微信、王者荣耀都是这个机制的产物，而阿里的赛马机制鲜有人提。但据公开的信息显示，阿里内部其实早就存在了这一机制，只是笔者没有关注到而已。本文并不对这一机制做过多评价，而是着力于这两个网盘产品的使用体验，以一个网盘使用者的视角对比这两个产品的特点与差异。&lt;/p&gt;
+&lt;h2 id=&#34;阿里云盘&#34;&gt;阿里云盘&lt;/h2&gt;
+&lt;p&gt;早在今年8月份&lt;a href=&#34;https://www.aliyundrive.com/&#34;&gt;阿里云盘&lt;/a&gt;就开放了下载试用（当时的测试用户可以拿到 6T 的 VIP 容量），但当笔者注意到时已经从 Apple Store 下架。而在10月底又再度上架 Apple Store（然而笔者已经换了安卓）并开始发放邀请码，这次笔者没有错过试用机会，下载并注册了阿里云盘 APP，但存储空间只有 1T 了，这个存储空间应该就是免费提供给用户的空间大小。&lt;/p&gt;
+&lt;p&gt;阿里云盘目前只有 IOS 和安卓的 APP，Windows 和 Mac 端暂时没有上线，并且也没有 web 端可以登录。官网极端的简洁，宛如一个直男&amp;hellip;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1gkl80aczdnj21h70q67wh.jpg&#34; alt=&#34;阿里云盘官网&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;阿里云盘-vs-teambition-网盘&#34;&gt;阿里云盘 vs Teambition 网盘&lt;/h2&gt;
+&lt;p&gt;与 Teambition 相比，阿里云盘 APP 的界面也十分直男，阿里橙搭配极简的风格组成了 APP 的整个页面。与 Teambition 不同，阿里云盘更贴近手机用户，其中的相册功能可以快速浏览网盘中的照片，同时也提供了手机相册同步功能，可以非常简单的同步手机相册到网盘。&lt;/p&gt;
+&lt;p&gt;比较有意思的是「虎符保险箱」这个功能，可以在 APP 内再设置一层密码，用来保存隐私文件。分享功能分为口令分享和私密连接，很遗憾和 Teambition 一样，也是暂时不可用。&lt;/p&gt;
+&lt;p&gt;与 Teambition 相同的是上传下载同样不限速，实测都可以达到宽带提供的最大速率。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax4.sinaimg.cn/wap800/ad5fbf65ly1gkl84rikc7j20u01t0403.jpg&#34; alt=&#34;APP 页面&#34;&gt;&lt;/p&gt;
+&lt;p&gt;不难发现，Teambition 网盘和阿里云盘的策略还是有差异的，Teambition 更强调协作，并且和 Teambition 产品绑定，没有独立的 APP；而阿里云盘则从手机用户入手，有独立的 APP 且操作更为丝滑。同样是没有 Windows 和 Mac 端，但 Teambition 提供了 web 端，而阿里云盘的手机操作体验更佳，也算是各有千秋。&lt;/p&gt;
+&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
+&lt;p&gt;可以看出两个产品同样都处在比较早期的阶段，并没有如在线解压、微信备份、文件格式转换等功能，还不是成熟的网盘产品，但核心的存储与上传下载功能都比较优秀，很有竞争力。&lt;/p&gt;
+&lt;p&gt;随着阿里的入局，为本已如同一潭死水般的网盘市场带来一丝竞争的活力，为用户提供了更多选择的空间。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;PS：Teambition 团队和阿里云盘团队都在疯狂招人，阿里云盘更是在内网放出话说现在内推可以拿终身会员，有兴趣的朋友可以去尝试一下：）&lt;/p&gt;
+&lt;/blockquote&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Post: 试用阿里网盘内测版-不限速、无广告、隐私安全我全都要</title>
+      <link>https://guoxudong.io/post/alibaba-teambition-disk/</link>
+      <pubDate>Mon, 02 Nov 2020 09:26:27 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/alibaba-teambition-disk/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;Teambition 网盘自开放内测申请以来已经过去了数月，上周五终于收到了心心念念内测码，于是立马上手体验。Teambition 网盘宣称是不限速、不打扰、够安全、易于协作的网盘，属于阿里巴巴工作学习套件 Teambition，提供能够满足日常需求的超大存储空间，有趣、好用的协作等功能。&lt;/p&gt;
+&lt;p&gt;从官网可以看出 Teambition 网盘准确的抓到了个人网盘用户的痛点：&lt;strong&gt;上传下载限速&lt;/strong&gt;、&lt;strong&gt;各种广告弹窗&lt;/strong&gt;、&lt;strong&gt;隐私安全&lt;/strong&gt;以及&lt;strong&gt;操作困难&lt;/strong&gt;，而作为工作学习套件的一部分还增加了协作功能，除了分享资源，还提供了各种协作功能，大大提升协作效率。&lt;/p&gt;
+&lt;p&gt;目前 Teambition 网盘还处于 Beta 内测版，申请地址：&lt;a href=&#34;https://survey.aliyun.com/apps/zhiliao/jqBinngVQ&#34;&gt;https://survey.aliyun.com/apps/zhiliao/jqBinngVQ&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;优势&#34;&gt;优势&lt;/h2&gt;
+&lt;p&gt;总的来说优势体现在不限速、无广告、隐私安全和协作方面。&lt;/p&gt;
+&lt;h3 id=&#34;速度&#34;&gt;速度&lt;/h3&gt;
+&lt;p&gt;经实测 Teambition 网盘的上传下载速度都能达到本地带宽的最大值，上传下载速度都非常丝滑。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65ly1gkamt4yh6tj20b604p74d.jpg&#34; alt=&#34;上传速度&#34;&gt;&lt;/p&gt;
+&lt;br&gt;
+&lt;p&gt;Teambition 网盘背靠阿里巴巴集团，由阿里云提供资源支持，所以 Teambition 可以以极低成本拿到海量的资源，这也就是他们敢于宣传资源上传下载不限速的原因。&lt;/p&gt;
+&lt;p&gt;上传下载速度应该是所有功能的核心，也是和友商比较最多的一点。作为一名云资源管理者和维护者，我深知存储和网络带宽消耗成本的巨大，企业为了保证各种图片、视频、文件资源的可用性，会花费不菲的成本来采购 OSS 或 S3 这样的对象存储，这些资源的上传下载自然不会限速，甚至还有配套的加速服务。&lt;/p&gt;
+&lt;p&gt;所以对于网盘的限速从情感上是可以接受的，因为这些资源成本巨大，但是如果限速到&lt;strong&gt;几k、几十k/秒&lt;/strong&gt;，那这样的策略就不是基于成本的考虑，而是垄断后的特权了。&lt;/p&gt;
+&lt;h3 id=&#34;容量&#34;&gt;容量&lt;/h3&gt;
+&lt;p&gt;内测版开放了 2T 的免费容量，这个大小基本满足了个人用户的使用需求，后续应该会开放购买更大的容量。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65gy1gkasv8u9fzj208n03xglh.jpg&#34; alt=&#34;网盘容量&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;隐私安全&#34;&gt;隐私安全&lt;/h3&gt;
+&lt;p&gt;在直接咨询了阿里的开发人员后，得知 Teambition 网盘采用与天猫双十一相同的技术架构，确保用户个人隐私和文件的绝对安全。&lt;/p&gt;
+&lt;h3 id=&#34;页面&#34;&gt;页面&lt;/h3&gt;
+&lt;p&gt;网盘页面简洁明了，功能一目了然，可以识别众多文件格式。确实也和承诺中的一样，没有广告推送和弹窗，整体保持简洁清新的风格。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65gy1gkamyvsv50j21h60q7dj9.jpg&#34; alt=&#34;网盘页面&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;协作&#34;&gt;协作&lt;/h3&gt;
+&lt;p&gt;除了一般网盘的功能外，Teambition 网盘还突出了协作的功能。&lt;/p&gt;
+&lt;h4 id=&#34;讨论功能&#34;&gt;讨论功能&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65ly1gkanbqdngbj20dd09dq3w.jpg&#34; alt=&#34;讨论&#34;&gt;&lt;/p&gt;
+&lt;p&gt;参与协作的用户可以使用不同的颜色，将想要讨论的对象&lt;strong&gt;圈出来&lt;/strong&gt;，这样就可以在同一幅图片或者视频中进行多组讨论，不用添加多余的描述。这个功能在视频中效果会更加明显，可以逐帧&lt;strong&gt;圈&lt;/strong&gt;出修改对象并发表意见（剪辑师、设计师狂怒）。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1gkandlm1cfj21780ppqil.jpg&#34; alt=&#34;圈出讨论&#34;&gt;&lt;/p&gt;
+&lt;p&gt;你觉得是狗可爱还是猫可爱呢？：）&lt;/p&gt;
+&lt;h4 id=&#34;图像识别&#34;&gt;图像识别&lt;/h4&gt;
+&lt;p&gt;文档中并没有提到这个功能，是我在测试时偶然发现的，Teambition 网盘会自动识别你上传图像的内容，并在详情中的 &lt;strong&gt;“包含的事物”&lt;/strong&gt; 中展示，如下图：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax2.sinaimg.cn/large/ad5fbf65gy1gkanoe8od2j214l0jo1gt.jpg&#34; alt=&#34;图像识别&#34;&gt;&lt;/p&gt;
+&lt;h4 id=&#34;分享&#34;&gt;分享&lt;/h4&gt;
+&lt;p&gt;目前分享功能是关闭的，原因是内测期间有用户利用 Teambition 网盘分享违规文件，所以暂时无法体验 Teambition 网盘的分享功能。不过从 &lt;strong&gt;&lt;a href=&#34;https://thoughts.teambition.com/sharespace/5f72e44becf9290016f85c8c/docs/5f99203decf9290016f85ce3&#34;&gt;「分享」功能升级说明&lt;/a&gt;&lt;/strong&gt; 可以看到目前已经开启了安全升级，同时还增加了更多功能。&lt;/p&gt;
+&lt;p&gt;多种分享权限：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;限时分享有效期增加更细致的时间颗粒度（7天、永久、自定义）&lt;/li&gt;
+&lt;li&gt;分享支持增加添加密码&lt;/li&gt;
+&lt;li&gt;批量分享支持画册、缩略图两种模式查看文件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;粒度更细的分享管理：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;支持查看分享文件的浏览量和被下载量&lt;/li&gt;
+&lt;li&gt;支持查看分享文件的有效期&lt;/li&gt;
+&lt;li&gt;分享中的文件支持随时取消&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;不足&#34;&gt;不足&lt;/h2&gt;
+&lt;p&gt;Teambition 网盘的核心功能确实直击网盘使用的痛点，但还处于 Beta 内测版，有很多不足。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;目前只有 web 端和手机端可以使用，微信小程序、桌面端（Mac 和 Windows）、平板设备端还未开放&lt;/li&gt;
+&lt;li&gt;手机端目前还不能删除文件，删除文件要在 web 端操作，而且手机端网盘的加载速度也很慢，且多次出现加载不出来的情况&lt;/li&gt;
+&lt;li&gt;分享功能暂时不可用&lt;/li&gt;
+&lt;li&gt;暂时还没有与各种设备打通，还没有手机相册/内容备份等功能&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
+&lt;p&gt;总的来说，Teambition 网盘抓住了网盘使用的痛点，并以此收获了众多的关注与好评。但要走的路还很长，在海量用户使用下网盘本身的可用性、对各种设备的支持、对违规内容的识别和管控都将是 Teambition 网盘面临的挑战。&lt;/p&gt;
+&lt;p&gt;往长远了看 Teambition 网盘的出现给了用户更多的选择，同时打破了目前网盘市场的局面，逼着“一家独大”的同行去改善自己的产品和服务，从用户的角度这都是好事情。&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Post: 听说，阿里云给它的 OpenAPI 开发了一套编程语言</title>
+      <link>https://guoxudong.io/post/aliyun-darabonba/</link>
+      <pubDate>Tue, 01 Sep 2020 11:49:12 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/aliyun-darabonba/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;openapi&#34;&gt;OpenAPI&lt;/h2&gt;
+&lt;p&gt;熟悉公有云的同学对 OpenAPI 都不会陌生，OpenAPI 可以称之为公有云与用户之间的一座桥梁。直接使用公有云的大多是技术人员，而对于技术人员，尤其是开发者来说，往往并不满足于只使用 Web UI 界面来与公有云交互，尤其是当使用的公有云产品日益增多时。由于 Web UI 是面向全体用户设计，并不能满足用户的全部需求。这时 OpenAPI 就出现了，用户通过 OpenAPI 将自己的系统直接对接公有云，并根据自己的使用场景和需求进行设计，开发出一套满足自己需求的公有云管理系统或流程，这样既提高了用户本身的自动化水平，还降低了误操作带来的风险。&lt;/p&gt;
+&lt;h2 id=&#34;背景&#34;&gt;背景&lt;/h2&gt;
+&lt;p&gt;最早的 OpenAPI 往往是云厂商开放出来的一系列 RESTful API 接口，用户需要根据接口要求自己封装认证方法、传入参数，但是由于部分 OpenAPI 并不是 RESTful 风格、产品升级导致的接口参数变化、文档更新不及时等问题，导致云厂商开始寻求新的解决办法。SDK 就是一种解决办法，通过云厂商自己封装的 SDK，可以提高用户体验并屏蔽部分直接使用 OpenAPI 带来的麻烦，但是随着云产品的增加，需要开发的 SDK 越来越多，并且由于 SDK 往往是多语言的，云厂商需要投入大量人手来维护这些 SDK，导致某些产品由于人力资源有限并没有提供 SDK 或者 SDK 语言不全。&lt;/p&gt;
+&lt;p&gt;在这种背景下，阿里云的同学提出了一种新办法：他们重新定义了一门 DSL 语言 Darabonba 来描述各种各样的 OpenAPI，就如题目所说给 OpenAPI 开发了一种编程语言，从某种程度上来说，可以称之为：&lt;strong&gt;OpenAPI as code&lt;/strong&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;darabonba&#34;&gt;Darabonba&lt;/h2&gt;
+&lt;p&gt;Darabonba(原名 TeaDSL)，是一种 OpenAPI 应用的领域特定语言。可以利用它为任意风格的接口生成多语言的 SDK、代码示例、测试用例、接口编排等。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva3.sinaimg.cn/large/ad5fbf65ly1giba4r6z4aj20rs0ci400.jpg&#34; alt=&#34;Darabonba 设计理念&#34;&gt;&lt;/p&gt;
+&lt;p&gt;在笔者看来，操作云产品的功能是开发者的目的，而 OpenAPI 是实现这个目的的手段，SDK 则简化了这种手段，Darabonba 的作用则降低了开发 SDK 的成本，并提高了开发 SDK 的速度，对云厂商的效率会有非常明显的提升。同时 Darabonba 也为使用多种编程语言的团队提供了一条捷径，原先需要每种编程语言都要出人来参加 OpenAPI 的集成，现在只需要公有云维护团队出一名或几名同学即可完成全语言 SDK 的生成。而如果公司本身有需要开发大量的 OpenAPI，甚至可以直接使用 Darabonba，开发符合自己系统 OpenAPI 的工具，&lt;a href=&#34;https://github.com/aliyun/darabonba&#34;&gt;Darabonba&lt;/a&gt; 目前已经开源，使用 &lt;a href=&#34;https://github.com/aliyun/darabonba/blob/master/LICENSE&#34;&gt;Apache-2.0 LICENSE&lt;/a&gt;。&lt;/p&gt;
+&lt;h3 id=&#34;组件&#34;&gt;组件&lt;/h3&gt;
+&lt;p&gt;Darabonba 目前支持：&lt;strong&gt;Java&lt;/strong&gt;、&lt;strong&gt;C#&lt;/strong&gt;、&lt;strong&gt;TypeScript&lt;/strong&gt;、&lt;strong&gt;PHP&lt;/strong&gt;、&lt;strong&gt;Golang&lt;/strong&gt; 和 &lt;strong&gt;Python&lt;/strong&gt; 代码的生成，除了解析器和多语言生成器，还提供了：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/aliyun/darabonba-vscode&#34;&gt;VS Code 插件&lt;/a&gt;：提供语法高亮、代码提示、代码格式化、语法检查等功能。&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/aliyun/darabonba-cli&#34;&gt;CLI&lt;/a&gt;：命令行工具，快速在本地拉起一个 Darabonba 项目。&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://darabonba.api.aliyun.com/module&#34;&gt;Darabonba 模块仓库&lt;/a&gt;：模块仓库，提供 Darabonba 模块的发布和下载。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;darabonba-语言优势&#34;&gt;Darabonba 语言优势&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;更宽泛的风格支持：支持 RESTful 风格的 OpenAPI，及其他所有基于 HTTP 协议的 OpenAPI。对非 RESTful 风格的 OpenAPI 更友好。&lt;/li&gt;
+&lt;li&gt;编程逻辑化：将 OpenAPI 从元数据定义走向编程化，封装复杂的 HTTP 处理过程为简单的方法接口。&lt;/li&gt;
+&lt;li&gt;运行时事务性支持：支持配置或设置 OpenAPI 的幂等、重试、超时、退避，将复杂的 OpenAPI 调用过程收敛在方法中。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;快速上手&#34;&gt;快速上手&lt;/h2&gt;
+&lt;p&gt;下图可以看到完整的 Darabonba 运行流程，现在我们就来快速制作一套 Code Sample 吧。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva3.sinaimg.cn/large/ad5fbf65ly1gibatrt4puj21ao1e8tet.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;安装&#34;&gt;安装&lt;/h3&gt;
+&lt;p&gt;阿里云提供了Darabonba 的 Web UI 界面，但是在网页上不好调试，我们选择本地安装 CLI 命令行工具。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# Darabonba CLI 是由 Node.js 开发的，使用 npm 来安装&lt;/span&gt;
 $ npm install -g @darabonba/cli
-&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="构建-darabonba-模块">构建 Darabonba 模块&lt;/h3>
-&lt;p>我们假设要创建一个模块为 &lt;code>sample_ecs&lt;/code>，用来生成查询 ECS 信息的 SDK 代码。首先创建一个目录：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ mkdir sample_ecs
-$ &lt;span style="color:#24909d">cd&lt;/span> sample_ecs
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>初始化模块，输入相关信息：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ dara init
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;构建-darabonba-模块&#34;&gt;构建 Darabonba 模块&lt;/h3&gt;
+&lt;p&gt;我们假设要创建一个模块为 &lt;code&gt;sample_ecs&lt;/code&gt;，用来生成查询 ECS 信息的 SDK 代码。首先创建一个目录：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ mkdir sample_ecs
+$ &lt;span style=&#34;color:#24909d&#34;&gt;cd&lt;/span&gt; sample_ecs
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;初始化模块，输入相关信息：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ dara init
 package scope: guoxudong.io
 package name: sample_ecs
 package version: 0.0.1
 main entry: main.dara
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>完成初始化后，会新建 2 个文件：&lt;/p>
-&lt;ul>
-&lt;li>&lt;code>Darafile&lt;/code>：包描述文件&lt;/li>
-&lt;li>&lt;code>main.dara&lt;/code>：入口文件&lt;/li>
-&lt;/ul>
-&lt;h3 id="安装-vs-code-插件">安装 VS Code 插件&lt;/h3>
-&lt;p>打开 VS Code，按 &lt;code>F1&lt;/code> 或 &lt;code>Ctrl + Shift + P&lt;/code> 打开命令面板，选择 Install Extension 并输入 &lt;code>darabonba&lt;/code>。&lt;/p>
-&lt;p>或启动VS Code 快速打开（&lt;code>Ctrl + P&lt;/code>），粘贴以下命令，然后按 Enter。&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">ext install darabonba.darabonba
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>之后就可以使用语法高亮、代码提示、代码格式化、语法检查等功能了。&lt;/p>
-&lt;p>&lt;img src="https://tva2.sinaimg.cn/large/ad5fbf65ly1gibbkgjhc5j20q80l3wh7.jpg" alt="代码高亮">&lt;/p>
-&lt;h3 id="安装依赖模块">安装依赖模块&lt;/h3>
-&lt;p>首先需要设置依赖仓库地址：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ dara config &lt;span style="color:#24909d">set&lt;/span> registry https://darabonba.api.aliyun.com
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>之后就是将依赖写入 &lt;code>Darafile&lt;/code> 中：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-json" data-lang="json">{
-&lt;span style="color:#6ab825;font-weight:bold">&amp;#34;scope&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;guoxudong.io&amp;#34;&lt;/span>,
-&lt;span style="color:#6ab825;font-weight:bold">&amp;#34;name&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;sample_ecs&amp;#34;&lt;/span>,
-&lt;span style="color:#6ab825;font-weight:bold">&amp;#34;version&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;0.0.1&amp;#34;&lt;/span>,
-&lt;span style="color:#6ab825;font-weight:bold">&amp;#34;main&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;main.dara&amp;#34;&lt;/span>,
-&lt;span style="color:#6ab825;font-weight:bold">&amp;#34;libraries&amp;#34;&lt;/span>: {
-&lt;span style="color:#6ab825;font-weight:bold">&amp;#34;Console&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;darabonba:Console:*&amp;#34;&lt;/span>,
-&lt;span style="color:#6ab825;font-weight:bold">&amp;#34;ECS&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;alibabacloud:Ecs20140526:*&amp;#34;&lt;/span>,
-&lt;span style="color:#6ab825;font-weight:bold">&amp;#34;RPC&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;alibabacloud:RPC:*&amp;#34;&lt;/span>,
-&lt;span style="color:#6ab825;font-weight:bold">&amp;#34;Util&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;darabonba:Util:*&amp;#34;&lt;/span>
-},
-&lt;span style="color:#6ab825;font-weight:bold">&amp;#34;java&amp;#34;&lt;/span>: {
-&lt;span style="color:#6ab825;font-weight:bold">&amp;#34;package&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;aliyun.com.alibabacloud.sample&amp;#34;&lt;/span>
-},
-&lt;span style="color:#6ab825;font-weight:bold">&amp;#34;csharp&amp;#34;&lt;/span>: {
-&lt;span style="color:#6ab825;font-weight:bold">&amp;#34;namespace&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;Alibabacloud.Sample&amp;#34;&lt;/span>
-},
-&lt;span style="color:#6ab825;font-weight:bold">&amp;#34;php&amp;#34;&lt;/span>: {
-&lt;span style="color:#6ab825;font-weight:bold">&amp;#34;package&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;Alibabacloud.Sample&amp;#34;&lt;/span>
-},
-&lt;span style="color:#6ab825;font-weight:bold">&amp;#34;python&amp;#34;&lt;/span>: {
-&lt;span style="color:#6ab825;font-weight:bold">&amp;#34;package&amp;#34;&lt;/span>: &lt;span style="color:#ed9d13">&amp;#34;alibabacloud_sample&amp;#34;&lt;/span>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;完成初始化后，会新建 2 个文件：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Darafile&lt;/code&gt;：包描述文件&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;main.dara&lt;/code&gt;：入口文件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;安装-vs-code-插件&#34;&gt;安装 VS Code 插件&lt;/h3&gt;
+&lt;p&gt;打开 VS Code，按 &lt;code&gt;F1&lt;/code&gt; 或 &lt;code&gt;Ctrl + Shift + P&lt;/code&gt; 打开命令面板，选择 Install Extension 并输入 &lt;code&gt;darabonba&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;或启动VS Code 快速打开（&lt;code&gt;Ctrl + P&lt;/code&gt;），粘贴以下命令，然后按 Enter。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;ext install darabonba.darabonba
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;之后就可以使用语法高亮、代码提示、代码格式化、语法检查等功能了。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65ly1gibbkgjhc5j20q80l3wh7.jpg&#34; alt=&#34;代码高亮&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;安装依赖模块&#34;&gt;安装依赖模块&lt;/h3&gt;
+&lt;p&gt;首先需要设置依赖仓库地址：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ dara config &lt;span style=&#34;color:#24909d&#34;&gt;set&lt;/span&gt; registry https://darabonba.api.aliyun.com
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;之后就是将依赖写入 &lt;code&gt;Darafile&lt;/code&gt; 中：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;{
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;scope&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;guoxudong.io&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;sample_ecs&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;version&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;0.0.1&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;main&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;main.dara&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;libraries&amp;#34;&lt;/span&gt;: {
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;Console&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;darabonba:Console:*&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;ECS&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;alibabacloud:Ecs20140526:*&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;RPC&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;alibabacloud:RPC:*&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;Util&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;darabonba:Util:*&amp;#34;&lt;/span&gt;
+  },
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;java&amp;#34;&lt;/span&gt;: {
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;package&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;aliyun.com.alibabacloud.sample&amp;#34;&lt;/span&gt;
+  },
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;csharp&amp;#34;&lt;/span&gt;: {
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;namespace&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Alibabacloud.Sample&amp;#34;&lt;/span&gt;
+  },
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;php&amp;#34;&lt;/span&gt;: {
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;package&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Alibabacloud.Sample&amp;#34;&lt;/span&gt;
+  },
+  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;python&amp;#34;&lt;/span&gt;: {
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;package&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;alibabacloud_sample&amp;#34;&lt;/span&gt;
+  }
 }
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里引入了4个模块：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Console&lt;/code&gt;：打印输出模块&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ECS&lt;/code&gt;：ECS 模块&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;RPC&lt;/code&gt;：RPC Client 模块&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Util&lt;/code&gt;：工具模块&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Warning&lt;/h4&gt;
+值得注意的的是 &lt;code&gt;libraries&lt;/code&gt; 中内容的 key，就是 &lt;code&gt;.dara&lt;/code&gt; 文件中 import 导入依赖的名称，所以这里可以将 key 修改为好理解的值，然后 import 相应值就可以了。
+&lt;/div&gt;
+
+&lt;p&gt;修改完 &lt;code&gt;Darafile&lt;/code&gt; 之后，安装这些依赖：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ dara install
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;之后就可以看到多了一个 &lt;code&gt;.libraries.json&lt;/code&gt; 文件和一个 &lt;code&gt;libraries&lt;/code&gt; 目录，需要的所有依赖模块就都已经安装好了。&lt;/p&gt;
+&lt;h3 id=&#34;查看模块内容&#34;&gt;查看模块内容&lt;/h3&gt;
+&lt;p&gt;更多的模块，可在&lt;a href=&#34;https://darabonba.api.aliyun.com/module&#34;&gt;模块仓库&lt;/a&gt;中搜索。这里以 ECS 模块为例&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1gic1orwhjoj21h70q3gr4.jpg&#34; alt=&#34;ECS 模块&#34;&gt;&lt;/p&gt;
+&lt;p&gt;可以在 &lt;code&gt;Detail&lt;/code&gt; 中看到所有可以调用的接口，通过还可以点击其他 tab 可以查看版本、安装方法等内容：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax2.sinaimg.cn/large/ad5fbf65ly1gibbruwd1zj21at0pqadt.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;也可通过命令单独安装模块：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ dara install alibabacloud:Ecs20140526
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;代码编写&#34;&gt;代码编写&lt;/h3&gt;
+&lt;p&gt;现在就可以编写 Darabonba 代码了，Darabonba 代码的整体风格偏向于 Java，不是很难懂，这里贴上一段简单的代码：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;ECS&lt;/span&gt;;
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;RPC&lt;/span&gt;;
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;Util&lt;/span&gt;;
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;Console&lt;/span&gt;;
+
+&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;/**
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;* Initialization  初始化公共请求参数
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;*/&lt;/span&gt;
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;static&lt;/span&gt; function &lt;span style=&#34;color:#447fcf&#34;&gt;Initialization&lt;/span&gt;(regionId: string)&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;throws&lt;/span&gt; : ECS{
+
+    var config = &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;new&lt;/span&gt; RPC.&lt;span style=&#34;color:#bbb&#34;&gt;Config&lt;/span&gt;{};
+    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 您的AccessKey ID
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    config.&lt;span style=&#34;color:#bbb&#34;&gt;accessKeyId&lt;/span&gt; = &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;lt;accessKeyId&amp;gt;&amp;#34;&lt;/span&gt;;
+    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 您的AccessKey Secret
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    config.&lt;span style=&#34;color:#bbb&#34;&gt;accessKeySecret&lt;/span&gt; = &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;lt;accessKeySecret&amp;gt;&amp;#34;&lt;/span&gt;;
+    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 您的可用区ID
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    config.&lt;span style=&#34;color:#bbb&#34;&gt;regionId&lt;/span&gt; = regionId;
+
+    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;new&lt;/span&gt; ECS(config);
 }
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>这里引入了4个模块：&lt;/p>
-&lt;ul>
-&lt;li>&lt;code>Console&lt;/code>：打印输出模块&lt;/li>
-&lt;li>&lt;code>ECS&lt;/code>：ECS 模块&lt;/li>
-&lt;li>&lt;code>RPC&lt;/code>：RPC Client 模块&lt;/li>
-&lt;li>&lt;code>Util&lt;/code>：工具模块&lt;/li>
-&lt;/ul>
-&lt;div class="alert alert-warning" role="alert">
-&lt;h4 class="alert-heading">Warning&lt;/h4>
-值得注意的的是 &lt;code>libraries&lt;/code> 中内容的 key，就是 &lt;code>.dara&lt;/code> 文件中 import 导入依赖的名称，所以这里可以将 key 修改为好理解的值，然后 import 相应值就可以了。
-&lt;/div>
-&lt;p>修改完 &lt;code>Darafile&lt;/code> 之后，安装这些依赖：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ dara install
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>之后就可以看到多了一个 &lt;code>.libraries.json&lt;/code> 文件和一个 &lt;code>libraries&lt;/code> 目录，需要的所有依赖模块就都已经安装好了。&lt;/p>
-&lt;h3 id="查看模块内容">查看模块内容&lt;/h3>
-&lt;p>更多的模块，可在&lt;a href="https://darabonba.api.aliyun.com/module">模块仓库&lt;/a>中搜索。这里以 ECS 模块为例&lt;/p>
-&lt;p>&lt;img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1gic1orwhjoj21h70q3gr4.jpg" alt="ECS 模块">&lt;/p>
-&lt;p>可以在 &lt;code>Detail&lt;/code> 中看到所有可以调用的接口，通过还可以点击其他 tab 可以查看版本、安装方法等内容：&lt;/p>
-&lt;p>&lt;img src="https://tvax2.sinaimg.cn/large/ad5fbf65ly1gibbruwd1zj21at0pqadt.jpg" alt="">&lt;/p>
-&lt;p>也可通过命令单独安装模块：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ dara install alibabacloud:Ecs20140526
-&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="代码编写">代码编写&lt;/h3>
-&lt;p>现在就可以编写 Darabonba 代码了，Darabonba 代码的整体风格偏向于 Java，不是很难懂，这里贴上一段简单的代码：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#6ab825;font-weight:bold">import&lt;/span> &lt;span style="color:#447fcf;text-decoration:underline">ECS&lt;/span>;
-&lt;span style="color:#6ab825;font-weight:bold">import&lt;/span> &lt;span style="color:#447fcf;text-decoration:underline">RPC&lt;/span>;
-&lt;span style="color:#6ab825;font-weight:bold">import&lt;/span> &lt;span style="color:#447fcf;text-decoration:underline">Util&lt;/span>;
-&lt;span style="color:#6ab825;font-weight:bold">import&lt;/span> &lt;span style="color:#447fcf;text-decoration:underline">Console&lt;/span>;
-&lt;span style="color:#999;font-style:italic">/**
-&lt;/span>&lt;span style="color:#999;font-style:italic">* Initialization 初始化公共请求参数
-&lt;/span>&lt;span style="color:#999;font-style:italic">*/&lt;/span>
-&lt;span style="color:#6ab825;font-weight:bold">static&lt;/span> function &lt;span style="color:#447fcf">Initialization&lt;/span>(regionId: string)&lt;span style="color:#6ab825;font-weight:bold">throws&lt;/span> : ECS{
-var config = &lt;span style="color:#6ab825;font-weight:bold">new&lt;/span> RPC.&lt;span style="color:#bbb">Config&lt;/span>{};
-&lt;span style="color:#999;font-style:italic">// 您的AccessKey ID
-&lt;/span>&lt;span style="color:#999;font-style:italic">&lt;/span> config.&lt;span style="color:#bbb">accessKeyId&lt;/span> = &lt;span style="color:#ed9d13">&amp;#34;&amp;lt;accessKeyId&amp;gt;&amp;#34;&lt;/span>;
-&lt;span style="color:#999;font-style:italic">// 您的AccessKey Secret
-&lt;/span>&lt;span style="color:#999;font-style:italic">&lt;/span> config.&lt;span style="color:#bbb">accessKeySecret&lt;/span> = &lt;span style="color:#ed9d13">&amp;#34;&amp;lt;accessKeySecret&amp;gt;&amp;#34;&lt;/span>;
-&lt;span style="color:#999;font-style:italic">// 您的可用区ID
-&lt;/span>&lt;span style="color:#999;font-style:italic">&lt;/span> config.&lt;span style="color:#bbb">regionId&lt;/span> = regionId;
-&lt;span style="color:#6ab825;font-weight:bold">return&lt;/span> &lt;span style="color:#6ab825;font-weight:bold">new&lt;/span> ECS(config);
+
+&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;/**
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;* DescribeZones    查询一个阿里云地域下的可用区
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;*/&lt;/span&gt;
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;static&lt;/span&gt; async function &lt;span style=&#34;color:#447fcf&#34;&gt;DescribeZones&lt;/span&gt;(client: ECS, regionId: string)&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;throws&lt;/span&gt;: &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;void&lt;/span&gt;{
+    var req = &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;new&lt;/span&gt; ECS.&lt;span style=&#34;color:#bbb&#34;&gt;DescribeZonesRequest&lt;/span&gt;{};
+    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 可用区所在的地域ID。您可以调用DescribeRegions查看最新的阿里云地域列表
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    req.&lt;span style=&#34;color:#bbb&#34;&gt;regionId&lt;/span&gt; = regionId;
+    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 根据汉语、英语和日语筛选返回结果。更多详情，请参见RFC7231
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 取值范围：
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// zh-CN
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// en-US
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// ja
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 默认值：zh-CN。
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    req.&lt;span style=&#34;color:#bbb&#34;&gt;acceptLanguage&lt;/span&gt; = &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;zh-CN&amp;#34;&lt;/span&gt;;
+    var resp = client.&lt;span style=&#34;color:#bbb&#34;&gt;describeZones&lt;/span&gt;(req);
+    Console.&lt;span style=&#34;color:#bbb&#34;&gt;log&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;--------------------查询地域下的可用区--------------------&amp;#34;&lt;/span&gt;);
+    Console.&lt;span style=&#34;color:#bbb&#34;&gt;log&lt;/span&gt;(Util.&lt;span style=&#34;color:#bbb&#34;&gt;toJSONString&lt;/span&gt;(resp));
 }
-&lt;span style="color:#999;font-style:italic">/**
-&lt;/span>&lt;span style="color:#999;font-style:italic">* DescribeZones 查询一个阿里云地域下的可用区
-&lt;/span>&lt;span style="color:#999;font-style:italic">*/&lt;/span>
-&lt;span style="color:#6ab825;font-weight:bold">static&lt;/span> async function &lt;span style="color:#447fcf">DescribeZones&lt;/span>(client: ECS, regionId: string)&lt;span style="color:#6ab825;font-weight:bold">throws&lt;/span>: &lt;span style="color:#6ab825;font-weight:bold">void&lt;/span>{
-var req = &lt;span style="color:#6ab825;font-weight:bold">new&lt;/span> ECS.&lt;span style="color:#bbb">DescribeZonesRequest&lt;/span>{};
-&lt;span style="color:#999;font-style:italic">// 可用区所在的地域ID。您可以调用DescribeRegions查看最新的阿里云地域列表
-&lt;/span>&lt;span style="color:#999;font-style:italic">&lt;/span> req.&lt;span style="color:#bbb">regionId&lt;/span> = regionId;
-&lt;span style="color:#999;font-style:italic">// 根据汉语、英语和日语筛选返回结果。更多详情，请参见RFC7231
-&lt;/span>&lt;span style="color:#999;font-style:italic">&lt;/span> &lt;span style="color:#999;font-style:italic">// 取值范围：
-&lt;/span>&lt;span style="color:#999;font-style:italic">&lt;/span> &lt;span style="color:#999;font-style:italic">// zh-CN
-&lt;/span>&lt;span style="color:#999;font-style:italic">&lt;/span> &lt;span style="color:#999;font-style:italic">// en-US
-&lt;/span>&lt;span style="color:#999;font-style:italic">&lt;/span> &lt;span style="color:#999;font-style:italic">// ja
-&lt;/span>&lt;span style="color:#999;font-style:italic">&lt;/span> &lt;span style="color:#999;font-style:italic">// 默认值：zh-CN。
-&lt;/span>&lt;span style="color:#999;font-style:italic">&lt;/span> req.&lt;span style="color:#bbb">acceptLanguage&lt;/span> = &lt;span style="color:#ed9d13">&amp;#34;zh-CN&amp;#34;&lt;/span>;
-var resp = client.&lt;span style="color:#bbb">describeZones&lt;/span>(req);
-Console.&lt;span style="color:#bbb">log&lt;/span>(&lt;span style="color:#ed9d13">&amp;#34;--------------------查询地域下的可用区--------------------&amp;#34;&lt;/span>);
-Console.&lt;span style="color:#bbb">log&lt;/span>(Util.&lt;span style="color:#bbb">toJSONString&lt;/span>(resp));
+
+
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;static&lt;/span&gt; async function &lt;span style=&#34;color:#447fcf&#34;&gt;main&lt;/span&gt;(args: [string]) &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;throws&lt;/span&gt;: &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;void&lt;/span&gt; {
+    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 可用区域Id （请自行配置）
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    var regionId = &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;lt;regionId&amp;gt;&amp;#34;&lt;/span&gt;;
+
+    var client = Initialization(regionId);
+
+    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 查询阿里云地域下的可用区
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    DescribeZones(client, regionId)
 }
-&lt;span style="color:#6ab825;font-weight:bold">static&lt;/span> async function &lt;span style="color:#447fcf">main&lt;/span>(args: [string]) &lt;span style="color:#6ab825;font-weight:bold">throws&lt;/span>: &lt;span style="color:#6ab825;font-weight:bold">void&lt;/span> {
-&lt;span style="color:#999;font-style:italic">// 可用区域Id （请自行配置）
-&lt;/span>&lt;span style="color:#999;font-style:italic">&lt;/span> var regionId = &lt;span style="color:#ed9d13">&amp;#34;&amp;lt;regionId&amp;gt;&amp;#34;&lt;/span>;
-var client = Initialization(regionId);
-&lt;span style="color:#999;font-style:italic">// 查询阿里云地域下的可用区
-&lt;/span>&lt;span style="color:#999;font-style:italic">&lt;/span> DescribeZones(client, regionId)
-}
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>这个代码注释很完善，这里就不多讲解了，本示例在官网有&lt;a href="https://api.aliyun.com/?spm=a2c6h.17640777.J_1935739830.2.8f9a54e1V4j8vN#/codesample">完整示例&lt;/a>，有兴趣的同学可以研究一下。而 Darabonba 的文档，可以在 &lt;a href="https://github.com/aliyun/darabonba">Github&lt;/a> 上找到。&lt;/p>
-&lt;h3 id="代码生成">代码生成&lt;/h3>
-&lt;p>现在就可以生成代码了，下面以生成 Python 代码为例，执行命令：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ dara codegen python ./tmp
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>命令执行成功后，就可以看到 Python 代码已经生成了：&lt;/p>
-&lt;p>&lt;img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1gic21suu35j208a05h3yh.jpg" alt="">&lt;/p>
-&lt;p>如果代码还没有写完，想检查是否有语法错误，可以使用 &lt;code>check&lt;/code> 命令检查：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ dara check main.dara
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这个代码注释很完善，这里就不多讲解了，本示例在官网有&lt;a href=&#34;https://api.aliyun.com/?spm=a2c6h.17640777.J_1935739830.2.8f9a54e1V4j8vN#/codesample&#34;&gt;完整示例&lt;/a&gt;，有兴趣的同学可以研究一下。而 Darabonba 的文档，可以在 &lt;a href=&#34;https://github.com/aliyun/darabonba&#34;&gt;Github&lt;/a&gt; 上找到。&lt;/p&gt;
+&lt;h3 id=&#34;代码生成&#34;&gt;代码生成&lt;/h3&gt;
+&lt;p&gt;现在就可以生成代码了，下面以生成 Python 代码为例，执行命令：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ dara codegen python ./tmp
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;命令执行成功后，就可以看到 Python 代码已经生成了：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1gic21suu35j208a05h3yh.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;如果代码还没有写完，想检查是否有语法错误，可以使用 &lt;code&gt;check&lt;/code&gt; 命令检查：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ dara check main.dara
 Check success !
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>到这我们的代码就生成成功了，但是这还不是结束，我们需要去测试一下生成的代码能否正常运行，在实践中就出现过代码生成成功，但是运行报错的情况。&lt;/p>
-&lt;div class="alert alert-warning" role="alert">
-&lt;h4 class="alert-heading">Warning&lt;/h4>
-如果生成的是 Python 代码，这里推荐使用 &lt;code>Python 3.6&lt;/code>，经测 3.8 版本不支持 sdk 的一些语法。
-&lt;/div>
-&lt;p>同样的，也可以在 &lt;a href="https://darabonba.api.aliyun.com/sample">OpenAPI Explorer Code Sample&lt;/a>，通过 Web UI 来生成代码，除了调试速度比较慢之外，其余体验都十分不错。&lt;/p>
-&lt;p>&lt;img src="https://tvax4.sinaimg.cn/large/ad5fbf65gy1gic2hxwdtaj21ha0qb441.jpg" alt="Code Sample">&lt;/p>
-&lt;h2 id="code-sample-全民赛码">Code Sample 全民赛码&lt;/h2>
-&lt;p>最近阿里云还推出了这么一个比赛，看了下奖品有机械键盘、无人机、双肩包和内推资格，有兴趣的同学可以关注一下，还是挺好玩的：&lt;a href="https://developer.aliyun.com/topic/codesample/active1?spm=dara_code_sample.home.0.0.2ee614e5L9uDCw">传送门&lt;/a>&lt;/p>
-&lt;p>&lt;img src="https://tvax4.sinaimg.cn/large/ad5fbf65gy1gic2ef0fxgj21o00hyh65.jpg" alt="">&lt;/p>
-&lt;p>阿里云开放平台携手开发者社区、内容设计部，联合举办“OpenAPI 开发者挑战赛第三期—— CodeSample 全民赛码 ”，面向数万开发者，招募阿里云 OpenAPI 示例代码（CodeSample）。无论您是入门开发，或是运维大神，无论是利用 OpenAPI 解决一个轻量场景，或是满足一个小功能，通通到碗里来！&lt;/p>
-&lt;h2 id="结语">结语&lt;/h2>
-&lt;p>在这个项目叫 TeaDSL 的时候笔者就开始关注 Darabonba 了，由于笔者是 OpenAPI SDK 的重度使用用户，之前开发的 devops 平台以及 &lt;a href="https://github.com/sunny0826/cms-grafana-builder">cms-grafana-builder&lt;/a> 项目都大量使用了阿里云 SDK。在4月份看到朴灵的&lt;a href="https://mp.weixin.qq.com/s?__biz=MzIzOTU0NTQ0MA==&amp;amp;mid=2247495266&amp;amp;idx=1&amp;amp;sn=64177bf3fc7f4068c14733dc77b5383f&amp;amp;chksm=e92ad36dde5d5a7bf6a0ddd821a3cdee6ee063eb221623c6c8333cf68787b3118bd0a8653f17&amp;amp;scene=21#wechat_redirect">《TeaDSL：支持任意 OpenAPI 网关的多语言 SDK 方案》&lt;/a>时，认为其只是解决云厂商 OpenAPI 开发的多语言困局，提升研发效率，和 OpenAPI 的使用者关系不大。但是在这次进行深入研究之后发现，Darabonba 甚至可以用来生成自己系统的 OpenAPI 多语言 SDK，并不是只能用于生成阿里云的 SDK，非常的惊艳。&lt;/p></description></item><item><title>Post: 云中谁寄锦书来，免费生成一封七夕情书吧</title><link>https://guoxudong.io/post/love-letter-aliyun/</link><pubDate>Tue, 25 Aug 2020 16:19:09 +0800</pubDate><guid>https://guoxudong.io/post/love-letter-aliyun/</guid><description>
-&lt;h2 id="前言">前言&lt;/h2>
-&lt;p>今天是七夕节，但对我来时只是”平凡“的一天，上午认识的一个阿里云的小姐姐给我发来一个可疑链接，说是有好玩的活动，推荐我参加一下。于是在午休时间，闲来无事的我点开了这个链接，没想到事情并不简单。&lt;/p>
-&lt;p>&lt;img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1gi34yex8kgj20al05qmxm.jpg" alt="">&lt;/p>
-&lt;h2 id="云效-devops">云效 DevOps&lt;/h2>
-&lt;p>点开之后，原来是使用云效 DevOps 来体验发布一个为朋友、爱人定制的“情书”。年初时，我和云效的开发人员有聊过，他们对云效 DevOps 非常有信心，相信会做出一个和原来的云效完全不同的更好用的产品，正好借着这个机会，我来免费体验一把云效 DevOps。&lt;/p>
-&lt;p>&lt;img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1gi352mu9k4j212w0q0wmi.jpg" alt="">&lt;/p>
-&lt;h3 id="整体感觉">整体感觉&lt;/h3>
-&lt;p>UI 的整体感觉非常棒，完全不像是“阿里云”的 UI，风格简洁清爽。云效 DevOps 将整个 DevOps 生命周期都做了出来，从代码仓库，静态代码扫描，CI/CD，到文档和任务的管理都有，还改善了之前只能使用阿里云代码仓库的缺点，可以使用自建代码仓库，同时还支持云有云、公有云和混合云的部署方式。同时&lt;strong>云效还为小微企业提供了扶持计划，30人以下团队可以免费使用！&lt;/strong>&lt;/p>
-&lt;p>&lt;img src="https://tva1.sinaimg.cn/large/ad5fbf65gy1gi359oqgh9j21h20q97a5.jpg" alt="活动页">&lt;/p>
-&lt;p>这里就不过多介绍云效，有兴趣的朋友可以上阿里云官方，搜索&lt;strong>云效&lt;/strong>就能了解更多内容了。&lt;/p>
-&lt;h2 id="制作情书">制作情书&lt;/h2>
-&lt;p>与其说是是制作，不如说是修改制作好的代码，将自己想说的话放进去，然后在通过云效一键发布。&lt;/p>
-&lt;h3 id="克隆七夕代码">克隆七夕代码&lt;/h3>
-&lt;p>新用户注册好之后选择&lt;code>导入代码库&lt;/code>-&lt;code>URL导入&lt;/code>，贴入示例代码库地址 &lt;code>https://code.aliyun.com/yunxiao2020/letter.git&lt;/code> 点击 &lt;code>确定&lt;/code> 即可完成示例代码的导入。&lt;/p>
-&lt;p>&lt;img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1gi35ntu6avj212m0k2dgv.jpg" alt="云效 DevOps">&lt;/p>
-&lt;h3 id="修改情书内容">修改情书内容&lt;/h3>
-&lt;p>编辑代码修改情书内容，地址&lt;code>app/service/data.js&lt;/code>：&lt;/p>
-&lt;p>&lt;img src="https://tva3.sinaimg.cn/large/ad5fbf65gy1gi35q45ru3j21hc0pfmy3.jpg" alt="修改内容">&lt;/p>
-&lt;p>可以修改以下字段来实现内容的定制：&lt;/p>
-&lt;ul>
-&lt;li>&lt;code>theme&lt;/code>：情书模板，提供了爱人、朋友、同事三种模板，如下所示：&lt;/li>
-&lt;/ul>
-&lt;p>&lt;img src="https://tva1.sinaimg.cn/large/ad5fbf65gy1gi35sch68xj210g0jb0xy.jpg" alt="爱人、朋友、同事">&lt;/p>
-&lt;ul>
-&lt;li>&lt;code>from&lt;/code>：寄信人，上学时候写过情书的同学都懂~&lt;/li>
-&lt;li>&lt;code>To&lt;/code>：收信人，同上&lt;/li>
-&lt;li>&lt;code>avatar&lt;/code>：寄信人头像，我这里使用的是图床的 URL，没有图床的 github 上的图片地址也是可以的&lt;/li>
-&lt;li>&lt;code>question&lt;/code>：开信问题：设置一个只有你的他/她知道答案的问题，防止被别人看到你的真心话&lt;/li>
-&lt;li>&lt;code>answer&lt;/code>：上面问题的答案&lt;/li>
-&lt;li>&lt;code>text&lt;/code>: 情书正文，说出你想和他/她说的话吧！&lt;/li>
-&lt;/ul>
-&lt;p>现在情书内容就写完了，点击&lt;code>保存&lt;/code>-&lt;code>确定&lt;/code>，将代码提交到 &lt;code>master&lt;/code> 分支。&lt;/p>
-&lt;p>&lt;img src="https://tvax2.sinaimg.cn/large/ad5fbf65gy1gi35y8l234j20fe0880sw.jpg" alt="保存">&lt;/p>
-&lt;h3 id="配置流水线">配置流水线&lt;/h3>
-&lt;p>代码写好了，现在就可以使用流水线将情书的 H5 发布出去了。点击左上角九宫格，选择 &lt;code>流水线&lt;/code> - &lt;code>新建流水线&lt;/code>，选择模板：&lt;code>其他&lt;/code> - &lt;code>云效七夕活动&lt;/code>&lt;/p>
-&lt;p>&lt;img src="https://tva3.sinaimg.cn/large/ad5fbf65gy1gi362uhnv8j21hc0pfmye.jpg" alt="选择模板">&lt;/p>
-&lt;p>之后就可以配置流水线了，点击 &lt;code>添加代码源&lt;/code>，选择 &lt;code>云效Codeup&lt;/code> 代码源，选择刚刚克隆的 &lt;code>letter&lt;/code> 代码库，选择 &lt;code>master&lt;/code> 分支，开启 &lt;code>代码源触发&lt;/code>&lt;/p>
-&lt;p>&lt;img src="https://tvax1.sinaimg.cn/large/ad5fbf65gy1gi36917of6j21h70q7wie.jpg" alt="image">&lt;/p>
-&lt;p>配置 Docker 镜像构建，点击 &lt;code>Docker 镜像构建&lt;/code> - &lt;code>镜像构建并推送至自定义镜像仓库&lt;/code>，填入以下内容：&lt;/p>
-&lt;ul>
-&lt;li>镜像仓库地址: &lt;code>registry.cn-hangzhou.aliyuncs.com/yunxiao-letter/yunxiao-letter:${BUILD_JOB_ID}&lt;/code>&lt;/li>
-&lt;li>用户名:&lt;code>yunxiao-letter@1515906102291199&lt;/code>&lt;/li>
-&lt;li>密码: &lt;code>yunxiao2020&lt;/code>&lt;/li>
-&lt;/ul>
-&lt;p>配置 Kubernetes 发布，点击 &lt;code>Kubernetes 发布&lt;/code> - &lt;code>Kubectl发布&lt;/code> - &lt;code>新建连接&lt;/code> - &lt;code>自定义集群&lt;/code>&lt;/p>
-&lt;p>之后进入 &lt;code>https://research.devops.aliyun.com/kube.config.yml&lt;/code> 页面，将页面配置文件复制到集群配置文件中。&lt;/p>
-&lt;p>&lt;img src="https://tvax3.sinaimg.cn/large/ad5fbf65gy1gi36dhtzfxj21070jgt9j.jpg" alt="连接 Kubernetes">&lt;/p>
-&lt;p>配置好连接后，填写其他配置：&lt;/p>
-&lt;ul>
-&lt;li>命名空间填: &lt;code>yunxiao&lt;/code>&lt;/li>
-&lt;li>YAML路径填: &lt;code>deployment.yml&lt;/code>&lt;/li>
-&lt;li>新建变量1 选择&lt;code>上游输出&lt;/code>，&lt;code>YUNXIAO_LETTER_IMAGE&lt;/code>=&lt;code>镜像仓库地址&lt;/code>&lt;/li>
-&lt;li>新建变量2 选择&lt;code>自定义&lt;/code>，&lt;code>PIPELINE_ID&lt;/code>=&lt;code>${PIPELINE_ID}&lt;/code>&lt;/li>
-&lt;/ul>
-&lt;p>&lt;img src="https://tva1.sinaimg.cn/large/ad5fbf65gy1gi36f8xxffj20w70icdgb.jpg" alt="其他配置">&lt;/p>
-&lt;p>完成所有配置后，点击 &lt;code>保存并运行&lt;/code> - &lt;code>运行&lt;/code>：&lt;/p>
-&lt;p>&lt;img src="https://tva1.sinaimg.cn/large/ad5fbf65gy1gi36hajgyuj20fd08s746.jpg" alt="">&lt;/p>
-&lt;h3 id="修复问题">修复问题&lt;/h3>
-&lt;p>这里为了让用户体验质量卡点 &lt;code>JavaScript 单元测试&lt;/code> 功能，他们还在项目中埋了一个小坑，让首次构建失败，原因是：测试通过率小于100%&lt;/p>
-&lt;p>&lt;img src="https://tva1.sinaimg.cn/large/ad5fbf65gy1gi36jr1kwjj21090a7t9h.jpg" alt="质量卡点">&lt;/p>
-&lt;p>查看报错信息，发现是 &lt;code>expect&lt;/code> 值被设置为 &lt;code>400&lt;/code>：&lt;/p>
-&lt;p>&lt;img src="https://tvax2.sinaimg.cn/large/ad5fbf65gy1gi36k3n45mj212g0e4tad.jpg" alt="报错信息">&lt;/p>
-&lt;p>进入对应的单元测试文件，修改代码：&lt;/p>
-&lt;p>&lt;img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1gi36md5twaj21h40pzn10.jpg" alt="修复问题">&lt;/p>
-&lt;p>修改完成后，点击 &lt;code>保存&lt;/code> - &lt;code>提交&lt;/code>，由于之前设置了流水线 &lt;code>提交源代码触发&lt;/code>，流水线在提交后会自动触发，并发布成功：&lt;/p>
-&lt;p>&lt;img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1gi36npelasj210109l3zc.jpg" alt="发布成功">&lt;/p>
-&lt;p>点击&lt;code>预览&lt;/code>或者扫面二维码就可以看到你的情书了。&lt;/p>
-&lt;h2 id="结语">结语&lt;/h2>
-&lt;p>通过这次七夕活动，体验了一把云效 DevOps，整体来说用户体验很好，同时还提供了30人一下团队免费使用的政策，可以为小团队省出不少搭建和开发 DevOps 环境和流程的时间和经历，非常推荐大家都来尝试一下，制作一封云上情书送给你的他/她吧。&lt;/p>
-&lt;div class="pageinfo pageinfo-primary">
-&lt;p>活动地址：&lt;a href="https://developer.aliyun.com/adc/series/devops/?spm=a2c6h.12883283.1362932.3.2785201ctOUs0C&amp;amp;accounttraceid=fd6b3040ada34768aa78f84a9f645c46kouc">https://developer.aliyun.com/adc/series/devops/?spm=a2c6h.12883283.1362932.3.2785201ctOUs0C&amp;amp;accounttraceid=fd6b3040ada34768aa78f84a9f645c46kouc&lt;/a>&lt;/p>
-&lt;/div>
-&lt;h2 id="参考">参考&lt;/h2>
-&lt;ul>
-&lt;li>&lt;a href="https://developer.aliyun.com/adc/scenario/exp/8464960ac980400d95ff092b95e1a97e">云效DevOps七夕云中密书 - developer.aliyun.com&lt;/a>&lt;/li>
-&lt;/ul></description></item></channel></rss>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;到这我们的代码就生成成功了，但是这还不是结束，我们需要去测试一下生成的代码能否正常运行，在实践中就出现过代码生成成功，但是运行报错的情况。&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Warning&lt;/h4&gt;
+如果生成的是 Python 代码，这里推荐使用 &lt;code&gt;Python 3.6&lt;/code&gt;，经测 3.8 版本不支持 sdk 的一些语法。
+&lt;/div&gt;
+
+&lt;p&gt;同样的，也可以在 &lt;a href=&#34;https://darabonba.api.aliyun.com/sample&#34;&gt;OpenAPI Explorer Code Sample&lt;/a&gt;，通过 Web UI 来生成代码，除了调试速度比较慢之外，其余体验都十分不错。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax4.sinaimg.cn/large/ad5fbf65gy1gic2hxwdtaj21ha0qb441.jpg&#34; alt=&#34;Code Sample&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;code-sample-全民赛码&#34;&gt;Code Sample 全民赛码&lt;/h2&gt;
+&lt;p&gt;最近阿里云还推出了这么一个比赛，看了下奖品有机械键盘、无人机、双肩包和内推资格，有兴趣的同学可以关注一下，还是挺好玩的：&lt;a href=&#34;https://developer.aliyun.com/topic/codesample/active1?spm=dara_code_sample.home.0.0.2ee614e5L9uDCw&#34;&gt;传送门&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax4.sinaimg.cn/large/ad5fbf65gy1gic2ef0fxgj21o00hyh65.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;阿里云开放平台携手开发者社区、内容设计部，联合举办“OpenAPI 开发者挑战赛第三期—— CodeSample 全民赛码 ”，面向数万开发者，招募阿里云 OpenAPI 示例代码（CodeSample）。无论您是入门开发，或是运维大神，无论是利用 OpenAPI 解决一个轻量场景，或是满足一个小功能，通通到碗里来！&lt;/p&gt;
+&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
+&lt;p&gt;在这个项目叫 TeaDSL 的时候笔者就开始关注 Darabonba 了，由于笔者是 OpenAPI SDK 的重度使用用户，之前开发的 devops 平台以及 &lt;a href=&#34;https://github.com/sunny0826/cms-grafana-builder&#34;&gt;cms-grafana-builder&lt;/a&gt; 项目都大量使用了阿里云 SDK。在4月份看到朴灵的&lt;a href=&#34;https://mp.weixin.qq.com/s?__biz=MzIzOTU0NTQ0MA==&amp;amp;mid=2247495266&amp;amp;idx=1&amp;amp;sn=64177bf3fc7f4068c14733dc77b5383f&amp;amp;chksm=e92ad36dde5d5a7bf6a0ddd821a3cdee6ee063eb221623c6c8333cf68787b3118bd0a8653f17&amp;amp;scene=21#wechat_redirect&#34;&gt;《TeaDSL：支持任意 OpenAPI 网关的多语言 SDK 方案》&lt;/a&gt;时，认为其只是解决云厂商 OpenAPI 开发的多语言困局，提升研发效率，和 OpenAPI 的使用者关系不大。但是在这次进行深入研究之后发现，Darabonba 甚至可以用来生成自己系统的 OpenAPI 多语言 SDK，并不是只能用于生成阿里云的 SDK，非常的惊艳。&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Post: 云中谁寄锦书来，免费生成一封七夕情书吧</title>
+      <link>https://guoxudong.io/post/love-letter-aliyun/</link>
+      <pubDate>Tue, 25 Aug 2020 16:19:09 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/love-letter-aliyun/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;今天是七夕节，但对我来时只是”平凡“的一天，上午认识的一个阿里云的小姐姐给我发来一个可疑链接，说是有好玩的活动，推荐我参加一下。于是在午休时间，闲来无事的我点开了这个链接，没想到事情并不简单。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1gi34yex8kgj20al05qmxm.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;云效-devops&#34;&gt;云效 DevOps&lt;/h2&gt;
+&lt;p&gt;点开之后，原来是使用云效 DevOps 来体验发布一个为朋友、爱人定制的“情书”。年初时，我和云效的开发人员有聊过，他们对云效 DevOps 非常有信心，相信会做出一个和原来的云效完全不同的更好用的产品，正好借着这个机会，我来免费体验一把云效 DevOps。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1gi352mu9k4j212w0q0wmi.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;整体感觉&#34;&gt;整体感觉&lt;/h3&gt;
+&lt;p&gt;UI 的整体感觉非常棒，完全不像是“阿里云”的 UI，风格简洁清爽。云效 DevOps 将整个 DevOps 生命周期都做了出来，从代码仓库，静态代码扫描，CI/CD，到文档和任务的管理都有，还改善了之前只能使用阿里云代码仓库的缺点，可以使用自建代码仓库，同时还支持云有云、公有云和混合云的部署方式。同时&lt;strong&gt;云效还为小微企业提供了扶持计划，30人以下团队可以免费使用！&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1gi359oqgh9j21h20q97a5.jpg&#34; alt=&#34;活动页&#34;&gt;&lt;/p&gt;
+&lt;p&gt;这里就不过多介绍云效，有兴趣的朋友可以上阿里云官方，搜索&lt;strong&gt;云效&lt;/strong&gt;就能了解更多内容了。&lt;/p&gt;
+&lt;h2 id=&#34;制作情书&#34;&gt;制作情书&lt;/h2&gt;
+&lt;p&gt;与其说是是制作，不如说是修改制作好的代码，将自己想说的话放进去，然后在通过云效一键发布。&lt;/p&gt;
+&lt;h3 id=&#34;克隆七夕代码&#34;&gt;克隆七夕代码&lt;/h3&gt;
+&lt;p&gt;新用户注册好之后选择&lt;code&gt;导入代码库&lt;/code&gt;-&lt;code&gt;URL导入&lt;/code&gt;，贴入示例代码库地址 &lt;code&gt;https://code.aliyun.com/yunxiao2020/letter.git&lt;/code&gt; 点击 &lt;code&gt;确定&lt;/code&gt; 即可完成示例代码的导入。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1gi35ntu6avj212m0k2dgv.jpg&#34; alt=&#34;云效 DevOps&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;修改情书内容&#34;&gt;修改情书内容&lt;/h3&gt;
+&lt;p&gt;编辑代码修改情书内容，地址&lt;code&gt;app/service/data.js&lt;/code&gt;：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva3.sinaimg.cn/large/ad5fbf65gy1gi35q45ru3j21hc0pfmy3.jpg&#34; alt=&#34;修改内容&#34;&gt;&lt;/p&gt;
+&lt;p&gt;可以修改以下字段来实现内容的定制：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;theme&lt;/code&gt;：情书模板，提供了爱人、朋友、同事三种模板，如下所示：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1gi35sch68xj210g0jb0xy.jpg&#34; alt=&#34;爱人、朋友、同事&#34;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;from&lt;/code&gt;：寄信人，上学时候写过情书的同学都懂~&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;To&lt;/code&gt;：收信人，同上&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;avatar&lt;/code&gt;：寄信人头像，我这里使用的是图床的 URL，没有图床的 github 上的图片地址也是可以的&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;question&lt;/code&gt;：开信问题：设置一个只有你的他/她知道答案的问题，防止被别人看到你的真心话&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;answer&lt;/code&gt;：上面问题的答案&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;text&lt;/code&gt;: 情书正文，说出你想和他/她说的话吧！&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;现在情书内容就写完了，点击&lt;code&gt;保存&lt;/code&gt;-&lt;code&gt;确定&lt;/code&gt;，将代码提交到 &lt;code&gt;master&lt;/code&gt; 分支。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax2.sinaimg.cn/large/ad5fbf65gy1gi35y8l234j20fe0880sw.jpg&#34; alt=&#34;保存&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;配置流水线&#34;&gt;配置流水线&lt;/h3&gt;
+&lt;p&gt;代码写好了，现在就可以使用流水线将情书的 H5 发布出去了。点击左上角九宫格，选择 &lt;code&gt;流水线&lt;/code&gt; - &lt;code&gt;新建流水线&lt;/code&gt;，选择模板：&lt;code&gt;其他&lt;/code&gt; - &lt;code&gt;云效七夕活动&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva3.sinaimg.cn/large/ad5fbf65gy1gi362uhnv8j21hc0pfmye.jpg&#34; alt=&#34;选择模板&#34;&gt;&lt;/p&gt;
+&lt;p&gt;之后就可以配置流水线了，点击 &lt;code&gt;添加代码源&lt;/code&gt;，选择 &lt;code&gt;云效Codeup&lt;/code&gt; 代码源，选择刚刚克隆的 &lt;code&gt;letter&lt;/code&gt; 代码库，选择 &lt;code&gt;master&lt;/code&gt; 分支，开启 &lt;code&gt;代码源触发&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65gy1gi36917of6j21h70q7wie.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;配置 Docker 镜像构建，点击 &lt;code&gt;Docker 镜像构建&lt;/code&gt; - &lt;code&gt;镜像构建并推送至自定义镜像仓库&lt;/code&gt;，填入以下内容：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;镜像仓库地址: &lt;code&gt;registry.cn-hangzhou.aliyuncs.com/yunxiao-letter/yunxiao-letter:${BUILD_JOB_ID}&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;用户名:&lt;code&gt;yunxiao-letter@1515906102291199&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;密码: &lt;code&gt;yunxiao2020&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;配置 Kubernetes 发布，点击 &lt;code&gt;Kubernetes 发布&lt;/code&gt; - &lt;code&gt;Kubectl发布&lt;/code&gt; - &lt;code&gt;新建连接&lt;/code&gt; - &lt;code&gt;自定义集群&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;之后进入 &lt;code&gt;https://research.devops.aliyun.com/kube.config.yml&lt;/code&gt; 页面，将页面配置文件复制到集群配置文件中。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax3.sinaimg.cn/large/ad5fbf65gy1gi36dhtzfxj21070jgt9j.jpg&#34; alt=&#34;连接 Kubernetes&#34;&gt;&lt;/p&gt;
+&lt;p&gt;配置好连接后，填写其他配置：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;命名空间填: &lt;code&gt;yunxiao&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;YAML路径填: &lt;code&gt;deployment.yml&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;新建变量1    选择&lt;code&gt;上游输出&lt;/code&gt;，&lt;code&gt;YUNXIAO_LETTER_IMAGE&lt;/code&gt;=&lt;code&gt;镜像仓库地址&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;新建变量2    选择&lt;code&gt;自定义&lt;/code&gt;，&lt;code&gt;PIPELINE_ID&lt;/code&gt;=&lt;code&gt;${PIPELINE_ID}&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1gi36f8xxffj20w70icdgb.jpg&#34; alt=&#34;其他配置&#34;&gt;&lt;/p&gt;
+&lt;p&gt;完成所有配置后，点击 &lt;code&gt;保存并运行&lt;/code&gt; - &lt;code&gt;运行&lt;/code&gt;：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1gi36hajgyuj20fd08s746.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;修复问题&#34;&gt;修复问题&lt;/h3&gt;
+&lt;p&gt;这里为了让用户体验质量卡点 &lt;code&gt;JavaScript 单元测试&lt;/code&gt; 功能，他们还在项目中埋了一个小坑，让首次构建失败，原因是：测试通过率小于100%&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1gi36jr1kwjj21090a7t9h.jpg&#34; alt=&#34;质量卡点&#34;&gt;&lt;/p&gt;
+&lt;p&gt;查看报错信息，发现是 &lt;code&gt;expect&lt;/code&gt; 值被设置为 &lt;code&gt;400&lt;/code&gt;：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax2.sinaimg.cn/large/ad5fbf65gy1gi36k3n45mj212g0e4tad.jpg&#34; alt=&#34;报错信息&#34;&gt;&lt;/p&gt;
+&lt;p&gt;进入对应的单元测试文件，修改代码：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1gi36md5twaj21h40pzn10.jpg&#34; alt=&#34;修复问题&#34;&gt;&lt;/p&gt;
+&lt;p&gt;修改完成后，点击 &lt;code&gt;保存&lt;/code&gt; - &lt;code&gt;提交&lt;/code&gt;，由于之前设置了流水线 &lt;code&gt;提交源代码触发&lt;/code&gt;，流水线在提交后会自动触发，并发布成功：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1gi36npelasj210109l3zc.jpg&#34; alt=&#34;发布成功&#34;&gt;&lt;/p&gt;
+&lt;p&gt;点击&lt;code&gt;预览&lt;/code&gt;或者扫面二维码就可以看到你的情书了。&lt;/p&gt;
+&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
+&lt;p&gt;通过这次七夕活动，体验了一把云效 DevOps，整体来说用户体验很好，同时还提供了30人一下团队免费使用的政策，可以为小团队省出不少搭建和开发 DevOps 环境和流程的时间和经历，非常推荐大家都来尝试一下，制作一封云上情书送给你的他/她吧。&lt;/p&gt;
+
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;活动地址：&lt;a href=&#34;https://developer.aliyun.com/adc/series/devops/?spm=a2c6h.12883283.1362932.3.2785201ctOUs0C&amp;amp;accounttraceid=fd6b3040ada34768aa78f84a9f645c46kouc&#34;&gt;https://developer.aliyun.com/adc/series/devops/?spm=a2c6h.12883283.1362932.3.2785201ctOUs0C&amp;amp;accounttraceid=fd6b3040ada34768aa78f84a9f645c46kouc&lt;/a&gt;&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://developer.aliyun.com/adc/scenario/exp/8464960ac980400d95ff092b95e1a97e&#34;&gt;云效DevOps七夕云中密书 - developer.aliyun.com&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>

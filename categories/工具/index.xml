@@ -1,243 +1,322 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Guo Xudong's Blog·郭旭东的博客 – 工具</title><link>https://guoxudong.io/categories/%E5%B7%A5%E5%85%B7/</link><description>Recent content in 工具 on Guo Xudong's Blog·郭旭东的博客</description><generator>Hugo -- gohugo.io</generator><language>zh</language><lastBuildDate>Mon, 04 Jan 2021 14:14:02 +0800</lastBuildDate><atom:link href="https://guoxudong.io/categories/%E5%B7%A5%E5%85%B7/index.xml" rel="self" type="application/rss+xml"/><item><title>Post: 使用 iTerm2 打造美观高效的 Mac 终端</title><link>https://guoxudong.io/post/iterm2/</link><pubDate>Mon, 04 Jan 2021 14:14:02 +0800</pubDate><guid>https://guoxudong.io/post/iterm2/</guid><description>
-&lt;h2 id="前言">前言&lt;/h2>
-&lt;p>最近换了一台新电脑，开发环境和软件都需要重新安装和配置，正好借着这个机会，介绍一下 macOS 终端神器 iTerm2 的安装配置，并推荐一些插件和好用的工具。&lt;/p>
-&lt;h2 id="iterm2">iTerm2&lt;/h2>
-&lt;p>iTerm2 是默认终端的替代品，也是目前 macOS 下最好用的终端工具，集颜值和效率于一身。&lt;/p>
-&lt;h3 id="安装">安装&lt;/h3>
-&lt;p>直接前往 &lt;a href="http://www.iterm2.com/">iTerm2 官网&lt;/a> 下载即可，下载完成后解压并双击安装。&lt;/p>
-&lt;p>&lt;img src="https://tvax4.sinaimg.cn/large/ad5fbf65gy1gmbncotndlj21km1gu7hm.jpg" alt="iTerm2 官网">&lt;/p>
-&lt;h3 id="设置热键">设置热键&lt;/h3>
-&lt;p>为了快速唤出 iterm2 终端，这里推荐使用热键进行唤出。&lt;/p>
-&lt;p>&lt;img src="https://tva1.sinaimg.cn/large/ad5fbf65gy1gmbnhmj7w8j21k20y87el.jpg" alt="设置热键">&lt;/p>
-&lt;h3 id="设置-status-bar">设置 Status bar&lt;/h3>
-&lt;p>iterm2 提供了很多 Status bar，可在在终端页面显示更多关于本机的信息，如：CPU、内存、电池电量等。&lt;/p>
-&lt;p>&lt;img src="https://tva1.sinaimg.cn/large/ad5fbf65gy1gmbnkvtjloj21ey0tojwj.jpg" alt="配置 Status bar">&lt;/p>
-&lt;p>点击 &lt;code>Configure Status bar&lt;/code> 进入配置页面，这里将想要的 Status bar 拖入下面的方框即可。这里还推荐选择 &lt;code>Auto-Rainbow&lt;/code>，这样 Status bar 就是以彩色的形式展示了。&lt;/p>
-&lt;p>&lt;img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1gmbnn70borj21eu0skdjz.jpg" alt="选择 Status bar">&lt;/p>
-&lt;h3 id="配色">配色&lt;/h3>
-&lt;p>选择一个自己喜欢的配色方案。&lt;/p>
-&lt;p>&lt;img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1gmbnqt1lhej21fg0qqn26.jpg" alt="选择配色方案">&lt;/p>
-&lt;h3 id="光标选择">光标选择&lt;/h3>
-&lt;p>这里提供了三种光标可供选择：&lt;code>_&lt;/code>、&lt;code>|&lt;/code>、&lt;code>[]&lt;/code>。&lt;/p>
-&lt;p>&lt;img src="https://tva1.sinaimg.cn/large/ad5fbf65gy1gmbnsyh5rqj21g00qu79h.jpg" alt="光标选择">&lt;/p>
-&lt;h3 id="窗口设置">窗口设置&lt;/h3>
-&lt;p>这里可以设置窗口透明度、背景图片、行列数以及风格等。&lt;/p>
-&lt;p>&lt;img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1gmbnw0mzfej21fi0wmagb.jpg" alt="窗口设置">&lt;/p>
-&lt;h3 id="迁移配置">迁移配置&lt;/h3>
-&lt;p>如果你已经有配置好的 iterm2，可以将配置导出，迁移到新 Mac 上。&lt;/p>
-&lt;p>&lt;img src="https://tvax3.sinaimg.cn/large/ad5fbf65gy1gmboqetam4j21fi17gkjl.jpg" alt="导出配置">&lt;/p>
-&lt;p>之后在新 Mac 上导入即可。&lt;/p>
-&lt;p>&lt;img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1gmborddsylj21es176e81.jpg" alt="导入配置">&lt;/p>
-&lt;h2 id="oh-my-zsh">oh my zsh&lt;/h2>
-&lt;p>在设置好 iterm2 之后，就需要安装 &lt;a href="https://github.com/ohmyzsh/ohmyzsh">oh-my-zsh&lt;/a>。Oh My Zsh 是一款社区驱动的命令行工具，它基于 zsh 命令行，提供了主题配置，插件机制，大大提高了可玩性及使用效率。&lt;/p>
-&lt;h3 id="安装-1">安装&lt;/h3>
-&lt;p>可以使用 &lt;code>curl&lt;/code> 和 &lt;code>wget&lt;/code> 安装：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">&lt;span style="color:#999;font-style:italic"># curl&lt;/span>
-sh -c &lt;span style="color:#ed9d13">&amp;#34;&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">$(&lt;/span>curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh&lt;span style="color:#6ab825;font-weight:bold">)&lt;/span>&lt;span style="color:#ed9d13">&amp;#34;&lt;/span>
-&lt;span style="color:#999;font-style:italic"># wget&lt;/span>
-sh -c &lt;span style="color:#ed9d13">&amp;#34;&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">$(&lt;/span>wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh&lt;span style="color:#6ab825;font-weight:bold">)&lt;/span>&lt;span style="color:#ed9d13">&amp;#34;&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="powerlevel10k">powerlevel10k&lt;/h3>
-&lt;p>&lt;a href="https://github.com/romkatv/powerlevel10k">powerlevel10k&lt;/a> 是一款 zsh 主题，是 &lt;a href="https://github.com/Powerlevel9k/powerlevel9k">powerlevel9k&lt;/a> 的升级版，强调快速、高效和开箱即用。powerlevel10k 免去了之前 powerlevel9k 比较繁琐的安装方式，如安装字体，配置样式、修改主题等一系列繁琐的操作，开箱即用，非常简单。&lt;/p>
-&lt;h4 id="安装-2">安装&lt;/h4>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">git clone --depth=&lt;span style="color:#3677a9">1&lt;/span> https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
-&lt;span style="color:#24909d">echo&lt;/span> &lt;span style="color:#ed9d13">&amp;#39;source ~/powerlevel10k/powerlevel10k.zsh-theme&amp;#39;&lt;/span> &amp;gt;&amp;gt;~/.zshrc
-&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="配置">配置&lt;/h4>
-&lt;p>在代码拉取成功后，执行命令 &lt;code>source ~/.zshrc&lt;/code> 会自动安装字体文件，无需任何其他操作。&lt;/p>
-&lt;p>之后执行命令，即可开始配置：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">p10k configure
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>这里会进行交互式的配置，只需根据提示进行选择即可。&lt;/p>
-&lt;p>&lt;img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1gmap0z93zdg20ok0l60xf.gif" alt="交互式的配置">&lt;/p>
-&lt;h3 id="插件">插件&lt;/h3>
-&lt;p>oh my zsh 还提供了多种好用的插件，这里介绍两款好用的插件。&lt;/p>
-&lt;h4 id="语法高亮">语法高亮&lt;/h4>
-&lt;p>可以在命令行高亮显示语法，效果如下：&lt;/p>
-&lt;p>&lt;img src="https://tvax4.sinaimg.cn/large/ad5fbf65gy1gmbodvj2sej20lu0isdj6.jpg" alt="语法高亮">&lt;/p>
-&lt;p>安装方式：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">&lt;span style="color:#999;font-style:italic"># zsh-syntax-highlighting&lt;/span>
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/plugins/zsh-syntax-highlighting
-&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="命令自动补全">命令自动补全&lt;/h4>
-&lt;p>可以根据您的历史记录和完成情况给输入的命令提供建议，效果如下：&lt;/p>
-&lt;p>&lt;img src="https://tvax3.sinaimg.cn/large/ad5fbf65gy1gmbojbb38wj20sy044wel.jpg" alt="命令自动补全">&lt;/p>
-&lt;p>安装方式&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">&lt;span style="color:#999;font-style:italic"># zsh-autosuggestion&lt;/span>
-git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/plugins/zsh-autosuggestions
-&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="插件配置">插件配置&lt;/h4>
-&lt;p>安装好之后，需要修改 &lt;code>.zshrc&lt;/code>：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">&lt;span style="color:#999;font-style:italic"># .zshrc&lt;/span>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Guo Xudong&#39;s Blog·郭旭东的博客 – 工具</title>
+    <link>https://guoxudong.io/categories/%E5%B7%A5%E5%85%B7/</link>
+    <description>Recent content in 工具 on Guo Xudong&#39;s Blog·郭旭东的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Mon, 04 Jan 2021 14:14:02 +0800</lastBuildDate>
+    
+	  <atom:link href="https://guoxudong.io/categories/%E5%B7%A5%E5%85%B7/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Post: 使用 iTerm2 打造美观高效的 Mac 终端</title>
+      <link>https://guoxudong.io/post/iterm2/</link>
+      <pubDate>Mon, 04 Jan 2021 14:14:02 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/iterm2/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;最近换了一台新电脑，开发环境和软件都需要重新安装和配置，正好借着这个机会，介绍一下 macOS 终端神器 iTerm2 的安装配置，并推荐一些插件和好用的工具。&lt;/p&gt;
+&lt;h2 id=&#34;iterm2&#34;&gt;iTerm2&lt;/h2&gt;
+&lt;p&gt;iTerm2 是默认终端的替代品，也是目前 macOS 下最好用的终端工具，集颜值和效率于一身。&lt;/p&gt;
+&lt;h3 id=&#34;安装&#34;&gt;安装&lt;/h3&gt;
+&lt;p&gt;直接前往 &lt;a href=&#34;http://www.iterm2.com/&#34;&gt;iTerm2 官网&lt;/a&gt; 下载即可，下载完成后解压并双击安装。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax4.sinaimg.cn/large/ad5fbf65gy1gmbncotndlj21km1gu7hm.jpg&#34; alt=&#34;iTerm2 官网&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;设置热键&#34;&gt;设置热键&lt;/h3&gt;
+&lt;p&gt;为了快速唤出 iterm2 终端，这里推荐使用热键进行唤出。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1gmbnhmj7w8j21k20y87el.jpg&#34; alt=&#34;设置热键&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;设置-status-bar&#34;&gt;设置 Status bar&lt;/h3&gt;
+&lt;p&gt;iterm2 提供了很多 Status bar，可在在终端页面显示更多关于本机的信息，如：CPU、内存、电池电量等。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1gmbnkvtjloj21ey0tojwj.jpg&#34; alt=&#34;配置 Status bar&#34;&gt;&lt;/p&gt;
+&lt;p&gt;点击 &lt;code&gt;Configure Status bar&lt;/code&gt; 进入配置页面，这里将想要的 Status bar 拖入下面的方框即可。这里还推荐选择 &lt;code&gt;Auto-Rainbow&lt;/code&gt;，这样 Status bar 就是以彩色的形式展示了。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1gmbnn70borj21eu0skdjz.jpg&#34; alt=&#34;选择 Status bar&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;配色&#34;&gt;配色&lt;/h3&gt;
+&lt;p&gt;选择一个自己喜欢的配色方案。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1gmbnqt1lhej21fg0qqn26.jpg&#34; alt=&#34;选择配色方案&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;光标选择&#34;&gt;光标选择&lt;/h3&gt;
+&lt;p&gt;这里提供了三种光标可供选择：&lt;code&gt;_&lt;/code&gt;、&lt;code&gt;|&lt;/code&gt;、&lt;code&gt;[]&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1gmbnsyh5rqj21g00qu79h.jpg&#34; alt=&#34;光标选择&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;窗口设置&#34;&gt;窗口设置&lt;/h3&gt;
+&lt;p&gt;这里可以设置窗口透明度、背景图片、行列数以及风格等。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1gmbnw0mzfej21fi0wmagb.jpg&#34; alt=&#34;窗口设置&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;迁移配置&#34;&gt;迁移配置&lt;/h3&gt;
+&lt;p&gt;如果你已经有配置好的 iterm2，可以将配置导出，迁移到新 Mac 上。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax3.sinaimg.cn/large/ad5fbf65gy1gmboqetam4j21fi17gkjl.jpg&#34; alt=&#34;导出配置&#34;&gt;&lt;/p&gt;
+&lt;p&gt;之后在新 Mac 上导入即可。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1gmborddsylj21es176e81.jpg&#34; alt=&#34;导入配置&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;oh-my-zsh&#34;&gt;oh my zsh&lt;/h2&gt;
+&lt;p&gt;在设置好 iterm2 之后，就需要安装 &lt;a href=&#34;https://github.com/ohmyzsh/ohmyzsh&#34;&gt;oh-my-zsh&lt;/a&gt;。Oh My Zsh 是一款社区驱动的命令行工具，它基于 zsh 命令行，提供了主题配置，插件机制，大大提高了可玩性及使用效率。&lt;/p&gt;
+&lt;h3 id=&#34;安装-1&#34;&gt;安装&lt;/h3&gt;
+&lt;p&gt;可以使用 &lt;code&gt;curl&lt;/code&gt; 和 &lt;code&gt;wget&lt;/code&gt; 安装：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# curl&lt;/span&gt;
+sh -c &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;$(&lt;/span&gt;curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# wget&lt;/span&gt;
+sh -c &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;$(&lt;/span&gt;wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;powerlevel10k&#34;&gt;powerlevel10k&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/romkatv/powerlevel10k&#34;&gt;powerlevel10k&lt;/a&gt; 是一款 zsh 主题，是 &lt;a href=&#34;https://github.com/Powerlevel9k/powerlevel9k&#34;&gt;powerlevel9k&lt;/a&gt; 的升级版，强调快速、高效和开箱即用。powerlevel10k 免去了之前 powerlevel9k 比较繁琐的安装方式，如安装字体，配置样式、修改主题等一系列繁琐的操作，开箱即用，非常简单。&lt;/p&gt;
+&lt;h4 id=&#34;安装-2&#34;&gt;安装&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;git clone --depth=&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt; https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+&lt;span style=&#34;color:#24909d&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;source ~/powerlevel10k/powerlevel10k.zsh-theme&amp;#39;&lt;/span&gt; &amp;gt;&amp;gt;~/.zshrc
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;配置&#34;&gt;配置&lt;/h4&gt;
+&lt;p&gt;在代码拉取成功后，执行命令 &lt;code&gt;source ~/.zshrc&lt;/code&gt; 会自动安装字体文件，无需任何其他操作。&lt;/p&gt;
+&lt;p&gt;之后执行命令，即可开始配置：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;p10k configure
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里会进行交互式的配置，只需根据提示进行选择即可。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1gmap0z93zdg20ok0l60xf.gif&#34; alt=&#34;交互式的配置&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;插件&#34;&gt;插件&lt;/h3&gt;
+&lt;p&gt;oh my zsh 还提供了多种好用的插件，这里介绍两款好用的插件。&lt;/p&gt;
+&lt;h4 id=&#34;语法高亮&#34;&gt;语法高亮&lt;/h4&gt;
+&lt;p&gt;可以在命令行高亮显示语法，效果如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax4.sinaimg.cn/large/ad5fbf65gy1gmbodvj2sej20lu0isdj6.jpg&#34; alt=&#34;语法高亮&#34;&gt;&lt;/p&gt;
+&lt;p&gt;安装方式：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# zsh-syntax-highlighting&lt;/span&gt;
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git  ~/.oh-my-zsh/plugins/zsh-syntax-highlighting
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;命令自动补全&#34;&gt;命令自动补全&lt;/h4&gt;
+&lt;p&gt;可以根据您的历史记录和完成情况给输入的命令提供建议，效果如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax3.sinaimg.cn/large/ad5fbf65gy1gmbojbb38wj20sy044wel.jpg&#34; alt=&#34;命令自动补全&#34;&gt;&lt;/p&gt;
+&lt;p&gt;安装方式&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# zsh-autosuggestion&lt;/span&gt;
+git clone https://github.com/zsh-users/zsh-autosuggestions.git  ~/.oh-my-zsh/plugins/zsh-autosuggestions
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;插件配置&#34;&gt;插件配置&lt;/h4&gt;
+&lt;p&gt;安装好之后，需要修改 &lt;code&gt;.zshrc&lt;/code&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# .zshrc&lt;/span&gt;
 ...
-&lt;span style="color:#40ffff">plugins&lt;/span>=(git zsh-autosuggestions zsh-syntax-highlighting)
+&lt;span style=&#34;color:#40ffff&#34;&gt;plugins&lt;/span&gt;=(git zsh-autosuggestions zsh-syntax-highlighting)
 ...
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>修改完成后，执行命令，完成设置：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">&lt;span style="color:#24909d">source&lt;/span> ~/.zshrc
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>更多插件，详见：https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins&lt;/p>
-&lt;h2 id="结语">结语&lt;/h2>
-&lt;p>iTerm2 其实还有很多好玩的配置，由于篇幅有限这里就不过多介绍了，感兴趣的朋友可以登录官网查看官方文档。&lt;/p></description></item><item><title>Post: 手把手教你免费获取正版 Jetbrains 全家桶 License</title><link>https://guoxudong.io/post/jetbrains-opensource-free-license/</link><pubDate>Tue, 15 Dec 2020 14:50:50 +0800</pubDate><guid>https://guoxudong.io/post/jetbrains-opensource-free-license/</guid><description>
-&lt;h2 id="前言">前言&lt;/h2>
-&lt;div class="pageinfo pageinfo-primary">
-&lt;p>最近 Goland 发布了最新的 2020.3 版本，新增时间包的支持，通过自动补全快捷键(Ctrl+Space)就可以快速补全时间占位符 &lt;code>2006-01-02 02-15-05&lt;/code> 了，再也不用每次都点进源码里去找了。&lt;/p>
-&lt;/div>
-&lt;p>Jetbrains 推出的一些列 IDE 被称为 Jetbrains 全家桶，以其极好的用户体验，帅气的 UI 界面和离谱的价格在程序员中拥有极高的知名度。&lt;/p>
-&lt;p>&lt;img src="https://tvax3.sinaimg.cn/mw690/ad5fbf65gy1glokceqqkbj21zs0ue0y8.jpg" alt="全家桶价格">&lt;/p>
-&lt;p>本篇文章就手把手的教大家免费获得正版的 Jetbrains 全家桶 License。&lt;/p>
-&lt;h2 id="初次申请">初次申请&lt;/h2>
-&lt;p>JetBrains 通过为开源项目核心项目贡献者免费提供一套一流的开发者工具来支持非商业开源项目。&lt;/p>
-&lt;h3 id="申请要求">申请要求&lt;/h3>
-&lt;p>开源项目需要满足：&lt;/p>
-&lt;ul>
-&lt;li>了解&lt;a href="https://opensource.org/docs/osd">开源&lt;/a>定义。&lt;/li>
-&lt;li>正在积极开发，例如，在过去 3 个月内定期提交新代码。&lt;/li>
-&lt;li>不提供开源软件的付费版本，也不提供与开源项目相关的任何商业服务（例如付费支持、咨询等）。&lt;/li>
-&lt;li>未获得商业公司或组织（NGO、教育、研究或政府组织）的资助。&lt;/li>
-&lt;li>不为他们的核心项目开发者支付工资。&lt;/li>
-&lt;/ul>
-&lt;p>开发者需要满足：&lt;/p>
-&lt;ul>
-&lt;li>许可证仅提供给项目负责人和核心项目提交者。&lt;/li>
-&lt;li>许可证有效期为一年，之后如果您的项目仍符合支持计划要求，也可以续订。&lt;/li>
-&lt;li>您只能将免费许可证用于开发非商业开源项目。&lt;/li>
-&lt;li>您不能与任何第三方共享免费许可证。&lt;/li>
-&lt;/ul>
-&lt;p>同时 JetBrains 还为 &lt;a href="http://www.apache.org/foundation/how-it-works.html#committers">The Apache Software Foundation&lt;/a>、&lt;a href="http://numfocus.org/sponsored-projects">NumFOCUS 项目&lt;/a>和 Drupal 核心贡献者提供免费的 License。&lt;/p>
-&lt;h3 id="选择项目">选择项目&lt;/h3>
-&lt;p>你需要选择一个自己的开源项目，并且持续开发 3 个月以上，这个项目没有 star、commit 数量的要求，同时需要包含开源 &lt;code>License&lt;/code>，比如我使用的就是 &lt;code>Apache-2.0 License&lt;/code>。&lt;/p>
-&lt;p>之后就可以提交申请了。&lt;/p>
-&lt;div class="pageinfo pageinfo-primary">
-&lt;p>申请链接：&lt;a href="https://www.jetbrains.com/shop/eform/opensource">https://www.jetbrains.com/shop/eform/opensource&lt;/a>&lt;/p>
-&lt;/div>
-&lt;h3 id="填写申请">填写申请&lt;/h3>
-&lt;p>这里需要填写的内容都比较简单，按照要求填写即可，包括：&lt;/p>
-&lt;ul>
-&lt;li>项目页面：如果没有直接填写项目 github URL&lt;/li>
-&lt;li>repo 仓库地址&lt;/li>
-&lt;li>License 地址：直接贴上 repo 中 License 的链接即可&lt;/li>
-&lt;/ul>
-&lt;p>&lt;img src="https://tva4.sinaimg.cn/mw690/ad5fbf65gy1glol6tl35qj20vg1x210m.jpg" alt="申请">&lt;/p>
-&lt;p>填写完点击提交。&lt;/p>
-&lt;h3 id="接收邮件">接收邮件&lt;/h3>
-&lt;p>在提交申请后，会收到一封来自 &lt;code>JetBrains Community Support&lt;/code> 的邮件，表示会有几天来评估你的项目。&lt;/p>
-&lt;p>&lt;img src="https://tva3.sinaimg.cn/mw690/ad5fbf65gy1glolfekw0mj20ym0f6wk4.jpg" alt="收到申请">&lt;/p>
-&lt;p>一般会在 2 个工作日内收到批准邮件。&lt;/p>
-&lt;p>&lt;img src="https://tva2.sinaimg.cn/mw690/ad5fbf65gy1glolgt0ot7j215c0wsqlb.jpg" alt="批准申请">&lt;/p>
-&lt;p>邮件内容除了为你颁发免费的 License，还会希望你将 JetBrains 的 logo 加入到你项目介绍中。&lt;/p>
-&lt;p>&lt;img src="https://tvax2.sinaimg.cn/mw690/ad5fbf65gy1glolkyl3c6j21ck0fc0ty.jpg" alt="加入鸣谢">&lt;/p>
-&lt;h3 id="license-激活">License 激活&lt;/h3>
-&lt;p>之后点击邮件中的链接，登录你的 JetBrains 账号（如果没有请先注册一个），按照引导完成激活即可。&lt;/p>
-&lt;div class="pageinfo pageinfo-primary">
-&lt;p>由于我已经激活，所以这里看不到邀请页面。&lt;/p>
-&lt;/div>
-&lt;p>&lt;img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1gloltcob80j22hw17m7bh.jpg" alt="All Products Pack">&lt;/p>
-&lt;h2 id="申请续期">申请续期&lt;/h2>
-&lt;p>在旧的 License 即将到期的 2 周前，&lt;code>JetBrains Community Support&lt;/code> 会再次发来邮件，提醒 License 即将到期。如果你的项目还在积极开发中，可以申请续期，并附上续期链接。&lt;/p>
-&lt;p>&lt;img src="https://tvax4.sinaimg.cn/mw690/ad5fbf65gy1glom2dv7a7j21520l0guq.jpg" alt="提醒邮件">&lt;/p>
-&lt;p>申请续期只需在申请页面 &lt;code>Do we know you?&lt;/code> 中选择 &lt;code>Yes&lt;/code>，然后填入去年颁发给你的 License ID，其余内容与之前一样。&lt;/p>
-&lt;p>&lt;img src="https://tva2.sinaimg.cn/mw690/ad5fbf65gy1glolwsbn6ij21ma0uc78c.jpg" alt="申请续期">&lt;/p>
-&lt;p>在申请续期后，同样会收到评估邮件，不过这回时间变成了一到两周。&lt;/p>
-&lt;p>&lt;img src="https://tvax3.sinaimg.cn/mw690/ad5fbf65gy1glom4k0ttvj215g0haah7.jpg" alt="续期评估邮件">&lt;/p>
-&lt;p>说是两周，但两天后我就收到了续期通过的邮件，内容与初次申请一样，这里就不做展示了。&lt;/p>
-&lt;h2 id="toolbox">Toolbox&lt;/h2>
-&lt;p>最后再推荐一下 JetBrains 的 Toolbox App，Toolbox 保持了 JetBrains 一贯优秀的用户体验。可以轻松管理本机所有 JetBrains 的应用，只需登录一次即可完成所有产品的激活，无需再输入 License，同时安装和更新也十分方便，通过 Toolbox 快速打开 IDE，体验极佳。&lt;/p>
-&lt;p>&lt;img src="https://tvax3.sinaimg.cn/bmiddle/ad5fbf65gy1glomepqas8j20og12wdkb.jpg" alt="Toolbox">&lt;/p>
-&lt;h2 id="结语">结语&lt;/h2>
-&lt;p>到这里 Jetbrains License 的申请和激活已经完成了，感谢 JetBrains 对开源的支持。如果你还没有申请，那么就快去申请属于你的 JetBrains License 吧！&lt;/p></description></item><item><title>Post: Grabana：使用 Golang 或 Yaml 生成 Grafana Dashboard</title><link>https://guoxudong.io/post/grabana-create-grafana-dashboard/</link><pubDate>Wed, 26 Aug 2020 09:35:23 +0800</pubDate><guid>https://guoxudong.io/post/grabana-create-grafana-dashboard/</guid><description>
-&lt;h2 id="前言">前言&lt;/h2>
-&lt;p>在之前的一篇文章&lt;a href="./how-to-configure-grafana-as-code">《如何使 Grafana as code》&lt;/a>中介绍了使用 &lt;a href="http://jsonnet.org/">Jsonnet&lt;/a> 实现 Grafana as code，通过代码来批量、动态、可复用的生成 Grafana Dashboard。但毕竟 &lt;code>Jsonnet&lt;/code> 是一门小众的编程语言，可用文档不多且示例较少，那么有没有使用我们熟悉的编程语言来生成 Grafana Dashboard 的办法呢？答案是肯定的，本篇文章就介绍一款用于生成 Grafana Dashboard 的 Golang 库：&lt;a href="https://github.com/K-Phoen/grabana">Grabana&lt;/a>&lt;/p>
-&lt;h2 id="grabana">Grabana&lt;/h2>
-&lt;p>Grabana 提供了一种面向开发人员友好的创建 Grafana Dashboard 的方式，也就是俗称的 Grafana as code。&lt;/p>
-&lt;p>不止于此，Grabana 还支持使用 yaml 文件来生成 Dashboard。并且完全不需要像 Jsonnet 那样先生成 json 配置，再将配置导入 Grafana，而是直接基于写好的代码或者 yaml 文件，通过封装好的 Grafana API 直接将 Dashboard 发布到指定 Grafana 中，省去了繁琐的操作，实现了完全的自动化。&lt;/p>
-&lt;h3 id="dashboard-as-code">Dashboard as code&lt;/h3>
-&lt;p>使用 Golang 可以通过如下方式构建 Dashboard 配置：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">builder := dashboard.&lt;span style="color:#447fcf">New&lt;/span>(
-&lt;span style="color:#ed9d13">&amp;#34;Awesome dashboard&amp;#34;&lt;/span>,
-dashboard.&lt;span style="color:#447fcf">AutoRefresh&lt;/span>(&lt;span style="color:#ed9d13">&amp;#34;5s&amp;#34;&lt;/span>),
-dashboard.&lt;span style="color:#447fcf">Tags&lt;/span>([]&lt;span style="color:#6ab825;font-weight:bold">string&lt;/span>{&lt;span style="color:#ed9d13">&amp;#34;generated&amp;#34;&lt;/span>}),
-dashboard.&lt;span style="color:#447fcf">VariableAsInterval&lt;/span>(
-&lt;span style="color:#ed9d13">&amp;#34;interval&amp;#34;&lt;/span>,
-interval.&lt;span style="color:#447fcf">Values&lt;/span>([]&lt;span style="color:#6ab825;font-weight:bold">string&lt;/span>{&lt;span style="color:#ed9d13">&amp;#34;30s&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;1m&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;5m&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;10m&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;30m&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;1h&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;6h&amp;#34;&lt;/span>, &lt;span style="color:#ed9d13">&amp;#34;12h&amp;#34;&lt;/span>}),
-),
-dashboard.&lt;span style="color:#447fcf">Row&lt;/span>(
-&lt;span style="color:#ed9d13">&amp;#34;Prometheus&amp;#34;&lt;/span>,
-row.&lt;span style="color:#447fcf">WithGraph&lt;/span>(
-&lt;span style="color:#ed9d13">&amp;#34;HTTP Rate&amp;#34;&lt;/span>,
-graph.&lt;span style="color:#447fcf">DataSource&lt;/span>(&lt;span style="color:#ed9d13">&amp;#34;prometheus-default&amp;#34;&lt;/span>),
-graph.&lt;span style="color:#447fcf">WithPrometheusTarget&lt;/span>(
-&lt;span style="color:#ed9d13">&amp;#34;rate(prometheus_http_requests_total[30s])&amp;#34;&lt;/span>,
-prometheus.&lt;span style="color:#447fcf">Legend&lt;/span>(&lt;span style="color:#ed9d13">&amp;#34;{{handler}} - {{ code }}&amp;#34;&lt;/span>),
-),
-),
-),
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;修改完成后，执行命令，完成设置：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#24909d&#34;&gt;source&lt;/span&gt; ~/.zshrc
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;更多插件，详见：https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins&lt;/p&gt;
+&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
+&lt;p&gt;iTerm2 其实还有很多好玩的配置，由于篇幅有限这里就不过多介绍了，感兴趣的朋友可以登录官网查看官方文档。&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Post: 手把手教你免费获取正版 Jetbrains 全家桶 License</title>
+      <link>https://guoxudong.io/post/jetbrains-opensource-free-license/</link>
+      <pubDate>Tue, 15 Dec 2020 14:50:50 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/jetbrains-opensource-free-license/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;最近 Goland 发布了最新的 2020.3 版本，新增时间包的支持，通过自动补全快捷键(Ctrl+Space)就可以快速补全时间占位符 &lt;code&gt;2006-01-02 02-15-05&lt;/code&gt; 了，再也不用每次都点进源码里去找了。&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;Jetbrains 推出的一些列 IDE 被称为 Jetbrains 全家桶，以其极好的用户体验，帅气的 UI 界面和离谱的价格在程序员中拥有极高的知名度。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax3.sinaimg.cn/mw690/ad5fbf65gy1glokceqqkbj21zs0ue0y8.jpg&#34; alt=&#34;全家桶价格&#34;&gt;&lt;/p&gt;
+&lt;p&gt;本篇文章就手把手的教大家免费获得正版的 Jetbrains 全家桶 License。&lt;/p&gt;
+&lt;h2 id=&#34;初次申请&#34;&gt;初次申请&lt;/h2&gt;
+&lt;p&gt;JetBrains 通过为开源项目核心项目贡献者免费提供一套一流的开发者工具来支持非商业开源项目。&lt;/p&gt;
+&lt;h3 id=&#34;申请要求&#34;&gt;申请要求&lt;/h3&gt;
+&lt;p&gt;开源项目需要满足：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;了解&lt;a href=&#34;https://opensource.org/docs/osd&#34;&gt;开源&lt;/a&gt;定义。&lt;/li&gt;
+&lt;li&gt;正在积极开发，例如，在过去 3 个月内定期提交新代码。&lt;/li&gt;
+&lt;li&gt;不提供开源软件的付费版本，也不提供与开源项目相关的任何商业服务（例如付费支持、咨询等）。&lt;/li&gt;
+&lt;li&gt;未获得商业公司或组织（NGO、教育、研究或政府组织）的资助。&lt;/li&gt;
+&lt;li&gt;不为他们的核心项目开发者支付工资。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;开发者需要满足：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;许可证仅提供给项目负责人和核心项目提交者。&lt;/li&gt;
+&lt;li&gt;许可证有效期为一年，之后如果您的项目仍符合支持计划要求，也可以续订。&lt;/li&gt;
+&lt;li&gt;您只能将免费许可证用于开发非商业开源项目。&lt;/li&gt;
+&lt;li&gt;您不能与任何第三方共享免费许可证。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;同时 JetBrains 还为 &lt;a href=&#34;http://www.apache.org/foundation/how-it-works.html#committers&#34;&gt;The Apache Software Foundation&lt;/a&gt;、&lt;a href=&#34;http://numfocus.org/sponsored-projects&#34;&gt;NumFOCUS 项目&lt;/a&gt;和 Drupal 核心贡献者提供免费的 License。&lt;/p&gt;
+&lt;h3 id=&#34;选择项目&#34;&gt;选择项目&lt;/h3&gt;
+&lt;p&gt;你需要选择一个自己的开源项目，并且持续开发 3 个月以上，这个项目没有 star、commit 数量的要求，同时需要包含开源 &lt;code&gt;License&lt;/code&gt;，比如我使用的就是 &lt;code&gt;Apache-2.0 License&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;之后就可以提交申请了。&lt;/p&gt;
+
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;申请链接：&lt;a href=&#34;https://www.jetbrains.com/shop/eform/opensource&#34;&gt;https://www.jetbrains.com/shop/eform/opensource&lt;/a&gt;&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;h3 id=&#34;填写申请&#34;&gt;填写申请&lt;/h3&gt;
+&lt;p&gt;这里需要填写的内容都比较简单，按照要求填写即可，包括：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;项目页面：如果没有直接填写项目 github URL&lt;/li&gt;
+&lt;li&gt;repo 仓库地址&lt;/li&gt;
+&lt;li&gt;License 地址：直接贴上 repo 中 License 的链接即可&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/mw690/ad5fbf65gy1glol6tl35qj20vg1x210m.jpg&#34; alt=&#34;申请&#34;&gt;&lt;/p&gt;
+&lt;p&gt;填写完点击提交。&lt;/p&gt;
+&lt;h3 id=&#34;接收邮件&#34;&gt;接收邮件&lt;/h3&gt;
+&lt;p&gt;在提交申请后，会收到一封来自 &lt;code&gt;JetBrains Community Support&lt;/code&gt; 的邮件，表示会有几天来评估你的项目。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva3.sinaimg.cn/mw690/ad5fbf65gy1glolfekw0mj20ym0f6wk4.jpg&#34; alt=&#34;收到申请&#34;&gt;&lt;/p&gt;
+&lt;p&gt;一般会在 2 个工作日内收到批准邮件。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/mw690/ad5fbf65gy1glolgt0ot7j215c0wsqlb.jpg&#34; alt=&#34;批准申请&#34;&gt;&lt;/p&gt;
+&lt;p&gt;邮件内容除了为你颁发免费的 License，还会希望你将 JetBrains 的 logo 加入到你项目介绍中。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax2.sinaimg.cn/mw690/ad5fbf65gy1glolkyl3c6j21ck0fc0ty.jpg&#34; alt=&#34;加入鸣谢&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;license-激活&#34;&gt;License 激活&lt;/h3&gt;
+&lt;p&gt;之后点击邮件中的链接，登录你的 JetBrains 账号（如果没有请先注册一个），按照引导完成激活即可。&lt;/p&gt;
+
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;由于我已经激活，所以这里看不到邀请页面。&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1gloltcob80j22hw17m7bh.jpg&#34; alt=&#34;All Products Pack&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;申请续期&#34;&gt;申请续期&lt;/h2&gt;
+&lt;p&gt;在旧的 License 即将到期的 2 周前，&lt;code&gt;JetBrains Community Support&lt;/code&gt; 会再次发来邮件，提醒 License 即将到期。如果你的项目还在积极开发中，可以申请续期，并附上续期链接。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax4.sinaimg.cn/mw690/ad5fbf65gy1glom2dv7a7j21520l0guq.jpg&#34; alt=&#34;提醒邮件&#34;&gt;&lt;/p&gt;
+&lt;p&gt;申请续期只需在申请页面 &lt;code&gt;Do we know you?&lt;/code&gt; 中选择 &lt;code&gt;Yes&lt;/code&gt;，然后填入去年颁发给你的 License ID，其余内容与之前一样。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/mw690/ad5fbf65gy1glolwsbn6ij21ma0uc78c.jpg&#34; alt=&#34;申请续期&#34;&gt;&lt;/p&gt;
+&lt;p&gt;在申请续期后，同样会收到评估邮件，不过这回时间变成了一到两周。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax3.sinaimg.cn/mw690/ad5fbf65gy1glom4k0ttvj215g0haah7.jpg&#34; alt=&#34;续期评估邮件&#34;&gt;&lt;/p&gt;
+&lt;p&gt;说是两周，但两天后我就收到了续期通过的邮件，内容与初次申请一样，这里就不做展示了。&lt;/p&gt;
+&lt;h2 id=&#34;toolbox&#34;&gt;Toolbox&lt;/h2&gt;
+&lt;p&gt;最后再推荐一下 JetBrains 的 Toolbox App，Toolbox 保持了 JetBrains 一贯优秀的用户体验。可以轻松管理本机所有 JetBrains 的应用，只需登录一次即可完成所有产品的激活，无需再输入 License，同时安装和更新也十分方便，通过 Toolbox 快速打开 IDE，体验极佳。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax3.sinaimg.cn/bmiddle/ad5fbf65gy1glomepqas8j20og12wdkb.jpg&#34; alt=&#34;Toolbox&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
+&lt;p&gt;到这里 Jetbrains License 的申请和激活已经完成了，感谢 JetBrains 对开源的支持。如果你还没有申请，那么就快去申请属于你的 JetBrains License 吧！&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Post: Grabana：使用 Golang 或 Yaml 生成 Grafana Dashboard</title>
+      <link>https://guoxudong.io/post/grabana-create-grafana-dashboard/</link>
+      <pubDate>Wed, 26 Aug 2020 09:35:23 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/grabana-create-grafana-dashboard/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;在之前的一篇文章&lt;a href=&#34;./how-to-configure-grafana-as-code&#34;&gt;《如何使 Grafana as code》&lt;/a&gt;中介绍了使用 &lt;a href=&#34;http://jsonnet.org/&#34;&gt;Jsonnet&lt;/a&gt; 实现 Grafana as code，通过代码来批量、动态、可复用的生成 Grafana Dashboard。但毕竟 &lt;code&gt;Jsonnet&lt;/code&gt; 是一门小众的编程语言，可用文档不多且示例较少，那么有没有使用我们熟悉的编程语言来生成 Grafana Dashboard 的办法呢？答案是肯定的，本篇文章就介绍一款用于生成 Grafana Dashboard 的 Golang 库：&lt;a href=&#34;https://github.com/K-Phoen/grabana&#34;&gt;Grabana&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;grabana&#34;&gt;Grabana&lt;/h2&gt;
+&lt;p&gt;Grabana 提供了一种面向开发人员友好的创建 Grafana Dashboard 的方式，也就是俗称的 Grafana as code。&lt;/p&gt;
+&lt;p&gt;不止于此，Grabana 还支持使用 yaml 文件来生成 Dashboard。并且完全不需要像 Jsonnet 那样先生成 json 配置，再将配置导入 Grafana，而是直接基于写好的代码或者 yaml 文件，通过封装好的 Grafana API 直接将 Dashboard 发布到指定 Grafana 中，省去了繁琐的操作，实现了完全的自动化。&lt;/p&gt;
+&lt;h3 id=&#34;dashboard-as-code&#34;&gt;Dashboard as code&lt;/h3&gt;
+&lt;p&gt;使用 Golang 可以通过如下方式构建 Dashboard 配置：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;builder := dashboard.&lt;span style=&#34;color:#447fcf&#34;&gt;New&lt;/span&gt;(
+    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Awesome dashboard&amp;#34;&lt;/span&gt;,
+    dashboard.&lt;span style=&#34;color:#447fcf&#34;&gt;AutoRefresh&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;5s&amp;#34;&lt;/span&gt;),
+    dashboard.&lt;span style=&#34;color:#447fcf&#34;&gt;Tags&lt;/span&gt;([]&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;{&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;generated&amp;#34;&lt;/span&gt;}),
+    dashboard.&lt;span style=&#34;color:#447fcf&#34;&gt;VariableAsInterval&lt;/span&gt;(
+        &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;interval&amp;#34;&lt;/span&gt;,
+        interval.&lt;span style=&#34;color:#447fcf&#34;&gt;Values&lt;/span&gt;([]&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;{&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;30s&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;1m&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;5m&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;10m&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;30m&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;1h&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;6h&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;12h&amp;#34;&lt;/span&gt;}),
+    ),
+    dashboard.&lt;span style=&#34;color:#447fcf&#34;&gt;Row&lt;/span&gt;(
+        &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Prometheus&amp;#34;&lt;/span&gt;,
+        row.&lt;span style=&#34;color:#447fcf&#34;&gt;WithGraph&lt;/span&gt;(
+            &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;HTTP Rate&amp;#34;&lt;/span&gt;,
+            graph.&lt;span style=&#34;color:#447fcf&#34;&gt;DataSource&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;prometheus-default&amp;#34;&lt;/span&gt;),
+            graph.&lt;span style=&#34;color:#447fcf&#34;&gt;WithPrometheusTarget&lt;/span&gt;(
+                &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;rate(prometheus_http_requests_total[30s])&amp;#34;&lt;/span&gt;,
+                prometheus.&lt;span style=&#34;color:#447fcf&#34;&gt;Legend&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;{{handler}} - {{ code }}&amp;#34;&lt;/span&gt;),
+            ),
+        ),
+    ),
 )
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>配置构建好之后，只需调用 Grabana 的 &lt;code>client&lt;/code>，传入 Grafana 的地址，以及事先创建的 Grafana API Key 即可一键发布 Dashboard。&lt;/p>
-&lt;div class="alert alert-primary" role="alert">
-&lt;h4 class="alert-heading">Tips&lt;/h4>
-&lt;p>API Key 的创建方法 &lt;code>Configuration&lt;/code> - &lt;code>API Keys&lt;/code> - &lt;code>Add API Keys&lt;/code> 如下图：&lt;/p>
-&lt;p>&lt;img src="https://tva1.sinaimg.cn/large/ad5fbf65gy1gi41u4pq30j21h10pn76o.jpg" alt="新建 API Key">&lt;/p>
-&lt;p>&lt;img src="https://tvax2.sinaimg.cn/large/ad5fbf65gy1gi41y39kz1j20li0biaaz.jpg" alt="获得 API Key">&lt;/p>
-&lt;/div>
-&lt;p>创建好 API Key 之后，将其填入 &lt;code>grabana.WithAPIToken()&lt;/code> 中即可，创建/更新 Dashboard 代码如下：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">ctx := context.&lt;span style="color:#447fcf">Background&lt;/span>()
-client := grabana.&lt;span style="color:#447fcf">NewClient&lt;/span>(&amp;amp;http.Client{}, grafanaHost, grabana.&lt;span style="color:#447fcf">WithAPIToken&lt;/span>(&lt;span style="color:#ed9d13">&amp;#34;such secret, much wow&amp;#34;&lt;/span>))
-&lt;span style="color:#999;font-style:italic">// create the folder holding the dashboard for the service
-&lt;/span>&lt;span style="color:#999;font-style:italic">&lt;/span>folder, err := client.&lt;span style="color:#447fcf">FindOrCreateFolder&lt;/span>(ctx, &lt;span style="color:#ed9d13">&amp;#34;Test Folder&amp;#34;&lt;/span>)
-&lt;span style="color:#6ab825;font-weight:bold">if&lt;/span> err != &lt;span style="color:#6ab825;font-weight:bold">nil&lt;/span> {
-fmt.&lt;span style="color:#447fcf">Printf&lt;/span>(&lt;span style="color:#ed9d13">&amp;#34;Could not find or create folder: %s\n&amp;#34;&lt;/span>, err)
-os.&lt;span style="color:#447fcf">Exit&lt;/span>(&lt;span style="color:#3677a9">1&lt;/span>)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;配置构建好之后，只需调用 Grabana 的 &lt;code&gt;client&lt;/code&gt;，传入 Grafana 的地址，以及事先创建的 Grafana API Key 即可一键发布 Dashboard。&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Tips&lt;/h4&gt;
+&lt;p&gt;API Key 的创建方法 &lt;code&gt;Configuration&lt;/code&gt; - &lt;code&gt;API Keys&lt;/code&gt; - &lt;code&gt;Add API Keys&lt;/code&gt; 如下图：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1gi41u4pq30j21h10pn76o.jpg&#34; alt=&#34;新建 API Key&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax2.sinaimg.cn/large/ad5fbf65gy1gi41y39kz1j20li0biaaz.jpg&#34; alt=&#34;获得 API Key&#34;&gt;&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;创建好 API Key 之后，将其填入 &lt;code&gt;grabana.WithAPIToken()&lt;/code&gt; 中即可，创建/更新 Dashboard 代码如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;ctx := context.&lt;span style=&#34;color:#447fcf&#34;&gt;Background&lt;/span&gt;()
+client := grabana.&lt;span style=&#34;color:#447fcf&#34;&gt;NewClient&lt;/span&gt;(&amp;amp;http.Client{}, grafanaHost, grabana.&lt;span style=&#34;color:#447fcf&#34;&gt;WithAPIToken&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;such secret, much wow&amp;#34;&lt;/span&gt;))
+
+&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// create the folder holding the dashboard for the service
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;folder, err := client.&lt;span style=&#34;color:#447fcf&#34;&gt;FindOrCreateFolder&lt;/span&gt;(ctx, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Test Folder&amp;#34;&lt;/span&gt;)
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+    fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Could not find or create folder: %s\n&amp;#34;&lt;/span&gt;, err)
+    os.&lt;span style=&#34;color:#447fcf&#34;&gt;Exit&lt;/span&gt;(&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;)
 }
-&lt;span style="color:#6ab825;font-weight:bold">if&lt;/span> _, err := client.&lt;span style="color:#447fcf">UpsertDashboard&lt;/span>(ctx, folder, builder); err != &lt;span style="color:#6ab825;font-weight:bold">nil&lt;/span> {
-fmt.&lt;span style="color:#447fcf">Printf&lt;/span>(&lt;span style="color:#ed9d13">&amp;#34;Could not create dashboard: %s\n&amp;#34;&lt;/span>, err)
-os.&lt;span style="color:#447fcf">Exit&lt;/span>(&lt;span style="color:#3677a9">1&lt;/span>)
+
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; _, err := client.&lt;span style=&#34;color:#447fcf&#34;&gt;UpsertDashboard&lt;/span&gt;(ctx, folder, builder); err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+    fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Could not create dashboard: %s\n&amp;#34;&lt;/span&gt;, err)
+    os.&lt;span style=&#34;color:#447fcf&#34;&gt;Exit&lt;/span&gt;(&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;)
 }
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>当然官方还提供了一个比较完整的 &lt;a href="https://github.com/K-Phoen/grabana/blob/master/cmd/example">example&lt;/a>，直接使用 &lt;code>go run main.go&lt;/code> 即可体验一键创建 Dashboard。&lt;/p>
-&lt;h3 id="dashboard-as-yaml">Dashboard as YAML&lt;/h3>
-&lt;p>Grabana 的特别之处还在于他还提供了使用 yaml 创建 Dashboard 的方式，作为一名资深 yaml 工程师，每当看到 yaml 都会感到格外的亲切。&lt;/p>
-&lt;p>同样的 Dashboard ，yaml 配置如下：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="color:#999;font-style:italic"># dashboard.yaml&lt;/span>&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">title&lt;/span>:&lt;span style="color:#666"> &lt;/span>Awesome dashboard&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">editable&lt;/span>:&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">true&lt;/span>&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">tags&lt;/span>:&lt;span style="color:#666"> &lt;/span>[generated]&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">auto_refresh&lt;/span>:&lt;span style="color:#666"> &lt;/span>5s&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">variables&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>- &lt;span style="color:#6ab825;font-weight:bold">interval&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">name&lt;/span>:&lt;span style="color:#666"> &lt;/span>interval&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">label&lt;/span>:&lt;span style="color:#666"> &lt;/span>Interval&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">values&lt;/span>:&lt;span style="color:#666"> &lt;/span>[&lt;span style="color:#ed9d13">&amp;#34;30s&amp;#34;&lt;/span>,&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#ed9d13">&amp;#34;1m&amp;#34;&lt;/span>,&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#ed9d13">&amp;#34;5m&amp;#34;&lt;/span>,&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#ed9d13">&amp;#34;10m&amp;#34;&lt;/span>,&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#ed9d13">&amp;#34;30m&amp;#34;&lt;/span>,&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#ed9d13">&amp;#34;1h&amp;#34;&lt;/span>,&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#ed9d13">&amp;#34;6h&amp;#34;&lt;/span>,&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#ed9d13">&amp;#34;12h&amp;#34;&lt;/span>]&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">rows&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>- &lt;span style="color:#6ab825;font-weight:bold">name&lt;/span>:&lt;span style="color:#666"> &lt;/span>Prometheus&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">panels&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>- &lt;span style="color:#6ab825;font-weight:bold">graph&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">title&lt;/span>:&lt;span style="color:#666"> &lt;/span>HTTP Rate&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">height&lt;/span>:&lt;span style="color:#666"> &lt;/span>400px&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">datasource&lt;/span>:&lt;span style="color:#666"> &lt;/span>prometheus-default&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">targets&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>- &lt;span style="color:#6ab825;font-weight:bold">prometheus&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">query&lt;/span>:&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#ed9d13">&amp;#34;rate(promhttp_metric_handler_requests_total[$interval])&amp;#34;&lt;/span>&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">legend&lt;/span>:&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#ed9d13">&amp;#34;{{handler}} - {{ code }}&amp;#34;&lt;/span>&lt;span style="color:#666">
-&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>目前官方还没有提供类似 &lt;code>grabana apply -f dashboard.yaml&lt;/code> 这样的 CLI 命令来发布 Dashboard，还是要使用 Golang 代码才能将其发布，代码如下：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">content, err := ioutil.&lt;span style="color:#447fcf">ReadFile&lt;/span>(&lt;span style="color:#ed9d13">&amp;#34;dashboard.yaml&amp;#34;&lt;/span>)
-&lt;span style="color:#6ab825;font-weight:bold">if&lt;/span> err != &lt;span style="color:#6ab825;font-weight:bold">nil&lt;/span> {
-fmt.&lt;span style="color:#447fcf">Fprintf&lt;/span>(os.Stderr, &lt;span style="color:#ed9d13">&amp;#34;Could not read file: %s\n&amp;#34;&lt;/span>, err)
-os.&lt;span style="color:#447fcf">Exit&lt;/span>(&lt;span style="color:#3677a9">1&lt;/span>)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;当然官方还提供了一个比较完整的 &lt;a href=&#34;https://github.com/K-Phoen/grabana/blob/master/cmd/example&#34;&gt;example&lt;/a&gt;，直接使用 &lt;code&gt;go run main.go&lt;/code&gt; 即可体验一键创建 Dashboard。&lt;/p&gt;
+&lt;h3 id=&#34;dashboard-as-yaml&#34;&gt;Dashboard as YAML&lt;/h3&gt;
+&lt;p&gt;Grabana 的特别之处还在于他还提供了使用 yaml 创建 Dashboard 的方式，作为一名资深 yaml 工程师，每当看到 yaml 都会感到格外的亲切。&lt;/p&gt;
+&lt;p&gt;同样的 Dashboard ，yaml 配置如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# dashboard.yaml&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;title&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Awesome dashboard&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;editable&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;tags&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;[generated]&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;auto_refresh&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;5s&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;variables&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;interval&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;interval&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;label&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Interval&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;values&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;[&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;30s&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;1m&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;5m&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;10m&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;30m&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;1h&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;6h&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;12h&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;rows&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Prometheus&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;panels&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;graph&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;title&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;HTTP Rate&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;height&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;400px&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;datasource&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;prometheus-default&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;targets&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;prometheus&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;                &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;query&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;rate(promhttp_metric_handler_requests_total[$interval])&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;                &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;legend&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;{{handler}} - {{ code }}&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;目前官方还没有提供类似 &lt;code&gt;grabana apply -f dashboard.yaml&lt;/code&gt; 这样的 CLI 命令来发布 Dashboard，还是要使用 Golang 代码才能将其发布，代码如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;content, err := ioutil.&lt;span style=&#34;color:#447fcf&#34;&gt;ReadFile&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;dashboard.yaml&amp;#34;&lt;/span&gt;)
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+    fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Fprintf&lt;/span&gt;(os.Stderr, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Could not read file: %s\n&amp;#34;&lt;/span&gt;, err)
+    os.&lt;span style=&#34;color:#447fcf&#34;&gt;Exit&lt;/span&gt;(&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;)
 }
-dashboard, err := decoder.&lt;span style="color:#447fcf">UnmarshalYAML&lt;/span>(bytes.&lt;span style="color:#447fcf">NewBuffer&lt;/span>(content))
-&lt;span style="color:#6ab825;font-weight:bold">if&lt;/span> err != &lt;span style="color:#6ab825;font-weight:bold">nil&lt;/span> {
-fmt.&lt;span style="color:#447fcf">Fprintf&lt;/span>(os.Stderr, &lt;span style="color:#ed9d13">&amp;#34;Could not parse file: %s\n&amp;#34;&lt;/span>, err)
-os.&lt;span style="color:#447fcf">Exit&lt;/span>(&lt;span style="color:#3677a9">1&lt;/span>)
+
+dashboard, err := decoder.&lt;span style=&#34;color:#447fcf&#34;&gt;UnmarshalYAML&lt;/span&gt;(bytes.&lt;span style=&#34;color:#447fcf&#34;&gt;NewBuffer&lt;/span&gt;(content))
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+    fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Fprintf&lt;/span&gt;(os.Stderr, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Could not parse file: %s\n&amp;#34;&lt;/span&gt;, err)
+    os.&lt;span style=&#34;color:#447fcf&#34;&gt;Exit&lt;/span&gt;(&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;)
 }
-ctx := context.&lt;span style="color:#447fcf">Background&lt;/span>()
-client := grabana.&lt;span style="color:#447fcf">NewClient&lt;/span>(&amp;amp;http.Client{}, grafanaHost, grabana.&lt;span style="color:#447fcf">WithAPIToken&lt;/span>(&lt;span style="color:#ed9d13">&amp;#34;such secret, much wow&amp;#34;&lt;/span>))
-&lt;span style="color:#999;font-style:italic">// create the folder holding the dashboard for the service
-&lt;/span>&lt;span style="color:#999;font-style:italic">&lt;/span>folder, err := client.&lt;span style="color:#447fcf">FindOrCreateFolder&lt;/span>(ctx, &lt;span style="color:#ed9d13">&amp;#34;Test Folder&amp;#34;&lt;/span>)
-&lt;span style="color:#6ab825;font-weight:bold">if&lt;/span> err != &lt;span style="color:#6ab825;font-weight:bold">nil&lt;/span> {
-fmt.&lt;span style="color:#447fcf">Printf&lt;/span>(&lt;span style="color:#ed9d13">&amp;#34;Could not find or create folder: %s\n&amp;#34;&lt;/span>, err)
-os.&lt;span style="color:#447fcf">Exit&lt;/span>(&lt;span style="color:#3677a9">1&lt;/span>)
+
+ctx := context.&lt;span style=&#34;color:#447fcf&#34;&gt;Background&lt;/span&gt;()
+client := grabana.&lt;span style=&#34;color:#447fcf&#34;&gt;NewClient&lt;/span&gt;(&amp;amp;http.Client{}, grafanaHost, grabana.&lt;span style=&#34;color:#447fcf&#34;&gt;WithAPIToken&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;such secret, much wow&amp;#34;&lt;/span&gt;))
+
+&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// create the folder holding the dashboard for the service
+&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;folder, err := client.&lt;span style=&#34;color:#447fcf&#34;&gt;FindOrCreateFolder&lt;/span&gt;(ctx, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Test Folder&amp;#34;&lt;/span&gt;)
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+    fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Could not find or create folder: %s\n&amp;#34;&lt;/span&gt;, err)
+    os.&lt;span style=&#34;color:#447fcf&#34;&gt;Exit&lt;/span&gt;(&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;)
 }
-&lt;span style="color:#6ab825;font-weight:bold">if&lt;/span> _, err := client.&lt;span style="color:#447fcf">UpsertDashboard&lt;/span>(ctx, folder, dashboard); err != &lt;span style="color:#6ab825;font-weight:bold">nil&lt;/span> {
-fmt.&lt;span style="color:#447fcf">Printf&lt;/span>(&lt;span style="color:#ed9d13">&amp;#34;Could not create dashboard: %s\n&amp;#34;&lt;/span>, err)
-os.&lt;span style="color:#447fcf">Exit&lt;/span>(&lt;span style="color:#3677a9">1&lt;/span>)
+
+&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; _, err := client.&lt;span style=&#34;color:#447fcf&#34;&gt;UpsertDashboard&lt;/span&gt;(ctx, folder, dashboard); err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+    fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Could not create dashboard: %s\n&amp;#34;&lt;/span&gt;, err)
+    os.&lt;span style=&#34;color:#447fcf&#34;&gt;Exit&lt;/span&gt;(&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;)
 }
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>同样也可以找到比较完整的 &lt;a href="https://github.com/K-Phoen/grabana/tree/master/cmd/yaml">example&lt;/a>，这些示例都可以在官方 GitHub 仓库中找到，有兴趣的同学可以看一下。&lt;/p>
-&lt;h2 id="结语">结语&lt;/h2>
-&lt;p>总的来说，这是一个挺有意思的项目，使用 Golang 代码或 yaml 文件来生成 Grafana Dashboard，方便易用不繁琐。美中不足的是，使用 yaml 生成 Dashboard 并没有完全脱离 Golang 代码。就像笔者上文中提到的，其实可以将项目包装成一个 CLI 工具，使用类似 &lt;code>grabana apply -f dashboard.yaml&lt;/code> 的方式来发布 yaml 配置可能会更好，并且实现起来也并不困难：）。&lt;/p>
-&lt;p>生成 Grafana Dashboard 其实还有很多其他语言的实现方式，比如使用 Python 实现的 &lt;a href="https://github.com/weaveworks/grafanalib">grafanalib&lt;/a>，与 Grabana 相比 grafanalib 的来头更大，贡献者和 star 数也更多，有兴趣的朋友可以关注一下，这里就不展开详细介绍了。&lt;/p></description></item></channel></rss>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;同样也可以找到比较完整的 &lt;a href=&#34;https://github.com/K-Phoen/grabana/tree/master/cmd/yaml&#34;&gt;example&lt;/a&gt;，这些示例都可以在官方 GitHub 仓库中找到，有兴趣的同学可以看一下。&lt;/p&gt;
+&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
+&lt;p&gt;总的来说，这是一个挺有意思的项目，使用 Golang 代码或 yaml 文件来生成 Grafana Dashboard，方便易用不繁琐。美中不足的是，使用 yaml 生成 Dashboard 并没有完全脱离 Golang 代码。就像笔者上文中提到的，其实可以将项目包装成一个 CLI 工具，使用类似 &lt;code&gt;grabana apply -f dashboard.yaml&lt;/code&gt; 的方式来发布 yaml 配置可能会更好，并且实现起来也并不困难：）。&lt;/p&gt;
+&lt;p&gt;生成 Grafana Dashboard 其实还有很多其他语言的实现方式，比如使用 Python 实现的 &lt;a href=&#34;https://github.com/weaveworks/grafanalib&#34;&gt;grafanalib&lt;/a&gt;，与 Grabana 相比 grafanalib 的来头更大，贡献者和 star 数也更多，有兴趣的朋友可以关注一下，这里就不展开详细介绍了。&lt;/p&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>

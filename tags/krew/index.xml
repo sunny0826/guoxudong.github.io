@@ -1,293 +1,359 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Guo Xudong's Blog·郭旭东的博客 – Krew</title><link>https://guoxudong.io/tags/krew/</link><description>Recent content in Krew on Guo Xudong's Blog·郭旭东的博客</description><generator>Hugo -- gohugo.io</generator><language>zh</language><lastBuildDate>Wed, 17 Mar 2021 09:54:18 +0800</lastBuildDate><atom:link href="https://guoxudong.io/tags/krew/index.xml" rel="self" type="application/rss+xml"/><item><title>Post: Kubectl Plugin 推荐（三）| 插件开发篇</title><link>https://guoxudong.io/post/kubectl-plugin-recommended-3/</link><pubDate>Wed, 17 Mar 2021 09:54:18 +0800</pubDate><guid>https://guoxudong.io/post/kubectl-plugin-recommended-3/</guid><description>
-&lt;h2 id="前言">前言&lt;/h2>
-&lt;p>之前的两篇文章中笔者推荐了一些好用的 Kubectl Plugin。但在实践中那些插件不一定能满足全部需求，这时不妨动手开发一个，花费时间不多，但却能极高的提升工作效率和使用体验。&lt;/p>
-&lt;p>本篇文章就来讲解如何快速开发一款自己的 Kubectl Plugin。&lt;/p>
-&lt;h2 id="简介">简介&lt;/h2>
-&lt;p>Kubectl Plugin 的开发流程和注意事项：&lt;/p>
-&lt;ul>
-&lt;li>编写一个二进制可执行文件以 &lt;code>kubectl-xxx&lt;/code> 命名&lt;/li>
-&lt;li>需要将可执行文件放在环境变量 &lt;code>PATH&lt;/code> 中&lt;/li>
-&lt;li>之后就可以使用 &lt;code>kubectl xxx&lt;/code> 来调用了&lt;/li>
-&lt;li>无法覆盖 &lt;code>kubectl&lt;/code> 内置的命令&lt;/li>
-&lt;/ul>
-&lt;p>二进制可执行文件可以是任何语言开发，本文主要讲解使用 go 语言开发，官方推荐使用 &lt;a href="https://github.com/kubernetes/cli-runtime/">cli-runtime&lt;/a> 项目，可以参考 &lt;a href="https://github.com/kubernetes/sample-cli-plugin">sample-cli-plugin&lt;/a> 示例。&lt;/p>
-&lt;h2 id="使用-github-template">使用 GitHub Template&lt;/h2>
-&lt;p>模板地址：https://github.com/replicatedhq/krew-plugin-template&lt;/p>
-&lt;p>推荐使用 GitHub Template 创建 Plugin 项目，该模板遵循最佳实践开发，并集成了一些简化开发流程的工具，使用 &lt;a href="https://goreleaser.com/">GoReleaser&lt;/a> 和 GitHub Action 进行自动化发布。该 template 也是官方文档推荐的 &lt;strong>非官方 GitHub Template&lt;/strong>。&lt;/p>
-&lt;h3 id="创建项目">创建项目&lt;/h3>
-&lt;p>进入 krew-plugin-template 项目，点击 &lt;code>Use this template&lt;/code>&lt;/p>
-&lt;p>&lt;img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1gomp3m8xjqj22w81naaqb.jpg" alt="使用模板">&lt;/p>
-&lt;p>输入 &lt;code>Repository name&lt;/code>，点击 &lt;code>Create repository from template&lt;/code> 创建 repo&lt;/p>
-&lt;p>&lt;img src="https://tvax2.sinaimg.cn/large/ad5fbf65gy1gomp5bbcl2j21fk0x4wis.jpg" alt="创建项目">&lt;/p>
-&lt;h3 id="配置项目">配置项目&lt;/h3>
-&lt;p>待项目创建完成后， clone 该项目并在本地通过终端进入该项目所在目录。&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ git clone https://github.com/sunny0826/kubectl-demo.git
-$ &lt;span style="color:#24909d">cd&lt;/span> kubectl-demo
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>使用 &lt;code>make setup&lt;/code> 命令开始配置&lt;/p>
-&lt;p>&lt;img src="https://tvax4.sinaimg.cn/large/ad5fbf65gy1gomq1rr8vzj20y80eg0wp.jpg" alt="set up">&lt;/p>
-&lt;p>根据提示，填入 &lt;code>GitHub Organization or Username&lt;/code>、&lt;code>GitHub Repo Namek&lt;/code> 和 &lt;code>Plugin Name&lt;/code> 后，会自动对项目进行配置。&lt;/p>
-&lt;h3 id="项目结构">项目结构&lt;/h3>
-&lt;p>配置完成后，一个 Kubectl Plugin 项目的基本框架就完成了，结构如下：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">.
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Guo Xudong&#39;s Blog·郭旭东的博客 – Krew</title>
+    <link>https://guoxudong.io/tags/krew/</link>
+    <description>Recent content in Krew on Guo Xudong&#39;s Blog·郭旭东的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Wed, 17 Mar 2021 09:54:18 +0800</lastBuildDate>
+    
+	  <atom:link href="https://guoxudong.io/tags/krew/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Post: Kubectl Plugin 推荐（三）| 插件开发篇</title>
+      <link>https://guoxudong.io/post/kubectl-plugin-recommended-3/</link>
+      <pubDate>Wed, 17 Mar 2021 09:54:18 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/kubectl-plugin-recommended-3/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;之前的两篇文章中笔者推荐了一些好用的 Kubectl Plugin。但在实践中那些插件不一定能满足全部需求，这时不妨动手开发一个，花费时间不多，但却能极高的提升工作效率和使用体验。&lt;/p&gt;
+&lt;p&gt;本篇文章就来讲解如何快速开发一款自己的 Kubectl Plugin。&lt;/p&gt;
+&lt;h2 id=&#34;简介&#34;&gt;简介&lt;/h2&gt;
+&lt;p&gt;Kubectl Plugin 的开发流程和注意事项：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;编写一个二进制可执行文件以 &lt;code&gt;kubectl-xxx&lt;/code&gt; 命名&lt;/li&gt;
+&lt;li&gt;需要将可执行文件放在环境变量 &lt;code&gt;PATH&lt;/code&gt; 中&lt;/li&gt;
+&lt;li&gt;之后就可以使用 &lt;code&gt;kubectl xxx&lt;/code&gt; 来调用了&lt;/li&gt;
+&lt;li&gt;无法覆盖 &lt;code&gt;kubectl&lt;/code&gt; 内置的命令&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;二进制可执行文件可以是任何语言开发，本文主要讲解使用 go 语言开发，官方推荐使用 &lt;a href=&#34;https://github.com/kubernetes/cli-runtime/&#34;&gt;cli-runtime&lt;/a&gt; 项目，可以参考 &lt;a href=&#34;https://github.com/kubernetes/sample-cli-plugin&#34;&gt;sample-cli-plugin&lt;/a&gt; 示例。&lt;/p&gt;
+&lt;h2 id=&#34;使用-github-template&#34;&gt;使用 GitHub Template&lt;/h2&gt;
+&lt;p&gt;模板地址：https://github.com/replicatedhq/krew-plugin-template&lt;/p&gt;
+&lt;p&gt;推荐使用 GitHub Template 创建 Plugin 项目，该模板遵循最佳实践开发，并集成了一些简化开发流程的工具，使用 &lt;a href=&#34;https://goreleaser.com/&#34;&gt;GoReleaser&lt;/a&gt; 和 GitHub Action 进行自动化发布。该 template 也是官方文档推荐的 &lt;strong&gt;非官方 GitHub Template&lt;/strong&gt;。&lt;/p&gt;
+&lt;h3 id=&#34;创建项目&#34;&gt;创建项目&lt;/h3&gt;
+&lt;p&gt;进入 krew-plugin-template 项目，点击 &lt;code&gt;Use this template&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1gomp3m8xjqj22w81naaqb.jpg&#34; alt=&#34;使用模板&#34;&gt;&lt;/p&gt;
+&lt;p&gt;输入 &lt;code&gt;Repository name&lt;/code&gt;，点击 &lt;code&gt;Create repository from template&lt;/code&gt; 创建 repo&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax2.sinaimg.cn/large/ad5fbf65gy1gomp5bbcl2j21fk0x4wis.jpg&#34; alt=&#34;创建项目&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;配置项目&#34;&gt;配置项目&lt;/h3&gt;
+&lt;p&gt;待项目创建完成后， clone 该项目并在本地通过终端进入该项目所在目录。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ git clone https://github.com/sunny0826/kubectl-demo.git
+$ &lt;span style=&#34;color:#24909d&#34;&gt;cd&lt;/span&gt; kubectl-demo
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;使用 &lt;code&gt;make setup&lt;/code&gt; 命令开始配置&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax4.sinaimg.cn/large/ad5fbf65gy1gomq1rr8vzj20y80eg0wp.jpg&#34; alt=&#34;set up&#34;&gt;&lt;/p&gt;
+&lt;p&gt;根据提示，填入 &lt;code&gt;GitHub Organization or Username&lt;/code&gt;、&lt;code&gt;GitHub Repo Namek&lt;/code&gt; 和 &lt;code&gt;Plugin Name&lt;/code&gt; 后，会自动对项目进行配置。&lt;/p&gt;
+&lt;h3 id=&#34;项目结构&#34;&gt;项目结构&lt;/h3&gt;
+&lt;p&gt;配置完成后，一个 Kubectl Plugin 项目的基本框架就完成了，结构如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;.
 ├── LICENSE
 ├── Makefile
 ├── README.md
 ├── cmd
 │   └── plugin
-│   ├── cli
-│   │   └── root.go &lt;span style="color:#999;font-style:italic"># cli 配置&lt;/span>
-│   └── main.go &lt;span style="color:#999;font-style:italic"># 项目入口&lt;/span>
+│       ├── cli
+│       │   └── root.go   &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# cli 配置&lt;/span&gt;
+│       └── main.go       &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 项目入口&lt;/span&gt;
 ├── deploy
 │   └── krew
-│   └── plugin.yaml &lt;span style="color:#999;font-style:italic"># krew-index 配置&lt;/span>
+│       └── plugin.yaml   &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# krew-index 配置&lt;/span&gt;
 ├── doc
 │   └── USAGE.md
 ├── go.mod
 ├── go.sum
 └── pkg
-├── logger
-│   └── logger.go
-└── plugin
-└── plugin.go &lt;span style="color:#999;font-style:italic"># 业务逻辑代码&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>接下来就是业务逻辑的开发，主要的业务逻辑代码就写在 &lt;code>pkg/plugn/plugin.go&lt;/code> 中；CLI 的相关配置，如 &lt;code>flag&lt;/code> 和子命令的配置则在 &lt;code>cmd/plugin/cli/root.go&lt;/code> 中。开发所需的 client-go 、k8s API 等资源也都已经集成在项目中，可直接使用。&lt;/p>
-&lt;h3 id="构建测试">构建测试&lt;/h3>
-&lt;p>在业务逻辑完成后，需要先在本地进行测试。使用 &lt;code>make bin&lt;/code> 命令可以将项目构建为可执行文件并用来测试，该命令会完成基础的 &lt;code>fmt&lt;/code>、&lt;code>vet&lt;/code> 测试并完成 &lt;code>build&lt;/code>。&lt;/p>
-&lt;p>&lt;img src="https://tvax4.sinaimg.cn/large/ad5fbf65gy1gomqjcj5krj21py0uiwnd.jpg" alt="make bin">&lt;/p>
-&lt;h3 id="创建-release">创建 Release&lt;/h3>
-&lt;p>在完成代码逻辑和测试后，就可以将其发布到 github release 了，GitHub Action 和 &lt;a href="https://goreleaser.com/">GoReleaser&lt;/a> 会自动完成 Release 相关操作，只需给项目打上 tag 并 push 代码，无需任何手动操作。&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ git tag v0.1.0 -m &lt;span style="color:#ed9d13">&amp;#39;initial release&amp;#39;&lt;/span>
+    ├── logger
+    │   └── logger.go
+    └── plugin
+        └── plugin.go     &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 业务逻辑代码&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;接下来就是业务逻辑的开发，主要的业务逻辑代码就写在 &lt;code&gt;pkg/plugn/plugin.go&lt;/code&gt; 中；CLI 的相关配置，如 &lt;code&gt;flag&lt;/code&gt; 和子命令的配置则在 &lt;code&gt;cmd/plugin/cli/root.go&lt;/code&gt; 中。开发所需的 client-go 、k8s API 等资源也都已经集成在项目中，可直接使用。&lt;/p&gt;
+&lt;h3 id=&#34;构建测试&#34;&gt;构建测试&lt;/h3&gt;
+&lt;p&gt;在业务逻辑完成后，需要先在本地进行测试。使用 &lt;code&gt;make bin&lt;/code&gt; 命令可以将项目构建为可执行文件并用来测试，该命令会完成基础的 &lt;code&gt;fmt&lt;/code&gt;、&lt;code&gt;vet&lt;/code&gt; 测试并完成 &lt;code&gt;build&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax4.sinaimg.cn/large/ad5fbf65gy1gomqjcj5krj21py0uiwnd.jpg&#34; alt=&#34;make bin&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;创建-release&#34;&gt;创建 Release&lt;/h3&gt;
+&lt;p&gt;在完成代码逻辑和测试后，就可以将其发布到 github release 了，GitHub Action 和 &lt;a href=&#34;https://goreleaser.com/&#34;&gt;GoReleaser&lt;/a&gt; 会自动完成 Release 相关操作，只需给项目打上 tag 并 push 代码，无需任何手动操作。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ git tag v0.1.0 -m &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;initial release&amp;#39;&lt;/span&gt;
 $ git push --tags
-&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>如果是首次 Release，会出现 Release 成功但是 GitHub Action 失败的情况，这里可以忽略，失败的是自动推送 PR 到 krew-index 的步骤。&lt;/p>
-&lt;/blockquote>
-&lt;h2 id="推送到-krew-index">推送到 krew-index&lt;/h2>
-&lt;p>Release 完成后，就可以将已经开发好的 Kubectl Plugin 推送到 &lt;a href="https://github.com/kubernetes-sigs/krew-index">krew-index&lt;/a> 了，这样就可以使用 &lt;code>kubectl krew install&lt;/code> 安装了。&lt;/p>
-&lt;h3 id="首次推送">首次推送&lt;/h3>
-&lt;p>首次提交需要手动 fork krew-index 项目并提交 PR，拷贝 &lt;code>deploy/krew/plugin.yaml&lt;/code> 中的内容，根据 release &lt;code>checksums.txt&lt;/code> 内容补全不同平台可执行文件的 &lt;code>sha256&lt;/code> 和 &lt;code>description&lt;/code> 值，将其放入 &lt;code>plugin&lt;/code> 目录并提交 PR。&lt;/p>
-&lt;h3 id="自动推送">自动推送&lt;/h3>
-&lt;p>完成首次 PR 提交后，就可以使用 GitHub Action 自动提交 PR 到 krew-index 了，通过&lt;a href="https://github.com/rajatjindal/krew-release-bot"> krew-release-bot&lt;/a> 机器人自动提交的 PR 无需 review 自动 merge，大大降低了更新流程。&lt;/p>
-&lt;p>使用这个 GitHub Action，首先需要一份 &lt;code>.krew.yaml&lt;/code> 配置文件，该项目作者提供了一个不错的工具，可以根据已经提交的 Kubectl Plugin 自动生成 &lt;code>.krew.yaml&lt;/code> 内容，将生成的配置拷贝到 &lt;code>.krew.yaml&lt;/code>，之后的 Release 成功后会自动提交 PR 到 krew-index。&lt;/p>
-&lt;p>&lt;img src="https://tva3.sinaimg.cn/large/ad5fbf65gy1gomu5iw2ngj22bk116afg.jpg" alt="Krew Release Bot Helper">&lt;/p>
-&lt;p>工具地址：https://rajatjindal.com/tools/krew-release-bot-helper/&lt;/p>
-&lt;p>在 &lt;code>&amp;lt;your-git-root&amp;gt;/.github/workflows/release.yml&lt;/code> 添加配置（GitHub Template 中已包含该配置）：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="color:#6ab825;font-weight:bold">name&lt;/span>:&lt;span style="color:#666"> &lt;/span>release&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">on&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">push&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">tags&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>- &lt;span style="color:#ed9d13">&amp;#39;v*.*.*&amp;#39;&lt;/span>&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666">&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">jobs&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">goreleaser&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">runs-on&lt;/span>:&lt;span style="color:#666"> &lt;/span>ubuntu-latest&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">steps&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>- &lt;span style="color:#6ab825;font-weight:bold">name&lt;/span>:&lt;span style="color:#666"> &lt;/span>Checkout&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">uses&lt;/span>:&lt;span style="color:#666"> &lt;/span>actions/checkout@master&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>- &lt;span style="color:#6ab825;font-weight:bold">name&lt;/span>:&lt;span style="color:#666"> &lt;/span>Setup Go&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">uses&lt;/span>:&lt;span style="color:#666"> &lt;/span>actions/setup-go@v1&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">with&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">go-version&lt;/span>:&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#3677a9">1.13&lt;/span>&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>- &lt;span style="color:#6ab825;font-weight:bold">name&lt;/span>:&lt;span style="color:#666"> &lt;/span>GoReleaser&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">uses&lt;/span>:&lt;span style="color:#666"> &lt;/span>goreleaser/goreleaser-action@v1&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">with&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">version&lt;/span>:&lt;span style="color:#666"> &lt;/span>latest&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">args&lt;/span>:&lt;span style="color:#666"> &lt;/span>release --rm-dist&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">env&lt;/span>:&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">GITHUB_TOKEN&lt;/span>:&lt;span style="color:#666"> &lt;/span>${{ secrets.GITHUB_TOKEN }}&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>- &lt;span style="color:#6ab825;font-weight:bold">name&lt;/span>:&lt;span style="color:#666"> &lt;/span>Update new version in krew-index&lt;span style="color:#666">
-&lt;/span>&lt;span style="color:#666"> &lt;/span>&lt;span style="color:#6ab825;font-weight:bold">uses&lt;/span>:&lt;span style="color:#666"> &lt;/span>rajatjindal/krew-release-bot@v0.0.38&lt;span style="color:#666">
-&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>之后每次 Release 都会自动推送更新 PR，效果如下：&lt;/p>
-&lt;p>&lt;img src="https://tva1.sinaimg.cn/large/ad5fbf65gy1gomu9xo7gij21ym1rgdu7.jpg" alt="PR 自动合并">&lt;/p>
-&lt;h2 id="注意事项">注意事项&lt;/h2>
-&lt;p>官方提供了&lt;a href="https://krew.sigs.k8s.io/docs/developer-guide/develop/naming-guide/">插件命名指南&lt;/a>，大致有以下内容：&lt;/p>
-&lt;ul>
-&lt;li>使用小写字母和连字符，不要使用驼峰式命名&lt;/li>
-&lt;li>表意明确，独一无二&lt;/li>
-&lt;li>使用动词和资源类型命名，如 &lt;code>open-svc&lt;/code>&lt;/li>
-&lt;li>如果是供应商插件，前缀请使用供应商，如 &lt;code>gke-login&lt;/code>&lt;/li>
-&lt;li>不能包含 &lt;code>kube&lt;/code> 前缀&lt;/li>
-&lt;li>避免资源缩写，如 &lt;code>debug-ingress&lt;/code> 而不能是 &lt;code>new-ing&lt;/code>&lt;/li>
-&lt;/ul>
-&lt;p>同时 &lt;code>description&lt;/code> 要描述清楚，且每行不要操作 80 个字符，这样可以方便窄屏幕的用户使用。&lt;/p>
-&lt;h2 id="结语">结语&lt;/h2>
-&lt;p>本篇为《Kubectl Plugin 推荐》系列最后一篇，授人以鱼不如授人以渔，开发一个 Kubectl Plugin 并不会花费很多时间，但根据实际使用情况，为 kubectl 增加更多的功能和拓展，大大提升工作效率和使用体验，非常值得一试。&lt;/p></description></item><item><title>Post: Kubectl Plugin 推荐（二）| 简化操作篇</title><link>https://guoxudong.io/post/kubectl-plugin-recommended-2/</link><pubDate>Tue, 09 Mar 2021 11:18:48 +0800</pubDate><guid>https://guoxudong.io/post/kubectl-plugin-recommended-2/</guid><description>
-&lt;h2 id="补充">补充&lt;/h2>
-&lt;p>开始介绍简化操作的插件之前，先补充一个增强可观测性的插件。&lt;/p>
-&lt;h3 id="pod-lens">pod-lens&lt;/h3>
-&lt;p>该插件使用树状图和表格展示 pod 相关资源，在排查问题可以非常方便的查看 Pod 相关资源信息和状态。&lt;/p>
-&lt;p>项目地址：https://github.com/sunny0826/kubectl-pod-lens&lt;/p>
-&lt;h4 id="安装">安装&lt;/h4>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ kubectl krew install pod-lens
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;如果是首次 Release，会出现 Release 成功但是 GitHub Action 失败的情况，这里可以忽略，失败的是自动推送 PR 到 krew-index 的步骤。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;推送到-krew-index&#34;&gt;推送到 krew-index&lt;/h2&gt;
+&lt;p&gt;Release 完成后，就可以将已经开发好的 Kubectl Plugin 推送到 &lt;a href=&#34;https://github.com/kubernetes-sigs/krew-index&#34;&gt;krew-index&lt;/a&gt; 了，这样就可以使用 &lt;code&gt;kubectl krew install&lt;/code&gt; 安装了。&lt;/p&gt;
+&lt;h3 id=&#34;首次推送&#34;&gt;首次推送&lt;/h3&gt;
+&lt;p&gt;首次提交需要手动 fork krew-index 项目并提交 PR，拷贝 &lt;code&gt;deploy/krew/plugin.yaml&lt;/code&gt; 中的内容，根据 release &lt;code&gt;checksums.txt&lt;/code&gt; 内容补全不同平台可执行文件的 &lt;code&gt;sha256&lt;/code&gt; 和 &lt;code&gt;description&lt;/code&gt; 值，将其放入 &lt;code&gt;plugin&lt;/code&gt; 目录并提交 PR。&lt;/p&gt;
+&lt;h3 id=&#34;自动推送&#34;&gt;自动推送&lt;/h3&gt;
+&lt;p&gt;完成首次 PR 提交后，就可以使用 GitHub Action 自动提交 PR 到 krew-index 了，通过&lt;a href=&#34;https://github.com/rajatjindal/krew-release-bot&#34;&gt; krew-release-bot&lt;/a&gt; 机器人自动提交的 PR 无需 review 自动 merge，大大降低了更新流程。&lt;/p&gt;
+&lt;p&gt;使用这个 GitHub Action，首先需要一份 &lt;code&gt;.krew.yaml&lt;/code&gt; 配置文件，该项目作者提供了一个不错的工具，可以根据已经提交的 Kubectl Plugin 自动生成 &lt;code&gt;.krew.yaml&lt;/code&gt; 内容，将生成的配置拷贝到 &lt;code&gt;.krew.yaml&lt;/code&gt;，之后的 Release 成功后会自动提交 PR 到 krew-index。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva3.sinaimg.cn/large/ad5fbf65gy1gomu5iw2ngj22bk116afg.jpg&#34; alt=&#34;Krew Release Bot Helper&#34;&gt;&lt;/p&gt;
+&lt;p&gt;工具地址：https://rajatjindal.com/tools/krew-release-bot-helper/&lt;/p&gt;
+&lt;p&gt;在 &lt;code&gt;&amp;lt;your-git-root&amp;gt;/.github/workflows/release.yml&lt;/code&gt; 添加配置（GitHub Template 中已包含该配置）：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;release&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;on&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;push&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;tags&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;v*.*.*&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;jobs&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;goreleaser&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;runs-on&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;ubuntu-latest&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;steps&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Checkout&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;uses&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;actions/checkout@master&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Setup Go&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;uses&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;actions/setup-go@v1&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;with&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;go-version&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;1.13&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;GoReleaser&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;uses&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;goreleaser/goreleaser-action@v1&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;with&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;version&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;latest&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;args&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;release --rm-dist&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;env&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;GITHUB_TOKEN&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;${{ secrets.GITHUB_TOKEN }}&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Update new version in krew-index&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;uses&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;rajatjindal/krew-release-bot@v0.0.38&lt;span style=&#34;color:#666&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;之后每次 Release 都会自动推送更新 PR，效果如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1gomu9xo7gij21ym1rgdu7.jpg&#34; alt=&#34;PR 自动合并&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;注意事项&#34;&gt;注意事项&lt;/h2&gt;
+&lt;p&gt;官方提供了&lt;a href=&#34;https://krew.sigs.k8s.io/docs/developer-guide/develop/naming-guide/&#34;&gt;插件命名指南&lt;/a&gt;，大致有以下内容：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;使用小写字母和连字符，不要使用驼峰式命名&lt;/li&gt;
+&lt;li&gt;表意明确，独一无二&lt;/li&gt;
+&lt;li&gt;使用动词和资源类型命名，如 &lt;code&gt;open-svc&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;如果是供应商插件，前缀请使用供应商，如 &lt;code&gt;gke-login&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;不能包含 &lt;code&gt;kube&lt;/code&gt; 前缀&lt;/li&gt;
+&lt;li&gt;避免资源缩写，如 &lt;code&gt;debug-ingress&lt;/code&gt; 而不能是 &lt;code&gt;new-ing&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;同时 &lt;code&gt;description&lt;/code&gt; 要描述清楚，且每行不要操作 80 个字符，这样可以方便窄屏幕的用户使用。&lt;/p&gt;
+&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
+&lt;p&gt;本篇为《Kubectl Plugin 推荐》系列最后一篇，授人以鱼不如授人以渔，开发一个 Kubectl Plugin 并不会花费很多时间，但根据实际使用情况，为 kubectl 增加更多的功能和拓展，大大提升工作效率和使用体验，非常值得一试。&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Post: Kubectl Plugin 推荐（二）| 简化操作篇</title>
+      <link>https://guoxudong.io/post/kubectl-plugin-recommended-2/</link>
+      <pubDate>Tue, 09 Mar 2021 11:18:48 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/kubectl-plugin-recommended-2/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;补充&#34;&gt;补充&lt;/h2&gt;
+&lt;p&gt;开始介绍简化操作的插件之前，先补充一个增强可观测性的插件。&lt;/p&gt;
+&lt;h3 id=&#34;pod-lens&#34;&gt;pod-lens&lt;/h3&gt;
+&lt;p&gt;该插件使用树状图和表格展示 pod 相关资源，在排查问题可以非常方便的查看 Pod 相关资源信息和状态。&lt;/p&gt;
+&lt;p&gt;项目地址：https://github.com/sunny0826/kubectl-pod-lens&lt;/p&gt;
+&lt;h4 id=&#34;安装&#34;&gt;安装&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl krew install pod-lens
 $ kubectl pod-lens --help
-&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="示例">示例&lt;/h4>
-&lt;p>&lt;img src="https://tvax4.sinaimg.cn/large/ad5fbf65gy1godp0s6wj6j219014ugx8.jpg" alt="pod-lens">&lt;/p>
-&lt;h2 id="前言">前言&lt;/h2>
-&lt;p>&lt;a href="../kubectl-plugin-recommended">上一篇文章&lt;/a>中我们介绍一些提升观测性的 Kubectl Plugin，本篇笔者将继续推荐一些能够简化操作，提升工作效率的 Kubectl Plugin。&lt;/p>
-&lt;h2 id="插件推荐">插件推荐&lt;/h2>
-&lt;h3 id="iexec">iexec&lt;/h3>
-&lt;p>工作中，我们经常会使用 &lt;code>kubectl exec&lt;/code> 命令进入容器中进行问题排查 和 debug。而在实际操作中，除了需要加 &lt;code>-it&lt;/code> 等参数外，还需要选择 Pod name 和 Container name，比较费事且经常操作失误。而 &lt;code>kubectl-iexec&lt;/code> 这款插件很好的简化了这一系列操作。&lt;/p>
-&lt;p>项目地址：https://github.com/gabeduke/kubectl-iexec&lt;/p>
-&lt;h4 id="安装-1">安装&lt;/h4>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ kubectl krew install iexec
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;示例&#34;&gt;示例&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax4.sinaimg.cn/large/ad5fbf65gy1godp0s6wj6j219014ugx8.jpg&#34; alt=&#34;pod-lens&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;../kubectl-plugin-recommended&#34;&gt;上一篇文章&lt;/a&gt;中我们介绍一些提升观测性的 Kubectl Plugin，本篇笔者将继续推荐一些能够简化操作，提升工作效率的 Kubectl Plugin。&lt;/p&gt;
+&lt;h2 id=&#34;插件推荐&#34;&gt;插件推荐&lt;/h2&gt;
+&lt;h3 id=&#34;iexec&#34;&gt;iexec&lt;/h3&gt;
+&lt;p&gt;工作中，我们经常会使用 &lt;code&gt;kubectl exec&lt;/code&gt; 命令进入容器中进行问题排查 和 debug。而在实际操作中，除了需要加 &lt;code&gt;-it&lt;/code&gt; 等参数外，还需要选择 Pod name 和 Container name，比较费事且经常操作失误。而 &lt;code&gt;kubectl-iexec&lt;/code&gt; 这款插件很好的简化了这一系列操作。&lt;/p&gt;
+&lt;p&gt;项目地址：https://github.com/gabeduke/kubectl-iexec&lt;/p&gt;
+&lt;h4 id=&#34;安装-1&#34;&gt;安装&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl krew install iexec
 $ kubectl iexec --help
-&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="用法">用法&lt;/h4>
-&lt;p>该插件极大的简化了 &lt;code>kubectl exec&lt;/code> 操作。其可以模糊匹配 pod name，如果只有一个 pod 匹配输入的名称，将会直接进入该 Pod。&lt;/p>
-&lt;p>&lt;img src="https://tva1.sinaimg.cn/large/ad5fbf65gy1godnu79ttxj20rs0fkq5e.jpg" alt="单个匹配">&lt;/p>
-&lt;p>如果匹配到多个 Pod，则会出现下拉菜单来选择要进入的 Pod 和 Container。&lt;/p>
-&lt;p>&lt;img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1godnw22airj20pw0gajts.jpg" alt="多个匹配">&lt;/p>
-&lt;h3 id="open-svc">open-svc&lt;/h3>
-&lt;p>日常工作中，常常需要使用 &lt;code>kubectl port-forward&lt;/code> 命令来在本地访问部署在 k8s 中的服务，&lt;code>open-svc&lt;/code> 则简化了这一步骤，输入命令，相应服务会直接在浏览器中弹出。&lt;/p>
-&lt;p>项目地址：https://github.com/superbrothers/kubectl-open-svc-plugin&lt;/p>
-&lt;h4 id="安装-2">安装&lt;/h4>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ kubectl krew install open-svc
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;用法&#34;&gt;用法&lt;/h4&gt;
+&lt;p&gt;该插件极大的简化了 &lt;code&gt;kubectl exec&lt;/code&gt; 操作。其可以模糊匹配 pod name，如果只有一个 pod 匹配输入的名称，将会直接进入该 Pod。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1godnu79ttxj20rs0fkq5e.jpg&#34; alt=&#34;单个匹配&#34;&gt;&lt;/p&gt;
+&lt;p&gt;如果匹配到多个 Pod，则会出现下拉菜单来选择要进入的 Pod 和 Container。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1godnw22airj20pw0gajts.jpg&#34; alt=&#34;多个匹配&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;open-svc&#34;&gt;open-svc&lt;/h3&gt;
+&lt;p&gt;日常工作中，常常需要使用 &lt;code&gt;kubectl port-forward&lt;/code&gt; 命令来在本地访问部署在 k8s 中的服务，&lt;code&gt;open-svc&lt;/code&gt; 则简化了这一步骤，输入命令，相应服务会直接在浏览器中弹出。&lt;/p&gt;
+&lt;p&gt;项目地址：https://github.com/superbrothers/kubectl-open-svc-plugin&lt;/p&gt;
+&lt;h4 id=&#34;安装-2&#34;&gt;安装&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl krew install open-svc
 $ kubectl open-svc --help
-&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="示例-1">示例&lt;/h4>
-&lt;p>&lt;img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1godnz8c836g20ok0aymzp.gif" alt="open-svc">&lt;/p>
-&lt;h3 id="view-secret">view-secret&lt;/h3>
-&lt;p>当需要查看 Secret 中的信息时，往往需要执行以下步骤：&lt;/p>
-&lt;ol>
-&lt;li>&lt;code>kubectl get secret &amp;lt;secret&amp;gt; -o yaml&lt;/code>&lt;/li>
-&lt;li>复制 secret 中的数据&lt;/li>
-&lt;li>&lt;code>echo &amp;quot;&amp;lt;secret-data&amp;gt;&amp;quot; | base64 -d&lt;/code>&lt;/li>
-&lt;/ol>
-&lt;p>而 &lt;code>view-secret&lt;/code> 这个插件就简化了这一步骤，直接在终端打印解码后的内容。&lt;/p>
-&lt;p>项目地址：https://github.com/elsesiy/kubectl-view-secret&lt;/p>
-&lt;h4 id="安装-3">安装&lt;/h4>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ kubectl krew install view-secret
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;示例-1&#34;&gt;示例&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1godnz8c836g20ok0aymzp.gif&#34; alt=&#34;open-svc&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;view-secret&#34;&gt;view-secret&lt;/h3&gt;
+&lt;p&gt;当需要查看 Secret 中的信息时，往往需要执行以下步骤：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;kubectl get secret &amp;lt;secret&amp;gt; -o yaml&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;复制 secret 中的数据&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;echo &amp;quot;&amp;lt;secret-data&amp;gt;&amp;quot; | base64 -d&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;而 &lt;code&gt;view-secret&lt;/code&gt; 这个插件就简化了这一步骤，直接在终端打印解码后的内容。&lt;/p&gt;
+&lt;p&gt;项目地址：https://github.com/elsesiy/kubectl-view-secret&lt;/p&gt;
+&lt;h4 id=&#34;安装-3&#34;&gt;安装&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl krew install view-secret
 $ kubectl view-secret --help
-&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="示例-2">示例&lt;/h4>
-&lt;p>&lt;img src="https://tvax3.sinaimg.cn/large/ad5fbf65gy1godoks7qwbj20oa11oq9n.jpg" alt="view-secret">&lt;/p>
-&lt;h3 id="ksniff">ksniff&lt;/h3>
-&lt;p>当需要在 k8s 中进行抓包时，&lt;code>ksniff&lt;/code> 是个不错的选择，该插件使用 tcpdump 和 Wireshark 在 k8s 中进行抓包。&lt;/p>
-&lt;p>项目地址：https://github.com/eldadru/ksniff&lt;/p>
-&lt;h4 id="安装-4">安装&lt;/h4>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ kubectl krew install sniff
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;示例-2&#34;&gt;示例&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax3.sinaimg.cn/large/ad5fbf65gy1godoks7qwbj20oa11oq9n.jpg&#34; alt=&#34;view-secret&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;ksniff&#34;&gt;ksniff&lt;/h3&gt;
+&lt;p&gt;当需要在 k8s 中进行抓包时，&lt;code&gt;ksniff&lt;/code&gt; 是个不错的选择，该插件使用 tcpdump 和 Wireshark 在 k8s 中进行抓包。&lt;/p&gt;
+&lt;p&gt;项目地址：https://github.com/eldadru/ksniff&lt;/p&gt;
+&lt;h4 id=&#34;安装-4&#34;&gt;安装&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl krew install sniff
 $ kubectl sniff --help
-&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="示例-3">示例&lt;/h4>
-&lt;p>&lt;img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1godop5l1hqg21bp0oval7.gif" alt="ksniff">&lt;/p>
-&lt;h2 id="总结">总结&lt;/h2>
-&lt;p>在日常工作中使用好这些插件，可以极大的提高工作效率，将运维人员从繁琐的工作中释放出来。&lt;strong>把有意义的事情做的有意思&lt;/strong>，这也是工作的乐趣所在吧。&lt;/p></description></item><item><title>Post: Kubectl Plugin 推荐（一）| 可观测性篇</title><link>https://guoxudong.io/post/kubectl-plugin-recommended/</link><pubDate>Thu, 04 Mar 2021 17:36:15 +0800</pubDate><guid>https://guoxudong.io/post/kubectl-plugin-recommended/</guid><description>
-&lt;h2 id="前言">前言&lt;/h2>
-&lt;p>&lt;code>kubectl&lt;/code> 作为最重要的 Kubernetes 客户端工具一直以来都被广泛的应用与各种场景，其对于 YAML 工程师的作用就像战士手中的枪，用的好不好完全可以影响到 YAML 工程师的整体工作效率。虽然 &lt;code>kubectl&lt;/code> 本身迭代的速度非常快，但是也很难满足所有人的全部需求，这时 kubectl 的插件机制就可以很好的弥补这个问题。&lt;/p>
-&lt;h2 id="krew">Krew&lt;/h2>
-&lt;p>Krew 是 kubernetes SIG 项目，是 &lt;code>kubectl&lt;/code> 的插件管理器，其提供了类似 brew 的包管理功能，用户可以方便的使用 krew 安装和使用 kubectl 插件，极大的方便了 kubectl 插件的开发和管理。&lt;/p>
-&lt;h3 id="安装">安装&lt;/h3>
-&lt;p>Krew 虽然也可以使用 &lt;code>brew&lt;/code> 进行安装，但是官方貌似并不积极支持该方式。这里使用如下命令脚本来完成安装：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">(
-&lt;span style="color:#24909d">set&lt;/span> -x; &lt;span style="color:#24909d">cd&lt;/span> &lt;span style="color:#ed9d13">&amp;#34;&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">$(&lt;/span>mktemp -d&lt;span style="color:#6ab825;font-weight:bold">)&lt;/span>&lt;span style="color:#ed9d13">&amp;#34;&lt;/span> &amp;amp;&amp;amp;
-&lt;span style="color:#40ffff">OS&lt;/span>=&lt;span style="color:#ed9d13">&amp;#34;&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">$(&lt;/span>uname | tr &lt;span style="color:#ed9d13">&amp;#39;[:upper:]&amp;#39;&lt;/span> &lt;span style="color:#ed9d13">&amp;#39;[:lower:]&amp;#39;&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">)&lt;/span>&lt;span style="color:#ed9d13">&amp;#34;&lt;/span> &amp;amp;&amp;amp;
-&lt;span style="color:#40ffff">ARCH&lt;/span>=&lt;span style="color:#ed9d13">&amp;#34;&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">$(&lt;/span>uname -m | sed -e &lt;span style="color:#ed9d13">&amp;#39;s/x86_64/amd64/&amp;#39;&lt;/span> -e &lt;span style="color:#ed9d13">&amp;#39;s/\(arm\)\(64\)\?.*/\1\2/&amp;#39;&lt;/span> -e &lt;span style="color:#ed9d13">&amp;#39;s/aarch64$/arm64/&amp;#39;&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">)&lt;/span>&lt;span style="color:#ed9d13">&amp;#34;&lt;/span> &amp;amp;&amp;amp;
-curl -fsSLO &lt;span style="color:#ed9d13">&amp;#34;https://github.com/kubernetes-sigs/krew/releases/latest/download/krew.tar.gz&amp;#34;&lt;/span> &amp;amp;&amp;amp;
-tar zxvf krew.tar.gz &amp;amp;&amp;amp;
-&lt;span style="color:#40ffff">KREW&lt;/span>=./krew-&lt;span style="color:#ed9d13">&amp;#34;&lt;/span>&lt;span style="color:#ed9d13">${&lt;/span>&lt;span style="color:#40ffff">OS&lt;/span>&lt;span style="color:#ed9d13">}&lt;/span>&lt;span style="color:#ed9d13">_&lt;/span>&lt;span style="color:#ed9d13">${&lt;/span>&lt;span style="color:#40ffff">ARCH&lt;/span>&lt;span style="color:#ed9d13">}&lt;/span>&lt;span style="color:#ed9d13">&amp;#34;&lt;/span> &amp;amp;&amp;amp;
-&lt;span style="color:#ed9d13">&amp;#34;&lt;/span>&lt;span style="color:#40ffff">$KREW&lt;/span>&lt;span style="color:#ed9d13">&amp;#34;&lt;/span> install krew
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;示例-3&#34;&gt;示例&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1godop5l1hqg21bp0oval7.gif&#34; alt=&#34;ksniff&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;总结&#34;&gt;总结&lt;/h2&gt;
+&lt;p&gt;在日常工作中使用好这些插件，可以极大的提高工作效率，将运维人员从繁琐的工作中释放出来。&lt;strong&gt;把有意义的事情做的有意思&lt;/strong&gt;，这也是工作的乐趣所在吧。&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Post: Kubectl Plugin 推荐（一）| 可观测性篇</title>
+      <link>https://guoxudong.io/post/kubectl-plugin-recommended/</link>
+      <pubDate>Thu, 04 Mar 2021 17:36:15 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/kubectl-plugin-recommended/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;kubectl&lt;/code&gt; 作为最重要的 Kubernetes 客户端工具一直以来都被广泛的应用与各种场景，其对于 YAML 工程师的作用就像战士手中的枪，用的好不好完全可以影响到 YAML 工程师的整体工作效率。虽然 &lt;code&gt;kubectl&lt;/code&gt; 本身迭代的速度非常快，但是也很难满足所有人的全部需求，这时 kubectl 的插件机制就可以很好的弥补这个问题。&lt;/p&gt;
+&lt;h2 id=&#34;krew&#34;&gt;Krew&lt;/h2&gt;
+&lt;p&gt;Krew 是 kubernetes SIG 项目，是 &lt;code&gt;kubectl&lt;/code&gt; 的插件管理器，其提供了类似 brew 的包管理功能，用户可以方便的使用 krew 安装和使用 kubectl 插件，极大的方便了 kubectl 插件的开发和管理。&lt;/p&gt;
+&lt;h3 id=&#34;安装&#34;&gt;安装&lt;/h3&gt;
+&lt;p&gt;Krew 虽然也可以使用 &lt;code&gt;brew&lt;/code&gt; 进行安装，但是官方貌似并不积极支持该方式。这里使用如下命令脚本来完成安装：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;(
+  &lt;span style=&#34;color:#24909d&#34;&gt;set&lt;/span&gt; -x; &lt;span style=&#34;color:#24909d&#34;&gt;cd&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;$(&lt;/span&gt;mktemp -d&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt; &amp;amp;&amp;amp;
+  &lt;span style=&#34;color:#40ffff&#34;&gt;OS&lt;/span&gt;=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;$(&lt;/span&gt;uname | tr &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;[:upper:]&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;[:lower:]&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt; &amp;amp;&amp;amp;
+  &lt;span style=&#34;color:#40ffff&#34;&gt;ARCH&lt;/span&gt;=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;$(&lt;/span&gt;uname -m | sed -e &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;s/x86_64/amd64/&amp;#39;&lt;/span&gt; -e &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;s/\(arm\)\(64\)\?.*/\1\2/&amp;#39;&lt;/span&gt; -e &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;s/aarch64$/arm64/&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt; &amp;amp;&amp;amp;
+  curl -fsSLO &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;https://github.com/kubernetes-sigs/krew/releases/latest/download/krew.tar.gz&amp;#34;&lt;/span&gt; &amp;amp;&amp;amp;
+  tar zxvf krew.tar.gz &amp;amp;&amp;amp;
+  &lt;span style=&#34;color:#40ffff&#34;&gt;KREW&lt;/span&gt;=./krew-&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#40ffff&#34;&gt;OS&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;_&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#40ffff&#34;&gt;ARCH&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt; &amp;amp;&amp;amp;
+  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#40ffff&#34;&gt;$KREW&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt; install krew
 )
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>脚本运行成功后，将 &lt;code>$HOME/.krew/bin&lt;/code> 添加到 &lt;code>PATH&lt;/code> 中，在 &lt;code>.bashrc&lt;/code> 或 &lt;code>.zshrc&lt;/code> 文件中添加以下内容：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">&lt;span style="color:#24909d">export&lt;/span> &lt;span style="color:#40ffff">PATH&lt;/span>=&lt;span style="color:#ed9d13">&amp;#34;&lt;/span>&lt;span style="color:#ed9d13">${&lt;/span>&lt;span style="color:#40ffff">KREW_ROOT&lt;/span>&lt;span style="color:#6ab825;font-weight:bold">:-&lt;/span>&lt;span style="color:#40ffff">$HOME&lt;/span>/.krew&lt;span style="color:#ed9d13">}&lt;/span>&lt;span style="color:#ed9d13">/bin:&lt;/span>&lt;span style="color:#40ffff">$PATH&lt;/span>&lt;span style="color:#ed9d13">&amp;#34;&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>添加完成后请重启终端，使用 &lt;code>kubectl krew&lt;/code> 检查是否安装成功。&lt;/p>
-&lt;h2 id="插件推荐">插件推荐&lt;/h2>
-&lt;p>接下来推荐一些增强可观测性的 kubectl plugin。&lt;/p>
-&lt;h3 id="tree">tree&lt;/h3>
-&lt;p>该插件是由 Google 大佬开发，通过 &lt;code>ownerReferences&lt;/code> 来发现 kubernetes 对象之间的相互关联，并通过树状图来展示，对资源的关系一目了然。&lt;/p>
-&lt;p>项目地址：https://github.com/ahmetb/kubectl-tree&lt;/p>
-&lt;h4 id="安装-1">安装&lt;/h4>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ kubectl krew install tree
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;脚本运行成功后，将 &lt;code&gt;$HOME/.krew/bin&lt;/code&gt; 添加到 &lt;code&gt;PATH&lt;/code&gt; 中，在 &lt;code&gt;.bashrc&lt;/code&gt; 或 &lt;code&gt;.zshrc&lt;/code&gt; 文件中添加以下内容：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#24909d&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#40ffff&#34;&gt;PATH&lt;/span&gt;=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#40ffff&#34;&gt;KREW_ROOT&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;:-&lt;/span&gt;&lt;span style=&#34;color:#40ffff&#34;&gt;$HOME&lt;/span&gt;/.krew&lt;span style=&#34;color:#ed9d13&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;/bin:&lt;/span&gt;&lt;span style=&#34;color:#40ffff&#34;&gt;$PATH&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;添加完成后请重启终端，使用 &lt;code&gt;kubectl krew&lt;/code&gt; 检查是否安装成功。&lt;/p&gt;
+&lt;h2 id=&#34;插件推荐&#34;&gt;插件推荐&lt;/h2&gt;
+&lt;p&gt;接下来推荐一些增强可观测性的 kubectl plugin。&lt;/p&gt;
+&lt;h3 id=&#34;tree&#34;&gt;tree&lt;/h3&gt;
+&lt;p&gt;该插件是由 Google 大佬开发，通过 &lt;code&gt;ownerReferences&lt;/code&gt; 来发现 kubernetes 对象之间的相互关联，并通过树状图来展示，对资源的关系一目了然。&lt;/p&gt;
+&lt;p&gt;项目地址：https://github.com/ahmetb/kubectl-tree&lt;/p&gt;
+&lt;h4 id=&#34;安装-1&#34;&gt;安装&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl krew install tree
 $ kubectl tree --help
-&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="示例">示例&lt;/h4>
-&lt;p>&lt;img src="https://tvax2.sinaimg.cn/large/ad5fbf65gy1go810e9dtxj21ps0rwtyh.jpg" alt="kubectl tree">&lt;/p>
-&lt;h3 id="status">status&lt;/h3>
-&lt;p>kubectl-status 这个插件简化了 &lt;code>get&lt;/code> 和 &lt;code>describe&lt;/code> 操作，采用不同颜色和箭头等元素来展示 kubernetes 资源的生命周期和状态信息，可以查看单个资源，也可以查看该 namespace 下的所有该资源的状态，极大的缩短了问题排查的时间，减少了操作步骤。&lt;/p>
-&lt;p>项目地址：https://github.com/bergerx/kubectl-status&lt;/p>
-&lt;h4 id="安装-2">安装&lt;/h4>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ kubectl krew install status
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;示例&#34;&gt;示例&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax2.sinaimg.cn/large/ad5fbf65gy1go810e9dtxj21ps0rwtyh.jpg&#34; alt=&#34;kubectl tree&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;status&#34;&gt;status&lt;/h3&gt;
+&lt;p&gt;kubectl-status 这个插件简化了 &lt;code&gt;get&lt;/code&gt; 和 &lt;code&gt;describe&lt;/code&gt; 操作，采用不同颜色和箭头等元素来展示 kubernetes 资源的生命周期和状态信息，可以查看单个资源，也可以查看该 namespace 下的所有该资源的状态，极大的缩短了问题排查的时间，减少了操作步骤。&lt;/p&gt;
+&lt;p&gt;项目地址：https://github.com/bergerx/kubectl-status&lt;/p&gt;
+&lt;h4 id=&#34;安装-2&#34;&gt;安装&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl krew install status
 $ kubectl status --help
-&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="示例-1">示例&lt;/h4>
-&lt;p>&lt;img src="https://tvax2.sinaimg.cn/large/ad5fbf65gy1go81g4jkwxj21da0yg0vn.jpg" alt="Pod">&lt;/p>
-&lt;p>&lt;img src="https://tvax1.sinaimg.cn/large/ad5fbf65gy1go81gfyc56j21da0s8abh.jpg" alt="StatefulSet">&lt;/p>
-&lt;h3 id="view-allocations">view-allocations&lt;/h3>
-&lt;p>kubectl-view-allocations 可以非常方便的展示 CPU、内存、GPU 等资源的分布情况，并可以对 namespace、node、pod 等维度进行展示。&lt;/p>
-&lt;p>项目地址：https://github.com/davidB/kubectl-view-allocations&lt;/p>
-&lt;h4 id="安装-3">安装&lt;/h4>
-&lt;p>&lt;strong>脚本安装&lt;/strong>&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ curl https://raw.githubusercontent.com/davidB/kubectl-view-allocations/master/scripts/getLatest.sh | bash
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>krew&lt;/strong>&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ kubectl krew install view-allocations
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>cargo&lt;/strong>&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ cargo install kubectl-view-allocations
-&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="示例-2">示例&lt;/h4>
-&lt;p>&lt;strong>展示 GPU 的分配情况&lt;/strong>&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ kubectl-view-allocations -r gpu
-Resource Requested Limit Allocatable Free
-nvidia.com/gpu (71%) 10.0 (71%) 10.0 14.0 4.0
-├─ node-gpu1 (0%) 0.0 (0%) 0.0 2.0 2.0
-├─ node-gpu2 (0%) 0.0 (0%) 0.0 2.0 2.0
-├─ node-gpu3 (100%) 2.0 (100%) 2.0 2.0 0.0
-│ └─ fah-gpu-cpu-d29sc 2.0 2.0
-├─ node-gpu4 (100%) 2.0 (100%) 2.0 2.0 0.0
-│ └─ fah-gpu-cpu-hkg59 2.0 2.0
-├─ node-gpu5 (100%) 2.0 (100%) 2.0 2.0 0.0
-│ └─ fah-gpu-cpu-nw9fc 2.0 2.0
-├─ node-gpu6 (100%) 2.0 (100%) 2.0 2.0 0.0
-│ └─ fah-gpu-cpu-gtwsf 2.0 2.0
-└─ node-gpu7 (100%) 2.0 (100%) 2.0 2.0 0.0
-└─ fah-gpu-cpu-x7zfb 2.0 2.0
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>展示 namespace 维度资源的分配情况&lt;/strong>&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ kubectl-view-allocations -g namespace
-Resource Requested Limit Allocatable Free
-cpu (21%) 56.7 (65%) 176.1 272.0 95.9
-├─ default 42.1 57.4
-├─ dev 5.3 102.1
-├─ dns-external 200.0m 0.0
-├─ docs 150.0m 600.0m
-├─ ingress-nginx 200.0m 1.0
-├─ kube-system 2.1 1.4
-├─ loki 1.2 2.4
-├─ monitoring 3.5 7.0
-├─ sharelatex 700.0m 2.4
-└─ weave 1.3 1.8
-ephemeral-storage (0%) 0.0 (0%) 0.0 38.4T 38.4T
-memory (8%) 52.7Gi (15%) 101.3Gi 675.6Gi 574.3Gi
-├─ default 34.6Gi 60.0Gi
-├─ dev 5.3Gi 22.1Gi
-├─ dns-external 140.0Mi 340.0Mi
-├─ docs 448.0Mi 768.0Mi
-├─ ingress-nginx 256.0Mi 1.0Gi
-├─ kube-system 840.0Mi 1.0Gi
-├─ loki 1.5Gi 1.6Gi
-├─ monitoring 5.9Gi 5.7Gi
-├─ sharelatex 2.5Gi 7.0Gi
-└─ weave 1.3Gi 1.8Gi
-nvidia.com/gpu (71%) 10.0 (71%) 10.0 14.0 4.0
-└─ dev 10.0 10.0
-pods (9%) 147.0 (9%) 147.0 1.6k 1.5k
-├─ cert-manager 3.0 3.0
-├─ default 13.0 13.0
-├─ dev 9.0 9.0
-├─ dns-external 2.0 2.0
-├─ docs 8.0 8.0
-├─ ingress-nginx 2.0 2.0
-├─ kube-system 43.0 43.0
-├─ loki 12.0 12.0
-├─ monitoring 38.0 38.0
-├─ sharelatex 3.0 3.0
-└─ weave 14.0 14.0
-&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="images">images&lt;/h3>
-&lt;p>kubectl-images 可以展示集群中正在使用的镜像，并对 namespace 进行一个简单的统计。使用这个插件可以非常方面的查看 namespace 中使用了哪些镜像，尤其在排查问题需要查看镜像版本时非常有用。&lt;/p>
-&lt;p>项目地址：https://github.com/chenjiandongx/kubectl-images&lt;/p>
-&lt;h4 id="安装-4">安装&lt;/h4>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ kubectl krew install images
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;示例-1&#34;&gt;示例&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax2.sinaimg.cn/large/ad5fbf65gy1go81g4jkwxj21da0yg0vn.jpg&#34; alt=&#34;Pod&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65gy1go81gfyc56j21da0s8abh.jpg&#34; alt=&#34;StatefulSet&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;view-allocations&#34;&gt;view-allocations&lt;/h3&gt;
+&lt;p&gt;kubectl-view-allocations 可以非常方便的展示 CPU、内存、GPU 等资源的分布情况，并可以对 namespace、node、pod 等维度进行展示。&lt;/p&gt;
+&lt;p&gt;项目地址：https://github.com/davidB/kubectl-view-allocations&lt;/p&gt;
+&lt;h4 id=&#34;安装-3&#34;&gt;安装&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;脚本安装&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ curl https://raw.githubusercontent.com/davidB/kubectl-view-allocations/master/scripts/getLatest.sh | bash
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;krew&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl krew install view-allocations
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;cargo&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ cargo install kubectl-view-allocations
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;示例-2&#34;&gt;示例&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;展示 GPU 的分配情况&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl-view-allocations -r gpu
+
+ Resource                   Requested       Limit  Allocatable  Free 
+  nvidia.com/gpu           (71%) 10.0  (71%) 10.0         14.0   4.0 
+  ├─ node-gpu1               (0%) 0.0    (0%) 0.0          2.0   2.0 
+  ├─ node-gpu2               (0%) 0.0    (0%) 0.0          2.0   2.0 
+  ├─ node-gpu3             (100%) 2.0  (100%) 2.0          2.0   0.0 
+  │  └─ fah-gpu-cpu-d29sc         2.0         2.0                    
+  ├─ node-gpu4             (100%) 2.0  (100%) 2.0          2.0   0.0 
+  │  └─ fah-gpu-cpu-hkg59         2.0         2.0                    
+  ├─ node-gpu5             (100%) 2.0  (100%) 2.0          2.0   0.0 
+  │  └─ fah-gpu-cpu-nw9fc         2.0         2.0                    
+  ├─ node-gpu6             (100%) 2.0  (100%) 2.0          2.0   0.0 
+  │  └─ fah-gpu-cpu-gtwsf         2.0         2.0                    
+  └─ node-gpu7             (100%) 2.0  (100%) 2.0          2.0   0.0 
+     └─ fah-gpu-cpu-x7zfb         2.0         2.0    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;展示 namespace 维度资源的分配情况&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl-view-allocations -g namespace
+
+ Resource              Requested          Limit  Allocatable     Free 
+  cpu                 (21%) 56.7    (65%) 176.1        272.0     95.9 
+  ├─ default                42.1           57.4                       
+  ├─ dev                     5.3          102.1                       
+  ├─ dns-external         200.0m            0.0                       
+  ├─ docs                 150.0m         600.0m                       
+  ├─ ingress-nginx        200.0m            1.0                       
+  ├─ kube-system             2.1            1.4                       
+  ├─ loki                    1.2            2.4                       
+  ├─ monitoring              3.5            7.0                       
+  ├─ sharelatex           700.0m            2.4                       
+  └─ weave                   1.3            1.8                       
+  ephemeral-storage     (0%) 0.0       (0%) 0.0        38.4T    38.4T 
+  memory             (8%) 52.7Gi  (15%) 101.3Gi      675.6Gi  574.3Gi 
+  ├─ default              34.6Gi         60.0Gi                       
+  ├─ dev                   5.3Gi         22.1Gi                       
+  ├─ dns-external        140.0Mi        340.0Mi                       
+  ├─ docs                448.0Mi        768.0Mi                       
+  ├─ ingress-nginx       256.0Mi          1.0Gi                       
+  ├─ kube-system         840.0Mi          1.0Gi                       
+  ├─ loki                  1.5Gi          1.6Gi                       
+  ├─ monitoring            5.9Gi          5.7Gi                       
+  ├─ sharelatex            2.5Gi          7.0Gi                       
+  └─ weave                 1.3Gi          1.8Gi                       
+  nvidia.com/gpu      (71%) 10.0     (71%) 10.0         14.0      4.0 
+  └─ dev                    10.0           10.0                       
+  pods                (9%) 147.0     (9%) 147.0         1.6k     1.5k 
+  ├─ cert-manager            3.0            3.0                       
+  ├─ default                13.0           13.0                       
+  ├─ dev                     9.0            9.0                       
+  ├─ dns-external            2.0            2.0                       
+  ├─ docs                    8.0            8.0                       
+  ├─ ingress-nginx           2.0            2.0                       
+  ├─ kube-system            43.0           43.0                       
+  ├─ loki                   12.0           12.0                       
+  ├─ monitoring             38.0           38.0                       
+  ├─ sharelatex              3.0            3.0                       
+  └─ weave                  14.0           14.0   
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;images&#34;&gt;images&lt;/h3&gt;
+&lt;p&gt;kubectl-images 可以展示集群中正在使用的镜像，并对 namespace 进行一个简单的统计。使用这个插件可以非常方面的查看 namespace 中使用了哪些镜像，尤其在排查问题需要查看镜像版本时非常有用。&lt;/p&gt;
+&lt;p&gt;项目地址：https://github.com/chenjiandongx/kubectl-images&lt;/p&gt;
+&lt;h4 id=&#34;安装-4&#34;&gt;安装&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl krew install images
 $ kubectl images --help
-&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="示例-3">示例&lt;/h4>
-&lt;p>&lt;img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1go81ui9oidj21sk17qx3l.jpg" alt="kubectl-images">&lt;/p>
-&lt;h2 id="结语">结语&lt;/h2>
-&lt;p>有了 plugin 的加持，可以轻松为 kubectl 打造出一整套适合自己操作习惯的工具体系。如果这些插件都不符合要求，大可以自己开发一款插件，这样做可以大大提升工作效率，将自己从重复的劳动中解放出来！这也是笔者不常加班的原因之一。&lt;/p></description></item><item><title>Post: 使用 kubectl-rabbitmq 部署和运维 K8S 上的 RabbitMQ 集群</title><link>https://guoxudong.io/post/kubectl-rabbitmq/</link><pubDate>Fri, 15 Jan 2021 15:34:10 +0800</pubDate><guid>https://guoxudong.io/post/kubectl-rabbitmq/</guid><description>
-&lt;h2 id="前言">前言&lt;/h2>
-&lt;p>最近接到一个在 K8S 中部署一个 RabbitMQ 集群的任务，既然是部署在 K8S 集群中，首选的当然是 RabbitMQ Operator 了。不过在浏览官方文档时，意外的官方也有开发一个 kubectl-rabbitmq 的插件来帮助部署和运维 RabbitMQ Operator，在试用后发现体验意外的不错。那么本文我们就使用 kubectl-rabbitmq 来部署一个 RabbitMQ 集群吧！&lt;/p>
-&lt;h2 id="插件安装">插件安装&lt;/h2>
-&lt;p>安装插件前需要安装 &lt;a href="https://krew.sigs.k8s.io/">krew&lt;/a>，也就是 kubectl 的插件管理工具，krew 的安装这里就不做详细说明了。&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">&amp;amp; kubectl krew install rabbitmq
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>安装完成后就可以使用 &lt;code>kubectl rabbitmq&lt;/code> 来部署和管理 RabbitMQ 集群了。&lt;/p>
-&lt;h3 id="安装-rabbitmq-operator">安装 RabbitMQ Operator&lt;/h3>
-&lt;p>使用 &lt;code>kubectl-rabbitmq&lt;/code> 安装 RabbitMQ Operator 非常简单，只需一行命令：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ kubectl rabbitmq install-cluster-operator
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;示例-3&#34;&gt;示例&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1go81ui9oidj21sk17qx3l.jpg&#34; alt=&#34;kubectl-images&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
+&lt;p&gt;有了 plugin 的加持，可以轻松为 kubectl 打造出一整套适合自己操作习惯的工具体系。如果这些插件都不符合要求，大可以自己开发一款插件，这样做可以大大提升工作效率，将自己从重复的劳动中解放出来！这也是笔者不常加班的原因之一。&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Post: 使用 kubectl-rabbitmq 部署和运维 K8S 上的 RabbitMQ 集群</title>
+      <link>https://guoxudong.io/post/kubectl-rabbitmq/</link>
+      <pubDate>Fri, 15 Jan 2021 15:34:10 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/kubectl-rabbitmq/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;最近接到一个在 K8S 中部署一个 RabbitMQ 集群的任务，既然是部署在 K8S 集群中，首选的当然是 RabbitMQ Operator 了。不过在浏览官方文档时，意外的官方也有开发一个 kubectl-rabbitmq 的插件来帮助部署和运维 RabbitMQ Operator，在试用后发现体验意外的不错。那么本文我们就使用 kubectl-rabbitmq 来部署一个 RabbitMQ 集群吧！&lt;/p&gt;
+&lt;h2 id=&#34;插件安装&#34;&gt;插件安装&lt;/h2&gt;
+&lt;p&gt;安装插件前需要安装 &lt;a href=&#34;https://krew.sigs.k8s.io/&#34;&gt;krew&lt;/a&gt;，也就是 kubectl 的插件管理工具，krew 的安装这里就不做详细说明了。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&amp;amp; kubectl krew install rabbitmq
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;安装完成后就可以使用 &lt;code&gt;kubectl rabbitmq&lt;/code&gt; 来部署和管理 RabbitMQ 集群了。&lt;/p&gt;
+&lt;h3 id=&#34;安装-rabbitmq-operator&#34;&gt;安装 RabbitMQ Operator&lt;/h3&gt;
+&lt;p&gt;使用 &lt;code&gt;kubectl-rabbitmq&lt;/code&gt; 安装 RabbitMQ Operator 非常简单，只需一行命令：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl rabbitmq install-cluster-operator
 namespace/rabbitmq-system created
 customresourcedefinition.apiextensions.k8s.io/rabbitmqclusters.rabbitmq.com created
 serviceaccount/rabbitmq-cluster-operator created
@@ -296,154 +362,182 @@ clusterrole.rbac.authorization.k8s.io/rabbitmq-cluster-operator-role created
 rolebinding.rbac.authorization.k8s.io/rabbitmq-cluster-leader-election-rolebinding created
 clusterrolebinding.rbac.authorization.k8s.io/rabbitmq-cluster-operator-rolebinding created
 deployment.apps/rabbitmq-cluster-operator created
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>之后就可以看到 &lt;code>rabbitmq-cluster-operator&lt;/code> 已经不再在 namespace： &lt;code>rabbitmq-system&lt;/code> 中了：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ kubectl get pod -n rabbitmq-system
-NAME READY STATUS RESTARTS AGE
-rabbitmq-cluster-operator-7bbbb8d559-k8zwm 1/1 Running &lt;span style="color:#3677a9">0&lt;/span> 35m
-&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="创建-rabbitmq-集群">创建 RabbitMQ 集群&lt;/h3>
-&lt;p>创建 RabbitMQ 集群同样简单，也是一行命令：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ kubectl rabbitmq create &amp;lt;rabbitmq-cluster-name&amp;gt; --replicas &lt;span style="color:#3677a9">1&lt;/span> --service ClusterIP --image rabbitmq:3.8.9-management
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>这里除了 &lt;code>&amp;lt;rabbitmq-cluster-name&amp;gt;&lt;/code> 以外，其余参数均为可选项，内容为 RabbitMQ Operator 的 CR 文件。此处的原理也比较简单，只是生成了一份 CR 配置。更多参数请参考&lt;a href="https://www.rabbitmq.com/kubernetes/operator/using-operator.html">官方文档&lt;/a>。&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ kubectl get RabbitmqCluster
-NAME AGE STATUS
-test-rabbitmq 54s
-&lt;/code>&lt;/pre>&lt;/div>
-&lt;div class="alert alert-warning" role="alert">
-&lt;h4 class="alert-heading">注意&lt;/h4>
-请确保你集群有可用的 &lt;code>StorageClass&lt;/code>，因为默认情况下 RabbitMQ Operator 创建的 RabbitMQ 集群会为每个实例使用 &lt;code>StorageClass&lt;/code> 分配一个 10G 的 PVC
-&lt;/div>
-&lt;h3 id="查看集群中所有-rabbitmq">查看集群中所有 RabbitMQ&lt;/h3>
-&lt;p>可以使用 &lt;code>list&lt;/code> 命令查看集群中所有使用 RabbitMQ Operator 创建的 RabbitMQ 集群：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ kubectl rabbitmq list
-NAME AGE STATUS
-test-rabbitmq 10m
-&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="查看指定-rabbitmq-的所有资源">查看指定 RabbitMQ 的所有资源&lt;/h3>
-&lt;p>使用 &lt;code>get&lt;/code> 命令可以轻松查看指定 RabbitMQ 集群的全部资源：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ kubectl rabbitmq get test-rabbitmq
-NAME READY STATUS RESTARTS AGE
-pod/test-rabbitmq-server-0 1/1 Running &lt;span style="color:#3677a9">0&lt;/span> 11m
-NAME DATA AGE
-configmap/test-rabbitmq-plugins-conf &lt;span style="color:#3677a9">1&lt;/span> 11m
-configmap/test-rabbitmq-server-conf &lt;span style="color:#3677a9">2&lt;/span> 11m
-NAME READY AGE
-statefulset.apps/test-rabbitmq-server 1/1 11m
-NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE
-service/test-rabbitmq ClusterIP 10.96.84.122 &amp;lt;none&amp;gt; 15672/TCP,5672/TCP 11m
-service/test-rabbitmq-nodes ClusterIP None &amp;lt;none&amp;gt; 4369/TCP,25672/TCP 11m
-NAME TYPE DATA AGE
-secret/test-rabbitmq-default-user Opaque &lt;span style="color:#3677a9">3&lt;/span> 11m
-secret/test-rabbitmq-erlang-cookie Opaque &lt;span style="color:#3677a9">1&lt;/span> 11m
-&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="打开-rabbitmq-ui">打开 RabbitMQ UI&lt;/h3>
-&lt;p>一般情况下，我们访问 ClusterIP 类型的 svc 都要使用到 &lt;code>pord-forward&lt;/code> 的方式，&lt;code>kubectl-rabbitmq&lt;/code> 则封装了该方法，使用 &lt;code>manage&lt;/code> 命令即可马上弹出 UI 界面：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ kubectl rabbitmq manage test-rabbitmq
-Forwarding from 127.0.0.1:15672 -&amp;gt; &lt;span style="color:#3677a9">15672&lt;/span>
-Forwarding from [::1]:15672 -&amp;gt; &lt;span style="color:#3677a9">15672&lt;/span>
-Handling connection &lt;span style="color:#6ab825;font-weight:bold">for&lt;/span> &lt;span style="color:#3677a9">15672&lt;/span>
-Handling connection &lt;span style="color:#6ab825;font-weight:bold">for&lt;/span> &lt;span style="color:#3677a9">15672&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="获取默认用户">获取默认用户&lt;/h3>
-&lt;p>既然已经可以访问 UI 界面了，那么下一步肯定是获取默认用户名/密码，使用 &lt;code>secrets&lt;/code> 命令即可：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ kubectl rabbitmq secrets test-rabbitmq
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;之后就可以看到 &lt;code&gt;rabbitmq-cluster-operator&lt;/code&gt; 已经不再在 namespace： &lt;code&gt;rabbitmq-system&lt;/code&gt; 中了：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl get pod -n rabbitmq-system
+NAME                                         READY   STATUS    RESTARTS   AGE
+rabbitmq-cluster-operator-7bbbb8d559-k8zwm   1/1     Running   &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;          35m
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;创建-rabbitmq-集群&#34;&gt;创建 RabbitMQ 集群&lt;/h3&gt;
+&lt;p&gt;创建 RabbitMQ 集群同样简单，也是一行命令：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl rabbitmq create &amp;lt;rabbitmq-cluster-name&amp;gt; --replicas &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt; --service ClusterIP --image rabbitmq:3.8.9-management
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里除了 &lt;code&gt;&amp;lt;rabbitmq-cluster-name&amp;gt;&lt;/code&gt; 以外，其余参数均为可选项，内容为 RabbitMQ Operator 的 CR 文件。此处的原理也比较简单，只是生成了一份 CR 配置。更多参数请参考&lt;a href=&#34;https://www.rabbitmq.com/kubernetes/operator/using-operator.html&#34;&gt;官方文档&lt;/a&gt;。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl get RabbitmqCluster
+NAME            AGE   STATUS
+test-rabbitmq   54s
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;注意&lt;/h4&gt;
+请确保你集群有可用的 &lt;code&gt;StorageClass&lt;/code&gt;，因为默认情况下 RabbitMQ Operator 创建的 RabbitMQ 集群会为每个实例使用 &lt;code&gt;StorageClass&lt;/code&gt; 分配一个 10G 的 PVC
+&lt;/div&gt;
+
+&lt;h3 id=&#34;查看集群中所有-rabbitmq&#34;&gt;查看集群中所有 RabbitMQ&lt;/h3&gt;
+&lt;p&gt;可以使用 &lt;code&gt;list&lt;/code&gt; 命令查看集群中所有使用 RabbitMQ Operator 创建的 RabbitMQ 集群：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl rabbitmq list
+NAME            AGE   STATUS
+test-rabbitmq   10m
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;查看指定-rabbitmq-的所有资源&#34;&gt;查看指定 RabbitMQ 的所有资源&lt;/h3&gt;
+&lt;p&gt;使用 &lt;code&gt;get&lt;/code&gt; 命令可以轻松查看指定 RabbitMQ 集群的全部资源：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl rabbitmq get test-rabbitmq
+NAME                         READY   STATUS    RESTARTS   AGE
+pod/test-rabbitmq-server-0   1/1     Running   &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;          11m
+
+NAME                                   DATA   AGE
+configmap/test-rabbitmq-plugins-conf   &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;      11m
+configmap/test-rabbitmq-server-conf    &lt;span style=&#34;color:#3677a9&#34;&gt;2&lt;/span&gt;      11m
+
+NAME                                    READY   AGE
+statefulset.apps/test-rabbitmq-server   1/1     11m
+
+NAME                          TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)              AGE
+service/test-rabbitmq         ClusterIP   10.96.84.122   &amp;lt;none&amp;gt;        15672/TCP,5672/TCP   11m
+service/test-rabbitmq-nodes   ClusterIP   None           &amp;lt;none&amp;gt;        4369/TCP,25672/TCP   11m
+
+NAME                                 TYPE     DATA   AGE
+secret/test-rabbitmq-default-user    Opaque   &lt;span style=&#34;color:#3677a9&#34;&gt;3&lt;/span&gt;      11m
+secret/test-rabbitmq-erlang-cookie   Opaque   &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;      11m
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;打开-rabbitmq-ui&#34;&gt;打开 RabbitMQ UI&lt;/h3&gt;
+&lt;p&gt;一般情况下，我们访问 ClusterIP 类型的 svc 都要使用到 &lt;code&gt;pord-forward&lt;/code&gt; 的方式，&lt;code&gt;kubectl-rabbitmq&lt;/code&gt; 则封装了该方法，使用 &lt;code&gt;manage&lt;/code&gt; 命令即可马上弹出 UI 界面：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl rabbitmq manage test-rabbitmq
+Forwarding from 127.0.0.1:15672 -&amp;gt; &lt;span style=&#34;color:#3677a9&#34;&gt;15672&lt;/span&gt;
+Forwarding from [::1]:15672 -&amp;gt; &lt;span style=&#34;color:#3677a9&#34;&gt;15672&lt;/span&gt;
+Handling connection &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;15672&lt;/span&gt;
+Handling connection &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;15672&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;获取默认用户&#34;&gt;获取默认用户&lt;/h3&gt;
+&lt;p&gt;既然已经可以访问 UI 界面了，那么下一步肯定是获取默认用户名/密码，使用 &lt;code&gt;secrets&lt;/code&gt; 命令即可：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl rabbitmq secrets test-rabbitmq
 username: sLSVWbiixZSB_XKL6SoI9kB_Pdefe477
 password: zm0oV3UraiadH9E2NNot6Igq8woeEyRi
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>当然也可以直接查看 &lt;code>secrets&lt;/code> 资源：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">&lt;span style="color:#999;font-style:italic"># user&lt;/span>
-kubectl -n NAMESPACE get secret INSTANCE-default-user -o &lt;span style="color:#40ffff">jsonpath&lt;/span>=&lt;span style="color:#ed9d13">&amp;#34;{.data.username}&amp;#34;&lt;/span> | base64 --decode
-&lt;span style="color:#999;font-style:italic"># pass&lt;/span>
-kubectl -n NAMESPACE get secret INSTANCE-default-user -o &lt;span style="color:#40ffff">jsonpath&lt;/span>=&lt;span style="color:#ed9d13">&amp;#34;{.data.password}&amp;#34;&lt;/span> | base64 --decode
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>现在就顺利登陆 UI 界面了&lt;/p>
-&lt;p>&lt;img src="https://tvax3.sinaimg.cn/large/ad5fbf65gy1gmoh3scl4pj23ra1aidox.jpg" alt="RabbitMQ UI">&lt;/p>
-&lt;h3 id="监控-rabbitmq">监控 RabbitMQ&lt;/h3>
-&lt;p>使用 &lt;code>observe&lt;/code> 可以在终端观察指定 RabbitMQ 节点的监控信息，如下命令是查看 &lt;code>test-rabbitmq-server-0&lt;/code> 的监控信息：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ kubectl rabbitmq observe test-rabbitmq &lt;span style="color:#3677a9">0&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;img src="https://tvax4.sinaimg.cn/large/ad5fbf65gy1gmoh8s8qe0j21rc1a87lq.jpg" alt="image">&lt;/p>
-&lt;h3 id="验证-rabbitmq">验证 RabbitMQ&lt;/h3>
-&lt;p>为了验证 RabbitMQ 是否正常运行，使用 &lt;code>perf-test&lt;/code> 来进行：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ kubectl rabbitmq perf-test test-rabbitmq --rate &lt;span style="color:#3677a9">100&lt;/span>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;当然也可以直接查看 &lt;code&gt;secrets&lt;/code&gt; 资源：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# user&lt;/span&gt;
+kubectl -n NAMESPACE get secret INSTANCE-default-user -o &lt;span style=&#34;color:#40ffff&#34;&gt;jsonpath&lt;/span&gt;=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;{.data.username}&amp;#34;&lt;/span&gt; | base64 --decode
+&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# pass&lt;/span&gt;
+kubectl -n NAMESPACE get secret INSTANCE-default-user -o &lt;span style=&#34;color:#40ffff&#34;&gt;jsonpath&lt;/span&gt;=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;{.data.password}&amp;#34;&lt;/span&gt; | base64 --decode
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;现在就顺利登陆 UI 界面了&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax3.sinaimg.cn/large/ad5fbf65gy1gmoh3scl4pj23ra1aidox.jpg&#34; alt=&#34;RabbitMQ UI&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;监控-rabbitmq&#34;&gt;监控 RabbitMQ&lt;/h3&gt;
+&lt;p&gt;使用 &lt;code&gt;observe&lt;/code&gt; 可以在终端观察指定 RabbitMQ 节点的监控信息，如下命令是查看 &lt;code&gt;test-rabbitmq-server-0&lt;/code&gt; 的监控信息：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl rabbitmq observe test-rabbitmq &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://tvax4.sinaimg.cn/large/ad5fbf65gy1gmoh8s8qe0j21rc1a87lq.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;验证-rabbitmq&#34;&gt;验证 RabbitMQ&lt;/h3&gt;
+&lt;p&gt;为了验证 RabbitMQ 是否正常运行，使用 &lt;code&gt;perf-test&lt;/code&gt; 来进行：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl rabbitmq perf-test test-rabbitmq --rate &lt;span style=&#34;color:#3677a9&#34;&gt;100&lt;/span&gt;
 service/perf-test created
 pod/perf-test created
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>这里可以看到拉起了 &lt;code>perf-test&lt;/code> 的 pod 和 svc，查看其日志：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ kubectl logs -f perf-test
-id: test-091555-328, starting consumer &lt;span style="color:#999;font-style:italic">#0&lt;/span>
-id: test-091555-328, starting consumer &lt;span style="color:#999;font-style:italic">#0, channel #0&lt;/span>
-id: test-091555-328, starting producer &lt;span style="color:#999;font-style:italic">#0&lt;/span>
-id: test-091555-328, starting producer &lt;span style="color:#999;font-style:italic">#0, channel #0&lt;/span>
-id: test-091555-328, time: 1.000s, sent: &lt;span style="color:#3677a9">15259&lt;/span> msg/s, received: &lt;span style="color:#3677a9">9462&lt;/span> msg/s, min/median/75th/95th/99th consumer latency: 5337/140173/167205/239702/259102 µs
-id: test-091555-328, time: 2.000s, sent: &lt;span style="color:#3677a9">44288&lt;/span> msg/s, received: &lt;span style="color:#3677a9">13328&lt;/span> msg/s, min/median/75th/95th/99th consumer latency: 281875/625383/726050/825489/844442 µs
-id: test-091555-328, time: 3.000s, sent: &lt;span style="color:#3677a9">35377&lt;/span> msg/s, received: &lt;span style="color:#3677a9">16624&lt;/span> msg/s, min/median/75th/95th/99th consumer latency: 869436/1176394/1463207/1500775/1509740 µs
-id: test-091555-328, time: 4.001s, sent: &lt;span style="color:#3677a9">15490&lt;/span> msg/s, received: &lt;span style="color:#3677a9">21770&lt;/span> msg/s, min/median/75th/95th/99th consumer latency: 1404599/1549405/1735201/1917333/1953431 µs
-id: test-091555-328, time: 5.001s, sent: &lt;span style="color:#3677a9">17367&lt;/span> msg/s, received: &lt;span style="color:#3677a9">18243&lt;/span> msg/s, min/median/75th/95th/99th consumer latency: 1967969/2297884/2502092/2649344/2678139 µs
-id: test-091555-328, time: 6.005s, sent: &lt;span style="color:#3677a9">16679&lt;/span> msg/s, received: &lt;span style="color:#3677a9">17953&lt;/span> msg/s, min/median/75th/95th/99th consumer latency: 2484404/2998748/3165893/3294687/3326600 µs
-id: test-091555-328, time: 7.006s, sent: &lt;span style="color:#3677a9">16729&lt;/span> msg/s, received: &lt;span style="color:#3677a9">18375&lt;/span> msg/s, min/median/75th/95th/99th consumer latency: 2393535/2753560/2990014/3194592/3224623 µs
-id: test-091555-328, time: 8.006s, sent: &lt;span style="color:#3677a9">20648&lt;/span> msg/s, received: &lt;span style="color:#3677a9">17156&lt;/span> msg/s, min/median/75th/95th/99th consumer latency: 2472263/2861278/3079786/3256128/3313167 µs
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>在 UI 上也可以看到监控发生了变化。&lt;/p>
-&lt;p>&lt;img src="https://tvax3.sinaimg.cn/large/ad5fbf65gy1gmohfwtciuj23p21g8qfb.jpg" alt="">&lt;/p>
-&lt;p>验证完成后删除 &lt;code>perf-test&lt;/code>:&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ kubectl delete pod,svc perf-test
-&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="删除-rabbitmq-集群">删除 RabbitMQ 集群&lt;/h3>
-&lt;p>完成测试后，使用 &lt;code>delete&lt;/code> 即可删除 RabbitMQ 集群。&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ kubectl rabbitmq delete test-rabbitmq
-rabbitmqcluster.rabbitmq.com &lt;span style="color:#ed9d13">&amp;#34;test-rabbitmq&amp;#34;&lt;/span> deleted
-&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="总结">总结&lt;/h2>
-&lt;p>以上的这些功能，使用 &lt;code>kubectl&lt;/code> 和 yaml 文件也可以完成同样的效果，只不过有些操作比较繁琐。&lt;code>kubectl rabbitmq&lt;/code> 简化了很多操作，在实际管理和维护 RabbitMQ 集群时，是一个非常不错的工具。&lt;/p></description></item><item><title>Post: K8S 资源可视化利器：Kubectl-Graph</title><link>https://guoxudong.io/post/kubectl-graph/</link><pubDate>Tue, 29 Dec 2020 10:19:18 +0800</pubDate><guid>https://guoxudong.io/post/kubectl-graph/</guid><description>
-&lt;h2 id="前言">前言&lt;/h2>
-&lt;p>最近接手了一个规模比较大的集群，光是整理集群中的资源就使人头昏眼花，虽然我自认 &lt;code>kubectl&lt;/code> 使用的已经十分熟练，但是上千个 kubernetes resource 看下来还是不堪重负。在不能为集群安装任何其他工具的情况下，可以改造的就只有我自己的 client 端，也就是 &lt;code>kubectl&lt;/code> 了。本文就介绍一个有趣的 kubectl 插件：&lt;code>kubectl-graph&lt;/code>。&lt;/p>
-&lt;h2 id="krew">krew&lt;/h2>
-&lt;p>要介绍 kubectl 的 plugin 机制，首先要介绍的就是 &lt;a href="https://krew.sigs.k8s.io/">krew&lt;/a> 。 krew 是 kubernetes &lt;a href="https://github.com/kubernetes/community/blob/master/sig-cli/README.md#cli-special-interest-group">CLI SIG&lt;/a> 项目，是用来管理 kubectl 插件的工具，作用类似于 yum 和 brew，可以用来搜索、安装和管理 kubectl 插件。&lt;/p>
-&lt;h2 id="kubectl-graph">kubectl-graph&lt;/h2>
-&lt;p>kubectl-graph 是一款可视化 kubernetes resource 及资源间关系的 kubectl 插件，可以将集群中的资源以关系图的方式进行展示。&lt;/p>
-&lt;p>目前支持两种展示方法：&lt;/p>
-&lt;ul>
-&lt;li>&lt;a href="https://graphviz.org/">Graphviz&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://neo4j.com/">Neo4j&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;h2 id="前期准备">前期准备&lt;/h2>
-&lt;p>除了 &lt;code>kubectl&lt;/code>，由于需要进行绘图，所以还需安装上面两种展示方式的依赖。&lt;/p>
-&lt;h3 id="graphviz">Graphviz&lt;/h3>
-&lt;p>安装 Graphviz 用来生成关系图，需要使用 &lt;code>dot&lt;/code> CLI 工具，并将图像输出为 SVG 格式：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ brew install graphviz
-&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="neo4j">Neo4j&lt;/h3>
-&lt;p>Neo4j 是一个高性能的 NoSQL 图形数据库，它将结构化数据存储在网络上而不是表中，很适合用来展示 kubernetes resource 之间的关系，但 Neo4j 的依赖较多，需要一点时间来安装。&lt;/p>
-&lt;h4 id="安装-java">安装 Java&lt;/h4>
-&lt;p>Neo4j 依赖 Java 环境，如果本机上没有安装 Java，请先前往 &lt;a href="http://www.java.com">http://www.java.com&lt;/a> 下载并安装。&lt;/p>
-&lt;h4 id="安装-cypher-shell">安装 cypher-shell&lt;/h4>
-&lt;p>因为需要连接到 Neo4j 数据库，所以要安装 &lt;code>cypher-shell&lt;/code> CLI：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ brew install cypher-shell
-&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="安装-neo4j-desktop可选">安装 Neo4j Desktop（可选）&lt;/h4>
-&lt;p>接下来就是 Neo4j 本身的安装，我这里使用了 &lt;code>Neo4j Desktop&lt;/code>，使用和管理起来比较方便，也是使用 &lt;code>brew&lt;/code> 安装：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ brew install --cask neo4j
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>安装好后，运行 &lt;code>Neo4j Desktop&lt;/code>，完成设置即可&lt;/p>
-&lt;p>&lt;img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1gm4ngqfkvzj21z41kwgqi.jpg" alt="设置 neo4j">&lt;/p>
-&lt;h4 id="使用-docker-运行-neo4j可选">使用 docker 运行 Neo4j（可选）&lt;/h4>
-&lt;p>当然，如果你感觉安装 &lt;code>Neo4j Desktop&lt;/code> 比较麻烦，也可以使用 docker 运行 Neo4j：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ docker run --rm -p 7474:7474 -p 7687:7687 -e &lt;span style="color:#40ffff">NEO4J_AUTH&lt;/span>=none neo4j
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>只不过后续查看关系图时，需要使用浏览器访问 http://localhost:7474 来查看结果。&lt;/p>
-&lt;h3 id="安装-kubectl-graph">安装 kubectl-graph&lt;/h3>
-&lt;p>插件的安装方式比较简单，如果你使用的是 &lt;code>kubectl 1.19&lt;/code> 之前的版本：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ kubectl-krew install graph
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>使用 &lt;code>kubectl 1.19&lt;/code> 之后的版本：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ kubectl krew install graph
-&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="使用方式">使用方式&lt;/h2>
-&lt;p>安装完成后，就可以开始绘制 kubernetes resource 关系图了。&lt;/p>
-&lt;h3 id="graphviz-1">Graphviz&lt;/h3>
-&lt;p>使用 &lt;code>kubectl graph&lt;/code> 命令获取 &lt;code>kubec-system&lt;/code> 中正在运行的 pod，并通过管道传递给 &lt;code>dot&lt;/code>：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ kubectl graph pods --field-selector status.phase=Running -n kube-system | dot -T svg -o pods.svg
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>查看 &lt;code>pods.svg&lt;/code> ，资源果然很多：&lt;/p>
-&lt;p>&lt;img src="https://tva1.sinaimg.cn/large/ad5fbf65gy1gm4nxnytzkj22d41zq19w.jpg" alt="pods.svg">&lt;/p>
-&lt;h3 id="neo4j-1">Neo4j&lt;/h3>
-&lt;p>Neo4j 可以展示更为丰富且美观的关系图。在导入 kubernetes resource 之前，需要创建一个 Neo4j 数据库：&lt;/p>
-&lt;p>&lt;img src="https://tvax1.sinaimg.cn/large/ad5fbf65gy1gm4o4b56mzj21z41kw46d.jpg" alt="创建 neo4j 数据库">&lt;/p>
-&lt;p>数据库创建好后，点击 &lt;code>Start&lt;/code> 运行并点击 &lt;code>Open&lt;/code> 打开 &lt;code>Neo4j Browser&lt;/code>：&lt;/p>
-&lt;p>&lt;img src="https://tva3.sinaimg.cn/large/ad5fbf65gy1gm4o605br2j20ow0fkjs1.jpg" alt="打开数据库">&lt;/p>
-&lt;p>执行命令将 kubernetes resource 导入 Neo4j：&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">kubectl graph all -n kube-system -o cypher | cypher-shell -u neo4j -p &amp;lt;your-pass&amp;gt;
-&lt;/code>&lt;/pre>&lt;/div>
-&lt;div class="alert alert-warning" role="alert">
-&lt;h4 class="alert-heading">注意&lt;/h4>
-这里的 &lt;code>-u&lt;/code> 需要输入 &lt;code>neo4j&lt;/code> 而不是你创建的数据库名称，&lt;code>Neo4j Browser&lt;/code> 上也有提示：
-&lt;img src="https://tva3.sinaimg.cn/large/ad5fbf65gy1gm4o9rsqtzj21ve0m440w.jpg" alt="">
-&lt;/div>
-&lt;p>之后就可以在 Neo4j 上查看了，输入查询语句：&lt;code>MATCH (n) RETURN n&lt;/code>：&lt;/p>
-&lt;p>&lt;img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1gm4ofe5jiwj22761midzp.jpg" alt="关系图">&lt;/p>
-&lt;p>这时一个美观的 kubernetes resource 关系图就出现了。&lt;/p>
-&lt;h2 id="结语">结语&lt;/h2>
-&lt;p>kubectl 还有很多好用且有趣的 plugin，后续笔者会介绍如何开发一个 kubectl plugin 并分享更多有趣的 plugin。&lt;/p></description></item></channel></rss>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里可以看到拉起了 &lt;code&gt;perf-test&lt;/code&gt; 的 pod 和 svc，查看其日志：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl logs -f perf-test
+id: test-091555-328, starting consumer &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#0&lt;/span&gt;
+id: test-091555-328, starting consumer &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#0, channel #0&lt;/span&gt;
+id: test-091555-328, starting producer &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#0&lt;/span&gt;
+id: test-091555-328, starting producer &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#0, channel #0&lt;/span&gt;
+id: test-091555-328, time: 1.000s, sent: &lt;span style=&#34;color:#3677a9&#34;&gt;15259&lt;/span&gt; msg/s, received: &lt;span style=&#34;color:#3677a9&#34;&gt;9462&lt;/span&gt; msg/s, min/median/75th/95th/99th consumer latency: 5337/140173/167205/239702/259102 µs
+id: test-091555-328, time: 2.000s, sent: &lt;span style=&#34;color:#3677a9&#34;&gt;44288&lt;/span&gt; msg/s, received: &lt;span style=&#34;color:#3677a9&#34;&gt;13328&lt;/span&gt; msg/s, min/median/75th/95th/99th consumer latency: 281875/625383/726050/825489/844442 µs
+id: test-091555-328, time: 3.000s, sent: &lt;span style=&#34;color:#3677a9&#34;&gt;35377&lt;/span&gt; msg/s, received: &lt;span style=&#34;color:#3677a9&#34;&gt;16624&lt;/span&gt; msg/s, min/median/75th/95th/99th consumer latency: 869436/1176394/1463207/1500775/1509740 µs
+id: test-091555-328, time: 4.001s, sent: &lt;span style=&#34;color:#3677a9&#34;&gt;15490&lt;/span&gt; msg/s, received: &lt;span style=&#34;color:#3677a9&#34;&gt;21770&lt;/span&gt; msg/s, min/median/75th/95th/99th consumer latency: 1404599/1549405/1735201/1917333/1953431 µs
+id: test-091555-328, time: 5.001s, sent: &lt;span style=&#34;color:#3677a9&#34;&gt;17367&lt;/span&gt; msg/s, received: &lt;span style=&#34;color:#3677a9&#34;&gt;18243&lt;/span&gt; msg/s, min/median/75th/95th/99th consumer latency: 1967969/2297884/2502092/2649344/2678139 µs
+id: test-091555-328, time: 6.005s, sent: &lt;span style=&#34;color:#3677a9&#34;&gt;16679&lt;/span&gt; msg/s, received: &lt;span style=&#34;color:#3677a9&#34;&gt;17953&lt;/span&gt; msg/s, min/median/75th/95th/99th consumer latency: 2484404/2998748/3165893/3294687/3326600 µs
+id: test-091555-328, time: 7.006s, sent: &lt;span style=&#34;color:#3677a9&#34;&gt;16729&lt;/span&gt; msg/s, received: &lt;span style=&#34;color:#3677a9&#34;&gt;18375&lt;/span&gt; msg/s, min/median/75th/95th/99th consumer latency: 2393535/2753560/2990014/3194592/3224623 µs
+id: test-091555-328, time: 8.006s, sent: &lt;span style=&#34;color:#3677a9&#34;&gt;20648&lt;/span&gt; msg/s, received: &lt;span style=&#34;color:#3677a9&#34;&gt;17156&lt;/span&gt; msg/s, min/median/75th/95th/99th consumer latency: 2472263/2861278/3079786/3256128/3313167 µs
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在 UI 上也可以看到监控发生了变化。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax3.sinaimg.cn/large/ad5fbf65gy1gmohfwtciuj23p21g8qfb.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;验证完成后删除 &lt;code&gt;perf-test&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl delete pod,svc perf-test
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;删除-rabbitmq-集群&#34;&gt;删除 RabbitMQ 集群&lt;/h3&gt;
+&lt;p&gt;完成测试后，使用 &lt;code&gt;delete&lt;/code&gt; 即可删除 RabbitMQ 集群。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl rabbitmq delete test-rabbitmq
+rabbitmqcluster.rabbitmq.com &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;test-rabbitmq&amp;#34;&lt;/span&gt; deleted
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;总结&#34;&gt;总结&lt;/h2&gt;
+&lt;p&gt;以上的这些功能，使用 &lt;code&gt;kubectl&lt;/code&gt; 和 yaml 文件也可以完成同样的效果，只不过有些操作比较繁琐。&lt;code&gt;kubectl rabbitmq&lt;/code&gt; 简化了很多操作，在实际管理和维护 RabbitMQ 集群时，是一个非常不错的工具。&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Post: K8S 资源可视化利器：Kubectl-Graph</title>
+      <link>https://guoxudong.io/post/kubectl-graph/</link>
+      <pubDate>Tue, 29 Dec 2020 10:19:18 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/kubectl-graph/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;最近接手了一个规模比较大的集群，光是整理集群中的资源就使人头昏眼花，虽然我自认 &lt;code&gt;kubectl&lt;/code&gt; 使用的已经十分熟练，但是上千个 kubernetes resource 看下来还是不堪重负。在不能为集群安装任何其他工具的情况下，可以改造的就只有我自己的 client 端，也就是 &lt;code&gt;kubectl&lt;/code&gt; 了。本文就介绍一个有趣的 kubectl 插件：&lt;code&gt;kubectl-graph&lt;/code&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;krew&#34;&gt;krew&lt;/h2&gt;
+&lt;p&gt;要介绍 kubectl 的 plugin 机制，首先要介绍的就是 &lt;a href=&#34;https://krew.sigs.k8s.io/&#34;&gt;krew&lt;/a&gt; 。 krew 是 kubernetes &lt;a href=&#34;https://github.com/kubernetes/community/blob/master/sig-cli/README.md#cli-special-interest-group&#34;&gt;CLI SIG&lt;/a&gt; 项目，是用来管理 kubectl 插件的工具，作用类似于 yum 和 brew，可以用来搜索、安装和管理 kubectl 插件。&lt;/p&gt;
+&lt;h2 id=&#34;kubectl-graph&#34;&gt;kubectl-graph&lt;/h2&gt;
+&lt;p&gt;kubectl-graph 是一款可视化 kubernetes resource 及资源间关系的 kubectl 插件，可以将集群中的资源以关系图的方式进行展示。&lt;/p&gt;
+&lt;p&gt;目前支持两种展示方法：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://graphviz.org/&#34;&gt;Graphviz&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://neo4j.com/&#34;&gt;Neo4j&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;前期准备&#34;&gt;前期准备&lt;/h2&gt;
+&lt;p&gt;除了 &lt;code&gt;kubectl&lt;/code&gt;，由于需要进行绘图，所以还需安装上面两种展示方式的依赖。&lt;/p&gt;
+&lt;h3 id=&#34;graphviz&#34;&gt;Graphviz&lt;/h3&gt;
+&lt;p&gt;安装 Graphviz 用来生成关系图，需要使用 &lt;code&gt;dot&lt;/code&gt; CLI 工具，并将图像输出为 SVG 格式：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ brew install graphviz
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;neo4j&#34;&gt;Neo4j&lt;/h3&gt;
+&lt;p&gt;Neo4j 是一个高性能的 NoSQL 图形数据库，它将结构化数据存储在网络上而不是表中，很适合用来展示 kubernetes resource 之间的关系，但 Neo4j 的依赖较多，需要一点时间来安装。&lt;/p&gt;
+&lt;h4 id=&#34;安装-java&#34;&gt;安装 Java&lt;/h4&gt;
+&lt;p&gt;Neo4j 依赖 Java 环境，如果本机上没有安装 Java，请先前往 &lt;a href=&#34;http://www.java.com&#34;&gt;http://www.java.com&lt;/a&gt; 下载并安装。&lt;/p&gt;
+&lt;h4 id=&#34;安装-cypher-shell&#34;&gt;安装 cypher-shell&lt;/h4&gt;
+&lt;p&gt;因为需要连接到 Neo4j 数据库，所以要安装 &lt;code&gt;cypher-shell&lt;/code&gt; CLI：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ brew install cypher-shell
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;安装-neo4j-desktop可选&#34;&gt;安装 Neo4j Desktop（可选）&lt;/h4&gt;
+&lt;p&gt;接下来就是 Neo4j 本身的安装，我这里使用了 &lt;code&gt;Neo4j Desktop&lt;/code&gt;，使用和管理起来比较方便，也是使用 &lt;code&gt;brew&lt;/code&gt; 安装：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ brew install --cask neo4j
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;安装好后，运行 &lt;code&gt;Neo4j Desktop&lt;/code&gt;，完成设置即可&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1gm4ngqfkvzj21z41kwgqi.jpg&#34; alt=&#34;设置 neo4j&#34;&gt;&lt;/p&gt;
+&lt;h4 id=&#34;使用-docker-运行-neo4j可选&#34;&gt;使用 docker 运行 Neo4j（可选）&lt;/h4&gt;
+&lt;p&gt;当然，如果你感觉安装 &lt;code&gt;Neo4j Desktop&lt;/code&gt; 比较麻烦，也可以使用 docker 运行 Neo4j：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ docker run --rm -p 7474:7474 -p 7687:7687 -e &lt;span style=&#34;color:#40ffff&#34;&gt;NEO4J_AUTH&lt;/span&gt;=none neo4j
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;只不过后续查看关系图时，需要使用浏览器访问 http://localhost:7474 来查看结果。&lt;/p&gt;
+&lt;h3 id=&#34;安装-kubectl-graph&#34;&gt;安装 kubectl-graph&lt;/h3&gt;
+&lt;p&gt;插件的安装方式比较简单，如果你使用的是 &lt;code&gt;kubectl 1.19&lt;/code&gt; 之前的版本：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl-krew install graph
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;使用 &lt;code&gt;kubectl 1.19&lt;/code&gt; 之后的版本：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl krew install graph
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;使用方式&#34;&gt;使用方式&lt;/h2&gt;
+&lt;p&gt;安装完成后，就可以开始绘制 kubernetes resource 关系图了。&lt;/p&gt;
+&lt;h3 id=&#34;graphviz-1&#34;&gt;Graphviz&lt;/h3&gt;
+&lt;p&gt;使用 &lt;code&gt;kubectl graph&lt;/code&gt; 命令获取 &lt;code&gt;kubec-system&lt;/code&gt; 中正在运行的 pod，并通过管道传递给 &lt;code&gt;dot&lt;/code&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl graph pods --field-selector status.phase=Running -n kube-system | dot -T svg -o pods.svg
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;查看 &lt;code&gt;pods.svg&lt;/code&gt; ，资源果然很多：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1gm4nxnytzkj22d41zq19w.jpg&#34; alt=&#34;pods.svg&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;neo4j-1&#34;&gt;Neo4j&lt;/h3&gt;
+&lt;p&gt;Neo4j 可以展示更为丰富且美观的关系图。在导入 kubernetes resource 之前，需要创建一个 Neo4j 数据库：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65gy1gm4o4b56mzj21z41kw46d.jpg&#34; alt=&#34;创建 neo4j 数据库&#34;&gt;&lt;/p&gt;
+&lt;p&gt;数据库创建好后，点击 &lt;code&gt;Start&lt;/code&gt; 运行并点击 &lt;code&gt;Open&lt;/code&gt; 打开 &lt;code&gt;Neo4j Browser&lt;/code&gt;：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva3.sinaimg.cn/large/ad5fbf65gy1gm4o605br2j20ow0fkjs1.jpg&#34; alt=&#34;打开数据库&#34;&gt;&lt;/p&gt;
+&lt;p&gt;执行命令将 kubernetes resource 导入 Neo4j：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;kubectl graph all -n kube-system -o cypher | cypher-shell -u neo4j -p &amp;lt;your-pass&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;注意&lt;/h4&gt;
+这里的 &lt;code&gt;-u&lt;/code&gt; 需要输入 &lt;code&gt;neo4j&lt;/code&gt; 而不是你创建的数据库名称，&lt;code&gt;Neo4j Browser&lt;/code&gt; 上也有提示：
+&lt;img src=&#34;https://tva3.sinaimg.cn/large/ad5fbf65gy1gm4o9rsqtzj21ve0m440w.jpg&#34; alt=&#34;&#34;&gt;
+&lt;/div&gt;
+
+&lt;p&gt;之后就可以在 Neo4j 上查看了，输入查询语句：&lt;code&gt;MATCH (n) RETURN n&lt;/code&gt;：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1gm4ofe5jiwj22761midzp.jpg&#34; alt=&#34;关系图&#34;&gt;&lt;/p&gt;
+&lt;p&gt;这时一个美观的 kubernetes resource 关系图就出现了。&lt;/p&gt;
+&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
+&lt;p&gt;kubectl 还有很多好用且有趣的 plugin，后续笔者会介绍如何开发一个 kubectl plugin 并分享更多有趣的 plugin。&lt;/p&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>

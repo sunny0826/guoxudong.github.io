@@ -1,118 +1,192 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Guo Xudong's Blog·郭旭东的博客 – 程序员趣闻</title><link>https://guoxudong.io/categories/%E7%A8%8B%E5%BA%8F%E5%91%98%E8%B6%A3%E9%97%BB/</link><description>Recent content in 程序员趣闻 on Guo Xudong's Blog·郭旭东的博客</description><generator>Hugo -- gohugo.io</generator><language>zh</language><lastBuildDate>Mon, 01 Feb 2021 09:55:06 +0800</lastBuildDate><atom:link href="https://guoxudong.io/categories/%E7%A8%8B%E5%BA%8F%E5%91%98%E8%B6%A3%E9%97%BB/index.xml" rel="self" type="application/rss+xml"/><item><title>Post: 回顾 2020 | 柴猫双全程序猿的云原生之路</title><link>https://guoxudong.io/post/summary-2020/</link><pubDate>Mon, 01 Feb 2021 09:55:06 +0800</pubDate><guid>https://guoxudong.io/post/summary-2020/</guid><description>
-&lt;h2 id="前言">前言&lt;/h2>
-&lt;p>农历新年前的最后一篇文章，就来回顾一下我的 2020 吧。&lt;/p>
-&lt;p>2020 是魔幻的一年，这一年发生了很多事情，疫情、洪水、巨星陨落、美股的四次熔断&amp;hellip;仿佛每一天我们都在见证着历史。&lt;/p>
-&lt;h2 id="写作">写作&lt;/h2>
-&lt;p>2020 年总共写了 45 篇原创博客，公众号的关注者在 2020 年翻了 3 倍。8 月份启用了新域名 &lt;a href="https://guoxudong.io/">guoxudong.io&lt;/a>，使用 &lt;a href="https://www.docsy.dev">docsy&lt;/a> 重构了博客的页面，并对样式进行了定制。&lt;/p>
-&lt;p>内容方面，文章涉及范围有所拓宽，从理论到实践均有涉猎，并开始尝试写源码分析类文章。&lt;/p>
-&lt;p>&lt;img src="https://tva1.sinaimg.cn/wap720/ad5fbf65gy1gn85ejee5xj20wy184gqj.jpg" alt="涉及领域">&lt;/p>
-&lt;h2 id="开源">开源&lt;/h2>
-&lt;p>如果要给我的 2020 年加一个关键词，那么一定是 &lt;strong>“开源”&lt;/strong>。&lt;/p>
-&lt;h3 id="coding">Coding&lt;/h3>
-&lt;p>2020 年我在 GitHub 上结识了很多志同道合的朋友，收获了他们的帮助与认可。&lt;/p>
-&lt;p>&lt;img src="https://tva1.sinaimg.cn/wap720/ad5fbf65gy1gn85rhyxfmj20ra0akgs0.jpg" alt="GitHub">&lt;/p>
-&lt;ul>
-&lt;li>&lt;a href="https://github.com/sunny0826/kubecm">kubecm&lt;/a> 在 2020 年迭代了 10 多个版本， star 数超过了 120，并迎来了多个贡献者&lt;/li>
-&lt;li>作为&lt;a href="https://github.com/servicemesher/istio-handbook/blob/master/wg/editorial-board.md">编委会&lt;/a>成员参与编写开源书籍 &lt;a href="https://github.com/servicemesher/istio-handbook/issues/42">Istio handbook&lt;/a>，并贡献了多章内容&lt;/li>
-&lt;li>成为 &lt;a href="https://github.com/chaosblade-io/chaosblade">chaosblade&lt;/a> 的 commiter&lt;/li>
-&lt;li>作为初创成员参与 &lt;a href="https://github.com/oam-dev/kubevela">kubevela&lt;/a> 并在 2021 年成为 reviewer&lt;/li>
-&lt;/ul>
-&lt;h3 id="活动">活动&lt;/h3>
-&lt;p>除了 coding 以外，2020 年我还成为了 &lt;a href="https://cloudnative.to/team/">云原生社区管理委员会&lt;/a>成员、&lt;a href="https://cloudnative.to/city/shanghai/">上海站&lt;/a>站长。发起并组织了云原生社区首次线下 meetup - &lt;a href="https://mp.weixin.qq.com/s/h1OqUAXvhKaYN5pIO7xI7w">云原生社区第一期 meetup 上海站&lt;/a>。&lt;/p>
-&lt;p>这也是我第一次组织线下技术分享活动，从场地、赞助、讲师的邀请到宣传和主持，每一步都没有看上去那么容易，再加上新冠疫情反扑，让这场活动险些延期。所幸上海疫情得到了控制，活动有惊无险的举办了，现场的志愿者和来宾都十分给力，活动最终圆满结束。&lt;/p>
-&lt;p>&lt;img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1gn8zymurorj264w43cx6p.jpg" alt="现场">&lt;/p>
-&lt;p>最近还完成了 &lt;a href="https://community.cncf.io/shanghai/">Cloud Native Community Groups&lt;/a> 上海活动组织者的申请，2021 年我们会组织更多的云原生活动，让更多的朋友参与进来学习、成长。&lt;/p>
-&lt;p>&lt;img src="https://tva1.sinaimg.cn/large/ad5fbf65gy1gn90qgpifkj223a1jwqe2.jpg" alt="CNCG">&lt;/p>
-&lt;h3 id="分享">分享&lt;/h3>
-&lt;p>由于疫情肆虐，2020 很多线下活动转为线上，我也进行了多场线上分享，内容主要是云原生相关工具的使用和实践。年末接受 Rancher 邀请，参加了 Rancher 与 SUSE 首次合体亮相的&lt;a href="https://mp.weixin.qq.com/s/0BJ3XyhUZCq_-HBMiSlAMA">「释放云的全部价值」技术沙龙&lt;/a>，分享了我在 K3S 上的实践。&lt;/p>
-&lt;p>总体来说，达到了 2020 年初给定下的小目标，但是由于生活和工作上的一些变动，整个下半年过的手忙脚乱，希望在 2021 年能更加从容的应对各种机遇与挑战。&lt;/p>
-&lt;h2 id="其他">其他&lt;/h2>
-&lt;p>年初我们复工的比较早，我现在还清晰的记的平时拥挤的上海地铁在当时空无一人，上下班乘坐公共交通都要全副武装。感觉到了同事们的担忧，我定制了一个用来展示疫情实时动态的 Grafana Dashboard，让办公室的同事可以实时看到疫情动态。看着这个监控，我们迎来了武汉的解封，迎来了全面复工。&lt;/p>
-&lt;p>&lt;img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1gn9ath44cbj21400u0hdt.jpg" alt="疫情 Dashboard">&lt;/p>
-&lt;p>10 月份，我参加了阿里云线上举办的 CodeSample 挑战赛，混了一个等奖。&lt;/p>
-&lt;p>&lt;img src="https://tvax4.sinaimg.cn/large/ad5fbf65gy1gn96yyddlkj21400u0u0y.jpg" alt="奖牌">&lt;/p>
-&lt;h2 id="柴猫双全">柴猫双全&lt;/h2>
-&lt;p>熟悉我的朋友都知道我有一只叫做 &lt;strong>毛线&lt;/strong> 的橘猫和一只叫 &lt;strong>Sunny&lt;/strong> 的柴犬，2020 年他们也都有好好的吃饭，好好的长肉。年初在家办公时，他们陪着我写代码；年中加班时，他们在家默默地等我回家。&lt;/p>
-&lt;p>&lt;img src="https://tvax2.sinaimg.cn/large/ad5fbf65gy1gn96wl4mcmj21hc0u07wj.jpg" alt="在家办公">&lt;/p>
-&lt;p>&lt;img src="https://tvax3.sinaimg.cn/large/ad5fbf65gy1gn9akhtd4uj21410u0e82.jpg" alt="毛线&amp;Sunny">&lt;/p>
-&lt;h2 id="2021">2021&lt;/h2>
-&lt;p>在这里给 2021 立点小 flag：&lt;/p>
-&lt;ul>
-&lt;li>开源项目方面：kubecm 会继续迭代，争取让更多的人了解和使用 kubecm，继续参与 chaosblade 和 kubevela 项目，为开源社区做出更多贡献&lt;/li>
-&lt;li>活动方面：云原生社区上海站计划在 2021 年举办 3 场规模不等的线下 meetup，这些活动都会更新到 Cloud Native Community Groups 的 Event 中，让更多的朋友看到，有兴趣赞助的公司也可以直接联系我&lt;/li>
-&lt;li>博客方面：目前 TODO List 已经积攒了很多题目，内容包括源码分析、工具介绍、实践分享&lt;/li>
-&lt;/ul>
-&lt;div class="pageinfo pageinfo-primary">
-&lt;p>感谢您的关于与支持，祝好运，健康，佳肴伴您度过一个快乐新年。&lt;/p>
-&lt;/div></description></item><item><title>Post: Kubecon 2019 见闻：云原生未来可期</title><link>https://guoxudong.io/post/kubecon-2019/</link><pubDate>Tue, 02 Jul 2019 10:18:18 +0800</pubDate><guid>https://guoxudong.io/post/kubecon-2019/</guid><description>
-&lt;h2 id="前言">前言&lt;/h2>
-&lt;p>2019年6月24-26日，KubeCon + CloudNativeCon + Open Source Summit大会在上海世博中心举行。本次大会规模空前，预计有超过40个国家，3500多名云原生、开源领域的开发者参加，门票更是早早售罄。作为一名云原生应用的使用者与开发者，我也报名参与了这次大会。&lt;/p>
-&lt;p>6月的上海已经入梅，潮湿的空气对于已经在上海生活好多年的我还是会感受到不适，但是这些也无法阻碍 KubeCon 带给我的兴奋与激动，况且这次是在家门口举行，3站地铁就能到达了世博中心。&lt;/p>
-&lt;p>参与本次大会不仅仅是因为可以接触到最新的 Kubernetes &amp;amp; Cloud Native 实践，更是因为可以与很多神交已久的朋友会面，同时也可以与很多业界大牛面对面的交流，获取宝贵的经验。&lt;/p>
-&lt;p>&lt;img src="https://ws2.sinaimg.cn/large/ad5fbf65gy1g4lbp87794j22bc1jknpe.jpg" alt="48124131751_3fc63103d5_o">&lt;/p>
-&lt;h2 id="国内云原生开源力量强劲">国内云原生开源力量强劲&lt;/h2>
-&lt;p>会议第一天，先后参加了蚂蚁金服组织的 SOFAStack Workshop 和由 CNCF, VMware, 阿里云和 PingCAP 联合主办的中国原创CNCF项目社区沙龙，同时在午休时候短暂的旁听了华为主办的 Apache ServiceComb Meetup 。&lt;/p>
-&lt;p>作为 &lt;a href="http://servicemesher.com">ServiceMesher&lt;/a> 社区的一员，与会议的组织者在社区中都很熟悉了，虽然没有注册 SOFAStack Workshop 会议，但也很自然的混进去了。作为金融级分布式框架 SOFAStack ，是用于快速构建金融级分布式架构的一套中间件，也是建立于蚂蚁金服海量金融场景锤炼出来的最佳实践。而此次的 Workshop 更是经过了精心的准备，准备了充足的材料，并在蚂蚁同学的帮助了使用 SOFAStack 实践了 &lt;strong>使用 SOFAStack 快速构建微服务&lt;/strong> 、 &lt;strong>SOFABoot 动态模块实践&lt;/strong> 、 &lt;strong>使用 Seata 保障支付一致性&lt;/strong> 、 &lt;strong>基于 Serverless 轻松构建云上应用&lt;/strong> 和 &lt;strong>使用 CloudMesh 轻松实践 Service Mesh&lt;/strong> 五个demo。在 Service Mesh 方面，蚂蚁的同学异常的活跃，是 Istio 中文文档翻译和 &lt;a href="http://servicemesher.com">ServiceMesher&lt;/a> 社区的主要组织者。&lt;/p>
-&lt;p>&lt;img src="https://ws4.sinaimg.cn/large/ad5fbf65gy1g4lcu8mpmsj21480tokjl.jpg" alt="image">&lt;/p>
-&lt;center>《未来架构-从服务化到云原生》作者敖小剑老师现场签名&lt;/center>
-&lt;p>午饭后短暂旁听了华为主办的 Apache ServiceComb Meetup ，虽然时间短暂，只有不到1个小时，但是对于国内运作开源项目，尤其是 Apache 项目有个更深的理解，同时让我联想到了之前在 &lt;a href="https://developer.aliyun.com/article/704943">《从开源小白到 Apache Member ，阿里工程师的成长笔记》&lt;/a> 阿里巴巴技术专家望陶成为的文章，中国的开源软件和开发者在开源领域起到越来越重要的作用。&lt;/p>
-&lt;p>&lt;img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1g4lcxc767gj23402c07wi.jpg" alt="IMG_2470">&lt;/p>
-&lt;p>下午参加了由 CNCF, VMware, 阿里云和 PingCAP 联合主办的中国原创CNCF项目社区沙龙，聆听了 &lt;a href="https://github.com/goharbor/harbor">Harbor&lt;/a> 、 &lt;a href="https://github.com/dragonflyoss/Dragonfly">Dragonfly&lt;/a> 、 &lt;a href="https://github.com/tikv/tikv">TiKV&lt;/a> 三个中国原创 CNCF 项目的分享，同时 李响、Dan Kohn 等大佬也在会上发言表达了对国内 CNCF 开源项目的肯定及期待。而在会上也结识了阿里云容器镜像服务的开发小哥，作为阿里云的资深用户与开发小哥进行了交流，了解一些容器镜像服务方面的新功能，同时也反应了在使用中遇到的问题，总的来说收获颇丰。&lt;/p>
-&lt;p>&lt;img src="https://ws3.sinaimg.cn/large/ad5fbf65gy1g4lfret268j23402c0kjm.jpg" alt="IMG_2472">&lt;/p>
-&lt;h2 id="现场惊现-linux-及-git-创始人-linus-torvalds">现场惊现 Linux 及 Git 创始人 Linus Torvalds&lt;/h2>
-&lt;p>大会第二天的 Keynote 一直是 Linux 基金会宣传其理念，愿景以及赞助商进行市场宣传的重要活动。而当天最让人激动的就是 Linus 在 Keynote 后的一次嘉宾谈话，毫不夸张的说，我的工作就是 Linus 给的。而为了看到活的 Linus ，很多人一大早就在 red hall 的门前排起了长队，由于没有看好座位的分布，我只是找到了一个比较偏的位置，但是还是可以看的比较清楚。 Linus 本人还是十分幽默的，在谈话中提到了 Linux 5.1-rc6 的 release 计划，同时还询问现成有多少人是从事内核开发的，不过现场举手的同学并不多。&lt;/p>
-&lt;p>Keynote 上还提到了中国在整个云原生运动中的巨大贡献，中国的 K8s contributors 已经在全球所有贡献者中排名第二，超过 10% 的 CNCF 会员来自中国，26%的 Kubernetes 的认证供应商来自中国，同时也公布了蚂蚁金服作为黄金会员加入 CNCF。&lt;/p>
-&lt;p>&lt;img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1g4lghq7jo9j20xc0m87o8.jpg" alt="48125038821_66fcf00e96_o">&lt;/p>
-&lt;p>平均每小时一个的分组会议，我的日程安排的满满的，但就这样还是出现了由于到晚了无法进入分组会议室的情况，注意这里不是因为到晚了不让进，而是进去都没有站的地方！可见人气之旺！让我有了像是上学时候穿梭在教学楼，赶人气高的选修课的错觉。&lt;/p>
-&lt;p>而在赞助商展示区也有不少的收获，与rancher、kong、jenkins等开源软件的开发者进行了交流，同时也获得了不少小礼品。最大的收获就是在阿里云展台与张磊大神的合影。&lt;/p>
-&lt;p>&lt;img src="https://wx2.sinaimg.cn/large/ad5fbf65gy1g4lh0fv4x5j23402c0qv7.jpg" alt="IMG_2536">&lt;/p>
-&lt;center>与张磊大神的合影&lt;/center>
-&lt;h2 id="servicemesher-社区的壮大">ServiceMesher 社区的壮大&lt;/h2>
-&lt;p>平时都是在网上与社区的朋友们进行交流，讨论技术，交流经验。而 KubeCon 就变成了一场网友面基大会，见到了很多有过交流和帮助过我的朋友，包括 Jimmy 、 小剑 、秀龙老哥&amp;hellip;等等，同时也认识了不少新朋友。与去年11月的 KubeCon 相比，社区的朋友越来越多，在短短半年内 Service Mesh 相关书籍已经出版了4本，而作者都是社区成员，可见社区的活跃。&lt;/p>
-&lt;p>&lt;img src="http://tva2.sinaimg.cn/large/ad5fbf65gy1g4k6mh797pj21900u07it.jpg" alt="">&lt;/p>
-&lt;h2 id="写在最后">写在最后&lt;/h2>
-&lt;p>正如 KubeCon 第三天 Keynote 上，阿里云智能容器平台负责人丁宇的话：&lt;strong>Kubernetes 正当时，云原生未来可期&lt;/strong> 。在 KubeCon 上看到云原生及开源软件的发展速度迅猛，各大厂商也都在最近几年组建了自己的开源团队，在使用开源软件获取便利的同时也在回馈社区，这也是让竞争对手共同为一款开源软件进行贡献的原因。相信随着开源运动在国内的深入，将会出现越来越多中国原创的开源项目，也会有更多的开发者加入到开源项目中，在贡献的同时提升自己的技术水平。&lt;/p></description></item><item><title>Post: 炫酷的终端软件 eDEX-UI</title><link>https://guoxudong.io/post/edex-ui/</link><pubDate>Mon, 29 Apr 2019 11:55:47 +0800</pubDate><guid>https://guoxudong.io/post/edex-ui/</guid><description>
-&lt;p>马上就是五一假期了，而且今年的五一假期有4天！想必大家已经安排好是在家写代码还是出门去冒险了。不过在五一假期之前，我这里推荐一个好玩的又好用的软件给大家。&lt;/p>
-&lt;p>想必大部分朋友和我一样在上周去看了复联4，其中钢铁侠战衣及设备各种炫酷又极具科技感的操作界面一定让你记忆犹新。很多朋友可能和我一样，都希望拥有一套这样的操作界面，这样不管是工作还是学习都会变得有趣而高效（主要是炫酷）。其实很早以前我就尝试写过，但是由于技术有限，写出来的工具都不是很符合我的要求，渐渐的也就都废弃了。而今天要介绍的这个软件，完全符合我的要求，高端大气上档次，并且还是开源的。&lt;/p>
-&lt;h2 id="edex-ui">eDEX-UI&lt;/h2>
-&lt;p>&lt;a href="https://github.com/GitSquared/edex-ui">eDEX-UI&lt;/a> 是一个全屏且跨平台、可定制的终端模拟器，具有先进的监控和触摸屏支持。它的外观类似科幻的计算机界面。在保持未来感的外观和感觉的同时，它努力保持一定的功能水平并可用于现实场景，其更大的目标是将科幻用户体验纳入主流。&lt;/p>
-&lt;h3 id="特性">特性&lt;/h3>
-&lt;ul>
-&lt;li>功能齐全的终端仿真器，带有选项卡、颜色、模拟鼠标，并支持 curses 和类似 curses的应用程序。&lt;/li>
-&lt;li>实时系统（CPU、RAM、进程）和网络（GeoIP、活动连接、传输速率）监控。&lt;/li>
-&lt;li>完全支持触摸屏，包括屏幕键盘。&lt;/li>
-&lt;li>具备跟随终端 CWD（当前工作目录）的目录查看器。&lt;/li>
-&lt;li>包括主题、屏幕键盘布局、CSS 注入等在内的高级自定义。&lt;/li>
-&lt;li>由才华横溢的声音设计师制作的可选音效，可实现最佳的好莱坞黑客氛围。&lt;/li>
-&lt;/ul>
-&lt;h3 id="显示">显示&lt;/h3>
-&lt;p>&lt;img src="https://yqfile.alicdn.com/b959597643a41c4b83e697307877082124c360d4.png" alt="image">&lt;/p>
-&lt;p>这里我使用了 &lt;code>tron-disrupted&lt;/code> 主题，还有多种主题可以选择&lt;/p>
-&lt;p>可以看到这里的界面十分炫酷，可以为有些乏味的 shell 操作增添一抹乐趣&lt;/p>
-&lt;h3 id="配置">配置&lt;/h3>
-&lt;p>eDEX-UI 可以通过 &lt;code>settings.json&lt;/code> 文件进行配置，配置包括执行的 shell 类型、工作目录、键盘类型、主题等&lt;/p>
-&lt;p>&lt;code>settings.json&lt;/code> 在 Mac 系统中，存放在 &lt;code>/Users/guoxudong/Library/Application Support/eDEX-UI&lt;/code> 中，默认的工作目录也是这个路径&lt;/p>
-&lt;p>&lt;img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1g2jflhunukj21h30tck0r.jpg" alt="image">&lt;/p>
-&lt;p>这里可以看到我选择使用 &lt;code>zsh&lt;/code> 和 &lt;code>tron-disrupted&lt;/code> 主题，并将工作目录改为了我的用户空间&lt;/p>
-&lt;h2 id="局限">局限&lt;/h2>
-&lt;ul>
-&lt;li>目前看来该软件的全平台支持是不错的，同时还支持触摸屏操作，但是目前还未测试在 pad 上使用，测试之后会在后续文章中补充&lt;/li>
-&lt;li>CPU 占用过高，该软件 CPU 占用很高，如果是配置一般的电脑不建议让其作为终端常驻，偶尔拿出来玩玩即可&lt;/li>
-&lt;/ul></description></item><item><title>Post: GitHub 黑话指南</title><link>https://guoxudong.io/post/cant/</link><pubDate>Mon, 22 Apr 2019 09:11:24 +0800</pubDate><guid>https://guoxudong.io/post/cant/</guid><description>
-&lt;p>这里的&lt;strong>黑话&lt;/strong>，其实就是 GitHub 上的一些&lt;strong>迷之缩写&lt;/strong>，这些歪果老司机们在 GitHub 上肆无忌惮的使用着他们的“黑话”，让我们这些非英语母语国家的新司机在 code review 时经常是一脸懵逼 + 黑人问好&amp;hellip;&lt;/p>
-&lt;p>&lt;img src="https://tva2.sinaimg.cn/thumb180/ad5fbf65gy1g2b5dhfuqqj206506cq2t.jpg" alt="image">&lt;/p>
-&lt;p>&lt;img src="https://tva2.sinaimg.cn/thumb180/ad5fbf65gy1g2b5dvubm6j2069050a9x.jpg" alt="image">&lt;/p>
-&lt;p>&lt;img src="https://tva2.sinaimg.cn/thumb180/ad5fbf65gy1g2b5fe5ahmj20c80bhdg8.jpg" alt="image">&lt;/p>
-&lt;p>记住下面这些“&lt;strong>黑话&lt;/strong>”，以后我们也可以愉快的在 GitHub 上装逼了~&lt;/p>
-&lt;ul>
-&lt;li>&lt;strong>PR&lt;/strong>: Pull Request. 拉取请求，给其他项目提交代码，这个是最为常见的缩写。&lt;/li>
-&lt;li>&lt;strong>WIP&lt;/strong>: Work In Progress. 传说中提 PR 的最佳实践是，如果你有个改动很大的 PR，可以在写了一部分的情况下先提交，但是在标题里写上 WIP，以告诉项目维护者这个功能还未完成，方便维护者提前 review 部分提交的代码。&lt;/li>
-&lt;li>&lt;strong>LGTM&lt;/strong>: Looks Good To Me. &lt;em>&lt;strong>已阅&lt;/strong>&lt;/em> 代码已经过 review，可以合并。也可理解为 “OJBK”。&lt;/li>
-&lt;li>&lt;strong>SGTM&lt;/strong>: Sounds Good To Me. 同上，也是已经通过了 review 的意思。&lt;/li>
-&lt;li>&lt;strong>PTAL&lt;/strong>: Please Take A Look. 你来瞅瞅？用来提示别人来看一下。&lt;/li>
-&lt;li>&lt;strong>TBR&lt;/strong>: To Be Reviewed. 提示维护者进行 review。&lt;/li>
-&lt;li>&lt;strong>TL;DR&lt;/strong>: Too Long; Didn&amp;rsquo;t Read. 太长懒得看。也有很多文档在做简略描述之前会写这么一句，第一次看到的反应是：这TM是啥？&lt;/li>
-&lt;li>&lt;strong>TBD&lt;/strong>: To Be Done(or Defined/Discussed/Decided/Determined). 根据语境不同意义有所区别，但一般都是还没搞定的意思。&lt;/li>
-&lt;/ul>
-&lt;h2 id="参考">参考&lt;/h2>
-&lt;p>&lt;a href="https://farer.org/2017/03/01/code-review-acronyms/">LGTM? 那些迷之缩写 - farer.org&lt;/a>&lt;/p></description></item></channel></rss>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Guo Xudong&#39;s Blog·郭旭东的博客 – 程序员趣闻</title>
+    <link>https://guoxudong.io/categories/%E7%A8%8B%E5%BA%8F%E5%91%98%E8%B6%A3%E9%97%BB/</link>
+    <description>Recent content in 程序员趣闻 on Guo Xudong&#39;s Blog·郭旭东的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Mon, 01 Feb 2021 09:55:06 +0800</lastBuildDate>
+    
+	  <atom:link href="https://guoxudong.io/categories/%E7%A8%8B%E5%BA%8F%E5%91%98%E8%B6%A3%E9%97%BB/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Post: 回顾 2020 | 柴猫双全程序猿的云原生之路</title>
+      <link>https://guoxudong.io/post/summary-2020/</link>
+      <pubDate>Mon, 01 Feb 2021 09:55:06 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/summary-2020/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;农历新年前的最后一篇文章，就来回顾一下我的 2020 吧。&lt;/p&gt;
+&lt;p&gt;2020 是魔幻的一年，这一年发生了很多事情，疫情、洪水、巨星陨落、美股的四次熔断&amp;hellip;仿佛每一天我们都在见证着历史。&lt;/p&gt;
+&lt;h2 id=&#34;写作&#34;&gt;写作&lt;/h2&gt;
+&lt;p&gt;2020 年总共写了 45 篇原创博客，公众号的关注者在 2020 年翻了 3 倍。8 月份启用了新域名 &lt;a href=&#34;https://guoxudong.io/&#34;&gt;guoxudong.io&lt;/a&gt;，使用 &lt;a href=&#34;https://www.docsy.dev&#34;&gt;docsy&lt;/a&gt; 重构了博客的页面，并对样式进行了定制。&lt;/p&gt;
+&lt;p&gt;内容方面，文章涉及范围有所拓宽，从理论到实践均有涉猎，并开始尝试写源码分析类文章。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/wap720/ad5fbf65gy1gn85ejee5xj20wy184gqj.jpg&#34; alt=&#34;涉及领域&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;开源&#34;&gt;开源&lt;/h2&gt;
+&lt;p&gt;如果要给我的 2020 年加一个关键词，那么一定是 &lt;strong&gt;“开源”&lt;/strong&gt;。&lt;/p&gt;
+&lt;h3 id=&#34;coding&#34;&gt;Coding&lt;/h3&gt;
+&lt;p&gt;2020 年我在 GitHub 上结识了很多志同道合的朋友，收获了他们的帮助与认可。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/wap720/ad5fbf65gy1gn85rhyxfmj20ra0akgs0.jpg&#34; alt=&#34;GitHub&#34;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/sunny0826/kubecm&#34;&gt;kubecm&lt;/a&gt; 在 2020 年迭代了 10 多个版本， star 数超过了 120，并迎来了多个贡献者&lt;/li&gt;
+&lt;li&gt;作为&lt;a href=&#34;https://github.com/servicemesher/istio-handbook/blob/master/wg/editorial-board.md&#34;&gt;编委会&lt;/a&gt;成员参与编写开源书籍 &lt;a href=&#34;https://github.com/servicemesher/istio-handbook/issues/42&#34;&gt;Istio handbook&lt;/a&gt;，并贡献了多章内容&lt;/li&gt;
+&lt;li&gt;成为 &lt;a href=&#34;https://github.com/chaosblade-io/chaosblade&#34;&gt;chaosblade&lt;/a&gt; 的 commiter&lt;/li&gt;
+&lt;li&gt;作为初创成员参与 &lt;a href=&#34;https://github.com/oam-dev/kubevela&#34;&gt;kubevela&lt;/a&gt; 并在 2021 年成为 reviewer&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;活动&#34;&gt;活动&lt;/h3&gt;
+&lt;p&gt;除了 coding 以外，2020 年我还成为了 &lt;a href=&#34;https://cloudnative.to/team/&#34;&gt;云原生社区管理委员会&lt;/a&gt;成员、&lt;a href=&#34;https://cloudnative.to/city/shanghai/&#34;&gt;上海站&lt;/a&gt;站长。发起并组织了云原生社区首次线下 meetup - &lt;a href=&#34;https://mp.weixin.qq.com/s/h1OqUAXvhKaYN5pIO7xI7w&#34;&gt;云原生社区第一期 meetup 上海站&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;这也是我第一次组织线下技术分享活动，从场地、赞助、讲师的邀请到宣传和主持，每一步都没有看上去那么容易，再加上新冠疫情反扑，让这场活动险些延期。所幸上海疫情得到了控制，活动有惊无险的举办了，现场的志愿者和来宾都十分给力，活动最终圆满结束。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1gn8zymurorj264w43cx6p.jpg&#34; alt=&#34;现场&#34;&gt;&lt;/p&gt;
+&lt;p&gt;最近还完成了 &lt;a href=&#34;https://community.cncf.io/shanghai/&#34;&gt;Cloud Native Community Groups&lt;/a&gt; 上海活动组织者的申请，2021 年我们会组织更多的云原生活动，让更多的朋友参与进来学习、成长。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65gy1gn90qgpifkj223a1jwqe2.jpg&#34; alt=&#34;CNCG&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;分享&#34;&gt;分享&lt;/h3&gt;
+&lt;p&gt;由于疫情肆虐，2020 很多线下活动转为线上，我也进行了多场线上分享，内容主要是云原生相关工具的使用和实践。年末接受 Rancher 邀请，参加了 Rancher 与 SUSE 首次合体亮相的&lt;a href=&#34;https://mp.weixin.qq.com/s/0BJ3XyhUZCq_-HBMiSlAMA&#34;&gt;「释放云的全部价值」技术沙龙&lt;/a&gt;，分享了我在 K3S 上的实践。&lt;/p&gt;
+&lt;p&gt;总体来说，达到了 2020 年初给定下的小目标，但是由于生活和工作上的一些变动，整个下半年过的手忙脚乱，希望在 2021 年能更加从容的应对各种机遇与挑战。&lt;/p&gt;
+&lt;h2 id=&#34;其他&#34;&gt;其他&lt;/h2&gt;
+&lt;p&gt;年初我们复工的比较早，我现在还清晰的记的平时拥挤的上海地铁在当时空无一人，上下班乘坐公共交通都要全副武装。感觉到了同事们的担忧，我定制了一个用来展示疫情实时动态的 Grafana Dashboard，让办公室的同事可以实时看到疫情动态。看着这个监控，我们迎来了武汉的解封，迎来了全面复工。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1gn9ath44cbj21400u0hdt.jpg&#34; alt=&#34;疫情 Dashboard&#34;&gt;&lt;/p&gt;
+&lt;p&gt;10 月份，我参加了阿里云线上举办的 CodeSample 挑战赛，混了一个等奖。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax4.sinaimg.cn/large/ad5fbf65gy1gn96yyddlkj21400u0u0y.jpg&#34; alt=&#34;奖牌&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;柴猫双全&#34;&gt;柴猫双全&lt;/h2&gt;
+&lt;p&gt;熟悉我的朋友都知道我有一只叫做 &lt;strong&gt;毛线&lt;/strong&gt; 的橘猫和一只叫 &lt;strong&gt;Sunny&lt;/strong&gt; 的柴犬，2020 年他们也都有好好的吃饭，好好的长肉。年初在家办公时，他们陪着我写代码；年中加班时，他们在家默默地等我回家。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax2.sinaimg.cn/large/ad5fbf65gy1gn96wl4mcmj21hc0u07wj.jpg&#34; alt=&#34;在家办公&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tvax3.sinaimg.cn/large/ad5fbf65gy1gn9akhtd4uj21410u0e82.jpg&#34; alt=&#34;毛线&amp;Sunny&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;2021&#34;&gt;2021&lt;/h2&gt;
+&lt;p&gt;在这里给 2021 立点小 flag：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;开源项目方面：kubecm 会继续迭代，争取让更多的人了解和使用 kubecm，继续参与 chaosblade 和 kubevela 项目，为开源社区做出更多贡献&lt;/li&gt;
+&lt;li&gt;活动方面：云原生社区上海站计划在 2021 年举办 3 场规模不等的线下 meetup，这些活动都会更新到 Cloud Native Community Groups 的 Event 中，让更多的朋友看到，有兴趣赞助的公司也可以直接联系我&lt;/li&gt;
+&lt;li&gt;博客方面：目前 TODO List 已经积攒了很多题目，内容包括源码分析、工具介绍、实践分享&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;感谢您的关于与支持，祝好运，健康，佳肴伴您度过一个快乐新年。&lt;/p&gt;
+
+&lt;/div&gt;
+
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Post: Kubecon 2019 见闻：云原生未来可期</title>
+      <link>https://guoxudong.io/post/kubecon-2019/</link>
+      <pubDate>Tue, 02 Jul 2019 10:18:18 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/kubecon-2019/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;2019年6月24-26日，KubeCon + CloudNativeCon + Open Source Summit大会在上海世博中心举行。本次大会规模空前，预计有超过40个国家，3500多名云原生、开源领域的开发者参加，门票更是早早售罄。作为一名云原生应用的使用者与开发者，我也报名参与了这次大会。&lt;/p&gt;
+&lt;p&gt;6月的上海已经入梅，潮湿的空气对于已经在上海生活好多年的我还是会感受到不适，但是这些也无法阻碍 KubeCon 带给我的兴奋与激动，况且这次是在家门口举行，3站地铁就能到达了世博中心。&lt;/p&gt;
+&lt;p&gt;参与本次大会不仅仅是因为可以接触到最新的 Kubernetes &amp;amp; Cloud Native 实践，更是因为可以与很多神交已久的朋友会面，同时也可以与很多业界大牛面对面的交流，获取宝贵的经验。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ws2.sinaimg.cn/large/ad5fbf65gy1g4lbp87794j22bc1jknpe.jpg&#34; alt=&#34;48124131751_3fc63103d5_o&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;国内云原生开源力量强劲&#34;&gt;国内云原生开源力量强劲&lt;/h2&gt;
+&lt;p&gt;会议第一天，先后参加了蚂蚁金服组织的 SOFAStack Workshop 和由 CNCF, VMware, 阿里云和 PingCAP 联合主办的中国原创CNCF项目社区沙龙，同时在午休时候短暂的旁听了华为主办的 Apache ServiceComb Meetup 。&lt;/p&gt;
+&lt;p&gt;作为 &lt;a href=&#34;http://servicemesher.com&#34;&gt;ServiceMesher&lt;/a&gt; 社区的一员，与会议的组织者在社区中都很熟悉了，虽然没有注册 SOFAStack Workshop 会议，但也很自然的混进去了。作为金融级分布式框架 SOFAStack ，是用于快速构建金融级分布式架构的一套中间件，也是建立于蚂蚁金服海量金融场景锤炼出来的最佳实践。而此次的 Workshop 更是经过了精心的准备，准备了充足的材料，并在蚂蚁同学的帮助了使用 SOFAStack 实践了 &lt;strong&gt;使用 SOFAStack 快速构建微服务&lt;/strong&gt; 、 &lt;strong&gt;SOFABoot 动态模块实践&lt;/strong&gt; 、 &lt;strong&gt;使用 Seata 保障支付一致性&lt;/strong&gt; 、 &lt;strong&gt;基于 Serverless 轻松构建云上应用&lt;/strong&gt; 和 &lt;strong&gt;使用 CloudMesh 轻松实践 Service Mesh&lt;/strong&gt; 五个demo。在 Service Mesh 方面，蚂蚁的同学异常的活跃，是 Istio 中文文档翻译和 &lt;a href=&#34;http://servicemesher.com&#34;&gt;ServiceMesher&lt;/a&gt; 社区的主要组织者。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ws4.sinaimg.cn/large/ad5fbf65gy1g4lcu8mpmsj21480tokjl.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;center&gt;《未来架构-从服务化到云原生》作者敖小剑老师现场签名&lt;/center&gt;
+&lt;p&gt;午饭后短暂旁听了华为主办的 Apache ServiceComb Meetup ，虽然时间短暂，只有不到1个小时，但是对于国内运作开源项目，尤其是 Apache 项目有个更深的理解，同时让我联想到了之前在 &lt;a href=&#34;https://developer.aliyun.com/article/704943&#34;&gt;《从开源小白到 Apache Member ，阿里工程师的成长笔记》&lt;/a&gt; 阿里巴巴技术专家望陶成为的文章，中国的开源软件和开发者在开源领域起到越来越重要的作用。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g4lcxc767gj23402c07wi.jpg&#34; alt=&#34;IMG_2470&#34;&gt;&lt;/p&gt;
+&lt;p&gt;下午参加了由 CNCF, VMware, 阿里云和 PingCAP 联合主办的中国原创CNCF项目社区沙龙，聆听了 &lt;a href=&#34;https://github.com/goharbor/harbor&#34;&gt;Harbor&lt;/a&gt; 、 &lt;a href=&#34;https://github.com/dragonflyoss/Dragonfly&#34;&gt;Dragonfly&lt;/a&gt; 、 &lt;a href=&#34;https://github.com/tikv/tikv&#34;&gt;TiKV&lt;/a&gt; 三个中国原创 CNCF 项目的分享，同时 李响、Dan Kohn 等大佬也在会上发言表达了对国内 CNCF 开源项目的肯定及期待。而在会上也结识了阿里云容器镜像服务的开发小哥，作为阿里云的资深用户与开发小哥进行了交流，了解一些容器镜像服务方面的新功能，同时也反应了在使用中遇到的问题，总的来说收获颇丰。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://ws3.sinaimg.cn/large/ad5fbf65gy1g4lfret268j23402c0kjm.jpg&#34; alt=&#34;IMG_2472&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;现场惊现-linux-及-git-创始人-linus-torvalds&#34;&gt;现场惊现 Linux 及 Git 创始人 Linus Torvalds&lt;/h2&gt;
+&lt;p&gt;大会第二天的 Keynote 一直是 Linux 基金会宣传其理念，愿景以及赞助商进行市场宣传的重要活动。而当天最让人激动的就是 Linus 在 Keynote 后的一次嘉宾谈话，毫不夸张的说，我的工作就是 Linus 给的。而为了看到活的 Linus ，很多人一大早就在 red hall 的门前排起了长队，由于没有看好座位的分布，我只是找到了一个比较偏的位置，但是还是可以看的比较清楚。 Linus 本人还是十分幽默的，在谈话中提到了 Linux 5.1-rc6 的 release 计划，同时还询问现成有多少人是从事内核开发的，不过现场举手的同学并不多。&lt;/p&gt;
+&lt;p&gt;Keynote 上还提到了中国在整个云原生运动中的巨大贡献，中国的 K8s contributors 已经在全球所有贡献者中排名第二，超过 10% 的 CNCF 会员来自中国，26%的 Kubernetes 的认证供应商来自中国，同时也公布了蚂蚁金服作为黄金会员加入 CNCF。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g4lghq7jo9j20xc0m87o8.jpg&#34; alt=&#34;48125038821_66fcf00e96_o&#34;&gt;&lt;/p&gt;
+&lt;p&gt;平均每小时一个的分组会议，我的日程安排的满满的，但就这样还是出现了由于到晚了无法进入分组会议室的情况，注意这里不是因为到晚了不让进，而是进去都没有站的地方！可见人气之旺！让我有了像是上学时候穿梭在教学楼，赶人气高的选修课的错觉。&lt;/p&gt;
+&lt;p&gt;而在赞助商展示区也有不少的收获，与rancher、kong、jenkins等开源软件的开发者进行了交流，同时也获得了不少小礼品。最大的收获就是在阿里云展台与张磊大神的合影。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://wx2.sinaimg.cn/large/ad5fbf65gy1g4lh0fv4x5j23402c0qv7.jpg&#34; alt=&#34;IMG_2536&#34;&gt;&lt;/p&gt;
+&lt;center&gt;与张磊大神的合影&lt;/center&gt;
+&lt;h2 id=&#34;servicemesher-社区的壮大&#34;&gt;ServiceMesher 社区的壮大&lt;/h2&gt;
+&lt;p&gt;平时都是在网上与社区的朋友们进行交流，讨论技术，交流经验。而 KubeCon 就变成了一场网友面基大会，见到了很多有过交流和帮助过我的朋友，包括 Jimmy 、 小剑 、秀龙老哥&amp;hellip;等等，同时也认识了不少新朋友。与去年11月的 KubeCon 相比，社区的朋友越来越多，在短短半年内 Service Mesh 相关书籍已经出版了4本，而作者都是社区成员，可见社区的活跃。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://tva2.sinaimg.cn/large/ad5fbf65gy1g4k6mh797pj21900u07it.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;写在最后&#34;&gt;写在最后&lt;/h2&gt;
+&lt;p&gt;正如 KubeCon 第三天 Keynote 上，阿里云智能容器平台负责人丁宇的话：&lt;strong&gt;Kubernetes 正当时，云原生未来可期&lt;/strong&gt; 。在 KubeCon 上看到云原生及开源软件的发展速度迅猛，各大厂商也都在最近几年组建了自己的开源团队，在使用开源软件获取便利的同时也在回馈社区，这也是让竞争对手共同为一款开源软件进行贡献的原因。相信随着开源运动在国内的深入，将会出现越来越多中国原创的开源项目，也会有更多的开发者加入到开源项目中，在贡献的同时提升自己的技术水平。&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Post: 炫酷的终端软件 eDEX-UI</title>
+      <link>https://guoxudong.io/post/edex-ui/</link>
+      <pubDate>Mon, 29 Apr 2019 11:55:47 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/edex-ui/</guid>
+      <description>
+        
+        
+        &lt;p&gt;马上就是五一假期了，而且今年的五一假期有4天！想必大家已经安排好是在家写代码还是出门去冒险了。不过在五一假期之前，我这里推荐一个好玩的又好用的软件给大家。&lt;/p&gt;
+&lt;p&gt;想必大部分朋友和我一样在上周去看了复联4，其中钢铁侠战衣及设备各种炫酷又极具科技感的操作界面一定让你记忆犹新。很多朋友可能和我一样，都希望拥有一套这样的操作界面，这样不管是工作还是学习都会变得有趣而高效（主要是炫酷）。其实很早以前我就尝试写过，但是由于技术有限，写出来的工具都不是很符合我的要求，渐渐的也就都废弃了。而今天要介绍的这个软件，完全符合我的要求，高端大气上档次，并且还是开源的。&lt;/p&gt;
+&lt;h2 id=&#34;edex-ui&#34;&gt;eDEX-UI&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/GitSquared/edex-ui&#34;&gt;eDEX-UI&lt;/a&gt; 是一个全屏且跨平台、可定制的终端模拟器，具有先进的监控和触摸屏支持。它的外观类似科幻的计算机界面。在保持未来感的外观和感觉的同时，它努力保持一定的功能水平并可用于现实场景，其更大的目标是将科幻用户体验纳入主流。&lt;/p&gt;
+&lt;h3 id=&#34;特性&#34;&gt;特性&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;功能齐全的终端仿真器，带有选项卡、颜色、模拟鼠标，并支持 curses 和类似 curses的应用程序。&lt;/li&gt;
+&lt;li&gt;实时系统（CPU、RAM、进程）和网络（GeoIP、活动连接、传输速率）监控。&lt;/li&gt;
+&lt;li&gt;完全支持触摸屏，包括屏幕键盘。&lt;/li&gt;
+&lt;li&gt;具备跟随终端 CWD（当前工作目录）的目录查看器。&lt;/li&gt;
+&lt;li&gt;包括主题、屏幕键盘布局、CSS 注入等在内的高级自定义。&lt;/li&gt;
+&lt;li&gt;由才华横溢的声音设计师制作的可选音效，可实现最佳的好莱坞黑客氛围。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;显示&#34;&gt;显示&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;https://yqfile.alicdn.com/b959597643a41c4b83e697307877082124c360d4.png&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;这里我使用了 &lt;code&gt;tron-disrupted&lt;/code&gt; 主题，还有多种主题可以选择&lt;/p&gt;
+&lt;p&gt;可以看到这里的界面十分炫酷，可以为有些乏味的 shell 操作增添一抹乐趣&lt;/p&gt;
+&lt;h3 id=&#34;配置&#34;&gt;配置&lt;/h3&gt;
+&lt;p&gt;eDEX-UI 可以通过 &lt;code&gt;settings.json&lt;/code&gt; 文件进行配置，配置包括执行的 shell 类型、工作目录、键盘类型、主题等&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;settings.json&lt;/code&gt; 在 Mac 系统中，存放在 &lt;code&gt;/Users/guoxudong/Library/Application Support/eDEX-UI&lt;/code&gt; 中，默认的工作目录也是这个路径&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g2jflhunukj21h30tck0r.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;这里可以看到我选择使用 &lt;code&gt;zsh&lt;/code&gt; 和 &lt;code&gt;tron-disrupted&lt;/code&gt; 主题，并将工作目录改为了我的用户空间&lt;/p&gt;
+&lt;h2 id=&#34;局限&#34;&gt;局限&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;目前看来该软件的全平台支持是不错的，同时还支持触摸屏操作，但是目前还未测试在 pad 上使用，测试之后会在后续文章中补充&lt;/li&gt;
+&lt;li&gt;CPU 占用过高，该软件 CPU 占用很高，如果是配置一般的电脑不建议让其作为终端常驻，偶尔拿出来玩玩即可&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Post: GitHub 黑话指南</title>
+      <link>https://guoxudong.io/post/cant/</link>
+      <pubDate>Mon, 22 Apr 2019 09:11:24 +0800</pubDate>
+      
+      <guid>https://guoxudong.io/post/cant/</guid>
+      <description>
+        
+        
+        &lt;p&gt;这里的&lt;strong&gt;黑话&lt;/strong&gt;，其实就是 GitHub 上的一些&lt;strong&gt;迷之缩写&lt;/strong&gt;，这些歪果老司机们在 GitHub 上肆无忌惮的使用着他们的“黑话”，让我们这些非英语母语国家的新司机在 code review 时经常是一脸懵逼 + 黑人问好&amp;hellip;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/thumb180/ad5fbf65gy1g2b5dhfuqqj206506cq2t.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/thumb180/ad5fbf65gy1g2b5dvubm6j2069050a9x.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/thumb180/ad5fbf65gy1g2b5fe5ahmj20c80bhdg8.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;记住下面这些“&lt;strong&gt;黑话&lt;/strong&gt;”，以后我们也可以愉快的在 GitHub 上装逼了~&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;PR&lt;/strong&gt;: Pull Request. 拉取请求，给其他项目提交代码，这个是最为常见的缩写。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;WIP&lt;/strong&gt;: Work In Progress. 传说中提 PR 的最佳实践是，如果你有个改动很大的 PR，可以在写了一部分的情况下先提交，但是在标题里写上 WIP，以告诉项目维护者这个功能还未完成，方便维护者提前 review 部分提交的代码。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;LGTM&lt;/strong&gt;: Looks Good To Me. &lt;em&gt;&lt;strong&gt;已阅&lt;/strong&gt;&lt;/em&gt; 代码已经过 review，可以合并。也可理解为 “OJBK”。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;SGTM&lt;/strong&gt;: Sounds Good To Me. 同上，也是已经通过了 review 的意思。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;PTAL&lt;/strong&gt;: Please Take A Look. 你来瞅瞅？用来提示别人来看一下。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;TBR&lt;/strong&gt;: To Be Reviewed. 提示维护者进行 review。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;TL;DR&lt;/strong&gt;: Too Long; Didn&amp;rsquo;t Read. 太长懒得看。也有很多文档在做简略描述之前会写这么一句，第一次看到的反应是：这TM是啥？&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;TBD&lt;/strong&gt;: To Be Done(or Defined/Discussed/Decided/Determined). 根据语境不同意义有所区别，但一般都是还没搞定的意思。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://farer.org/2017/03/01/code-review-acronyms/&#34;&gt;LGTM? 那些迷之缩写 - farer.org&lt;/a&gt;&lt;/p&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>
