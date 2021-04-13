@@ -42,7 +42,7 @@
       "datePublished": "2020-11-04 11:54:04 \u002b0800 \u002b0800",
       "dateModified" : "2020-11-04 11:54:04 \u002b0800 \u002b0800",
       "url" : "https:\/\/guoxudong.io\/post\/k8s-securitycontext\/",
-      "wordCount" : "789",
+      "wordCount" : "802",
       "keywords" : [ "Guoxudong" ]
   }
   </script>
@@ -56,7 +56,7 @@
 <meta itemprop="name" content="熟悉又陌生的 k8s 字段：SecurityContext">
 <meta itemprop="description" content="pod 和 containers 中熟悉又陌生的字段 SecurityContext"><meta itemprop="datePublished" content="2020-11-04T11:54:04&#43;08:00" />
 <meta itemprop="dateModified" content="2020-11-04T16:46:43&#43;08:00" />
-<meta itemprop="wordCount" content="789">
+<meta itemprop="wordCount" content="802">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="熟悉又陌生的 k8s 字段：SecurityContext"/>
 <meta name="twitter:description" content="pod 和 containers 中熟悉又陌生的字段 SecurityContext"/>
@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -249,6 +249,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -256,8 +258,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -664,13 +664,13 @@ if (!doNotTrack) {
 <p>上面的介绍来自官方文档，理解起来并不轻松，但总体思想是确定的：<strong>遵循权限最小化原则，除了业务运行所必需的系统权限，去除不必的其他权限</strong>。下面是笔者总结出的一些常见应用场景来帮助理解 <code>SecurityContext</code>。</p>
 <h3 id="自定义对象访问权限">自定义对象访问权限</h3>
 <p>也就是上文中提到的<strong>自主访问控制（Discretionary Access Control）</strong>，通过设置 UID 和 GID 来达到限制容器权限的目的。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#447fcf;text-decoration:underline">...</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">securityContext</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">runAsUser</span>:<span style="color:#666"> </span><span style="color:#3677a9">1000</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">runAsGroup</span>:<span style="color:#666"> </span><span style="color:#3677a9">3000</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">fsGroup</span>:<span style="color:#666"> </span><span style="color:#3677a9">2000</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#447fcf;text-decoration:underline">...</span><span style="color:#666">
-</span></code></pre></div><p>如上这个配置，可以看到 Pod 中所有容器内的进程都是已用户 <code>uid=1000</code> 和主组 <code>gid=3000</code>来运行的，而创建的任何文件的属组都是 <code>groups=2000</code>。通过这样的方法，可以达到让用户的进程不使用默认的 Root （<code>uid=0,gid=0</code>）权限的目的。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">...
+<span style="color:#ff79c6">securityContext</span>:
+  <span style="color:#ff79c6">runAsUser</span>: <span style="color:#bd93f9">1000</span>
+  <span style="color:#ff79c6">runAsGroup</span>: <span style="color:#bd93f9">3000</span>
+  <span style="color:#ff79c6">fsGroup</span>: <span style="color:#bd93f9">2000</span>
+...
+</code></pre></div><p>如上这个配置，可以看到 Pod 中所有容器内的进程都是已用户 <code>uid=1000</code> 和主组 <code>gid=3000</code>来运行的，而创建的任何文件的属组都是 <code>groups=2000</code>。通过这样的方法，可以达到让用户的进程不使用默认的 Root （<code>uid=0,gid=0</code>）权限的目的。</p>
 <h3 id="禁止容器以-root-身份运行">禁止容器以 Root 身份运行</h3>
 <p>如果 <code>runAsNonRoot</code> 字段配置为 <code>true</code>，kubelet 在启动容器时会进行检查，如果以 UID 为 0 运行，则禁止容器启动，该 Pod 的 STATUS 变为 <code>CreateContainerConfigError</code>，并生成 Warning 类型事件 <code>Error: container has runAsNonRoot and image will run as root</code>。只有当设置 <code>runAsUser</code> 或者镜像本身就不是以 Root 身份运行时，该 Pod 才能正常启动。</p>
 <h3 id="系统-capabilities-的控制">系统 Capabilities 的控制</h3>
@@ -687,11 +687,11 @@ Linux Capabilities 的定义的形式为 <code>CAP_XXX</code>。但是你在 Con
 <p>使用 <code>readOnlyRootFilesystem</code> 字段，可以配阻止对容器根目录的写入，也十分的实用。</p>
 <h3 id="selinux">SELinux</h3>
 <p>可以通过 SELinux 的策略配置控制用户，进程等对文件等访问控制。若要给 Container 设置 SELinux 标签，可以在 Pod 或 Container 清单的 <code>securityContext</code> 中包含的 <code>seLinuxOptions</code> 字段进行设置。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#447fcf;text-decoration:underline">...</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">seLinuxOptions</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">level</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;s0:c123,c456&#34;</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#447fcf;text-decoration:underline">...</span><span style="color:#666">
-</span></code></pre></div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">...
+<span style="color:#ff79c6">seLinuxOptions</span>:
+  <span style="color:#ff79c6">level</span>: <span style="color:#f1fa8c">&#34;s0:c123,c456&#34;</span>
+...
+</code></pre></div>
 
 <div class="alert alert-warning" role="alert">
 <h4 class="alert-heading">注意</h4>
@@ -702,138 +702,138 @@ Linux Capabilities 的定义的形式为 <code>CAP_XXX</code>。但是你在 Con
 <p><code>SecurityContext</code> 功能的实现更多是通过 runtime 来完成，kubelet 侧多是进行一些判断，将 <code>SecurityContext</code> 参数传递给 CRI。</p>
 <h3 id="禁止容器以-root-身份运行-1">禁止容器以 Root 身份运行</h3>
 <p>kubelet 在创建容器时，会调用 <code>generateContainerConfig()</code> 方法来获取容器的配置：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#999;font-style:italic">// github/kubernetes/pkg/kubelet/kuberuntime/kuberuntime_container.go
-</span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">func</span> (m *kubeGenericRuntimeManager) <span style="color:#447fcf">generateContainerConfig</span>(container *v1.Container, pod *v1.Pod, restartCount <span style="color:#6ab825;font-weight:bold">int</span>, podIP, imageRef <span style="color:#6ab825;font-weight:bold">string</span>, podIPs []<span style="color:#6ab825;font-weight:bold">string</span>, nsTarget *kubecontainer.ContainerID) (*runtimeapi.ContainerConfig, <span style="color:#6ab825;font-weight:bold">func</span>(), <span style="color:#6ab825;font-weight:bold">error</span>) {
-  ...
-  <span style="color:#999;font-style:italic">// Verify RunAsNonRoot. Non-root verification only supports numeric user.
-</span><span style="color:#999;font-style:italic"></span>  <span style="color:#6ab825;font-weight:bold">if</span> err := <span style="color:#447fcf">verifyRunAsNonRoot</span>(pod, container, uid, username); err != <span style="color:#6ab825;font-weight:bold">nil</span> {
-    <span style="color:#6ab825;font-weight:bold">return</span> <span style="color:#6ab825;font-weight:bold">nil</span>, cleanupAction, err
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#6272a4">// github/kubernetes/pkg/kubelet/kuberuntime/kuberuntime_container.go
+</span><span style="color:#6272a4"></span><span style="color:#8be9fd;font-style:italic">func</span> (m <span style="color:#ff79c6">*</span>kubeGenericRuntimeManager) <span style="color:#50fa7b">generateContainerConfig</span>(container <span style="color:#ff79c6">*</span>v1.Container, pod <span style="color:#ff79c6">*</span>v1.Pod, restartCount <span style="color:#8be9fd">int</span>, podIP, imageRef <span style="color:#8be9fd">string</span>, podIPs []<span style="color:#8be9fd">string</span>, nsTarget <span style="color:#ff79c6">*</span>kubecontainer.ContainerID) (<span style="color:#ff79c6">*</span>runtimeapi.ContainerConfig, <span style="color:#8be9fd;font-style:italic">func</span>(), <span style="color:#8be9fd">error</span>) {
+  <span style="color:#ff79c6">...</span>
+  <span style="color:#6272a4">// Verify RunAsNonRoot. Non-root verification only supports numeric user.
+</span><span style="color:#6272a4"></span>  <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">:=</span> <span style="color:#50fa7b">verifyRunAsNonRoot</span>(pod, container, uid, username); err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>, cleanupAction, err
   }
-  ...
+  <span style="color:#ff79c6">...</span>
 }
 </code></pre></div><p>而验证 <code>RunAsNonRoot</code> 配置的就是 <code>verifyRunAsNonRoot()</code> 方法：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#999;font-style:italic">// verifyRunAsNonRoot verifies RunAsNonRoot.
-</span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">func</span> <span style="color:#447fcf">verifyRunAsNonRoot</span>(pod *v1.Pod, container *v1.Container, uid *<span style="color:#6ab825;font-weight:bold">int64</span>, username <span style="color:#6ab825;font-weight:bold">string</span>) <span style="color:#6ab825;font-weight:bold">error</span> {
-  effectiveSc := securitycontext.<span style="color:#447fcf">DetermineEffectiveSecurityContext</span>(pod, container)
-  <span style="color:#999;font-style:italic">// If the option is not set, or if running as root is allowed, return nil.
-</span><span style="color:#999;font-style:italic"></span>  <span style="color:#6ab825;font-weight:bold">if</span> effectiveSc == <span style="color:#6ab825;font-weight:bold">nil</span> || effectiveSc.RunAsNonRoot == <span style="color:#6ab825;font-weight:bold">nil</span> || !*effectiveSc.RunAsNonRoot {
-    <span style="color:#6ab825;font-weight:bold">return</span> <span style="color:#6ab825;font-weight:bold">nil</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#6272a4">// verifyRunAsNonRoot verifies RunAsNonRoot.
+</span><span style="color:#6272a4"></span><span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">verifyRunAsNonRoot</span>(pod <span style="color:#ff79c6">*</span>v1.Pod, container <span style="color:#ff79c6">*</span>v1.Container, uid <span style="color:#ff79c6">*</span><span style="color:#8be9fd">int64</span>, username <span style="color:#8be9fd">string</span>) <span style="color:#8be9fd">error</span> {
+  effectiveSc <span style="color:#ff79c6">:=</span> securitycontext.<span style="color:#50fa7b">DetermineEffectiveSecurityContext</span>(pod, container)
+  <span style="color:#6272a4">// If the option is not set, or if running as root is allowed, return nil.
+</span><span style="color:#6272a4"></span>  <span style="color:#ff79c6">if</span> effectiveSc <span style="color:#ff79c6">==</span> <span style="color:#ff79c6">nil</span> <span style="color:#ff79c6">||</span> effectiveSc.RunAsNonRoot <span style="color:#ff79c6">==</span> <span style="color:#ff79c6">nil</span> <span style="color:#ff79c6">||</span> !<span style="color:#ff79c6">*</span>effectiveSc.RunAsNonRoot {
+    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
   }
 
-  <span style="color:#6ab825;font-weight:bold">if</span> effectiveSc.RunAsUser != <span style="color:#6ab825;font-weight:bold">nil</span> {
-    <span style="color:#6ab825;font-weight:bold">if</span> *effectiveSc.RunAsUser == <span style="color:#3677a9">0</span> {
-      <span style="color:#6ab825;font-weight:bold">return</span> fmt.<span style="color:#447fcf">Errorf</span>(<span style="color:#ed9d13">&#34;container&#39;s runAsUser breaks non-root policy (pod: %q, container: %s)&#34;</span>, format.<span style="color:#447fcf">Pod</span>(pod), container.Name)
+  <span style="color:#ff79c6">if</span> effectiveSc.RunAsUser <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+    <span style="color:#ff79c6">if</span> <span style="color:#ff79c6">*</span>effectiveSc.RunAsUser <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0</span> {
+      <span style="color:#ff79c6">return</span> fmt.<span style="color:#50fa7b">Errorf</span>(<span style="color:#f1fa8c">&#34;container&#39;s runAsUser breaks non-root policy (pod: %q, container: %s)&#34;</span>, format.<span style="color:#50fa7b">Pod</span>(pod), container.Name)
     }
-    <span style="color:#6ab825;font-weight:bold">return</span> <span style="color:#6ab825;font-weight:bold">nil</span>
+    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
   }
 
-  <span style="color:#6ab825;font-weight:bold">switch</span> {
-  <span style="color:#6ab825;font-weight:bold">case</span> uid != <span style="color:#6ab825;font-weight:bold">nil</span> &amp;&amp; *uid == <span style="color:#3677a9">0</span>:
-    <span style="color:#6ab825;font-weight:bold">return</span> fmt.<span style="color:#447fcf">Errorf</span>(<span style="color:#ed9d13">&#34;container has runAsNonRoot and image will run as root (pod: %q, container: %s)&#34;</span>, format.<span style="color:#447fcf">Pod</span>(pod), container.Name)
-  <span style="color:#6ab825;font-weight:bold">case</span> uid == <span style="color:#6ab825;font-weight:bold">nil</span> &amp;&amp; <span style="color:#24909d">len</span>(username) &gt; <span style="color:#3677a9">0</span>:
-    <span style="color:#6ab825;font-weight:bold">return</span> fmt.<span style="color:#447fcf">Errorf</span>(<span style="color:#ed9d13">&#34;container has runAsNonRoot and image has non-numeric user (%s), cannot verify user is non-root (pod: %q, container: %s)&#34;</span>, username, format.<span style="color:#447fcf">Pod</span>(pod), container.Name)
-  <span style="color:#6ab825;font-weight:bold">default</span>:
-    <span style="color:#6ab825;font-weight:bold">return</span> <span style="color:#6ab825;font-weight:bold">nil</span>
+  <span style="color:#ff79c6">switch</span> {
+  <span style="color:#ff79c6">case</span> uid <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#ff79c6">*</span>uid <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0</span>:
+    <span style="color:#ff79c6">return</span> fmt.<span style="color:#50fa7b">Errorf</span>(<span style="color:#f1fa8c">&#34;container has runAsNonRoot and image will run as root (pod: %q, container: %s)&#34;</span>, format.<span style="color:#50fa7b">Pod</span>(pod), container.Name)
+  <span style="color:#ff79c6">case</span> uid <span style="color:#ff79c6">==</span> <span style="color:#ff79c6">nil</span> <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#8be9fd;font-style:italic">len</span>(username) &gt; <span style="color:#bd93f9">0</span>:
+    <span style="color:#ff79c6">return</span> fmt.<span style="color:#50fa7b">Errorf</span>(<span style="color:#f1fa8c">&#34;container has runAsNonRoot and image has non-numeric user (%s), cannot verify user is non-root (pod: %q, container: %s)&#34;</span>, username, format.<span style="color:#50fa7b">Pod</span>(pod), container.Name)
+  <span style="color:#ff79c6">default</span>:
+    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>
   }
 }
 </code></pre></div><p>这里的抛错是不是很眼熟？如果 uid 为 0 则返回我们上面说到的 <code>container has runAsNonRoot and image will run as root</code> 错误，并且阻止容器创建。</p>
 <h3 id="获取有效-securitycontext">获取有效 SecurityContext</h3>
 <p><code>determineEffectiveSecurityContext()</code> 方法用来确定 Pod 和 Container 中有效的 SecurityContext。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#999;font-style:italic">// github/kubernetes/pkg/kubelet/kuberuntime/security_context.go
-</span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">func</span> (m *kubeGenericRuntimeManager) <span style="color:#447fcf">determineEffectiveSecurityContext</span>(pod *v1.Pod, container *v1.Container, uid *<span style="color:#6ab825;font-weight:bold">int64</span>, username <span style="color:#6ab825;font-weight:bold">string</span>) *runtimeapi.LinuxContainerSecurityContext {
-  <span style="color:#999;font-style:italic">// 合成有效的 SecurityContext，如果 Pod 和 Container 都设置了，则 Container 优先
-</span><span style="color:#999;font-style:italic"></span>  effectiveSc := securitycontext.<span style="color:#447fcf">DetermineEffectiveSecurityContext</span>(pod, container)
-  synthesized := <span style="color:#447fcf">convertToRuntimeSecurityContext</span>(effectiveSc)
-  <span style="color:#6ab825;font-weight:bold">if</span> synthesized == <span style="color:#6ab825;font-weight:bold">nil</span> {
-    synthesized = &amp;runtimeapi.LinuxContainerSecurityContext{
-      MaskedPaths:   securitycontext.<span style="color:#447fcf">ConvertToRuntimeMaskedPaths</span>(effectiveSc.ProcMount),
-      ReadonlyPaths: securitycontext.<span style="color:#447fcf">ConvertToRuntimeReadonlyPaths</span>(effectiveSc.ProcMount),
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#6272a4">// github/kubernetes/pkg/kubelet/kuberuntime/security_context.go
+</span><span style="color:#6272a4"></span><span style="color:#8be9fd;font-style:italic">func</span> (m <span style="color:#ff79c6">*</span>kubeGenericRuntimeManager) <span style="color:#50fa7b">determineEffectiveSecurityContext</span>(pod <span style="color:#ff79c6">*</span>v1.Pod, container <span style="color:#ff79c6">*</span>v1.Container, uid <span style="color:#ff79c6">*</span><span style="color:#8be9fd">int64</span>, username <span style="color:#8be9fd">string</span>) <span style="color:#ff79c6">*</span>runtimeapi.LinuxContainerSecurityContext {
+  <span style="color:#6272a4">// 合成有效的 SecurityContext，如果 Pod 和 Container 都设置了，则 Container 优先
+</span><span style="color:#6272a4"></span>  effectiveSc <span style="color:#ff79c6">:=</span> securitycontext.<span style="color:#50fa7b">DetermineEffectiveSecurityContext</span>(pod, container)
+  synthesized <span style="color:#ff79c6">:=</span> <span style="color:#50fa7b">convertToRuntimeSecurityContext</span>(effectiveSc)
+  <span style="color:#ff79c6">if</span> synthesized <span style="color:#ff79c6">==</span> <span style="color:#ff79c6">nil</span> {
+    synthesized = <span style="color:#ff79c6">&amp;</span>runtimeapi.LinuxContainerSecurityContext{
+      MaskedPaths:   securitycontext.<span style="color:#50fa7b">ConvertToRuntimeMaskedPaths</span>(effectiveSc.ProcMount),
+      ReadonlyPaths: securitycontext.<span style="color:#50fa7b">ConvertToRuntimeReadonlyPaths</span>(effectiveSc.ProcMount),
     }
   }
 
-  <span style="color:#999;font-style:italic">// 设置 SeccompProfilePath.
-</span><span style="color:#999;font-style:italic"></span>  synthesized.SeccompProfilePath = m.<span style="color:#447fcf">getSeccompProfile</span>(pod.Annotations, container.Name, pod.Spec.SecurityContext, container.SecurityContext)
+  <span style="color:#6272a4">// 设置 SeccompProfilePath.
+</span><span style="color:#6272a4"></span>  synthesized.SeccompProfilePath = m.<span style="color:#50fa7b">getSeccompProfile</span>(pod.Annotations, container.Name, pod.Spec.SecurityContext, container.SecurityContext)
 
-  <span style="color:#999;font-style:italic">// 设置 ApparmorProfile.
-</span><span style="color:#999;font-style:italic"></span>  synthesized.ApparmorProfile = apparmor.<span style="color:#447fcf">GetProfileNameFromPodAnnotations</span>(pod.Annotations, container.Name)
+  <span style="color:#6272a4">// 设置 ApparmorProfile.
+</span><span style="color:#6272a4"></span>  synthesized.ApparmorProfile = apparmor.<span style="color:#50fa7b">GetProfileNameFromPodAnnotations</span>(pod.Annotations, container.Name)
 
-  <span style="color:#999;font-style:italic">// 设置 RunAsUser.
-</span><span style="color:#999;font-style:italic"></span>  <span style="color:#6ab825;font-weight:bold">if</span> synthesized.RunAsUser == <span style="color:#6ab825;font-weight:bold">nil</span> {
-    <span style="color:#6ab825;font-weight:bold">if</span> uid != <span style="color:#6ab825;font-weight:bold">nil</span> {
-      synthesized.RunAsUser = &amp;runtimeapi.Int64Value{Value: *uid}
+  <span style="color:#6272a4">// 设置 RunAsUser.
+</span><span style="color:#6272a4"></span>  <span style="color:#ff79c6">if</span> synthesized.RunAsUser <span style="color:#ff79c6">==</span> <span style="color:#ff79c6">nil</span> {
+    <span style="color:#ff79c6">if</span> uid <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+      synthesized.RunAsUser = <span style="color:#ff79c6">&amp;</span>runtimeapi.Int64Value{Value: <span style="color:#ff79c6">*</span>uid}
     }
     synthesized.RunAsUsername = username
   }
 
-  <span style="color:#999;font-style:italic">// 设置 namespace 选项和 Supplemental Groups
-</span><span style="color:#999;font-style:italic"></span>  synthesized.NamespaceOptions = <span style="color:#447fcf">namespacesForPod</span>(pod)
-  podSc := pod.Spec.SecurityContext
-  <span style="color:#6ab825;font-weight:bold">if</span> podSc != <span style="color:#6ab825;font-weight:bold">nil</span> {
-    <span style="color:#6ab825;font-weight:bold">if</span> podSc.FSGroup != <span style="color:#6ab825;font-weight:bold">nil</span> {
-      synthesized.SupplementalGroups = <span style="color:#24909d">append</span>(synthesized.SupplementalGroups, <span style="color:#24909d">int64</span>(*podSc.FSGroup))
+  <span style="color:#6272a4">// 设置 namespace 选项和 Supplemental Groups
+</span><span style="color:#6272a4"></span>  synthesized.NamespaceOptions = <span style="color:#50fa7b">namespacesForPod</span>(pod)
+  podSc <span style="color:#ff79c6">:=</span> pod.Spec.SecurityContext
+  <span style="color:#ff79c6">if</span> podSc <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+    <span style="color:#ff79c6">if</span> podSc.FSGroup <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+      synthesized.SupplementalGroups = <span style="color:#8be9fd;font-style:italic">append</span>(synthesized.SupplementalGroups, <span style="color:#8be9fd;font-style:italic">int64</span>(<span style="color:#ff79c6">*</span>podSc.FSGroup))
     }
 
-    <span style="color:#6ab825;font-weight:bold">if</span> podSc.SupplementalGroups != <span style="color:#6ab825;font-weight:bold">nil</span> {
-      <span style="color:#6ab825;font-weight:bold">for</span> _, sg := <span style="color:#6ab825;font-weight:bold">range</span> podSc.SupplementalGroups {
-        synthesized.SupplementalGroups = <span style="color:#24909d">append</span>(synthesized.SupplementalGroups, <span style="color:#24909d">int64</span>(sg))
+    <span style="color:#ff79c6">if</span> podSc.SupplementalGroups <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+      <span style="color:#ff79c6">for</span> _, sg <span style="color:#ff79c6">:=</span> <span style="color:#ff79c6">range</span> podSc.SupplementalGroups {
+        synthesized.SupplementalGroups = <span style="color:#8be9fd;font-style:italic">append</span>(synthesized.SupplementalGroups, <span style="color:#8be9fd;font-style:italic">int64</span>(sg))
       }
     }
   }
-  <span style="color:#6ab825;font-weight:bold">if</span> groups := m.runtimeHelper.<span style="color:#447fcf">GetExtraSupplementalGroupsForPod</span>(pod); <span style="color:#24909d">len</span>(groups) &gt; <span style="color:#3677a9">0</span> {
-    synthesized.SupplementalGroups = <span style="color:#24909d">append</span>(synthesized.SupplementalGroups, groups...)
+  <span style="color:#ff79c6">if</span> groups <span style="color:#ff79c6">:=</span> m.runtimeHelper.<span style="color:#50fa7b">GetExtraSupplementalGroupsForPod</span>(pod); <span style="color:#8be9fd;font-style:italic">len</span>(groups) &gt; <span style="color:#bd93f9">0</span> {
+    synthesized.SupplementalGroups = <span style="color:#8be9fd;font-style:italic">append</span>(synthesized.SupplementalGroups, groups<span style="color:#ff79c6">...</span>)
   }
 
-  <span style="color:#999;font-style:italic">// 判断是否应该添加 no_new_privs 选项
-</span><span style="color:#999;font-style:italic"></span>  synthesized.NoNewPrivs = securitycontext.<span style="color:#447fcf">AddNoNewPrivileges</span>(effectiveSc)
+  <span style="color:#6272a4">// 判断是否应该添加 no_new_privs 选项
+</span><span style="color:#6272a4"></span>  synthesized.NoNewPrivs = securitycontext.<span style="color:#50fa7b">AddNoNewPrivileges</span>(effectiveSc)
 
-  <span style="color:#999;font-style:italic">// 将 ProcMountType 转换为指定或默认的 masked paths
-</span><span style="color:#999;font-style:italic"></span>  synthesized.MaskedPaths = securitycontext.<span style="color:#447fcf">ConvertToRuntimeMaskedPaths</span>(effectiveSc.ProcMount)
-  <span style="color:#999;font-style:italic">// 将 ProcMountType 转换为指定或默认的 readonly paths
-</span><span style="color:#999;font-style:italic"></span>  synthesized.ReadonlyPaths = securitycontext.<span style="color:#447fcf">ConvertToRuntimeReadonlyPaths</span>(effectiveSc.ProcMount)
+  <span style="color:#6272a4">// 将 ProcMountType 转换为指定或默认的 masked paths
+</span><span style="color:#6272a4"></span>  synthesized.MaskedPaths = securitycontext.<span style="color:#50fa7b">ConvertToRuntimeMaskedPaths</span>(effectiveSc.ProcMount)
+  <span style="color:#6272a4">// 将 ProcMountType 转换为指定或默认的 readonly paths
+</span><span style="color:#6272a4"></span>  synthesized.ReadonlyPaths = securitycontext.<span style="color:#50fa7b">ConvertToRuntimeReadonlyPaths</span>(effectiveSc.ProcMount)
 
-  <span style="color:#6ab825;font-weight:bold">return</span> synthesized
+  <span style="color:#ff79c6">return</span> synthesized
 }
 </code></pre></div><p>筛选出有效的配置会被用来生成 Linux 容器配置。</p>
 <h3 id="docker-seccomp-配置">docker Seccomp 配置</h3>
 <p>如果 runtime 为 docker，在 <code>CreateContainer()</code> 中：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#999;font-style:italic">// github/kubernetes/pkg/kubelet/dockershim/docker_container.go
-</span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">func</span> (ds *dockerService) <span style="color:#447fcf">CreateContainer</span>(_ context.Context, r *runtimeapi.CreateContainerRequest) (*runtimeapi.CreateContainerResponse, <span style="color:#6ab825;font-weight:bold">error</span>) {
-  ...
-  securityOpts, err := ds.<span style="color:#447fcf">getSecurityOpts</span>(config.<span style="color:#447fcf">GetLinux</span>().<span style="color:#447fcf">GetSecurityContext</span>().<span style="color:#447fcf">GetSeccompProfilePath</span>(), securityOptSeparator)
-  <span style="color:#6ab825;font-weight:bold">if</span> err != <span style="color:#6ab825;font-weight:bold">nil</span> {
-    <span style="color:#6ab825;font-weight:bold">return</span> <span style="color:#6ab825;font-weight:bold">nil</span>, fmt.<span style="color:#447fcf">Errorf</span>(<span style="color:#ed9d13">&#34;failed to generate security options for container %q: %v&#34;</span>, config.Metadata.Name, err)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#6272a4">// github/kubernetes/pkg/kubelet/dockershim/docker_container.go
+</span><span style="color:#6272a4"></span><span style="color:#8be9fd;font-style:italic">func</span> (ds <span style="color:#ff79c6">*</span>dockerService) <span style="color:#50fa7b">CreateContainer</span>(_ context.Context, r <span style="color:#ff79c6">*</span>runtimeapi.CreateContainerRequest) (<span style="color:#ff79c6">*</span>runtimeapi.CreateContainerResponse, <span style="color:#8be9fd">error</span>) {
+  <span style="color:#ff79c6">...</span>
+  securityOpts, err <span style="color:#ff79c6">:=</span> ds.<span style="color:#50fa7b">getSecurityOpts</span>(config.<span style="color:#50fa7b">GetLinux</span>().<span style="color:#50fa7b">GetSecurityContext</span>().<span style="color:#50fa7b">GetSeccompProfilePath</span>(), securityOptSeparator)
+  <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>, fmt.<span style="color:#50fa7b">Errorf</span>(<span style="color:#f1fa8c">&#34;failed to generate security options for container %q: %v&#34;</span>, config.Metadata.Name, err)
   }
 
-  hc.SecurityOpt = <span style="color:#24909d">append</span>(hc.SecurityOpt, securityOpts...)
-  ...
+  hc.SecurityOpt = <span style="color:#8be9fd;font-style:italic">append</span>(hc.SecurityOpt, securityOpts<span style="color:#ff79c6">...</span>)
+  <span style="color:#ff79c6">...</span>
 }
 </code></pre></div><p>而 <code>getSecurityOpts()</code> 方法就是将 SecurityContext 中 seccomp 有关配置格式化：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#999;font-style:italic">// github/kubernetes/pkg/kubelet/dockershim/helpers_linux.go
-</span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">func</span> (ds *dockerService) <span style="color:#447fcf">getSecurityOpts</span>(seccompProfile <span style="color:#6ab825;font-weight:bold">string</span>, separator <span style="color:#6ab825;font-weight:bold">rune</span>) ([]<span style="color:#6ab825;font-weight:bold">string</span>, <span style="color:#6ab825;font-weight:bold">error</span>) {
-  <span style="color:#999;font-style:italic">// Apply seccomp options.
-</span><span style="color:#999;font-style:italic"></span>  seccompSecurityOpts, err := <span style="color:#447fcf">getSeccompSecurityOpts</span>(seccompProfile, separator)
-  <span style="color:#6ab825;font-weight:bold">if</span> err != <span style="color:#6ab825;font-weight:bold">nil</span> {
-    <span style="color:#6ab825;font-weight:bold">return</span> <span style="color:#6ab825;font-weight:bold">nil</span>, fmt.<span style="color:#447fcf">Errorf</span>(<span style="color:#ed9d13">&#34;failed to generate seccomp security options for container: %v&#34;</span>, err)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#6272a4">// github/kubernetes/pkg/kubelet/dockershim/helpers_linux.go
+</span><span style="color:#6272a4"></span><span style="color:#8be9fd;font-style:italic">func</span> (ds <span style="color:#ff79c6">*</span>dockerService) <span style="color:#50fa7b">getSecurityOpts</span>(seccompProfile <span style="color:#8be9fd">string</span>, separator <span style="color:#8be9fd">rune</span>) ([]<span style="color:#8be9fd">string</span>, <span style="color:#8be9fd">error</span>) {
+  <span style="color:#6272a4">// Apply seccomp options.
+</span><span style="color:#6272a4"></span>  seccompSecurityOpts, err <span style="color:#ff79c6">:=</span> <span style="color:#50fa7b">getSeccompSecurityOpts</span>(seccompProfile, separator)
+  <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>, fmt.<span style="color:#50fa7b">Errorf</span>(<span style="color:#f1fa8c">&#34;failed to generate seccomp security options for container: %v&#34;</span>, err)
   }
 
-  <span style="color:#6ab825;font-weight:bold">return</span> seccompSecurityOpts, <span style="color:#6ab825;font-weight:bold">nil</span>
+  <span style="color:#ff79c6">return</span> seccompSecurityOpts, <span style="color:#ff79c6">nil</span>
 }
-<span style="color:#999;font-style:italic">// getSeccompSecurityOpts gets container seccomp options from container seccomp profile.
-</span><span style="color:#999;font-style:italic">// It is an experimental feature and may be promoted to official runtime api in the future.
-</span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">func</span> <span style="color:#447fcf">getSeccompSecurityOpts</span>(seccompProfile <span style="color:#6ab825;font-weight:bold">string</span>, separator <span style="color:#6ab825;font-weight:bold">rune</span>) ([]<span style="color:#6ab825;font-weight:bold">string</span>, <span style="color:#6ab825;font-weight:bold">error</span>) {
-  seccompOpts, err := <span style="color:#447fcf">getSeccompDockerOpts</span>(seccompProfile)
-  <span style="color:#6ab825;font-weight:bold">if</span> err != <span style="color:#6ab825;font-weight:bold">nil</span> {
-    <span style="color:#6ab825;font-weight:bold">return</span> <span style="color:#6ab825;font-weight:bold">nil</span>, err
+<span style="color:#6272a4">// getSeccompSecurityOpts gets container seccomp options from container seccomp profile.
+</span><span style="color:#6272a4">// It is an experimental feature and may be promoted to official runtime api in the future.
+</span><span style="color:#6272a4"></span><span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">getSeccompSecurityOpts</span>(seccompProfile <span style="color:#8be9fd">string</span>, separator <span style="color:#8be9fd">rune</span>) ([]<span style="color:#8be9fd">string</span>, <span style="color:#8be9fd">error</span>) {
+  seccompOpts, err <span style="color:#ff79c6">:=</span> <span style="color:#50fa7b">getSeccompDockerOpts</span>(seccompProfile)
+  <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>, err
   }
-  <span style="color:#6ab825;font-weight:bold">return</span> <span style="color:#447fcf">fmtDockerOpts</span>(seccompOpts, separator), <span style="color:#6ab825;font-weight:bold">nil</span>
+  <span style="color:#ff79c6">return</span> <span style="color:#50fa7b">fmtDockerOpts</span>(seccompOpts, separator), <span style="color:#ff79c6">nil</span>
 }
-<span style="color:#999;font-style:italic">// fmtDockerOpts formats the docker security options using the given separator.
-</span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">func</span> <span style="color:#447fcf">fmtDockerOpts</span>(opts []dockerOpt, sep <span style="color:#6ab825;font-weight:bold">rune</span>) []<span style="color:#6ab825;font-weight:bold">string</span> {
-  fmtOpts := <span style="color:#24909d">make</span>([]<span style="color:#6ab825;font-weight:bold">string</span>, <span style="color:#24909d">len</span>(opts))
-  <span style="color:#6ab825;font-weight:bold">for</span> i, opt := <span style="color:#6ab825;font-weight:bold">range</span> opts {
-    fmtOpts[i] = fmt.<span style="color:#447fcf">Sprintf</span>(<span style="color:#ed9d13">&#34;%s%c%s&#34;</span>, opt.key, sep, opt.value)
+<span style="color:#6272a4">// fmtDockerOpts formats the docker security options using the given separator.
+</span><span style="color:#6272a4"></span><span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">fmtDockerOpts</span>(opts []dockerOpt, sep <span style="color:#8be9fd">rune</span>) []<span style="color:#8be9fd">string</span> {
+  fmtOpts <span style="color:#ff79c6">:=</span> <span style="color:#8be9fd;font-style:italic">make</span>([]<span style="color:#8be9fd">string</span>, <span style="color:#8be9fd;font-style:italic">len</span>(opts))
+  <span style="color:#ff79c6">for</span> i, opt <span style="color:#ff79c6">:=</span> <span style="color:#ff79c6">range</span> opts {
+    fmtOpts[i] = fmt.<span style="color:#50fa7b">Sprintf</span>(<span style="color:#f1fa8c">&#34;%s%c%s&#34;</span>, opt.key, sep, opt.value)
   }
-  <span style="color:#6ab825;font-weight:bold">return</span> fmtOpts
+  <span style="color:#ff79c6">return</span> fmtOpts
 }
 </code></pre></div><p>最终通过 <code>createResp, createErr := ds.client.CreateContainer(createConfig)</code> 传递给 docker runtime client，用来创建容器。</p>
 <h2 id="结语">结语</h2>

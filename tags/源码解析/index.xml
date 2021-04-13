@@ -31,117 +31,117 @@
 &lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65ly1gjotxqvm4uj20mr0aw78n.jpg&#34; alt=&#34;Qos&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;qos-分类&#34;&gt;QoS 分类&lt;/h3&gt;
 &lt;p&gt;以下代码用来获取 Pod 的 QoS 类，用于区分不同 Pod 的 QoS。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// github/kubernetes/pkg/apis/core/v1/helper/qos/qos.go
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#447fcf&#34;&gt;GetPodQOS&lt;/span&gt;(pod *v1.Pod) v1.PodQOSClass {
-  requests := v1.ResourceList{}
-  limits := v1.ResourceList{}
-  zeroQuantity := resource.&lt;span style=&#34;color:#447fcf&#34;&gt;MustParse&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;0&amp;#34;&lt;/span&gt;)
-  isGuaranteed := &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;true&lt;/span&gt;
-  allContainers := []v1.Container{}
-  allContainers = &lt;span style=&#34;color:#24909d&#34;&gt;append&lt;/span&gt;(allContainers, pod.Spec.Containers...)
-  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// InitContainers 容器也会被加入 QoS 的计算中
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;  allContainers = &lt;span style=&#34;color:#24909d&#34;&gt;append&lt;/span&gt;(allContainers, pod.Spec.InitContainers...)
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; _, container := &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;range&lt;/span&gt; allContainers {
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 遍历 requests 中的 CPU 和 memory 值
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; name, quantity := &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;range&lt;/span&gt; container.Resources.Requests {
-      &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; !&lt;span style=&#34;color:#447fcf&#34;&gt;isSupportedQoSComputeResource&lt;/span&gt;(name) {
-        &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;continue&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// github/kubernetes/pkg/apis/core/v1/helper/qos/qos.go
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#50fa7b&#34;&gt;GetPodQOS&lt;/span&gt;(pod &lt;span style=&#34;color:#ff79c6&#34;&gt;*&lt;/span&gt;v1.Pod) v1.PodQOSClass {
+  requests &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; v1.ResourceList{}
+  limits &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; v1.ResourceList{}
+  zeroQuantity &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; resource.&lt;span style=&#34;color:#50fa7b&#34;&gt;MustParse&lt;/span&gt;(&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;0&amp;#34;&lt;/span&gt;)
+  isGuaranteed &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;true&lt;/span&gt;
+  allContainers &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; []v1.Container{}
+  allContainers = &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;append&lt;/span&gt;(allContainers, pod.Spec.Containers&lt;span style=&#34;color:#ff79c6&#34;&gt;...&lt;/span&gt;)
+  &lt;span style=&#34;color:#6272a4&#34;&gt;// InitContainers 容器也会被加入 QoS 的计算中
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;  allContainers = &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;append&lt;/span&gt;(allContainers, pod.Spec.InitContainers&lt;span style=&#34;color:#ff79c6&#34;&gt;...&lt;/span&gt;)
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;for&lt;/span&gt; _, container &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;range&lt;/span&gt; allContainers {
+    &lt;span style=&#34;color:#6272a4&#34;&gt;// 遍历 requests 中的 CPU 和 memory 值
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#ff79c6&#34;&gt;for&lt;/span&gt; name, quantity &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;range&lt;/span&gt; container.Resources.Requests {
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;if&lt;/span&gt; !&lt;span style=&#34;color:#50fa7b&#34;&gt;isSupportedQoSComputeResource&lt;/span&gt;(name) {
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;continue&lt;/span&gt;
       }
-      &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; quantity.&lt;span style=&#34;color:#447fcf&#34;&gt;Cmp&lt;/span&gt;(zeroQuantity) == &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt; {
-        delta := quantity.&lt;span style=&#34;color:#447fcf&#34;&gt;DeepCopy&lt;/span&gt;()
-        &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; _, exists := requests[name]; !exists {
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;if&lt;/span&gt; quantity.&lt;span style=&#34;color:#50fa7b&#34;&gt;Cmp&lt;/span&gt;(zeroQuantity) &lt;span style=&#34;color:#ff79c6&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt; {
+        delta &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; quantity.&lt;span style=&#34;color:#50fa7b&#34;&gt;DeepCopy&lt;/span&gt;()
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;if&lt;/span&gt; _, exists &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; requests[name]; !exists {
           requests[name] = delta
-        } &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;else&lt;/span&gt; {
-          delta.&lt;span style=&#34;color:#447fcf&#34;&gt;Add&lt;/span&gt;(requests[name])
+        } &lt;span style=&#34;color:#ff79c6&#34;&gt;else&lt;/span&gt; {
+          delta.&lt;span style=&#34;color:#50fa7b&#34;&gt;Add&lt;/span&gt;(requests[name])
           requests[name] = delta
         }
       }
     }
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 遍历 limits 中的 CPU 和 memory 值
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    qosLimitsFound := sets.&lt;span style=&#34;color:#447fcf&#34;&gt;NewString&lt;/span&gt;()
-    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; name, quantity := &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;range&lt;/span&gt; container.Resources.Limits {
-      &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; !&lt;span style=&#34;color:#447fcf&#34;&gt;isSupportedQoSComputeResource&lt;/span&gt;(name) {
-        &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;continue&lt;/span&gt;
+    &lt;span style=&#34;color:#6272a4&#34;&gt;// 遍历 limits 中的 CPU 和 memory 值
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;    qosLimitsFound &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; sets.&lt;span style=&#34;color:#50fa7b&#34;&gt;NewString&lt;/span&gt;()
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;for&lt;/span&gt; name, quantity &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;range&lt;/span&gt; container.Resources.Limits {
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;if&lt;/span&gt; !&lt;span style=&#34;color:#50fa7b&#34;&gt;isSupportedQoSComputeResource&lt;/span&gt;(name) {
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;continue&lt;/span&gt;
       }
-      &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; quantity.&lt;span style=&#34;color:#447fcf&#34;&gt;Cmp&lt;/span&gt;(zeroQuantity) == &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt; {
-        qosLimitsFound.&lt;span style=&#34;color:#447fcf&#34;&gt;Insert&lt;/span&gt;(&lt;span style=&#34;color:#24909d&#34;&gt;string&lt;/span&gt;(name))
-        delta := quantity.&lt;span style=&#34;color:#447fcf&#34;&gt;DeepCopy&lt;/span&gt;()
-        &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; _, exists := limits[name]; !exists {
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;if&lt;/span&gt; quantity.&lt;span style=&#34;color:#50fa7b&#34;&gt;Cmp&lt;/span&gt;(zeroQuantity) &lt;span style=&#34;color:#ff79c6&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt; {
+        qosLimitsFound.&lt;span style=&#34;color:#50fa7b&#34;&gt;Insert&lt;/span&gt;(&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;string&lt;/span&gt;(name))
+        delta &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; quantity.&lt;span style=&#34;color:#50fa7b&#34;&gt;DeepCopy&lt;/span&gt;()
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;if&lt;/span&gt; _, exists &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; limits[name]; !exists {
           limits[name] = delta
-        } &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;else&lt;/span&gt; {
-          delta.&lt;span style=&#34;color:#447fcf&#34;&gt;Add&lt;/span&gt;(limits[name])
+        } &lt;span style=&#34;color:#ff79c6&#34;&gt;else&lt;/span&gt; {
+          delta.&lt;span style=&#34;color:#50fa7b&#34;&gt;Add&lt;/span&gt;(limits[name])
           limits[name] = delta
         }
       }
     }
 
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 判断是否同时设置了 limits 和 requests，如果没有则不是 Guaranteed
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; !qosLimitsFound.&lt;span style=&#34;color:#447fcf&#34;&gt;HasAll&lt;/span&gt;(&lt;span style=&#34;color:#24909d&#34;&gt;string&lt;/span&gt;(v1.ResourceMemory), &lt;span style=&#34;color:#24909d&#34;&gt;string&lt;/span&gt;(v1.ResourceCPU)) {
-      isGuaranteed = &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;false&lt;/span&gt;
+    &lt;span style=&#34;color:#6272a4&#34;&gt;// 判断是否同时设置了 limits 和 requests，如果没有则不是 Guaranteed
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#ff79c6&#34;&gt;if&lt;/span&gt; !qosLimitsFound.&lt;span style=&#34;color:#50fa7b&#34;&gt;HasAll&lt;/span&gt;(&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;string&lt;/span&gt;(v1.ResourceMemory), &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;string&lt;/span&gt;(v1.ResourceCPU)) {
+      isGuaranteed = &lt;span style=&#34;color:#ff79c6&#34;&gt;false&lt;/span&gt;
     }
   }
-  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 如果 requests 和 limits 都没有设置，则为 BestEffort
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#24909d&#34;&gt;len&lt;/span&gt;(requests) == &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt; &amp;amp;&amp;amp; &lt;span style=&#34;color:#24909d&#34;&gt;len&lt;/span&gt;(limits) == &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt; {
-    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; v1.PodQOSBestEffort
+  &lt;span style=&#34;color:#6272a4&#34;&gt;// 如果 requests 和 limits 都没有设置，则为 BestEffort
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#ff79c6&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;len&lt;/span&gt;(requests) &lt;span style=&#34;color:#ff79c6&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;len&lt;/span&gt;(limits) &lt;span style=&#34;color:#ff79c6&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; {
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;return&lt;/span&gt; v1.PodQOSBestEffort
   }
-  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 检查所有资源的 requests 和 limits 是否都相等
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; isGuaranteed {
-    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; name, req := &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;range&lt;/span&gt; requests {
-      &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; lim, exists := limits[name]; !exists || lim.&lt;span style=&#34;color:#447fcf&#34;&gt;Cmp&lt;/span&gt;(req) != &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt; {
-        isGuaranteed = &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;false&lt;/span&gt;
-        &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;break&lt;/span&gt;
+  &lt;span style=&#34;color:#6272a4&#34;&gt;// 检查所有资源的 requests 和 limits 是否都相等
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#ff79c6&#34;&gt;if&lt;/span&gt; isGuaranteed {
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;for&lt;/span&gt; name, req &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;range&lt;/span&gt; requests {
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;if&lt;/span&gt; lim, exists &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; limits[name]; !exists &lt;span style=&#34;color:#ff79c6&#34;&gt;||&lt;/span&gt; lim.&lt;span style=&#34;color:#50fa7b&#34;&gt;Cmp&lt;/span&gt;(req) &lt;span style=&#34;color:#ff79c6&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; {
+        isGuaranteed = &lt;span style=&#34;color:#ff79c6&#34;&gt;false&lt;/span&gt;
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;break&lt;/span&gt;
       }
     }
   }
-  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 都设置了 requests 和 limits，则为 Guaranteed
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; isGuaranteed &amp;amp;&amp;amp;
-    &lt;span style=&#34;color:#24909d&#34;&gt;len&lt;/span&gt;(requests) == &lt;span style=&#34;color:#24909d&#34;&gt;len&lt;/span&gt;(limits) {
-    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; v1.PodQOSGuaranteed
+  &lt;span style=&#34;color:#6272a4&#34;&gt;// 都设置了 requests 和 limits，则为 Guaranteed
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#ff79c6&#34;&gt;if&lt;/span&gt; isGuaranteed &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt;
+    &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;len&lt;/span&gt;(requests) &lt;span style=&#34;color:#ff79c6&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;len&lt;/span&gt;(limits) {
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;return&lt;/span&gt; v1.PodQOSGuaranteed
   }
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; v1.PodQOSBurstable
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;return&lt;/span&gt; v1.PodQOSBurstable
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;qos-打分&#34;&gt;QoS 打分&lt;/h3&gt;
 &lt;p&gt;QoS 会根据不同的分类进行 OOMScore 打分，当宿主机上内存不足时，系统会优先 kill 掉 OOMScore 分数高的进程。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://tvax3.sinaimg.cn/large/ad5fbf65ly1gjoqlfe8cgj20mr0pcqmy.jpg&#34; alt=&#34;QoS 打分&#34;&gt;&lt;/p&gt;
 &lt;p&gt;值得注意的是不久之前 &lt;code&gt;guaranteedOOMScoreAdj&lt;/code&gt; 的值还是 &lt;code&gt;-998&lt;/code&gt;，今年 9 月 22 日才合并 &lt;a href=&#34;https://github.com/kubernetes/kubernetes/pull/71269&#34;&gt;PR&lt;/a&gt; 将其修改为 &lt;code&gt;-997&lt;/code&gt;，而修改的 PR 及 &lt;a href=&#34;https://github.com/kubernetes/kubernetes/issues/72294&#34;&gt;相关 ISSUE&lt;/a&gt; 在 2018 年就已经提出了，感兴趣的同学可以去看看。这里附上源码：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// github/kubernetes/pkg/kubelet/qos/policy.go
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;const&lt;/span&gt; (
-  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// KubeletOOMScoreAdj is the OOM score adjustment for Kubelet
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;  KubeletOOMScoreAdj &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;int&lt;/span&gt; = -&lt;span style=&#34;color:#3677a9&#34;&gt;999&lt;/span&gt;
-  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// KubeProxyOOMScoreAdj is the OOM score adjustment for kube-proxy
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;  KubeProxyOOMScoreAdj  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;int&lt;/span&gt; = -&lt;span style=&#34;color:#3677a9&#34;&gt;999&lt;/span&gt;
-  guaranteedOOMScoreAdj &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;int&lt;/span&gt; = -&lt;span style=&#34;color:#3677a9&#34;&gt;997&lt;/span&gt;
-  besteffortOOMScoreAdj &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;int&lt;/span&gt; = &lt;span style=&#34;color:#3677a9&#34;&gt;1000&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// github/kubernetes/pkg/kubelet/qos/policy.go
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;const&lt;/span&gt; (
+  &lt;span style=&#34;color:#6272a4&#34;&gt;// KubeletOOMScoreAdj is the OOM score adjustment for Kubelet
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;  KubeletOOMScoreAdj &lt;span style=&#34;color:#8be9fd&#34;&gt;int&lt;/span&gt; = &lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;999&lt;/span&gt;
+  &lt;span style=&#34;color:#6272a4&#34;&gt;// KubeProxyOOMScoreAdj is the OOM score adjustment for kube-proxy
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;  KubeProxyOOMScoreAdj  &lt;span style=&#34;color:#8be9fd&#34;&gt;int&lt;/span&gt; = &lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;999&lt;/span&gt;
+  guaranteedOOMScoreAdj &lt;span style=&#34;color:#8be9fd&#34;&gt;int&lt;/span&gt; = &lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;997&lt;/span&gt;
+  besteffortOOMScoreAdj &lt;span style=&#34;color:#8be9fd&#34;&gt;int&lt;/span&gt; = &lt;span style=&#34;color:#bd93f9&#34;&gt;1000&lt;/span&gt;
 )
 
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#447fcf&#34;&gt;GetContainerOOMScoreAdjust&lt;/span&gt;(pod *v1.Pod, container *v1.Container, memoryCapacity &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;int64&lt;/span&gt;) &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;int&lt;/span&gt; {
-  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 高优先级 Pod 直接返回 guaranteedOOMScoreAdj
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; types.&lt;span style=&#34;color:#447fcf&#34;&gt;IsCriticalPod&lt;/span&gt;(pod) {
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Critical pods should be the last to get killed.
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; guaranteedOOMScoreAdj
+&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#50fa7b&#34;&gt;GetContainerOOMScoreAdjust&lt;/span&gt;(pod &lt;span style=&#34;color:#ff79c6&#34;&gt;*&lt;/span&gt;v1.Pod, container &lt;span style=&#34;color:#ff79c6&#34;&gt;*&lt;/span&gt;v1.Container, memoryCapacity &lt;span style=&#34;color:#8be9fd&#34;&gt;int64&lt;/span&gt;) &lt;span style=&#34;color:#8be9fd&#34;&gt;int&lt;/span&gt; {
+  &lt;span style=&#34;color:#6272a4&#34;&gt;// 高优先级 Pod 直接返回 guaranteedOOMScoreAdj
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#ff79c6&#34;&gt;if&lt;/span&gt; types.&lt;span style=&#34;color:#50fa7b&#34;&gt;IsCriticalPod&lt;/span&gt;(pod) {
+    &lt;span style=&#34;color:#6272a4&#34;&gt;// Critical pods should be the last to get killed.
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#ff79c6&#34;&gt;return&lt;/span&gt; guaranteedOOMScoreAdj
   }
 
-  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 根据 QoS 等级，返回 guaranteedOOMScoreAdj 或 besteffortOOMScoreAdj 的分数，这里只处理 Guaranteed 与 BestEffort
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;switch&lt;/span&gt; v1qos.&lt;span style=&#34;color:#447fcf&#34;&gt;GetPodQOS&lt;/span&gt;(pod) {
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;case&lt;/span&gt; v1.PodQOSGuaranteed:
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Guaranteed containers should be the last to get killed.
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; guaranteedOOMScoreAdj
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;case&lt;/span&gt; v1.PodQOSBestEffort:
-    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; besteffortOOMScoreAdj
+  &lt;span style=&#34;color:#6272a4&#34;&gt;// 根据 QoS 等级，返回 guaranteedOOMScoreAdj 或 besteffortOOMScoreAdj 的分数，这里只处理 Guaranteed 与 BestEffort
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#ff79c6&#34;&gt;switch&lt;/span&gt; v1qos.&lt;span style=&#34;color:#50fa7b&#34;&gt;GetPodQOS&lt;/span&gt;(pod) {
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;case&lt;/span&gt; v1.PodQOSGuaranteed:
+    &lt;span style=&#34;color:#6272a4&#34;&gt;// Guaranteed containers should be the last to get killed.
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#ff79c6&#34;&gt;return&lt;/span&gt; guaranteedOOMScoreAdj
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;case&lt;/span&gt; v1.PodQOSBestEffort:
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;return&lt;/span&gt; besteffortOOMScoreAdj
   }
 
-  memoryRequest := container.Resources.Requests.&lt;span style=&#34;color:#447fcf&#34;&gt;Memory&lt;/span&gt;().&lt;span style=&#34;color:#447fcf&#34;&gt;Value&lt;/span&gt;()
-  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 内存占用越少，分数越高
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;  oomScoreAdjust := &lt;span style=&#34;color:#3677a9&#34;&gt;1000&lt;/span&gt; - (&lt;span style=&#34;color:#3677a9&#34;&gt;1000&lt;/span&gt;*memoryRequest)/memoryCapacity
-  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 保证 Burstable 分数高于 Guaranteed
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#24909d&#34;&gt;int&lt;/span&gt;(oomScoreAdjust) &amp;lt; (&lt;span style=&#34;color:#3677a9&#34;&gt;1000&lt;/span&gt; + guaranteedOOMScoreAdj) {
-    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; (&lt;span style=&#34;color:#3677a9&#34;&gt;1000&lt;/span&gt; + guaranteedOOMScoreAdj)
+  memoryRequest &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; container.Resources.Requests.&lt;span style=&#34;color:#50fa7b&#34;&gt;Memory&lt;/span&gt;().&lt;span style=&#34;color:#50fa7b&#34;&gt;Value&lt;/span&gt;()
+  &lt;span style=&#34;color:#6272a4&#34;&gt;// 内存占用越少，分数越高
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;  oomScoreAdjust &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;1000&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt; (&lt;span style=&#34;color:#bd93f9&#34;&gt;1000&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;*&lt;/span&gt;memoryRequest)&lt;span style=&#34;color:#ff79c6&#34;&gt;/&lt;/span&gt;memoryCapacity
+  &lt;span style=&#34;color:#6272a4&#34;&gt;// 保证 Burstable 分数高于 Guaranteed
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#ff79c6&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;int&lt;/span&gt;(oomScoreAdjust) &amp;lt; (&lt;span style=&#34;color:#bd93f9&#34;&gt;1000&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;+&lt;/span&gt; guaranteedOOMScoreAdj) {
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;return&lt;/span&gt; (&lt;span style=&#34;color:#bd93f9&#34;&gt;1000&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;+&lt;/span&gt; guaranteedOOMScoreAdj)
   }
-  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 保证 Burstable 分数低于 BestEffect
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#24909d&#34;&gt;int&lt;/span&gt;(oomScoreAdjust) == besteffortOOMScoreAdj {
-    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#24909d&#34;&gt;int&lt;/span&gt;(oomScoreAdjust - &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;)
+  &lt;span style=&#34;color:#6272a4&#34;&gt;// 保证 Burstable 分数低于 BestEffect
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#ff79c6&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;int&lt;/span&gt;(oomScoreAdjust) &lt;span style=&#34;color:#ff79c6&#34;&gt;==&lt;/span&gt; besteffortOOMScoreAdj {
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;int&lt;/span&gt;(oomScoreAdjust &lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt;)
   }
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#24909d&#34;&gt;int&lt;/span&gt;(oomScoreAdjust)
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;int&lt;/span&gt;(oomScoreAdjust)
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;qos-的本质区别&#34;&gt;QoS 的本质区别&lt;/h3&gt;
 &lt;p&gt;三种 QoS 在调度和实现都存在着区别：&lt;/p&gt;
@@ -181,52 +181,52 @@
 &lt;h3 id=&#34;informer&#34;&gt;Informer&lt;/h3&gt;
 &lt;p&gt;所谓 informer，其实就是一个带有本地缓存和索引机制的，可以注册 EventHandler 的 client，目的是为了减轻频繁通信 API Server 的压力而抽取出来的一层 cache，客户端对 API Server 数据的&lt;strong&gt;读取&lt;/strong&gt;和&lt;strong&gt;监测&lt;/strong&gt;操作都通过本地的 informer 来进行。&lt;/p&gt;
 &lt;p&gt;每一个 Kubernetes 资源上都实现了 informer 机制，每一个 informer 上都会实现 &lt;code&gt;Informer()&lt;/code&gt; 和 &lt;code&gt;Lister()&lt;/code&gt; 方法：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// client-go/informers/core/v1/pod.go
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;type&lt;/span&gt; PodInformer &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;interface&lt;/span&gt; {
-  &lt;span style=&#34;color:#447fcf&#34;&gt;Informer&lt;/span&gt;() cache.SharedIndexInformer
-  &lt;span style=&#34;color:#447fcf&#34;&gt;Lister&lt;/span&gt;() v1.PodLister
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// client-go/informers/core/v1/pod.go
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;type&lt;/span&gt; PodInformer &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;interface&lt;/span&gt; {
+  &lt;span style=&#34;color:#50fa7b&#34;&gt;Informer&lt;/span&gt;() cache.SharedIndexInformer
+  &lt;span style=&#34;color:#50fa7b&#34;&gt;Lister&lt;/span&gt;() v1.PodLister
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;定义不同资源的 Informer，允许监控不同资源事件。同时为了避免同一资源的 Informer 被实例化多次，而每个 Informer 都会使用一个 Reflector，这样会运行过多相同的 ListAndWatch，从而加重 API Server 的压力，Informer 还提供了共享机制，多个 Informer 可以共享一个 Reflector，从而达到节约资源的目的。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// client-go/informers/factory.go
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;type&lt;/span&gt; sharedInformerFactory &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;struct&lt;/span&gt; {
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// client-go/informers/factory.go
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;type&lt;/span&gt; sharedInformerFactory &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;struct&lt;/span&gt; {
   client           kubernetes.Interface
-  namespace        &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;
+  namespace        &lt;span style=&#34;color:#8be9fd&#34;&gt;string&lt;/span&gt;
   tweakListOptions internalinterfaces.TweakListOptionsFunc
   lock             sync.Mutex
   defaultResync    time.Duration
-  customResync     &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;map&lt;/span&gt;[reflect.Type]time.Duration
+  customResync     &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;map&lt;/span&gt;[reflect.Type]time.Duration
 
-  informers &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;map&lt;/span&gt;[reflect.Type]cache.SharedIndexInformer
-  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// startedInformers is used for tracking which informers have been started.
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// This allows Start() to be called multiple times safely.
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;  startedInformers &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;map&lt;/span&gt;[reflect.Type]&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;bool&lt;/span&gt;
+  informers &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;map&lt;/span&gt;[reflect.Type]cache.SharedIndexInformer
+  &lt;span style=&#34;color:#6272a4&#34;&gt;// startedInformers is used for tracking which informers have been started.
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#6272a4&#34;&gt;// This allows Start() to be called multiple times safely.
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;  startedInformers &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;map&lt;/span&gt;[reflect.Type]&lt;span style=&#34;color:#8be9fd&#34;&gt;bool&lt;/span&gt;
 }
-...
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// InternalInformerFor returns the SharedIndexInformer for obj using an internal client.
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;func&lt;/span&gt; (f *sharedInformerFactory) &lt;span style=&#34;color:#447fcf&#34;&gt;InformerFor&lt;/span&gt;(obj runtime.Object, newFunc internalinterfaces.NewInformerFunc) cache.SharedIndexInformer {
-  f.lock.&lt;span style=&#34;color:#447fcf&#34;&gt;Lock&lt;/span&gt;()
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;defer&lt;/span&gt; f.lock.&lt;span style=&#34;color:#447fcf&#34;&gt;Unlock&lt;/span&gt;()
+&lt;span style=&#34;color:#ff79c6&#34;&gt;...&lt;/span&gt;
+&lt;span style=&#34;color:#6272a4&#34;&gt;// InternalInformerFor returns the SharedIndexInformer for obj using an internal client.
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;func&lt;/span&gt; (f &lt;span style=&#34;color:#ff79c6&#34;&gt;*&lt;/span&gt;sharedInformerFactory) &lt;span style=&#34;color:#50fa7b&#34;&gt;InformerFor&lt;/span&gt;(obj runtime.Object, newFunc internalinterfaces.NewInformerFunc) cache.SharedIndexInformer {
+  f.lock.&lt;span style=&#34;color:#50fa7b&#34;&gt;Lock&lt;/span&gt;()
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;defer&lt;/span&gt; f.lock.&lt;span style=&#34;color:#50fa7b&#34;&gt;Unlock&lt;/span&gt;()
 
-  informerType := reflect.&lt;span style=&#34;color:#447fcf&#34;&gt;TypeOf&lt;/span&gt;(obj)
-  informer, exists := f.informers[informerType]
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; exists {
-    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; informer
+  informerType &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; reflect.&lt;span style=&#34;color:#50fa7b&#34;&gt;TypeOf&lt;/span&gt;(obj)
+  informer, exists &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; f.informers[informerType]
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;if&lt;/span&gt; exists {
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;return&lt;/span&gt; informer
   }
 
-  resyncPeriod, exists := f.customResync[informerType]
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; !exists {
+  resyncPeriod, exists &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; f.customResync[informerType]
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;if&lt;/span&gt; !exists {
     resyncPeriod = f.defaultResync
   }
 
-  informer = &lt;span style=&#34;color:#447fcf&#34;&gt;newFunc&lt;/span&gt;(f.client, resyncPeriod)
+  informer = &lt;span style=&#34;color:#50fa7b&#34;&gt;newFunc&lt;/span&gt;(f.client, resyncPeriod)
   f.informers[informerType] = informer
 
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; informer
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;return&lt;/span&gt; informer
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;使用 map 数据结构实现共享 Informer 机制，在 &lt;code&gt;InformerFor()&lt;/code&gt; 函数添加了不同资源的 Informer，在添加过程中如果已经存在同类型的 Informer，则返回当前 Informer，不再继续添加。如下就是 &lt;code&gt;deployment&lt;/code&gt; 的 &lt;code&gt;Informer()&lt;/code&gt; 方法，其中就调用了 &lt;code&gt;InformerFor()&lt;/code&gt; 函数。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// client-go/informers/apps/v1beta1/deployment.go
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;func&lt;/span&gt; (f *deploymentInformer) &lt;span style=&#34;color:#447fcf&#34;&gt;Informer&lt;/span&gt;() cache.SharedIndexInformer {
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; f.factory.&lt;span style=&#34;color:#447fcf&#34;&gt;InformerFor&lt;/span&gt;(&amp;amp;appsv1beta1.Deployment{}, f.defaultInformer)
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// client-go/informers/apps/v1beta1/deployment.go
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;func&lt;/span&gt; (f &lt;span style=&#34;color:#ff79c6&#34;&gt;*&lt;/span&gt;deploymentInformer) &lt;span style=&#34;color:#50fa7b&#34;&gt;Informer&lt;/span&gt;() cache.SharedIndexInformer {
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;return&lt;/span&gt; f.factory.&lt;span style=&#34;color:#50fa7b&#34;&gt;InformerFor&lt;/span&gt;(&lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;amp;&lt;/span&gt;appsv1beta1.Deployment{}, f.defaultInformer)
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;reflector&#34;&gt;Reflector&lt;/h3&gt;
 &lt;p&gt;Reflector 用于监测制定 Kubernetes 资源，当资源发生变化时，触发相应的事件，如：Added（资源添加）事件、Update（资源更新）事件、Delete（资源删除）事件，并将事件及资源名称添加到 DeltaFIFO 中。&lt;/p&gt;
@@ -265,21 +265,21 @@
 &lt;p&gt;&lt;img src=&#34;https://tvax4.sinaimg.cn/large/ad5fbf65gy1gj6twofn24j20es09s43a.jpg&#34; alt=&#34;deployment-controller&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Deployment 通过控制 ReplicaSet，ReplicaSet 再控制 Pod，最终由 Controller 驱动达到期望状态。在控制器模式下，每次操作对象都会触发一次事件，然后 controller 会进行一次 syncLoop 操作，controller 是通过 informer 监听事件以及进行 ListWatch 操作的。&lt;/p&gt;
 &lt;p&gt;Deployment Controller 会监听 DeploymentInformer、ReplicaSetInformer、PodInformer 三种资源。这三种资源变化时，都会触发 syncLoop 也就是下面代码 &lt;code&gt;dc.Run()&lt;/code&gt; 中的 &lt;code&gt;dc.syncDeployment&lt;/code&gt; 操作，来进行状态更新逻辑。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#447fcf&#34;&gt;startDeploymentController&lt;/span&gt;(ctx ControllerContext) (http.Handler, &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;bool&lt;/span&gt;, &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;error&lt;/span&gt;) {
-    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; !ctx.AvailableResources[schema.GroupVersionResource{Group: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;apps&amp;#34;&lt;/span&gt;, Version: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;v1&amp;#34;&lt;/span&gt;, Resource: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;deployments&amp;#34;&lt;/span&gt;}] {
-      &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt;, &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;false&lt;/span&gt;, &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#50fa7b&#34;&gt;startDeploymentController&lt;/span&gt;(ctx ControllerContext) (http.Handler, &lt;span style=&#34;color:#8be9fd&#34;&gt;bool&lt;/span&gt;, &lt;span style=&#34;color:#8be9fd&#34;&gt;error&lt;/span&gt;) {
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;if&lt;/span&gt; !ctx.AvailableResources[schema.GroupVersionResource{Group: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;apps&amp;#34;&lt;/span&gt;, Version: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;v1&amp;#34;&lt;/span&gt;, Resource: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;deployments&amp;#34;&lt;/span&gt;}] {
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;nil&lt;/span&gt;, &lt;span style=&#34;color:#ff79c6&#34;&gt;false&lt;/span&gt;, &lt;span style=&#34;color:#ff79c6&#34;&gt;nil&lt;/span&gt;
     }
-    dc, err := deployment.&lt;span style=&#34;color:#447fcf&#34;&gt;NewDeploymentController&lt;/span&gt;(
-      ctx.InformerFactory.&lt;span style=&#34;color:#447fcf&#34;&gt;Apps&lt;/span&gt;().&lt;span style=&#34;color:#447fcf&#34;&gt;V1&lt;/span&gt;().&lt;span style=&#34;color:#447fcf&#34;&gt;Deployments&lt;/span&gt;(),
-      ctx.InformerFactory.&lt;span style=&#34;color:#447fcf&#34;&gt;Apps&lt;/span&gt;().&lt;span style=&#34;color:#447fcf&#34;&gt;V1&lt;/span&gt;().&lt;span style=&#34;color:#447fcf&#34;&gt;ReplicaSets&lt;/span&gt;(),
-      ctx.InformerFactory.&lt;span style=&#34;color:#447fcf&#34;&gt;Core&lt;/span&gt;().&lt;span style=&#34;color:#447fcf&#34;&gt;V1&lt;/span&gt;().&lt;span style=&#34;color:#447fcf&#34;&gt;Pods&lt;/span&gt;(),
-      ctx.ClientBuilder.&lt;span style=&#34;color:#447fcf&#34;&gt;ClientOrDie&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;deployment-controller&amp;#34;&lt;/span&gt;),
+    dc, err &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; deployment.&lt;span style=&#34;color:#50fa7b&#34;&gt;NewDeploymentController&lt;/span&gt;(
+      ctx.InformerFactory.&lt;span style=&#34;color:#50fa7b&#34;&gt;Apps&lt;/span&gt;().&lt;span style=&#34;color:#50fa7b&#34;&gt;V1&lt;/span&gt;().&lt;span style=&#34;color:#50fa7b&#34;&gt;Deployments&lt;/span&gt;(),
+      ctx.InformerFactory.&lt;span style=&#34;color:#50fa7b&#34;&gt;Apps&lt;/span&gt;().&lt;span style=&#34;color:#50fa7b&#34;&gt;V1&lt;/span&gt;().&lt;span style=&#34;color:#50fa7b&#34;&gt;ReplicaSets&lt;/span&gt;(),
+      ctx.InformerFactory.&lt;span style=&#34;color:#50fa7b&#34;&gt;Core&lt;/span&gt;().&lt;span style=&#34;color:#50fa7b&#34;&gt;V1&lt;/span&gt;().&lt;span style=&#34;color:#50fa7b&#34;&gt;Pods&lt;/span&gt;(),
+      ctx.ClientBuilder.&lt;span style=&#34;color:#50fa7b&#34;&gt;ClientOrDie&lt;/span&gt;(&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;deployment-controller&amp;#34;&lt;/span&gt;),
     )
-    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
-      &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt;, &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;true&lt;/span&gt;, fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Errorf&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;error creating Deployment controller: %v&amp;#34;&lt;/span&gt;, err)
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;if&lt;/span&gt; err &lt;span style=&#34;color:#ff79c6&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;nil&lt;/span&gt; {
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;nil&lt;/span&gt;, &lt;span style=&#34;color:#ff79c6&#34;&gt;true&lt;/span&gt;, fmt.&lt;span style=&#34;color:#50fa7b&#34;&gt;Errorf&lt;/span&gt;(&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;error creating Deployment controller: %v&amp;#34;&lt;/span&gt;, err)
     }
-    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;go&lt;/span&gt; dc.&lt;span style=&#34;color:#447fcf&#34;&gt;Run&lt;/span&gt;(&lt;span style=&#34;color:#24909d&#34;&gt;int&lt;/span&gt;(ctx.ComponentConfig.DeploymentController.ConcurrentDeploymentSyncs), ctx.Stop)
-    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt;, &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;true&lt;/span&gt;, &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt;
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;go&lt;/span&gt; dc.&lt;span style=&#34;color:#50fa7b&#34;&gt;Run&lt;/span&gt;(&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;int&lt;/span&gt;(ctx.ComponentConfig.DeploymentController.ConcurrentDeploymentSyncs), ctx.Stop)
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;nil&lt;/span&gt;, &lt;span style=&#34;color:#ff79c6&#34;&gt;true&lt;/span&gt;, &lt;span style=&#34;color:#ff79c6&#34;&gt;nil&lt;/span&gt;
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;deployment-controller-启动流程&#34;&gt;Deployment Controller 启动流程&lt;/h3&gt;
 &lt;p&gt;那么先从启动逻辑开始，Kube-Controller-Manager 中所有的 Controller 的启动逻辑都差不多，都是在 &lt;code&gt;Run()&lt;/code&gt; 方法中完成初始化并启动，&lt;code&gt;NewControllerInitializers&lt;/code&gt; 会初始化所有 Controller，而 &lt;code&gt;startXXXXController()&lt;/code&gt; 则会启动对应的 Controller。&lt;/p&gt;

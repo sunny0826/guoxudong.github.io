@@ -42,7 +42,7 @@
       "datePublished": "2019-05-23 12:50:12 \u002b0800 \u002b0800",
       "dateModified" : "2019-05-23 12:50:12 \u002b0800 \u002b0800",
       "url" : "https:\/\/guoxudong.io\/post\/kustomize-4\/",
-      "wordCount" : "256",
+      "wordCount" : "511",
       "keywords" : [ "kubernetes","kustomize","工具","Guoxudong" ]
   }
   </script>
@@ -56,7 +56,7 @@
 <meta itemprop="name" content="使用 Kustomize 帮你管理 kubernetes 应用（四）：简述核心配置 kustomization.yaml">
 <meta itemprop="description" content="本篇为系列文章第四篇，将简述 kustomize 的核心配置文件 kustomization.yaml"><meta itemprop="datePublished" content="2019-05-23T12:50:12&#43;08:00" />
 <meta itemprop="dateModified" content="2020-08-04T11:59:33&#43;08:00" />
-<meta itemprop="wordCount" content="256">
+<meta itemprop="wordCount" content="511">
 <meta itemprop="keywords" content="kubernetes,kustomize,工具," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="使用 Kustomize 帮你管理 kubernetes 应用（四）：简述核心配置 kustomization.yaml"/>
 <meta name="twitter:description" content="本篇为系列文章第四篇，将简述 kustomize 的核心配置文件 kustomization.yaml"/>
@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -238,6 +238,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -245,8 +247,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -586,7 +586,7 @@ if (!doNotTrack) {
 	<div class="td-byline mb-4">
 		<span>By  <b>guoxudong</b> </span> ·
 		<span>
-			2 分钟阅读时间
+			3 分钟阅读时间
 		</span> ·
 		<span>发布于 </span><time datetime=" 2019-05-23" 
 			class="text-muted">2019年05月23日</time> ·
@@ -660,100 +660,100 @@ if (!doNotTrack) {
 <p>Kustomize 允许用户以一个应用描述文件 （YAML 文件）为基础（Base YAML），然后通过 Overlay 的方式生成最终部署应用所需的描述文件。</p>
 </blockquote>
 <p>有前面的文章<a href="../kustomize-2">《使用 Kustomize 帮你管理 kubernetes 应用（二）： Kustomize 的使用方法》</a>中已经介绍了，每个 <code>base</code> 或 <code>overlays</code> 中都必须要有一个 <code>kustomization.yaml</code>，这里我们看一下官方示例 <code>helloWorld</code> 中的 <code>kustomization.yaml</code>：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-YAML" data-lang="YAML"><span style="color:#6ab825;font-weight:bold">commonLabels</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">app</span>:<span style="color:#666"> </span>hello<span style="color:#666">
-</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">resources</span>:<span style="color:#666">
-</span><span style="color:#666"></span>- deployment.yaml<span style="color:#666">
-</span><span style="color:#666"></span>- service.yaml<span style="color:#666">
-</span><span style="color:#666"></span>- configMap.yaml<span style="color:#666">
-</span></code></pre></div><p>可以看到该项目中包含3个 resources ， <code>deployment.yaml</code>、<code>service.yaml</code> 、 <code>configMap.yaml</code>。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">.
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-YAML" data-lang="YAML"><span style="color:#ff79c6">commonLabels</span>:
+  <span style="color:#ff79c6">app</span>: hello
+
+<span style="color:#ff79c6">resources</span>:
+- deployment.yaml
+- service.yaml
+- configMap.yaml
+</code></pre></div><p>可以看到该项目中包含3个 resources ， <code>deployment.yaml</code>、<code>service.yaml</code> 、 <code>configMap.yaml</code>。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">.
 └── helloWorld
     ├── configMap.yaml
     ├── deployment.yaml
     ├── kustomization.yaml
     └── service.yaml
 </code></pre></div><p>直接执行命令：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kustomize build helloWorld
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kustomize build helloWorld
 </code></pre></div><p>就可以看到结果了：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-YAML" data-lang="YAML"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>v1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">data</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">altGreeting</span>:<span style="color:#666"> </span>Good Morning!<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">enableRisky</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;false&#34;</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ConfigMap<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">labels</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">app</span>:<span style="color:#666"> </span>hello<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>the-map<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">caption</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;Image from: [**Pexels**](https://www.pexels.com)&#34;</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">focal_point</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;&#34;</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">preview_only</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#447fcf;text-decoration:underline">---</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>v1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>Service<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">labels</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">app</span>:<span style="color:#666"> </span>hello<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>the-service<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">ports</span>:<span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">port</span>:<span style="color:#666"> </span><span style="color:#3677a9">8666</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">protocol</span>:<span style="color:#666"> </span>TCP<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">targetPort</span>:<span style="color:#666"> </span><span style="color:#3677a9">8080</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">selector</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">app</span>:<span style="color:#666"> </span>hello<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">deployment</span>:<span style="color:#666"> </span>hello<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">type</span>:<span style="color:#666"> </span>LoadBalancer<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">caption</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;Image from: [**Pexels**](https://www.pexels.com)&#34;</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">focal_point</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;&#34;</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">preview_only</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#447fcf;text-decoration:underline">---</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>apps/v1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>Deployment<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">labels</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">app</span>:<span style="color:#666"> </span>hello<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>the-deployment<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">replicas</span>:<span style="color:#666"> </span><span style="color:#3677a9">3</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">selector</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">matchLabels</span>:<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">app</span>:<span style="color:#666"> </span>hello<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">template</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">labels</span>:<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">app</span>:<span style="color:#666"> </span>hello<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">deployment</span>:<span style="color:#666"> </span>hello<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">containers</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#6ab825;font-weight:bold">command</span>:<span style="color:#666">
-</span><span style="color:#666">        </span>- /hello<span style="color:#666">
-</span><span style="color:#666">        </span>- --port=8080<span style="color:#666">
-</span><span style="color:#666">        </span>- --enableRiskyFeature=$(ENABLE_RISKY)<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">env</span>:<span style="color:#666">
-</span><span style="color:#666">        </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>ALT_GREETING<span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">valueFrom</span>:<span style="color:#666">
-</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">configMapKeyRef</span>:<span style="color:#666">
-</span><span style="color:#666">              </span><span style="color:#6ab825;font-weight:bold">key</span>:<span style="color:#666"> </span>altGreeting<span style="color:#666">
-</span><span style="color:#666">              </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>the-map<span style="color:#666">
-</span><span style="color:#666">        </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>ENABLE_RISKY<span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">valueFrom</span>:<span style="color:#666">
-</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">configMapKeyRef</span>:<span style="color:#666">
-</span><span style="color:#666">              </span><span style="color:#6ab825;font-weight:bold">key</span>:<span style="color:#666"> </span>enableRisky<span style="color:#666">
-</span><span style="color:#666">              </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>the-map<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666"> </span>monopole/hello:1<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>the-container<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">ports</span>:<span style="color:#666">
-</span><span style="color:#666">        </span>- <span style="color:#6ab825;font-weight:bold">containerPort</span>:<span style="color:#666"> </span><span style="color:#3677a9">8080</span><span style="color:#666">
-</span></code></pre></div><p>从上面的结果可以看大 kustomize 通过 <code>kustomization.yaml</code> 将3个 resources 进行了处理，给三个 resources 添加了共同的 labels <code>app: hello</code> 。这个示例展示了 <code>kustomization.yaml</code> 的作用：<strong>将不同的 resources 进行整合，同时为他们加上相同的配置</strong>。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-YAML" data-lang="YAML"><span style="color:#ff79c6">apiVersion</span>: v1
+<span style="color:#ff79c6">data</span>:
+  <span style="color:#ff79c6">altGreeting</span>: Good Morning!
+  <span style="color:#ff79c6">enableRisky</span>: <span style="color:#f1fa8c">&#34;false&#34;</span>
+<span style="color:#ff79c6">kind</span>: ConfigMap
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#ff79c6">labels</span>:
+    <span style="color:#ff79c6">app</span>: hello
+  <span style="color:#ff79c6">name</span>: the-map
+<span style="color:#ff79c6">image</span>:
+  <span style="color:#ff79c6">caption</span>: <span style="color:#f1fa8c">&#34;Image from: [**Pexels**](https://www.pexels.com)&#34;</span>
+  <span style="color:#ff79c6">focal_point</span>: <span style="color:#f1fa8c">&#34;&#34;</span>
+  <span style="color:#ff79c6">preview_only</span>: <span style="color:#ff79c6">false</span>
+---
+<span style="color:#ff79c6">apiVersion</span>: v1
+<span style="color:#ff79c6">kind</span>: Service
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#ff79c6">labels</span>:
+    <span style="color:#ff79c6">app</span>: hello
+  <span style="color:#ff79c6">name</span>: the-service
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">ports</span>:
+  - <span style="color:#ff79c6">port</span>: <span style="color:#bd93f9">8666</span>
+    <span style="color:#ff79c6">protocol</span>: TCP
+    <span style="color:#ff79c6">targetPort</span>: <span style="color:#bd93f9">8080</span>
+  <span style="color:#ff79c6">selector</span>:
+    <span style="color:#ff79c6">app</span>: hello
+    <span style="color:#ff79c6">deployment</span>: hello
+  <span style="color:#ff79c6">type</span>: LoadBalancer
+<span style="color:#ff79c6">image</span>:
+  <span style="color:#ff79c6">caption</span>: <span style="color:#f1fa8c">&#34;Image from: [**Pexels**](https://www.pexels.com)&#34;</span>
+  <span style="color:#ff79c6">focal_point</span>: <span style="color:#f1fa8c">&#34;&#34;</span>
+  <span style="color:#ff79c6">preview_only</span>: <span style="color:#ff79c6">false</span>
+---
+<span style="color:#ff79c6">apiVersion</span>: apps/v1
+<span style="color:#ff79c6">kind</span>: Deployment
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#ff79c6">labels</span>:
+    <span style="color:#ff79c6">app</span>: hello
+  <span style="color:#ff79c6">name</span>: the-deployment
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">replicas</span>: <span style="color:#bd93f9">3</span>
+  <span style="color:#ff79c6">selector</span>:
+    <span style="color:#ff79c6">matchLabels</span>:
+      <span style="color:#ff79c6">app</span>: hello
+  <span style="color:#ff79c6">template</span>:
+    <span style="color:#ff79c6">metadata</span>:
+      <span style="color:#ff79c6">labels</span>:
+        <span style="color:#ff79c6">app</span>: hello
+        <span style="color:#ff79c6">deployment</span>: hello
+    <span style="color:#ff79c6">spec</span>:
+      <span style="color:#ff79c6">containers</span>:
+      - <span style="color:#ff79c6">command</span>:
+        - /hello
+        - --port=8080
+        - --enableRiskyFeature=$(ENABLE_RISKY)
+        <span style="color:#ff79c6">env</span>:
+        - <span style="color:#ff79c6">name</span>: ALT_GREETING
+          <span style="color:#ff79c6">valueFrom</span>:
+            <span style="color:#ff79c6">configMapKeyRef</span>:
+              <span style="color:#ff79c6">key</span>: altGreeting
+              <span style="color:#ff79c6">name</span>: the-map
+        - <span style="color:#ff79c6">name</span>: ENABLE_RISKY
+          <span style="color:#ff79c6">valueFrom</span>:
+            <span style="color:#ff79c6">configMapKeyRef</span>:
+              <span style="color:#ff79c6">key</span>: enableRisky
+              <span style="color:#ff79c6">name</span>: the-map
+        <span style="color:#ff79c6">image</span>: monopole/hello:1
+        <span style="color:#ff79c6">name</span>: the-container
+        <span style="color:#ff79c6">ports</span>:
+        - <span style="color:#ff79c6">containerPort</span>: <span style="color:#bd93f9">8080</span>
+</code></pre></div><p>从上面的结果可以看大 kustomize 通过 <code>kustomization.yaml</code> 将3个 resources 进行了处理，给三个 resources 添加了共同的 labels <code>app: hello</code> 。这个示例展示了 <code>kustomization.yaml</code> 的作用：<strong>将不同的 resources 进行整合，同时为他们加上相同的配置</strong>。</p>
 <h2 id="进阶使用">进阶使用</h2>
 <p>上面只不过是一个简单的示例，下面将结合实际情况分享一些比较实用的用法</p>
 <h3 id="根据环境生成不同配置">根据环境生成不同配置</h3>
 <p>在实际的使用中，使用最多的就是为不同的环境配置不同的 <code>deploy.yaml</code>，而使用 kustomize 可以把配置拆分为多个小的 patch ，然后通过 kustomize 来进行组合。而根据环境的不同，每个 patch 都可能不同，包括分配的资源、访问的方式、部署的节点都可以自由的定制。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">.
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">.
 ├── flask-env
 │   ├── README.md
 │   ├── base
@@ -773,104 +773,104 @@ if (!doNotTrack) {
 <ul>
 <li>base</li>
 </ul>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-YAML" data-lang="YAML"><span style="color:#6ab825;font-weight:bold">commonLabels</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">app</span>:<span style="color:#666"> </span>test-cicd<span style="color:#666">
-</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">resources</span>:<span style="color:#666">
-</span><span style="color:#666"></span>- service.yaml<span style="color:#666">
-</span><span style="color:#666"></span>- deployment.yaml<span style="color:#666">
-</span></code></pre></div><p><code>base</code> 中的 <code>kustomization.yaml</code> 中定义了一些基础配置</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-YAML" data-lang="YAML"><span style="color:#ff79c6">commonLabels</span>:
+  <span style="color:#ff79c6">app</span>: test-cicd
+
+<span style="color:#ff79c6">resources</span>:
+- service.yaml
+- deployment.yaml
+</code></pre></div><p><code>base</code> 中的 <code>kustomization.yaml</code> 中定义了一些基础配置</p>
 <ul>
 <li>overlays</li>
 </ul>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-YAML" data-lang="YAML"><span style="color:#6ab825;font-weight:bold">bases</span>:<span style="color:#666">
-</span><span style="color:#666"></span>- ../../base<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">patchesStrategicMerge</span>:<span style="color:#666">
-</span><span style="color:#666"></span>- healthcheck_patch.yaml<span style="color:#666">
-</span><span style="color:#666"></span>- memorylimit_patch.yaml<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">namespace</span>:<span style="color:#666"> </span>devops-dev<span style="color:#666">
-</span></code></pre></div><p><code>overlays</code> 中的 <code>kustomization.yaml</code> 则是基于 <code>base</code> 新增了一些个性化的配置，来达到生成不同环境的目的。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-YAML" data-lang="YAML"><span style="color:#ff79c6">bases</span>:
+- ../../base
+<span style="color:#ff79c6">patchesStrategicMerge</span>:
+- healthcheck_patch.yaml
+- memorylimit_patch.yaml
+<span style="color:#ff79c6">namespace</span>: devops-dev
+</code></pre></div><p><code>overlays</code> 中的 <code>kustomization.yaml</code> 则是基于 <code>base</code> 新增了一些个性化的配置，来达到生成不同环境的目的。</p>
 <p>执行命令</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kustomize build flask-env/overlays/dev
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kustomize build flask-env/overlays/dev
 </code></pre></div><p>结果</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-YAML" data-lang="YAML"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>v1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>Service<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">labels</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">app</span>:<span style="color:#666"> </span>test-cicd<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>test-cicd<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">namespace</span>:<span style="color:#666"> </span>devops-dev<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">ports</span>:<span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>http<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">port</span>:<span style="color:#666"> </span><span style="color:#3677a9">80</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">targetPort</span>:<span style="color:#666"> </span><span style="color:#3677a9">80</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">selector</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">app</span>:<span style="color:#666"> </span>test-cicd<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">type</span>:<span style="color:#666"> </span>ClusterIP<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">caption</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;Image from: [**Pexels**](https://www.pexels.com)&#34;</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">focal_point</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;&#34;</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">preview_only</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#447fcf;text-decoration:underline">---</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>apps/v1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>Deployment<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">labels</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">app</span>:<span style="color:#666"> </span>test-cicd<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>test-cicd<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">namespace</span>:<span style="color:#666"> </span>devops-dev<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">replicas</span>:<span style="color:#666"> </span><span style="color:#3677a9">1</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">selector</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">matchLabels</span>:<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">app</span>:<span style="color:#666"> </span>test-cicd<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">template</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">labels</span>:<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">app</span>:<span style="color:#666"> </span>test-cicd<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">version</span>:<span style="color:#666"> </span><span style="color:#3677a9">0.0.3</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">containers</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#6ab825;font-weight:bold">env</span>:<span style="color:#666">
-</span><span style="color:#666">        </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>ENV<span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>dev<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666"> </span>guoxudongdocker/flask-python:latest<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">imagePullPolicy</span>:<span style="color:#666"> </span>Always<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">livenessProbe</span>:<span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">httpGet</span>:<span style="color:#666">
-</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">path</span>:<span style="color:#666"> </span>/<span style="color:#666">
-</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">port</span>:<span style="color:#666"> </span><span style="color:#3677a9">80</span><span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">initialDelaySeconds</span>:<span style="color:#666"> </span><span style="color:#3677a9">10</span><span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">periodSeconds</span>:<span style="color:#666"> </span><span style="color:#3677a9">10</span><span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">successThreshold</span>:<span style="color:#666"> </span><span style="color:#3677a9">1</span><span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">timeoutSeconds</span>:<span style="color:#666"> </span><span style="color:#3677a9">20</span><span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>test-cicd<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">readinessProbe</span>:<span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">httpGet</span>:<span style="color:#666">
-</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">path</span>:<span style="color:#666"> </span>/<span style="color:#666">
-</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">port</span>:<span style="color:#666"> </span><span style="color:#3677a9">80</span><span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">initialDelaySeconds</span>:<span style="color:#666"> </span><span style="color:#3677a9">10</span><span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">periodSeconds</span>:<span style="color:#666"> </span><span style="color:#3677a9">10</span><span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">successThreshold</span>:<span style="color:#666"> </span><span style="color:#3677a9">1</span><span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">timeoutSeconds</span>:<span style="color:#666"> </span><span style="color:#3677a9">20</span><span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">resources</span>:<span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">limits</span>:<span style="color:#666">
-</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">cpu</span>:<span style="color:#666"> </span>300m<span style="color:#666">
-</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">memory</span>:<span style="color:#666"> </span>500Mi<span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">requests</span>:<span style="color:#666">
-</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">cpu</span>:<span style="color:#666"> </span>300m<span style="color:#666">
-</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">memory</span>:<span style="color:#666"> </span>500Mi<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">volumeMounts</span>:<span style="color:#666">
-</span><span style="color:#666">        </span>- <span style="color:#6ab825;font-weight:bold">mountPath</span>:<span style="color:#666"> </span>/etc/localtime<span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>host-time<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">imagePullSecrets</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>registry-pull-secret<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">volumes</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#6ab825;font-weight:bold">hostPath</span>:<span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">path</span>:<span style="color:#666"> </span>/etc/localtime<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>host-time<span style="color:#666">
-</span></code></pre></div><p>可以看到包括 <code>replicas</code>、<code>limits</code>、<code>requests</code>、<code>env</code> 等 dev 中个性的配置都已经出现在了生成的 yaml 中。由于篇幅有限，这里没有把所有的配置有罗列出来，需要的可以去 <a href="https://github.com/sunny0826/kustomize-lab">GitHub</a> 上自取。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-YAML" data-lang="YAML"><span style="color:#ff79c6">apiVersion</span>: v1
+<span style="color:#ff79c6">kind</span>: Service
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#ff79c6">labels</span>:
+    <span style="color:#ff79c6">app</span>: test-cicd
+  <span style="color:#ff79c6">name</span>: test-cicd
+  <span style="color:#ff79c6">namespace</span>: devops-dev
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">ports</span>:
+  - <span style="color:#ff79c6">name</span>: http
+    <span style="color:#ff79c6">port</span>: <span style="color:#bd93f9">80</span>
+    <span style="color:#ff79c6">targetPort</span>: <span style="color:#bd93f9">80</span>
+  <span style="color:#ff79c6">selector</span>:
+    <span style="color:#ff79c6">app</span>: test-cicd
+  <span style="color:#ff79c6">type</span>: ClusterIP
+<span style="color:#ff79c6">image</span>:
+  <span style="color:#ff79c6">caption</span>: <span style="color:#f1fa8c">&#34;Image from: [**Pexels**](https://www.pexels.com)&#34;</span>
+  <span style="color:#ff79c6">focal_point</span>: <span style="color:#f1fa8c">&#34;&#34;</span>
+  <span style="color:#ff79c6">preview_only</span>: <span style="color:#ff79c6">false</span>
+---
+<span style="color:#ff79c6">apiVersion</span>: apps/v1
+<span style="color:#ff79c6">kind</span>: Deployment
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#ff79c6">labels</span>:
+    <span style="color:#ff79c6">app</span>: test-cicd
+  <span style="color:#ff79c6">name</span>: test-cicd
+  <span style="color:#ff79c6">namespace</span>: devops-dev
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">replicas</span>: <span style="color:#bd93f9">1</span>
+  <span style="color:#ff79c6">selector</span>:
+    <span style="color:#ff79c6">matchLabels</span>:
+      <span style="color:#ff79c6">app</span>: test-cicd
+  <span style="color:#ff79c6">template</span>:
+    <span style="color:#ff79c6">metadata</span>:
+      <span style="color:#ff79c6">labels</span>:
+        <span style="color:#ff79c6">app</span>: test-cicd
+        <span style="color:#ff79c6">version</span>: <span style="color:#bd93f9">0.0.3</span>
+    <span style="color:#ff79c6">spec</span>:
+      <span style="color:#ff79c6">containers</span>:
+      - <span style="color:#ff79c6">env</span>:
+        - <span style="color:#ff79c6">name</span>: ENV
+          <span style="color:#ff79c6">value</span>: dev
+        <span style="color:#ff79c6">image</span>: guoxudongdocker/flask-python:latest
+        <span style="color:#ff79c6">imagePullPolicy</span>: Always
+        <span style="color:#ff79c6">livenessProbe</span>:
+          <span style="color:#ff79c6">httpGet</span>:
+            <span style="color:#ff79c6">path</span>: /
+            <span style="color:#ff79c6">port</span>: <span style="color:#bd93f9">80</span>
+          <span style="color:#ff79c6">initialDelaySeconds</span>: <span style="color:#bd93f9">10</span>
+          <span style="color:#ff79c6">periodSeconds</span>: <span style="color:#bd93f9">10</span>
+          <span style="color:#ff79c6">successThreshold</span>: <span style="color:#bd93f9">1</span>
+          <span style="color:#ff79c6">timeoutSeconds</span>: <span style="color:#bd93f9">20</span>
+        <span style="color:#ff79c6">name</span>: test-cicd
+        <span style="color:#ff79c6">readinessProbe</span>:
+          <span style="color:#ff79c6">httpGet</span>:
+            <span style="color:#ff79c6">path</span>: /
+            <span style="color:#ff79c6">port</span>: <span style="color:#bd93f9">80</span>
+          <span style="color:#ff79c6">initialDelaySeconds</span>: <span style="color:#bd93f9">10</span>
+          <span style="color:#ff79c6">periodSeconds</span>: <span style="color:#bd93f9">10</span>
+          <span style="color:#ff79c6">successThreshold</span>: <span style="color:#bd93f9">1</span>
+          <span style="color:#ff79c6">timeoutSeconds</span>: <span style="color:#bd93f9">20</span>
+        <span style="color:#ff79c6">resources</span>:
+          <span style="color:#ff79c6">limits</span>:
+            <span style="color:#ff79c6">cpu</span>: 300m
+            <span style="color:#ff79c6">memory</span>: 500Mi
+          <span style="color:#ff79c6">requests</span>:
+            <span style="color:#ff79c6">cpu</span>: 300m
+            <span style="color:#ff79c6">memory</span>: 500Mi
+        <span style="color:#ff79c6">volumeMounts</span>:
+        - <span style="color:#ff79c6">mountPath</span>: /etc/localtime
+          <span style="color:#ff79c6">name</span>: host-time
+      <span style="color:#ff79c6">imagePullSecrets</span>:
+      - <span style="color:#ff79c6">name</span>: registry-pull-secret
+      <span style="color:#ff79c6">volumes</span>:
+      - <span style="color:#ff79c6">hostPath</span>:
+          <span style="color:#ff79c6">path</span>: /etc/localtime
+        <span style="color:#ff79c6">name</span>: host-time
+</code></pre></div><p>可以看到包括 <code>replicas</code>、<code>limits</code>、<code>requests</code>、<code>env</code> 等 dev 中个性的配置都已经出现在了生成的 yaml 中。由于篇幅有限，这里没有把所有的配置有罗列出来，需要的可以去 <a href="https://github.com/sunny0826/kustomize-lab">GitHub</a> 上自取。</p>
 <h2 id="结语">结语</h2>
 <p>上面所有的 <code>kustomize build dir/</code> 都可以使用 <code>kubectl apply -k dir/</code> 实现，但是需要 <code>v14.0</code> 版以上的 <code>kubectl</code>，也就是说，其实我们在集成到 CI/CD 中的时候，甚至都不需要用来 <code>kustomize</code> 命令集，有 <code>kubectl</code> 就够了。</p>
 <p>由于篇幅有限，这里没法吧所有 <code>kustomization.yaml</code> 的用途都罗列出来，不过可以在官方文档中找到我提交的中文翻译版 <a href="https://github.com/kubernetes-sigs/kustomize/blob/master/docs/zh/kustomization.yaml"><code>kustomization.yaml</code></a>，可以直接去官方 GitHub 查看。同时 <a href="https://github.com/sunny0826/kustomize-lab">kustomize-lab</a> 会持续更行，敬请关注。</p>

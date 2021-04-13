@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -250,6 +250,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -257,8 +259,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -700,19 +700,19 @@ if (!doNotTrack) {
 <p>在设置好 iterm2 之后，就需要安装 <a href="https://github.com/ohmyzsh/ohmyzsh">oh-my-zsh</a>。Oh My Zsh 是一款社区驱动的命令行工具，它基于 zsh 命令行，提供了主题配置，插件机制，大大提高了可玩性及使用效率。</p>
 <h3 id="安装-1">安装</h3>
 <p>可以使用 <code>curl</code> 和 <code>wget</code> 安装：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># curl</span>
-sh -c <span style="color:#ed9d13">&#34;</span><span style="color:#6ab825;font-weight:bold">$(</span>curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh<span style="color:#6ab825;font-weight:bold">)</span><span style="color:#ed9d13">&#34;</span>
-<span style="color:#999;font-style:italic"># wget</span>
-sh -c <span style="color:#ed9d13">&#34;</span><span style="color:#6ab825;font-weight:bold">$(</span>wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh<span style="color:#6ab825;font-weight:bold">)</span><span style="color:#ed9d13">&#34;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># curl</span>
+sh -c <span style="color:#f1fa8c">&#34;</span><span style="color:#ff79c6">$(</span>curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh<span style="color:#ff79c6">)</span><span style="color:#f1fa8c">&#34;</span>
+<span style="color:#6272a4"># wget</span>
+sh -c <span style="color:#f1fa8c">&#34;</span><span style="color:#ff79c6">$(</span>wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh<span style="color:#ff79c6">)</span><span style="color:#f1fa8c">&#34;</span>
 </code></pre></div><h3 id="powerlevel10k">powerlevel10k</h3>
 <p><a href="https://github.com/romkatv/powerlevel10k">powerlevel10k</a> 是一款 zsh 主题，是 <a href="https://github.com/Powerlevel9k/powerlevel9k">powerlevel9k</a> 的升级版，强调快速、高效和开箱即用。powerlevel10k 免去了之前 powerlevel9k 比较繁琐的安装方式，如安装字体，配置样式、修改主题等一系列繁琐的操作，开箱即用，非常简单。</p>
 <h4 id="安装-2">安装</h4>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone --depth=<span style="color:#3677a9">1</span> https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
-<span style="color:#24909d">echo</span> <span style="color:#ed9d13">&#39;source ~/powerlevel10k/powerlevel10k.zsh-theme&#39;</span> &gt;&gt;~/.zshrc
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone --depth<span style="color:#ff79c6">=</span><span style="color:#bd93f9">1</span> https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+<span style="color:#8be9fd;font-style:italic">echo</span> <span style="color:#f1fa8c">&#39;source ~/powerlevel10k/powerlevel10k.zsh-theme&#39;</span> &gt;&gt;~/.zshrc
 </code></pre></div><h4 id="配置">配置</h4>
 <p>在代码拉取成功后，执行命令 <code>source ~/.zshrc</code> 会自动安装字体文件，无需任何其他操作。</p>
 <p>之后执行命令，即可开始配置：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">p10k configure
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">p10k configure
 </code></pre></div><p>这里会进行交互式的配置，只需根据提示进行选择即可。</p>
 <p><img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1gmap0z93zdg20ok0l60xf.gif" alt="交互式的配置"></p>
 <h3 id="插件">插件</h3>
@@ -721,22 +721,22 @@ sh -c <span style="color:#ed9d13">&#34;</span><span style="color:#6ab825;font-we
 <p>可以在命令行高亮显示语法，效果如下：</p>
 <p><img src="https://tvax4.sinaimg.cn/large/ad5fbf65gy1gmbodvj2sej20lu0isdj6.jpg" alt="语法高亮"></p>
 <p>安装方式：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># zsh-syntax-highlighting</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># zsh-syntax-highlighting</span>
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git  ~/.oh-my-zsh/plugins/zsh-syntax-highlighting
 </code></pre></div><h4 id="命令自动补全">命令自动补全</h4>
 <p>可以根据您的历史记录和完成情况给输入的命令提供建议，效果如下：</p>
 <p><img src="https://tvax3.sinaimg.cn/large/ad5fbf65gy1gmbojbb38wj20sy044wel.jpg" alt="命令自动补全"></p>
 <p>安装方式</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># zsh-autosuggestion</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># zsh-autosuggestion</span>
 git clone https://github.com/zsh-users/zsh-autosuggestions.git  ~/.oh-my-zsh/plugins/zsh-autosuggestions
 </code></pre></div><h4 id="插件配置">插件配置</h4>
 <p>安装好之后，需要修改 <code>.zshrc</code>：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># .zshrc</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># .zshrc</span>
 ...
-<span style="color:#40ffff">plugins</span>=(git zsh-autosuggestions zsh-syntax-highlighting)
+<span style="color:#8be9fd;font-style:italic">plugins</span><span style="color:#ff79c6">=(</span>git zsh-autosuggestions zsh-syntax-highlighting<span style="color:#ff79c6">)</span>
 ...
 </code></pre></div><p>修改完成后，执行命令，完成设置：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#24909d">source</span> ~/.zshrc
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#8be9fd;font-style:italic">source</span> ~/.zshrc
 </code></pre></div><p>更多插件，详见：https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins</p>
 <h2 id="结语">结语</h2>
 <p>iTerm2 其实还有很多好玩的配置，由于篇幅有限这里就不过多介绍了，感兴趣的朋友可以登录官网查看官方文档。</p>

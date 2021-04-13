@@ -59,18 +59,18 @@
 &lt;li&gt;
 &lt;p&gt;自动注入&lt;/p&gt;
 &lt;p&gt;需要修改 namespace ，为其添加 label 标签，这样所以在这个 namespace 中创建的应用都会被自动注入 sidecar&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl label namespace {inject-namespace} istio-injection=enabled
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl label namespace &lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;inject-namespace&lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt; istio-injection&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;enabled
 $ kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;手工注入&lt;/p&gt;
 &lt;p&gt;需要使用 istioctl 命令生成注入后应用的配置，然后在部署应用&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ istioctl kube-inject -f samples/bookinfo/platform/kube/bookinfo.yaml | kubectl apply -f -
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ istioctl kube-inject -f samples/bookinfo/platform/kube/bookinfo.yaml | kubectl apply -f -
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;由于是测试，这里我们使用手工注入的方法。
 上面的命令会启动全部的四个服务，其中也包括了 &lt;code&gt;reviews&lt;/code&gt; 服务的三个版本（&lt;code&gt;v1&lt;/code&gt;、&lt;code&gt;v2&lt;/code&gt; 以及 &lt;code&gt;v3&lt;/code&gt;）&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ istioctl kube-inject -f bookinfo.yaml | kubectl apply -f -
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ istioctl kube-inject -f bookinfo.yaml | kubectl apply -f -
 service/details created
 deployment.extensions/details-v1 configured
 service/ratings created
@@ -83,14 +83,14 @@ service/productpage created
 deployment.extensions/productpage-v1 created
 $ kubectl get po
 NAME                              READY   STATUS    RESTARTS   AGE
-details-v1-8685d68cf9-8fwdb       2/2     Running   &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;          1h
-productpage-v1-5fd9fddc97-tx88z   2/2     Running   &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;          1h
-ratings-v1-7c4d756c55-cn76d       2/2     Running   &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;          1h
-reviews-v1-5d868db586-w28q5       2/2     Running   &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;          1h
-reviews-v2-787647c7d9-7sc52       2/2     Running   &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;          1h
-reviews-v3-6964c86584-8728m       2/2     Running   &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;          1h
+details-v1-8685d68cf9-8fwdb       2/2     Running   &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;          1h
+productpage-v1-5fd9fddc97-tx88z   2/2     Running   &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;          1h
+ratings-v1-7c4d756c55-cn76d       2/2     Running   &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;          1h
+reviews-v1-5d868db586-w28q5       2/2     Running   &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;          1h
+reviews-v2-787647c7d9-7sc52       2/2     Running   &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;          1h
+reviews-v3-6964c86584-8728m       2/2     Running   &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;          1h
 $ kubectl get svc
-NAME                 TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)            AGE
+NAME                 TYPE        CLUSTER-IP      EXTERNAL-IP   PORT&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;S&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt;            AGE
 details              ClusterIP   10.11.224.17    &amp;lt;none&amp;gt;        9080/TCP           1h
 productpage          ClusterIP   10.11.16.86     &amp;lt;none&amp;gt;        9080/TCP           1h
 ratings              ClusterIP   10.11.244.59    &amp;lt;none&amp;gt;        9080/TCP           1h
@@ -100,18 +100,18 @@ reviews              ClusterIP   10.11.162.37    &amp;lt;none&amp;gt;        908
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;为为应用程序定义入口网关：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;确认网关创建完成&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl get gateway
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl get gateway
 NAME               AGE
 bookinfo-gateway   1h
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;快速查询访问地址，这里的是之前在阿里云上创建的 &lt;code&gt;LoadBalancer&lt;/code&gt; 类型的 Service&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl get svc istio-ingressgateway -n istio-system
-NAME                   TYPE           CLUSTER-IP    EXTERNAL-IP       PORT(S)                  AGE
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl get svc istio-ingressgateway -n istio-system
+NAME                   TYPE           CLUSTER-IP    EXTERNAL-IP       PORT&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;S&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt;                  AGE
 istio-ingressgateway   LoadBalancer   10.11.18.83   xxx.xxx.xxx.xxx   80:xxx/TCP,443:xxx/TCP   2h
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;/ol&gt;
@@ -126,13 +126,13 @@ istio-ingressgateway   LoadBalancer   10.11.18.83   xxx.xxx.xxx.xxx   80:xxx/TCP
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;如果不需要启用双向TLS，请执行以下命令：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl apply -f samples/bookinfo/networking/destination-rule-all.yaml
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl apply -f samples/bookinfo/networking/destination-rule-all.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;如果需要启用双向 TLS，请执行以下命令：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl apply -f samples/bookinfo/networking/destination-rule-all-mtls.yaml
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl apply -f samples/bookinfo/networking/destination-rule-all-mtls.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;等待几秒钟，等待目标规则生效。你可以使用以下命令查看目标规则：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;kubectl get destinationrules
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;kubectl get destinationrules
 NAME          AGE
 details       28s
 productpage   28s
@@ -142,9 +142,9 @@ reviews       28s
 &lt;/ul&gt;
 &lt;h3 id=&#34;将所有微服务的缺省版本设置为v1&#34;&gt;将所有微服务的缺省版本设置为v1&lt;/h3&gt;
 &lt;p&gt;通过运行如下命令，将所有微服务的缺省版本设置为v1：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl apply -f samples/bookinfo/networking/virtual-service-all-v1.yaml
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl apply -f samples/bookinfo/networking/virtual-service-all-v1.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;可以通过下面的命令来显示所有已创建的路由规则：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl get virtualservices
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl get virtualservices
 NAME       AGE
 bookinfo      33m
 details       8s
@@ -152,7 +152,7 @@ productpage   8s
 ratings       8s
 reviews       8s
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;显示已创建的详细路由规划：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl get virtualservices -o yaml
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl get virtualservices -o yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;由于路由规则是通过异步方式分发到代理的，过一段时间后规则才会同步到所有pod上。因此需要等几秒钟后再尝试访问应用。&lt;/p&gt;
 &lt;p&gt;在浏览器中打开 Bookinfo 应用程序的URL: http://{EXTERNAL-IP}/productpage。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;http://wx4.sinaimg.cn/large/ad5fbf65ly1g1adqyf9dej21g70oitbd.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
@@ -160,20 +160,20 @@ reviews       8s
 &lt;h3 id=&#34;将来自特定用户的请求路由到reviewsv2&#34;&gt;将来自特定用户的请求路由到reviews:v2&lt;/h3&gt;
 &lt;p&gt;本例中，首先使用 Istio 将100%的请求流量都路由到了 Bookinfo 服务的&lt;code&gt;v1&lt;/code&gt;版本；然后再设置了一条路由规则，路由规则基于请求的 header（例如一个用户cookie）选择性地将特定的流量路由到了 &lt;code&gt;reviews&lt;/code&gt; 服务的&lt;code&gt;v2&lt;/code&gt;版本。&lt;/p&gt;
 &lt;p&gt;通过运行如下命令，把来自测试用户&amp;quot;jason&amp;quot;的请求路由到 &lt;code&gt;reviews:v2 &lt;/code&gt;，以启用ratings服务。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl apply -f samples/bookinfo/networking/virtual-service-reviews-test-v2.yaml
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl apply -f samples/bookinfo/networking/virtual-service-reviews-test-v2.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;通过如下命令确认规则是否创建：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl get virtualservice reviews -o yaml
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl get virtualservice reviews -o yaml
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
 annotations:
     kubectl.kubernetes.io/last-applied-configuration: |
-    {&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;apiVersion&amp;#34;&lt;/span&gt;:&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;networking.istio.io/v1alpha3&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;kind&amp;#34;&lt;/span&gt;:&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;VirtualService&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;metadata&amp;#34;&lt;/span&gt;:{&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;annotations&amp;#34;&lt;/span&gt;:{},&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt;:&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;reviews&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;namespace&amp;#34;&lt;/span&gt;:&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;default&amp;#34;&lt;/span&gt;},&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;spec&amp;#34;&lt;/span&gt;:{&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;hosts&amp;#34;&lt;/span&gt;:[&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;reviews&amp;#34;&lt;/span&gt;],&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;http&amp;#34;&lt;/span&gt;:[{&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;match&amp;#34;&lt;/span&gt;:[{&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;headers&amp;#34;&lt;/span&gt;:{&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;end-user&amp;#34;&lt;/span&gt;:{&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;exact&amp;#34;&lt;/span&gt;:&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;jason&amp;#34;&lt;/span&gt;}}}],&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;route&amp;#34;&lt;/span&gt;:[{&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;destination&amp;#34;&lt;/span&gt;:{&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;host&amp;#34;&lt;/span&gt;:&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;reviews&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;subset&amp;#34;&lt;/span&gt;:&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;v2&amp;#34;&lt;/span&gt;}}]},{&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;route&amp;#34;&lt;/span&gt;:[{&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;destination&amp;#34;&lt;/span&gt;:{&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;host&amp;#34;&lt;/span&gt;:&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;reviews&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;subset&amp;#34;&lt;/span&gt;:&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;v1&amp;#34;&lt;/span&gt;}}]}]}}
-creationTimestamp: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;2019-03-21T06:01:10Z&amp;#34;&lt;/span&gt;
-generation: &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;apiVersion&amp;#34;&lt;/span&gt;:&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;networking.istio.io/v1alpha3&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;kind&amp;#34;&lt;/span&gt;:&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;VirtualService&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;metadata&amp;#34;&lt;/span&gt;:&lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;annotations&amp;#34;&lt;/span&gt;:&lt;span style=&#34;color:#ff79c6&#34;&gt;{}&lt;/span&gt;,&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt;:&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;reviews&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;namespace&amp;#34;&lt;/span&gt;:&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;default&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;,&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;spec&amp;#34;&lt;/span&gt;:&lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;hosts&amp;#34;&lt;/span&gt;:&lt;span style=&#34;color:#ff79c6&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;reviews&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;]&lt;/span&gt;,&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;http&amp;#34;&lt;/span&gt;:&lt;span style=&#34;color:#ff79c6&#34;&gt;[{&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;match&amp;#34;&lt;/span&gt;:&lt;span style=&#34;color:#ff79c6&#34;&gt;[{&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;headers&amp;#34;&lt;/span&gt;:&lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;end-user&amp;#34;&lt;/span&gt;:&lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;exact&amp;#34;&lt;/span&gt;:&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;jason&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;}}}]&lt;/span&gt;,&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;route&amp;#34;&lt;/span&gt;:&lt;span style=&#34;color:#ff79c6&#34;&gt;[{&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;destination&amp;#34;&lt;/span&gt;:&lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;host&amp;#34;&lt;/span&gt;:&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;reviews&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;subset&amp;#34;&lt;/span&gt;:&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;v2&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;}}]}&lt;/span&gt;,&lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;route&amp;#34;&lt;/span&gt;:&lt;span style=&#34;color:#ff79c6&#34;&gt;[{&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;destination&amp;#34;&lt;/span&gt;:&lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;host&amp;#34;&lt;/span&gt;:&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;reviews&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;subset&amp;#34;&lt;/span&gt;:&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;v1&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;}}]}]}}&lt;/span&gt;
+creationTimestamp: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;2019-03-21T06:01:10Z&amp;#34;&lt;/span&gt;
+generation: &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt;
 name: reviews
 namespace: default
-resourceVersion: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;62486214&amp;#34;&lt;/span&gt;
+resourceVersion: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;62486214&amp;#34;&lt;/span&gt;
 selfLink: /apis/networking.istio.io/v1alpha3/namespaces/default/virtualservices/reviews
 uid: b9e41681-4b9e-11e9-a679-00163e045478
 spec:
@@ -199,13 +199,13 @@ http:
 &lt;h3 id=&#34;流量转移&#34;&gt;流量转移&lt;/h3&gt;
 &lt;p&gt;除了基于内容的路由，Istio还支持基于权重的路由规则。&lt;/p&gt;
 &lt;p&gt;首先，将所有微服务的缺省版本设置为v1：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl replace -f samples/bookinfo/networking/virtual-service-all-v1.yaml
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl replace -f samples/bookinfo/networking/virtual-service-all-v1.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;其次，使用下面的命令把50%的流量从reviews:v1转移到reviews:v3:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl replace -f samples/bookinfo/networking/virtual-service-reviews-50-v3.yaml
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl replace -f samples/bookinfo/networking/virtual-service-reviews-50-v3.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在浏览器中多次刷新productpage页面，大约有50%的几率会看到页面中出现带红星的评价内容。&lt;/p&gt;
 &lt;p&gt;说明： 注意该方式和使用容器编排平台的部署特性来进行版本迁移是完全不同的。容器编排平台使用了实例scaling来对流量进行管理。而通过Istio，两个版本的reviews服务可以独立地进行扩容和缩容，并不会影响这两个版本服务之间的流量分发。&lt;/p&gt;
 &lt;p&gt;如果觉得 &lt;code&gt;reviews：v3&lt;/code&gt; 微服务已经稳定，你可以通过以下命令， 将 &lt;code&gt;virtual service&lt;/code&gt; 100％的流量路由到 &lt;code&gt;reviews：v3&lt;/code&gt;，从而实现一个灰度发布的功能。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl replace -f samples/bookinfo/networking/virtual-service-reviews-v3.yaml
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl replace -f samples/bookinfo/networking/virtual-service-reviews-v3.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;在华为云cce上运行&#34;&gt;在华为云（CCE）上运行&lt;/h2&gt;
 &lt;p&gt;华为云率先将 Istio 作为产品投入到公有云中进行商业应用，开通方式十分简单，只要在华为云CCE上创建集群，然后申请 Istio 公测即可。&lt;/p&gt;
 &lt;p&gt;为了方便测试 Bookinfo 应用在华为云上提供了一键体验应用，点击即可省去刚刚那一系列的 &lt;code&gt;kubectl&lt;/code&gt; 操作&lt;/p&gt;

@@ -36,146 +36,146 @@
 &lt;h4 id=&#34;版本要求&#34;&gt;版本要求&lt;/h4&gt;
 &lt;p&gt;安装 Flagger 需要 Kubernetes 版本高于 &lt;strong&gt;v1.14&lt;/strong&gt;，NGINX ingress 版本高于 &lt;strong&gt;0.24&lt;/strong&gt;。&lt;/p&gt;
 &lt;h4 id=&#34;安装-nginx-ingress&#34;&gt;安装 NGINX ingress&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl create ns ingress-nginx
-$ helm upgrade -i nginx-ingress stable/nginx-ingress &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;--namespace ingress-nginx &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;--set controller.metrics.enabled=&lt;span style=&#34;color:#24909d&#34;&gt;true&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;--set controller.podAnnotations.&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;prometheus\.io/scrape&amp;#34;&lt;/span&gt;=&lt;span style=&#34;color:#24909d&#34;&gt;true&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;--set controller.podAnnotations.&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;prometheus\.io/port&amp;#34;&lt;/span&gt;=&lt;span style=&#34;color:#3677a9&#34;&gt;10254&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl create ns ingress-nginx
+$ helm upgrade -i nginx-ingress stable/nginx-ingress &lt;span style=&#34;color:#f1fa8c&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&lt;/span&gt;--namespace ingress-nginx &lt;span style=&#34;color:#f1fa8c&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&lt;/span&gt;--set controller.metrics.enabled&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;true&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&lt;/span&gt;--set controller.podAnnotations.&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;prometheus\.io/scrape&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;true&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&lt;/span&gt;--set controller.podAnnotations.&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;prometheus\.io/port&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;10254&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;安装部署&#34;&gt;安装部署&lt;/h3&gt;
 &lt;h4 id=&#34;flagger-安装&#34;&gt;Flagger 安装&lt;/h4&gt;
 &lt;p&gt;Flagger 提供了 Hlem 和 Kustomize 两种安装方式，这里使用 Helm 3 安装：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ helm repo add flagger https://flagger.app
-$ helm upgrade -i flagger flagger/flagger &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;--namespace ingress-nginx &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;--set prometheus.install=&lt;span style=&#34;color:#24909d&#34;&gt;true&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;--set &lt;span style=&#34;color:#40ffff&#34;&gt;meshProvider&lt;/span&gt;=nginx &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;--set slack.url=https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;--set slack.channel=flagger &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;--set slack.user=flagger
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ helm repo add flagger https://flagger.app
+$ helm upgrade -i flagger flagger/flagger &lt;span style=&#34;color:#f1fa8c&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&lt;/span&gt;--namespace ingress-nginx &lt;span style=&#34;color:#f1fa8c&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&lt;/span&gt;--set prometheus.install&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;true&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&lt;/span&gt;--set &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;meshProvider&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;nginx &lt;span style=&#34;color:#f1fa8c&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&lt;/span&gt;--set slack.url&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK &lt;span style=&#34;color:#f1fa8c&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&lt;/span&gt;--set slack.channel&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;flagger &lt;span style=&#34;color:#f1fa8c&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&lt;/span&gt;--set slack.user&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;flagger
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;值得注意的是这里我选择了 Slack 作为通知软件，需要在自己的 &lt;code&gt;#channel&lt;/code&gt; 内新增一个 APP，并将该 APP 的 &lt;code&gt;url&lt;/code&gt;、&lt;code&gt;channel&lt;/code&gt;、&lt;code&gt;user&lt;/code&gt; 填入上面的命令中。这里设置的是全局通知，集群中的 Flagger 被触发后都会进行通知，当然也可以为单个 Flagger 配置专门的通知，这里就不做过多介绍，详情见&lt;a href=&#34;https://docs.flagger.app/usage/alerting&#34;&gt;官方文档&lt;/a&gt;。&lt;/p&gt;
 &lt;h4 id=&#34;示例安装&#34;&gt;示例安装&lt;/h4&gt;
 &lt;p&gt;新建测试 namespace：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl create ns &lt;span style=&#34;color:#24909d&#34;&gt;test&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl create ns &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;test&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;部署示例 deployment 和 horizontal pod autoscaler：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl apply -k github.com/weaveworks/flagger//kustomize/podinfo
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl apply -k github.com/weaveworks/flagger//kustomize/podinfo
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;部署负载测试器，以便在金丝雀发布时进行流量分析：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ helm upgrade -i flagger-loadtester flagger/loadtester --namespace=&lt;span style=&#34;color:#24909d&#34;&gt;test&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ helm upgrade -i flagger-loadtester flagger/loadtester --namespace&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;test&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;部署 ingress，这里的 &lt;code&gt;app.example.com&lt;/code&gt; 需要改成你自己的域名，如果是在本地进行测试，则修改本机和负载测试器所在节点的 &lt;code&gt;/ect/hosts&lt;/code&gt;，将其指向你的 ADDRESS，否则将无法进行流量分析，导致部署失败。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;networking.k8s.io/v1beta1&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Ingress&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;podinfo&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;namespace&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;test&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;labels&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;app&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;podinfo&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;annotations&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kubernetes.io/ingress.class&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;nginx&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;spec&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;rules&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;host&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;app.example.com&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;http&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;paths&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;backend&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;serviceName&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;podinfo&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;servicePort&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;80&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;将以上内容另存为 &lt;code&gt;podinfo-ingress.yaml&lt;/code&gt;，然后应用：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl apply -f ./podinfo-ingress.yaml
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;apiVersion&lt;/span&gt;: networking.k8s.io/v1beta1
+&lt;span style=&#34;color:#ff79c6&#34;&gt;kind&lt;/span&gt;: Ingress
+&lt;span style=&#34;color:#ff79c6&#34;&gt;metadata&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: podinfo
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;namespace&lt;/span&gt;: test
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;labels&lt;/span&gt;:
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;app&lt;/span&gt;: podinfo
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;annotations&lt;/span&gt;:
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;kubernetes.io/ingress.class&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;nginx&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;spec&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;rules&lt;/span&gt;:
+    - &lt;span style=&#34;color:#ff79c6&#34;&gt;host&lt;/span&gt;: app.example.com
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;http&lt;/span&gt;:
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;paths&lt;/span&gt;:
+          - &lt;span style=&#34;color:#ff79c6&#34;&gt;backend&lt;/span&gt;:
+              &lt;span style=&#34;color:#ff79c6&#34;&gt;serviceName&lt;/span&gt;: podinfo
+              &lt;span style=&#34;color:#ff79c6&#34;&gt;servicePort&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;80&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;将以上内容另存为 &lt;code&gt;podinfo-ingress.yaml&lt;/code&gt;，然后应用：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl apply -f ./podinfo-ingress.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;创建一个 Canary 资源：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;flagger.app/v1beta1&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Canary&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;podinfo&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;namespace&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;test&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;spec&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;provider&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;nginx&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# deployment reference&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;targetRef&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;apps/v1&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Deployment&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;podinfo&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# ingress reference&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;ingressRef&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;networking.k8s.io/v1beta1&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Ingress&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;podinfo&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# HPA reference (optional)&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;autoscalerRef&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;autoscaling/v2beta1&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;HorizontalPodAutoscaler&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;podinfo&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# the maximum time in seconds for the canary deployment&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# to make progress before it is rollback (default 600s)&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;progressDeadlineSeconds&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;60&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;service&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# ClusterIP port number&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;port&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;80&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# container port number or name&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;targetPort&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;9898&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;analysis&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 时间间隔 (默认 60s)&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;interval&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;10s&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 回滚前的最大失败指标检查次数&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;threshold&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;10&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 路由到金丝雀副本的最大流量百分比&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 百分比 (0-100)&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;maxWeight&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;50&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 金丝雀每次递增的百分比&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 百分比 (0-100)&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;stepWeight&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;5&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# NGINX Prometheus checks&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metrics&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;request-success-rate&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# minimum req success rate (non 5xx responses)&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# percentage (0-100)&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;thresholdRange&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;min&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;99&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;interval&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;1m&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# testing (optional)&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;webhooks&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;acceptance-test&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;type&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;pre-rollout&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;url&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;http://flagger-loadtester.test/&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;timeout&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;30s&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;type&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;bash&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;cmd&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;curl -sd &amp;#39;test&amp;#39; http://podinfo-canary/token | grep token&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;load-test&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;url&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;http://flagger-loadtester.test/&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;timeout&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;5s&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;cmd&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;hey -z 1m -q 10 -c 2 http://app.example.com/&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;将以上内容另存为 &lt;code&gt;podinfo-canary.yaml&lt;/code&gt;，然后应用：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl apply -f ./podinfo-canary.yaml
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;apiVersion&lt;/span&gt;: flagger.app/v1beta1
+&lt;span style=&#34;color:#ff79c6&#34;&gt;kind&lt;/span&gt;: Canary
+&lt;span style=&#34;color:#ff79c6&#34;&gt;metadata&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: podinfo
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;namespace&lt;/span&gt;: test
+&lt;span style=&#34;color:#ff79c6&#34;&gt;spec&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;provider&lt;/span&gt;: nginx
+  &lt;span style=&#34;color:#6272a4&#34;&gt;# deployment reference&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;targetRef&lt;/span&gt;:
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;apiVersion&lt;/span&gt;: apps/v1
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;kind&lt;/span&gt;: Deployment
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: podinfo
+  &lt;span style=&#34;color:#6272a4&#34;&gt;# ingress reference&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;ingressRef&lt;/span&gt;:
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;apiVersion&lt;/span&gt;: networking.k8s.io/v1beta1
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;kind&lt;/span&gt;: Ingress
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: podinfo
+  &lt;span style=&#34;color:#6272a4&#34;&gt;# HPA reference (optional)&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;autoscalerRef&lt;/span&gt;:
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;apiVersion&lt;/span&gt;: autoscaling/v2beta1
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;kind&lt;/span&gt;: HorizontalPodAutoscaler
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: podinfo
+  &lt;span style=&#34;color:#6272a4&#34;&gt;# the maximum time in seconds for the canary deployment&lt;/span&gt;
+  &lt;span style=&#34;color:#6272a4&#34;&gt;# to make progress before it is rollback (default 600s)&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;progressDeadlineSeconds&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;60&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;service&lt;/span&gt;:
+    &lt;span style=&#34;color:#6272a4&#34;&gt;# ClusterIP port number&lt;/span&gt;
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;port&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;80&lt;/span&gt;
+    &lt;span style=&#34;color:#6272a4&#34;&gt;# container port number or name&lt;/span&gt;
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;targetPort&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;9898&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;analysis&lt;/span&gt;:
+    &lt;span style=&#34;color:#6272a4&#34;&gt;# 时间间隔 (默认 60s)&lt;/span&gt;
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;interval&lt;/span&gt;: 10s
+    &lt;span style=&#34;color:#6272a4&#34;&gt;# 回滚前的最大失败指标检查次数&lt;/span&gt;
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;threshold&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;10&lt;/span&gt;
+    &lt;span style=&#34;color:#6272a4&#34;&gt;# 路由到金丝雀副本的最大流量百分比&lt;/span&gt;
+    &lt;span style=&#34;color:#6272a4&#34;&gt;# 百分比 (0-100)&lt;/span&gt;
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;maxWeight&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;50&lt;/span&gt;
+    &lt;span style=&#34;color:#6272a4&#34;&gt;# 金丝雀每次递增的百分比&lt;/span&gt;
+    &lt;span style=&#34;color:#6272a4&#34;&gt;# 百分比 (0-100)&lt;/span&gt;
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;stepWeight&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;5&lt;/span&gt;
+    &lt;span style=&#34;color:#6272a4&#34;&gt;# NGINX Prometheus checks&lt;/span&gt;
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;metrics&lt;/span&gt;:
+    - &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: request-success-rate
+      &lt;span style=&#34;color:#6272a4&#34;&gt;# minimum req success rate (non 5xx responses)&lt;/span&gt;
+      &lt;span style=&#34;color:#6272a4&#34;&gt;# percentage (0-100)&lt;/span&gt;
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;thresholdRange&lt;/span&gt;:
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;min&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;99&lt;/span&gt;
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;interval&lt;/span&gt;: 1m
+    &lt;span style=&#34;color:#6272a4&#34;&gt;# testing (optional)&lt;/span&gt;
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;webhooks&lt;/span&gt;:
+      - &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: acceptance-test
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;type&lt;/span&gt;: pre-rollout
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;url&lt;/span&gt;: http://flagger-loadtester.test/
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;timeout&lt;/span&gt;: 30s
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;metadata&lt;/span&gt;:
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;type&lt;/span&gt;: bash
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;cmd&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;curl -sd &amp;#39;test&amp;#39; http://podinfo-canary/token | grep token&amp;#34;&lt;/span&gt;
+      - &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: load-test
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;url&lt;/span&gt;: http://flagger-loadtester.test/
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;timeout&lt;/span&gt;: 5s
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;metadata&lt;/span&gt;:
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;cmd&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;hey -z 1m -q 10 -c 2 http://app.example.com/&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;将以上内容另存为 &lt;code&gt;podinfo-canary.yaml&lt;/code&gt;，然后应用：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl apply -f ./podinfo-canary.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;目前可以看到示例应用 &lt;code&gt;podinfo&lt;/code&gt; 已经安装完毕，并出现了 &lt;code&gt;podinfo&lt;/code&gt; 和 &lt;code&gt;podinfo-primary&lt;/code&gt; 两个版本，并且 &lt;code&gt;http://app.example.com/&lt;/code&gt; 已经可以访问：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl get deploy,svc,ing -n &lt;span style=&#34;color:#24909d&#34;&gt;test&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl get deploy,svc,ing -n &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;test&lt;/span&gt;
 NAME                                 READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/flagger-loadtester   1/1     &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;            &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;           29h
-deployment.apps/podinfo              0/0     &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;            &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;           29h
-deployment.apps/podinfo-primary      2/2     &lt;span style=&#34;color:#3677a9&#34;&gt;2&lt;/span&gt;            &lt;span style=&#34;color:#3677a9&#34;&gt;2&lt;/span&gt;           29s
+deployment.apps/flagger-loadtester   1/1     &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt;            &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt;           29h
+deployment.apps/podinfo              0/0     &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;            &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;           29h
+deployment.apps/podinfo-primary      2/2     &lt;span style=&#34;color:#bd93f9&#34;&gt;2&lt;/span&gt;            &lt;span style=&#34;color:#bd93f9&#34;&gt;2&lt;/span&gt;           29s
 
-NAME                         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+NAME                         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;S&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt;   AGE
 service/flagger-loadtester   ClusterIP   10.43.116.74    &amp;lt;none&amp;gt;        80/TCP    29h
 service/podinfo              ClusterIP   10.43.155.193   &amp;lt;none&amp;gt;        80/TCP    9s
 service/podinfo-canary       ClusterIP   10.43.194.226   &amp;lt;none&amp;gt;        80/TCP    29s
 service/podinfo-primary      ClusterIP   10.43.254.13    &amp;lt;none&amp;gt;        80/TCP    29s
 
 NAME                                HOSTS             ADDRESS                       PORTS   AGE
-ingress.extensions/podinfo          app.example.com   192.168.1.129,192.168.4.210   &lt;span style=&#34;color:#3677a9&#34;&gt;80&lt;/span&gt;      5h17m
-ingress.extensions/podinfo-canary   app.example.com                                 &lt;span style=&#34;color:#3677a9&#34;&gt;80&lt;/span&gt;      9s
+ingress.extensions/podinfo          app.example.com   192.168.1.129,192.168.4.210   &lt;span style=&#34;color:#bd93f9&#34;&gt;80&lt;/span&gt;      5h17m
+ingress.extensions/podinfo-canary   app.example.com                                 &lt;span style=&#34;color:#bd93f9&#34;&gt;80&lt;/span&gt;      9s
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这个页面会展示 &lt;code&gt;podinfo&lt;/code&gt; 的版本已经其正在访问的 pod 名称：&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65ly1ggcndtuqzsj21ha0q940s.jpg&#34; alt=&#34;app.example.com&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;自动金丝雀发布&#34;&gt;自动金丝雀发布&lt;/h3&gt;
 &lt;p&gt;现在起发布由 Flagger 控制，在部署新版本后，Flagger 自动将流量按照比例切换到新版本上，同时监控性能指标，例如 HTTP 请求的成功率、请求的平均持续时间和 pod 运行状态，经过分析后提升流量或者回滚，并通知到 Slack。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65ly1ggcng8c8vnj21q40t6q3n.jpg&#34; alt=&#34;自动金丝雀发布&#34;&gt;&lt;/p&gt;
 &lt;p&gt;通过更新镜像版本触发金丝雀部署：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl -n &lt;span style=&#34;color:#24909d&#34;&gt;test&lt;/span&gt; &lt;span style=&#34;color:#24909d&#34;&gt;set&lt;/span&gt; image deployment/podinfo &lt;span style=&#34;color:#40ffff&#34;&gt;podinfod&lt;/span&gt;=stefanprodan/podinfo:3.1.1
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl -n &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;test&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;set&lt;/span&gt; image deployment/podinfo &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;podinfod&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;stefanprodan/podinfo:3.1.1
 deployment.apps/podinfo image updated
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;可以看到初始化完成后已经有 5% 的流量切换到新版本了&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl -n &lt;span style=&#34;color:#24909d&#34;&gt;test&lt;/span&gt; describe canary/podinfo
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl -n &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;test&lt;/span&gt; describe canary/podinfo
 ...
 Status:
-  Canary Weight:  &lt;span style=&#34;color:#3677a9&#34;&gt;5&lt;/span&gt;
+  Canary Weight:  &lt;span style=&#34;color:#bd93f9&#34;&gt;5&lt;/span&gt;
   Conditions:
     Last Transition Time:  2020-07-02T07:21:26Z
     Last Update Time:      2020-07-02T07:21:26Z
@@ -183,8 +183,8 @@ Status:
     Reason:                Progressing
     Status:                Unknown
     Type:                  Promoted
-  Failed Checks:           &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;
-  Iterations:              &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;
+  Failed Checks:           &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;
+  Iterations:              &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;
   Last Applied Spec:       c8bdf98d5
   Last Transition Time:    2020-07-02T07:22:05Z
   Phase:                   Progressing
@@ -192,23 +192,23 @@ Status:
 Events:
   Type     Reason  Age                From     Message
   ----     ------  ----               ----     -------
-  Warning  Synced  10m                flagger  podinfo-primary.test not ready: waiting &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; rollout to finish: observed deployment generation less &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;then&lt;/span&gt; desired generation
-  Warning  Synced  10m                flagger  podinfo-primary.test not ready: waiting &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; rollout to finish: &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt; of &lt;span style=&#34;color:#3677a9&#34;&gt;2&lt;/span&gt; updated replicas are available
-  Normal   Synced  10m (x3 over 10m)  flagger  all the metrics providers are available!
-  Normal   Synced  10m                flagger  Initialization &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;done&lt;/span&gt;! podinfo.test
+  Warning  Synced  10m                flagger  podinfo-primary.test not ready: waiting &lt;span style=&#34;color:#ff79c6&#34;&gt;for&lt;/span&gt; rollout to finish: observed deployment generation less &lt;span style=&#34;color:#ff79c6&#34;&gt;then&lt;/span&gt; desired generation
+  Warning  Synced  10m                flagger  podinfo-primary.test not ready: waiting &lt;span style=&#34;color:#ff79c6&#34;&gt;for&lt;/span&gt; rollout to finish: &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; of &lt;span style=&#34;color:#bd93f9&#34;&gt;2&lt;/span&gt; updated replicas are available
+  Normal   Synced  10m &lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;x3 over 10m&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt;  flagger  all the metrics providers are available!
+  Normal   Synced  10m                flagger  Initialization &lt;span style=&#34;color:#ff79c6&#34;&gt;done&lt;/span&gt;! podinfo.test
   Normal   Synced  41s                flagger  New revision detected! Scaling up podinfo.test
-  Warning  Synced  31s                flagger  canary deployment podinfo.test not ready: waiting &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; rollout to finish: &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt; of &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt; updated replicas are available
-  Warning  Synced  21s                flagger  canary deployment podinfo.test not ready: waiting &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; rollout to finish: &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt; of &lt;span style=&#34;color:#3677a9&#34;&gt;2&lt;/span&gt; updated replicas are available
-  Warning  Synced  11s                flagger  canary deployment podinfo.test not ready: waiting &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; rollout to finish: &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt; of &lt;span style=&#34;color:#3677a9&#34;&gt;2&lt;/span&gt; updated replicas are available
-  Normal   Synced  1s                 flagger  Starting canary analysis &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; podinfo.test
+  Warning  Synced  31s                flagger  canary deployment podinfo.test not ready: waiting &lt;span style=&#34;color:#ff79c6&#34;&gt;for&lt;/span&gt; rollout to finish: &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; of &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt; updated replicas are available
+  Warning  Synced  21s                flagger  canary deployment podinfo.test not ready: waiting &lt;span style=&#34;color:#ff79c6&#34;&gt;for&lt;/span&gt; rollout to finish: &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; of &lt;span style=&#34;color:#bd93f9&#34;&gt;2&lt;/span&gt; updated replicas are available
+  Warning  Synced  11s                flagger  canary deployment podinfo.test not ready: waiting &lt;span style=&#34;color:#ff79c6&#34;&gt;for&lt;/span&gt; rollout to finish: &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt; of &lt;span style=&#34;color:#bd93f9&#34;&gt;2&lt;/span&gt; updated replicas are available
+  Normal   Synced  1s                 flagger  Starting canary analysis &lt;span style=&#34;color:#ff79c6&#34;&gt;for&lt;/span&gt; podinfo.test
   Normal   Synced  1s                 flagger  Pre-rollout check acceptance-test passed
-  Normal   Synced  1s                 flagger  Advance podinfo.test canary weight &lt;span style=&#34;color:#3677a9&#34;&gt;5&lt;/span&gt;
+  Normal   Synced  1s                 flagger  Advance podinfo.test canary weight &lt;span style=&#34;color:#bd93f9&#34;&gt;5&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;使用 &lt;code&gt;watch&lt;/code&gt; 也能实时看到部署流量的权重，根据上面的设置，新版本权重大于 50% 就认为部署成功，流量将全部切换到新版本，并完成金丝雀部署：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ watch kubectl get canaries --all-namespaces
-Every 2.0s: kubectl get canaries --all-namespaces                                     guoxudongdeMacBook-Pro.local: Thu Jul  &lt;span style=&#34;color:#3677a9&#34;&gt;2&lt;/span&gt; 15:23:35 &lt;span style=&#34;color:#3677a9&#34;&gt;2020&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ watch kubectl get canaries --all-namespaces
+Every 2.0s: kubectl get canaries --all-namespaces                                     guoxudongdeMacBook-Pro.local: Thu Jul  &lt;span style=&#34;color:#bd93f9&#34;&gt;2&lt;/span&gt; 15:23:35 &lt;span style=&#34;color:#bd93f9&#34;&gt;2020&lt;/span&gt;
 
 NAMESPACE   NAME      STATUS        WEIGHT   LASTTRANSITIONTIME
-&lt;span style=&#34;color:#24909d&#34;&gt;test&lt;/span&gt;        podinfo   Progressing   &lt;span style=&#34;color:#3677a9&#34;&gt;45&lt;/span&gt;       2020-07-02T07:23:25Z
+&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;test&lt;/span&gt;        podinfo   Progressing   &lt;span style=&#34;color:#bd93f9&#34;&gt;45&lt;/span&gt;       2020-07-02T07:23:25Z
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;开始部署时的 Slack 通知：&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://tvax3.sinaimg.cn/large/ad5fbf65ly1ggcnsojp0kj20kj07kdgc.jpg&#34; alt=&#34;Slack 通知&#34;&gt;&lt;/p&gt;
 &lt;p&gt;页面上也能看出变化，访问到新版本的概率会越来越高，以蓝色和绿色的圆代表新版本和老版本：&lt;/p&gt;
@@ -218,125 +218,125 @@ NAMESPACE   NAME      STATUS        WEIGHT   LASTTRANSITIONTIME
 &lt;h3 id=&#34;自动回滚&#34;&gt;自动回滚&lt;/h3&gt;
 &lt;p&gt;当然，有自动发布就会有自动回滚，下面就通过手动触发状态码 500 异常，演示暂停发布并回滚。&lt;/p&gt;
 &lt;p&gt;部署一个新版本：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl -n &lt;span style=&#34;color:#24909d&#34;&gt;test&lt;/span&gt; &lt;span style=&#34;color:#24909d&#34;&gt;set&lt;/span&gt; image deployment/podinfo &lt;span style=&#34;color:#40ffff&#34;&gt;podinfod&lt;/span&gt;=stefanprodan/podinfo:3.1.2
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl -n &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;test&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;set&lt;/span&gt; image deployment/podinfo &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;podinfod&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;stefanprodan/podinfo:3.1.2
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;触发状态码 500 异常：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ watch curl http://app.example.com/status/500
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ watch curl http://app.example.com/status/500
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;等待一会儿，就可以看到部署失败并回滚：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ watch kubectl get canaries --all-namespaces
-Every 2.0s: kubectl get canaries --all-namespaces                                     guoxudongdeMacBook-Pro.local: Thu Jul  &lt;span style=&#34;color:#3677a9&#34;&gt;2&lt;/span&gt; 15:45:24 &lt;span style=&#34;color:#3677a9&#34;&gt;2020&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ watch kubectl get canaries --all-namespaces
+Every 2.0s: kubectl get canaries --all-namespaces                                     guoxudongdeMacBook-Pro.local: Thu Jul  &lt;span style=&#34;color:#bd93f9&#34;&gt;2&lt;/span&gt; 15:45:24 &lt;span style=&#34;color:#bd93f9&#34;&gt;2020&lt;/span&gt;
 
 NAMESPACE   NAME      STATUS   WEIGHT   LASTTRANSITIONTIME
-&lt;span style=&#34;color:#24909d&#34;&gt;test&lt;/span&gt;        podinfo   Failed   &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;        2020-07-02T07:45:16Z
+&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;test&lt;/span&gt;        podinfo   Failed   &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;        2020-07-02T07:45:16Z
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;发布失败，也会收到 Slack 通知：&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://tva3.sinaimg.cn/large/ad5fbf65ly1ggcobt1f0bj20kd01vmx1.jpg&#34; alt=&#34;失败 Slack 通知&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;ab-测试&#34;&gt;A/B 测试&lt;/h3&gt;
 &lt;p&gt;除了加权路由，Flagger 还可以根据 HTTP 匹配条件将流量路由到新版本（当然，这个 Nginx-Ingress 的功能，Flagger 只是简化了操作）。可以根据 HTTP header 和 cookie 来定位用户并细分受众，对于需要关联会话的前端应用十分有用。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://tva1.sinaimg.cn/large/ad5fbf65ly1ggcoglbmnyj217q0q0q3h.jpg&#34; alt=&#34;A/B 测试&#34;&gt;&lt;/p&gt;
 &lt;p&gt;修改 Canary 资源：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;flagger.app/v1beta1&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Canary&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;podinfo&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;namespace&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;test&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;spec&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;provider&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;nginx&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# deployment reference&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;targetRef&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;apps/v1&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Deployment&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;podinfo&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# ingress reference&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;ingressRef&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;networking.k8s.io/v1beta1&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Ingress&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;podinfo&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# HPA reference (optional)&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;autoscalerRef&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;autoscaling/v2beta1&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;HorizontalPodAutoscaler&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;podinfo&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# the maximum time in seconds for the canary deployment&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# to make progress before it is rollback (default 600s)&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;progressDeadlineSeconds&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;60&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;service&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# ClusterIP port number&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;port&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;80&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# container port number or name&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;targetPort&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;9898&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;analysis&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;interval&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;1m&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;threshold&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;10&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;iterations&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;10&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;match&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# curl -H &amp;#39;X-Canary: insider&amp;#39; http://app.example.com&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;headers&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;x-canary&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;exact&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;insider&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# curl -b &amp;#39;canary=always&amp;#39; http://app.example.com&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;headers&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;cookie&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;exact&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;canary&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metrics&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;request-success-rate&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;thresholdRange&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;min&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;99&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;interval&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;1m&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;webhooks&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;load-test&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;url&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;http://flagger-loadtester.test/&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;timeout&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;5s&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;cmd&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;hey -z 1m -q 10 -c 2 -H &amp;#39;Cookie: canary=always&amp;#39; http://app.example.com/&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;从上面的配置可以看到，将 headers 为 &lt;code&gt;X-Canary: insider&lt;/code&gt; 或 cookie 为 &lt;code&gt;canary=always&lt;/code&gt; 的请求路由到新版本。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;apiVersion&lt;/span&gt;: flagger.app/v1beta1
+&lt;span style=&#34;color:#ff79c6&#34;&gt;kind&lt;/span&gt;: Canary
+&lt;span style=&#34;color:#ff79c6&#34;&gt;metadata&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: podinfo
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;namespace&lt;/span&gt;: test
+&lt;span style=&#34;color:#ff79c6&#34;&gt;spec&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;provider&lt;/span&gt;: nginx
+  &lt;span style=&#34;color:#6272a4&#34;&gt;# deployment reference&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;targetRef&lt;/span&gt;:
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;apiVersion&lt;/span&gt;: apps/v1
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;kind&lt;/span&gt;: Deployment
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: podinfo
+  &lt;span style=&#34;color:#6272a4&#34;&gt;# ingress reference&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;ingressRef&lt;/span&gt;:
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;apiVersion&lt;/span&gt;: networking.k8s.io/v1beta1
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;kind&lt;/span&gt;: Ingress
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: podinfo
+  &lt;span style=&#34;color:#6272a4&#34;&gt;# HPA reference (optional)&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;autoscalerRef&lt;/span&gt;:
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;apiVersion&lt;/span&gt;: autoscaling/v2beta1
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;kind&lt;/span&gt;: HorizontalPodAutoscaler
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: podinfo
+  &lt;span style=&#34;color:#6272a4&#34;&gt;# the maximum time in seconds for the canary deployment&lt;/span&gt;
+  &lt;span style=&#34;color:#6272a4&#34;&gt;# to make progress before it is rollback (default 600s)&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;progressDeadlineSeconds&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;60&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;service&lt;/span&gt;:
+    &lt;span style=&#34;color:#6272a4&#34;&gt;# ClusterIP port number&lt;/span&gt;
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;port&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;80&lt;/span&gt;
+    &lt;span style=&#34;color:#6272a4&#34;&gt;# container port number or name&lt;/span&gt;
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;targetPort&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;9898&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;analysis&lt;/span&gt;:
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;interval&lt;/span&gt;: 1m
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;threshold&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;10&lt;/span&gt;
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;iterations&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;10&lt;/span&gt;
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;match&lt;/span&gt;:
+      &lt;span style=&#34;color:#6272a4&#34;&gt;# curl -H &amp;#39;X-Canary: insider&amp;#39; http://app.example.com&lt;/span&gt;
+      - &lt;span style=&#34;color:#ff79c6&#34;&gt;headers&lt;/span&gt;:
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;x-canary&lt;/span&gt;:
+            &lt;span style=&#34;color:#ff79c6&#34;&gt;exact&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;insider&amp;#34;&lt;/span&gt;
+      &lt;span style=&#34;color:#6272a4&#34;&gt;# curl -b &amp;#39;canary=always&amp;#39; http://app.example.com&lt;/span&gt;
+      - &lt;span style=&#34;color:#ff79c6&#34;&gt;headers&lt;/span&gt;:
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;cookie&lt;/span&gt;:
+            &lt;span style=&#34;color:#ff79c6&#34;&gt;exact&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;canary&amp;#34;&lt;/span&gt;
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;metrics&lt;/span&gt;:
+    - &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: request-success-rate
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;thresholdRange&lt;/span&gt;:
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;min&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;99&lt;/span&gt;
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;interval&lt;/span&gt;: 1m
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;webhooks&lt;/span&gt;:
+      - &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: load-test
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;url&lt;/span&gt;: http://flagger-loadtester.test/
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;timeout&lt;/span&gt;: 5s
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;metadata&lt;/span&gt;:
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;cmd&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;hey -z 1m -q 10 -c 2 -H &amp;#39;Cookie: canary=always&amp;#39; http://app.example.com/&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;从上面的配置可以看到，将 headers 为 &lt;code&gt;X-Canary: insider&lt;/code&gt; 或 cookie 为 &lt;code&gt;canary=always&lt;/code&gt; 的请求路由到新版本。&lt;/p&gt;
 &lt;p&gt;部署一个新版本：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl -n &lt;span style=&#34;color:#24909d&#34;&gt;test&lt;/span&gt; &lt;span style=&#34;color:#24909d&#34;&gt;set&lt;/span&gt; image deployment/podinfo &lt;span style=&#34;color:#40ffff&#34;&gt;podinfod&lt;/span&gt;=stefanprodan/podinfo:3.1.3
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl -n &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;test&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;set&lt;/span&gt; image deployment/podinfo &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;podinfod&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;stefanprodan/podinfo:3.1.3
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;可以收到 Slack 通知：&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1ggcorvilrrj20kb07wdgb.jpg&#34; alt=&#34;A/B 测试 Slack 通知&#34;&gt;&lt;/p&gt;
 &lt;p&gt;正常访问，还是访问到老的 &lt;code&gt;v3.1.1&lt;/code&gt; 版：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ curl http://app.example.com
-{
-  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;hostname&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;podinfo-primary-5dc6b76bd5-8sbh8&amp;#34;&lt;/span&gt;,
-  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;version&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;3.1.1&amp;#34;&lt;/span&gt;,
-  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;revision&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;7b6f11780ab1ce8c7399da32ec6966215b8e43aa&amp;#34;&lt;/span&gt;,
-  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;color&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;#34577c&amp;#34;&lt;/span&gt;,
-  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;logo&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;https://raw.githubusercontent.com/stefanprodan/podinfo/gh-pages/cuddle_clap.gif&amp;#34;&lt;/span&gt;,
-  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;message&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;greetings from podinfo v3.1.1&amp;#34;&lt;/span&gt;,
-  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;goos&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;linux&amp;#34;&lt;/span&gt;,
-  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;goarch&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;amd64&amp;#34;&lt;/span&gt;,
-  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;runtime&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;go1.13.1&amp;#34;&lt;/span&gt;,
-  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;num_goroutine&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;11&amp;#34;&lt;/span&gt;,
-  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;num_cpu&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;6&amp;#34;&lt;/span&gt;
-}
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ curl http://app.example.com
+&lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;
+  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;hostname&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;podinfo-primary-5dc6b76bd5-8sbh8&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;version&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;3.1.1&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;revision&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;7b6f11780ab1ce8c7399da32ec6966215b8e43aa&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;color&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;#34577c&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;logo&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;https://raw.githubusercontent.com/stefanprodan/podinfo/gh-pages/cuddle_clap.gif&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;message&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;greetings from podinfo v3.1.1&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;goos&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;linux&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;goarch&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;amd64&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;runtime&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;go1.13.1&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;num_goroutine&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;11&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;num_cpu&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;6&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;请求添加指定 header，访问到新的 &lt;code&gt;v3.1.3&lt;/code&gt; 版：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ curl -H &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;X-Canary: insider&amp;#39;&lt;/span&gt; http://app.example.com
-{
-  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;hostname&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;podinfo-58bdd78d6f-m9bsc&amp;#34;&lt;/span&gt;,
-  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;version&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;3.1.3&amp;#34;&lt;/span&gt;,
-  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;revision&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;7b6f11780ab1ce8c7399da32ec6966215b8e43aa&amp;#34;&lt;/span&gt;,
-  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;color&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;#34577c&amp;#34;&lt;/span&gt;,
-  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;logo&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;https://raw.githubusercontent.com/stefanprodan/podinfo/gh-pages/cuddle_clap.gif&amp;#34;&lt;/span&gt;,
-  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;message&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;greetings from podinfo v3.1.3&amp;#34;&lt;/span&gt;,
-  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;goos&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;linux&amp;#34;&lt;/span&gt;,
-  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;goarch&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;amd64&amp;#34;&lt;/span&gt;,
-  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;runtime&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;go1.13.1&amp;#34;&lt;/span&gt;,
-  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;num_goroutine&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;10&amp;#34;&lt;/span&gt;,
-  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;num_cpu&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;6&amp;#34;&lt;/span&gt;
-}
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ curl -H &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;X-Canary: insider&amp;#39;&lt;/span&gt; http://app.example.com
+&lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;
+  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;hostname&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;podinfo-58bdd78d6f-m9bsc&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;version&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;3.1.3&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;revision&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;7b6f11780ab1ce8c7399da32ec6966215b8e43aa&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;color&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;#34577c&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;logo&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;https://raw.githubusercontent.com/stefanprodan/podinfo/gh-pages/cuddle_clap.gif&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;message&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;greetings from podinfo v3.1.3&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;goos&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;linux&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;goarch&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;amd64&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;runtime&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;go1.13.1&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;num_goroutine&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;10&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;num_cpu&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;6&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;请求添加指定 cookie，访问到新的 &lt;code&gt;v3.1.3&lt;/code&gt; 版：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ curl -b &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;canary=always&amp;#39;&lt;/span&gt; http://app.example.com
-{
-  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;hostname&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;podinfo-58bdd78d6f-m9bsc&amp;#34;&lt;/span&gt;,
-  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;version&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;3.1.3&amp;#34;&lt;/span&gt;,
-  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;revision&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;7b6f11780ab1ce8c7399da32ec6966215b8e43aa&amp;#34;&lt;/span&gt;,
-  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;color&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;#34577c&amp;#34;&lt;/span&gt;,
-  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;logo&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;https://raw.githubusercontent.com/stefanprodan/podinfo/gh-pages/cuddle_clap.gif&amp;#34;&lt;/span&gt;,
-  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;message&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;greetings from podinfo v3.1.3&amp;#34;&lt;/span&gt;,
-  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;goos&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;linux&amp;#34;&lt;/span&gt;,
-  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;goarch&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;amd64&amp;#34;&lt;/span&gt;,
-  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;runtime&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;go1.13.1&amp;#34;&lt;/span&gt;,
-  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;num_goroutine&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;10&amp;#34;&lt;/span&gt;,
-  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;num_cpu&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;6&amp;#34;&lt;/span&gt;
-}
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ curl -b &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;canary=always&amp;#39;&lt;/span&gt; http://app.example.com
+&lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;
+  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;hostname&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;podinfo-58bdd78d6f-m9bsc&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;version&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;3.1.3&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;revision&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;7b6f11780ab1ce8c7399da32ec6966215b8e43aa&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;color&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;#34577c&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;logo&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;https://raw.githubusercontent.com/stefanprodan/podinfo/gh-pages/cuddle_clap.gif&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;message&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;greetings from podinfo v3.1.3&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;goos&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;linux&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;goarch&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;amd64&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;runtime&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;go1.13.1&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;num_goroutine&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;10&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;num_cpu&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;6&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在浏览器中访问也能得到相同的结果：&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://tva3.sinaimg.cn/large/ad5fbf65gy1ggcoy65l47j20yb0dvq49.jpg&#34; alt=&#34;添加 cookie 在浏览器中访问&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
@@ -370,19 +370,19 @@ NAMESPACE   NAME      STATUS   WEIGHT   LASTTRANSITIONTIME
 &lt;p&gt;这是所有步骤中最麻烦的一步，由于官方提供的 Tekton 镜像都在 &lt;code&gt;gcr.io&lt;/code&gt; 上，在国内并不能直接拉取，所以在测试的时候着实花费了不少时间。&lt;/p&gt;
 &lt;p&gt;我特意将这些镜像转储到 dockerhub 上，如果官方版无法使用，可以使用克隆版：&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;安装 &lt;a href=&#34;https://github.com/tektoncd/pipeline/blob/master/docs/install.md&#34;&gt;Tekton Pipelines&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 官方&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;# 官方&lt;/span&gt;
 $ kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline/previous/v0.10.1/release.yaml
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 克隆版&lt;/span&gt;
+&lt;span style=&#34;color:#6272a4&#34;&gt;# 克隆版&lt;/span&gt;
 $ kubectl apply -f https://raw.githubusercontent.com/sunny0826/tekton-local/v0.10.1/tekton-pipeline.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;安装 &lt;a href=&#34;https://github.com/tektoncd/dashboard#install-dashboard&#34;&gt;Tekton Dashboard&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 官方&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;# 官方&lt;/span&gt;
 $ kubectl apply --filename https://storage.googleapis.com/tekton-releases/dashboard/previous/v0.5.3/tekton-dashboard-release.yaml
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 克隆版&lt;/span&gt;
+&lt;span style=&#34;color:#6272a4&#34;&gt;# 克隆版&lt;/span&gt;
 $ kubectl apply -f https://raw.githubusercontent.com/sunny0826/tekton-local/v0.10.1/tekton-dashboard.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;安装成功之后需要配置 Tekton Dashboard 的访问地址，可以使用 ingress 或 Nodeport 暴露端口，这里采用 &lt;code&gt;port-forward&lt;/code&gt; 的形式将端口映射到本地：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl port-forward svc/tekton-dashboard 8097:9097 -n tekton-pipelines
-Forwarding from 127.0.0.1:8097 -&amp;gt; &lt;span style=&#34;color:#3677a9&#34;&gt;9097&lt;/span&gt;
-Forwarding from [::1]:8097 -&amp;gt; &lt;span style=&#34;color:#3677a9&#34;&gt;9097&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl port-forward svc/tekton-dashboard 8097:9097 -n tekton-pipelines
+Forwarding from 127.0.0.1:8097 -&amp;gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;9097&lt;/span&gt;
+Forwarding from &lt;span style=&#34;color:#ff79c6&#34;&gt;[&lt;/span&gt;::1&lt;span style=&#34;color:#ff79c6&#34;&gt;]&lt;/span&gt;:8097 -&amp;gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;9097&lt;/span&gt;
 ...
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;访问 Tekton Dashboard&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;打开浏览器访问访问 http://localhost:8097&lt;/p&gt;
@@ -437,7 +437,7 @@ Forwarding from [::1]:8097 -&amp;gt; &lt;span style=&#34;color:#3677a9&#34;&gt;9
 &lt;blockquote&gt;
 &lt;p&gt;deploy 步骤中，有时会出现权限错误，需要给 default:default 绑定上 admin 的 clusterrole 权限：&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl create rolebinding default-admin --clusterrole=admin --serviceaccount=default:default
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl create rolebinding default-admin --clusterrole&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;admin --serviceaccount&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;default:default
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;确认 &lt;code&gt;build&lt;/code&gt; 和 &lt;code&gt;deploy&lt;/code&gt; 任务均已成功。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://tvax1.sinaimg.cn/large/ad5fbf65gy1geqrmy2mc9j218w0jo0uj.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 
@@ -448,9 +448,9 @@ Forwarding from [::1]:8097 -&amp;gt; &lt;span style=&#34;color:#3677a9&#34;&gt;9
 &lt;/div&gt;
 
 &lt;h3 id=&#34;查看构建结果&#34;&gt;查看构建结果&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl get deploy
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl get deploy
 NAME                 READY   UP-TO-DATE   AVAILABLE   AGE
-example-greenhouse   1/1     &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;            &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;           5h2m
+example-greenhouse   1/1     &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt;            &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt;           5h2m
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;总结&#34;&gt;总结&lt;/h2&gt;
 &lt;p&gt;Tekton Dashboard 将 Tekton 的资源进行了可视化展示，指导用户快速理解 Tekton pipeline 流程以及配置方式，快速上手 Tekton。但是由于镜像的原因，导致新手体验不佳，所幸官方还提供了 &lt;a href=&#34;https://katacoda.com&#34;&gt;katacoda&lt;/a&gt; 交互式教程，该教程我已汉化完成并获得了官方的许可，可以在浏览器端快速体验从安装 Tekton 到部署应用的整个过程。&lt;/p&gt;
 

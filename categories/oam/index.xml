@@ -42,159 +42,159 @@
 &lt;p&gt;此次 KubeVela 的 v1.0 版本较之 v0.X 版本最大的亮点除了 API 版本升级至 &lt;code&gt;v1beta1&lt;/code&gt;，标志着 API Resource 基本稳定以外，最大的亮点就是支持 CUE 、Helm 和原生 Kubernetes 资源模板三种应用抽象模式。&lt;/p&gt;
 &lt;p&gt;CUE 是一门强大的 DSL 语言，其专为大规模配置而设计，借助 CUE 用户可以定制非常复杂的模板，十分适合用来定义抽象模板。关于 CUE 的更多内容见&lt;a href=&#34;https://kubevela.io/zh/docs/cue/basic&#34;&gt;官方文档&lt;/a&gt;，这里不做详细介绍。&lt;/p&gt;
 &lt;p&gt;而在 v1.0 版本中最大的惊喜则是支持纳管 Helm 为 &lt;code&gt;ComponentDefinition&lt;/code&gt;。在实际场景中，常常会用到 Helm 来部署第三方应用，但 Helm chart 本身是一个黑盒，如果有一些定制需求则需要手动去修改 Helm chart 的 template，十分的痛苦。而 KubeVela 1.0 版本提供了纳管 Helm chart 的功能，通过如下代码即可将一个 &lt;code&gt;elasticsearch&lt;/code&gt; 的 Helm chart 定义为 &lt;code&gt;ComponentDefinition&lt;/code&gt;：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;core.oam.dev/v1beta1&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;ComponentDefinition&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;elasticsearch-chart&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;annotations&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;definition.oam.dev/description&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;helm chart for elasticsearch&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;spec&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;workload&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;definition&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;apps/v1&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;StatefulSet&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;schematic&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;helm&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;release&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;chart&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;spec&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;chart&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;elasticsearch&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;version&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;7.11.1&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;repository&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;url&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;https://helm.elastic.co/&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;使用同样的方式定义一个 kibana 的 &lt;code&gt;ComponentDefinition&lt;/code&gt;，即可轻松的描述一个 &lt;code&gt;elasticsearch&lt;/code&gt; + &lt;code&gt;kibana&lt;/code&gt; 的应用：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;core.oam.dev/v1beta1&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Application&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;elasticsearch&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;namespace&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;default&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;spec&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;components&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;elasticsearch-web&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;type&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;elasticsearch-chart&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;properties&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; 
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;imageTag&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;7.11.1&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;replicas&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;volumeClaimTemplate&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;accessModes&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;[&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;ReadWriteOnce&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;]&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;resources&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;requests&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;storage&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;20Gi&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;fullnameOverride&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;elasticsearch-web&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;kibana-test&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;type&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;kibana-chart&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;properties&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; 
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;fullnameOverride&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;kibana-web&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;elasticsearchHosts&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;http://elasticsearch-web:9200&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;imageTag&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;7.11.1&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;traits&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;type&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;ingress&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;properties&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;domain&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;kibana.guoxudong.io&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;http&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;/&amp;#34;: &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;5610&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Helm chart 中所有 value 值都可以在 &lt;code&gt;properties&lt;/code&gt; 进行定义，同时还可以为 components 绑定已经定义好的 Trait（运维特性），无需修改 Helm chart 本身的 template，非常方便！&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;apiVersion&lt;/span&gt;: core.oam.dev/v1beta1
+&lt;span style=&#34;color:#ff79c6&#34;&gt;kind&lt;/span&gt;: ComponentDefinition
+&lt;span style=&#34;color:#ff79c6&#34;&gt;metadata&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: elasticsearch-chart
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;annotations&lt;/span&gt;:
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;definition.oam.dev/description&lt;/span&gt;: helm chart for elasticsearch
+&lt;span style=&#34;color:#ff79c6&#34;&gt;spec&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;workload&lt;/span&gt;:
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;definition&lt;/span&gt;:
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;apiVersion&lt;/span&gt;: apps/v1
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;kind&lt;/span&gt;: StatefulSet
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;schematic&lt;/span&gt;:
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;helm&lt;/span&gt;:
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;release&lt;/span&gt;:
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;chart&lt;/span&gt;:
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;spec&lt;/span&gt;:
+            &lt;span style=&#34;color:#ff79c6&#34;&gt;chart&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;elasticsearch&amp;#34;&lt;/span&gt;
+            &lt;span style=&#34;color:#ff79c6&#34;&gt;version&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;7.11.1&amp;#34;&lt;/span&gt;
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;repository&lt;/span&gt;:
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;url&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;https://helm.elastic.co/&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;使用同样的方式定义一个 kibana 的 &lt;code&gt;ComponentDefinition&lt;/code&gt;，即可轻松的描述一个 &lt;code&gt;elasticsearch&lt;/code&gt; + &lt;code&gt;kibana&lt;/code&gt; 的应用：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;apiVersion&lt;/span&gt;: core.oam.dev/v1beta1
+&lt;span style=&#34;color:#ff79c6&#34;&gt;kind&lt;/span&gt;: Application
+&lt;span style=&#34;color:#ff79c6&#34;&gt;metadata&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: elasticsearch
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;namespace&lt;/span&gt;: default
+&lt;span style=&#34;color:#ff79c6&#34;&gt;spec&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;components&lt;/span&gt;:
+    - &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: elasticsearch-web
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;type&lt;/span&gt;: elasticsearch-chart
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;properties&lt;/span&gt;: 
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;imageTag&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;7.11.1&amp;#34;&lt;/span&gt;
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;replicas&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt;
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;volumeClaimTemplate&lt;/span&gt;:
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;accessModes&lt;/span&gt;: [ &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;ReadWriteOnce&amp;#34;&lt;/span&gt; ]
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;resources&lt;/span&gt;:
+            &lt;span style=&#34;color:#ff79c6&#34;&gt;requests&lt;/span&gt;:
+              &lt;span style=&#34;color:#ff79c6&#34;&gt;storage&lt;/span&gt;: 20Gi
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;fullnameOverride&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;elasticsearch-web&amp;#34;&lt;/span&gt;
+    - &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: kibana-test
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;type&lt;/span&gt;: kibana-chart
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;properties&lt;/span&gt;: 
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;fullnameOverride&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;kibana-web&amp;#34;&lt;/span&gt;
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;elasticsearchHosts&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;http://elasticsearch-web:9200&amp;#34;&lt;/span&gt;
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;imageTag&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;7.11.1&amp;#34;&lt;/span&gt;
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;traits&lt;/span&gt;:
+        - &lt;span style=&#34;color:#ff79c6&#34;&gt;type&lt;/span&gt;: ingress
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;properties&lt;/span&gt;:
+            &lt;span style=&#34;color:#ff79c6&#34;&gt;domain&lt;/span&gt;: kibana.guoxudong.io
+            &lt;span style=&#34;color:#ff79c6&#34;&gt;http&lt;/span&gt;:
+              &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;#34;/&amp;#34;: &lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;5610&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Helm chart 中所有 value 值都可以在 &lt;code&gt;properties&lt;/code&gt; 进行定义，同时还可以为 components 绑定已经定义好的 Trait（运维特性），无需修改 Helm chart 本身的 template，非常方便！&lt;/p&gt;
 &lt;p&gt;如果只是开放一些简单的参数，则可以使用原生 Kubernetes 资源模板，虽然没有 CUE 那么灵活，但是可以快速上手且无缝对接 Trait 的能力，非常适合一些简单的场景。&lt;/p&gt;
 &lt;p&gt;同时在 1.0 版本，所有的抽象定义都会自动生成 &lt;code&gt;Open-API-v3&lt;/code&gt; 架构 JSON 格式的表单数据，方便前端进行集成。无论是 CUE、Helm 还是原生 Kubernetes 资源模板，都会已生成一个名为 &lt;code&gt;schema-&amp;lt;your-definition-name&amp;gt;&lt;/code&gt; 的 ConfigMap，其中的 key  &lt;code&gt;openapi-v3-json-schema&lt;/code&gt; 的值就是 JSON 格式的参数，可以非常方便生成一个前端表单供平台和应用团队使用，效果如下：&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://tvax3.sinaimg.cn/large/ad5fbf65gy1gp9zsaw9cxj21cn0ebdhd.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;查看 ConfigMap 内容：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl get configmaps schema-webservice  -n vela-system  -o &lt;span style=&#34;color:#40ffff&#34;&gt;jsonpath&lt;/span&gt;=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;{.data.openapi-v3-json-schema}&amp;#34;&lt;/span&gt; | jq .
-{
-  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;properties&amp;#34;&lt;/span&gt;: {
-    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;addRevisionLabel&amp;#34;&lt;/span&gt;: {
-      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;default&amp;#34;&lt;/span&gt;: false,
-      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;description&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;If addRevisionLabel is true, the appRevision label will be added to the underlying pods&amp;#34;&lt;/span&gt;,
-      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;addRevisionLabel&amp;#34;&lt;/span&gt;,
-      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;boolean&amp;#34;&lt;/span&gt;
-    },
-    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;cmd&amp;#34;&lt;/span&gt;: {
-      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;description&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Commands to run in the container&amp;#34;&lt;/span&gt;,
-      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;items&amp;#34;&lt;/span&gt;: {
-        &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;string&amp;#34;&lt;/span&gt;
-      },
-      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;cmd&amp;#34;&lt;/span&gt;,
-      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;array&amp;#34;&lt;/span&gt;
-    },
-    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;cpu&amp;#34;&lt;/span&gt;: {
-      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;description&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Number of CPU units for the service, like `0.5` (0.5 CPU core), `1` (1 CPU core)&amp;#34;&lt;/span&gt;,
-      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;cpu&amp;#34;&lt;/span&gt;,
-      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;string&amp;#34;&lt;/span&gt;
-    },
-    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;env&amp;#34;&lt;/span&gt;: {
-      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;description&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Define arguments by using environment variables&amp;#34;&lt;/span&gt;,
-      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;items&amp;#34;&lt;/span&gt;: {
-        &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;properties&amp;#34;&lt;/span&gt;: {
-          &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt;: {
-            &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;description&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Environment variable name&amp;#34;&lt;/span&gt;,
-            &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt;,
-            &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;string&amp;#34;&lt;/span&gt;
-          },
-          &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;value&amp;#34;&lt;/span&gt;: {
-            &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;description&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;The value of the environment variable&amp;#34;&lt;/span&gt;,
-            &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;value&amp;#34;&lt;/span&gt;,
-            &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;string&amp;#34;&lt;/span&gt;
-          },
-          &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;valueFrom&amp;#34;&lt;/span&gt;: {
-            &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;description&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Specifies a source the value of this var should come from&amp;#34;&lt;/span&gt;,
-            &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;properties&amp;#34;&lt;/span&gt;: {
-              &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;secretKeyRef&amp;#34;&lt;/span&gt;: {
-                &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;description&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Selects a key of a secret in the pod&amp;#39;s namespace&amp;#34;&lt;/span&gt;,
-                &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;properties&amp;#34;&lt;/span&gt;: {
-                  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;key&amp;#34;&lt;/span&gt;: {
-                    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;description&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;The key of the secret to select from. Must be a valid secret key&amp;#34;&lt;/span&gt;,
-                    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;key&amp;#34;&lt;/span&gt;,
-                    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;string&amp;#34;&lt;/span&gt;
-                  },
-                  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt;: {
-                    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;description&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;The name of the secret in the pod&amp;#39;s namespace to select from&amp;#34;&lt;/span&gt;,
-                    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt;,
-                    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;string&amp;#34;&lt;/span&gt;
-                  }
-                },
-                &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;required&amp;#34;&lt;/span&gt;: [
-                  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt;,
-                  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;key&amp;#34;&lt;/span&gt;
-                ],
-                &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;secretKeyRef&amp;#34;&lt;/span&gt;,
-                &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;object&amp;#34;&lt;/span&gt;
-              }
-            },
-            &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;required&amp;#34;&lt;/span&gt;: [
-              &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;secretKeyRef&amp;#34;&lt;/span&gt;
-            ],
-            &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;valueFrom&amp;#34;&lt;/span&gt;,
-            &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;object&amp;#34;&lt;/span&gt;
-          }
-        },
-        &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;required&amp;#34;&lt;/span&gt;: [
-          &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt;
-        ],
-        &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;object&amp;#34;&lt;/span&gt;
-      },
-      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;env&amp;#34;&lt;/span&gt;,
-      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;array&amp;#34;&lt;/span&gt;
-    },
-    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;image&amp;#34;&lt;/span&gt;: {
-      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;description&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Which image would you like to use for your service&amp;#34;&lt;/span&gt;,
-      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;image&amp;#34;&lt;/span&gt;,
-      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;string&amp;#34;&lt;/span&gt;
-    },
-    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;port&amp;#34;&lt;/span&gt;: {
-      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;default&amp;#34;&lt;/span&gt;: 80,
-      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;description&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Which port do you want customer traffic sent to&amp;#34;&lt;/span&gt;,
-      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;port&amp;#34;&lt;/span&gt;,
-      &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;integer&amp;#34;&lt;/span&gt;
-    }
-  },
-  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;required&amp;#34;&lt;/span&gt;: [
-    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;addRevisionLabel&amp;#34;&lt;/span&gt;,
-    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;image&amp;#34;&lt;/span&gt;,
-    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;port&amp;#34;&lt;/span&gt;
-  ],
-  &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;object&amp;#34;&lt;/span&gt;
-}
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl get configmaps schema-webservice  -n vela-system  -o &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;{.data.openapi-v3-json-schema}&amp;#34;&lt;/span&gt; | jq .
+&lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;
+  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;properties&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;
+    &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;addRevisionLabel&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;
+      &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;default&amp;#34;&lt;/span&gt;: false,
+      &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;description&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;If addRevisionLabel is true, the appRevision label will be added to the underlying pods&amp;#34;&lt;/span&gt;,
+      &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;addRevisionLabel&amp;#34;&lt;/span&gt;,
+      &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;boolean&amp;#34;&lt;/span&gt;
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;,
+    &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;cmd&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;
+      &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;description&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;Commands to run in the container&amp;#34;&lt;/span&gt;,
+      &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;items&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;
+        &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;string&amp;#34;&lt;/span&gt;
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;,
+      &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;cmd&amp;#34;&lt;/span&gt;,
+      &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;array&amp;#34;&lt;/span&gt;
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;,
+    &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;cpu&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;
+      &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;description&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;Number of CPU units for the service, like `0.5` (0.5 CPU core), `1` (1 CPU core)&amp;#34;&lt;/span&gt;,
+      &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;cpu&amp;#34;&lt;/span&gt;,
+      &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;string&amp;#34;&lt;/span&gt;
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;,
+    &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;env&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;
+      &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;description&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;Define arguments by using environment variables&amp;#34;&lt;/span&gt;,
+      &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;items&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;
+        &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;properties&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;
+          &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;
+            &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;description&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;Environment variable name&amp;#34;&lt;/span&gt;,
+            &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt;,
+            &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;string&amp;#34;&lt;/span&gt;
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;,
+          &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;value&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;
+            &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;description&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;The value of the environment variable&amp;#34;&lt;/span&gt;,
+            &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;value&amp;#34;&lt;/span&gt;,
+            &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;string&amp;#34;&lt;/span&gt;
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;,
+          &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;valueFrom&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;
+            &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;description&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;Specifies a source the value of this var should come from&amp;#34;&lt;/span&gt;,
+            &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;properties&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;
+              &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;secretKeyRef&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;
+                &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;description&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;Selects a key of a secret in the pod&amp;#39;s namespace&amp;#34;&lt;/span&gt;,
+                &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;properties&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;
+                  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;key&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;
+                    &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;description&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;The key of the secret to select from. Must be a valid secret key&amp;#34;&lt;/span&gt;,
+                    &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;key&amp;#34;&lt;/span&gt;,
+                    &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;string&amp;#34;&lt;/span&gt;
+                  &lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;,
+                  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;
+                    &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;description&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;The name of the secret in the pod&amp;#39;s namespace to select from&amp;#34;&lt;/span&gt;,
+                    &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt;,
+                    &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;string&amp;#34;&lt;/span&gt;
+                  &lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;
+                &lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;,
+                &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;required&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ff79c6&#34;&gt;[&lt;/span&gt;
+                  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt;,
+                  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;key&amp;#34;&lt;/span&gt;
+                &lt;span style=&#34;color:#ff79c6&#34;&gt;]&lt;/span&gt;,
+                &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;secretKeyRef&amp;#34;&lt;/span&gt;,
+                &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;object&amp;#34;&lt;/span&gt;
+              &lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;
+            &lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;,
+            &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;required&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ff79c6&#34;&gt;[&lt;/span&gt;
+              &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;secretKeyRef&amp;#34;&lt;/span&gt;
+            &lt;span style=&#34;color:#ff79c6&#34;&gt;]&lt;/span&gt;,
+            &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;valueFrom&amp;#34;&lt;/span&gt;,
+            &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;object&amp;#34;&lt;/span&gt;
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;,
+        &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;required&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ff79c6&#34;&gt;[&lt;/span&gt;
+          &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt;
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;]&lt;/span&gt;,
+        &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;object&amp;#34;&lt;/span&gt;
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;,
+      &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;env&amp;#34;&lt;/span&gt;,
+      &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;array&amp;#34;&lt;/span&gt;
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;,
+    &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;image&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;
+      &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;description&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;Which image would you like to use for your service&amp;#34;&lt;/span&gt;,
+      &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;image&amp;#34;&lt;/span&gt;,
+      &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;string&amp;#34;&lt;/span&gt;
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;,
+    &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;port&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;
+      &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;default&amp;#34;&lt;/span&gt;: 80,
+      &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;description&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;Which port do you want customer traffic sent to&amp;#34;&lt;/span&gt;,
+      &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;port&amp;#34;&lt;/span&gt;,
+      &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;integer&amp;#34;&lt;/span&gt;
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;,
+  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;required&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ff79c6&#34;&gt;[&lt;/span&gt;
+    &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;addRevisionLabel&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;image&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;port&amp;#34;&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;]&lt;/span&gt;,
+  &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;object&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;基于该功能，通过一条命令，即可在本地浏览器查看 &lt;code&gt;Components Types&lt;/code&gt; 和 &lt;code&gt;Traits&lt;/code&gt; 的文档，效果如下：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ vela show webservice --web
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ vela show webservice --web
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1gpax5vem5hj22qq202tmu.jpg&#34; alt=&#34;CLI 打开文档页面&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;关注点分离实现真正的-devops&#34;&gt;关注点分离，实现真正的 DevOps&lt;/h3&gt;
 &lt;p&gt;关注点分离是 OAM 和 KubeVela 用来解决最终用户与平台团队所面临的困境的方式。&lt;/p&gt;
@@ -326,133 +326,133 @@
 &lt;h3 id=&#34;安装控制端&#34;&gt;安装控制端&lt;/h3&gt;
 &lt;h4 id=&#34;安装-crossplane-和-oam&#34;&gt;安装 Crossplane 和 OAM&lt;/h4&gt;
 &lt;p&gt;注意，这里的 &lt;code&gt;crossplane-oam-sample&lt;/code&gt; 是官方维护的一个 crossplane 示例，只是用作开发和演示，并不是生产可用，关于 crossplane 的更多内容，请见&lt;a href=&#34;https://crossplane.io/&#34;&gt;项目官网&lt;/a&gt;。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ helm repo add oam https://oam-dev.github.io/crossplane-oam-sample/archives/
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ helm repo add oam https://oam-dev.github.io/crossplane-oam-sample/archives/
 $ kubectl create namespace oam-system
 $ helm install crossplane --namespace oam-system oam/crossplane-oam
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里如果由于墙的原因无法拉取 &lt;code&gt;gcr.io/kubebuilder/kube-rbac-proxy:v0.4.1&lt;/code&gt; 镜像，导致 &lt;code&gt;crossplane-oam-localstack&lt;/code&gt; 无法启动的话，可以使用我提供的替代镜像 &lt;code&gt;guoxudongdocker/kube-rbac-proxy:v0.4.1&lt;/code&gt;。&lt;/p&gt;
 &lt;h4 id=&#34;拉取示例仓库&#34;&gt;拉取示例仓库&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ git clone https://github.com/oam-dev/catalog.git
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 进入示例&lt;/span&gt;
-$ &lt;span style=&#34;color:#24909d&#34;&gt;cd&lt;/span&gt; catalog/traits/ingresstrait
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ git clone https://github.com/oam-dev/catalog.git
+&lt;span style=&#34;color:#6272a4&#34;&gt;# 进入示例&lt;/span&gt;
+$ &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;cd&lt;/span&gt; catalog/traits/ingresstrait
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;部署-crd-并启动-controller&#34;&gt;部署 CRD 并启动 controller&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 部署 CRD&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;# 部署 CRD&lt;/span&gt;
 $ make install
-~/go/bin/controller-gen &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;crd:trivialVersions=true&amp;#34;&lt;/span&gt; rbac:roleName=manager-role webhook &lt;span style=&#34;color:#40ffff&#34;&gt;paths&lt;/span&gt;=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;./...&amp;#34;&lt;/span&gt; output:crd:artifacts:config=config/crd/bases
+~/go/bin/controller-gen &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;crd:trivialVersions=true&amp;#34;&lt;/span&gt; rbac:roleName&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;manager-role webhook &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;paths&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;./...&amp;#34;&lt;/span&gt; output:crd:artifacts:config&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;config/crd/bases
 kustomize build config/crd | kubectl apply -f -
 customresourcedefinition.apiextensions.k8s.io/ingresstraits.core.oam.dev created
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 启动 IngressTrait controller&lt;/span&gt;
+&lt;span style=&#34;color:#6272a4&#34;&gt;# 启动 IngressTrait controller&lt;/span&gt;
 $ go run main.go
-I0629 11:15:22.035708     &lt;span style=&#34;color:#3677a9&#34;&gt;802&lt;/span&gt; request.go:621] Throttling request took 1.000526734s, request: GET:https://192.168.4.210:6443/apis/apiregistration.k8s.io/v1?timeout=32s
-2020-06-29T11:15:22.088+0800    INFO    controller-runtime.metrics      metrics server is starting to listen    {&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;addr&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;:8080&amp;#34;&lt;/span&gt;}
+I0629 11:15:22.035708     &lt;span style=&#34;color:#bd93f9&#34;&gt;802&lt;/span&gt; request.go:621&lt;span style=&#34;color:#ff79c6&#34;&gt;]&lt;/span&gt; Throttling request took 1.000526734s, request: GET:https://192.168.4.210:6443/apis/apiregistration.k8s.io/v1?timeout&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;32s
+2020-06-29T11:15:22.088+0800    INFO    controller-runtime.metrics      metrics server is starting to listen    &lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;addr&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;:8080&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;
 2020-06-29T11:15:22.089+0800    INFO    setup   starting manager
-2020-06-29T11:15:22.089+0800    INFO    controller-runtime.manager      starting metrics server {&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;path&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;/metrics&amp;#34;&lt;/span&gt;}
-2020-06-29T11:15:22.089+0800    INFO    controller-runtime.controller   Starting EventSource    {&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;controller&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;ingresstrait&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;source&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;kind source: /, Kind=&amp;#34;&lt;/span&gt;}
-2020-06-29T11:15:22.193+0800    INFO    controller-runtime.controller   Starting Controller     {&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;controller&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;ingresstrait&amp;#34;&lt;/span&gt;}
-2020-06-29T11:15:22.193+0800    INFO    controller-runtime.controller   Starting workers        {&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;controller&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;ingresstrait&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;worker count&amp;#34;&lt;/span&gt;: 1}
+2020-06-29T11:15:22.089+0800    INFO    controller-runtime.manager      starting metrics server &lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;path&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;/metrics&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;
+2020-06-29T11:15:22.089+0800    INFO    controller-runtime.controller   Starting EventSource    &lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;controller&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;ingresstrait&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;source&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;kind source: /, Kind=&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;
+2020-06-29T11:15:22.193+0800    INFO    controller-runtime.controller   Starting Controller     &lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;controller&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;ingresstrait&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;
+2020-06-29T11:15:22.193+0800    INFO    controller-runtime.controller   Starting workers        &lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;controller&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;ingresstrait&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;worker count&amp;#34;&lt;/span&gt;: 1&lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;由于这里只是简单演示，没有将 IngressTrait controller 打包成镜像，而是在本地运行 controller，所以需要 go 环境。&lt;/p&gt;
 &lt;h3 id=&#34;部署应用&#34;&gt;部署应用&lt;/h3&gt;
 &lt;h4 id=&#34;配置-rbac&#34;&gt;配置 RBAC&lt;/h4&gt;
 &lt;p&gt;使用命令：&lt;code&gt;kubectl apply -f rbac.yaml&lt;/code&gt;，配置 RBAC。这里需要注意的是官方 IngressTrait 的 sample 示例中并没有 &lt;code&gt;rbac.yaml&lt;/code&gt;，需要我们自己配置，否则的话会在部署时由于权限原因无法拉起 Deployment。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;rbac.authorization.k8s.io/v1&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;ClusterRole&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;deployment-clusterrole-poc&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;rules&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiGroups&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- apps&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;resources&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- deployments&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;verbs&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;*&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;---&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;rbac.authorization.k8s.io/v1&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;ClusterRoleBinding&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;component-deployment-workload-poc&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;roleRef&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiGroup&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;rbac.authorization.k8s.io&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;ClusterRole&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;deployment-clusterrole-poc&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;subjects&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;ServiceAccount&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;crossplane-oam             &lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# Remember to use the actual ServiceAccount name&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;namespace&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;oam-system            &lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# Remember to use the actual ServiceAccount namespace&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;部署-component&#34;&gt;部署 Component&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;apiVersion&lt;/span&gt;: rbac.authorization.k8s.io/v1
+&lt;span style=&#34;color:#ff79c6&#34;&gt;kind&lt;/span&gt;: ClusterRole
+&lt;span style=&#34;color:#ff79c6&#34;&gt;metadata&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: deployment-clusterrole-poc
+&lt;span style=&#34;color:#ff79c6&#34;&gt;rules&lt;/span&gt;:
+- &lt;span style=&#34;color:#ff79c6&#34;&gt;apiGroups&lt;/span&gt;:
+  - apps
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;resources&lt;/span&gt;:
+  - deployments
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;verbs&lt;/span&gt;:
+  - &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;*&amp;#34;&lt;/span&gt;
+
+---
+&lt;span style=&#34;color:#ff79c6&#34;&gt;apiVersion&lt;/span&gt;: rbac.authorization.k8s.io/v1
+&lt;span style=&#34;color:#ff79c6&#34;&gt;kind&lt;/span&gt;: ClusterRoleBinding
+&lt;span style=&#34;color:#ff79c6&#34;&gt;metadata&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: component-deployment-workload-poc
+&lt;span style=&#34;color:#ff79c6&#34;&gt;roleRef&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;apiGroup&lt;/span&gt;: rbac.authorization.k8s.io
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;kind&lt;/span&gt;: ClusterRole
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: deployment-clusterrole-poc
+&lt;span style=&#34;color:#ff79c6&#34;&gt;subjects&lt;/span&gt;:
+  - &lt;span style=&#34;color:#ff79c6&#34;&gt;kind&lt;/span&gt;: ServiceAccount
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: crossplane-oam              &lt;span style=&#34;color:#6272a4&#34;&gt;# Remember to use the actual ServiceAccount name&lt;/span&gt;
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;namespace&lt;/span&gt;: oam-system             &lt;span style=&#34;color:#6272a4&#34;&gt;# Remember to use the actual ServiceAccount namespace&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;部署-component&#34;&gt;部署 Component&lt;/h4&gt;
 &lt;p&gt;使用 &lt;code&gt;kubectl apply -f sample_component.yaml &lt;/code&gt; 命令部署 Component，该 Component 中的 workload 为 Deployment。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;core.oam.dev/v1alpha2&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Component&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;example-deploy&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;spec&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;workload&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;apps/v1&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Deployment&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;web&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;spec&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;selector&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;matchLabels&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;app&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;test&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;template&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;labels&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;app&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;test&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;spec&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;containers&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;nginx&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;image&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;nginx:1.17&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;ports&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;                &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;containerPort&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;80&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;                  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;web&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;部署-applicationconfiguration&#34;&gt;部署 ApplicationConfiguration&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;apiVersion&lt;/span&gt;: core.oam.dev/v1alpha2
+&lt;span style=&#34;color:#ff79c6&#34;&gt;kind&lt;/span&gt;: Component
+&lt;span style=&#34;color:#ff79c6&#34;&gt;metadata&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: example-deploy
+&lt;span style=&#34;color:#ff79c6&#34;&gt;spec&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;workload&lt;/span&gt;:
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;apiVersion&lt;/span&gt;: apps/v1
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;kind&lt;/span&gt;: Deployment
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;metadata&lt;/span&gt;:
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: web
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;spec&lt;/span&gt;:
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;selector&lt;/span&gt;:
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;matchLabels&lt;/span&gt;:
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;app&lt;/span&gt;: test
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;template&lt;/span&gt;:
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;metadata&lt;/span&gt;:
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;labels&lt;/span&gt;:
+            &lt;span style=&#34;color:#ff79c6&#34;&gt;app&lt;/span&gt;: test
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;spec&lt;/span&gt;:
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;containers&lt;/span&gt;:
+            - &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: nginx
+              &lt;span style=&#34;color:#ff79c6&#34;&gt;image&lt;/span&gt;: nginx:1.17
+              &lt;span style=&#34;color:#ff79c6&#34;&gt;ports&lt;/span&gt;:
+                - &lt;span style=&#34;color:#ff79c6&#34;&gt;containerPort&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;80&lt;/span&gt;
+                  &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: web
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;部署-applicationconfiguration&#34;&gt;部署 ApplicationConfiguration&lt;/h4&gt;
 &lt;p&gt;可以看到这个 ApplicationConfiguration 中包含一个 Component，而 Component 中又绑定了 一个 IngressTrait 类型的 Trait，由于这只是一个简单示例，所有只有一个 Component 和一个 Trait，在实际的生产环境中，一个 ApplicationConfiguration 可由多个 Component 组成，一个 Component 又可绑定多个 Trait 为其提供诸如流量管控、弹性伸缩等运维特性。&lt;/p&gt;
 &lt;p&gt;使用命令：&lt;code&gt;kubectl apply -f sample_application_config.yaml&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;core.oam.dev/v1alpha2&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;ApplicationConfiguration&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;example-appconfig&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;spec&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;components&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;componentName&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;example-deploy&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;traits&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;trait&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;core.oam.dev/v1alpha2&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;IngressTrait&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;example-ingress-trait&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;spec&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;                &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;rules&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;                  &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;host&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;nginx.oam.com&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;                    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;paths&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;                      &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;path&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;/&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;                        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;backend&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;                          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;serviceName&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;deploy-test&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;                          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;servicePort&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;8080&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;检查结果&#34;&gt;检查结果&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;apiVersion&lt;/span&gt;: core.oam.dev/v1alpha2
+&lt;span style=&#34;color:#ff79c6&#34;&gt;kind&lt;/span&gt;: ApplicationConfiguration
+&lt;span style=&#34;color:#ff79c6&#34;&gt;metadata&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: example-appconfig
+&lt;span style=&#34;color:#ff79c6&#34;&gt;spec&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;components&lt;/span&gt;:
+    - &lt;span style=&#34;color:#ff79c6&#34;&gt;componentName&lt;/span&gt;: example-deploy
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;traits&lt;/span&gt;:
+        - &lt;span style=&#34;color:#ff79c6&#34;&gt;trait&lt;/span&gt;:
+            &lt;span style=&#34;color:#ff79c6&#34;&gt;apiVersion&lt;/span&gt;: core.oam.dev/v1alpha2
+            &lt;span style=&#34;color:#ff79c6&#34;&gt;kind&lt;/span&gt;: IngressTrait
+            &lt;span style=&#34;color:#ff79c6&#34;&gt;metadata&lt;/span&gt;:
+              &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: example-ingress-trait
+            &lt;span style=&#34;color:#ff79c6&#34;&gt;spec&lt;/span&gt;:
+                &lt;span style=&#34;color:#ff79c6&#34;&gt;rules&lt;/span&gt;:
+                  - &lt;span style=&#34;color:#ff79c6&#34;&gt;host&lt;/span&gt;: nginx.oam.com
+                    &lt;span style=&#34;color:#ff79c6&#34;&gt;paths&lt;/span&gt;:
+                      - &lt;span style=&#34;color:#ff79c6&#34;&gt;path&lt;/span&gt;: /
+                        &lt;span style=&#34;color:#ff79c6&#34;&gt;backend&lt;/span&gt;:
+                          &lt;span style=&#34;color:#ff79c6&#34;&gt;serviceName&lt;/span&gt;: deploy-test
+                          &lt;span style=&#34;color:#ff79c6&#34;&gt;servicePort&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;8080&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;检查结果&#34;&gt;检查结果&lt;/h4&gt;
 &lt;p&gt;可以看到 Deployment、Service 和 Ingress 已经部署成功：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl get deploy,svc,ing
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl get deploy,svc,ing
 NAME                  READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/web   1/1     &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;            &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;           8m29s
+deployment.apps/web   1/1     &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt;            &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt;           8m29s
 
-NAME                  TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+NAME                  TYPE        CLUSTER-IP      EXTERNAL-IP   PORT&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;S&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt;    AGE
 service/deploy-test   ClusterIP   10.43.170.228   &amp;lt;none&amp;gt;        8080/TCP   8m29s
 
 NAME                                       HOSTS           ADDRESS                       PORTS   AGE
-ingress.extensions/example-ingress-trait   nginx.oam.com   192.168.1.129,192.168.4.210   &lt;span style=&#34;color:#3677a9&#34;&gt;80&lt;/span&gt;      8m29s
+ingress.extensions/example-ingress-trait   nginx.oam.com   192.168.1.129,192.168.4.210   &lt;span style=&#34;color:#bd93f9&#34;&gt;80&lt;/span&gt;      8m29s
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;访问服务：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ curl -H &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Host: nginx.oam.com&amp;#34;&lt;/span&gt;  http://192.168.1.129
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ curl -H &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;Host: nginx.oam.com&amp;#34;&lt;/span&gt;  http://192.168.1.129
 &amp;lt;!DOCTYPE html&amp;gt;
 &amp;lt;html&amp;gt;
 &amp;lt;head&amp;gt;
 &amp;lt;title&amp;gt;Welcome to nginx!&amp;lt;/title&amp;gt;
 &amp;lt;style&amp;gt;
-    body {
+    body &lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;
         width: 35em;
-        margin: &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt; auto;
+        margin: &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; auto;
         font-family: Tahoma, Verdana, Arial, sans-serif;
-    }
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;
 &amp;lt;/style&amp;gt;
 &amp;lt;/head&amp;gt;
 &amp;lt;body&amp;gt;
@@ -461,11 +461,11 @@ ingress.extensions/example-ingress-trait   nginx.oam.com   192.168.1.129,192.168
 working. Further configuration is required.&amp;lt;/p&amp;gt;
 
 &amp;lt;p&amp;gt;For online documentation and support please refer to
-&amp;lt;a &lt;span style=&#34;color:#40ffff&#34;&gt;href&lt;/span&gt;=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;http://nginx.org/&amp;#34;&lt;/span&gt;&amp;gt;nginx.org&amp;lt;/a&amp;gt;.&amp;lt;br/&amp;gt;
+&amp;lt;a &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;href&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;http://nginx.org/&amp;#34;&lt;/span&gt;&amp;gt;nginx.org&amp;lt;/a&amp;gt;.&amp;lt;br/&amp;gt;
 Commercial support is available at
-&amp;lt;a &lt;span style=&#34;color:#40ffff&#34;&gt;href&lt;/span&gt;=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;http://nginx.com/&amp;#34;&lt;/span&gt;&amp;gt;nginx.com&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
+&amp;lt;a &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;href&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;http://nginx.com/&amp;#34;&lt;/span&gt;&amp;gt;nginx.com&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
 
-&amp;lt;p&amp;gt;&amp;lt;em&amp;gt;Thank you &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; using nginx.&amp;lt;/em&amp;gt;&amp;lt;/p&amp;gt;
+&amp;lt;p&amp;gt;&amp;lt;em&amp;gt;Thank you &lt;span style=&#34;color:#ff79c6&#34;&gt;for&lt;/span&gt; using nginx.&amp;lt;/em&amp;gt;&amp;lt;/p&amp;gt;
 &amp;lt;/body&amp;gt;
 &amp;lt;/html&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;应用的整体结构如下图所示：&lt;/p&gt;

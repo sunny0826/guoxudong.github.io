@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -246,6 +246,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -253,8 +255,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -665,53 +665,53 @@ if (!doNotTrack) {
 <li>C#</li>
 </ul>
 <p>AWS CDK 还提供了十分完善的脚手架工具，以 Python 为例，只需新建目录，并在目录中执行如下命令，即可拉起一套的 CDK Python 代码：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ cdk init app --language python
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ cdk init app --language python
 </code></pre></div><p>之后只需在 <code>app/app_stack.py</code> 中编写相应代码即可，非常方便。</p>
 <h3 id="原理">原理</h3>
 <p>AWS CDK 将 Imperative 和 Declarative 进行了结合，通过编程语言生成 CloudFormation 的 template，之后再由 CloudFormation 生成对应的 Stack，最终在 AWS 上完成云资源的创建和变更。</p>
 <p>这种方法完美的绕过了 CloudFormation 配置本身的复杂性和较差的可读性，用户可以选择一个自己熟悉的编程语言，以代码的形式来对基础资源进行编排，同时还有很多默认选项，为不想关心太多细节的开发者提供了便利。</p>
 <p>比如只使用这样一行代码，就能创建一个全新的 VPC：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#6ab825;font-weight:bold">class</span> <span style="color:#447fcf;text-decoration:underline">CdkPythonStack</span>(core.Stack):
-    <span style="color:#6ab825;font-weight:bold">def</span> __init__(self, scope: core.Construct, construct_id: <span style="color:#24909d">str</span>, **kwargs) -&gt; None:
-        <span style="color:#24909d">super</span>().__init__(scope, construct_id, **kwargs)
-        ...
-        vpc = ec2.Vpc(self,
-                      <span style="color:#ed9d13">&#39;eks-vpc&#39;</span>,
-                      cidr=<span style="color:#ed9d13">&#39;10.3.0.0/16&#39;</span>,
-                      max_azs=<span style="color:#3677a9">3</span>,
-                      nat_gateways=<span style="color:#3677a9">1</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#ff79c6">class</span> <span style="color:#50fa7b">CdkPythonStack</span>(core<span style="color:#ff79c6">.</span>Stack):
+    <span style="color:#ff79c6">def</span> __init__(self, scope: core<span style="color:#ff79c6">.</span>Construct, construct_id: <span style="color:#8be9fd;font-style:italic">str</span>, <span style="color:#ff79c6">**</span>kwargs) <span style="color:#ff79c6">-&gt;</span> None:
+        <span style="color:#8be9fd;font-style:italic">super</span>()<span style="color:#ff79c6">.</span>__init__(scope, construct_id, <span style="color:#ff79c6">**</span>kwargs)
+        <span style="color:#ff79c6">...</span>
+        vpc <span style="color:#ff79c6">=</span> ec2<span style="color:#ff79c6">.</span>Vpc(self,
+                      <span style="color:#f1fa8c">&#39;eks-vpc&#39;</span>,
+                      cidr<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#39;10.3.0.0/16&#39;</span>,
+                      max_azs<span style="color:#ff79c6">=</span><span style="color:#bd93f9">3</span>,
+                      nat_gateways<span style="color:#ff79c6">=</span><span style="color:#bd93f9">1</span>
                       )
-        ...
+        <span style="color:#ff79c6">...</span>
 </code></pre></div><h3 id="cli-command">CLI Command</h3>
 <p>AWS CDK 还提供了一些命令来帮助开发者完成代码构建、资源检查和部署等功能。</p>
 <h4 id="init">init</h4>
 <p><code>cdk init</code> 帮助开发者生成一个指定语言的 cdk 项目，目前支持 5 种语言。</p>
 <h4 id="diff">diff</h4>
 <p><code>cdk diff</code> 是最常用的一个命令了，会帮助用户检查当前 Stack 和 云上资源的不同，并作出标记：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ cdk diff
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ cdk diff
 Stack HelloCdkStack
 IAM Statement Changes
 ┌───┬────────────────────────┬────────┬──────────────┬───────────┬───────────┐
 │   │ Resource               │ Effect │ Action       │ Principal │ Condition │
 ├───┼────────────────────────┼────────┼──────────────┼───────────┼───────────┤
-│ + │ <span style="color:#ed9d13">${</span><span style="color:#40ffff">MyFirstBucket</span>.Arn<span style="color:#ed9d13">}</span>/* │ Allow  │ s3:GetObject │ *         │           │
+│ + │ <span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">MyFirstBucket</span>.Arn<span style="color:#f1fa8c">}</span>/* │ Allow  │ s3:GetObject │ *         │           │
 └───┴────────────────────────┴────────┴──────────────┴───────────┴───────────┘
-(NOTE: There may be security-related changes not in this list. See https://github.com/aws/aws-cdk/issues/1299)
+<span style="color:#ff79c6">(</span>NOTE: There may be security-related changes not in this list. See https://github.com/aws/aws-cdk/issues/1299<span style="color:#ff79c6">)</span>
 
 Resources
-[+] AWS::S3::BucketPolicy MyFirstBucket/Policy MyFirstBucketPolicy3243DEFD
-[~] AWS::S3::Bucket MyFirstBucket MyFirstBucketB8884501
- ├─ [~] DeletionPolicy
- │   ├─ [-] Retain
- │   └─ [+] Delete
- └─ [~] UpdateReplacePolicy
-     ├─ [-] Retain
-     └─ [+] Delete
+<span style="color:#ff79c6">[</span>+<span style="color:#ff79c6">]</span> AWS::S3::BucketPolicy MyFirstBucket/Policy MyFirstBucketPolicy3243DEFD
+<span style="color:#ff79c6">[</span>~<span style="color:#ff79c6">]</span> AWS::S3::Bucket MyFirstBucket MyFirstBucketB8884501
+ ├─ <span style="color:#ff79c6">[</span>~<span style="color:#ff79c6">]</span> DeletionPolicy
+ │   ├─ <span style="color:#ff79c6">[</span>-<span style="color:#ff79c6">]</span> Retain
+ │   └─ <span style="color:#ff79c6">[</span>+<span style="color:#ff79c6">]</span> Delete
+ └─ <span style="color:#ff79c6">[</span>~<span style="color:#ff79c6">]</span> UpdateReplacePolicy
+     ├─ <span style="color:#ff79c6">[</span>-<span style="color:#ff79c6">]</span> Retain
+     └─ <span style="color:#ff79c6">[</span>+<span style="color:#ff79c6">]</span> Delete
 </code></pre></div><h4 id="ls">ls</h4>
 <p><code>cdk ls</code> 可以列出当前 app 所有的 stack。</p>
 <h4 id="synth">synth</h4>
 <p>前面说到了 CDK 会生成 CloudFormation template， <code>cdk synth</code> 就是会生成这样一个 template 方便用户检查。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ cdk synth
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ cdk synth
 Resources:
   MyFirstBucketB8884501:
     Type: AWS::S3::Bucket
@@ -725,13 +725,13 @@ Resources:
   CDKMetadata:
     Type: AWS::CDK::Metadata
     Properties:
-      Modules: aws-cdk=1.XX.X,@aws-cdk/aws-events=1.XX.X,@aws-cdk/aws-iam=1.XX.X,@aws-cdk/aws-kms=1.XX.X,@aws-cdk/aws-s3=1.XX.X,@aws-cdk/cdk-assets-schema=1.XX.X,@aws-cdk/cloud-assembly-schema=1.XX.X,@aws-cdk/core=1.XX.X,@aws-cdk/cx-api=1.XX.X,@aws-cdk/region-info=1.XX.X,jsii-runtime=node.js/vXX.XX.X
+      Modules: aws-cdk<span style="color:#ff79c6">=</span>1.XX.X,@aws-cdk/aws-events<span style="color:#ff79c6">=</span>1.XX.X,@aws-cdk/aws-iam<span style="color:#ff79c6">=</span>1.XX.X,@aws-cdk/aws-kms<span style="color:#ff79c6">=</span>1.XX.X,@aws-cdk/aws-s3<span style="color:#ff79c6">=</span>1.XX.X,@aws-cdk/cdk-assets-schema<span style="color:#ff79c6">=</span>1.XX.X,@aws-cdk/cloud-assembly-schema<span style="color:#ff79c6">=</span>1.XX.X,@aws-cdk/core<span style="color:#ff79c6">=</span>1.XX.X,@aws-cdk/cx-api<span style="color:#ff79c6">=</span>1.XX.X,@aws-cdk/region-info<span style="color:#ff79c6">=</span>1.XX.X,jsii-runtime<span style="color:#ff79c6">=</span>node.js/vXX.XX.X
 </code></pre></div><h4 id="deploy">deploy</h4>
 <p>在检查无误后，就可以进行部署了，使用 <code>cdk deploy</code> 命令，就会开始部署 CloudFormation，可以看到实时进度，如果遇到问题，也会进行回滚。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ cdk deploy
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ cdk deploy
 HelloCdkStack: deploying...
 HelloCdkStack: creating CloudFormation changeset...
- 1/1 | 8:39:43 AM | UPDATE_COMPLETE      | AWS::S3::Bucket    | MyFirstBucket (MyFirstBucketB8884501)
+ 1/1 | 8:39:43 AM | UPDATE_COMPLETE      | AWS::S3::Bucket    | MyFirstBucket <span style="color:#ff79c6">(</span>MyFirstBucketB8884501<span style="color:#ff79c6">)</span>
  1/1 | 8:39:44 AM | UPDATE_COMPLETE_CLEA | AWS::CloudFormation::Stack | HelloCdkStack
  2/1 | 8:39:45 AM | UPDATE_COMPLETE      | AWS::CloudFormation::Stack | HelloCdkStack
 

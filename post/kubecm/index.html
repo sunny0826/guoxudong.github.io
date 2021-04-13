@@ -42,7 +42,7 @@
       "datePublished": "2019-12-09 10:07:46 \u002b0800 \u002b0800",
       "dateModified" : "2019-12-09 10:07:46 \u002b0800 \u002b0800",
       "url" : "https:\/\/guoxudong.io\/post\/kubecm\/",
-      "wordCount" : "268",
+      "wordCount" : "269",
       "keywords" : [ "kubernetes","kubecm","Guoxudong" ]
   }
   </script>
@@ -56,7 +56,7 @@
 <meta itemprop="name" content="Kubecm：管理你的 kubeconfig">
 <meta itemprop="description" content="介绍一款小工具：kubecm，帮助你管理杂乱无章的 kubeconfig。"><meta itemprop="datePublished" content="2019-12-09T10:07:46&#43;08:00" />
 <meta itemprop="dateModified" content="2020-08-20T11:32:20&#43;08:00" />
-<meta itemprop="wordCount" content="268">
+<meta itemprop="wordCount" content="269">
 <meta itemprop="keywords" content="kubernetes,kubecm," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Kubecm：管理你的 kubeconfig"/>
 <meta name="twitter:description" content="介绍一款小工具：kubecm，帮助你管理杂乱无章的 kubeconfig。"/>
@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -246,6 +246,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -253,8 +255,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -682,7 +682,7 @@ if (!doNotTrack) {
 使用 <code>brew</code> 或者直接下载二进制可执行文件
 </div>
 
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">brew install sunny0826/tap/kubecm
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">brew install sunny0826/tap/kubecm
 </code></pre></div><h4 id="linux">Linux</h4>
 
 
@@ -691,10 +691,10 @@ if (!doNotTrack) {
 下载二进制可执行文件
 </div>
 
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># linux x86_64</span>
-curl -Lo kubecm.tar.gz https://github.com/sunny0826/kubecm/releases/download/v<span style="color:#ed9d13">${</span><span style="color:#40ffff">VERSION</span><span style="color:#ed9d13">}</span>/kubecm_<span style="color:#ed9d13">${</span><span style="color:#40ffff">VERSION</span><span style="color:#ed9d13">}</span>_Linux_x86_64.tar.gz
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># linux x86_64</span>
+curl -Lo kubecm.tar.gz https://github.com/sunny0826/kubecm/releases/download/v<span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">VERSION</span><span style="color:#f1fa8c">}</span>/kubecm_<span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">VERSION</span><span style="color:#f1fa8c">}</span>_Linux_x86_64.tar.gz
 tar -zxvf kubecm.tar.gz kubecm
-<span style="color:#24909d">cd</span> kubecm
+<span style="color:#8be9fd;font-style:italic">cd</span> kubecm
 sudo mv kubecm /usr/local/bin/
 </code></pre></div><h4 id="windows">Windows</h4>
 
@@ -713,9 +713,9 @@ sudo mv kubecm /usr/local/bin/
 </div>
 
 <p>以 <code>zsh</code> 为例，在 <code>$HOME/.zshrc</code> 中添加</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim">source &lt;(kubecm completion zsh)<span style="color:#a61717;background-color:#e3d2d2">
-</span></code></pre></div><p>然后使用 <code>source</code> 命令，使其生效</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-zsh" data-lang="zsh"><span style="color:#24909d">source</span> <span style="color:#40ffff">$HOME</span>/.zshrc
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim">source &lt;(kubecm completion zsh)
+</code></pre></div><p>然后使用 <code>source</code> 命令，使其生效</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-zsh" data-lang="zsh"><span style="color:#8be9fd;font-style:italic">source</span> <span style="color:#8be9fd;font-style:italic">$HOME</span>/.zshrc
 </code></pre></div><p>之后，在输入 <code>kubecm</code> 后按 <kbd>tab</kbd> 键，就可以看到命令行自动补全的内容</p>
 <p><img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1g9qa0yy3bvj21co0f2hdt.jpg" alt="image"></p>
 <h2 id="操作-kubeconfig">操作 kubeconfig</h2>
@@ -727,41 +727,41 @@ sudo mv kubecm /usr/local/bin/
 </div>
 
 <h4 id="查看">查看</h4>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># 查看 $HOME/.kube/config 中所有的 context</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># 查看 $HOME/.kube/config 中所有的 context</span>
 kubecm
 </code></pre></div><h4 id="添加">添加</h4>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># 添加 example.yaml 到 $HOME/.kube/config.yaml，该方式不会覆盖源 kubeconfig，只会在当前目录中生成一个 config.yaml 文件</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># 添加 example.yaml 到 $HOME/.kube/config.yaml，该方式不会覆盖源 kubeconfig，只会在当前目录中生成一个 config.yaml 文件</span>
 kubecm add -f example.yaml
 
-<span style="color:#999;font-style:italic"># 功能同上，但是会将 example.yaml 中的 context 命名为 test</span>
-kubecm add -f example.yaml -n <span style="color:#24909d">test</span>
+<span style="color:#6272a4"># 功能同上，但是会将 example.yaml 中的 context 命名为 test</span>
+kubecm add -f example.yaml -n <span style="color:#8be9fd;font-style:italic">test</span>
 
-<span style="color:#999;font-style:italic"># 添加 -c 会覆盖源 kubeconfig</span>
+<span style="color:#6272a4"># 添加 -c 会覆盖源 kubeconfig</span>
 kubecm add -f example.yaml -c
 </code></pre></div><h4 id="删除">删除</h4>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># 交互式删除</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># 交互式删除</span>
 kubecm delete
-<span style="color:#999;font-style:italic"># 删除指定 context</span>
+<span style="color:#6272a4"># 删除指定 context</span>
 kubecm delete my-context
 </code></pre></div><h4 id="合并">合并</h4>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># 合并 test 目录中的 kubeconfig,该方式不会覆盖源 kubeconfig，只会在当前目录中生成一个 config.yaml 文件</span>
-kubecm merge -f <span style="color:#24909d">test</span> 
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># 合并 test 目录中的 kubeconfig,该方式不会覆盖源 kubeconfig，只会在当前目录中生成一个 config.yaml 文件</span>
+kubecm merge -f <span style="color:#8be9fd;font-style:italic">test</span> 
 
-<span style="color:#999;font-style:italic"># 添加 -c 会覆盖源 kubeconfig</span>
-kubecm merge -f <span style="color:#24909d">test</span> -c
+<span style="color:#6272a4"># 添加 -c 会覆盖源 kubeconfig</span>
+kubecm merge -f <span style="color:#8be9fd;font-style:italic">test</span> -c
 </code></pre></div><h4 id="重命名">重命名</h4>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># 交互式重命名</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># 交互式重命名</span>
 kubecm rename
-<span style="color:#999;font-style:italic"># 将 dev 重命名为 test</span>
-kubecm rename -o dev -n <span style="color:#24909d">test</span>
-<span style="color:#999;font-style:italic"># 重命名 current-context 为 dev</span>
+<span style="color:#6272a4"># 将 dev 重命名为 test</span>
+kubecm rename -o dev -n <span style="color:#8be9fd;font-style:italic">test</span>
+<span style="color:#6272a4"># 重命名 current-context 为 dev</span>
 kubecm rename -n dev -c
 </code></pre></div><h4 id="切换默认-namespace">切换默认 namespace</h4>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># 交互式切换 namespace</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># 交互式切换 namespace</span>
 kubecm namespace
-<span style="color:#999;font-style:italic"># 或者</span>
+<span style="color:#6272a4"># 或者</span>
 kubecm ns
-<span style="color:#999;font-style:italic"># 切换默认 namespace 为 kube-system</span>
+<span style="color:#6272a4"># 切换默认 namespace 为 kube-system</span>
 kubecm ns kube-system
 </code></pre></div><h2 id="效果展示">效果展示</h2>
 <p><img src="Interaction.gif" alt=""></p>

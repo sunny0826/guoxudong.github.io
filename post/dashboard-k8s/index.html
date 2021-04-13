@@ -42,7 +42,7 @@
       "datePublished": "2019-02-14 14:07:06 \u002b0800 \u002b0800",
       "dateModified" : "2019-02-14 14:07:06 \u002b0800 \u002b0800",
       "url" : "https:\/\/guoxudong.io\/post\/dashboard-k8s\/",
-      "wordCount" : "364",
+      "wordCount" : "376",
       "keywords" : [ "阿里云","日志","kubernetes","Guoxudong" ]
   }
   </script>
@@ -56,7 +56,7 @@
 <meta itemprop="name" content="阿里云日志服务采集k8s日志并实现livetail功能">
 <meta itemprop="description" content="阿里云日志服务采集k8s日志和livetail功能调研"><meta itemprop="datePublished" content="2019-02-14T14:07:06&#43;08:00" />
 <meta itemprop="dateModified" content="2020-08-04T11:59:33&#43;08:00" />
-<meta itemprop="wordCount" content="364">
+<meta itemprop="wordCount" content="376">
 <meta itemprop="keywords" content="阿里云,日志,kubernetes," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="阿里云日志服务采集k8s日志并实现livetail功能"/>
 <meta name="twitter:description" content="阿里云日志服务采集k8s日志和livetail功能调研"/>
@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -236,6 +236,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -243,8 +245,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -670,7 +670,7 @@ if (!doNotTrack) {
 </li>
 <li>
 <p>执行命令，将${your_k8s_cluster_id}替换为集群id</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget http://logtail-release-cn-hangzhou.oss-cn-hangzhou.aliyuncs.com/kubernetes/alicloud-log-k8s-install.sh -O alicloud-log-k8s-install.sh; chmod <span style="color:#3677a9">744</span> ./alicloud-log-k8s-install.sh; sh ./alicloud-log-k8s-install.sh <span style="color:#ed9d13">${</span><span style="color:#40ffff">your_k8s_cluster_id</span><span style="color:#ed9d13">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget http://logtail-release-cn-hangzhou.oss-cn-hangzhou.aliyuncs.com/kubernetes/alicloud-log-k8s-install.sh -O alicloud-log-k8s-install.sh; chmod <span style="color:#bd93f9">744</span> ./alicloud-log-k8s-install.sh; sh ./alicloud-log-k8s-install.sh <span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">your_k8s_cluster_id</span><span style="color:#f1fa8c">}</span>
 </code></pre></div><ul>
 <li>Project k8s-log-${your_k8s_cluster_id}下会自动创建名为config-operation-log的Logstore，用于存储alibaba-log-controller的运行日志。请勿删除此Logstore，否则无法为alibaba-log-controller排查问题。</li>
 <li>若您需要将日志采集到已有的Project，请执行安装命令sh ./alicloud-log-k8s-install.sh${your_k8s_cluster_id} ${your_project_name} ，并确保日志服务Project和您的Kubernetes集群在同一地域。</li>
@@ -678,112 +678,112 @@ if (!doNotTrack) {
 </li>
 <li>
 <p>该条命令其实就是执行了一个shell脚本，使用helm安装了采集kubernetes集群日志的组件</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim">#!<span style="color:#ed9d13">/bin/</span>bash<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#6ab825;font-weight:bold">if</span> [ $# -eq <span style="color:#3677a9">0</span> ] ; then<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>    echo <span style="color:#ed9d13">&#34;[Invalid Param], use sudo ./install-k8s-log.sh {your-k8s-cluster-id}&#34;</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>    exit <span style="color:#3677a9">1</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>fi<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>  <span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>clusterName=$(echo $<span style="color:#3677a9">1</span> | tr <span style="color:#ed9d13">&#39;[A-Z]&#39;</span> <span style="color:#ed9d13">&#39;[a-z]&#39;</span>)<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>curl --connect-timeout <span style="color:#3677a9">5</span>  http:<span style="color:#ed9d13">//</span><span style="color:#3677a9">100</span>.<span style="color:#3677a9">100</span>.<span style="color:#3677a9">100</span>.<span style="color:#3677a9">200</span><span style="color:#ed9d13">/latest/</span>meta-data/region-id<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>  <span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#6ab825;font-weight:bold">if</span> [ $? != <span style="color:#3677a9">0</span> ]; then<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>    echo <span style="color:#ed9d13">&#34;[FAIL] ECS meta server connect fail, only support alibaba cloud k8s service&#34;</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>    exit <span style="color:#3677a9">1</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>fi<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>  <span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>regionId=`curl http:<span style="color:#ed9d13">//</span><span style="color:#3677a9">100</span>.<span style="color:#3677a9">100</span>.<span style="color:#3677a9">100</span>.<span style="color:#3677a9">200</span><span style="color:#ed9d13">/latest/</span>meta-data/region-id`<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>aliuid=`curl http:<span style="color:#ed9d13">//</span><span style="color:#3677a9">100</span>.<span style="color:#3677a9">100</span>.<span style="color:#3677a9">100</span>.<span style="color:#3677a9">200</span><span style="color:#ed9d13">/latest/</span>meta-data/owner-account-id`<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>  <span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>helmPackageUrl=<span style="color:#ed9d13">&#34;http://logtail-release-$regionId.oss-$regionId.aliyuncs.com/kubernetes/alibaba-cloud-log.tgz&#34;</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>wget $helmPackageUrl -O alibaba-cloud-log.tgz<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#6ab825;font-weight:bold">if</span> [ $? != <span style="color:#3677a9">0</span> ]; then<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>    echo <span style="color:#ed9d13">&#34;[FAIL] download alibaba-cloud-log.tgz from $helmPackageUrl failed&#34;</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>    exit <span style="color:#3677a9">1</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>fi<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>  <span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>project=<span style="color:#ed9d13">&#34;k8s-log-&#34;</span>$clusterName<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#6ab825;font-weight:bold">if</span> [ $# -ge <span style="color:#3677a9">2</span> ]; then<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>    project=$<span style="color:#3677a9">2</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>fi<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>  <span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>echo [INFO] your k8s is using project : $project<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>  <span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>helm install alibaba-cloud-log.tgz --name alibaba-log-controller \<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>    --set ProjectName=$project \<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>    --set RegionId=$regionId \<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>    --set InstallParam=$regionId \<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>    --set MachineGroupId=<span style="color:#ed9d13">&#34;k8s-group-&#34;</span>$clusterName \<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>    --set Endpoint=$regionId<span style="color:#ed9d13">&#34;-intranet.log.aliyuncs.com&#34;</span> \<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>    --set AlibabaCloudUserId=<span style="color:#ed9d13">&#34;:&#34;</span>$aliuid \<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>    --set LogtailImage.Repository=<span style="color:#ed9d13">&#34;registry.$regionId.aliyuncs.com/log-service/logtail&#34;</span> \<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>    --set ControllerImage.Repository=<span style="color:#ed9d13">&#34;registry.$regionId.aliyuncs.com/log-service/alibabacloud-log-controller&#34;</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>  <span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>installRst=$?<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>  <span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#6ab825;font-weight:bold">if</span> [ $installRst -eq <span style="color:#3677a9">0</span> ]; then<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>    echo <span style="color:#ed9d13">&#34;[SUCCESS] install helm package : alibaba-log-controller success.&#34;</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>    exit <span style="color:#3677a9">0</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#6ab825;font-weight:bold">else</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>    echo <span style="color:#ed9d13">&#34;[FAIL] install helm package failed, errno &#34;</span> $installRst<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>    exit <span style="color:#3677a9">0</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>fi<span style="color:#a61717;background-color:#e3d2d2">
-</span></code></pre></div></li>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim">#!<span style="color:#f1fa8c">/bin/</span>bash
+
+<span style="color:#ff79c6">if</span> [ $# -eq <span style="color:#bd93f9">0</span> ] ; then
+    echo <span style="color:#f1fa8c">&#34;[Invalid Param], use sudo ./install-k8s-log.sh {your-k8s-cluster-id}&#34;</span>
+    exit <span style="color:#bd93f9">1</span>
+fi
+  
+clusterName=$(echo $<span style="color:#bd93f9">1</span> | tr <span style="color:#f1fa8c">&#39;[A-Z]&#39;</span> <span style="color:#f1fa8c">&#39;[a-z]&#39;</span>)
+curl --connect-timeout <span style="color:#bd93f9">5</span>  http:<span style="color:#f1fa8c">//</span><span style="color:#bd93f9">100</span>.<span style="color:#bd93f9">100</span>.<span style="color:#bd93f9">100</span>.<span style="color:#bd93f9">200</span><span style="color:#f1fa8c">/latest/</span>meta-data/region-id
+  
+<span style="color:#ff79c6">if</span> [ $? != <span style="color:#bd93f9">0</span> ]; then
+    echo <span style="color:#f1fa8c">&#34;[FAIL] ECS meta server connect fail, only support alibaba cloud k8s service&#34;</span>
+    exit <span style="color:#bd93f9">1</span>
+fi
+  
+regionId=`curl http:<span style="color:#f1fa8c">//</span><span style="color:#bd93f9">100</span>.<span style="color:#bd93f9">100</span>.<span style="color:#bd93f9">100</span>.<span style="color:#bd93f9">200</span><span style="color:#f1fa8c">/latest/</span>meta-data/region-id`
+aliuid=`curl http:<span style="color:#f1fa8c">//</span><span style="color:#bd93f9">100</span>.<span style="color:#bd93f9">100</span>.<span style="color:#bd93f9">100</span>.<span style="color:#bd93f9">200</span><span style="color:#f1fa8c">/latest/</span>meta-data/owner-account-id`
+  
+helmPackageUrl=<span style="color:#f1fa8c">&#34;http://logtail-release-$regionId.oss-$regionId.aliyuncs.com/kubernetes/alibaba-cloud-log.tgz&#34;</span>
+wget $helmPackageUrl -O alibaba-cloud-log.tgz
+<span style="color:#ff79c6">if</span> [ $? != <span style="color:#bd93f9">0</span> ]; then
+    echo <span style="color:#f1fa8c">&#34;[FAIL] download alibaba-cloud-log.tgz from $helmPackageUrl failed&#34;</span>
+    exit <span style="color:#bd93f9">1</span>
+fi
+  
+project=<span style="color:#f1fa8c">&#34;k8s-log-&#34;</span>$clusterName
+<span style="color:#ff79c6">if</span> [ $# -ge <span style="color:#bd93f9">2</span> ]; then
+    project=$<span style="color:#bd93f9">2</span>
+fi
+  
+echo [INFO] your k8s is using project : $project
+  
+helm install alibaba-cloud-log.tgz --name alibaba-log-controller \
+    --set ProjectName=$project \
+    --set RegionId=$regionId \
+    --set InstallParam=$regionId \
+    --set MachineGroupId=<span style="color:#f1fa8c">&#34;k8s-group-&#34;</span>$clusterName \
+    --set Endpoint=$regionId<span style="color:#f1fa8c">&#34;-intranet.log.aliyuncs.com&#34;</span> \
+    --set AlibabaCloudUserId=<span style="color:#f1fa8c">&#34;:&#34;</span>$aliuid \
+    --set LogtailImage.Repository=<span style="color:#f1fa8c">&#34;registry.$regionId.aliyuncs.com/log-service/logtail&#34;</span> \
+    --set ControllerImage.Repository=<span style="color:#f1fa8c">&#34;registry.$regionId.aliyuncs.com/log-service/alibabacloud-log-controller&#34;</span>
+  
+installRst=$?
+  
+<span style="color:#ff79c6">if</span> [ $installRst -eq <span style="color:#bd93f9">0</span> ]; then
+    echo <span style="color:#f1fa8c">&#34;[SUCCESS] install helm package : alibaba-log-controller success.&#34;</span>
+    exit <span style="color:#bd93f9">0</span>
+<span style="color:#ff79c6">else</span>
+    echo <span style="color:#f1fa8c">&#34;[FAIL] install helm package failed, errno &#34;</span> $installRst
+    exit <span style="color:#bd93f9">0</span>
+fi
+</code></pre></div></li>
 <li>
 <p>命令执行后，会在kubernetes集群中的每个节点运行一个日志采集的pod：logatail-ds，该pod位于kube-system</p>
 <p><img src="/images/source/log_detail.png" alt="image"></p>
 </li>
 <li>
 <p>安装完成后，可使用以下命令来查看pod状态，若状态全部成功后，则表示安装完成</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ helm status alibaba-log-controller
-LAST DEPLOYED: Thu Nov <span style="color:#3677a9">22</span> 15:09:35 <span style="color:#3677a9">2018</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ helm status alibaba-log-controller
+LAST DEPLOYED: Thu Nov <span style="color:#bd93f9">22</span> 15:09:35 <span style="color:#bd93f9">2018</span>
 NAMESPACE: default
 STATUS: DEPLOYED
   
 RESOURCES:
-==&gt; v1/ServiceAccount
+<span style="color:#ff79c6">==</span>&gt; v1/ServiceAccount
 NAME                    SECRETS  AGE
-alibaba-log-controller  <span style="color:#3677a9">1</span>        <span style="color:#40ffff">6d</span>
+alibaba-log-controller  <span style="color:#bd93f9">1</span>        <span style="color:#8be9fd;font-style:italic">6d</span>
   
-==&gt; v1beta1/CustomResourceDefinition
+<span style="color:#ff79c6">==</span>&gt; v1beta1/CustomResourceDefinition
 NAME                                   AGE
-aliyunlogconfigs.log.alibabacloud.com  <span style="color:#40ffff">6d</span>
+aliyunlogconfigs.log.alibabacloud.com  <span style="color:#8be9fd;font-style:italic">6d</span>
   
-==&gt; v1beta1/ClusterRole
-alibaba-log-controller  <span style="color:#40ffff">6d</span>
+<span style="color:#ff79c6">==</span>&gt; v1beta1/ClusterRole
+alibaba-log-controller  <span style="color:#8be9fd;font-style:italic">6d</span>
   
-==&gt; v1beta1/ClusterRoleBinding
+<span style="color:#ff79c6">==</span>&gt; v1beta1/ClusterRoleBinding
 NAME                    AGE
-alibaba-log-controller  <span style="color:#40ffff">6d</span>
+alibaba-log-controller  <span style="color:#8be9fd;font-style:italic">6d</span>
   
-==&gt; v1beta1/DaemonSet
+<span style="color:#ff79c6">==</span>&gt; v1beta1/DaemonSet
 NAME        DESIRED  CURRENT  READY  UP-TO-DATE  AVAILABLE  NODE SELECTOR  AGE
-logtail-ds  <span style="color:#3677a9">16</span>       <span style="color:#3677a9">16</span>       <span style="color:#3677a9">16</span>     <span style="color:#3677a9">16</span>          <span style="color:#3677a9">16</span>         &lt;none&gt;         <span style="color:#40ffff">6d</span>
+logtail-ds  <span style="color:#bd93f9">16</span>       <span style="color:#bd93f9">16</span>       <span style="color:#bd93f9">16</span>     <span style="color:#bd93f9">16</span>          <span style="color:#bd93f9">16</span>         &lt;none&gt;         <span style="color:#8be9fd;font-style:italic">6d</span>
   
-==&gt; v1beta1/Deployment
+<span style="color:#ff79c6">==</span>&gt; v1beta1/Deployment
 NAME                    DESIRED  CURRENT  UP-TO-DATE  AVAILABLE  AGE
-alibaba-log-controller  <span style="color:#3677a9">1</span>        <span style="color:#3677a9">1</span>        <span style="color:#3677a9">1</span>           <span style="color:#3677a9">1</span>          <span style="color:#40ffff">6d</span>
+alibaba-log-controller  <span style="color:#bd93f9">1</span>        <span style="color:#bd93f9">1</span>        <span style="color:#bd93f9">1</span>           <span style="color:#bd93f9">1</span>          <span style="color:#8be9fd;font-style:italic">6d</span>
   
-==&gt; v1/Pod(related)
+<span style="color:#ff79c6">==</span>&gt; v1/Pod<span style="color:#ff79c6">(</span>related<span style="color:#ff79c6">)</span>
 NAME                                     READY  STATUS   RESTARTS  AGE
-logtail-ds-2fqs4                         1/1    Running  <span style="color:#3677a9">0</span>         6d
-logtail-ds-4bz7w                         1/1    Running  <span style="color:#3677a9">1</span>         6d
-logtail-ds-6vg88                         1/1    Running  <span style="color:#3677a9">0</span>         6d
-logtail-ds-7tp6v                         1/1    Running  <span style="color:#3677a9">0</span>         6d
-logtail-ds-9575c                         1/1    Running  <span style="color:#3677a9">0</span>         6d
-logtail-ds-bgq84                         1/1    Running  <span style="color:#3677a9">0</span>         6d
-logtail-ds-kdlhr                         1/1    Running  <span style="color:#3677a9">0</span>         6d
-logtail-ds-lknxw                         1/1    Running  <span style="color:#3677a9">0</span>         6d
-logtail-ds-pdxfk                         1/1    Running  <span style="color:#3677a9">0</span>         6d
-logtail-ds-pf4dz                         1/1    Running  <span style="color:#3677a9">0</span>         6d
-logtail-ds-rzsnw                         1/1    Running  <span style="color:#3677a9">0</span>         6d
-logtail-ds-sqhbv                         1/1    Running  <span style="color:#3677a9">0</span>         6d
-logtail-ds-vvtwn                         1/1    Running  <span style="color:#3677a9">0</span>         6d
-logtail-ds-wwmhg                         1/1    Running  <span style="color:#3677a9">0</span>         6d
-logtail-ds-xbp4j                         1/1    Running  <span style="color:#3677a9">0</span>         6d
-logtail-ds-zpld9                         1/1    Running  <span style="color:#3677a9">0</span>         6d
-alibaba-log-controller-85f8fbb498-nzhc8  1/1    Running  <span style="color:#3677a9">0</span>         6d
+logtail-ds-2fqs4                         1/1    Running  <span style="color:#bd93f9">0</span>         6d
+logtail-ds-4bz7w                         1/1    Running  <span style="color:#bd93f9">1</span>         6d
+logtail-ds-6vg88                         1/1    Running  <span style="color:#bd93f9">0</span>         6d
+logtail-ds-7tp6v                         1/1    Running  <span style="color:#bd93f9">0</span>         6d
+logtail-ds-9575c                         1/1    Running  <span style="color:#bd93f9">0</span>         6d
+logtail-ds-bgq84                         1/1    Running  <span style="color:#bd93f9">0</span>         6d
+logtail-ds-kdlhr                         1/1    Running  <span style="color:#bd93f9">0</span>         6d
+logtail-ds-lknxw                         1/1    Running  <span style="color:#bd93f9">0</span>         6d
+logtail-ds-pdxfk                         1/1    Running  <span style="color:#bd93f9">0</span>         6d
+logtail-ds-pf4dz                         1/1    Running  <span style="color:#bd93f9">0</span>         6d
+logtail-ds-rzsnw                         1/1    Running  <span style="color:#bd93f9">0</span>         6d
+logtail-ds-sqhbv                         1/1    Running  <span style="color:#bd93f9">0</span>         6d
+logtail-ds-vvtwn                         1/1    Running  <span style="color:#bd93f9">0</span>         6d
+logtail-ds-wwmhg                         1/1    Running  <span style="color:#bd93f9">0</span>         6d
+logtail-ds-xbp4j                         1/1    Running  <span style="color:#bd93f9">0</span>         6d
+logtail-ds-zpld9                         1/1    Running  <span style="color:#bd93f9">0</span>         6d
+alibaba-log-controller-85f8fbb498-nzhc8  1/1    Running  <span style="color:#bd93f9">0</span>         6d
 </code></pre></div></li>
 </ul>
 <h1 id="配置日志组件展示">配置日志组件展示</h1>

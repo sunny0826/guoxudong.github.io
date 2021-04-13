@@ -115,23 +115,23 @@
 &lt;p&gt;这里我选用了 &lt;a href=&#34;https://github.com/labstack/echo&#34;&gt;echo&lt;/a&gt; 作为 web 框架，当然也可以选择其他的 web 框架，选择 echo 只不过因为其比较轻量。要做桌面应用，还需要一个 GUI 框架来构建应用，这里我选择的是 &lt;a href=&#34;https://github.com/zserge/lorca&#34;&gt;Lorca&lt;/a&gt;，使用 Lorca 可以用 Go 编写 HTML5 桌面程序，依赖 Chrome 进行 UI 渲染，但却不需要把 Chrome 打包到应用中，也就是说使用应用的电脑，需要安装 Chrome。&lt;/p&gt;
 &lt;h3 id=&#34;lorca&#34;&gt;lorca&lt;/h3&gt;
 &lt;p&gt;echo 的使用方式中规中矩，没有什么需要介绍的。这里简要介绍一下 lorca，其的使用方法和原理都很简单，可以将其看做是一个浏览器，可在其上运行 web 应用，lorca 可直接将 web 应用包装成桌面应用。这里提供一个简单的示例：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;ui, _ := lorca.&lt;span style=&#34;color:#447fcf&#34;&gt;New&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#3677a9&#34;&gt;480&lt;/span&gt;, &lt;span style=&#34;color:#3677a9&#34;&gt;320&lt;/span&gt;)
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;defer&lt;/span&gt; ui.&lt;span style=&#34;color:#447fcf&#34;&gt;Close&lt;/span&gt;()
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;ui, _ &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; lorca.&lt;span style=&#34;color:#50fa7b&#34;&gt;New&lt;/span&gt;(&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#bd93f9&#34;&gt;480&lt;/span&gt;, &lt;span style=&#34;color:#bd93f9&#34;&gt;320&lt;/span&gt;)
+&lt;span style=&#34;color:#ff79c6&#34;&gt;defer&lt;/span&gt; ui.&lt;span style=&#34;color:#50fa7b&#34;&gt;Close&lt;/span&gt;()
 
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Bind Go function to be available in JS. Go function may be long-running and
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// blocking - in JS it&amp;#39;s represented with a Promise.
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;ui.&lt;span style=&#34;color:#447fcf&#34;&gt;Bind&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;add&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;func&lt;/span&gt;(a, b &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;int&lt;/span&gt;) &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;int&lt;/span&gt; { &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; a + b })
+&lt;span style=&#34;color:#6272a4&#34;&gt;// Bind Go function to be available in JS. Go function may be long-running and
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// blocking - in JS it&amp;#39;s represented with a Promise.
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;ui.&lt;span style=&#34;color:#50fa7b&#34;&gt;Bind&lt;/span&gt;(&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;add&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;func&lt;/span&gt;(a, b &lt;span style=&#34;color:#8be9fd&#34;&gt;int&lt;/span&gt;) &lt;span style=&#34;color:#8be9fd&#34;&gt;int&lt;/span&gt; { &lt;span style=&#34;color:#ff79c6&#34;&gt;return&lt;/span&gt; a &lt;span style=&#34;color:#ff79c6&#34;&gt;+&lt;/span&gt; b })
 
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Call JS function from Go. Functions may be asynchronous, i.e. return promises
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;n := ui.&lt;span style=&#34;color:#447fcf&#34;&gt;Eval&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;`Math.random()`&lt;/span&gt;).&lt;span style=&#34;color:#447fcf&#34;&gt;Float&lt;/span&gt;()
-fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Println&lt;/span&gt;(n)
+&lt;span style=&#34;color:#6272a4&#34;&gt;// Call JS function from Go. Functions may be asynchronous, i.e. return promises
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;n &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; ui.&lt;span style=&#34;color:#50fa7b&#34;&gt;Eval&lt;/span&gt;(&lt;span style=&#34;color:#f1fa8c&#34;&gt;`Math.random()`&lt;/span&gt;).&lt;span style=&#34;color:#50fa7b&#34;&gt;Float&lt;/span&gt;()
+fmt.&lt;span style=&#34;color:#50fa7b&#34;&gt;Println&lt;/span&gt;(n)
 
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Call JS that calls Go and so on and so on...
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;m := ui.&lt;span style=&#34;color:#447fcf&#34;&gt;Eval&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;`add(2, 3)`&lt;/span&gt;).&lt;span style=&#34;color:#447fcf&#34;&gt;Int&lt;/span&gt;()
-fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Println&lt;/span&gt;(m)
+&lt;span style=&#34;color:#6272a4&#34;&gt;// Call JS that calls Go and so on and so on...
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;m &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; ui.&lt;span style=&#34;color:#50fa7b&#34;&gt;Eval&lt;/span&gt;(&lt;span style=&#34;color:#f1fa8c&#34;&gt;`add(2, 3)`&lt;/span&gt;).&lt;span style=&#34;color:#50fa7b&#34;&gt;Int&lt;/span&gt;()
+fmt.&lt;span style=&#34;color:#50fa7b&#34;&gt;Println&lt;/span&gt;(m)
 
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Wait for the browser window to be closed
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;&amp;lt;-ui.&lt;span style=&#34;color:#447fcf&#34;&gt;Done&lt;/span&gt;()
+&lt;span style=&#34;color:#6272a4&#34;&gt;// Wait for the browser window to be closed
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;lt;-&lt;/span&gt;ui.&lt;span style=&#34;color:#50fa7b&#34;&gt;Done&lt;/span&gt;()
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;制作-macos-app&#34;&gt;制作 MacOS App&lt;/h2&gt;
 &lt;p&gt;在完成基本的编码后，接下来的工作才是重点：将应用包装成一个 MacOS APP。&lt;/p&gt;
 &lt;h3 id=&#34;制作图标&#34;&gt;制作图标&lt;/h3&gt;
@@ -140,24 +140,24 @@ fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Println&lt;/span&gt;(m)
 &lt;li&gt;新建一个名为 &lt;code&gt;tmp.iconset&lt;/code&gt; 的临时目录，用于存放不同大小的临时图片&lt;/li&gt;
 &lt;li&gt;执行如下命令，将原图转为不同大小的图片并放入临时目录&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;16&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;16&lt;/span&gt;     logo.png --out tmp.iconset/icon_16x16.png
-$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;32&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;32&lt;/span&gt;     logo.png --out tmp.iconset/icon_16x16@2x.png
-$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;32&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;32&lt;/span&gt;     logo.png --out tmp.iconset/icon_32x32.png
-$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;64&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;64&lt;/span&gt;     logo.png --out tmp.iconset/icon_32x32@2x.png
-$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;128&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;128&lt;/span&gt;   logo.png --out tmp.iconset/icon_128x128.png
-$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;256&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;256&lt;/span&gt;   logo.png --out tmp.iconset/icon_128x128@2x.png
-$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;256&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;256&lt;/span&gt;   logo.png --out tmp.iconset/icon_256x256.png
-$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;512&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;512&lt;/span&gt;   logo.png --out tmp.iconset/icon_256x256@2x.png
-$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;512&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;512&lt;/span&gt;   logo.png --out tmp.iconset/icon_512x512.png
-$ sips -z &lt;span style=&#34;color:#3677a9&#34;&gt;1024&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;1024&lt;/span&gt;   logo.png --out tmp.iconset/icon_512x512@2x.png
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ sips -z &lt;span style=&#34;color:#bd93f9&#34;&gt;16&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;16&lt;/span&gt;     logo.png --out tmp.iconset/icon_16x16.png
+$ sips -z &lt;span style=&#34;color:#bd93f9&#34;&gt;32&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;32&lt;/span&gt;     logo.png --out tmp.iconset/icon_16x16@2x.png
+$ sips -z &lt;span style=&#34;color:#bd93f9&#34;&gt;32&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;32&lt;/span&gt;     logo.png --out tmp.iconset/icon_32x32.png
+$ sips -z &lt;span style=&#34;color:#bd93f9&#34;&gt;64&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;64&lt;/span&gt;     logo.png --out tmp.iconset/icon_32x32@2x.png
+$ sips -z &lt;span style=&#34;color:#bd93f9&#34;&gt;128&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;128&lt;/span&gt;   logo.png --out tmp.iconset/icon_128x128.png
+$ sips -z &lt;span style=&#34;color:#bd93f9&#34;&gt;256&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;256&lt;/span&gt;   logo.png --out tmp.iconset/icon_128x128@2x.png
+$ sips -z &lt;span style=&#34;color:#bd93f9&#34;&gt;256&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;256&lt;/span&gt;   logo.png --out tmp.iconset/icon_256x256.png
+$ sips -z &lt;span style=&#34;color:#bd93f9&#34;&gt;512&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;512&lt;/span&gt;   logo.png --out tmp.iconset/icon_256x256@2x.png
+$ sips -z &lt;span style=&#34;color:#bd93f9&#34;&gt;512&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;512&lt;/span&gt;   logo.png --out tmp.iconset/icon_512x512.png
+$ sips -z &lt;span style=&#34;color:#bd93f9&#34;&gt;1024&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;1024&lt;/span&gt;   logo.png --out tmp.iconset/icon_512x512@2x.png
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;使用 &lt;a href=&#34;https://developer.apple.com/library/content/documentation/GraphicsAnimation/Conceptual/HighResolutionOSX/Optimizing/Optimizing.html#//apple_ref/doc/uid/TP40012302-CH7-SW2&#34;&gt;iconutil&lt;/a&gt; 生成图标&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ iconutil -c icns tmp.iconset -o icon.icns
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ iconutil -c icns tmp.iconset -o icon.icns
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;icon.icns&lt;/code&gt; 就是制作好的 MacOS App 图标。&lt;/p&gt;
 &lt;h3 id=&#34;制作-app-bundle&#34;&gt;制作 .app bundle&lt;/h3&gt;
 &lt;p&gt;macOS 上安装的可运行程序是一个 &lt;code&gt;.app&lt;/code&gt; 的目录，里面包含了应用的二进制文件、资源文件以及清单文件。其的目录结构为（也可以通过”右键-显示包内容“来查看 &lt;code&gt;.app&lt;/code&gt; 文件内容）：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ tree Kustomize.app
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ tree Kustomize.app
 Kustomize.app
 └── Contents
     ├── Info.plist
@@ -190,22 +190,22 @@ Kustomize.app
 &lt;/ul&gt;
 &lt;h3 id=&#34;infoplist-文件&#34;&gt;Info.plist 文件&lt;/h3&gt;
 &lt;p&gt;这是一个清单文件，根据自己应用的内容对齐进行修改，更多内容可以参考 &lt;a href=&#34;https://github.com/shurcooL/trayhost&#34;&gt;trayhost&lt;/a&gt; 项目的说明。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#cd2828;font-weight:bold&#34;&gt;&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#cd2828;font-weight:bold&#34;&gt;&amp;lt;!DOCTYPE plist PUBLIC &amp;#34;-//Apple//DTD PLIST 1.0//EN&amp;#34; &amp;#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&amp;#34;&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;plist&lt;/span&gt; &lt;span style=&#34;color:#bbb&#34;&gt;version=&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;1.0&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;dict&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;CFBundleExecutable&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;kustomize&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;CFBundleIconFile&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;icon.icns&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;CFBundleIdentifier&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;io.guoxudong.kustomize-remote-observer&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;NSHighResolutionCapable&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;true/&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;LSUIElement&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;1&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/dict&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;lt;/plist&amp;gt;&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;lt;!DOCTYPE plist PUBLIC &amp;#34;-//Apple//DTD PLIST 1.0//EN&amp;#34; &amp;#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&amp;#34;&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;lt;plist&lt;/span&gt; &lt;span style=&#34;color:#50fa7b&#34;&gt;version=&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;1.0&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;lt;dict&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;CFBundleExecutable&lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;kustomize&lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;CFBundleIconFile&lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;icon.icns&lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;CFBundleIdentifier&lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;io.guoxudong.kustomize-remote-observer&lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;NSHighResolutionCapable&lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;lt;true/&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;LSUIElement&lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;1&lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;lt;/dict&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;lt;/plist&amp;gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;使用脚本构建-app&#34;&gt;使用脚本构建 App&lt;/h3&gt;
 &lt;p&gt;上面的这些只不过是介绍一下原理及手动修改方式，实际应用中可以使用脚本来完成这些工作。使用如下脚本，可以一键完成：&lt;/p&gt;
 &lt;ul&gt;
@@ -214,45 +214,45 @@ Kustomize.app
 &lt;li&gt;清单文件的生成&lt;/li&gt;
 &lt;li&gt;静态资源的拷贝&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#cd2828;font-weight:bold&#34;&gt;#!/bin/sh
-&lt;/span&gt;&lt;span style=&#34;color:#cd2828;font-weight:bold&#34;&gt;&lt;/span&gt;
-&lt;span style=&#34;color:#40ffff&#34;&gt;APP&lt;/span&gt;=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Kustomize.app&amp;#34;&lt;/span&gt;
-mkdir -p &lt;span style=&#34;color:#40ffff&#34;&gt;$APP&lt;/span&gt;/Contents/{MacOS,Resources}
-go build -o &lt;span style=&#34;color:#40ffff&#34;&gt;$APP&lt;/span&gt;/Contents/MacOS/kustomize
-cat &amp;gt; &lt;span style=&#34;color:#40ffff&#34;&gt;$APP&lt;/span&gt;/Contents/Info.plist &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;&amp;lt; EOF
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;!DOCTYPE plist PUBLIC &amp;#34;-//Apple//DTD PLIST 1.0//EN&amp;#34; &amp;#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&amp;#34;&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;plist version=&amp;#34;1.0&amp;#34;&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;dict&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;	&amp;lt;key&amp;gt;CFBundleExecutable&amp;lt;/key&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;	&amp;lt;string&amp;gt;kustomize&amp;lt;/string&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;	&amp;lt;key&amp;gt;CFBundleIconFile&amp;lt;/key&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;	&amp;lt;string&amp;gt;icon.icns&amp;lt;/string&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;	&amp;lt;key&amp;gt;CFBundleIdentifier&amp;lt;/key&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;	&amp;lt;string&amp;gt;io.guoxudong.kustomize-remote-observer&amp;lt;/string&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;	&amp;lt;key&amp;gt;NSHighResolutionCapable&amp;lt;/key&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;  &amp;lt;true/&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;	&amp;lt;key&amp;gt;LSUIElement&amp;lt;/key&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;  &amp;lt;string&amp;gt;1&amp;lt;/string&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;/dict&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;lt;/plist&amp;gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;EOF&lt;/span&gt;
-cp icons/icon.icns &lt;span style=&#34;color:#40ffff&#34;&gt;$APP&lt;/span&gt;/Contents/Resources/icon.icns
-cp -r assets &lt;span style=&#34;color:#40ffff&#34;&gt;$APP&lt;/span&gt;/Contents/Resources/assets
-cp -r views &lt;span style=&#34;color:#40ffff&#34;&gt;$APP&lt;/span&gt;/Contents/Resources/views
-find &lt;span style=&#34;color:#40ffff&#34;&gt;$APP&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;#!/bin/sh
+&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;&lt;/span&gt;
+&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;APP&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;Kustomize.app&amp;#34;&lt;/span&gt;
+mkdir -p &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;$APP&lt;/span&gt;/Contents/&lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;MacOS,Resources&lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;
+go build -o &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;$APP&lt;/span&gt;/Contents/MacOS/kustomize
+cat &amp;gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;$APP&lt;/span&gt;/Contents/Info.plist &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;lt;&amp;lt; EOF
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;lt;!DOCTYPE plist PUBLIC &amp;#34;-//Apple//DTD PLIST 1.0//EN&amp;#34; &amp;#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&amp;#34;&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;lt;plist version=&amp;#34;1.0&amp;#34;&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;lt;dict&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;	&amp;lt;key&amp;gt;CFBundleExecutable&amp;lt;/key&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;	&amp;lt;string&amp;gt;kustomize&amp;lt;/string&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;	&amp;lt;key&amp;gt;CFBundleIconFile&amp;lt;/key&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;	&amp;lt;string&amp;gt;icon.icns&amp;lt;/string&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;	&amp;lt;key&amp;gt;CFBundleIdentifier&amp;lt;/key&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;	&amp;lt;string&amp;gt;io.guoxudong.kustomize-remote-observer&amp;lt;/string&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;	&amp;lt;key&amp;gt;NSHighResolutionCapable&amp;lt;/key&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;  &amp;lt;true/&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;	&amp;lt;key&amp;gt;LSUIElement&amp;lt;/key&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;  &amp;lt;string&amp;gt;1&amp;lt;/string&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;lt;/dict&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;lt;/plist&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;EOF&lt;/span&gt;
+cp icons/icon.icns &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;$APP&lt;/span&gt;/Contents/Resources/icon.icns
+cp -r assets &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;$APP&lt;/span&gt;/Contents/Resources/assets
+cp -r views &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;$APP&lt;/span&gt;/Contents/Resources/views
+find &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;$APP&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;注意&lt;/h4&gt;
 &lt;p&gt;在 MacOS 中，当您运行 App bundle 时，进程的工作目录是根目录（&lt;code&gt;/&lt;/code&gt;），而不是 &lt;code&gt;Contents/Resources&lt;/code&gt; 目录。如果需要从 &lt;code&gt;Resources&lt;/code&gt; 加载资源，则需要进行如下更改：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;ep, err := os.&lt;span style=&#34;color:#447fcf&#34;&gt;Executable&lt;/span&gt;()
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
-	log.&lt;span style=&#34;color:#447fcf&#34;&gt;Fatalln&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;os.Executable:&amp;#34;&lt;/span&gt;, err)
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;ep, err &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; os.&lt;span style=&#34;color:#50fa7b&#34;&gt;Executable&lt;/span&gt;()
+&lt;span style=&#34;color:#ff79c6&#34;&gt;if&lt;/span&gt; err &lt;span style=&#34;color:#ff79c6&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;nil&lt;/span&gt; {
+	log.&lt;span style=&#34;color:#50fa7b&#34;&gt;Fatalln&lt;/span&gt;(&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;os.Executable:&amp;#34;&lt;/span&gt;, err)
 }
-err = os.&lt;span style=&#34;color:#447fcf&#34;&gt;Chdir&lt;/span&gt;(filepath.&lt;span style=&#34;color:#447fcf&#34;&gt;Join&lt;/span&gt;(filepath.&lt;span style=&#34;color:#447fcf&#34;&gt;Dir&lt;/span&gt;(ep), &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;..&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Resources&amp;#34;&lt;/span&gt;))
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
-	log.&lt;span style=&#34;color:#447fcf&#34;&gt;Fatalln&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;os.Chdir:&amp;#34;&lt;/span&gt;, err)
+err = os.&lt;span style=&#34;color:#50fa7b&#34;&gt;Chdir&lt;/span&gt;(filepath.&lt;span style=&#34;color:#50fa7b&#34;&gt;Join&lt;/span&gt;(filepath.&lt;span style=&#34;color:#50fa7b&#34;&gt;Dir&lt;/span&gt;(ep), &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;..&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;Resources&amp;#34;&lt;/span&gt;))
+&lt;span style=&#34;color:#ff79c6&#34;&gt;if&lt;/span&gt; err &lt;span style=&#34;color:#ff79c6&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;nil&lt;/span&gt; {
+	log.&lt;span style=&#34;color:#50fa7b&#34;&gt;Fatalln&lt;/span&gt;(&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;os.Chdir:&amp;#34;&lt;/span&gt;, err)
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -319,55 +319,55 @@ err = os.&lt;span style=&#34;color:#447fcf&#34;&gt;Chdir&lt;/span&gt;(filepath.&
 &lt;li&gt;PowerShell&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;如上所述，Cobra 不但是一个功能强大的 Golang 包，还是一个 CLI 工具，可以用来生成应用程序和命令文件。使用如下命令，即可生成用于命令自动补全的代码：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ cobra add completion
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ cobra add completion
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;或者也可以创建 &lt;code&gt;cmd/completion.go&lt;/code&gt; 文件，来放置用于生成命令自动补全脚本的代码：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;var&lt;/span&gt; completionCmd = &amp;amp;cobra.Command{
-    Use:                   &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;completion [bash|zsh|fish|powershell]&amp;#34;&lt;/span&gt;,
-    Short:                 &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Generate completion script&amp;#34;&lt;/span&gt;,
-    Long: &lt;span style=&#34;color:#ed9d13&#34;&gt;`To load completions:
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;Bash:
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;$ source &amp;lt;(yourprogram completion bash)
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;# To load completions for each session, execute once:
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;Linux:
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;  $ yourprogram completion bash &amp;gt; /etc/bash_completion.d/yourprogram
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;MacOS:
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;  $ yourprogram completion bash &amp;gt; /usr/local/etc/bash_completion.d/yourprogram
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;Zsh:
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;# If shell completion is not already enabled in your environment you will need
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;# to enable it.  You can execute the following once:
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;$ echo &amp;#34;autoload -U compinit; compinit&amp;#34; &amp;gt;&amp;gt; ~/.zshrc
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;# To load completions for each session, execute once:
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;$ yourprogram completion zsh &amp;gt; &amp;#34;${fpath[1]}/_yourprogram&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;# You will need to start a new shell for this setup to take effect.
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;Fish:
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;$ yourprogram completion fish | source
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;# To load completions for each session, execute once:
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;$ yourprogram completion fish &amp;gt; ~/.config/fish/completions/yourprogram.fish
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;`&lt;/span&gt;,
-    DisableFlagsInUseLine: &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;true&lt;/span&gt;,
-    ValidArgs:             []&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;{&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;bash&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;zsh&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;fish&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;powershell&amp;#34;&lt;/span&gt;},
-    Args:                  cobra.&lt;span style=&#34;color:#447fcf&#34;&gt;ExactValidArgs&lt;/span&gt;(&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;),
-    Run: &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;func&lt;/span&gt;(cmd *cobra.Command, args []&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;) {
-      &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;switch&lt;/span&gt; args[&lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;] {
-      &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;bash&amp;#34;&lt;/span&gt;:
-        cmd.&lt;span style=&#34;color:#447fcf&#34;&gt;Root&lt;/span&gt;().&lt;span style=&#34;color:#447fcf&#34;&gt;GenBashCompletion&lt;/span&gt;(os.Stdout)
-      &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;zsh&amp;#34;&lt;/span&gt;:
-        cmd.&lt;span style=&#34;color:#447fcf&#34;&gt;Root&lt;/span&gt;().&lt;span style=&#34;color:#447fcf&#34;&gt;GenZshCompletion&lt;/span&gt;(os.Stdout)
-      &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;fish&amp;#34;&lt;/span&gt;:
-        cmd.&lt;span style=&#34;color:#447fcf&#34;&gt;Root&lt;/span&gt;().&lt;span style=&#34;color:#447fcf&#34;&gt;GenFishCompletion&lt;/span&gt;(os.Stdout, &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;true&lt;/span&gt;)
-      &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;powershell&amp;#34;&lt;/span&gt;:
-        cmd.&lt;span style=&#34;color:#447fcf&#34;&gt;Root&lt;/span&gt;().&lt;span style=&#34;color:#447fcf&#34;&gt;GenPowerShellCompletion&lt;/span&gt;(os.Stdout)
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;var&lt;/span&gt; completionCmd = &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;amp;&lt;/span&gt;cobra.Command{
+    Use:                   &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;completion [bash|zsh|fish|powershell]&amp;#34;&lt;/span&gt;,
+    Short:                 &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;Generate completion script&amp;#34;&lt;/span&gt;,
+    Long: &lt;span style=&#34;color:#f1fa8c&#34;&gt;`To load completions:
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;Bash:
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;$ source &amp;lt;(yourprogram completion bash)
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;# To load completions for each session, execute once:
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;Linux:
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;  $ yourprogram completion bash &amp;gt; /etc/bash_completion.d/yourprogram
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;MacOS:
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;  $ yourprogram completion bash &amp;gt; /usr/local/etc/bash_completion.d/yourprogram
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;Zsh:
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;# If shell completion is not already enabled in your environment you will need
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;# to enable it.  You can execute the following once:
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;$ echo &amp;#34;autoload -U compinit; compinit&amp;#34; &amp;gt;&amp;gt; ~/.zshrc
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;# To load completions for each session, execute once:
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;$ yourprogram completion zsh &amp;gt; &amp;#34;${fpath[1]}/_yourprogram&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;# You will need to start a new shell for this setup to take effect.
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;Fish:
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;$ yourprogram completion fish | source
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;# To load completions for each session, execute once:
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;$ yourprogram completion fish &amp;gt; ~/.config/fish/completions/yourprogram.fish
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;`&lt;/span&gt;,
+    DisableFlagsInUseLine: &lt;span style=&#34;color:#ff79c6&#34;&gt;true&lt;/span&gt;,
+    ValidArgs:             []&lt;span style=&#34;color:#8be9fd&#34;&gt;string&lt;/span&gt;{&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;bash&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;zsh&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;fish&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;powershell&amp;#34;&lt;/span&gt;},
+    Args:                  cobra.&lt;span style=&#34;color:#50fa7b&#34;&gt;ExactValidArgs&lt;/span&gt;(&lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt;),
+    Run: &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;func&lt;/span&gt;(cmd &lt;span style=&#34;color:#ff79c6&#34;&gt;*&lt;/span&gt;cobra.Command, args []&lt;span style=&#34;color:#8be9fd&#34;&gt;string&lt;/span&gt;) {
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;switch&lt;/span&gt; args[&lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;] {
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;bash&amp;#34;&lt;/span&gt;:
+        cmd.&lt;span style=&#34;color:#50fa7b&#34;&gt;Root&lt;/span&gt;().&lt;span style=&#34;color:#50fa7b&#34;&gt;GenBashCompletion&lt;/span&gt;(os.Stdout)
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;zsh&amp;#34;&lt;/span&gt;:
+        cmd.&lt;span style=&#34;color:#50fa7b&#34;&gt;Root&lt;/span&gt;().&lt;span style=&#34;color:#50fa7b&#34;&gt;GenZshCompletion&lt;/span&gt;(os.Stdout)
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;fish&amp;#34;&lt;/span&gt;:
+        cmd.&lt;span style=&#34;color:#50fa7b&#34;&gt;Root&lt;/span&gt;().&lt;span style=&#34;color:#50fa7b&#34;&gt;GenFishCompletion&lt;/span&gt;(os.Stdout, &lt;span style=&#34;color:#ff79c6&#34;&gt;true&lt;/span&gt;)
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;powershell&amp;#34;&lt;/span&gt;:
+        cmd.&lt;span style=&#34;color:#50fa7b&#34;&gt;Root&lt;/span&gt;().&lt;span style=&#34;color:#50fa7b&#34;&gt;GenPowerShellCompletion&lt;/span&gt;(os.Stdout)
       }
     },
 }
@@ -385,27 +385,27 @@ err = os.&lt;span style=&#34;color:#447fcf&#34;&gt;Chdir&lt;/span&gt;(filepath.&
 &lt;p&gt;名称补全其实也分静态名称和动态名称，静态名称就像 &lt;code&gt;kubectl completion [tab]&lt;/code&gt; 预期返回的多种 shell 名称，内容为事先在代码中已经定义好的内容；而动态名称，就是像 &lt;code&gt;helm status [tab]&lt;/code&gt; 预期返回的所有 release 名称，并不是以静态内容体现，而是通过函数动态获取的内容。&lt;/p&gt;
 &lt;h5 id=&#34;静态名称补全&#34;&gt;静态名称补全&lt;/h5&gt;
 &lt;p&gt;静态名称补全比较简单，只要在想要自动补全的子命令中加入 &lt;code&gt;ValidArgs&lt;/code&gt; 字段，传入一组包含预期结果的字符串数组即可，代码如下：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;validArgs []&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt; = { &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;pod&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;node&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;service&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;replicationcontroller&amp;#34;&lt;/span&gt; }
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;validArgs []&lt;span style=&#34;color:#8be9fd&#34;&gt;string&lt;/span&gt; = { &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;pod&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;node&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;service&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;replicationcontroller&amp;#34;&lt;/span&gt; }
 
-cmd := &amp;amp;cobra.Command{
-    Use:     &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;get [(-o|--output=)json|yaml|template|...] (RESOURCE [NAME] | RESOURCE/NAME ...)&amp;#34;&lt;/span&gt;,
-    Short:   &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Display one or many resources&amp;#34;&lt;/span&gt;,
+cmd &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;amp;&lt;/span&gt;cobra.Command{
+    Use:     &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;get [(-o|--output=)json|yaml|template|...] (RESOURCE [NAME] | RESOURCE/NAME ...)&amp;#34;&lt;/span&gt;,
+    Short:   &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;Display one or many resources&amp;#34;&lt;/span&gt;,
     Long:    get_long,
     Example: get_example,
-    Run: &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;func&lt;/span&gt;(cmd *cobra.Command, args []&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;) {
-      err := &lt;span style=&#34;color:#447fcf&#34;&gt;RunGet&lt;/span&gt;(f, out, cmd, args)
-      util.&lt;span style=&#34;color:#447fcf&#34;&gt;CheckErr&lt;/span&gt;(err)
+    Run: &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;func&lt;/span&gt;(cmd &lt;span style=&#34;color:#ff79c6&#34;&gt;*&lt;/span&gt;cobra.Command, args []&lt;span style=&#34;color:#8be9fd&#34;&gt;string&lt;/span&gt;) {
+      err &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#50fa7b&#34;&gt;RunGet&lt;/span&gt;(f, out, cmd, args)
+      util.&lt;span style=&#34;color:#50fa7b&#34;&gt;CheckErr&lt;/span&gt;(err)
     },
     ValidArgs: validArgs,
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里是模仿 kubectl 的 &lt;code&gt;get&lt;/code&gt; 子命令，在执行该命令时效果如下：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl get [tab][tab]
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl get &lt;span style=&#34;color:#ff79c6&#34;&gt;[&lt;/span&gt;tab&lt;span style=&#34;color:#ff79c6&#34;&gt;][&lt;/span&gt;tab&lt;span style=&#34;color:#ff79c6&#34;&gt;]&lt;/span&gt;
 node   pod   replicationcontroller   service
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如果命令有别名（Aliases）的话，则可以使用 &lt;code&gt;ArgAliases&lt;/code&gt;，代码如下：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;argAliases []&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt; = { &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;pods&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;nodes&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;services&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;svc&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;replicationcontrollers&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;rc&amp;#34;&lt;/span&gt; }
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;argAliases []&lt;span style=&#34;color:#8be9fd&#34;&gt;string&lt;/span&gt; = { &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;pods&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;nodes&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;services&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;svc&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;replicationcontrollers&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;rc&amp;#34;&lt;/span&gt; }
 
-cmd := &amp;amp;cobra.Command{
-    ...
+cmd &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;amp;&lt;/span&gt;cobra.Command{
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;...&lt;/span&gt;
     ValidArgs:  validArgs,
     ArgAliases: argAliases
 }
@@ -416,63 +416,63 @@ cmd := &amp;amp;cobra.Command{
 别名不会在按 &lt;kbd&gt;TAB&lt;/kbd&gt; 时提示给用户，但如果手动输入，则补全算法会将其视为有效参数，并提供后续的补全。
 &lt;/div&gt;
 
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl get rc [tab][tab]
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl get rc &lt;span style=&#34;color:#ff79c6&#34;&gt;[&lt;/span&gt;tab&lt;span style=&#34;color:#ff79c6&#34;&gt;][&lt;/span&gt;tab&lt;span style=&#34;color:#ff79c6&#34;&gt;]&lt;/span&gt;
 backend        frontend       database
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里如果不声明 &lt;code&gt;rc&lt;/code&gt; 为别名，则补全算法将无法补全后续的内容。&lt;/p&gt;
 &lt;h5 id=&#34;动态名称补全&#34;&gt;动态名称补全&lt;/h5&gt;
 &lt;p&gt;如果需要补全的名称是动态生成的，例如 &lt;code&gt;helm status [tab]&lt;/code&gt; 这里的 &lt;code&gt;release&lt;/code&gt; 值，就需要用到 &lt;code&gt;ValidArgsFunction&lt;/code&gt; 字段，将需要返回的内容以 function 的形式声明在 &lt;code&gt;cobra.Command&lt;/code&gt; 中，代码如下：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;cmd := &amp;amp;cobra.Command{
-    Use:   &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;status RELEASE_NAME&amp;#34;&lt;/span&gt;,
-    Short: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Display the status of the named release&amp;#34;&lt;/span&gt;,
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;cmd &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;amp;&lt;/span&gt;cobra.Command{
+    Use:   &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;status RELEASE_NAME&amp;#34;&lt;/span&gt;,
+    Short: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;Display the status of the named release&amp;#34;&lt;/span&gt;,
     Long:  status_long,
-    RunE: &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;func&lt;/span&gt;(cmd *cobra.Command, args []&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;) {
-      &lt;span style=&#34;color:#447fcf&#34;&gt;RunGet&lt;/span&gt;(args[&lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;])
+    RunE: &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;func&lt;/span&gt;(cmd &lt;span style=&#34;color:#ff79c6&#34;&gt;*&lt;/span&gt;cobra.Command, args []&lt;span style=&#34;color:#8be9fd&#34;&gt;string&lt;/span&gt;) {
+      &lt;span style=&#34;color:#50fa7b&#34;&gt;RunGet&lt;/span&gt;(args[&lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;])
     },
-    ValidArgsFunction: &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;func&lt;/span&gt;(cmd *cobra.Command, args []&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;, toComplete &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;) ([]&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;, cobra.ShellCompDirective) {
-      &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#24909d&#34;&gt;len&lt;/span&gt;(args) != &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt; {
-        &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt;, cobra.ShellCompDirectiveNoFileComp
+    ValidArgsFunction: &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;func&lt;/span&gt;(cmd &lt;span style=&#34;color:#ff79c6&#34;&gt;*&lt;/span&gt;cobra.Command, args []&lt;span style=&#34;color:#8be9fd&#34;&gt;string&lt;/span&gt;, toComplete &lt;span style=&#34;color:#8be9fd&#34;&gt;string&lt;/span&gt;) ([]&lt;span style=&#34;color:#8be9fd&#34;&gt;string&lt;/span&gt;, cobra.ShellCompDirective) {
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;len&lt;/span&gt;(args) &lt;span style=&#34;color:#ff79c6&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; {
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;nil&lt;/span&gt;, cobra.ShellCompDirectiveNoFileComp
       }
-      &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#447fcf&#34;&gt;getReleasesFromCluster&lt;/span&gt;(toComplete), cobra.ShellCompDirectiveNoFileComp
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#50fa7b&#34;&gt;getReleasesFromCluster&lt;/span&gt;(toComplete), cobra.ShellCompDirectiveNoFileComp
     },
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;上面这段代码是 &lt;code&gt;helm&lt;/code&gt; 的源码，也是 Cobra 的官方示例代码，很好的展示了这个 function 的结构及返回格式，有兴趣的同学可以去看一下 &lt;code&gt;helm&lt;/code&gt; 的源码，也是很有意思的。&lt;code&gt;getReleasesFromCluster&lt;/code&gt; 方法是用来获取 Helm release 列表，在执行命令时，效果如下：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ helm status [tab][tab]
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ helm status &lt;span style=&#34;color:#ff79c6&#34;&gt;[&lt;/span&gt;tab&lt;span style=&#34;color:#ff79c6&#34;&gt;][&lt;/span&gt;tab&lt;span style=&#34;color:#ff79c6&#34;&gt;]&lt;/span&gt;
 harbor notary rook thanos
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;cobra.ShellCompDirective&lt;/code&gt; 可以控制自动补全的特定行为，你可以用或运算符来组合它们，像这样 &lt;code&gt;cobra.ShellCompDirectiveNoSpace | cobra.ShellCompDirectiveNoFileComp&lt;/code&gt;，下面是它们的介绍（摘自官方文档）：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Indicates that the shell will perform its default behavior after completions
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// have been provided (this implies none of the other directives).
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;ShellCompDirectiveDefault
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// Indicates that the shell will perform its default behavior after completions
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// have been provided (this implies none of the other directives).
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;ShellCompDirectiveDefault
 
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Indicates an error occurred and completions should be ignored.
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;ShellCompDirectiveError
+&lt;span style=&#34;color:#6272a4&#34;&gt;// Indicates an error occurred and completions should be ignored.
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;ShellCompDirectiveError
 
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Indicates that the shell should not add a space after the completion,
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// even if there is a single completion provided.
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;ShellCompDirectiveNoSpace
+&lt;span style=&#34;color:#6272a4&#34;&gt;// Indicates that the shell should not add a space after the completion,
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// even if there is a single completion provided.
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;ShellCompDirectiveNoSpace
 
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Indicates that the shell should not provide file completion even when
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// no completion is provided.
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;ShellCompDirectiveNoFileComp
+&lt;span style=&#34;color:#6272a4&#34;&gt;// Indicates that the shell should not provide file completion even when
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// no completion is provided.
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;ShellCompDirectiveNoFileComp
 
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Indicates that the returned completions should be used as file extension filters.
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// For example, to complete only files of the form *.json or *.yaml:
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;//    return []string{&amp;#34;yaml&amp;#34;, &amp;#34;json&amp;#34;}, ShellCompDirectiveFilterFileExt
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// For flags, using MarkFlagFilename() and MarkPersistentFlagFilename()
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// is a shortcut to using this directive explicitly.
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;//
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;ShellCompDirectiveFilterFileExt
+&lt;span style=&#34;color:#6272a4&#34;&gt;// Indicates that the returned completions should be used as file extension filters.
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// For example, to complete only files of the form *.json or *.yaml:
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;//    return []string{&amp;#34;yaml&amp;#34;, &amp;#34;json&amp;#34;}, ShellCompDirectiveFilterFileExt
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// For flags, using MarkFlagFilename() and MarkPersistentFlagFilename()
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// is a shortcut to using this directive explicitly.
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;//
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;ShellCompDirectiveFilterFileExt
 
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// Indicates that only directory names should be provided in file completion.
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// For example:
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;//    return nil, ShellCompDirectiveFilterDirs
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// For flags, using MarkFlagDirname() is a shortcut to using this directive explicitly.
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;//
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// To request directory names within another directory, the returned completions
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// should specify a single directory name within which to search. For example,
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// to complete directories within &amp;#34;themes/&amp;#34;:
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;//    return []string{&amp;#34;themes&amp;#34;}, ShellCompDirectiveFilterDirs
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;//
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;ShellCompDirectiveFilterDirs
+&lt;span style=&#34;color:#6272a4&#34;&gt;// Indicates that only directory names should be provided in file completion.
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// For example:
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;//    return nil, ShellCompDirectiveFilterDirs
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// For flags, using MarkFlagDirname() is a shortcut to using this directive explicitly.
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;//
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// To request directory names within another directory, the returned completions
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// should specify a single directory name within which to search. For example,
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;// to complete directories within &amp;#34;themes/&amp;#34;:
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;//    return []string{&amp;#34;themes&amp;#34;}, ShellCompDirectiveFilterDirs
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;//
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;ShellCompDirectiveFilterDirs
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
@@ -483,27 +483,27 @@ harbor notary rook thanos
 &lt;h4 id=&#34;flag-补全&#34;&gt;Flag 补全&lt;/h4&gt;
 &lt;h5 id=&#34;指定必选-flag&#34;&gt;指定必选 flag&lt;/h5&gt;
 &lt;p&gt;大多时候，名字补全只会提示子命令的补全，但如果一些 flag 是必须的，也可以在用户按 &lt;kbd&gt;TAB&lt;/kbd&gt; 键时进行自动补全，代码如下：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;cmd.&lt;span style=&#34;color:#447fcf&#34;&gt;MarkFlagRequired&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;pod&amp;#34;&lt;/span&gt;)
-cmd.&lt;span style=&#34;color:#447fcf&#34;&gt;MarkFlagRequired&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;container&amp;#34;&lt;/span&gt;)
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;cmd.&lt;span style=&#34;color:#50fa7b&#34;&gt;MarkFlagRequired&lt;/span&gt;(&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;pod&amp;#34;&lt;/span&gt;)
+cmd.&lt;span style=&#34;color:#50fa7b&#34;&gt;MarkFlagRequired&lt;/span&gt;(&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;container&amp;#34;&lt;/span&gt;)
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后在执行命令时，就可以看到：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl &lt;span style=&#34;color:#24909d&#34;&gt;exec&lt;/span&gt; [tab][tab]
--c            --container=  -p            --pod=  
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;exec&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;[&lt;/span&gt;tab&lt;span style=&#34;color:#ff79c6&#34;&gt;][&lt;/span&gt;tab&lt;span style=&#34;color:#ff79c6&#34;&gt;]&lt;/span&gt;
+-c            --container&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;  -p            --pod&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;  
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id=&#34;动态-flag&#34;&gt;动态 flag&lt;/h5&gt;
 &lt;p&gt;同名称补全类似，Cobra 提供了一个字段来完成该功能，需要使用 &lt;code&gt;command.RegisterFlagCompletionFunc()&lt;/code&gt; 来注册自动补全的函数，代码如下：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;flagName := &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;output&amp;#34;&lt;/span&gt;
-cmd.&lt;span style=&#34;color:#447fcf&#34;&gt;RegisterFlagCompletionFunc&lt;/span&gt;(flagName, &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;func&lt;/span&gt;(cmd *cobra.Command, args []&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;, toComplete &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;) ([]&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;, cobra.ShellCompDirective) {
-    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; []&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;{&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;json&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;table&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;yaml&amp;#34;&lt;/span&gt;}, cobra.ShellCompDirectiveDefault
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;flagName &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;output&amp;#34;&lt;/span&gt;
+cmd.&lt;span style=&#34;color:#50fa7b&#34;&gt;RegisterFlagCompletionFunc&lt;/span&gt;(flagName, &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;func&lt;/span&gt;(cmd &lt;span style=&#34;color:#ff79c6&#34;&gt;*&lt;/span&gt;cobra.Command, args []&lt;span style=&#34;color:#8be9fd&#34;&gt;string&lt;/span&gt;, toComplete &lt;span style=&#34;color:#8be9fd&#34;&gt;string&lt;/span&gt;) ([]&lt;span style=&#34;color:#8be9fd&#34;&gt;string&lt;/span&gt;, cobra.ShellCompDirective) {
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;return&lt;/span&gt; []&lt;span style=&#34;color:#8be9fd&#34;&gt;string&lt;/span&gt;{&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;json&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;table&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;yaml&amp;#34;&lt;/span&gt;}, cobra.ShellCompDirectiveDefault
 })
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;RegisterFlagCompletionFunc()&lt;/code&gt; 是通过 &lt;code&gt;command&lt;/code&gt; 与该 flag 的进行关联的，在本示例中可以看到：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ helm status --output [tab][tab]
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ helm status --output &lt;span style=&#34;color:#ff79c6&#34;&gt;[&lt;/span&gt;tab&lt;span style=&#34;color:#ff79c6&#34;&gt;][&lt;/span&gt;tab&lt;span style=&#34;color:#ff79c6&#34;&gt;]&lt;/span&gt;
 json table yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;使用方式和名称补全相同，这里就不做详细介绍了。&lt;/p&gt;
 &lt;h4 id=&#34;debug&#34;&gt;Debug&lt;/h4&gt;
 &lt;p&gt;命令自动补全与其他功能不同，调试起来比较麻烦，所以 Cobra 提供了调用隐藏命令，模拟自动补全脚本的方式来帮助调试代码，你可以直接使用以下隐藏命令来模拟触发：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ helm __complete status har[ENTER]
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ helm __complete status har&lt;span style=&#34;color:#ff79c6&#34;&gt;[&lt;/span&gt;ENTER&lt;span style=&#34;color:#ff79c6&#34;&gt;]&lt;/span&gt;
 harbor
 :4
-Completion ended with directive: ShellCompDirectiveNoFileComp &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# This is on stderr&lt;/span&gt;
+Completion ended with directive: ShellCompDirectiveNoFileComp &lt;span style=&#34;color:#6272a4&#34;&gt;# This is on stderr&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
@@ -511,20 +511,20 @@ Completion ended with directive: ShellCompDirectiveNoFileComp &lt;span style=&#3
 如果需要提示名称而非补全（就是输入命令后直接按 &lt;kbd&gt;TAB&lt;/kbd&gt; 键），则必须将空参数传递给 &lt;code&gt;__complete&lt;/code&gt; 命令：
 &lt;/div&gt;
 
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ helm __complete status &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;[ENTER]
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ helm __complete status &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;[&lt;/span&gt;ENTER&lt;span style=&#34;color:#ff79c6&#34;&gt;]&lt;/span&gt;
 harbor
 notary
 rook
 thanos
 :4
-Completion ended with directive: ShellCompDirectiveNoFileComp &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# This is on stderr&lt;/span&gt;
+Completion ended with directive: ShellCompDirectiveNoFileComp &lt;span style=&#34;color:#6272a4&#34;&gt;# This is on stderr&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;同样可以用来调试 flag 的自动补全：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ helm __complete status --output &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;[ENTER]
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ helm __complete status --output &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;[&lt;/span&gt;ENTER&lt;span style=&#34;color:#ff79c6&#34;&gt;]&lt;/span&gt;
 json
 table
 yaml
 :4
-Completion ended with directive: ShellCompDirectiveNoFileComp &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# This is on stderr&lt;/span&gt;
+Completion ended with directive: ShellCompDirectiveNoFileComp &lt;span style=&#34;color:#6272a4&#34;&gt;# This is on stderr&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
 &lt;p&gt;以上内容是作者挑选的一些较为常用的功能，更多的内容详见&lt;a href=&#34;https://github.com/spf13/cobra&#34;&gt;官方文档&lt;/a&gt;。如果想看示例的话，推荐 &lt;a href=&#34;https://github.com/kubernetes/kubectl&#34;&gt;kubectl&lt;/a&gt; 和 &lt;a href=&#34;https://github.com/helm/helm&#34;&gt;helm&lt;/a&gt; 的源码。&lt;/p&gt;
 &lt;p&gt;当然 Cobra 还不是完美的，比如生成的 Zsh 脚本有些问题，&lt;code&gt;kubectl&lt;/code&gt; 和 &lt;code&gt;helm&lt;/code&gt; 都是使用将其生成的 Bash 自动补全脚本转化为 Zsh 的自动补全脚本的方式。但不得不承认，Cobra 是一个非常好用的 CLI 工具构建框架，很多流行的 CLI 工具都是使用它来构建的，这也是为什么使用 GO 语言编写的 CLI 工具如雨后春笋般快速的出现并占据了云原生工具的关键位置。&lt;/p&gt;
@@ -563,76 +563,76 @@ Completion ended with directive: ShellCompDirectiveNoFileComp &lt;span style=&#3
 &lt;p&gt;首先进入 release 页面，拷贝 macOS 的 Darwin 包地址&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://ws4.sinaimg.cn/large/ad5fbf65gy1g5c7b4mi5fj21lq0se4ck.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;p&gt;然后通过命令在本地创建 Formula&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;brew create https://github.com/sunny0826/kubecm/releases/download/v0.0.1/kubecm_0.0.1_Darwin_x86_64.tar.gz
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;brew create https://github.com/sunny0826/kubecm/releases/download/v0.0.1/kubecm_0.0.1_Darwin_x86_64.tar.gz
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;通过这个命令，&lt;code&gt;brew&lt;/code&gt; 会创建一个名为 &lt;code&gt;kubecm.rb&lt;/code&gt; 的文件在 &lt;code&gt;/usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula/&lt;/code&gt; 目录。&lt;/p&gt;
 &lt;h3 id=&#34;修改-rb-脚本&#34;&gt;修改 rb 脚本&lt;/h3&gt;
 &lt;p&gt;然后在该目录可以看到 &lt;code&gt;kubecm.rb&lt;/code&gt; 这个脚本：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-Ruby&#34; data-lang=&#34;Ruby&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# Documentation: https://github.com/Homebrew/brew/blob/master/share/doc/homebrew/Formula-Cookbook.md&lt;/span&gt;
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#                http://www.rubydoc.info/github/Homebrew/brew/master/Formula&lt;/span&gt;
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# PLEASE REMOVE ALL GENERATED COMMENTS BEFORE SUBMITTING YOUR PULL REQUEST!&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-Ruby&#34; data-lang=&#34;Ruby&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;# Documentation: https://github.com/Homebrew/brew/blob/master/share/doc/homebrew/Formula-Cookbook.md&lt;/span&gt;
+&lt;span style=&#34;color:#6272a4&#34;&gt;#                http://www.rubydoc.info/github/Homebrew/brew/master/Formula&lt;/span&gt;
+&lt;span style=&#34;color:#6272a4&#34;&gt;# PLEASE REMOVE ALL GENERATED COMMENTS BEFORE SUBMITTING YOUR PULL REQUEST!&lt;/span&gt;
 
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;OtfccMac64&lt;/span&gt; &amp;lt; &lt;span style=&#34;color:#40ffff&#34;&gt;Formula&lt;/span&gt;
-  desc &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;
-  homepage &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;
-  url &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;https://github.com/sunny0826/kubecm/releases/download/v0.0.1/kubecm_0.0.1_Darwin_x86_64.tar.gz&amp;#34;&lt;/span&gt;
-  version &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;0.0.1&amp;#34;&lt;/span&gt;
-  sha256 &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;f393b14f9c42c890b8a60949b13a8f9b5c3f814daa8b18901656ccc3b866f646&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#50fa7b&#34;&gt;OtfccMac64&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;lt;&lt;/span&gt; Formula
+  desc &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;
+  homepage &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;
+  url &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;https://github.com/sunny0826/kubecm/releases/download/v0.0.1/kubecm_0.0.1_Darwin_x86_64.tar.gz&amp;#34;&lt;/span&gt;
+  version &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;0.0.1&amp;#34;&lt;/span&gt;
+  sha256 &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;f393b14f9c42c890b8a60949b13a8f9b5c3f814daa8b18901656ccc3b866f646&amp;#34;&lt;/span&gt;
 
-  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# depends_on &amp;#34;cmake&amp;#34; =&amp;gt; :build&lt;/span&gt;
-  depends_on &lt;span style=&#34;color:#ed9d13&#34;&gt;:x11&lt;/span&gt; &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# if your formula requires any X11/XQuartz components&lt;/span&gt;
+  &lt;span style=&#34;color:#6272a4&#34;&gt;# depends_on &amp;#34;cmake&amp;#34; =&amp;gt; :build&lt;/span&gt;
+  depends_on &lt;span style=&#34;color:#f1fa8c&#34;&gt;:x11&lt;/span&gt; &lt;span style=&#34;color:#6272a4&#34;&gt;# if your formula requires any X11/XQuartz components&lt;/span&gt;
 
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#447fcf&#34;&gt;install&lt;/span&gt;
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# ENV.deparallelize  # if your formula fails when building in parallel&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#50fa7b&#34;&gt;install&lt;/span&gt;
+    &lt;span style=&#34;color:#6272a4&#34;&gt;# ENV.deparallelize  # if your formula fails when building in parallel&lt;/span&gt;
 
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# Remove unrecognized options if warned by configure&lt;/span&gt;
-    &lt;span style=&#34;color:#24909d&#34;&gt;system&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;./configure&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;--disable-debug&amp;#34;&lt;/span&gt;,
-                          &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;--disable-dependency-tracking&amp;#34;&lt;/span&gt;,
-                          &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;--disable-silent-rules&amp;#34;&lt;/span&gt;,
-                          &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;--prefix=&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;#{&lt;/span&gt;prefix&lt;span style=&#34;color:#ed9d13&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# system &amp;#34;cmake&amp;#34;, &amp;#34;.&amp;#34;, *std_cmake_args&lt;/span&gt;
-    &lt;span style=&#34;color:#24909d&#34;&gt;system&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;make&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;install&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# if this fails, try separate make/make install steps&lt;/span&gt;
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;end&lt;/span&gt;
+    &lt;span style=&#34;color:#6272a4&#34;&gt;# Remove unrecognized options if warned by configure&lt;/span&gt;
+    &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;system&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;./configure&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;--disable-debug&amp;#34;&lt;/span&gt;,
+                          &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;--disable-dependency-tracking&amp;#34;&lt;/span&gt;,
+                          &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;--disable-silent-rules&amp;#34;&lt;/span&gt;,
+                          &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;--prefix=&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;#{&lt;/span&gt;prefix&lt;span style=&#34;color:#f1fa8c&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;&lt;/span&gt;
+    &lt;span style=&#34;color:#6272a4&#34;&gt;# system &amp;#34;cmake&amp;#34;, &amp;#34;.&amp;#34;, *std_cmake_args&lt;/span&gt;
+    &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;system&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;make&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;install&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#6272a4&#34;&gt;# if this fails, try separate make/make install steps&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;end&lt;/span&gt;
 
-  &lt;span style=&#34;color:#24909d&#34;&gt;test&lt;/span&gt; &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;do&lt;/span&gt;
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# `test do` will create, run in and delete a temporary directory.&lt;/span&gt;
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#&lt;/span&gt;
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# This test will fail and we won&amp;#39;t accept that! It&amp;#39;s enough to just replace&lt;/span&gt;
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# &amp;#34;false&amp;#34; with the main program this formula installs, but it&amp;#39;d be nice if you&lt;/span&gt;
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# were more thorough. Run the test with `brew test otfcc-win32`. Options passed&lt;/span&gt;
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# to `brew install` such as `--HEAD` also need to be provided to `brew test`.&lt;/span&gt;
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#&lt;/span&gt;
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# The installed folder is not in the path, so use the entire path to any&lt;/span&gt;
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# executables being tested: `system &amp;#34;#{bin}/program&amp;#34;, &amp;#34;do&amp;#34;, &amp;#34;something&amp;#34;`.&lt;/span&gt;
-    &lt;span style=&#34;color:#24909d&#34;&gt;system&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;false&amp;#34;&lt;/span&gt;
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;end&lt;/span&gt;
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;end&lt;/span&gt;
+  &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;test&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;do&lt;/span&gt;
+    &lt;span style=&#34;color:#6272a4&#34;&gt;# `test do` will create, run in and delete a temporary directory.&lt;/span&gt;
+    &lt;span style=&#34;color:#6272a4&#34;&gt;#&lt;/span&gt;
+    &lt;span style=&#34;color:#6272a4&#34;&gt;# This test will fail and we won&amp;#39;t accept that! It&amp;#39;s enough to just replace&lt;/span&gt;
+    &lt;span style=&#34;color:#6272a4&#34;&gt;# &amp;#34;false&amp;#34; with the main program this formula installs, but it&amp;#39;d be nice if you&lt;/span&gt;
+    &lt;span style=&#34;color:#6272a4&#34;&gt;# were more thorough. Run the test with `brew test otfcc-win32`. Options passed&lt;/span&gt;
+    &lt;span style=&#34;color:#6272a4&#34;&gt;# to `brew install` such as `--HEAD` also need to be provided to `brew test`.&lt;/span&gt;
+    &lt;span style=&#34;color:#6272a4&#34;&gt;#&lt;/span&gt;
+    &lt;span style=&#34;color:#6272a4&#34;&gt;# The installed folder is not in the path, so use the entire path to any&lt;/span&gt;
+    &lt;span style=&#34;color:#6272a4&#34;&gt;# executables being tested: `system &amp;#34;#{bin}/program&amp;#34;, &amp;#34;do&amp;#34;, &amp;#34;something&amp;#34;`.&lt;/span&gt;
+    &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;system&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;false&amp;#34;&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;end&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;end&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;默认提供的脚本并不适合我们，修改这个脚本：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-Ruby&#34; data-lang=&#34;Ruby&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;Kubecm&lt;/span&gt; &amp;lt; &lt;span style=&#34;color:#40ffff&#34;&gt;Formula&lt;/span&gt;
-  desc &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Merge multiple kubeconfig&amp;#34;&lt;/span&gt;
-  homepage &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;https://github.com/sunny0826/kubecm&amp;#34;&lt;/span&gt;
-  url &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;https://github.com/sunny0826/kubecm/releases/download/v0.0.1/kubecm_0.0.1_Darwin_x86_64.tar.gz&amp;#34;&lt;/span&gt;
-  version &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;0.0.1&amp;#34;&lt;/span&gt;
-  sha256 &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;8c2766e7720049ba0ce9e3d20b7511796a6ba224ce1386cd1d4ef8cc6e1315cd&amp;#34;&lt;/span&gt;
-  &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# depends_on &amp;#34;cmake&amp;#34; =&amp;gt; :build&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-Ruby&#34; data-lang=&#34;Ruby&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#50fa7b&#34;&gt;Kubecm&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;lt;&lt;/span&gt; Formula
+  desc &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;Merge multiple kubeconfig&amp;#34;&lt;/span&gt;
+  homepage &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;https://github.com/sunny0826/kubecm&amp;#34;&lt;/span&gt;
+  url &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;https://github.com/sunny0826/kubecm/releases/download/v0.0.1/kubecm_0.0.1_Darwin_x86_64.tar.gz&amp;#34;&lt;/span&gt;
+  version &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;0.0.1&amp;#34;&lt;/span&gt;
+  sha256 &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;8c2766e7720049ba0ce9e3d20b7511796a6ba224ce1386cd1d4ef8cc6e1315cd&amp;#34;&lt;/span&gt;
+  &lt;span style=&#34;color:#6272a4&#34;&gt;# depends_on &amp;#34;cmake&amp;#34; =&amp;gt; :build&lt;/span&gt;
 
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#447fcf&#34;&gt;install&lt;/span&gt;
-    bin.install &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;kubecm&amp;#34;&lt;/span&gt;
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;end&lt;/span&gt;
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;end&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#50fa7b&#34;&gt;install&lt;/span&gt;
+    bin&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;install &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;kubecm&amp;#34;&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;end&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;end&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;分布填上 &lt;code&gt;desc&lt;/code&gt; 、 &lt;code&gt;homepage&lt;/code&gt; 、&lt;code&gt;url&lt;/code&gt; 等信息，由于这里下载的是 darwin 包，所以直接在 &lt;code&gt;install&lt;/code&gt; 中填上 &lt;code&gt;bin.install &amp;quot;kubecm&amp;quot;&lt;/code&gt; 即可。&lt;/p&gt;
 &lt;h3 id=&#34;本地测试&#34;&gt;本地测试&lt;/h3&gt;
 &lt;p&gt;保存脚本，然后使用 &lt;code&gt;brew install kubecm&lt;/code&gt; 进行测试，查看结果：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;Updating Homebrew...
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;Updating Homebrew...
 Fast-forwarded master to origin/master.
 Fast-forwarded master to origin/master.
-==&amp;gt; Auto-updated Homebrew!
-Updated &lt;span style=&#34;color:#3677a9&#34;&gt;2&lt;/span&gt; taps (sunny0826/tap, homebrew/cask).
-==&amp;gt; Updated Formulae
+&lt;span style=&#34;color:#ff79c6&#34;&gt;==&lt;/span&gt;&amp;gt; Auto-updated Homebrew!
+Updated &lt;span style=&#34;color:#bd93f9&#34;&gt;2&lt;/span&gt; taps &lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;sunny0826/tap, homebrew/cask&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt;.
+&lt;span style=&#34;color:#ff79c6&#34;&gt;==&lt;/span&gt;&amp;gt; Updated Formulae
 sunny0826/tap/kubecm
 
-==&amp;gt; Downloading https://github.com/sunny0826/kubecm/releases/download/v0.0.1/kubecm_0.0.1_Darwin_x86_64.tar.gz
+&lt;span style=&#34;color:#ff79c6&#34;&gt;==&lt;/span&gt;&amp;gt; Downloading https://github.com/sunny0826/kubecm/releases/download/v0.0.1/kubecm_0.0.1_Darwin_x86_64.tar.gz
 Already downloaded: /Users/guoxudong/Library/Caches/Homebrew/kubecm-86.64.tar.gz
-🍺  /usr/local/Cellar/kubecm/86.64: &lt;span style=&#34;color:#3677a9&#34;&gt;5&lt;/span&gt; files, 5.4MB, built in &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt; second
+🍺  /usr/local/Cellar/kubecm/86.64: &lt;span style=&#34;color:#bd93f9&#34;&gt;5&lt;/span&gt; files, 5.4MB, built in &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt; second
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;可以看到已经安装成功了！&lt;/p&gt;
 &lt;h3 id=&#34;创建-tap&#34;&gt;创建 Tap&lt;/h3&gt;
 &lt;p&gt;在本地测试成功之后，就可以把他发布了。这里需要在 GitHub 上创建一个名为 &lt;code&gt;homebrew-tap&lt;/code&gt; 的 repo 注意该 repo 需要以 &lt;code&gt;homebrew-&lt;/code&gt; 为前缀，像是&lt;a href=&#34;https://github.com/sunny0826/homebrew-tap&#34;&gt;这样&lt;/a&gt;。&lt;/p&gt;
@@ -640,12 +640,12 @@ Already downloaded: /Users/guoxudong/Library/Caches/Homebrew/kubecm-86.64.tar.gz
 &lt;h3 id=&#34;实际测试&#34;&gt;实际测试&lt;/h3&gt;
 &lt;p&gt;发布好之后，就可以测试发布成功没有了。&lt;/p&gt;
 &lt;p&gt;首先卸载之前使用本地脚本安装的应用：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ brew uninstall kubecm
-Uninstalling /usr/local/Cellar/kubecm/86.64... (&lt;span style=&#34;color:#3677a9&#34;&gt;5&lt;/span&gt; files, 5.4MB)
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ brew uninstall kubecm
+Uninstalling /usr/local/Cellar/kubecm/86.64... &lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;5&lt;/span&gt; files, 5.4MB&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后使用&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;brew tap sunny0826/tap &amp;amp;&amp;amp; brew install kubecm
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;brew tap sunny0826/tap &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; brew install kubecm
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;或者&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;brew install sunny0826/tap/kubecm
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;brew install sunny0826/tap/kubecm
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;来进行安装。&lt;/p&gt;
 &lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
 &lt;p&gt;到这我们就成功的在 Homebrew 上发布了自己的 Golang 应用，本篇中的方法仅适合 Golang 开发的二进制可执行文件的发布，其他语言的发布需要在 &lt;code&gt;.rb&lt;/code&gt; 脚本上有所修改，更多内容请参考&lt;a href=&#34;https://docs.brew.sh/&#34;&gt;官方文档&lt;/a&gt;。这里要再介绍一下我用 Golang 开发的另一个小工具 &lt;a href=&#34;https://github.com/sunny0826/kubecm&#34;&gt;kubecm&lt;/a&gt; ，该项目之前我是使用 python 开发的，用于合并多个 kubeconfig 文件，本次重写新增了查看所有 kubeconfig 和 删除 kubeconfig 中 context 等功能，同时也在 Homebrew 上发布，欢迎拍砖。&lt;/p&gt;
@@ -676,27 +676,27 @@ Uninstalling /usr/local/Cellar/kubecm/86.64... (&lt;span style=&#34;color:#3677a
 &lt;li&gt;
 &lt;p&gt;手动修改 &lt;code&gt;go.mod&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;其中 latest 为最新版本，GoLand 会去下载最新依赖代码，下载成功后会修改 &lt;code&gt;go.mod&lt;/code&gt; 并且生成 &lt;code&gt;go.sum&lt;/code&gt; 依赖分析文件。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;module github.com/sunny0826/hamal
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;module github.com&lt;span style=&#34;color:#ff79c6&#34;&gt;/&lt;/span&gt;sunny0826&lt;span style=&#34;color:#ff79c6&#34;&gt;/&lt;/span&gt;hamal
 
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;1.12&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;1.12&lt;/span&gt;
 
-&lt;span style=&#34;color:#447fcf&#34;&gt;require&lt;/span&gt; (
-    github.com/mitchellh/&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;go&lt;/span&gt;-homedir latest
-    github.com/spf13/cobra latest
-    github.com/spf13/viper latest
+&lt;span style=&#34;color:#50fa7b&#34;&gt;require&lt;/span&gt; (
+    github.com&lt;span style=&#34;color:#ff79c6&#34;&gt;/&lt;/span&gt;mitchellh&lt;span style=&#34;color:#ff79c6&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;go&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;homedir latest
+    github.com&lt;span style=&#34;color:#ff79c6&#34;&gt;/&lt;/span&gt;spf13&lt;span style=&#34;color:#ff79c6&#34;&gt;/&lt;/span&gt;cobra latest
+    github.com&lt;span style=&#34;color:#ff79c6&#34;&gt;/&lt;/span&gt;spf13&lt;span style=&#34;color:#ff79c6&#34;&gt;/&lt;/span&gt;viper latest
 )
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;更新成功&lt;/p&gt;
 &lt;p&gt;在更新成功后，会生成 &lt;code&gt;go.sum&lt;/code&gt; 文件并修改 &lt;code&gt;go.mod&lt;/code&gt; 文件。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;module github.com/sunny0826/hamal
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;module github.com&lt;span style=&#34;color:#ff79c6&#34;&gt;/&lt;/span&gt;sunny0826&lt;span style=&#34;color:#ff79c6&#34;&gt;/&lt;/span&gt;hamal
 
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color:#3677a9&#34;&gt;1.12&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color:#bd93f9&#34;&gt;1.12&lt;/span&gt;
 
-&lt;span style=&#34;color:#447fcf&#34;&gt;require&lt;/span&gt; (
-    github.com/mitchellh/&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;go&lt;/span&gt;-homedir v1&lt;span style=&#34;color:#3677a9&#34;&gt;.1.0&lt;/span&gt;
-    github.com/spf13/cobra v0&lt;span style=&#34;color:#3677a9&#34;&gt;.0.5&lt;/span&gt;
-    github.com/spf13/viper v1&lt;span style=&#34;color:#3677a9&#34;&gt;.4.0&lt;/span&gt;
+&lt;span style=&#34;color:#50fa7b&#34;&gt;require&lt;/span&gt; (
+    github.com&lt;span style=&#34;color:#ff79c6&#34;&gt;/&lt;/span&gt;mitchellh&lt;span style=&#34;color:#ff79c6&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;go&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;homedir v1&lt;span style=&#34;color:#bd93f9&#34;&gt;.1.0&lt;/span&gt;
+    github.com&lt;span style=&#34;color:#ff79c6&#34;&gt;/&lt;/span&gt;spf13&lt;span style=&#34;color:#ff79c6&#34;&gt;/&lt;/span&gt;cobra v0&lt;span style=&#34;color:#bd93f9&#34;&gt;.0.5&lt;/span&gt;
+    github.com&lt;span style=&#34;color:#ff79c6&#34;&gt;/&lt;/span&gt;spf13&lt;span style=&#34;color:#ff79c6&#34;&gt;/&lt;/span&gt;viper v1&lt;span style=&#34;color:#bd93f9&#34;&gt;.4.0&lt;/span&gt;
 )
 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
@@ -718,30 +718,30 @@ Uninstalling /usr/local/Cellar/kubecm/86.64... (&lt;span style=&#34;color:#3677a
 &lt;p&gt;&lt;img src=&#34;https://ws3.sinaimg.cn/large/ad5fbf65gy1g557ps83gsj20s30njtbs.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;安装配置-golint&#34;&gt;安装配置 &lt;code&gt;golint&lt;/code&gt;&lt;/h3&gt;
 &lt;p&gt;GoLand 没有自带 &lt;code&gt;golint&lt;/code&gt; 工具，需要手动安装：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;mkdir -p &lt;span style=&#34;color:#40ffff&#34;&gt;$GOPATH&lt;/span&gt;/src/golang.org/x/
-&lt;span style=&#34;color:#24909d&#34;&gt;cd&lt;/span&gt; &lt;span style=&#34;color:#40ffff&#34;&gt;$GOPATH&lt;/span&gt;/src/golang.org/x/
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;mkdir -p &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;$GOPATH&lt;/span&gt;/src/golang.org/x/
+&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;cd&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;$GOPATH&lt;/span&gt;/src/golang.org/x/
 git clone https://github.com/golang/lint.git
 git clone https://github.com/golang/tools.git
-&lt;span style=&#34;color:#24909d&#34;&gt;cd&lt;/span&gt; &lt;span style=&#34;color:#40ffff&#34;&gt;$GOPATH&lt;/span&gt;/src/golang.org/x/lint/golint
+&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;cd&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;$GOPATH&lt;/span&gt;/src/golang.org/x/lint/golint
 go install
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;安装成功之后将会在 &lt;code&gt;$GOPATH/bin&lt;/code&gt; 目录下看到自动生成了 &lt;code&gt;golint&lt;/code&gt; 二进制工具文件。&lt;/p&gt;
 &lt;p&gt;GoLand 配置 &lt;code&gt;golint&lt;/code&gt;，修改 &lt;code&gt;Name&lt;/code&gt;, &lt;code&gt;Program&lt;/code&gt;, &lt;code&gt;Arguments&lt;/code&gt; 三项配置，其中 &lt;code&gt;Arguments&lt;/code&gt; 需要加上 &lt;code&gt;-set_exit_status&lt;/code&gt; 参数，如图所示：&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://wx4.sinaimg.cn/large/ad5fbf65gy1g557z8a5jgj20ln0i0t9z.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;travis-ci-持续集成&#34;&gt;Travis CI 持续集成&lt;/h2&gt;
 &lt;p&gt;在 Github 上装逼怎么能少的了 Travis CI ，直接登录 &lt;a href=&#34;https://travis-ci.org/&#34;&gt;Travis CI&lt;/a&gt;，使用 GitHub 登录，然后选择需要使用 Travis CI 的项目，在项目根目录添加 &lt;code&gt;.travis.yml&lt;/code&gt; ，内容如下：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;language&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;go&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;go&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- &lt;span style=&#34;color:#3677a9&#34;&gt;1.12.5&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;sudo&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;required&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;install&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- echo &amp;#34;install&amp;#34;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;script&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- echo &amp;#34;script&amp;#34;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里只是一个示例，在每次 push 代码之后，都会触发 CI，具体语法可以参看&lt;a href=&#34;https://docs.travis-ci.com/&#34;&gt;官方文档&lt;/a&gt;。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;language&lt;/span&gt;: go
+
+&lt;span style=&#34;color:#ff79c6&#34;&gt;go&lt;/span&gt;:
+  - &lt;span style=&#34;color:#bd93f9&#34;&gt;1.12.5&lt;/span&gt;
+
+&lt;span style=&#34;color:#ff79c6&#34;&gt;sudo&lt;/span&gt;: required
+
+&lt;span style=&#34;color:#ff79c6&#34;&gt;install&lt;/span&gt;:
+  - echo &amp;#34;install&amp;#34;
+
+&lt;span style=&#34;color:#ff79c6&#34;&gt;script&lt;/span&gt;:
+  - echo &amp;#34;script&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里只是一个示例，在每次 push 代码之后，都会触发 CI，具体语法可以参看&lt;a href=&#34;https://docs.travis-ci.com/&#34;&gt;官方文档&lt;/a&gt;。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;装逼重点：&lt;/strong&gt; 你以为使用 Travis CI 就是为了持续集成吗？那就太天真了！使用 Travis CI 当然为了他的 Badges ，将 &lt;code&gt;RESULT&lt;/code&gt; 拷贝到你的 &lt;code&gt;README.md&lt;/code&gt; 里面就好了。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://ws2.sinaimg.cn/large/ad5fbf65gy1g558xf6io4j22dk15an4t.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;go-report-card&#34;&gt;GO Report Card&lt;/h2&gt;
@@ -750,22 +750,22 @@ go install
 &lt;h2 id=&#34;goreleaser&#34;&gt;GoReleaser&lt;/h2&gt;
 &lt;p&gt;持续集成有了，代码检查也有了，再下面就是怎么发布一个漂亮的 release 了。如果还在手动发布 release ，那么就又掉 low 了。使用 GoReleaser 一行命令来发布一个漂亮的 release 吧。&lt;/p&gt;
 &lt;p&gt;由于使用的的 MacOS ，这里使用 &lt;code&gt;brew&lt;/code&gt; 来安装：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;brew install goreleaser
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;brew install goreleaser
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在项目根目录生成 &lt;code&gt;.goreleaser.yml&lt;/code&gt; 配置：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;goreleaser init
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;goreleaser init
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;配置好了以后要记得往 &lt;code&gt;.gitignore&lt;/code&gt; 加上 &lt;code&gt;dist&lt;/code&gt;，因为 goreleaser 会默认把编译编译好的文件输出到 &lt;code&gt;dist&lt;/code&gt; 目录中。&lt;/p&gt;
 &lt;p&gt;goreleaser 配置好后，可以先编译测试一下：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;goreleaser --skip-validate --skip-publish --snapshot
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;goreleaser --skip-validate --skip-publish --snapshot
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;注意：&lt;/strong&gt; 首次使用 goreleaser 要配置 GITHUB_TOKEN ，可以在&lt;a href=&#34;https://github.com/settings/tokens/new&#34;&gt;这里&lt;/a&gt;申请，申请好之后运行下面的命令配置&lt;code&gt;GITHUB_TOKEN&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#24909d&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#40ffff&#34;&gt;GITHUB_TOKEN&lt;/span&gt;=&amp;lt;YOUR_TOKEN&amp;gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;GITHUB_TOKEN&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;&amp;lt;YOUR_TOKEN&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;确保没有问题，那么就可以操作 git 和 goreleaser 来发布 release 了。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;git add .
-git commit -m &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;add goreleaser&amp;#34;&lt;/span&gt;
-git tag -a v0.0.3 -m &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;First release&amp;#34;&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;git add .
+git commit -m &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;add goreleaser&amp;#34;&lt;/span&gt;
+git tag -a v0.0.3 -m &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;First release&amp;#34;&lt;/span&gt;
 git push origin master
 git push origin v0.0.3
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;全部搞定后，一行命令起飞：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;goreleaser
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;goreleaser
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;goreleaser&lt;/code&gt; 配合 CI 食用，效果更佳，这里就不做介绍了。
 &lt;img src=&#34;https://wx2.sinaimg.cn/large/ad5fbf65gy1g55a7t8bq4j20sq0liacm.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;badges-展示神器&#34;&gt;Badges 展示神器&lt;/h2&gt;

@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -248,6 +248,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -255,8 +257,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -678,17 +678,17 @@ if (!doNotTrack) {
 <p>前往<a href="https://github.com/alibaba/kt-connect/releases">Github Releases</a> 下载可执行文件</p>
 <h3 id="mac">Mac</h3>
 <p>安装sshuttle</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">brew install sshuttle
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">brew install sshuttle
 </code></pre></div><p>下载并安装KT</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ curl -OL https://rdc-incubators.oss-cn-beijing.aliyuncs.com/stable/ktctl_darwin_amd64.tar.gz
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ curl -OL https://rdc-incubators.oss-cn-beijing.aliyuncs.com/stable/ktctl_darwin_amd64.tar.gz
 $ tar -xzvf ktctl_darwin_amd64.tar.gz
 $ mv ktctl_darwin_amd64 /usr/local/bin/ktctl
 $ ktctl -h
 </code></pre></div><h3 id="linux">Linux</h3>
 <p>安装sshuttle</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pip install sshuttle
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pip install sshuttle
 </code></pre></div><p>下载并安装KT</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ curl -OL https://rdc-incubators.oss-cn-beijing.aliyuncs.com/stable/ktctl_linux_amd64.tar.gz
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ curl -OL https://rdc-incubators.oss-cn-beijing.aliyuncs.com/stable/ktctl_linux_amd64.tar.gz
 $ tar -xzvf ktctl_linux_amd64.tar.gz
 $ mv ktctl_linux_amd64 /usr/local/bin/ktctl
 $ ktctl -h
@@ -703,33 +703,33 @@ $ ktctl -h
 </div>
 
 <p>使用 <code>ktctl connect</code> 命令，启动的时候需要 admin 权限，需要输入密码</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ ktctl --namespace=default connect
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ ktctl --namespace<span style="color:#ff79c6">=</span>default connect
 
-1:51PM INF Connect Start At <span style="color:#3677a9">69444</span>
+1:51PM INF Connect Start At <span style="color:#bd93f9">69444</span>
 1:51PM INF Client address 192.168.7.121
 1:51PM INF deploy shadow deployment kt-connect-daemon-rcacy in namespace default
 
-1:51PM INF pod label: <span style="color:#40ffff">kt</span>=kt-connect-daemon-rcacy
+1:51PM INF pod label: <span style="color:#8be9fd;font-style:italic">kt</span><span style="color:#ff79c6">=</span>kt-connect-daemon-rcacy
 1:51PM INF pod: kt-connect-daemon-rcacy-fd4c587f-zmn4z is running,but not ready
 1:51PM INF pod: kt-connect-daemon-rcacy-fd4c587f-zmn4z is running,but not ready
 1:51PM INF Shadow pod: kt-connect-daemon-rcacy-fd4c587f-zmn4z is ready.
-Forwarding from 127.0.0.1:2222 -&gt; <span style="color:#3677a9">22</span>
-Forwarding from [::1]:2222 -&gt; <span style="color:#3677a9">22</span>
-1:51PM INF port-forward start at pid: <span style="color:#3677a9">69445</span>
-[<span style="color:#24909d">local</span> sudo] Password: 1:51PM INF vpn(sshuttle) start at pid: <span style="color:#3677a9">69449</span>
+Forwarding from 127.0.0.1:2222 -&gt; <span style="color:#bd93f9">22</span>
+Forwarding from <span style="color:#ff79c6">[</span>::1<span style="color:#ff79c6">]</span>:2222 -&gt; <span style="color:#bd93f9">22</span>
+1:51PM INF port-forward start at pid: <span style="color:#bd93f9">69445</span>
+<span style="color:#ff79c6">[</span><span style="color:#8be9fd;font-style:italic">local</span> sudo<span style="color:#ff79c6">]</span> Password: 1:51PM INF vpn<span style="color:#ff79c6">(</span>sshuttle<span style="color:#ff79c6">)</span> start at pid: <span style="color:#bd93f9">69449</span>
 1:51PM INF KT proxy start successful
-<span style="color:#999;font-style:italic"># 这里需要输入密码</span>
-Handling connection <span style="color:#6ab825;font-weight:bold">for</span> <span style="color:#3677a9">2222</span>
-Warning: Permanently added <span style="color:#ed9d13">&#39;[127.0.0.1]:2222&#39;</span> (ECDSA) to the list of known hosts.
-bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+<span style="color:#6272a4"># 这里需要输入密码</span>
+Handling connection <span style="color:#ff79c6">for</span> <span style="color:#bd93f9">2222</span>
+Warning: Permanently added <span style="color:#f1fa8c">&#39;[127.0.0.1]:2222&#39;</span> <span style="color:#ff79c6">(</span>ECDSA<span style="color:#ff79c6">)</span> to the list of known hosts.
+bash: warning: setlocale: LC_ALL: cannot change locale <span style="color:#ff79c6">(</span>en_US.UTF-8<span style="color:#ff79c6">)</span>
 client: Connected.
 </code></pre></div><p>这里可以看到在 <code>namespace:default</code> 中部署了一个 <code>kt-connect-daemon-*</code> 的 <code>Deployment</code>，如果这个 <code>Deployment</code> 启动正常，就可以直接在本地访问 Kubernetes 集群内的服务了。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get deploy | grep kt
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get deploy | grep kt
 
-kt-connect-daemon-rcacy   1/1     <span style="color:#3677a9">1</span>            <span style="color:#3677a9">1</span>           5m35s
+kt-connect-daemon-rcacy   1/1     <span style="color:#bd93f9">1</span>            <span style="color:#bd93f9">1</span>           5m35s
 </code></pre></div><p>访问集群服务，可以使用 <code>curl</code> 或者直接在浏览器访问。（这里使用之前文章<a href="../feiyan-grafana">《使用 Grafana 展示肺炎疫情动态》</a>中部署的服务）</p>
 <h3 id="使用-curl">使用 <code>curl</code></h3>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ curl kk-feiyan
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ curl kk-feiyan
 UP
 </code></pre></div><h3 id="直接使用浏览器">直接使用浏览器</h3>
 <p><img src="https://tvax3.sinaimg.cn/large/ad5fbf65ly1gd4zc1ddfij20fq03zglp.jpg" alt="image"></p>
@@ -745,69 +745,69 @@ UP
 <p>本地启动一个服务</p>
 <p><img src="https://tvax4.sinaimg.cn/large/ad5fbf65ly1gd4zsl7r14j20eq03r76o.jpg" alt="image"></p>
 <p>运行命令</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ ktctl exchange kk-feiyan --expose <span style="color:#3677a9">8088</span>
-2:13PM INF <span style="color:#ed9d13">&#39;KT Connect&#39;</span> is runing, you can access <span style="color:#24909d">local</span> app from cluster and localhost
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ ktctl exchange kk-feiyan --expose <span style="color:#bd93f9">8088</span>
+2:13PM INF <span style="color:#f1fa8c">&#39;KT Connect&#39;</span> is runing, you can access <span style="color:#8be9fd;font-style:italic">local</span> app from cluster and localhost
 2:13PM INF Client address 192.168.7.121
 2:13PM INF deploy shadow deployment kk-feiyan-kt-yssnq in namespace default
 
-2:13PM INF pod label: <span style="color:#40ffff">kt</span>=kk-feiyan-kt-yssnq
+2:13PM INF pod label: <span style="color:#8be9fd;font-style:italic">kt</span><span style="color:#ff79c6">=</span>kk-feiyan-kt-yssnq
 2:13PM INF pod: kk-feiyan-kt-yssnq-6464bbf74d-smvhc is running,but not ready
 2:13PM INF pod: kk-feiyan-kt-yssnq-6464bbf74d-smvhc is running,but not ready
 2:13PM INF Shadow pod: kk-feiyan-kt-yssnq-6464bbf74d-smvhc is ready.
 2:13PM INF create exchange shadow kk-feiyan-kt-yssnq in namespace default
-2:13PM INF scale deployment kk-feiyan to <span style="color:#3677a9">0</span>
+2:13PM INF scale deployment kk-feiyan to <span style="color:#bd93f9">0</span>
 
-2:13PM INF  * kk-feiyan (<span style="color:#3677a9">0</span> replicas) success
-2:13PM INF remote 172.22.1.166 forward to <span style="color:#24909d">local</span> <span style="color:#3677a9">8088</span>
-Forwarding from 127.0.0.1:2266 -&gt; <span style="color:#3677a9">22</span>
-Forwarding from [::1]:2266 -&gt; <span style="color:#3677a9">22</span>
-2:13PM INF exchange port forward to <span style="color:#24909d">local</span> start at pid: <span style="color:#3677a9">70269</span>
-2:13PM INF redirect request from pod 172.22.1.166 <span style="color:#3677a9">22</span> to 127.0.0.1:2266 starting
+2:13PM INF  * kk-feiyan <span style="color:#ff79c6">(</span><span style="color:#bd93f9">0</span> replicas<span style="color:#ff79c6">)</span> success
+2:13PM INF remote 172.22.1.166 forward to <span style="color:#8be9fd;font-style:italic">local</span> <span style="color:#bd93f9">8088</span>
+Forwarding from 127.0.0.1:2266 -&gt; <span style="color:#bd93f9">22</span>
+Forwarding from <span style="color:#ff79c6">[</span>::1<span style="color:#ff79c6">]</span>:2266 -&gt; <span style="color:#bd93f9">22</span>
+2:13PM INF exchange port forward to <span style="color:#8be9fd;font-style:italic">local</span> start at pid: <span style="color:#bd93f9">70269</span>
+2:13PM INF redirect request from pod 172.22.1.166 <span style="color:#bd93f9">22</span> to 127.0.0.1:2266 starting
 
-Handling connection <span style="color:#6ab825;font-weight:bold">for</span> <span style="color:#3677a9">2266</span>
-Warning: Permanently added <span style="color:#ed9d13">&#39;[127.0.0.1]:2266&#39;</span> (ECDSA) to the list of known hosts.
-bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
-2:13PM INF ssh remote port-forward start at pid: <span style="color:#3677a9">70270</span>
+Handling connection <span style="color:#ff79c6">for</span> <span style="color:#bd93f9">2266</span>
+Warning: Permanently added <span style="color:#f1fa8c">&#39;[127.0.0.1]:2266&#39;</span> <span style="color:#ff79c6">(</span>ECDSA<span style="color:#ff79c6">)</span> to the list of known hosts.
+bash: warning: setlocale: LC_ALL: cannot change locale <span style="color:#ff79c6">(</span>en_US.UTF-8<span style="color:#ff79c6">)</span>
+2:13PM INF ssh remote port-forward start at pid: <span style="color:#bd93f9">70270</span>
 </code></pre></div><p>查看 Deployment</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get deploy | grep kk-feiyan
-kk-feiyan                 0/0     <span style="color:#3677a9">0</span>            <span style="color:#3677a9">0</span>           39d    <span style="color:#999;font-style:italic"># 原服务</span>
-kk-feiyan-kt-eclcc        1/1     <span style="color:#3677a9">1</span>            <span style="color:#3677a9">1</span>           89s    <span style="color:#999;font-style:italic"># 转发流量服务</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get deploy | grep kk-feiyan
+kk-feiyan                 0/0     <span style="color:#bd93f9">0</span>            <span style="color:#bd93f9">0</span>           39d    <span style="color:#6272a4"># 原服务</span>
+kk-feiyan-kt-eclcc        1/1     <span style="color:#bd93f9">1</span>            <span style="color:#bd93f9">1</span>           89s    <span style="color:#6272a4"># 转发流量服务</span>
 </code></pre></div><p>这样的话，集群内调用 <code>kk-feiyan</code> 这个服务的流量都会被转发到本地</p>
 <p><strong>集群内调用：</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ curl kk-feiyan
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ curl kk-feiyan
 UP
 </code></pre></div><p><strong>可以看到流量被抓发到了本地</strong>
 <img src="https://tvax3.sinaimg.cn/large/ad5fbf65ly1gd4zuym6ofj20eq052n0d.jpg" alt="image"></p>
 <h2 id="将本地服务暴露到-kubernetes-集群">将本地服务暴露到 Kubernetes 集群</h2>
 <p>有些时候，我们并不想使用 <code>exchange</code> 来代替已经存在的 Deployment，只想在集群内新建一个服务来将流量转发到本，以完成调试。</p>
 <p>这个时候使用 <code>ktctl run</code>，就可以满足需求，该命令会在 Kubernetes 集群中新建一个服务，并将访问该服务的流量被转发到本地的指定端口。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ ktctl run localservice --port <span style="color:#3677a9">8088</span> --expose
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ ktctl run localservice --port <span style="color:#bd93f9">8088</span> --expose
 2:33PM INF Client address 192.168.7.121
 2:33PM INF deploy shadow deployment localservice in namespace default
 
-2:33PM INF pod label: <span style="color:#40ffff">kt</span>=localservice
+2:33PM INF pod label: <span style="color:#8be9fd;font-style:italic">kt</span><span style="color:#ff79c6">=</span>localservice
 2:33PM INF pod: localservice-77d565c488-64hpp is running,but not ready
 2:33PM INF pod: localservice-77d565c488-64hpp is running,but not ready
 2:33PM INF Shadow pod: localservice-77d565c488-64hpp is ready.
 2:33PM INF create shadow pod localservice-77d565c488-64hpp ip 172.22.1.74
 2:33PM INF expose deployment localservice to localservice:8088
-2:33PM INF remote 172.22.1.74 forward to <span style="color:#24909d">local</span> <span style="color:#3677a9">8088</span>
-Forwarding from 127.0.0.1:2274 -&gt; <span style="color:#3677a9">22</span>
-Forwarding from [::1]:2274 -&gt; <span style="color:#3677a9">22</span>
-2:33PM INF exchange port forward to <span style="color:#24909d">local</span> start at pid: <span style="color:#3677a9">70899</span>
-2:33PM INF redirect request from pod 172.22.1.74 <span style="color:#3677a9">22</span> to 127.0.0.1:2274 starting
+2:33PM INF remote 172.22.1.74 forward to <span style="color:#8be9fd;font-style:italic">local</span> <span style="color:#bd93f9">8088</span>
+Forwarding from 127.0.0.1:2274 -&gt; <span style="color:#bd93f9">22</span>
+Forwarding from <span style="color:#ff79c6">[</span>::1<span style="color:#ff79c6">]</span>:2274 -&gt; <span style="color:#bd93f9">22</span>
+2:33PM INF exchange port forward to <span style="color:#8be9fd;font-style:italic">local</span> start at pid: <span style="color:#bd93f9">70899</span>
+2:33PM INF redirect request from pod 172.22.1.74 <span style="color:#bd93f9">22</span> to 127.0.0.1:2274 starting
 
-Handling connection <span style="color:#6ab825;font-weight:bold">for</span> <span style="color:#3677a9">2274</span>
-Warning: Permanently added <span style="color:#ed9d13">&#39;[127.0.0.1]:2274&#39;</span> (ECDSA) to the list of known hosts.
-bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
-2:33PM INF ssh remote port-forward start at pid: <span style="color:#3677a9">70903</span>
+Handling connection <span style="color:#ff79c6">for</span> <span style="color:#bd93f9">2274</span>
+Warning: Permanently added <span style="color:#f1fa8c">&#39;[127.0.0.1]:2274&#39;</span> <span style="color:#ff79c6">(</span>ECDSA<span style="color:#ff79c6">)</span> to the list of known hosts.
+bash: warning: setlocale: LC_ALL: cannot change locale <span style="color:#ff79c6">(</span>en_US.UTF-8<span style="color:#ff79c6">)</span>
+2:33PM INF ssh remote port-forward start at pid: <span style="color:#bd93f9">70903</span>
 2:33PM INF forward remote 172.22.1.74:8088 -&gt; 127.0.0.1:8088
 </code></pre></div><p>可以看到该服务已经被拉起了</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get deploy localservice
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get deploy localservice
 NAME           READY   UP-TO-DATE   AVAILABLE   AGE
-localservice   1/1     <span style="color:#3677a9">1</span>            <span style="color:#3677a9">1</span>           86s
+localservice   1/1     <span style="color:#bd93f9">1</span>            <span style="color:#bd93f9">1</span>           86s
 </code></pre></div><p>访问该服务</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ curl localservice:8088
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ curl localservice:8088
 UP
 </code></pre></div><p>可以看到流量被转发到了本地
 <img src="https://tva3.sinaimg.cn/large/ad5fbf65ly1gd50e6lkquj20ff05z782.jpg" alt="image"></p>

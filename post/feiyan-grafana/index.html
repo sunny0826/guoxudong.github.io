@@ -42,7 +42,7 @@
       "datePublished": "2020-02-14 10:12:52 \u002b0800 \u002b0800",
       "dateModified" : "2020-02-14 10:12:52 \u002b0800 \u002b0800",
       "url" : "https:\/\/guoxudong.io\/post\/feiyan-grafana\/",
-      "wordCount" : "366",
+      "wordCount" : "373",
       "keywords" : [ "肺炎疫情","Guoxudong" ]
   }
   </script>
@@ -56,7 +56,7 @@
 <meta itemprop="name" content="使用 Grafana 展示肺炎疫情动态">
 <meta itemprop="description" content="开发 Grafana Dashboard 展示新型肺炎疫情动态。"><meta itemprop="datePublished" content="2020-02-14T10:12:52&#43;08:00" />
 <meta itemprop="dateModified" content="2020-09-03T09:32:39&#43;08:00" />
-<meta itemprop="wordCount" content="366">
+<meta itemprop="wordCount" content="373">
 <meta itemprop="keywords" content="肺炎疫情," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="使用 Grafana 展示肺炎疫情动态"/>
 <meta name="twitter:description" content="开发 Grafana Dashboard 展示新型肺炎疫情动态。"/>
@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -245,6 +245,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -252,8 +254,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -663,64 +663,64 @@ if (!doNotTrack) {
 <p><code>timeserie</code> 类型：</p>
 <p>用于展示全国（含港澳台）和上海地区的疫情实时动态，展示确诊、疑似、治愈和死亡数，并且展示较昨日增加的数量，绘制了【确诊/疑似】数和【治愈/死亡】数的对比曲线。</p>
 <p>这里只要将全国确诊数 <code>gntotal</code> 与 当前时间戳组合返回即可，其他指标也是这种方式。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#ffa500">@app.post</span>(<span style="color:#ed9d13">&#39;/query&#39;</span>)
-<span style="color:#6ab825;font-weight:bold">def</span> <span style="color:#447fcf">query</span>():
-    <span style="color:#6ab825;font-weight:bold">print</span>(request.json)
-    body = []
-    all_data = getDataSync()
-    time_stamp = <span style="color:#24909d">int</span>(<span style="color:#24909d">round</span>(time.time() * <span style="color:#3677a9">1000</span>))
-    <span style="color:#6ab825;font-weight:bold">for</span> target <span style="color:#6ab825;font-weight:bold">in</span> request.json[<span style="color:#ed9d13">&#39;targets&#39;</span>]:
-    name = target[<span style="color:#ed9d13">&#39;target&#39;</span>]
-    <span style="color:#6ab825;font-weight:bold">if</span> name == <span style="color:#ed9d13">&#39;gntotal&#39;</span>:
-        body.append({<span style="color:#ed9d13">&#39;target&#39;</span>: <span style="color:#ed9d13">&#39;gntotal&#39;</span>, <span style="color:#ed9d13">&#39;datapoints&#39;</span>: [[all_data[<span style="color:#ed9d13">&#39;gntotal&#39;</span>], time_stamp]]})
-    body = dumps(body)
-    <span style="color:#6ab825;font-weight:bold">return</span> HTTPResponse(body=body, headers={<span style="color:#ed9d13">&#39;Content-Type&#39;</span>: <span style="color:#ed9d13">&#39;application/json&#39;</span>})
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">@app.post(<span style="color:#f1fa8c">&#39;/query&#39;</span>)
+<span style="color:#ff79c6">def</span> <span style="color:#50fa7b">query</span>():
+    <span style="color:#ff79c6">print</span>(request<span style="color:#ff79c6">.</span>json)
+    body <span style="color:#ff79c6">=</span> []
+    all_data <span style="color:#ff79c6">=</span> getDataSync()
+    time_stamp <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">int</span>(<span style="color:#8be9fd;font-style:italic">round</span>(time<span style="color:#ff79c6">.</span>time() <span style="color:#ff79c6">*</span> <span style="color:#bd93f9">1000</span>))
+    <span style="color:#ff79c6">for</span> target <span style="color:#ff79c6">in</span> request<span style="color:#ff79c6">.</span>json[<span style="color:#f1fa8c">&#39;targets&#39;</span>]:
+    name <span style="color:#ff79c6">=</span> target[<span style="color:#f1fa8c">&#39;target&#39;</span>]
+    <span style="color:#ff79c6">if</span> name <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#39;gntotal&#39;</span>:
+        body<span style="color:#ff79c6">.</span>append({<span style="color:#f1fa8c">&#39;target&#39;</span>: <span style="color:#f1fa8c">&#39;gntotal&#39;</span>, <span style="color:#f1fa8c">&#39;datapoints&#39;</span>: [[all_data[<span style="color:#f1fa8c">&#39;gntotal&#39;</span>], time_stamp]]})
+    body <span style="color:#ff79c6">=</span> dumps(body)
+    <span style="color:#ff79c6">return</span> HTTPResponse(body<span style="color:#ff79c6">=</span>body, headers<span style="color:#ff79c6">=</span>{<span style="color:#f1fa8c">&#39;Content-Type&#39;</span>: <span style="color:#f1fa8c">&#39;application/json&#39;</span>})
 </code></pre></div></li>
 <li>
 <p><code>table</code> 类型：</p>
 <p>用于绘制中国各省确诊、疑似、治愈和死亡病例数表格，以及上海各区确诊、疑似、治愈和死亡病例数表格。</p>
 <p>取出数据中的名称以及确诊、疑似、治愈和死亡数，<code>append</code> 到 <code>rows</code> 中即可。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#ffa500">@app.post</span>(<span style="color:#ed9d13">&#39;/query&#39;</span>)
-<span style="color:#6ab825;font-weight:bold">def</span> <span style="color:#447fcf">query</span>():
-    <span style="color:#6ab825;font-weight:bold">print</span>(request.json)
-    body = []
-    all_data = getDataSync()
-    sh_data = getShDataSync()
-    <span style="color:#6ab825;font-weight:bold">if</span> request.json[<span style="color:#ed9d13">&#39;targets&#39;</span>][<span style="color:#3677a9">0</span>][<span style="color:#ed9d13">&#39;type&#39;</span>] == <span style="color:#ed9d13">&#39;table&#39;</span>:
-        rows = []
-        <span style="color:#6ab825;font-weight:bold">for</span> data <span style="color:#6ab825;font-weight:bold">in</span> all_data[<span style="color:#ed9d13">&#39;list&#39;</span>]:
-            row = [data[<span style="color:#ed9d13">&#39;name&#39;</span>], data[<span style="color:#ed9d13">&#39;value&#39;</span>], data[<span style="color:#ed9d13">&#39;susNum&#39;</span>], data[<span style="color:#ed9d13">&#39;cureNum&#39;</span>], data[<span style="color:#ed9d13">&#39;deathNum&#39;</span>]]
-            rows.append(row)
-        sh_rows = []
-        <span style="color:#6ab825;font-weight:bold">for</span> data <span style="color:#6ab825;font-weight:bold">in</span> sh_data[<span style="color:#ed9d13">&#39;city&#39;</span>]:
-            row = [data[<span style="color:#ed9d13">&#39;name&#39;</span>], data[<span style="color:#ed9d13">&#39;conNum&#39;</span>], data[<span style="color:#ed9d13">&#39;susNum&#39;</span>], data[<span style="color:#ed9d13">&#39;cureNum&#39;</span>], data[<span style="color:#ed9d13">&#39;deathNum&#39;</span>]]
-            sh_rows.append(row)
-        bodies = {<span style="color:#ed9d13">&#39;all&#39;</span>: [{
-            <span style="color:#ed9d13">&#34;columns&#34;</span>: [
-                {<span style="color:#ed9d13">&#34;text&#34;</span>: <span style="color:#ed9d13">&#34;省份&#34;</span>, <span style="color:#ed9d13">&#34;type&#34;</span>: <span style="color:#ed9d13">&#34;name&#34;</span>},
-                {<span style="color:#ed9d13">&#34;text&#34;</span>: <span style="color:#ed9d13">&#34;确诊&#34;</span>, <span style="color:#ed9d13">&#34; type&#34;</span>: <span style="color:#ed9d13">&#34;conNum&#34;</span>},
-                {<span style="color:#ed9d13">&#34;text&#34;</span>: <span style="color:#ed9d13">&#34;疑似&#34;</span>, <span style="color:#ed9d13">&#34; type&#34;</span>: <span style="color:#ed9d13">&#34;susNum&#34;</span>},
-                {<span style="color:#ed9d13">&#34;text&#34;</span>: <span style="color:#ed9d13">&#34;治愈&#34;</span>, <span style="color:#ed9d13">&#34;type&#34;</span>: <span style="color:#ed9d13">&#34;cureNum&#34;</span>},
-                {<span style="color:#ed9d13">&#34;text&#34;</span>: <span style="color:#ed9d13">&#34;死亡&#34;</span>, <span style="color:#ed9d13">&#34;type&#34;</span>: <span style="color:#ed9d13">&#34;deathNum&#34;</span>}
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">@app.post(<span style="color:#f1fa8c">&#39;/query&#39;</span>)
+<span style="color:#ff79c6">def</span> <span style="color:#50fa7b">query</span>():
+    <span style="color:#ff79c6">print</span>(request<span style="color:#ff79c6">.</span>json)
+    body <span style="color:#ff79c6">=</span> []
+    all_data <span style="color:#ff79c6">=</span> getDataSync()
+    sh_data <span style="color:#ff79c6">=</span> getShDataSync()
+    <span style="color:#ff79c6">if</span> request<span style="color:#ff79c6">.</span>json[<span style="color:#f1fa8c">&#39;targets&#39;</span>][<span style="color:#bd93f9">0</span>][<span style="color:#f1fa8c">&#39;type&#39;</span>] <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#39;table&#39;</span>:
+        rows <span style="color:#ff79c6">=</span> []
+        <span style="color:#ff79c6">for</span> data <span style="color:#ff79c6">in</span> all_data[<span style="color:#f1fa8c">&#39;list&#39;</span>]:
+            row <span style="color:#ff79c6">=</span> [data[<span style="color:#f1fa8c">&#39;name&#39;</span>], data[<span style="color:#f1fa8c">&#39;value&#39;</span>], data[<span style="color:#f1fa8c">&#39;susNum&#39;</span>], data[<span style="color:#f1fa8c">&#39;cureNum&#39;</span>], data[<span style="color:#f1fa8c">&#39;deathNum&#39;</span>]]
+            rows<span style="color:#ff79c6">.</span>append(row)
+        sh_rows <span style="color:#ff79c6">=</span> []
+        <span style="color:#ff79c6">for</span> data <span style="color:#ff79c6">in</span> sh_data[<span style="color:#f1fa8c">&#39;city&#39;</span>]:
+            row <span style="color:#ff79c6">=</span> [data[<span style="color:#f1fa8c">&#39;name&#39;</span>], data[<span style="color:#f1fa8c">&#39;conNum&#39;</span>], data[<span style="color:#f1fa8c">&#39;susNum&#39;</span>], data[<span style="color:#f1fa8c">&#39;cureNum&#39;</span>], data[<span style="color:#f1fa8c">&#39;deathNum&#39;</span>]]
+            sh_rows<span style="color:#ff79c6">.</span>append(row)
+        bodies <span style="color:#ff79c6">=</span> {<span style="color:#f1fa8c">&#39;all&#39;</span>: [{
+            <span style="color:#f1fa8c">&#34;columns&#34;</span>: [
+                {<span style="color:#f1fa8c">&#34;text&#34;</span>: <span style="color:#f1fa8c">&#34;省份&#34;</span>, <span style="color:#f1fa8c">&#34;type&#34;</span>: <span style="color:#f1fa8c">&#34;name&#34;</span>},
+                {<span style="color:#f1fa8c">&#34;text&#34;</span>: <span style="color:#f1fa8c">&#34;确诊&#34;</span>, <span style="color:#f1fa8c">&#34; type&#34;</span>: <span style="color:#f1fa8c">&#34;conNum&#34;</span>},
+                {<span style="color:#f1fa8c">&#34;text&#34;</span>: <span style="color:#f1fa8c">&#34;疑似&#34;</span>, <span style="color:#f1fa8c">&#34; type&#34;</span>: <span style="color:#f1fa8c">&#34;susNum&#34;</span>},
+                {<span style="color:#f1fa8c">&#34;text&#34;</span>: <span style="color:#f1fa8c">&#34;治愈&#34;</span>, <span style="color:#f1fa8c">&#34;type&#34;</span>: <span style="color:#f1fa8c">&#34;cureNum&#34;</span>},
+                {<span style="color:#f1fa8c">&#34;text&#34;</span>: <span style="color:#f1fa8c">&#34;死亡&#34;</span>, <span style="color:#f1fa8c">&#34;type&#34;</span>: <span style="color:#f1fa8c">&#34;deathNum&#34;</span>}
             ],
-            <span style="color:#ed9d13">&#34;rows&#34;</span>: rows,
-            <span style="color:#ed9d13">&#34;type&#34;</span>: <span style="color:#ed9d13">&#34;table&#34;</span>
+            <span style="color:#f1fa8c">&#34;rows&#34;</span>: rows,
+            <span style="color:#f1fa8c">&#34;type&#34;</span>: <span style="color:#f1fa8c">&#34;table&#34;</span>
         }],
-            <span style="color:#ed9d13">&#39;sh&#39;</span>: [{
-                <span style="color:#ed9d13">&#34;columns&#34;</span>: [
-                    {<span style="color:#ed9d13">&#34;text&#34;</span>: <span style="color:#ed9d13">&#34;省份&#34;</span>, <span style="color:#ed9d13">&#34;type&#34;</span>: <span style="color:#ed9d13">&#34;name&#34;</span>},
-                    {<span style="color:#ed9d13">&#34;text&#34;</span>: <span style="color:#ed9d13">&#34;确诊&#34;</span>, <span style="color:#ed9d13">&#34; type&#34;</span>: <span style="color:#ed9d13">&#34;value&#34;</span>},
-                    {<span style="color:#ed9d13">&#34;text&#34;</span>: <span style="color:#ed9d13">&#34;疑似&#34;</span>, <span style="color:#ed9d13">&#34; type&#34;</span>: <span style="color:#ed9d13">&#34;susNum&#34;</span>},
-                    {<span style="color:#ed9d13">&#34;text&#34;</span>: <span style="color:#ed9d13">&#34;治愈&#34;</span>, <span style="color:#ed9d13">&#34;type&#34;</span>: <span style="color:#ed9d13">&#34;cureNum&#34;</span>},
-                    {<span style="color:#ed9d13">&#34;text&#34;</span>: <span style="color:#ed9d13">&#34;死亡&#34;</span>, <span style="color:#ed9d13">&#34;type&#34;</span>: <span style="color:#ed9d13">&#34;deathNum&#34;</span>}
+            <span style="color:#f1fa8c">&#39;sh&#39;</span>: [{
+                <span style="color:#f1fa8c">&#34;columns&#34;</span>: [
+                    {<span style="color:#f1fa8c">&#34;text&#34;</span>: <span style="color:#f1fa8c">&#34;省份&#34;</span>, <span style="color:#f1fa8c">&#34;type&#34;</span>: <span style="color:#f1fa8c">&#34;name&#34;</span>},
+                    {<span style="color:#f1fa8c">&#34;text&#34;</span>: <span style="color:#f1fa8c">&#34;确诊&#34;</span>, <span style="color:#f1fa8c">&#34; type&#34;</span>: <span style="color:#f1fa8c">&#34;value&#34;</span>},
+                    {<span style="color:#f1fa8c">&#34;text&#34;</span>: <span style="color:#f1fa8c">&#34;疑似&#34;</span>, <span style="color:#f1fa8c">&#34; type&#34;</span>: <span style="color:#f1fa8c">&#34;susNum&#34;</span>},
+                    {<span style="color:#f1fa8c">&#34;text&#34;</span>: <span style="color:#f1fa8c">&#34;治愈&#34;</span>, <span style="color:#f1fa8c">&#34;type&#34;</span>: <span style="color:#f1fa8c">&#34;cureNum&#34;</span>},
+                    {<span style="color:#f1fa8c">&#34;text&#34;</span>: <span style="color:#f1fa8c">&#34;死亡&#34;</span>, <span style="color:#f1fa8c">&#34;type&#34;</span>: <span style="color:#f1fa8c">&#34;deathNum&#34;</span>}
                 ],
-                <span style="color:#ed9d13">&#34;rows&#34;</span>: sh_rows,
-                <span style="color:#ed9d13">&#34;type&#34;</span>: <span style="color:#ed9d13">&#34;table&#34;</span>
+                <span style="color:#f1fa8c">&#34;rows&#34;</span>: sh_rows,
+                <span style="color:#f1fa8c">&#34;type&#34;</span>: <span style="color:#f1fa8c">&#34;table&#34;</span>
             }]}
 
-        series = request.json[<span style="color:#ed9d13">&#39;targets&#39;</span>][<span style="color:#3677a9">0</span>][<span style="color:#ed9d13">&#39;target&#39;</span>]
-        body = dumps(bodies[series])
-  <span style="color:#6ab825;font-weight:bold">return</span> HTTPResponse(body=body, headers={<span style="color:#ed9d13">&#39;Content-Type&#39;</span>: <span style="color:#ed9d13">&#39;application/json&#39;</span>})
+        series <span style="color:#ff79c6">=</span> request<span style="color:#ff79c6">.</span>json[<span style="color:#f1fa8c">&#39;targets&#39;</span>][<span style="color:#bd93f9">0</span>][<span style="color:#f1fa8c">&#39;target&#39;</span>]
+        body <span style="color:#ff79c6">=</span> dumps(bodies[series])
+  <span style="color:#ff79c6">return</span> HTTPResponse(body<span style="color:#ff79c6">=</span>body, headers<span style="color:#ff79c6">=</span>{<span style="color:#f1fa8c">&#39;Content-Type&#39;</span>: <span style="color:#f1fa8c">&#39;application/json&#39;</span>})
 </code></pre></div></li>
 </ul>
 <h2 id="选择展示-panel-类型">选择展示 Panel 类型</h2>
@@ -745,30 +745,30 @@ if (!doNotTrack) {
 <p><img src="featured.png" alt=""></p>
 <h2 id="构建">构建</h2>
 <p>将代码打包成为 docker 镜像，就可以运行在任意环境以及 K8S 集群了，镜像已上传 dockerhub 直接拉取镜像，开箱即食。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#999;font-style:italic"># Dockerfile</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#6ab825;font-weight:bold">FROM</span><span style="color:#ed9d13"> python:3.7.3-alpine3.9</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#6ab825;font-weight:bold">LABEL</span> <span style="color:#40ffff">maintainer</span>=<span style="color:#ed9d13">&#34;sunnydog0826@gmail.com&#34;</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#6ab825;font-weight:bold">COPY</span> . /app<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#6ab825;font-weight:bold">RUN</span> <span style="color:#24909d">echo</span> <span style="color:#ed9d13">&#34;https://mirrors.aliyun.com/alpine/v3.9/main/&#34;</span> &gt; /etc/apk/repositories <span style="color:#ed9d13">\
-</span><span style="color:#ed9d13"></span>    &amp;&amp; apk update <span style="color:#ed9d13">\
-</span><span style="color:#ed9d13"></span>    &amp;&amp; apk add --no-cache gcc g++ python3-dev python-dev linux-headers libffi-dev openssl-dev make <span style="color:#ed9d13">\
-</span><span style="color:#ed9d13"></span>    &amp;&amp; pip3 install -r /app/requestments.txt -i http://mirrors.aliyun.com/pypi/simple --trusted-host mirrors.aliyun.com<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#6ab825;font-weight:bold">WORKDIR</span><span style="color:#ed9d13"> /app</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#6ab825;font-weight:bold">ENTRYPOINT</span> [<span style="color:#ed9d13">&#34;uwsgi&#34;</span>,<span style="color:#ed9d13">&#34;--ini&#34;</span>,<span style="color:#ed9d13">&#34;uwsgi.ini&#34;</span>]<span style="color:#a61717;background-color:#e3d2d2">
-</span></code></pre></div><h2 id="运行">运行</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#6272a4"># Dockerfile</span>
+<span style="color:#ff79c6">FROM</span><span style="color:#f1fa8c"> python:3.7.3-alpine3.9</span>
+
+<span style="color:#ff79c6">LABEL</span> <span style="color:#8be9fd;font-style:italic">maintainer</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;sunnydog0826@gmail.com&#34;</span>
+
+<span style="color:#ff79c6">COPY</span> . /app
+
+<span style="color:#ff79c6">RUN</span> <span style="color:#8be9fd;font-style:italic">echo</span> <span style="color:#f1fa8c">&#34;https://mirrors.aliyun.com/alpine/v3.9/main/&#34;</span> &gt; /etc/apk/repositories <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    <span style="color:#ff79c6">&amp;&amp;</span> apk update <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    <span style="color:#ff79c6">&amp;&amp;</span> apk add --no-cache gcc g++ python3-dev python-dev linux-headers libffi-dev openssl-dev make <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    <span style="color:#ff79c6">&amp;&amp;</span> pip3 install -r /app/requestments.txt -i http://mirrors.aliyun.com/pypi/simple --trusted-host mirrors.aliyun.com
+
+<span style="color:#ff79c6">WORKDIR</span><span style="color:#f1fa8c"> /app</span>
+
+<span style="color:#ff79c6">ENTRYPOINT</span> [<span style="color:#f1fa8c">&#34;uwsgi&#34;</span>,<span style="color:#f1fa8c">&#34;--ini&#34;</span>,<span style="color:#f1fa8c">&#34;uwsgi.ini&#34;</span>]
+</code></pre></div><h2 id="运行">运行</h2>
 <ul>
 <li>拉取镜像</li>
 </ul>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker pull guoxudongdocker/feiyan-datasource
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker pull guoxudongdocker/feiyan-datasource
 </code></pre></div><ul>
 <li>运行镜像</li>
 </ul>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker run -d --name datasource -p 8088:3000 guoxudongdocker/feiyan-datasource
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker run -d --name datasource -p 8088:3000 guoxudongdocker/feiyan-datasource
 </code></pre></div><ul>
 <li>
 <p>添加数据源</p>
@@ -782,7 +782,7 @@ if (!doNotTrack) {
 </li>
 <li>
 <p>使用 K8S 部署（可选）</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl apply -f deploy.yaml
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl apply -f deploy.yaml
 </code></pre></div></li>
 </ul>
 <h2 id="结语">结语</h2>

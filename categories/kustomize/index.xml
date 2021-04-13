@@ -37,43 +37,43 @@
 &lt;p&gt;而 &lt;a href=&#34;https://github.com/kubernetes-client/python&#34;&gt;&lt;code&gt;kubernetes-client/python&lt;/code&gt;&lt;/a&gt; 这个官方给出的轮子是真的香！&lt;/p&gt;
 &lt;h3 id=&#34;安装方便&#34;&gt;安装方便&lt;/h3&gt;
 &lt;p&gt;这个安装方式简单的令人发指，支持的 python 版本为 &lt;code&gt;2.7 | 3.4 | 3.5 | 3.6 | 3.7&lt;/code&gt; 并且和所有 python 依赖包一样，只需要使用 &lt;code&gt;pip&lt;/code&gt; 安装即可：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;pip install kubernetes
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;pip install kubernetes
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;简单示例&#34;&gt;简单示例&lt;/h3&gt;
 &lt;p&gt;查看所有的 pod ：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#!/usr/bin/env python&lt;/span&gt;
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#encoding: utf-8&lt;/span&gt;
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#Author: guoxudong&lt;/span&gt;
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;kubernetes&lt;/span&gt; &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;import&lt;/span&gt; client, config
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;#!/usr/bin/env python&lt;/span&gt;
+&lt;span style=&#34;color:#6272a4&#34;&gt;#encoding: utf-8&lt;/span&gt;
+&lt;span style=&#34;color:#6272a4&#34;&gt;#Author: guoxudong&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;from&lt;/span&gt; kubernetes &lt;span style=&#34;color:#ff79c6&#34;&gt;import&lt;/span&gt; client, config
 
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# Configs can be set in Configuration class directly or using helper utility&lt;/span&gt;
-config.load_kube_config()
+&lt;span style=&#34;color:#6272a4&#34;&gt;# Configs can be set in Configuration class directly or using helper utility&lt;/span&gt;
+config&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;load_kube_config()
 
-v1 = client.CoreV1Api()
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Listing pods with their IPs:&amp;#34;&lt;/span&gt;)
-ret = v1.list_pod_for_all_namespaces(watch=False)
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;in&lt;/span&gt; ret.items:
-    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;%s&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;\t&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;%s&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;\t&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;%s&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&lt;/span&gt; % (i.status.pod_ip, i.metadata.namespace, i.metadata.name))
+v1 &lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt; client&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;CoreV1Api()
+&lt;span style=&#34;color:#ff79c6&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;Listing pods with their IPs:&amp;#34;&lt;/span&gt;)
+ret &lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt; v1&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;list_pod_for_all_namespaces(watch&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;False)
+&lt;span style=&#34;color:#ff79c6&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color:#ff79c6&#34;&gt;in&lt;/span&gt; ret&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;items:
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;%s&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;\t&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;%s&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;\t&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;%s&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;%&lt;/span&gt; (i&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;status&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;pod_ip, i&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;metadata&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;namespace, i&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;metadata&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;name))
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;运行查看结果：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;Listing pods &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;with&lt;/span&gt; their IPs:
-&lt;span style=&#34;color:#3677a9&#34;&gt;172.22&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;1.126&lt;/span&gt;	kube-system	coredns-&lt;span style=&#34;color:#3677a9&#34;&gt;5975&lt;/span&gt;fdf55b-bqgkx
-&lt;span style=&#34;color:#3677a9&#34;&gt;172.22&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;0.2&lt;/span&gt;	kube-system	coredns-&lt;span style=&#34;color:#3677a9&#34;&gt;5975&lt;/span&gt;fdf55b-vxbb4
-&lt;span style=&#34;color:#3677a9&#34;&gt;10.16&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;16.13&lt;/span&gt;	kube-system	flexvolume-&lt;span style=&#34;color:#3677a9&#34;&gt;9&lt;/span&gt;ccf7
-&lt;span style=&#34;color:#3677a9&#34;&gt;10.16&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;16.15&lt;/span&gt;	kube-system	flexvolume-h5xn2
-&lt;span style=&#34;color:#3677a9&#34;&gt;10.16&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;16.14&lt;/span&gt;	kube-system	flexvolume-kvn5x
-&lt;span style=&#34;color:#3677a9&#34;&gt;10.16&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;16.17&lt;/span&gt;	kube-system	flexvolume-mf4zv
-&lt;span style=&#34;color:#3677a9&#34;&gt;10.16&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;16.14&lt;/span&gt;	kube-system	kube-proxy-worker-&lt;span style=&#34;color:#3677a9&#34;&gt;7&lt;/span&gt;lpfz
-&lt;span style=&#34;color:#3677a9&#34;&gt;10.16&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;16.15&lt;/span&gt;	kube-system	kube-proxy-worker-&lt;span style=&#34;color:#3677a9&#34;&gt;9&lt;/span&gt;wd9s
-&lt;span style=&#34;color:#3677a9&#34;&gt;10.16&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;16.17&lt;/span&gt;	kube-system	kube-proxy-worker-phbbj
-&lt;span style=&#34;color:#3677a9&#34;&gt;10.16&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;16.13&lt;/span&gt;	kube-system	kube-proxy-worker-pst5d
-&lt;span style=&#34;color:#3677a9&#34;&gt;172.22&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;1.9&lt;/span&gt;	kube-system	metrics-server-&lt;span style=&#34;color:#3677a9&#34;&gt;78&lt;/span&gt;b597d5bf-wdvqh
-&lt;span style=&#34;color:#3677a9&#34;&gt;172.22&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;1.12&lt;/span&gt;	kube-system	nginx-ingress-controller-&lt;span style=&#34;color:#3677a9&#34;&gt;796&lt;/span&gt;ccc5d76-&lt;span style=&#34;color:#3677a9&#34;&gt;9j&lt;/span&gt;h5s
-&lt;span style=&#34;color:#3677a9&#34;&gt;172.22&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;1.125&lt;/span&gt;	kube-system	nginx-ingress-controller-&lt;span style=&#34;color:#3677a9&#34;&gt;796&lt;/span&gt;ccc5d76-jwwwz
-&lt;span style=&#34;color:#3677a9&#34;&gt;10.16&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;16.17&lt;/span&gt;	kube-system	terway-&lt;span style=&#34;color:#3677a9&#34;&gt;6&lt;/span&gt;mfs8
-&lt;span style=&#34;color:#3677a9&#34;&gt;10.16&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;16.14&lt;/span&gt;	kube-system	terway-fz9ck
-&lt;span style=&#34;color:#3677a9&#34;&gt;10.16&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;16.13&lt;/span&gt;	kube-system	terway-t9777
-&lt;span style=&#34;color:#3677a9&#34;&gt;10.16&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;16.15&lt;/span&gt;	kube-system	terway-xbxlp
-&lt;span style=&#34;color:#3677a9&#34;&gt;172.22&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;1.8&lt;/span&gt;	kube-system	tiller-deploy-&lt;span style=&#34;color:#3677a9&#34;&gt;5&lt;/span&gt;b5d8dd754-wpcrc
-...
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;Listing pods &lt;span style=&#34;color:#ff79c6&#34;&gt;with&lt;/span&gt; their IPs:
+&lt;span style=&#34;color:#bd93f9&#34;&gt;172.22&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;1.126&lt;/span&gt;	kube&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;system	coredns&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;5975&lt;/span&gt;fdf55b&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;bqgkx
+&lt;span style=&#34;color:#bd93f9&#34;&gt;172.22&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;0.2&lt;/span&gt;	kube&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;system	coredns&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;5975&lt;/span&gt;fdf55b&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;vxbb4
+&lt;span style=&#34;color:#bd93f9&#34;&gt;10.16&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;16.13&lt;/span&gt;	kube&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;system	flexvolume&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;9&lt;/span&gt;ccf7
+&lt;span style=&#34;color:#bd93f9&#34;&gt;10.16&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;16.15&lt;/span&gt;	kube&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;system	flexvolume&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;h5xn2
+&lt;span style=&#34;color:#bd93f9&#34;&gt;10.16&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;16.14&lt;/span&gt;	kube&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;system	flexvolume&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;kvn5x
+&lt;span style=&#34;color:#bd93f9&#34;&gt;10.16&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;16.17&lt;/span&gt;	kube&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;system	flexvolume&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;mf4zv
+&lt;span style=&#34;color:#bd93f9&#34;&gt;10.16&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;16.14&lt;/span&gt;	kube&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;system	kube&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;proxy&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;worker&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;7&lt;/span&gt;lpfz
+&lt;span style=&#34;color:#bd93f9&#34;&gt;10.16&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;16.15&lt;/span&gt;	kube&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;system	kube&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;proxy&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;worker&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;9&lt;/span&gt;wd9s
+&lt;span style=&#34;color:#bd93f9&#34;&gt;10.16&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;16.17&lt;/span&gt;	kube&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;system	kube&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;proxy&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;worker&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;phbbj
+&lt;span style=&#34;color:#bd93f9&#34;&gt;10.16&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;16.13&lt;/span&gt;	kube&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;system	kube&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;proxy&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;worker&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;pst5d
+&lt;span style=&#34;color:#bd93f9&#34;&gt;172.22&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;1.9&lt;/span&gt;	kube&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;system	metrics&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;server&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;78&lt;/span&gt;b597d5bf&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;wdvqh
+&lt;span style=&#34;color:#bd93f9&#34;&gt;172.22&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;1.12&lt;/span&gt;	kube&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;system	nginx&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;ingress&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;controller&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;796&lt;/span&gt;ccc5d76&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;9j&lt;/span&gt;h5s
+&lt;span style=&#34;color:#bd93f9&#34;&gt;172.22&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;1.125&lt;/span&gt;	kube&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;system	nginx&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;ingress&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;controller&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;796&lt;/span&gt;ccc5d76&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;jwwwz
+&lt;span style=&#34;color:#bd93f9&#34;&gt;10.16&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;16.17&lt;/span&gt;	kube&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;system	terway&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;6&lt;/span&gt;mfs8
+&lt;span style=&#34;color:#bd93f9&#34;&gt;10.16&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;16.14&lt;/span&gt;	kube&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;system	terway&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;fz9ck
+&lt;span style=&#34;color:#bd93f9&#34;&gt;10.16&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;16.13&lt;/span&gt;	kube&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;system	terway&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;t9777
+&lt;span style=&#34;color:#bd93f9&#34;&gt;10.16&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;16.15&lt;/span&gt;	kube&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;system	terway&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;xbxlp
+&lt;span style=&#34;color:#bd93f9&#34;&gt;172.22&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;1.8&lt;/span&gt;	kube&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;system	tiller&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;deploy&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;5&lt;/span&gt;b5d8dd754&lt;span style=&#34;color:#ff79c6&#34;&gt;-&lt;/span&gt;wpcrc
+&lt;span style=&#34;color:#ff79c6&#34;&gt;...&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;果然是一个好轮子，引入 kubeconfig 的方式及展示所有 namespace 的 pod 的方法封装的也十分简洁，是个非常漂亮的范例。建议可以看一下&lt;a href=&#34;https://github.com/kubernetes-client/python&#34;&gt;源码&lt;/a&gt;，肯定会有收获的！&lt;/p&gt;
 &lt;h3 id=&#34;支持版本&#34;&gt;支持版本&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;client-python&lt;/code&gt; 遵循 &lt;a href=&#34;https://semver.org/lang/zh-CN/&#34;&gt;semver&lt;/a&gt; 规范，所以在 &lt;code&gt;client-python&lt;/code&gt; 的主要版本增加之前，代码将继续使用明确支持的 Kubernetes 集群版本。&lt;/p&gt;
@@ -272,55 +272,55 @@ ret = v1.list_pod_for_all_namespaces(watch=False)
 &lt;h3 id=&#34;集成-kubedog&#34;&gt;集成 KubeDog&lt;/h3&gt;
 &lt;p&gt;由于我司目前使用的是 &lt;a href=&#34;https://drone.io/&#34;&gt;drone&lt;/a&gt; 进行 CI ，每个 step 都是由一个 docker 制作的插件组成。我制作了一个包含 &lt;code&gt;kubectl&lt;/code&gt; 、 &lt;code&gt;kustomize&lt;/code&gt; 和 &lt;code&gt;kubedog&lt;/code&gt; 的镜像。该镜像已上传 dockerhub ，需要的可以自行拉取使用 &lt;code&gt;guoxudongdocker/kubectl&lt;/code&gt; ,而该插件的使用也在 &lt;a href=&#34;https://github.com/sunny0826/kubectl-kustomize&#34;&gt;GitHub&lt;/a&gt; 和 &lt;a href=&#34;https://cloud.docker.com/u/guoxudongdocker/repository/docker/guoxudongdocker/kubectl&#34;&gt;DockerHub&lt;/a&gt; 上查看。&lt;/p&gt;
 &lt;p&gt;而集成方式也比较简单，直接将 &lt;code&gt;kubectl&lt;/code&gt; 、 &lt;code&gt;kustomize&lt;/code&gt; 和 &lt;code&gt;kubedog&lt;/code&gt; 的可执行包下载到 &lt;code&gt;/usr/local/bin&lt;/code&gt; 并赋予执行权限即可，下面就是 &lt;code&gt;Dockerfile&lt;/code&gt; 文件：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-dockerfile&#34; data-lang=&#34;dockerfile&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;FROM&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt; alpine&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;LABEL&lt;/span&gt; &lt;span style=&#34;color:#40ffff&#34;&gt;maintainer&lt;/span&gt;=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;sunnydog0826@gmail.com&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;ENV&lt;/span&gt; &lt;span style=&#34;color:#40ffff&#34;&gt;KUBE_LATEST_VERSION&lt;/span&gt;=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;v1.14.1&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;RUN&lt;/span&gt; apk add --update ca-certificates &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt; &amp;amp;&amp;amp; apk add --update -t deps curl &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt; &amp;amp;&amp;amp; curl -L https://storage.googleapis.com/kubernetes-release/release/&lt;span style=&#34;color:#ed9d13&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#40ffff&#34;&gt;KUBE_LATEST_VERSION&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;}&lt;/span&gt;/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt; &amp;amp;&amp;amp; chmod +x /usr/local/bin/kubectl &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt; &amp;amp;&amp;amp; curl -L https://github.com/kubernetes-sigs/kustomize/releases/download/v2.0.3/kustomize_2.0.3_linux_amd64 -o /usr/local/bin/kustomize &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt; &amp;amp;&amp;amp; chmod +x /usr/local/bin/kustomize &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt; &amp;amp;&amp;amp; curl -L https://dl.bintray.com/flant/kubedog/v0.2.0/kubedog-linux-amd64-v0.2.0 -o /usr/local/bin/kubedog &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt; &amp;amp;&amp;amp; chmod +x /usr/local/bin/kubedog &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt; &amp;amp;&amp;amp; apk del --purge deps &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt; &amp;amp;&amp;amp; rm /var/cache/apk/*&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;WORKDIR&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt; /root&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;ENTRYPOINT&lt;/span&gt; [&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;kubectl&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;CMD&lt;/span&gt; [&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;help&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;kustomize-配合-kubedog-使用&#34;&gt;Kustomize 配合 KubeDog 使用&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-dockerfile&#34; data-lang=&#34;dockerfile&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;FROM&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt; alpine&lt;/span&gt;
+
+&lt;span style=&#34;color:#ff79c6&#34;&gt;LABEL&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;maintainer&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;sunnydog0826@gmail.com&amp;#34;&lt;/span&gt;
+
+&lt;span style=&#34;color:#ff79c6&#34;&gt;ENV&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;KUBE_LATEST_VERSION&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;v1.14.1&amp;#34;&lt;/span&gt;
+
+&lt;span style=&#34;color:#ff79c6&#34;&gt;RUN&lt;/span&gt; apk add --update ca-certificates &lt;span style=&#34;color:#f1fa8c&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; apk add --update -t deps curl &lt;span style=&#34;color:#f1fa8c&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; curl -L https://storage.googleapis.com/kubernetes-release/release/&lt;span style=&#34;color:#f1fa8c&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;KUBE_LATEST_VERSION&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;}&lt;/span&gt;/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl &lt;span style=&#34;color:#f1fa8c&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; chmod +x /usr/local/bin/kubectl &lt;span style=&#34;color:#f1fa8c&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; curl -L https://github.com/kubernetes-sigs/kustomize/releases/download/v2.0.3/kustomize_2.0.3_linux_amd64 -o /usr/local/bin/kustomize &lt;span style=&#34;color:#f1fa8c&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; chmod +x /usr/local/bin/kustomize &lt;span style=&#34;color:#f1fa8c&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; curl -L https://dl.bintray.com/flant/kubedog/v0.2.0/kubedog-linux-amd64-v0.2.0 -o /usr/local/bin/kubedog &lt;span style=&#34;color:#f1fa8c&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; chmod +x /usr/local/bin/kubedog &lt;span style=&#34;color:#f1fa8c&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; apk del --purge deps &lt;span style=&#34;color:#f1fa8c&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; rm /var/cache/apk/*
+
+
+&lt;span style=&#34;color:#ff79c6&#34;&gt;WORKDIR&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt; /root&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;ENTRYPOINT&lt;/span&gt; [&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;kubectl&amp;#34;&lt;/span&gt;]
+&lt;span style=&#34;color:#ff79c6&#34;&gt;CMD&lt;/span&gt; [&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;help&amp;#34;&lt;/span&gt;]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;kustomize-配合-kubedog-使用&#34;&gt;Kustomize 配合 KubeDog 使用&lt;/h2&gt;
 &lt;p&gt;在镜像构建好之后就可以直接使用了，这里使用的是 DockerHub 的镜像仓库，这里建议将镜像同步到私有仓库，比如阿里云的容器镜像服务或者 Habor ，因为国内拉取 DockerHub 的镜像不太稳定，经常会拉取镜像失败或者访问超时，在 CI/CD 流水线中推荐使用更稳定镜像。&lt;/p&gt;
 &lt;p&gt;以下是 &lt;code&gt;.drone.yml&lt;/code&gt; 示例：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;pipeline&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;{your-pipeline-name}&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;steps&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Kubernetes 部署&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;image&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;guoxudongdocker/kubectl&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;volumes&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;kube&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;path&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;/root/.kube&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;commands&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- cd deploy/overlays/dev   &lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 这里使用 kustomize ,详细使用方法请见 https://github.com/kubernetes-sigs/kustomize&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- kustomize edit set image {your-docker-registry}:${DRONE_BUILD_NUMBER}&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- kubectl apply -k . &amp;amp;&amp;amp; kubedog rollout track deployment {your-deployment-name} -n {your-namespace} -t {your-tomeout}&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;...&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;volumes&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;kube&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;host&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;path&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;/tmp/cache/.kube &lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# kubeconfig 挂载位置&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;trigger&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;branch&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- master &lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 触发 CI 的分支&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;从上面的配置可见，在该 step 中执行了如下几步：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;kind&lt;/span&gt;: pipeline
+&lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: {your-pipeline-name}
+
+&lt;span style=&#34;color:#ff79c6&#34;&gt;steps&lt;/span&gt;:
+- &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: Kubernetes 部署
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;image&lt;/span&gt;: guoxudongdocker/kubectl
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;volumes&lt;/span&gt;:
+  - &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: kube
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;path&lt;/span&gt;: /root/.kube
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;commands&lt;/span&gt;:
+    - cd deploy/overlays/dev    &lt;span style=&#34;color:#6272a4&#34;&gt;# 这里使用 kustomize ,详细使用方法请见 https://github.com/kubernetes-sigs/kustomize&lt;/span&gt;
+    - kustomize edit set image {your-docker-registry}:${DRONE_BUILD_NUMBER}
+    - kubectl apply -k . &amp;amp;&amp;amp; kubedog rollout track deployment {your-deployment-name} -n {your-namespace} -t {your-tomeout}
+
+...
+
+&lt;span style=&#34;color:#ff79c6&#34;&gt;volumes&lt;/span&gt;:
+- &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: kube
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;host&lt;/span&gt;:
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;path&lt;/span&gt;: /tmp/cache/.kube  &lt;span style=&#34;color:#6272a4&#34;&gt;# kubeconfig 挂载位置&lt;/span&gt;
+
+&lt;span style=&#34;color:#ff79c6&#34;&gt;trigger&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;branch&lt;/span&gt;:
+  - master  &lt;span style=&#34;color:#6272a4&#34;&gt;# 触发 CI 的分支&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;从上面的配置可见，在该 step 中执行了如下几步：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;进入 patch 所在路径&lt;/li&gt;
 &lt;li&gt;使用了 Kustomize 命令 &lt;code&gt;kustomize edit set image {your-docker-registry}:${DRONE_BUILD_NUMBER}&lt;/code&gt; 方式将前面 step 中构建好的镜像的 tag 插入到 patch 中&lt;/li&gt;
@@ -385,100 +385,100 @@ ret = v1.list_pod_for_all_namespaces(watch=False)
 &lt;p&gt;Kustomize 允许用户以一个应用描述文件 （YAML 文件）为基础（Base YAML），然后通过 Overlay 的方式生成最终部署应用所需的描述文件。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;有前面的文章&lt;a href=&#34;../kustomize-2&#34;&gt;《使用 Kustomize 帮你管理 kubernetes 应用（二）： Kustomize 的使用方法》&lt;/a&gt;中已经介绍了，每个 &lt;code&gt;base&lt;/code&gt; 或 &lt;code&gt;overlays&lt;/code&gt; 中都必须要有一个 &lt;code&gt;kustomization.yaml&lt;/code&gt;，这里我们看一下官方示例 &lt;code&gt;helloWorld&lt;/code&gt; 中的 &lt;code&gt;kustomization.yaml&lt;/code&gt;：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-YAML&#34; data-lang=&#34;YAML&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;commonLabels&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;app&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;hello&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;resources&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;- deployment.yaml&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;- service.yaml&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;- configMap.yaml&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;可以看到该项目中包含3个 resources ， &lt;code&gt;deployment.yaml&lt;/code&gt;、&lt;code&gt;service.yaml&lt;/code&gt; 、 &lt;code&gt;configMap.yaml&lt;/code&gt;。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;.
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-YAML&#34; data-lang=&#34;YAML&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;commonLabels&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;app&lt;/span&gt;: hello
+
+&lt;span style=&#34;color:#ff79c6&#34;&gt;resources&lt;/span&gt;:
+- deployment.yaml
+- service.yaml
+- configMap.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;可以看到该项目中包含3个 resources ， &lt;code&gt;deployment.yaml&lt;/code&gt;、&lt;code&gt;service.yaml&lt;/code&gt; 、 &lt;code&gt;configMap.yaml&lt;/code&gt;。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;.
 └── helloWorld
     ├── configMap.yaml
     ├── deployment.yaml
     ├── kustomization.yaml
     └── service.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;直接执行命令：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;kustomize build helloWorld
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;kustomize build helloWorld
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;就可以看到结果了：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-YAML&#34; data-lang=&#34;YAML&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;v1&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;data&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;altGreeting&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Good Morning!&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;enableRisky&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;false&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;ConfigMap&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;labels&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;app&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;hello&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;the-map&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;image&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;caption&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Image from: [**Pexels**](https://www.pexels.com)&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;focal_point&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;preview_only&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;---&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;v1&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Service&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;labels&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;app&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;hello&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;the-service&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;spec&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;ports&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;port&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;8666&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;protocol&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;TCP&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;targetPort&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;8080&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;selector&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;app&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;hello&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;deployment&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;hello&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;type&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;LoadBalancer&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;image&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;caption&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Image from: [**Pexels**](https://www.pexels.com)&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;focal_point&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;preview_only&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;---&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;apps/v1&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Deployment&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;labels&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;app&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;hello&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;the-deployment&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;spec&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;replicas&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;3&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;selector&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;matchLabels&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;app&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;hello&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;template&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;labels&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;app&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;hello&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;deployment&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;hello&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;spec&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;containers&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;command&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;- /hello&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;- --port=8080&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;- --enableRiskyFeature=$(ENABLE_RISKY)&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;env&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;ALT_GREETING&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;valueFrom&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;configMapKeyRef&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;key&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;altGreeting&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;the-map&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;ENABLE_RISKY&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;valueFrom&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;configMapKeyRef&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;key&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;enableRisky&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;the-map&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;image&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;monopole/hello:1&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;the-container&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;ports&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;containerPort&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;8080&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;从上面的结果可以看大 kustomize 通过 &lt;code&gt;kustomization.yaml&lt;/code&gt; 将3个 resources 进行了处理，给三个 resources 添加了共同的 labels &lt;code&gt;app: hello&lt;/code&gt; 。这个示例展示了 &lt;code&gt;kustomization.yaml&lt;/code&gt; 的作用：&lt;strong&gt;将不同的 resources 进行整合，同时为他们加上相同的配置&lt;/strong&gt;。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-YAML&#34; data-lang=&#34;YAML&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;apiVersion&lt;/span&gt;: v1
+&lt;span style=&#34;color:#ff79c6&#34;&gt;data&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;altGreeting&lt;/span&gt;: Good Morning!
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;enableRisky&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;false&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;kind&lt;/span&gt;: ConfigMap
+&lt;span style=&#34;color:#ff79c6&#34;&gt;metadata&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;labels&lt;/span&gt;:
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;app&lt;/span&gt;: hello
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: the-map
+&lt;span style=&#34;color:#ff79c6&#34;&gt;image&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;caption&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;Image from: [**Pexels**](https://www.pexels.com)&amp;#34;&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;focal_point&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;preview_only&lt;/span&gt;: &lt;span style=&#34;color:#ff79c6&#34;&gt;false&lt;/span&gt;
+---
+&lt;span style=&#34;color:#ff79c6&#34;&gt;apiVersion&lt;/span&gt;: v1
+&lt;span style=&#34;color:#ff79c6&#34;&gt;kind&lt;/span&gt;: Service
+&lt;span style=&#34;color:#ff79c6&#34;&gt;metadata&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;labels&lt;/span&gt;:
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;app&lt;/span&gt;: hello
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: the-service
+&lt;span style=&#34;color:#ff79c6&#34;&gt;spec&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;ports&lt;/span&gt;:
+  - &lt;span style=&#34;color:#ff79c6&#34;&gt;port&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;8666&lt;/span&gt;
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;protocol&lt;/span&gt;: TCP
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;targetPort&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;8080&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;selector&lt;/span&gt;:
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;app&lt;/span&gt;: hello
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;deployment&lt;/span&gt;: hello
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;type&lt;/span&gt;: LoadBalancer
+&lt;span style=&#34;color:#ff79c6&#34;&gt;image&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;caption&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;Image from: [**Pexels**](https://www.pexels.com)&amp;#34;&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;focal_point&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;preview_only&lt;/span&gt;: &lt;span style=&#34;color:#ff79c6&#34;&gt;false&lt;/span&gt;
+---
+&lt;span style=&#34;color:#ff79c6&#34;&gt;apiVersion&lt;/span&gt;: apps/v1
+&lt;span style=&#34;color:#ff79c6&#34;&gt;kind&lt;/span&gt;: Deployment
+&lt;span style=&#34;color:#ff79c6&#34;&gt;metadata&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;labels&lt;/span&gt;:
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;app&lt;/span&gt;: hello
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: the-deployment
+&lt;span style=&#34;color:#ff79c6&#34;&gt;spec&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;replicas&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;3&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;selector&lt;/span&gt;:
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;matchLabels&lt;/span&gt;:
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;app&lt;/span&gt;: hello
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;template&lt;/span&gt;:
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;metadata&lt;/span&gt;:
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;labels&lt;/span&gt;:
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;app&lt;/span&gt;: hello
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;deployment&lt;/span&gt;: hello
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;spec&lt;/span&gt;:
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;containers&lt;/span&gt;:
+      - &lt;span style=&#34;color:#ff79c6&#34;&gt;command&lt;/span&gt;:
+        - /hello
+        - --port=8080
+        - --enableRiskyFeature=$(ENABLE_RISKY)
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;env&lt;/span&gt;:
+        - &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: ALT_GREETING
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;valueFrom&lt;/span&gt;:
+            &lt;span style=&#34;color:#ff79c6&#34;&gt;configMapKeyRef&lt;/span&gt;:
+              &lt;span style=&#34;color:#ff79c6&#34;&gt;key&lt;/span&gt;: altGreeting
+              &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: the-map
+        - &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: ENABLE_RISKY
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;valueFrom&lt;/span&gt;:
+            &lt;span style=&#34;color:#ff79c6&#34;&gt;configMapKeyRef&lt;/span&gt;:
+              &lt;span style=&#34;color:#ff79c6&#34;&gt;key&lt;/span&gt;: enableRisky
+              &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: the-map
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;image&lt;/span&gt;: monopole/hello:1
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: the-container
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;ports&lt;/span&gt;:
+        - &lt;span style=&#34;color:#ff79c6&#34;&gt;containerPort&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;8080&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;从上面的结果可以看大 kustomize 通过 &lt;code&gt;kustomization.yaml&lt;/code&gt; 将3个 resources 进行了处理，给三个 resources 添加了共同的 labels &lt;code&gt;app: hello&lt;/code&gt; 。这个示例展示了 &lt;code&gt;kustomization.yaml&lt;/code&gt; 的作用：&lt;strong&gt;将不同的 resources 进行整合，同时为他们加上相同的配置&lt;/strong&gt;。&lt;/p&gt;
 &lt;h2 id=&#34;进阶使用&#34;&gt;进阶使用&lt;/h2&gt;
 &lt;p&gt;上面只不过是一个简单的示例，下面将结合实际情况分享一些比较实用的用法&lt;/p&gt;
 &lt;h3 id=&#34;根据环境生成不同配置&#34;&gt;根据环境生成不同配置&lt;/h3&gt;
 &lt;p&gt;在实际的使用中，使用最多的就是为不同的环境配置不同的 &lt;code&gt;deploy.yaml&lt;/code&gt;，而使用 kustomize 可以把配置拆分为多个小的 patch ，然后通过 kustomize 来进行组合。而根据环境的不同，每个 patch 都可能不同，包括分配的资源、访问的方式、部署的节点都可以自由的定制。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;.
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;.
 ├── flask-env
 │   ├── README.md
 │   ├── base
@@ -498,104 +498,104 @@ ret = v1.list_pod_for_all_namespaces(watch=False)
 &lt;ul&gt;
 &lt;li&gt;base&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-YAML&#34; data-lang=&#34;YAML&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;commonLabels&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;app&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;test-cicd&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;resources&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;- service.yaml&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;- deployment.yaml&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;base&lt;/code&gt; 中的 &lt;code&gt;kustomization.yaml&lt;/code&gt; 中定义了一些基础配置&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-YAML&#34; data-lang=&#34;YAML&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;commonLabels&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;app&lt;/span&gt;: test-cicd
+
+&lt;span style=&#34;color:#ff79c6&#34;&gt;resources&lt;/span&gt;:
+- service.yaml
+- deployment.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;base&lt;/code&gt; 中的 &lt;code&gt;kustomization.yaml&lt;/code&gt; 中定义了一些基础配置&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;overlays&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-YAML&#34; data-lang=&#34;YAML&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;bases&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;- ../../base&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;patchesStrategicMerge&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;- healthcheck_patch.yaml&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;- memorylimit_patch.yaml&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;namespace&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;devops-dev&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;overlays&lt;/code&gt; 中的 &lt;code&gt;kustomization.yaml&lt;/code&gt; 则是基于 &lt;code&gt;base&lt;/code&gt; 新增了一些个性化的配置，来达到生成不同环境的目的。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-YAML&#34; data-lang=&#34;YAML&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;bases&lt;/span&gt;:
+- ../../base
+&lt;span style=&#34;color:#ff79c6&#34;&gt;patchesStrategicMerge&lt;/span&gt;:
+- healthcheck_patch.yaml
+- memorylimit_patch.yaml
+&lt;span style=&#34;color:#ff79c6&#34;&gt;namespace&lt;/span&gt;: devops-dev
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;overlays&lt;/code&gt; 中的 &lt;code&gt;kustomization.yaml&lt;/code&gt; 则是基于 &lt;code&gt;base&lt;/code&gt; 新增了一些个性化的配置，来达到生成不同环境的目的。&lt;/p&gt;
 &lt;p&gt;执行命令&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;kustomize build flask-env/overlays/dev
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;kustomize build flask-env/overlays/dev
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;结果&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-YAML&#34; data-lang=&#34;YAML&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;v1&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Service&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;labels&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;app&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;test-cicd&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;test-cicd&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;namespace&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;devops-dev&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;spec&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;ports&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;http&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;port&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;80&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;targetPort&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;80&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;selector&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;app&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;test-cicd&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;type&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;ClusterIP&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;image&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;caption&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Image from: [**Pexels**](https://www.pexels.com)&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;focal_point&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;preview_only&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;---&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;apps/v1&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Deployment&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;labels&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;app&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;test-cicd&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;test-cicd&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;namespace&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;devops-dev&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;spec&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;replicas&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;selector&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;matchLabels&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;app&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;test-cicd&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;template&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;labels&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;app&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;test-cicd&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;version&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;0.0.3&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;spec&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;containers&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;env&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;ENV&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;value&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;dev&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;image&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;guoxudongdocker/flask-python:latest&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;imagePullPolicy&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Always&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;livenessProbe&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;httpGet&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;path&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;/&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;port&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;80&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;initialDelaySeconds&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;10&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;periodSeconds&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;10&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;successThreshold&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;timeoutSeconds&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;20&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;test-cicd&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;readinessProbe&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;httpGet&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;path&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;/&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;port&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;80&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;initialDelaySeconds&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;10&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;periodSeconds&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;10&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;successThreshold&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;timeoutSeconds&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;20&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;resources&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;limits&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;cpu&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;300m&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;memory&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;500Mi&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;requests&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;cpu&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;300m&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;memory&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;500Mi&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;volumeMounts&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;mountPath&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;/etc/localtime&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;host-time&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;imagePullSecrets&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;registry-pull-secret&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;volumes&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;hostPath&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;path&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;/etc/localtime&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;host-time&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;可以看到包括 &lt;code&gt;replicas&lt;/code&gt;、&lt;code&gt;limits&lt;/code&gt;、&lt;code&gt;requests&lt;/code&gt;、&lt;code&gt;env&lt;/code&gt; 等 dev 中个性的配置都已经出现在了生成的 yaml 中。由于篇幅有限，这里没有把所有的配置有罗列出来，需要的可以去 &lt;a href=&#34;https://github.com/sunny0826/kustomize-lab&#34;&gt;GitHub&lt;/a&gt; 上自取。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-YAML&#34; data-lang=&#34;YAML&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;apiVersion&lt;/span&gt;: v1
+&lt;span style=&#34;color:#ff79c6&#34;&gt;kind&lt;/span&gt;: Service
+&lt;span style=&#34;color:#ff79c6&#34;&gt;metadata&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;labels&lt;/span&gt;:
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;app&lt;/span&gt;: test-cicd
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: test-cicd
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;namespace&lt;/span&gt;: devops-dev
+&lt;span style=&#34;color:#ff79c6&#34;&gt;spec&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;ports&lt;/span&gt;:
+  - &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: http
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;port&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;80&lt;/span&gt;
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;targetPort&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;80&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;selector&lt;/span&gt;:
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;app&lt;/span&gt;: test-cicd
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;type&lt;/span&gt;: ClusterIP
+&lt;span style=&#34;color:#ff79c6&#34;&gt;image&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;caption&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;Image from: [**Pexels**](https://www.pexels.com)&amp;#34;&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;focal_point&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;preview_only&lt;/span&gt;: &lt;span style=&#34;color:#ff79c6&#34;&gt;false&lt;/span&gt;
+---
+&lt;span style=&#34;color:#ff79c6&#34;&gt;apiVersion&lt;/span&gt;: apps/v1
+&lt;span style=&#34;color:#ff79c6&#34;&gt;kind&lt;/span&gt;: Deployment
+&lt;span style=&#34;color:#ff79c6&#34;&gt;metadata&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;labels&lt;/span&gt;:
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;app&lt;/span&gt;: test-cicd
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: test-cicd
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;namespace&lt;/span&gt;: devops-dev
+&lt;span style=&#34;color:#ff79c6&#34;&gt;spec&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;replicas&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;selector&lt;/span&gt;:
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;matchLabels&lt;/span&gt;:
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;app&lt;/span&gt;: test-cicd
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;template&lt;/span&gt;:
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;metadata&lt;/span&gt;:
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;labels&lt;/span&gt;:
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;app&lt;/span&gt;: test-cicd
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;version&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;0.0.3&lt;/span&gt;
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;spec&lt;/span&gt;:
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;containers&lt;/span&gt;:
+      - &lt;span style=&#34;color:#ff79c6&#34;&gt;env&lt;/span&gt;:
+        - &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: ENV
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;value&lt;/span&gt;: dev
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;image&lt;/span&gt;: guoxudongdocker/flask-python:latest
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;imagePullPolicy&lt;/span&gt;: Always
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;livenessProbe&lt;/span&gt;:
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;httpGet&lt;/span&gt;:
+            &lt;span style=&#34;color:#ff79c6&#34;&gt;path&lt;/span&gt;: /
+            &lt;span style=&#34;color:#ff79c6&#34;&gt;port&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;80&lt;/span&gt;
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;initialDelaySeconds&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;10&lt;/span&gt;
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;periodSeconds&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;10&lt;/span&gt;
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;successThreshold&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt;
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;timeoutSeconds&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;20&lt;/span&gt;
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: test-cicd
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;readinessProbe&lt;/span&gt;:
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;httpGet&lt;/span&gt;:
+            &lt;span style=&#34;color:#ff79c6&#34;&gt;path&lt;/span&gt;: /
+            &lt;span style=&#34;color:#ff79c6&#34;&gt;port&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;80&lt;/span&gt;
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;initialDelaySeconds&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;10&lt;/span&gt;
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;periodSeconds&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;10&lt;/span&gt;
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;successThreshold&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt;
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;timeoutSeconds&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;20&lt;/span&gt;
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;resources&lt;/span&gt;:
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;limits&lt;/span&gt;:
+            &lt;span style=&#34;color:#ff79c6&#34;&gt;cpu&lt;/span&gt;: 300m
+            &lt;span style=&#34;color:#ff79c6&#34;&gt;memory&lt;/span&gt;: 500Mi
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;requests&lt;/span&gt;:
+            &lt;span style=&#34;color:#ff79c6&#34;&gt;cpu&lt;/span&gt;: 300m
+            &lt;span style=&#34;color:#ff79c6&#34;&gt;memory&lt;/span&gt;: 500Mi
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;volumeMounts&lt;/span&gt;:
+        - &lt;span style=&#34;color:#ff79c6&#34;&gt;mountPath&lt;/span&gt;: /etc/localtime
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: host-time
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;imagePullSecrets&lt;/span&gt;:
+      - &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: registry-pull-secret
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;volumes&lt;/span&gt;:
+      - &lt;span style=&#34;color:#ff79c6&#34;&gt;hostPath&lt;/span&gt;:
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;path&lt;/span&gt;: /etc/localtime
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: host-time
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;可以看到包括 &lt;code&gt;replicas&lt;/code&gt;、&lt;code&gt;limits&lt;/code&gt;、&lt;code&gt;requests&lt;/code&gt;、&lt;code&gt;env&lt;/code&gt; 等 dev 中个性的配置都已经出现在了生成的 yaml 中。由于篇幅有限，这里没有把所有的配置有罗列出来，需要的可以去 &lt;a href=&#34;https://github.com/sunny0826/kustomize-lab&#34;&gt;GitHub&lt;/a&gt; 上自取。&lt;/p&gt;
 &lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
 &lt;p&gt;上面所有的 &lt;code&gt;kustomize build dir/&lt;/code&gt; 都可以使用 &lt;code&gt;kubectl apply -k dir/&lt;/code&gt; 实现，但是需要 &lt;code&gt;v14.0&lt;/code&gt; 版以上的 &lt;code&gt;kubectl&lt;/code&gt;，也就是说，其实我们在集成到 CI/CD 中的时候，甚至都不需要用来 &lt;code&gt;kustomize&lt;/code&gt; 命令集，有 &lt;code&gt;kubectl&lt;/code&gt; 就够了。&lt;/p&gt;
 &lt;p&gt;由于篇幅有限，这里没法吧所有 &lt;code&gt;kustomization.yaml&lt;/code&gt; 的用途都罗列出来，不过可以在官方文档中找到我提交的中文翻译版 &lt;a href=&#34;https://github.com/kubernetes-sigs/kustomize/blob/master/docs/zh/kustomization.yaml&#34;&gt;&lt;code&gt;kustomization.yaml&lt;/code&gt;&lt;/a&gt;，可以直接去官方 GitHub 查看。同时 &lt;a href=&#34;https://github.com/sunny0826/kustomize-lab&#34;&gt;kustomize-lab&lt;/a&gt; 会持续更行，敬请关注。&lt;/p&gt;
@@ -674,65 +674,65 @@ ret = v1.list_pod_for_all_namespaces(watch=False)
 &lt;p&gt;然后配置代码仓库即可&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://ws3.sinaimg.cn/large/ad5fbf65gy1g2sij1xlb2j214w0nw0uw.jpg&#34; alt=&#34;WX20190507-094958&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;pipeline&#34;&gt;Pipeline&lt;/h2&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-groovy&#34; data-lang=&#34;groovy&#34;&gt;podTemplate(label: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;jnlp-slave&amp;#39;&lt;/span&gt;, cloud: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;kubernetes&amp;#39;&lt;/span&gt;,
-  containers: [
-    containerTemplate(
-        name: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;jnlp&amp;#39;&lt;/span&gt;,
-        image: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;guoxudongdocker/jenkins-slave&amp;#39;&lt;/span&gt;,
-        alwaysPullImage: &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;true&lt;/span&gt;
-    ),
-    containerTemplate(name: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;kubectl&amp;#39;&lt;/span&gt;, image: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;guoxudongdocker/kubectl:v1.14.1&amp;#39;&lt;/span&gt;, command: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;cat&amp;#39;&lt;/span&gt;, ttyEnabled: &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;true&lt;/span&gt;),
-  ],
-  nodeSelector:&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;ci=jenkins&amp;#39;&lt;/span&gt;,
-  volumes: [
-    hostPathVolume(mountPath: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;/var/run/docker.sock&amp;#39;&lt;/span&gt;, hostPath: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;/var/run/docker.sock&amp;#39;&lt;/span&gt;),
-    hostPathVolume(mountPath: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;/usr/bin/docker&amp;#39;&lt;/span&gt;, hostPath: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;/usr/bin/docker&amp;#39;&lt;/span&gt;),
-    hostPathVolume(mountPath: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;/usr/local/jdk&amp;#39;&lt;/span&gt;, hostPath: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;/usr/local/jdk&amp;#39;&lt;/span&gt;),
-    hostPathVolume(mountPath: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;/usr/local/maven&amp;#39;&lt;/span&gt;, hostPath: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;/usr/local/maven&amp;#39;&lt;/span&gt;),
-    secretVolume(mountPath: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;/home/jenkins/.kube&amp;#39;&lt;/span&gt;, secretName: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;devops-ctl&amp;#39;&lt;/span&gt;),
-  ],
-)
-{
-    node(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;jnlp-slave&amp;#34;&lt;/span&gt;){
-        stage(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;Git Checkout&amp;#39;&lt;/span&gt;){
-            git branch: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;${branch}&amp;#39;&lt;/span&gt;, url: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;https://github.com/sunny0826/flask-python.git&amp;#39;&lt;/span&gt;
-        }
-        stage(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;Build and Push Image&amp;#39;&lt;/span&gt;){
-            withCredentials([usernamePassword(credentialsId: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;docker-register&amp;#39;&lt;/span&gt;, passwordVariable: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;dockerPassword&amp;#39;&lt;/span&gt;, usernameVariable: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;dockerUser&amp;#39;&lt;/span&gt;)]) {
-                sh &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&amp;#39;&amp;#39;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;                docker login -u ${dockerUser} -p ${dockerPassword}
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;                docker build -t guoxudongdocker/flask-python:${Tag} .
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;                docker push guoxudongdocker/flask-python:${Tag}
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;                &amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
-            }
-        }
-        stage(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;Deploy to K8s&amp;#39;&lt;/span&gt;){
-            &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;true&amp;#39;&lt;/span&gt; == &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;${deploy}&amp;#34;&lt;/span&gt;) {
-                container(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;kubectl&amp;#39;&lt;/span&gt;) {
-                    sh &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&amp;#39;&amp;#39;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;                    cd deploy/base
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;                    kustomize edit set image guoxudongdocker/flask-python:${Tag}
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;                    &amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
-                    echo &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;部署到 Kubernetes&amp;#34;&lt;/span&gt;
-                    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;prod&amp;#39;&lt;/span&gt; == &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;${ENV}&amp;#34;&lt;/span&gt;) {
-                        sh &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&amp;#39;&amp;#39;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;                        # kustomize build deploy/overlays/prod | kubectl apply -f -
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;                        kubectl applt -k deploy/overlays/prod
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;                        &amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
-                    }&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;else&lt;/span&gt; {
-                        sh &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;&amp;#39;&amp;#39;
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;                        # kustomize build deploy/overlays/dev | kubectl apply -f -
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;                        kubectl applt -k deploy/overlays/dev
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;                        &amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
-                    }	
-                }
-            }&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;else&lt;/span&gt;{
-                echo &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;跳过Deploy to K8s&amp;#34;&lt;/span&gt;
-            }
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-groovy&#34; data-lang=&#34;groovy&#34;&gt;podTemplate&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;label:&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;jnlp-slave&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;cloud:&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;kubernetes&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;,&lt;/span&gt;
+  &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;containers:&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;[&lt;/span&gt;
+    containerTemplate&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;
+        &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;name:&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;jnlp&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;,&lt;/span&gt;
+        &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;image:&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;guoxudongdocker/jenkins-slave&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;,&lt;/span&gt;
+        &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;alwaysPullImage:&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;true&lt;/span&gt;
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;),&lt;/span&gt;
+    containerTemplate&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;name:&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;kubectl&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;image:&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;guoxudongdocker/kubectl:v1.14.1&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;command:&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;cat&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;ttyEnabled:&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;),&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;],&lt;/span&gt;
+  &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;nodeSelector:&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;ci=jenkins&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;,&lt;/span&gt;
+  &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;volumes:&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;[&lt;/span&gt;
+    hostPathVolume&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;mountPath:&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;/var/run/docker.sock&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;hostPath:&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;/var/run/docker.sock&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;),&lt;/span&gt;
+    hostPathVolume&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;mountPath:&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;/usr/bin/docker&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;hostPath:&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;/usr/bin/docker&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;),&lt;/span&gt;
+    hostPathVolume&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;mountPath:&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;/usr/local/jdk&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;hostPath:&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;/usr/local/jdk&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;),&lt;/span&gt;
+    hostPathVolume&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;mountPath:&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;/usr/local/maven&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;hostPath:&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;/usr/local/maven&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;),&lt;/span&gt;
+    secretVolume&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;mountPath:&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;/home/jenkins/.kube&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;secretName:&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;devops-ctl&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;),&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;],&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;
+    node&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;jnlp-slave&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;){&lt;/span&gt;
+        stage&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;Git Checkout&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;){&lt;/span&gt;
+            git &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;branch:&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;${branch}&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;url:&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;https://github.com/sunny0826/flask-python.git&amp;#39;&lt;/span&gt;
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;
+        stage&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;Build and Push Image&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;){&lt;/span&gt;
+            withCredentials&lt;span style=&#34;color:#ff79c6&#34;&gt;([&lt;/span&gt;usernamePassword&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;credentialsId:&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;docker-register&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;passwordVariable:&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;dockerPassword&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;usernameVariable:&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;dockerUser&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;)])&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;
+                sh &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;&amp;#39;&amp;#39;
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;                docker login -u ${dockerUser} -p ${dockerPassword}
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;                docker build -t guoxudongdocker/flask-python:${Tag} .
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;                docker push guoxudongdocker/flask-python:${Tag}
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;                &amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
+            &lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;
+        stage&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;Deploy to K8s&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;){&lt;/span&gt;
+            &lt;span style=&#34;color:#ff79c6&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;true&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;${deploy}&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;
+                container&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;kubectl&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;
+                    sh &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;&amp;#39;&amp;#39;
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;                    cd deploy/base
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;                    kustomize edit set image guoxudongdocker/flask-python:${Tag}
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;                    &amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
+                    echo &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;部署到 Kubernetes&amp;#34;&lt;/span&gt;
+                    &lt;span style=&#34;color:#ff79c6&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;prod&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;${ENV}&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;
+                        sh &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;&amp;#39;&amp;#39;
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;                        # kustomize build deploy/overlays/prod | kubectl apply -f -
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;                        kubectl applt -k deploy/overlays/prod
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;                        &amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
+                    &lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;
+                        sh &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;&amp;#39;&amp;#39;
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;                        # kustomize build deploy/overlays/dev | kubectl apply -f -
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;                        kubectl applt -k deploy/overlays/dev
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;                        &amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
+                    &lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;	
+                &lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;
+            &lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;else&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;
+                echo &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;跳过Deploy to K8s&amp;#34;&lt;/span&gt;
+            &lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;
 
-        }
-    }
-}
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;
 
 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里要注意几点：&lt;/p&gt;
@@ -779,10 +779,10 @@ preview_only: false&lt;/h2&gt;
 &lt;p&gt;那么， Kustomize 在整个流程中又扮演了一个什么角色呢？&lt;/p&gt;
 &lt;h3 id=&#34;更新镜像&#34;&gt;更新镜像&lt;/h3&gt;
 &lt;p&gt;在 &lt;code&gt;jenkinsfile&lt;/code&gt; 中可以看到， kustomize 更新了基础配置的镜像版本，这里我们之前一直是使用 &lt;code&gt;sed -i &amp;quot;s/#Tag/${Tag}/g&amp;quot; deploy.yaml&lt;/code&gt; 来进行替换了，但是不同环境存在比较多的差异，需要替换的越来越多，导致 Jekninsfile 也越来越臃肿和难以维护。 kustomize 解决了这个问题。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;kustomize edit &lt;span style=&#34;color:#24909d&#34;&gt;set&lt;/span&gt; image guoxudongdocker/flask-python:&lt;span style=&#34;color:#ed9d13&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#40ffff&#34;&gt;Tag&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;}&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;kustomize edit &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;set&lt;/span&gt; image guoxudongdocker/flask-python:&lt;span style=&#34;color:#f1fa8c&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;Tag&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;环境区分&#34;&gt;环境区分&lt;/h3&gt;
 &lt;p&gt;上面也提到了，不同的环境我们存在这许多差异，虽然看上去大致类似，但是很多细节都需要修改。这时 kustomize 就起到了很大的作用，不同环境相同的配置都放在 &lt;code&gt;base&lt;/code&gt; 中，而差异就可以在 &lt;code&gt;overlays&lt;/code&gt; 中实现。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;.
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;.
 ├── base
 │   ├── deployment.yaml
 │   ├── kustomization.yaml
@@ -799,7 +799,7 @@ preview_only: false&lt;/h2&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;可以看到， &lt;code&gt;base&lt;/code&gt; 中维护了项目共同的基础配置，如果有镜像版本等基础配置需要修改，可以使用 &lt;code&gt;kustomize edit set image ...&lt;/code&gt; 来直接修改基础配置，而真正不同环境，或者不同使用情况的配置则在 &lt;code&gt;overlays&lt;/code&gt; 中 以 patch 的形式添加配置。这里我的配置是 prod 环境部署的副本为2，同时给到的资源也更多，详情可以在 &lt;a href=&#34;https://github.com/sunny0826/flask-python&#34;&gt;Github&lt;/a&gt; 上查看。&lt;/p&gt;
 &lt;h3 id=&#34;与-kubectl-的集成&#34;&gt;与 kubectl 的集成&lt;/h3&gt;
 &lt;p&gt;在 jenkinsfile 中可以看到&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# kustomize build deploy/overlays/dev | kubectl apply -f -&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;# kustomize build deploy/overlays/dev | kubectl apply -f -&lt;/span&gt;
 kubectl apply -k deploy/overlays/dev
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这两条命令的执行效果是一样的，在 &lt;code&gt;kubectl v1.14.0&lt;/code&gt; 以上的版本中，已经集成了 kustomize ，可以直接使用 &lt;code&gt;kubectl&lt;/code&gt; 进行部署。&lt;/p&gt;
 &lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
@@ -826,16 +826,16 @@ kubectl apply -k deploy/overlays/dev
 &lt;p&gt;创建一个目录用于版本控制&lt;/p&gt;
 &lt;p&gt;我们希望将一个名为 &lt;em&gt;&lt;strong&gt;ldap&lt;/strong&gt;&lt;/em&gt; 的 Kubernetes 集群应用的配置保存在自己的 repo 中。
 这里使用 &lt;code&gt;git&lt;/code&gt; 进行版本控制。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;git init ~/ldap
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;git init ~/ldap
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;创建一个 &lt;code&gt;base&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;mkdir -p ~/ldap/base
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;mkdir -p ~/ldap/base
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在这个目录中创建并提交 &lt;code&gt;kustomization.yaml&lt;/code&gt; 文件和一组资源，例如 &lt;code&gt;deployment.yaml&lt;/code&gt; &lt;code&gt;service.yaml&lt;/code&gt; 等。&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;创建 &lt;code&gt;overlays&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;mkdir -p ~/ldap/overlays/staging
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;mkdir -p ~/ldap/overlays/staging
 mkdir -p ~/ldap/overlays/production
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;每个目录都需要一个 &lt;code&gt;kustomization.yaml&lt;/code&gt; 文件以及一个或多个 &lt;code&gt;patch&lt;/code&gt; ，例如 &lt;code&gt;healthcheck_patch.yaml&lt;/code&gt; &lt;code&gt;memorylimit_patch.yaml&lt;/code&gt; 等。。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;staging&lt;/code&gt; 目录可能会使用一个 &lt;code&gt;patch&lt;/code&gt; ，用于在 &lt;code&gt;configmap&lt;/code&gt; 增加一个实验配置。&lt;/p&gt;
@@ -844,10 +844,10 @@ mkdir -p ~/ldap/overlays/production
 &lt;li&gt;
 &lt;p&gt;生成 &lt;code&gt;variants&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;运行 &lt;code&gt;kustomize&lt;/code&gt; ，将生成的配置用于 kubernetes 应用部署&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;kustomize build ~/ldap/overlays/staging | kubectl apply -f -
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;kustomize build ~/ldap/overlays/staging | kubectl apply -f -
 kustomize build ~/ldap/overlays/production | kubectl apply -f -
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在 kubernetes 1.14 版本， &lt;code&gt;kustomize&lt;/code&gt; 已经集成到 &lt;code&gt;kubectl&lt;/code&gt; 命令中，成为了其一个子命令，可使用 &lt;code&gt;kubectl&lt;/code&gt; 来进行部署&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;kubectl apply -k ~/ldap/overlays/staging
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;kubectl apply -k ~/ldap/overlays/staging
 kubectl apply -k ~/ldap/overlays/production
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;/ol&gt;
@@ -861,30 +861,30 @@ kubectl apply -k ~/ldap/overlays/production
 &lt;li&gt;
 &lt;p&gt;将其克隆为你自己的 &lt;code&gt;base&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;在这个 &lt;code&gt;bash&lt;/code&gt; 目录维护在一个 repo 中，在这个例子使用 &lt;code&gt;ladp&lt;/code&gt; 的 repo&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;mkdir ~/ldap
-git clone https://github.com/&lt;span style=&#34;color:#40ffff&#34;&gt;$USER&lt;/span&gt;/ldap ~/ldap/base
-&lt;span style=&#34;color:#24909d&#34;&gt;cd&lt;/span&gt; ~/ldap/base
-git remote add upstream git@github.com:&lt;span style=&#34;color:#40ffff&#34;&gt;$USER&lt;/span&gt;/ldap
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;mkdir ~/ldap
+git clone https://github.com/&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;$USER&lt;/span&gt;/ldap ~/ldap/base
+&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;cd&lt;/span&gt; ~/ldap/base
+git remote add upstream git@github.com:&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;$USER&lt;/span&gt;/ldap
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;创建 &lt;code&gt;overlays&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;如上面的案例一样，创建并完善 &lt;code&gt;overlays&lt;/code&gt; 目录中的内容&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;mkdir -p ~/ldap/overlays/staging
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;mkdir -p ~/ldap/overlays/staging
 mkdir -p ~/ldap/overlays/production
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;用户可以将 &lt;code&gt;overlays&lt;/code&gt; 维护在不同的 repo 中&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;生成 &lt;code&gt;variants&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;kustomize build ~/ldap/overlays/staging | kubectl apply -f -
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;kustomize build ~/ldap/overlays/staging | kubectl apply -f -
 kustomize build ~/ldap/overlays/production | kubectl apply -f -
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在 kubernetes 1.14 版本， &lt;code&gt;kustomize&lt;/code&gt; 已经集成到 &lt;code&gt;kubectl&lt;/code&gt; 命令中，成为了其一个子命令，可使用 &lt;code&gt;kubectl&lt;/code&gt; 来进行部署&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;kubectl apply -k ~/ldap/overlays/staging
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;kubectl apply -k ~/ldap/overlays/staging
 kubectl apply -k ~/ldap/overlays/production
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;（可选）更新 &lt;code&gt;base&lt;/code&gt;
 用户可以定期从上游 repo 中 &lt;code&gt;rebase&lt;/code&gt; 他们的 &lt;code&gt;base&lt;/code&gt; 以保证及时更新&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#24909d&#34;&gt;cd&lt;/span&gt; ~/ldap/base
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;cd&lt;/span&gt; ~/ldap/base
 git fetch upstream
 git rebase upstream/master
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;

@@ -42,7 +42,7 @@
       "datePublished": "2019-04-15 17:23:21 \u002b0800 \u002b0800",
       "dateModified" : "2019-04-15 17:23:21 \u002b0800 \u002b0800",
       "url" : "https:\/\/guoxudong.io\/post\/introducing-kustomize-template-free-configuration-customization-for-kubernetes\/",
-      "wordCount" : "213",
+      "wordCount" : "237",
       "keywords" : [ "翻译","kustomize","kubernetes","工具","Guoxudong" ]
   }
   </script>
@@ -56,7 +56,7 @@
 <meta itemprop="name" content="Kustomize: 无需模板定制你的 kubernetes 配置">
 <meta itemprop="description" content="本文介绍了 Kubernetes 原生的应用管理工具 Kustomize。"><meta itemprop="datePublished" content="2019-04-15T17:23:21&#43;08:00" />
 <meta itemprop="dateModified" content="2020-08-04T11:59:33&#43;08:00" />
-<meta itemprop="wordCount" content="213">
+<meta itemprop="wordCount" content="237">
 <meta itemprop="keywords" content="翻译,kustomize,kubernetes,工具," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Kustomize: 无需模板定制你的 kubernetes 配置"/>
 <meta name="twitter:description" content="本文介绍了 Kubernetes 原生的应用管理工具 Kustomize。"/>
@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -234,6 +234,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -241,8 +243,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -582,7 +582,7 @@ if (!doNotTrack) {
 	<div class="td-byline mb-4">
 		<span>By  <b>guoxudong</b> </span> ·
 		<span>
-			1 分钟阅读时间
+			2 分钟阅读时间
 		</span> ·
 		<span>发布于 </span><time datetime=" 2019-04-15" 
 			class="text-muted">2019年04月15日</time> ·
@@ -665,20 +665,20 @@ if (!doNotTrack) {
 <p><strong>kustomize</strong> 中工具的声明与规范是由名为 <code>kustomization.yaml</code> 的文件定义。</p>
 <p><strong>kustomize</strong> 将会读取声明文件和 Kubernetes API 资源文件，将其组合然后将完整的资源进行标准化的输出。输出的文本可以被其他工具进一步处理，或者直接通过 <strong>kubectl</strong> 应用于集群。</p>
 <p>例如，如果 <code>kustomization.yaml</code> 文件包括：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">commonLabels</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">app</span>:<span style="color:#666"> </span>hello<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">resources</span>:<span style="color:#666">
-</span><span style="color:#666"></span>- deployment.yaml<span style="color:#666">
-</span><span style="color:#666"></span>- configMap.yaml<span style="color:#666">
-</span><span style="color:#666"></span>- service.yaml<span style="color:#666">
-</span></code></pre></div><p>确保这三个文件与 <code>kustomization.yaml</code> 位于同一目录下，然后运行：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kustomize build
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">commonLabels</span>:
+  <span style="color:#ff79c6">app</span>: hello
+<span style="color:#ff79c6">resources</span>:
+- deployment.yaml
+- configMap.yaml
+- service.yaml
+</code></pre></div><p>确保这三个文件与 <code>kustomization.yaml</code> 位于同一目录下，然后运行：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kustomize build
 </code></pre></div><p>将创建包含三个资源的 YAML 流，其中 <code>app: hello</code> 为每个资源共同的标签。</p>
 <p>同样的，你可以使用 <em><strong>commonAnnotations</strong></em> 字段给所有资源添加注释， <em><strong>namePrefix</strong></em> 字段为所有的资源添加共同的前缀名。这些琐碎而有常见的定制只是一个开始。</p>
 <p>一个更常见的例子是，你需要为一组相同资源设置不同的参数。例如：开发、演示和生产的参数。</p>
 <p>为此，<strong>Kustomize</strong> 允许用户以一个应用描述文件 （YAML 文件）为基础（Base YAML），然后通过 Overlay 的方式生成最终部署应用所需的描述文件。两者都是由 kustomization 文件表示。基础（Base）声明了共享的内容（资源和常见的资源配置），Overlay 则声明了差异。</p>
 <p>这里是一个目录树，用于管理集群应用程序的 <em><strong>演示</strong></em> 和 <em><strong>生产</strong></em> 配置参数：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">someapp/
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">someapp/
 ├── base/
 │   ├── kustomization.yaml
 │   ├── deployment.yaml
@@ -693,23 +693,23 @@ if (!doNotTrack) {
         └── cpu_count.yaml
 </code></pre></div><p><strong><code>someapp/base/kustomization.yaml</code> 文件指定了公共资源和常见自定义配置（例如，它们一些相同的标签，名称前缀和注释）。</strong></p>
 <p><strong><code>someapp/overlays/production/kustomization.yaml</code> 文件的内容可能是：</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">commonLabels</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">env</span>:<span style="color:#666"> </span>production<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">bases</span>:<span style="color:#666">
-</span><span style="color:#666"></span>- ../../base<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">patches</span>:<span style="color:#666">
-</span><span style="color:#666"></span>- replica_count.yaml<span style="color:#666">
-</span></code></pre></div><p>这个 kustomization 指定了一个 <em><strong>patch</strong></em> 文件 <code>replica_count.yaml</code> ，其内容可能是：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>apps/v1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>Deployment<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>the-deployment<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">replicas</span>:<span style="color:#666"> </span><span style="color:#3677a9">100</span><span style="color:#666">
-</span></code></pre></div><p><em><strong>patch</strong></em> 是部分的资源声明，在这个例子中是 Deployment 的补丁 <code>someapp/base/deployment.yaml</code> ，仅修改了副本数用以处理生产流量。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">commonLabels</span>:
+  <span style="color:#ff79c6">env</span>: production
+<span style="color:#ff79c6">bases</span>:
+- ../../base
+<span style="color:#ff79c6">patches</span>:
+- replica_count.yaml
+</code></pre></div><p>这个 kustomization 指定了一个 <em><strong>patch</strong></em> 文件 <code>replica_count.yaml</code> ，其内容可能是：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">apiVersion</span>: apps/v1
+<span style="color:#ff79c6">kind</span>: Deployment
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#ff79c6">name</span>: the-deployment
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">replicas</span>: <span style="color:#bd93f9">100</span>
+</code></pre></div><p><em><strong>patch</strong></em> 是部分的资源声明，在这个例子中是 Deployment 的补丁 <code>someapp/base/deployment.yaml</code> ，仅修改了副本数用以处理生产流量。</p>
 <p>该补丁不仅仅是一个无上下文 {parameter name，value} 元组。其作为部分 deployment spec，可以通过验证，即使与其余配置隔离读取，也具有明确的上下文和用途。</p>
 <p>要为生产环境创建资源，请运行：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kustomize build someapp/overlays/production
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kustomize build someapp/overlays/production
 </code></pre></div><p>运行结果将作为一组完整资源打印到标准输出，并准备应用于集群。可以用类似的命令定义演示环境的配置。</p>
 <h2 id="综上所述">综上所述</h2>
 <p>使用 <strong>kustomize</strong> ，您可以仅使用 Kubernetes API 资源文件就可以管理任意数量的 Kubernetes 定制配置。kustomize 的每个产物都是纯 YAML 的，每个都可以进行验证和运行的。<strong>kustomize</strong> 鼓励通过 fork/modify/rebase 这样的<a href="https://github.com/kubernetes-sigs/kustomize/blob/master/docs/workflows.md">工作流</a>来管理海量的应用描述文件。</p>

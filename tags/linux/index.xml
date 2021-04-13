@@ -35,34 +35,34 @@
 &lt;p&gt;由于其小巧、安全、简单以及功能完备的特点，被广泛应用于众多Docker容器中。我司目前使用的基础镜像均是基于该系统，&lt;a href=&#34;https://hub.docker.com/_/alpine&#34;&gt;dockerhub&lt;/a&gt;上有提供各种语言的基础镜像.如：&lt;code&gt;node:8-alpine&lt;/code&gt;、&lt;code&gt;python:3.6-alpine&lt;/code&gt;，同时也可以基于alpine镜像制作符合自己需求的基础镜像。&lt;/p&gt;
 &lt;h3 id=&#34;简单的镜像构建示例&#34;&gt;简单的镜像构建示例&lt;/h3&gt;
 &lt;p&gt;这里提供一个python3的基础镜像的&lt;code&gt;Dockerfile&lt;/code&gt;，&lt;a href=&#34;https://pip.pypa.io/en/latest/installing/&#34;&gt;get-pip.py&lt;/a&gt;可在 &lt;a href=&#34;https://pip.pypa.io/en/latest/installing/&#34;&gt;https://pip.pypa.io/en/latest/installing/&lt;/a&gt; 下载。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-docker&#34; data-lang=&#34;docker&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;FROM&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt; alpine&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;MAINTAINER&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt; guoxudong@keking.cn&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 拷贝安装pip的脚本&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;COPY&lt;/span&gt; get-pip.py /get-pip.py&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 设置alpine的镜像地址为阿里云的地址&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;RUN&lt;/span&gt; &lt;span style=&#34;color:#24909d&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;https://mirrors.aliyun.com/alpine/v3.6/main/&amp;#34;&lt;/span&gt; &amp;gt; /etc/apk/repositories &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 安装依赖包&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;    &amp;amp;&amp;amp; apk update &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;    &amp;amp;&amp;amp; apk add --no-cache bash &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# libevent-dev libxml2-dev  libffi libxml2 libxslt libxslt-dev  \&lt;/span&gt;
-    python3 gcc g++ python3-dev python-dev linux-headers libffi-dev openssl-dev &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 由于通过apk安装的pip总是基于python2.7的版本，不符合项目要求，此处使用get-pip.py的方式&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#安装基于python3.6的pip&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;    &amp;amp;&amp;amp; python3 /get-pip.py &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 删除不必要的脚本&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;    &amp;amp;&amp;amp; &lt;span style=&#34;color:#24909d&#34;&gt;cd&lt;/span&gt; .. &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;    &amp;amp;&amp;amp; rm -f /get-pip.py &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 此环境专用做运行django项目，因此移除不必要的工具，减少空间&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#    &amp;amp;&amp;amp; pip uninstall -y pip setuptools wheel \&lt;/span&gt;
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 最后清空apk安装时产生的无用文件&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;    &amp;amp;&amp;amp; rm -rf /var/cache/apk/*&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;对比&lt;/strong&gt;：同样版本的python，对比镜像大小，可见使用alpine的优势&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;~ docker images | grep python
-python                                  3.4                 ccbffa0d70d9        &lt;span style=&#34;color:#3677a9&#34;&gt;2&lt;/span&gt; months ago        922MB
-alpine-python3                          latest              69e41b673a50        &lt;span style=&#34;color:#3677a9&#34;&gt;2&lt;/span&gt; months ago        297MB
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-docker&#34; data-lang=&#34;docker&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;FROM&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt; alpine&lt;/span&gt;
+
+&lt;span style=&#34;color:#ff79c6&#34;&gt;MAINTAINER&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt; guoxudong@keking.cn&lt;/span&gt;
+
+&lt;span style=&#34;color:#6272a4&#34;&gt;# 拷贝安装pip的脚本&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;COPY&lt;/span&gt; get-pip.py /get-pip.py
+
+&lt;span style=&#34;color:#6272a4&#34;&gt;# 设置alpine的镜像地址为阿里云的地址&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;RUN&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;https://mirrors.aliyun.com/alpine/v3.6/main/&amp;#34;&lt;/span&gt; &amp;gt; /etc/apk/repositories &lt;span style=&#34;color:#f1fa8c&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#6272a4&#34;&gt;# 安装依赖包&lt;/span&gt;
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; apk update &lt;span style=&#34;color:#f1fa8c&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; apk add --no-cache bash &lt;span style=&#34;color:#f1fa8c&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#6272a4&#34;&gt;# libevent-dev libxml2-dev  libffi libxml2 libxslt libxslt-dev  \&lt;/span&gt;
+    python3 gcc g++ python3-dev python-dev linux-headers libffi-dev openssl-dev &lt;span style=&#34;color:#f1fa8c&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#6272a4&#34;&gt;# 由于通过apk安装的pip总是基于python2.7的版本，不符合项目要求，此处使用get-pip.py的方式&lt;/span&gt;
+    &lt;span style=&#34;color:#6272a4&#34;&gt;#安装基于python3.6的pip&lt;/span&gt;
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; python3 /get-pip.py &lt;span style=&#34;color:#f1fa8c&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#6272a4&#34;&gt;# 删除不必要的脚本&lt;/span&gt;
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;cd&lt;/span&gt; .. &lt;span style=&#34;color:#f1fa8c&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; rm -f /get-pip.py &lt;span style=&#34;color:#f1fa8c&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#6272a4&#34;&gt;# 此环境专用做运行django项目，因此移除不必要的工具，减少空间&lt;/span&gt;
+    &lt;span style=&#34;color:#6272a4&#34;&gt;#    &amp;amp;&amp;amp; pip uninstall -y pip setuptools wheel \&lt;/span&gt;
+    &lt;span style=&#34;color:#6272a4&#34;&gt;# 最后清空apk安装时产生的无用文件&lt;/span&gt;
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; rm -rf /var/cache/apk/*
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;对比&lt;/strong&gt;：同样版本的python，对比镜像大小，可见使用alpine的优势&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;~ docker images | grep python
+python                                  3.4                 ccbffa0d70d9        &lt;span style=&#34;color:#bd93f9&#34;&gt;2&lt;/span&gt; months ago        922MB
+alpine-python3                          latest              69e41b673a50        &lt;span style=&#34;color:#bd93f9&#34;&gt;2&lt;/span&gt; months ago        297MB
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;apk包管理&#34;&gt;apk包管理&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;
@@ -79,11 +79,11 @@ alpine-python3                          latest              69e41b673a50        
 &lt;/ul&gt;
 &lt;p&gt;镜像源配置&lt;/p&gt;
 &lt;p&gt;这里推荐使用阿里云镜像源，由于公司应用都是部署在阿里云上，使用阿里云镜像源会快很多&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ vi /etc/apk/repositories
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 将这两行插入到repositories文件开头&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ vi /etc/apk/repositories
+&lt;span style=&#34;color:#6272a4&#34;&gt;# 将这两行插入到repositories文件开头&lt;/span&gt;
 http://mirrors.aliyun.com/alpine/v3.9/main
 http://mirrors.aliyun.com/alpine/v3.9/community
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 后面是原有的默认配置&lt;/span&gt;
+&lt;span style=&#34;color:#6272a4&#34;&gt;# 后面是原有的默认配置&lt;/span&gt;
 http://dl-cdn.alpinelinux.org/alpine/v3.8/main
 http://dl-cdn.alpinelinux.org/alpine/v3.8/community
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
@@ -93,12 +93,12 @@ http://dl-cdn.alpinelinux.org/alpine/v3.8/community
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;apk --help&lt;/code&gt;可以查看完整的包管理命令&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;bash-4.3# apk --help
-apk-tools 2.10.0, compiled &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; x86_64.
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;bash-4.3# apk --help
+apk-tools 2.10.0, compiled &lt;span style=&#34;color:#ff79c6&#34;&gt;for&lt;/span&gt; x86_64.
 
 Installing and removing packages:
-add       Add PACKAGEs to &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;world&amp;#39;&lt;/span&gt; and install (or upgrade) them, &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;while&lt;/span&gt; ensuring that all dependencies are met
-del       Remove PACKAGEs from &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;world&amp;#39;&lt;/span&gt; and uninstall them
+add       Add PACKAGEs to &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;world&amp;#39;&lt;/span&gt; and install &lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;or upgrade&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt; them, &lt;span style=&#34;color:#ff79c6&#34;&gt;while&lt;/span&gt; ensuring that all dependencies are met
+del       Remove PACKAGEs from &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;world&amp;#39;&lt;/span&gt; and uninstall them
 
 System maintenance:
 fix       Repair package or upgrade it without modifying main dependencies
@@ -110,16 +110,16 @@ Querying information about packages:
 info      Give detailed information about PACKAGEs or repositories
 list      List packages by PATTERN and other criteria
 dot       Generate graphviz graphs
-policy    Show repository policy &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; packages
+policy    Show repository policy &lt;span style=&#34;color:#ff79c6&#34;&gt;for&lt;/span&gt; packages
 
 Repository maintenance:
 index     Create repository index file from FILEs
-fetch     Download PACKAGEs from global repositories to a &lt;span style=&#34;color:#24909d&#34;&gt;local&lt;/span&gt; directory
+fetch     Download PACKAGEs from global repositories to a &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;local&lt;/span&gt; directory
 verify    Verify package integrity and signature
 manifest  Show checksums of package contents
 
-Use apk &amp;lt;command&amp;gt; --help &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; command-specific help.
-Use apk --help --verbose &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;for&lt;/span&gt; a full &lt;span style=&#34;color:#24909d&#34;&gt;command&lt;/span&gt; listing.
+Use apk &amp;lt;command&amp;gt; --help &lt;span style=&#34;color:#ff79c6&#34;&gt;for&lt;/span&gt; command-specific help.
+Use apk --help --verbose &lt;span style=&#34;color:#ff79c6&#34;&gt;for&lt;/span&gt; a full &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;command&lt;/span&gt; listing.
 
 This apk has coffee making abilities.
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
@@ -128,22 +128,22 @@ This apk has coffee making abilities.
 &lt;li&gt;&lt;code&gt;apk upgrade&lt;/code&gt; 升级软件&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;apk search&lt;/code&gt; 搜索可用软件包，&lt;strong&gt;搜索之前最好先更新镜像源&lt;/strong&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ apk search &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#查找所以可用软件包&lt;/span&gt;
-$ apk search -v &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#查找所以可用软件包及其描述内容&lt;/span&gt;
-$ apk search -v &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;acf*&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#通过软件包名称查找软件包&lt;/span&gt;
-$ apk search -v -d &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;docker&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#通过描述文件查找特定的软件包&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ apk search &lt;span style=&#34;color:#6272a4&#34;&gt;#查找所以可用软件包&lt;/span&gt;
+$ apk search -v &lt;span style=&#34;color:#6272a4&#34;&gt;#查找所以可用软件包及其描述内容&lt;/span&gt;
+$ apk search -v &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;acf*&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#6272a4&#34;&gt;#通过软件包名称查找软件包&lt;/span&gt;
+$ apk search -v -d &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;docker&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#6272a4&#34;&gt;#通过描述文件查找特定的软件包&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;&lt;code&gt;apk add&lt;/code&gt; 从仓库中安装最新软件包，并自动安装必须的依赖包,也可以从第三方仓库添加软件包&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ apk add curl busybox-extras       &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#软件以空格分开这里，这里列举我们用的最多的curl和telnet&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ apk add curl busybox-extras       &lt;span style=&#34;color:#6272a4&#34;&gt;#软件以空格分开这里，这里列举我们用的最多的curl和telnet&lt;/span&gt;
 bash-4.3# apk add --no-cache curl
-bash-4.3# apk add mongodb --update-cache --repository http://mirrors.ustc.edu.cn/alpine/v3.6/main/ --allow-untrusted    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#从指定镜像源拉取&lt;/span&gt;
+bash-4.3# apk add mongodb --update-cache --repository http://mirrors.ustc.edu.cn/alpine/v3.6/main/ --allow-untrusted    &lt;span style=&#34;color:#6272a4&#34;&gt;#从指定镜像源拉取&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;安装指定版本软件包&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;bash-4.3# apk add &lt;span style=&#34;color:#40ffff&#34;&gt;mongodb&lt;/span&gt;=4.0.5-r0
-bash-4.3# apk add &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;mongodb&amp;lt;4.0.5&amp;#39;&lt;/span&gt;
-bash-4.3# apk add &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;mongodb&amp;gt;4.0.5&amp;#39;&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;bash-4.3# apk add &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;mongodb&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt;4.0.5-r0
+bash-4.3# apk add &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;mongodb&amp;lt;4.0.5&amp;#39;&lt;/span&gt;
+bash-4.3# apk add &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;mongodb&amp;gt;4.0.5&amp;#39;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;升级指定软件包&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;bash-4.3# apk add --upgrade busybox &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#升级指定软件包&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;bash-4.3# apk add --upgrade busybox &lt;span style=&#34;color:#6272a4&#34;&gt;#升级指定软件包&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;注&lt;/strong&gt;：安装之前最好修改本地镜像源，更新镜像源，搜索软件包是否存在，选择合适岸本在进行安装。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;apk del&lt;/code&gt; 卸载并删除指定软件包&lt;/li&gt;
@@ -169,9 +169,9 @@ bash-4.3# apk add &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;mongodb&amp
         
         &lt;h1 id=&#34;现象&#34;&gt;现象&lt;/h1&gt;
 &lt;p&gt;启动docker容器&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;docker run –name [CONTAINER_NAME] [CONTAINER_ID] 
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;docker run –name &lt;span style=&#34;color:#ff79c6&#34;&gt;[&lt;/span&gt;CONTAINER_NAME&lt;span style=&#34;color:#ff79c6&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;[&lt;/span&gt;CONTAINER_ID&lt;span style=&#34;color:#ff79c6&#34;&gt;]&lt;/span&gt; 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;查看容器运行状态&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;docker ps -a 
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;docker ps -a 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;发现刚刚启动的mydocker容器已经退出&lt;/p&gt;
 &lt;h1 id=&#34;原因&#34;&gt;原因&lt;/h1&gt;
 &lt;p&gt;docker容器的主线程（dockfile中CMD执行的命令）结束，容器会退出&lt;/p&gt;
@@ -179,17 +179,17 @@ bash-4.3# apk add &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;mongodb&amp
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;可以使用交互式启动&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;docker run -i [CONTAINER_NAME or CONTAINER_ID]
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;docker run -i &lt;span style=&#34;color:#ff79c6&#34;&gt;[&lt;/span&gt;CONTAINER_NAME or CONTAINER_ID&lt;span style=&#34;color:#ff79c6&#34;&gt;]&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;``&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;上面的不太友好，建议使用后台模式和tty选项&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;docker run -dit [CONTAINER_NAME or CONTAINER_ID]
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;docker run -dit &lt;span style=&#34;color:#ff79c6&#34;&gt;[&lt;/span&gt;CONTAINER_NAME or CONTAINER_ID&lt;span style=&#34;color:#ff79c6&#34;&gt;]&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;``&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Docker 容器在后台以守护态（Daemonized）形式运行，可以通过添加 -d 参数来实现&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ sudo docker run -d ubuntu:14.04 /bin/sh -c &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;while true; do echo hello world; sleep 1; done&amp;#34;&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ sudo docker run -d ubuntu:14.04 /bin/sh -c &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;while true; do echo hello world; sleep 1; done&amp;#34;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;``&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
@@ -223,51 +223,51 @@ bash-4.3# apk add &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;mongodb&amp
 &lt;p&gt;在使用&lt;strong&gt;centos7&lt;/strong&gt;，并使用荫安装搬运工的时候，往往不希望安装最新版本的搬运工，而是希望安装与自己熟悉或者当前业务环境需要的版本，例如目前Kubernetes支持的最新搬运工版本为v17.03，所以就产生了安装指定版本码头工人的需求。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h1 id=&#34;安装步骤&#34;&gt;安装步骤&lt;/h1&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 安装依赖包&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;# 安装依赖包&lt;/span&gt;
 yum install -y yum-utils device-mapper-persistent-data lvm2
 
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 添加Docker软件包源&lt;/span&gt;
+&lt;span style=&#34;color:#6272a4&#34;&gt;# 添加Docker软件包源&lt;/span&gt;
 yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#关闭测试版本list（只显示稳定版）&lt;/span&gt;
+&lt;span style=&#34;color:#6272a4&#34;&gt;#关闭测试版本list（只显示稳定版）&lt;/span&gt;
 sudo yum-config-manager --enable docker-ce-edge
 sudo yum-config-manager --enable docker-ce-test
 
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 更新yum包索引&lt;/span&gt;
+&lt;span style=&#34;color:#6272a4&#34;&gt;# 更新yum包索引&lt;/span&gt;
 yum makecache fast
 
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#NO.1 直接安装Docker CE （will always install the highest  possible version，可能不符合你的需求）&lt;/span&gt;
+&lt;span style=&#34;color:#6272a4&#34;&gt;#NO.1 直接安装Docker CE （will always install the highest  possible version，可能不符合你的需求）&lt;/span&gt;
 yum install docker-ce
 
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#NO.2 指定版本安装&lt;/span&gt;
+&lt;span style=&#34;color:#6272a4&#34;&gt;#NO.2 指定版本安装&lt;/span&gt;
 yum list docker-ce --showduplicates|sort -r 
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#找到需要安装的&lt;/span&gt;
+&lt;span style=&#34;color:#6272a4&#34;&gt;#找到需要安装的&lt;/span&gt;
 yum install docker-ce-17.09.0.ce -y
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#启动docker&lt;/span&gt;
-systemctl start docker &amp;amp; systemctl &lt;span style=&#34;color:#24909d&#34;&gt;enable&lt;/span&gt; docker
+&lt;span style=&#34;color:#6272a4&#34;&gt;#启动docker&lt;/span&gt;
+systemctl start docker &amp;amp; systemctl &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;enable&lt;/span&gt; docker
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1 id=&#34;采坑指南&#34;&gt;采坑指南&lt;/h1&gt;
 &lt;blockquote&gt;
 &lt;p&gt;当然本着万事皆有坑的原则，这里也是有坑的，在安装中也是会遇到如下的问题&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;在执行一下命令的时候：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;yum install docker-ce-17.03.0.ce -y
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;yum install docker-ce-17.03.0.ce -y
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;会出现如下的报错：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;--&amp;gt; Finished Dependency Resolution
-Error: Package: docker-ce-17.03.0.ce-1.el7.centos.x86_64 (docker-ce-stable)
-        Requires: docker-ce-selinux &amp;gt;= 17.03.0.ce-1.el7.centos
-        Available: docker-ce-selinux-17.03.0.ce-1.el7.centos.noarch (docker-ce-stable)
-            docker-ce-selinux = 17.03.0.ce-1.el7.centos
-        Available: docker-ce-selinux-17.03.1.ce-1.el7.centos.noarch (docker-ce-stable)
-            docker-ce-selinux = 17.03.1.ce-1.el7.centos
-        Available: docker-ce-selinux-17.03.2.ce-1.el7.centos.noarch (docker-ce-stable)
-            docker-ce-selinux = 17.03.2.ce-1.el7.centos
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;--&amp;gt; Finished Dependency Resolution
+Error: Package: docker-ce-17.03.0.ce-1.el7.centos.x86_64 &lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;docker-ce-stable&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt;
+        Requires: docker-ce-selinux &amp;gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt; 17.03.0.ce-1.el7.centos
+        Available: docker-ce-selinux-17.03.0.ce-1.el7.centos.noarch &lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;docker-ce-stable&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt;
+            docker-ce-selinux &lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt; 17.03.0.ce-1.el7.centos
+        Available: docker-ce-selinux-17.03.1.ce-1.el7.centos.noarch &lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;docker-ce-stable&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt;
+            docker-ce-selinux &lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt; 17.03.1.ce-1.el7.centos
+        Available: docker-ce-selinux-17.03.2.ce-1.el7.centos.noarch &lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;docker-ce-stable&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt;
+            docker-ce-selinux &lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt; 17.03.2.ce-1.el7.centos
 You could try using --skip-broken to work around the problem
 You could try running: rpm -Va --nofiles --nodigest
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在出现这个问题之后，需要执行以下命令：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#要先安装docker-ce-selinux-17.03.2.ce，否则安装docker-ce会报错&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;#要先安装docker-ce-selinux-17.03.2.ce，否则安装docker-ce会报错&lt;/span&gt;
 yum install https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-selinux-17.03.2.ce-1.el7.centos.noarch.rpm
 
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;#然后再安装 docker-ce-17.03.2.ce，就能正常安装&lt;/span&gt;
+&lt;span style=&#34;color:#6272a4&#34;&gt;#然后再安装 docker-ce-17.03.2.ce，就能正常安装&lt;/span&gt;
 yum install docker-ce-17.03.2.ce-1.el7.centos
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
       </description>

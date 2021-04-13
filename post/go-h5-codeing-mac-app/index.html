@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -247,6 +247,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -254,8 +256,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -667,23 +667,23 @@ if (!doNotTrack) {
 <p>这里我选用了 <a href="https://github.com/labstack/echo">echo</a> 作为 web 框架，当然也可以选择其他的 web 框架，选择 echo 只不过因为其比较轻量。要做桌面应用，还需要一个 GUI 框架来构建应用，这里我选择的是 <a href="https://github.com/zserge/lorca">Lorca</a>，使用 Lorca 可以用 Go 编写 HTML5 桌面程序，依赖 Chrome 进行 UI 渲染，但却不需要把 Chrome 打包到应用中，也就是说使用应用的电脑，需要安装 Chrome。</p>
 <h3 id="lorca">lorca</h3>
 <p>echo 的使用方式中规中矩，没有什么需要介绍的。这里简要介绍一下 lorca，其的使用方法和原理都很简单，可以将其看做是一个浏览器，可在其上运行 web 应用，lorca 可直接将 web 应用包装成桌面应用。这里提供一个简单的示例：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">ui, _ := lorca.<span style="color:#447fcf">New</span>(<span style="color:#ed9d13">&#34;&#34;</span>, <span style="color:#ed9d13">&#34;&#34;</span>, <span style="color:#3677a9">480</span>, <span style="color:#3677a9">320</span>)
-<span style="color:#6ab825;font-weight:bold">defer</span> ui.<span style="color:#447fcf">Close</span>()
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">ui, _ <span style="color:#ff79c6">:=</span> lorca.<span style="color:#50fa7b">New</span>(<span style="color:#f1fa8c">&#34;&#34;</span>, <span style="color:#f1fa8c">&#34;&#34;</span>, <span style="color:#bd93f9">480</span>, <span style="color:#bd93f9">320</span>)
+<span style="color:#ff79c6">defer</span> ui.<span style="color:#50fa7b">Close</span>()
 
-<span style="color:#999;font-style:italic">// Bind Go function to be available in JS. Go function may be long-running and
-</span><span style="color:#999;font-style:italic">// blocking - in JS it&#39;s represented with a Promise.
-</span><span style="color:#999;font-style:italic"></span>ui.<span style="color:#447fcf">Bind</span>(<span style="color:#ed9d13">&#34;add&#34;</span>, <span style="color:#6ab825;font-weight:bold">func</span>(a, b <span style="color:#6ab825;font-weight:bold">int</span>) <span style="color:#6ab825;font-weight:bold">int</span> { <span style="color:#6ab825;font-weight:bold">return</span> a + b })
+<span style="color:#6272a4">// Bind Go function to be available in JS. Go function may be long-running and
+</span><span style="color:#6272a4">// blocking - in JS it&#39;s represented with a Promise.
+</span><span style="color:#6272a4"></span>ui.<span style="color:#50fa7b">Bind</span>(<span style="color:#f1fa8c">&#34;add&#34;</span>, <span style="color:#8be9fd;font-style:italic">func</span>(a, b <span style="color:#8be9fd">int</span>) <span style="color:#8be9fd">int</span> { <span style="color:#ff79c6">return</span> a <span style="color:#ff79c6">+</span> b })
 
-<span style="color:#999;font-style:italic">// Call JS function from Go. Functions may be asynchronous, i.e. return promises
-</span><span style="color:#999;font-style:italic"></span>n := ui.<span style="color:#447fcf">Eval</span>(<span style="color:#ed9d13">`Math.random()`</span>).<span style="color:#447fcf">Float</span>()
-fmt.<span style="color:#447fcf">Println</span>(n)
+<span style="color:#6272a4">// Call JS function from Go. Functions may be asynchronous, i.e. return promises
+</span><span style="color:#6272a4"></span>n <span style="color:#ff79c6">:=</span> ui.<span style="color:#50fa7b">Eval</span>(<span style="color:#f1fa8c">`Math.random()`</span>).<span style="color:#50fa7b">Float</span>()
+fmt.<span style="color:#50fa7b">Println</span>(n)
 
-<span style="color:#999;font-style:italic">// Call JS that calls Go and so on and so on...
-</span><span style="color:#999;font-style:italic"></span>m := ui.<span style="color:#447fcf">Eval</span>(<span style="color:#ed9d13">`add(2, 3)`</span>).<span style="color:#447fcf">Int</span>()
-fmt.<span style="color:#447fcf">Println</span>(m)
+<span style="color:#6272a4">// Call JS that calls Go and so on and so on...
+</span><span style="color:#6272a4"></span>m <span style="color:#ff79c6">:=</span> ui.<span style="color:#50fa7b">Eval</span>(<span style="color:#f1fa8c">`add(2, 3)`</span>).<span style="color:#50fa7b">Int</span>()
+fmt.<span style="color:#50fa7b">Println</span>(m)
 
-<span style="color:#999;font-style:italic">// Wait for the browser window to be closed
-</span><span style="color:#999;font-style:italic"></span>&lt;-ui.<span style="color:#447fcf">Done</span>()
+<span style="color:#6272a4">// Wait for the browser window to be closed
+</span><span style="color:#6272a4"></span><span style="color:#ff79c6">&lt;-</span>ui.<span style="color:#50fa7b">Done</span>()
 </code></pre></div><h2 id="制作-macos-app">制作 MacOS App</h2>
 <p>在完成基本的编码后，接下来的工作才是重点：将应用包装成一个 MacOS APP。</p>
 <h3 id="制作图标">制作图标</h3>
@@ -692,24 +692,24 @@ fmt.<span style="color:#447fcf">Println</span>(m)
 <li>新建一个名为 <code>tmp.iconset</code> 的临时目录，用于存放不同大小的临时图片</li>
 <li>执行如下命令，将原图转为不同大小的图片并放入临时目录</li>
 </ul>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ sips -z <span style="color:#3677a9">16</span> <span style="color:#3677a9">16</span>     logo.png --out tmp.iconset/icon_16x16.png
-$ sips -z <span style="color:#3677a9">32</span> <span style="color:#3677a9">32</span>     logo.png --out tmp.iconset/icon_16x16@2x.png
-$ sips -z <span style="color:#3677a9">32</span> <span style="color:#3677a9">32</span>     logo.png --out tmp.iconset/icon_32x32.png
-$ sips -z <span style="color:#3677a9">64</span> <span style="color:#3677a9">64</span>     logo.png --out tmp.iconset/icon_32x32@2x.png
-$ sips -z <span style="color:#3677a9">128</span> <span style="color:#3677a9">128</span>   logo.png --out tmp.iconset/icon_128x128.png
-$ sips -z <span style="color:#3677a9">256</span> <span style="color:#3677a9">256</span>   logo.png --out tmp.iconset/icon_128x128@2x.png
-$ sips -z <span style="color:#3677a9">256</span> <span style="color:#3677a9">256</span>   logo.png --out tmp.iconset/icon_256x256.png
-$ sips -z <span style="color:#3677a9">512</span> <span style="color:#3677a9">512</span>   logo.png --out tmp.iconset/icon_256x256@2x.png
-$ sips -z <span style="color:#3677a9">512</span> <span style="color:#3677a9">512</span>   logo.png --out tmp.iconset/icon_512x512.png
-$ sips -z <span style="color:#3677a9">1024</span> <span style="color:#3677a9">1024</span>   logo.png --out tmp.iconset/icon_512x512@2x.png
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ sips -z <span style="color:#bd93f9">16</span> <span style="color:#bd93f9">16</span>     logo.png --out tmp.iconset/icon_16x16.png
+$ sips -z <span style="color:#bd93f9">32</span> <span style="color:#bd93f9">32</span>     logo.png --out tmp.iconset/icon_16x16@2x.png
+$ sips -z <span style="color:#bd93f9">32</span> <span style="color:#bd93f9">32</span>     logo.png --out tmp.iconset/icon_32x32.png
+$ sips -z <span style="color:#bd93f9">64</span> <span style="color:#bd93f9">64</span>     logo.png --out tmp.iconset/icon_32x32@2x.png
+$ sips -z <span style="color:#bd93f9">128</span> <span style="color:#bd93f9">128</span>   logo.png --out tmp.iconset/icon_128x128.png
+$ sips -z <span style="color:#bd93f9">256</span> <span style="color:#bd93f9">256</span>   logo.png --out tmp.iconset/icon_128x128@2x.png
+$ sips -z <span style="color:#bd93f9">256</span> <span style="color:#bd93f9">256</span>   logo.png --out tmp.iconset/icon_256x256.png
+$ sips -z <span style="color:#bd93f9">512</span> <span style="color:#bd93f9">512</span>   logo.png --out tmp.iconset/icon_256x256@2x.png
+$ sips -z <span style="color:#bd93f9">512</span> <span style="color:#bd93f9">512</span>   logo.png --out tmp.iconset/icon_512x512.png
+$ sips -z <span style="color:#bd93f9">1024</span> <span style="color:#bd93f9">1024</span>   logo.png --out tmp.iconset/icon_512x512@2x.png
 </code></pre></div><ul>
 <li>使用 <a href="https://developer.apple.com/library/content/documentation/GraphicsAnimation/Conceptual/HighResolutionOSX/Optimizing/Optimizing.html#//apple_ref/doc/uid/TP40012302-CH7-SW2">iconutil</a> 生成图标</li>
 </ul>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ iconutil -c icns tmp.iconset -o icon.icns
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ iconutil -c icns tmp.iconset -o icon.icns
 </code></pre></div><p><code>icon.icns</code> 就是制作好的 MacOS App 图标。</p>
 <h3 id="制作-app-bundle">制作 .app bundle</h3>
 <p>macOS 上安装的可运行程序是一个 <code>.app</code> 的目录，里面包含了应用的二进制文件、资源文件以及清单文件。其的目录结构为（也可以通过”右键-显示包内容“来查看 <code>.app</code> 文件内容）：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ tree Kustomize.app
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ tree Kustomize.app
 Kustomize.app
 └── Contents
     ├── Info.plist
@@ -742,22 +742,22 @@ Kustomize.app
 </ul>
 <h3 id="infoplist-文件">Info.plist 文件</h3>
 <p>这是一个清单文件，根据自己应用的内容对齐进行修改，更多内容可以参考 <a href="https://github.com/shurcooL/trayhost">trayhost</a> 项目的说明。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#cd2828;font-weight:bold">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
-<span style="color:#cd2828;font-weight:bold">&lt;!DOCTYPE plist PUBLIC &#34;-//Apple//DTD PLIST 1.0//EN&#34; &#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&#34;&gt;</span>
-<span style="color:#6ab825;font-weight:bold">&lt;plist</span> <span style="color:#bbb">version=</span><span style="color:#ed9d13">&#34;1.0&#34;</span><span style="color:#6ab825;font-weight:bold">&gt;</span>
-<span style="color:#6ab825;font-weight:bold">&lt;dict&gt;</span>
-	<span style="color:#6ab825;font-weight:bold">&lt;key&gt;</span>CFBundleExecutable<span style="color:#6ab825;font-weight:bold">&lt;/key&gt;</span>
-	<span style="color:#6ab825;font-weight:bold">&lt;string&gt;</span>kustomize<span style="color:#6ab825;font-weight:bold">&lt;/string&gt;</span>
-	<span style="color:#6ab825;font-weight:bold">&lt;key&gt;</span>CFBundleIconFile<span style="color:#6ab825;font-weight:bold">&lt;/key&gt;</span>
-	<span style="color:#6ab825;font-weight:bold">&lt;string&gt;</span>icon.icns<span style="color:#6ab825;font-weight:bold">&lt;/string&gt;</span>
-	<span style="color:#6ab825;font-weight:bold">&lt;key&gt;</span>CFBundleIdentifier<span style="color:#6ab825;font-weight:bold">&lt;/key&gt;</span>
-	<span style="color:#6ab825;font-weight:bold">&lt;string&gt;</span>io.guoxudong.kustomize-remote-observer<span style="color:#6ab825;font-weight:bold">&lt;/string&gt;</span>
-	<span style="color:#6ab825;font-weight:bold">&lt;key&gt;</span>NSHighResolutionCapable<span style="color:#6ab825;font-weight:bold">&lt;/key&gt;</span>
-  <span style="color:#6ab825;font-weight:bold">&lt;true/&gt;</span>
-	<span style="color:#6ab825;font-weight:bold">&lt;key&gt;</span>LSUIElement<span style="color:#6ab825;font-weight:bold">&lt;/key&gt;</span>
-  <span style="color:#6ab825;font-weight:bold">&lt;string&gt;</span>1<span style="color:#6ab825;font-weight:bold">&lt;/string&gt;</span>
-<span style="color:#6ab825;font-weight:bold">&lt;/dict&gt;</span>
-<span style="color:#6ab825;font-weight:bold">&lt;/plist&gt;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#ff79c6">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+<span style="color:#ff79c6">&lt;!DOCTYPE plist PUBLIC &#34;-//Apple//DTD PLIST 1.0//EN&#34; &#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&#34;&gt;</span>
+<span style="color:#ff79c6">&lt;plist</span> <span style="color:#50fa7b">version=</span><span style="color:#f1fa8c">&#34;1.0&#34;</span><span style="color:#ff79c6">&gt;</span>
+<span style="color:#ff79c6">&lt;dict&gt;</span>
+	<span style="color:#ff79c6">&lt;key&gt;</span>CFBundleExecutable<span style="color:#ff79c6">&lt;/key&gt;</span>
+	<span style="color:#ff79c6">&lt;string&gt;</span>kustomize<span style="color:#ff79c6">&lt;/string&gt;</span>
+	<span style="color:#ff79c6">&lt;key&gt;</span>CFBundleIconFile<span style="color:#ff79c6">&lt;/key&gt;</span>
+	<span style="color:#ff79c6">&lt;string&gt;</span>icon.icns<span style="color:#ff79c6">&lt;/string&gt;</span>
+	<span style="color:#ff79c6">&lt;key&gt;</span>CFBundleIdentifier<span style="color:#ff79c6">&lt;/key&gt;</span>
+	<span style="color:#ff79c6">&lt;string&gt;</span>io.guoxudong.kustomize-remote-observer<span style="color:#ff79c6">&lt;/string&gt;</span>
+	<span style="color:#ff79c6">&lt;key&gt;</span>NSHighResolutionCapable<span style="color:#ff79c6">&lt;/key&gt;</span>
+  <span style="color:#ff79c6">&lt;true/&gt;</span>
+	<span style="color:#ff79c6">&lt;key&gt;</span>LSUIElement<span style="color:#ff79c6">&lt;/key&gt;</span>
+  <span style="color:#ff79c6">&lt;string&gt;</span>1<span style="color:#ff79c6">&lt;/string&gt;</span>
+<span style="color:#ff79c6">&lt;/dict&gt;</span>
+<span style="color:#ff79c6">&lt;/plist&gt;</span>
 </code></pre></div><h3 id="使用脚本构建-app">使用脚本构建 App</h3>
 <p>上面的这些只不过是介绍一下原理及手动修改方式，实际应用中可以使用脚本来完成这些工作。使用如下脚本，可以一键完成：</p>
 <ul>
@@ -766,45 +766,45 @@ Kustomize.app
 <li>清单文件的生成</li>
 <li>静态资源的拷贝</li>
 </ul>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#cd2828;font-weight:bold">#!/bin/sh
-</span><span style="color:#cd2828;font-weight:bold"></span>
-<span style="color:#40ffff">APP</span>=<span style="color:#ed9d13">&#34;Kustomize.app&#34;</span>
-mkdir -p <span style="color:#40ffff">$APP</span>/Contents/{MacOS,Resources}
-go build -o <span style="color:#40ffff">$APP</span>/Contents/MacOS/kustomize
-cat &gt; <span style="color:#40ffff">$APP</span>/Contents/Info.plist <span style="color:#ed9d13">&lt;&lt; EOF
-</span><span style="color:#ed9d13">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;
-</span><span style="color:#ed9d13">&lt;!DOCTYPE plist PUBLIC &#34;-//Apple//DTD PLIST 1.0//EN&#34; &#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&#34;&gt;
-</span><span style="color:#ed9d13">&lt;plist version=&#34;1.0&#34;&gt;
-</span><span style="color:#ed9d13">&lt;dict&gt;
-</span><span style="color:#ed9d13">	&lt;key&gt;CFBundleExecutable&lt;/key&gt;
-</span><span style="color:#ed9d13">	&lt;string&gt;kustomize&lt;/string&gt;
-</span><span style="color:#ed9d13">	&lt;key&gt;CFBundleIconFile&lt;/key&gt;
-</span><span style="color:#ed9d13">	&lt;string&gt;icon.icns&lt;/string&gt;
-</span><span style="color:#ed9d13">	&lt;key&gt;CFBundleIdentifier&lt;/key&gt;
-</span><span style="color:#ed9d13">	&lt;string&gt;io.guoxudong.kustomize-remote-observer&lt;/string&gt;
-</span><span style="color:#ed9d13">	&lt;key&gt;NSHighResolutionCapable&lt;/key&gt;
-</span><span style="color:#ed9d13">  &lt;true/&gt;
-</span><span style="color:#ed9d13">	&lt;key&gt;LSUIElement&lt;/key&gt;
-</span><span style="color:#ed9d13">  &lt;string&gt;1&lt;/string&gt;
-</span><span style="color:#ed9d13">&lt;/dict&gt;
-</span><span style="color:#ed9d13">&lt;/plist&gt;
-</span><span style="color:#ed9d13">EOF</span>
-cp icons/icon.icns <span style="color:#40ffff">$APP</span>/Contents/Resources/icon.icns
-cp -r assets <span style="color:#40ffff">$APP</span>/Contents/Resources/assets
-cp -r views <span style="color:#40ffff">$APP</span>/Contents/Resources/views
-find <span style="color:#40ffff">$APP</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#ff79c6">#!/bin/sh
+</span><span style="color:#ff79c6"></span>
+<span style="color:#8be9fd;font-style:italic">APP</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;Kustomize.app&#34;</span>
+mkdir -p <span style="color:#8be9fd;font-style:italic">$APP</span>/Contents/<span style="color:#ff79c6">{</span>MacOS,Resources<span style="color:#ff79c6">}</span>
+go build -o <span style="color:#8be9fd;font-style:italic">$APP</span>/Contents/MacOS/kustomize
+cat &gt; <span style="color:#8be9fd;font-style:italic">$APP</span>/Contents/Info.plist <span style="color:#f1fa8c">&lt;&lt; EOF
+</span><span style="color:#f1fa8c">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;
+</span><span style="color:#f1fa8c">&lt;!DOCTYPE plist PUBLIC &#34;-//Apple//DTD PLIST 1.0//EN&#34; &#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&#34;&gt;
+</span><span style="color:#f1fa8c">&lt;plist version=&#34;1.0&#34;&gt;
+</span><span style="color:#f1fa8c">&lt;dict&gt;
+</span><span style="color:#f1fa8c">	&lt;key&gt;CFBundleExecutable&lt;/key&gt;
+</span><span style="color:#f1fa8c">	&lt;string&gt;kustomize&lt;/string&gt;
+</span><span style="color:#f1fa8c">	&lt;key&gt;CFBundleIconFile&lt;/key&gt;
+</span><span style="color:#f1fa8c">	&lt;string&gt;icon.icns&lt;/string&gt;
+</span><span style="color:#f1fa8c">	&lt;key&gt;CFBundleIdentifier&lt;/key&gt;
+</span><span style="color:#f1fa8c">	&lt;string&gt;io.guoxudong.kustomize-remote-observer&lt;/string&gt;
+</span><span style="color:#f1fa8c">	&lt;key&gt;NSHighResolutionCapable&lt;/key&gt;
+</span><span style="color:#f1fa8c">  &lt;true/&gt;
+</span><span style="color:#f1fa8c">	&lt;key&gt;LSUIElement&lt;/key&gt;
+</span><span style="color:#f1fa8c">  &lt;string&gt;1&lt;/string&gt;
+</span><span style="color:#f1fa8c">&lt;/dict&gt;
+</span><span style="color:#f1fa8c">&lt;/plist&gt;
+</span><span style="color:#f1fa8c">EOF</span>
+cp icons/icon.icns <span style="color:#8be9fd;font-style:italic">$APP</span>/Contents/Resources/icon.icns
+cp -r assets <span style="color:#8be9fd;font-style:italic">$APP</span>/Contents/Resources/assets
+cp -r views <span style="color:#8be9fd;font-style:italic">$APP</span>/Contents/Resources/views
+find <span style="color:#8be9fd;font-style:italic">$APP</span>
 </code></pre></div>
 
 <div class="alert alert-warning" role="alert">
 <h4 class="alert-heading">注意</h4>
 <p>在 MacOS 中，当您运行 App bundle 时，进程的工作目录是根目录（<code>/</code>），而不是 <code>Contents/Resources</code> 目录。如果需要从 <code>Resources</code> 加载资源，则需要进行如下更改：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">ep, err := os.<span style="color:#447fcf">Executable</span>()
-<span style="color:#6ab825;font-weight:bold">if</span> err != <span style="color:#6ab825;font-weight:bold">nil</span> {
-	log.<span style="color:#447fcf">Fatalln</span>(<span style="color:#ed9d13">&#34;os.Executable:&#34;</span>, err)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">ep, err <span style="color:#ff79c6">:=</span> os.<span style="color:#50fa7b">Executable</span>()
+<span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+	log.<span style="color:#50fa7b">Fatalln</span>(<span style="color:#f1fa8c">&#34;os.Executable:&#34;</span>, err)
 }
-err = os.<span style="color:#447fcf">Chdir</span>(filepath.<span style="color:#447fcf">Join</span>(filepath.<span style="color:#447fcf">Dir</span>(ep), <span style="color:#ed9d13">&#34;..&#34;</span>, <span style="color:#ed9d13">&#34;Resources&#34;</span>))
-<span style="color:#6ab825;font-weight:bold">if</span> err != <span style="color:#6ab825;font-weight:bold">nil</span> {
-	log.<span style="color:#447fcf">Fatalln</span>(<span style="color:#ed9d13">&#34;os.Chdir:&#34;</span>, err)
+err = os.<span style="color:#50fa7b">Chdir</span>(filepath.<span style="color:#50fa7b">Join</span>(filepath.<span style="color:#50fa7b">Dir</span>(ep), <span style="color:#f1fa8c">&#34;..&#34;</span>, <span style="color:#f1fa8c">&#34;Resources&#34;</span>))
+<span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+	log.<span style="color:#50fa7b">Fatalln</span>(<span style="color:#f1fa8c">&#34;os.Chdir:&#34;</span>, err)
 }
 </code></pre></div>
 </div>

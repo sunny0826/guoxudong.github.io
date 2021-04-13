@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -245,6 +245,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -252,8 +254,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -663,11 +663,11 @@ if (!doNotTrack) {
 <p>最近接到一个在 K8S 中部署一个 RabbitMQ 集群的任务，既然是部署在 K8S 集群中，首选的当然是 RabbitMQ Operator 了。不过在浏览官方文档时，意外的官方也有开发一个 kubectl-rabbitmq 的插件来帮助部署和运维 RabbitMQ Operator，在试用后发现体验意外的不错。那么本文我们就使用 kubectl-rabbitmq 来部署一个 RabbitMQ 集群吧！</p>
 <h2 id="插件安装">插件安装</h2>
 <p>安装插件前需要安装 <a href="https://krew.sigs.k8s.io/">krew</a>，也就是 kubectl 的插件管理工具，krew 的安装这里就不做详细说明了。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">&amp; kubectl krew install rabbitmq
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">&amp; kubectl krew install rabbitmq
 </code></pre></div><p>安装完成后就可以使用 <code>kubectl rabbitmq</code> 来部署和管理 RabbitMQ 集群了。</p>
 <h3 id="安装-rabbitmq-operator">安装 RabbitMQ Operator</h3>
 <p>使用 <code>kubectl-rabbitmq</code> 安装 RabbitMQ Operator 非常简单，只需一行命令：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl rabbitmq install-cluster-operator
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl rabbitmq install-cluster-operator
 namespace/rabbitmq-system created
 customresourcedefinition.apiextensions.k8s.io/rabbitmqclusters.rabbitmq.com created
 serviceaccount/rabbitmq-cluster-operator created
@@ -677,14 +677,14 @@ rolebinding.rbac.authorization.k8s.io/rabbitmq-cluster-leader-election-rolebindi
 clusterrolebinding.rbac.authorization.k8s.io/rabbitmq-cluster-operator-rolebinding created
 deployment.apps/rabbitmq-cluster-operator created
 </code></pre></div><p>之后就可以看到 <code>rabbitmq-cluster-operator</code> 已经不再在 namespace： <code>rabbitmq-system</code> 中了：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get pod -n rabbitmq-system
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get pod -n rabbitmq-system
 NAME                                         READY   STATUS    RESTARTS   AGE
-rabbitmq-cluster-operator-7bbbb8d559-k8zwm   1/1     Running   <span style="color:#3677a9">0</span>          35m
+rabbitmq-cluster-operator-7bbbb8d559-k8zwm   1/1     Running   <span style="color:#bd93f9">0</span>          35m
 </code></pre></div><h3 id="创建-rabbitmq-集群">创建 RabbitMQ 集群</h3>
 <p>创建 RabbitMQ 集群同样简单，也是一行命令：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl rabbitmq create &lt;rabbitmq-cluster-name&gt; --replicas <span style="color:#3677a9">1</span> --service ClusterIP --image rabbitmq:3.8.9-management
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl rabbitmq create &lt;rabbitmq-cluster-name&gt; --replicas <span style="color:#bd93f9">1</span> --service ClusterIP --image rabbitmq:3.8.9-management
 </code></pre></div><p>这里除了 <code>&lt;rabbitmq-cluster-name&gt;</code> 以外，其余参数均为可选项，内容为 RabbitMQ Operator 的 CR 文件。此处的原理也比较简单，只是生成了一份 CR 配置。更多参数请参考<a href="https://www.rabbitmq.com/kubernetes/operator/using-operator.html">官方文档</a>。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get RabbitmqCluster
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get RabbitmqCluster
 NAME            AGE   STATUS
 test-rabbitmq   54s
 </code></pre></div>
@@ -696,80 +696,80 @@ test-rabbitmq   54s
 
 <h3 id="查看集群中所有-rabbitmq">查看集群中所有 RabbitMQ</h3>
 <p>可以使用 <code>list</code> 命令查看集群中所有使用 RabbitMQ Operator 创建的 RabbitMQ 集群：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl rabbitmq list
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl rabbitmq list
 NAME            AGE   STATUS
 test-rabbitmq   10m
 </code></pre></div><h3 id="查看指定-rabbitmq-的所有资源">查看指定 RabbitMQ 的所有资源</h3>
 <p>使用 <code>get</code> 命令可以轻松查看指定 RabbitMQ 集群的全部资源：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl rabbitmq get test-rabbitmq
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl rabbitmq get test-rabbitmq
 NAME                         READY   STATUS    RESTARTS   AGE
-pod/test-rabbitmq-server-0   1/1     Running   <span style="color:#3677a9">0</span>          11m
+pod/test-rabbitmq-server-0   1/1     Running   <span style="color:#bd93f9">0</span>          11m
 
 NAME                                   DATA   AGE
-configmap/test-rabbitmq-plugins-conf   <span style="color:#3677a9">1</span>      11m
-configmap/test-rabbitmq-server-conf    <span style="color:#3677a9">2</span>      11m
+configmap/test-rabbitmq-plugins-conf   <span style="color:#bd93f9">1</span>      11m
+configmap/test-rabbitmq-server-conf    <span style="color:#bd93f9">2</span>      11m
 
 NAME                                    READY   AGE
 statefulset.apps/test-rabbitmq-server   1/1     11m
 
-NAME                          TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)              AGE
+NAME                          TYPE        CLUSTER-IP     EXTERNAL-IP   PORT<span style="color:#ff79c6">(</span>S<span style="color:#ff79c6">)</span>              AGE
 service/test-rabbitmq         ClusterIP   10.96.84.122   &lt;none&gt;        15672/TCP,5672/TCP   11m
 service/test-rabbitmq-nodes   ClusterIP   None           &lt;none&gt;        4369/TCP,25672/TCP   11m
 
 NAME                                 TYPE     DATA   AGE
-secret/test-rabbitmq-default-user    Opaque   <span style="color:#3677a9">3</span>      11m
-secret/test-rabbitmq-erlang-cookie   Opaque   <span style="color:#3677a9">1</span>      11m
+secret/test-rabbitmq-default-user    Opaque   <span style="color:#bd93f9">3</span>      11m
+secret/test-rabbitmq-erlang-cookie   Opaque   <span style="color:#bd93f9">1</span>      11m
 </code></pre></div><h3 id="打开-rabbitmq-ui">打开 RabbitMQ UI</h3>
 <p>一般情况下，我们访问 ClusterIP 类型的 svc 都要使用到 <code>pord-forward</code> 的方式，<code>kubectl-rabbitmq</code> 则封装了该方法，使用 <code>manage</code> 命令即可马上弹出 UI 界面：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl rabbitmq manage test-rabbitmq
-Forwarding from 127.0.0.1:15672 -&gt; <span style="color:#3677a9">15672</span>
-Forwarding from [::1]:15672 -&gt; <span style="color:#3677a9">15672</span>
-Handling connection <span style="color:#6ab825;font-weight:bold">for</span> <span style="color:#3677a9">15672</span>
-Handling connection <span style="color:#6ab825;font-weight:bold">for</span> <span style="color:#3677a9">15672</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl rabbitmq manage test-rabbitmq
+Forwarding from 127.0.0.1:15672 -&gt; <span style="color:#bd93f9">15672</span>
+Forwarding from <span style="color:#ff79c6">[</span>::1<span style="color:#ff79c6">]</span>:15672 -&gt; <span style="color:#bd93f9">15672</span>
+Handling connection <span style="color:#ff79c6">for</span> <span style="color:#bd93f9">15672</span>
+Handling connection <span style="color:#ff79c6">for</span> <span style="color:#bd93f9">15672</span>
 </code></pre></div><h3 id="获取默认用户">获取默认用户</h3>
 <p>既然已经可以访问 UI 界面了，那么下一步肯定是获取默认用户名/密码，使用 <code>secrets</code> 命令即可：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl rabbitmq secrets test-rabbitmq
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl rabbitmq secrets test-rabbitmq
 username: sLSVWbiixZSB_XKL6SoI9kB_Pdefe477
 password: zm0oV3UraiadH9E2NNot6Igq8woeEyRi
 </code></pre></div><p>当然也可以直接查看 <code>secrets</code> 资源：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#999;font-style:italic"># user</span>
-kubectl -n NAMESPACE get secret INSTANCE-default-user -o <span style="color:#40ffff">jsonpath</span>=<span style="color:#ed9d13">&#34;{.data.username}&#34;</span> | base64 --decode
-<span style="color:#999;font-style:italic"># pass</span>
-kubectl -n NAMESPACE get secret INSTANCE-default-user -o <span style="color:#40ffff">jsonpath</span>=<span style="color:#ed9d13">&#34;{.data.password}&#34;</span> | base64 --decode
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#6272a4"># user</span>
+kubectl -n NAMESPACE get secret INSTANCE-default-user -o <span style="color:#8be9fd;font-style:italic">jsonpath</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;{.data.username}&#34;</span> | base64 --decode
+<span style="color:#6272a4"># pass</span>
+kubectl -n NAMESPACE get secret INSTANCE-default-user -o <span style="color:#8be9fd;font-style:italic">jsonpath</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;{.data.password}&#34;</span> | base64 --decode
 </code></pre></div><p>现在就顺利登陆 UI 界面了</p>
 <p><img src="https://tvax3.sinaimg.cn/large/ad5fbf65gy1gmoh3scl4pj23ra1aidox.jpg" alt="RabbitMQ UI"></p>
 <h3 id="监控-rabbitmq">监控 RabbitMQ</h3>
 <p>使用 <code>observe</code> 可以在终端观察指定 RabbitMQ 节点的监控信息，如下命令是查看 <code>test-rabbitmq-server-0</code> 的监控信息：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl rabbitmq observe test-rabbitmq <span style="color:#3677a9">0</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl rabbitmq observe test-rabbitmq <span style="color:#bd93f9">0</span>
 </code></pre></div><p><img src="https://tvax4.sinaimg.cn/large/ad5fbf65gy1gmoh8s8qe0j21rc1a87lq.jpg" alt="image"></p>
 <h3 id="验证-rabbitmq">验证 RabbitMQ</h3>
 <p>为了验证 RabbitMQ 是否正常运行，使用 <code>perf-test</code> 来进行：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl rabbitmq perf-test test-rabbitmq --rate <span style="color:#3677a9">100</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl rabbitmq perf-test test-rabbitmq --rate <span style="color:#bd93f9">100</span>
 service/perf-test created
 pod/perf-test created
 </code></pre></div><p>这里可以看到拉起了 <code>perf-test</code> 的 pod 和 svc，查看其日志：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl logs -f perf-test
-id: test-091555-328, starting consumer <span style="color:#999;font-style:italic">#0</span>
-id: test-091555-328, starting consumer <span style="color:#999;font-style:italic">#0, channel #0</span>
-id: test-091555-328, starting producer <span style="color:#999;font-style:italic">#0</span>
-id: test-091555-328, starting producer <span style="color:#999;font-style:italic">#0, channel #0</span>
-id: test-091555-328, time: 1.000s, sent: <span style="color:#3677a9">15259</span> msg/s, received: <span style="color:#3677a9">9462</span> msg/s, min/median/75th/95th/99th consumer latency: 5337/140173/167205/239702/259102 µs
-id: test-091555-328, time: 2.000s, sent: <span style="color:#3677a9">44288</span> msg/s, received: <span style="color:#3677a9">13328</span> msg/s, min/median/75th/95th/99th consumer latency: 281875/625383/726050/825489/844442 µs
-id: test-091555-328, time: 3.000s, sent: <span style="color:#3677a9">35377</span> msg/s, received: <span style="color:#3677a9">16624</span> msg/s, min/median/75th/95th/99th consumer latency: 869436/1176394/1463207/1500775/1509740 µs
-id: test-091555-328, time: 4.001s, sent: <span style="color:#3677a9">15490</span> msg/s, received: <span style="color:#3677a9">21770</span> msg/s, min/median/75th/95th/99th consumer latency: 1404599/1549405/1735201/1917333/1953431 µs
-id: test-091555-328, time: 5.001s, sent: <span style="color:#3677a9">17367</span> msg/s, received: <span style="color:#3677a9">18243</span> msg/s, min/median/75th/95th/99th consumer latency: 1967969/2297884/2502092/2649344/2678139 µs
-id: test-091555-328, time: 6.005s, sent: <span style="color:#3677a9">16679</span> msg/s, received: <span style="color:#3677a9">17953</span> msg/s, min/median/75th/95th/99th consumer latency: 2484404/2998748/3165893/3294687/3326600 µs
-id: test-091555-328, time: 7.006s, sent: <span style="color:#3677a9">16729</span> msg/s, received: <span style="color:#3677a9">18375</span> msg/s, min/median/75th/95th/99th consumer latency: 2393535/2753560/2990014/3194592/3224623 µs
-id: test-091555-328, time: 8.006s, sent: <span style="color:#3677a9">20648</span> msg/s, received: <span style="color:#3677a9">17156</span> msg/s, min/median/75th/95th/99th consumer latency: 2472263/2861278/3079786/3256128/3313167 µs
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl logs -f perf-test
+id: test-091555-328, starting consumer <span style="color:#6272a4">#0</span>
+id: test-091555-328, starting consumer <span style="color:#6272a4">#0, channel #0</span>
+id: test-091555-328, starting producer <span style="color:#6272a4">#0</span>
+id: test-091555-328, starting producer <span style="color:#6272a4">#0, channel #0</span>
+id: test-091555-328, time: 1.000s, sent: <span style="color:#bd93f9">15259</span> msg/s, received: <span style="color:#bd93f9">9462</span> msg/s, min/median/75th/95th/99th consumer latency: 5337/140173/167205/239702/259102 µs
+id: test-091555-328, time: 2.000s, sent: <span style="color:#bd93f9">44288</span> msg/s, received: <span style="color:#bd93f9">13328</span> msg/s, min/median/75th/95th/99th consumer latency: 281875/625383/726050/825489/844442 µs
+id: test-091555-328, time: 3.000s, sent: <span style="color:#bd93f9">35377</span> msg/s, received: <span style="color:#bd93f9">16624</span> msg/s, min/median/75th/95th/99th consumer latency: 869436/1176394/1463207/1500775/1509740 µs
+id: test-091555-328, time: 4.001s, sent: <span style="color:#bd93f9">15490</span> msg/s, received: <span style="color:#bd93f9">21770</span> msg/s, min/median/75th/95th/99th consumer latency: 1404599/1549405/1735201/1917333/1953431 µs
+id: test-091555-328, time: 5.001s, sent: <span style="color:#bd93f9">17367</span> msg/s, received: <span style="color:#bd93f9">18243</span> msg/s, min/median/75th/95th/99th consumer latency: 1967969/2297884/2502092/2649344/2678139 µs
+id: test-091555-328, time: 6.005s, sent: <span style="color:#bd93f9">16679</span> msg/s, received: <span style="color:#bd93f9">17953</span> msg/s, min/median/75th/95th/99th consumer latency: 2484404/2998748/3165893/3294687/3326600 µs
+id: test-091555-328, time: 7.006s, sent: <span style="color:#bd93f9">16729</span> msg/s, received: <span style="color:#bd93f9">18375</span> msg/s, min/median/75th/95th/99th consumer latency: 2393535/2753560/2990014/3194592/3224623 µs
+id: test-091555-328, time: 8.006s, sent: <span style="color:#bd93f9">20648</span> msg/s, received: <span style="color:#bd93f9">17156</span> msg/s, min/median/75th/95th/99th consumer latency: 2472263/2861278/3079786/3256128/3313167 µs
 
 </code></pre></div><p>在 UI 上也可以看到监控发生了变化。</p>
 <p><img src="https://tvax3.sinaimg.cn/large/ad5fbf65gy1gmohfwtciuj23p21g8qfb.jpg" alt=""></p>
 <p>验证完成后删除 <code>perf-test</code>:</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl delete pod,svc perf-test
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl delete pod,svc perf-test
 </code></pre></div><h3 id="删除-rabbitmq-集群">删除 RabbitMQ 集群</h3>
 <p>完成测试后，使用 <code>delete</code> 即可删除 RabbitMQ 集群。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl rabbitmq delete test-rabbitmq
-rabbitmqcluster.rabbitmq.com <span style="color:#ed9d13">&#34;test-rabbitmq&#34;</span> deleted
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl rabbitmq delete test-rabbitmq
+rabbitmqcluster.rabbitmq.com <span style="color:#f1fa8c">&#34;test-rabbitmq&#34;</span> deleted
 </code></pre></div><h2 id="总结">总结</h2>
 <p>以上的这些功能，使用 <code>kubectl</code> 和 yaml 文件也可以完成同样的效果，只不过有些操作比较繁琐。<code>kubectl rabbitmq</code> 简化了很多操作，在实际管理和维护 RabbitMQ 集群时，是一个非常不错的工具。</p>
 

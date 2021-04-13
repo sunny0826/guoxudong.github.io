@@ -42,7 +42,7 @@
       "datePublished": "2020-05-08 11:20:01 \u002b0800 \u002b0800",
       "dateModified" : "2020-05-08 11:20:01 \u002b0800 \u002b0800",
       "url" : "https:\/\/guoxudong.io\/post\/helm-docs\/",
-      "wordCount" : "213",
+      "wordCount" : "232",
       "keywords" : [ "helm","kubernetes","Guoxudong" ]
   }
   </script>
@@ -56,7 +56,7 @@
 <meta itemprop="name" content="告别手写 Helm Chart README">
 <meta itemprop="description" content="helm-docs 可以根据 charts 内容自动生成 markdown 文件。"><meta itemprop="datePublished" content="2020-05-08T11:20:01&#43;08:00" />
 <meta itemprop="dateModified" content="2020-08-04T11:59:33&#43;08:00" />
-<meta itemprop="wordCount" content="213">
+<meta itemprop="wordCount" content="232">
 <meta itemprop="keywords" content="helm,kubernetes," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="告别手写 Helm Chart README"/>
 <meta name="twitter:description" content="helm-docs 可以根据 charts 内容自动生成 markdown 文件。"/>
@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -239,6 +239,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -246,8 +248,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -587,7 +587,7 @@ if (!doNotTrack) {
 	<div class="td-byline mb-4">
 		<span>By  <b>guoxudong</b> </span> ·
 		<span>
-			1 分钟阅读时间
+			2 分钟阅读时间
 		</span> ·
 		<span>发布于 </span><time datetime=" 2020-05-08" 
 			class="text-muted">2020年05月08日</time> ·
@@ -663,56 +663,56 @@ if (!doNotTrack) {
 <p><a href="https://github.com/norwoodj/helm-docs">helm-docs</a> 使用 golang 开发，支持多平台：</p>
 <p><strong>MacOS</strong></p>
 <p>可以使用 homebrew 安装：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">brew install norwoodj/tap/helm-docs
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">brew install norwoodj/tap/helm-docs
 </code></pre></div><p><strong>下载可执行文件</strong></p>
 <p>到 <a href="https://github.com/norwoodj/helm-docs/releases">release</a> 页面下载对应平台的可执行文件。</p>
 <h3 id="快速开始">快速开始</h3>
 <p><strong>直接使用可执行文件</strong></p>
 <p>使用方法也很简单，直接进入到 Chart 所在目录，执行命令：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">helm-docs
-<span style="color:#999;font-style:italic"># 或者</span>
-helm-docs --dry-run <span style="color:#999;font-style:italic"># 不生成 README.md 文件，而是将生成的内容打印到控制台</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">helm-docs
+<span style="color:#6272a4"># 或者</span>
+helm-docs --dry-run <span style="color:#6272a4"># 不生成 README.md 文件，而是将生成的内容打印到控制台</span>
 </code></pre></div><p><strong>使用 docker</strong></p>
 <p>如果不想安装可执行文件，也可以使用 docker，将 Chart 目录挂载到 docker 镜像中，实现相同的效果：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker run -v <span style="color:#ed9d13">&#34;</span><span style="color:#6ab825;font-weight:bold">$(</span><span style="color:#24909d">pwd</span><span style="color:#6ab825;font-weight:bold">)</span><span style="color:#ed9d13">:/helm-docs&#34;</span> jnorwood/helm-docs:latest
-<span style="color:#999;font-style:italic"># 或者</span>
-docker run -v <span style="color:#ed9d13">&#34;</span><span style="color:#6ab825;font-weight:bold">$(</span><span style="color:#24909d">pwd</span><span style="color:#6ab825;font-weight:bold">)</span><span style="color:#ed9d13">:/helm-docs&#34;</span> jnorwood/helm-docs:latest --dry-run
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker run -v <span style="color:#f1fa8c">&#34;</span><span style="color:#ff79c6">$(</span><span style="color:#8be9fd;font-style:italic">pwd</span><span style="color:#ff79c6">)</span><span style="color:#f1fa8c">:/helm-docs&#34;</span> jnorwood/helm-docs:latest
+<span style="color:#6272a4"># 或者</span>
+docker run -v <span style="color:#f1fa8c">&#34;</span><span style="color:#ff79c6">$(</span><span style="color:#8be9fd;font-style:italic">pwd</span><span style="color:#ff79c6">)</span><span style="color:#f1fa8c">:/helm-docs&#34;</span> jnorwood/helm-docs:latest --dry-run
 </code></pre></div><h3 id="进阶实践">进阶实践</h3>
 <p>下面就以我的开源项目 <a href="https://github.com/sunny0826/cms-grafana-builder">cms-grafana-builder</a> 为例，讲解 helm-docs 的一些进阶使用。</p>
 <p><strong>添加参数说明</strong></p>
 <p>helm-docs 可以通过 <code>value.yaml</code> 中的注释生成参数说明，注释格式如下所示，<code>--</code> 后的内容会自动填充到 Chart Values 的 Description 中：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#999;font-style:italic"># access_key_id -- Aliyun Access Key Id.</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">access_key_id</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;&#34;</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#999;font-style:italic"># access_secret -- Aliyun Access Secret.</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">access_secret</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;&#34;</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#999;font-style:italic"># region_id -- Aliyun Region Id.</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">region_id</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;cn-shanghai&#34;</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#999;font-style:italic"># password -- Grafana admin password.</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">password</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;admin&#34;</span><span style="color:#666">
-</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># image.repository -- Image source repository name.</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">repository</span>:<span style="color:#666"> </span>grafana/grafana<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># image.pullPolicy -- Image pull policy.</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">pullPolicy</span>:<span style="color:#666"> </span>IfNotPresent<span style="color:#666">
-</span></code></pre></div><p><strong>自定义模板</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6272a4"># access_key_id -- Aliyun Access Key Id.</span>
+<span style="color:#ff79c6">access_key_id</span>: <span style="color:#f1fa8c">&#34;&#34;</span>
+<span style="color:#6272a4"># access_secret -- Aliyun Access Secret.</span>
+<span style="color:#ff79c6">access_secret</span>: <span style="color:#f1fa8c">&#34;&#34;</span>
+<span style="color:#6272a4"># region_id -- Aliyun Region Id.</span>
+<span style="color:#ff79c6">region_id</span>: <span style="color:#f1fa8c">&#34;cn-shanghai&#34;</span>
+<span style="color:#6272a4"># password -- Grafana admin password.</span>
+<span style="color:#ff79c6">password</span>: <span style="color:#f1fa8c">&#34;admin&#34;</span>
+
+<span style="color:#ff79c6">image</span>:
+  <span style="color:#6272a4"># image.repository -- Image source repository name.</span>
+  <span style="color:#ff79c6">repository</span>: grafana/grafana
+  <span style="color:#6272a4"># image.pullPolicy -- Image pull policy.</span>
+  <span style="color:#ff79c6">pullPolicy</span>: IfNotPresent
+</code></pre></div><p><strong>自定义模板</strong></p>
 <p>可以新建 <code>README.md.gotmpl</code> 模板来进一步定制 <code>README.md</code> 的输出样式。</p>
 <p><code>README.md.gotmpl</code> 文件的内容如下，可以在模板中插入 Markdown 来充实 <code>README.md</code> 的内容，以及改变展示内容的顺序：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">{{ template <span style="color:#ed9d13">&#34;chart.header&#34;</span> . }}
-{{ template <span style="color:#ed9d13">&#34;chart.description&#34;</span> . }}
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">{{ template <span style="color:#f1fa8c">&#34;chart.header&#34;</span> . }}
+{{ template <span style="color:#f1fa8c">&#34;chart.description&#34;</span> . }}
 
-{{ template <span style="color:#ed9d13">&#34;chart.versionLine&#34;</span> . }}
+{{ template <span style="color:#f1fa8c">&#34;chart.versionLine&#34;</span> . }}
 
-{{ template <span style="color:#ed9d13">&#34;chart.sourceLinkLine&#34;</span> . }}
+{{ template <span style="color:#f1fa8c">&#34;chart.sourceLinkLine&#34;</span> . }}
 
-<span style="color:#a61717;background-color:#e3d2d2">##</span> Introduction
+## Introduction
 
 This chart helps you run a grafana server that include aliyun cms dashboard.
 
 
-{{ template <span style="color:#ed9d13">&#34;chart.requirementsSection&#34;</span> . }}
+{{ template <span style="color:#f1fa8c">&#34;chart.requirementsSection&#34;</span> . }}
 
-{{ template <span style="color:#ed9d13">&#34;chart.valuesSection&#34;</span> . }}
+{{ template <span style="color:#f1fa8c">&#34;chart.valuesSection&#34;</span> . }}
 </code></pre></div><p>更多内容和示例，详见 <a href="https://github.com/norwoodj/helm-docs">https://github.com/norwoodj/helm-docs</a></p>
 <h2 id="总结">总结</h2>
 <p>helm-docs 可以帮助很多像我这样需要维护多个 Helm Chart 的开发者，在更新完或新建 Chart 以后，使用 <code>helm-docs</code> 来自动生成 <code>README.md</code> 文件，无需逐个寻找和修改，甚至将其集成到 CI 流水线中，自动生成最新的 <code>README.md</code>，保证文档和代码的一致。</p>

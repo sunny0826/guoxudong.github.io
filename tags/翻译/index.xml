@@ -483,12 +483,12 @@ preview_only: false&lt;/h2&gt;
 &lt;p&gt;Helm global values&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;4个全局的 Helm value 定义集群间的差异。这些是我们所有 chart 的最小默认值。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;global&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;cloud&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;True&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;env&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;staging&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;region&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;us-central1&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;clusterName&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;staging-us-central1&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;center&gt;global values&lt;/center&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;    &lt;span style=&#34;color:#ff79c6&#34;&gt;global&lt;/span&gt;:
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;cloud&lt;/span&gt;: &lt;span style=&#34;color:#ff79c6&#34;&gt;True&lt;/span&gt;
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;env&lt;/span&gt;: staging
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;region&lt;/span&gt;: us-central1
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;clusterName&lt;/span&gt;: staging-us-central1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;center&gt;global values&lt;/center&gt;
 &lt;p&gt;这些信息有助于我们为应用程序定义上下文，它们可用于监控，跟踪，记录，进行外部调用，扩展等许多内容&amp;hellip;&amp;hellip;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;cloud&lt;/strong&gt;：我们有一个混合 Kubernetes 集群。例如，我们的 API 部署在 GCP 和我们自己的数据中心。&lt;/li&gt;
@@ -497,42 +497,42 @@ preview_only: false&lt;/h2&gt;
 &lt;li&gt;&lt;strong&gt;clusterName&lt;/strong&gt;：如果我们想要为每个群集定义一个值。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;下面是一个具体的示例：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;{{/* Returns Horizontal Pod Autoscaler replicas for GraphQL*/}}&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;{{- define &amp;#34;graphql.hpaReplicas&amp;#34; -}}&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;{{- if eq .Values.global.env &amp;#34;prod&amp;#34; }}&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;{{- if eq .Values.global.region &amp;#34;europe-west1&amp;#34; }}&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;minReplicas&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;40&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;{{- else }}&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;minReplicas&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;150&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;{{- end }}&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;maxReplicas&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;1400&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;{{- else }}&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;minReplicas&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;maxReplicas&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;20&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;{{- end }}&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;{{- end -}}&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;center&gt;helm template example&lt;/center&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;{{/* Returns Horizontal Pod Autoscaler replicas for GraphQL*/}}
+{{- define &amp;#34;graphql.hpaReplicas&amp;#34; -}}
+{{- if eq .Values.global.env &amp;#34;prod&amp;#34; }}
+{{- if eq .Values.global.region &amp;#34;europe-west1&amp;#34; }}
+&lt;span style=&#34;color:#ff79c6&#34;&gt;minReplicas&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;40&lt;/span&gt;
+{{- else }}
+&lt;span style=&#34;color:#ff79c6&#34;&gt;minReplicas&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;150&lt;/span&gt;
+{{- end }}
+&lt;span style=&#34;color:#ff79c6&#34;&gt;maxReplicas&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;1400&lt;/span&gt;
+{{- else }}
+&lt;span style=&#34;color:#ff79c6&#34;&gt;minReplicas&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;4&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;maxReplicas&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;20&lt;/span&gt;
+{{- end }}
+{{- end -}}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;center&gt;helm template example&lt;/center&gt;
 &lt;p&gt;请注意，此逻辑在帮助模板中定义，以保持 Kubernetes YAML 的可读性。&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;声明应用&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;我们的部署工具基于几个 YAML 文件，下面是我们声明服务及其每个集群的扩展拓扑（副本数量）的示例。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;releases&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- foo.world&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt; 
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;foo.world&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;                &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# Release name&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;services&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;               &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# List of dailymotion&amp;#39;s apps/projects&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;foobar&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;chart_name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;foo-foobar&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;repo&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;git@github.com:dailymotion/foobar&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;contexts&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;prod-europe-west1&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;deployments&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;foo-bar-baz&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;replicas&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;18&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;another-deployment&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;replicas&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;3&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;center&gt;service definition&lt;/center&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;releases&lt;/span&gt;:
+  - foo.world
+ 
+&lt;span style=&#34;color:#ff79c6&#34;&gt;foo.world&lt;/span&gt;:                &lt;span style=&#34;color:#6272a4&#34;&gt;# Release name&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;services&lt;/span&gt;:               &lt;span style=&#34;color:#6272a4&#34;&gt;# List of dailymotion&amp;#39;s apps/projects&lt;/span&gt;
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;foobar&lt;/span&gt;:
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;chart_name&lt;/span&gt;: foo-foobar
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;repo&lt;/span&gt;: git@github.com:dailymotion/foobar
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;contexts&lt;/span&gt;:
+        &lt;span style=&#34;color:#ff79c6&#34;&gt;prod-europe-west1&lt;/span&gt;:
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;deployments&lt;/span&gt;:
+            - &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: foo-bar-baz
+              &lt;span style=&#34;color:#ff79c6&#34;&gt;replicas&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;18&lt;/span&gt;
+            - &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: another-deployment
+              &lt;span style=&#34;color:#ff79c6&#34;&gt;replicas&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;3&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;center&gt;service definition&lt;/center&gt;
 &lt;p&gt;这是部署工作流的所有步骤，最后一步将在多个生产集群上同时部署应用程序。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g50ldllp33j20mw0bxglz.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;center&gt;Jenkins deployment steps&lt;/center&gt;
@@ -540,34 +540,34 @@ preview_only: false&lt;/h2&gt;
 &lt;p&gt;在安全领域，我们专注于跟踪可能在不同位置传播的所有的 Secrets ，并将其存储在巴黎的 &lt;a href=&#34;https://www.vaultproject.io/&#34;&gt;Vault&lt;/a&gt; 。&lt;/p&gt;
 &lt;p&gt;我们的部署工具负责从 Vault 检索加密的值，并在部署时将其注入 Helm 。&lt;/p&gt;
 &lt;p&gt;为此，我们定义了存储在 Vault 中的 Secrets 与我们的应用程序所需的 Secrets 之间的映射，如下所示：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;secrets&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; 
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;     &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;secret_id&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;stack1-app1-password&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;       &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;contexts&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;         &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;default&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;           &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;vaultPath&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;/kv/dev/stack1/app1/test&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;           &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;vaultKey&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;password&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;         &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;cluster1&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;           &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;vaultPath&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;/kv/dev/stack1/app1/test&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;           &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;vaultKey&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;password&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;secrets&lt;/span&gt;: 
+     - &lt;span style=&#34;color:#ff79c6&#34;&gt;secret_id&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;stack1-app1-password&amp;#34;&lt;/span&gt;
+       &lt;span style=&#34;color:#ff79c6&#34;&gt;contexts&lt;/span&gt;:
+         - &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;default&amp;#34;&lt;/span&gt;
+           &lt;span style=&#34;color:#ff79c6&#34;&gt;vaultPath&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;/kv/dev/stack1/app1/test&amp;#34;&lt;/span&gt;
+           &lt;span style=&#34;color:#ff79c6&#34;&gt;vaultKey&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;password&amp;#34;&lt;/span&gt;
+         - &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;cluster1&amp;#34;&lt;/span&gt;
+           &lt;span style=&#34;color:#ff79c6&#34;&gt;vaultPath&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;/kv/dev/stack1/app1/test&amp;#34;&lt;/span&gt;
+           &lt;span style=&#34;color:#ff79c6&#34;&gt;vaultKey&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;password&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;定义将 Secrets 写入 Vault 时要遵循的通用规则。&lt;/li&gt;
 &lt;li&gt;如果 Secrets 有特定的上下文/集群，则必须添加特定条目。&lt;/li&gt;
 &lt;li&gt;否则，将使用默认值。&lt;/li&gt;
 &lt;li&gt;对于此列表中的每个项目，将在 Kubernetes Secrets 中插入一个 key/value 。这样我们 chart 中的 Secrets 模板非常简单。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;v1&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;data&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;{{- range $key,$value := .Values.secrets }}&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;{{&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;$key }}&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;{{&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;$value | b64enc | quote }}&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;{{&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;end }}&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Secret&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;{{ .Chart.Name }}&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;labels&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;chartVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;{{ .Chart.Version }}&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;tillerVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;{{ .Capabilities.TillerVersion.SemVer }}&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;type&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Opaque&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;警告与限制&#34;&gt;警告与限制&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;apiVersion&lt;/span&gt;: v1
+&lt;span style=&#34;color:#ff79c6&#34;&gt;data&lt;/span&gt;:
+{{- range $key,$value := .Values.secrets }}
+  {{ &lt;span style=&#34;color:#ff79c6&#34;&gt;$key }}&lt;/span&gt;: {{ $value | b64enc | quote }}
+{{ end }}
+&lt;span style=&#34;color:#ff79c6&#34;&gt;kind&lt;/span&gt;: Secret
+&lt;span style=&#34;color:#ff79c6&#34;&gt;metadata&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;{{ .Chart.Name }}&amp;#34;&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;labels&lt;/span&gt;:
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;chartVersion&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;{{ .Chart.Version }}&amp;#34;&lt;/span&gt;
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;tillerVersion&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;{{ .Capabilities.TillerVersion.SemVer }}&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;type&lt;/span&gt;: Opaque
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;警告与限制&#34;&gt;警告与限制&lt;/h2&gt;
 &lt;h2 id=&#34;preview_only-false-1&#34;&gt;image:
 caption: &amp;ldquo;Image from: &lt;a href=&#34;https://www.pexels.com&#34;&gt;&lt;strong&gt;Pexels&lt;/strong&gt;&lt;/a&gt;&amp;rdquo;
 focal_point: &amp;quot;&amp;quot;
@@ -604,34 +604,34 @@ preview_only: false&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;我们将保留一个类似的结构来配置我们的应用程序部署，但是在名为 “DailymotionRelease” 的单个对象中&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;v1&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;DailymotionRelease&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;app1.ns1&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;environment&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;dev&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;branch&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;mybranch&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;spec&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;slack_channel&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;#admin&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;chart_name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;app1&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;scaling&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;context&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;dev-us-central1-0&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;replicas&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;hermes&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;count&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;2&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;context&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;dev-europe-west1-0&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;replicas&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;app1-deploy&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;count&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;2&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;secrets&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;secret_id&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;app1&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;contexts&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;default&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;vaultPath&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;/kv/dev/ns1/app1/test&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;vaultKey&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;password&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;dev-europe-west1-0&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;vaultPath&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;/kv/dev/ns1/app1/test&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;vaultKey&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;password&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;apiVersion&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;v1&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;kind&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;DailymotionRelease&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;metadata&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;app1.ns1&amp;#34;&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;environment&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;dev&amp;#34;&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;branch&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;mybranch&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;spec&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;slack_channel&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;#admin&amp;#34;&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;chart_name&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;app1&amp;#34;&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;scaling&lt;/span&gt;:
+    - &lt;span style=&#34;color:#ff79c6&#34;&gt;context&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;dev-us-central1-0&amp;#34;&lt;/span&gt;
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;replicas&lt;/span&gt;:
+        - &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;hermes&amp;#34;&lt;/span&gt;
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;count&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;2&lt;/span&gt;
+    - &lt;span style=&#34;color:#ff79c6&#34;&gt;context&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;dev-europe-west1-0&amp;#34;&lt;/span&gt;
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;replicas&lt;/span&gt;:
+        - &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;app1-deploy&amp;#34;&lt;/span&gt;
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;count&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;2&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;secrets&lt;/span&gt;:
+    - &lt;span style=&#34;color:#ff79c6&#34;&gt;secret_id&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;app1&amp;#34;&lt;/span&gt;
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;contexts&lt;/span&gt;:
+        - &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;default&amp;#34;&lt;/span&gt;
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;vaultPath&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;/kv/dev/ns1/app1/test&amp;#34;&lt;/span&gt;
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;vaultKey&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;password&amp;#34;&lt;/span&gt;
+        - &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;dev-europe-west1-0&amp;#34;&lt;/span&gt;
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;vaultPath&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;/kv/dev/ns1/app1/test&amp;#34;&lt;/span&gt;
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;vaultKey&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;password&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;每个应用程序一个版本（不再使用 umbrella charts ）&lt;/li&gt;
 &lt;li&gt;将 chart 加入应用程序 git 存储库中&lt;/li&gt;
 &lt;/ul&gt;
@@ -894,30 +894,30 @@ Phippy 与她的新朋友一起乘坐 Kube 船长的巨轮航行于大海之上�
 &lt;p&gt;在 Docker 的世界，使用别人的镜像作为基础镜像来创建自己的镜像是十分普遍的。例如，官方 reds Docker 镜像就是基于 Debian 文件系统快照（&lt;a href=&#34;http://www.ethernetresearch.com/geekzone/building-linux-rootfs-from-scratch/&#34;&gt;rootfs tarball&lt;/a&gt;），并安装在其上配置 Redis。&lt;/p&gt;
 &lt;p&gt;在我们的示例中，我们选择 &lt;a href=&#34;https://hub.docker.com/_/alpine&#34;&gt;Alpine Linux&lt;/a&gt; 为基础镜像。当您在 Docker 中看到 “alpine” 时，它通常意味着一个精简的基本镜像。 Alpine Linux 镜像大小只有约为5 MB！&lt;/p&gt;
 &lt;p&gt;在您的计算机创建一个新目录（例如 &lt;code&gt;dockerprj&lt;/code&gt; ），然后新建一个 &lt;code&gt;Dockerfile&lt;/code&gt; 文件。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;umermansoor:dockerprj$ touch Dockerfile
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;umermansoor:dockerprj$ touch Dockerfile
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;将如下内容粘贴到 &lt;code&gt;Dockerfile&lt;/code&gt;：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-docker&#34; data-lang=&#34;docker&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# Use Alpine Linux rootfs tarball to base our image on&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;FROM&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt; alpine:3.9 &lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# Set the working directory to be &amp;#39;/home&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;WORKDIR&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt; &amp;#39;/home&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# Setup our application on container&amp;#39;s file system&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;RUN&lt;/span&gt; wget http://www.cs.cmu.edu/afs/cs/academic/class/15213-s00/www/class28/tiny.c &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;  &amp;amp;&amp;amp; apk add build-base &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;  &amp;amp;&amp;amp; gcc tiny.c -o tiny &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;  &amp;amp;&amp;amp; &lt;span style=&#34;color:#24909d&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;Hello World&amp;#39;&lt;/span&gt; &amp;gt;&amp;gt; index.html&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# Start the web server. This is container&amp;#39;s entry point&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;CMD&lt;/span&gt; [&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;./tiny&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;8082&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# Expose port 8082&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;EXPOSE&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt; 8082 &lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这个 &lt;code&gt;Dockerfile&lt;/code&gt; 包含创建镜像的内容说明。我们创建镜像基于 Alpine Linux（&lt;a href=&#34;http://www.ethernetresearch.com/geekzone/building-linux-rootfs-from-scratch/&#34;&gt;rootfs tarball&lt;/a&gt;），并将工作目录设置为 &lt;code&gt;/home&lt;/code&gt; 。接下来下载，编译并创建了一个用C编写的简单 Web 服务器的可执行文件，然后指定在运行容器时要执行的命令，并将容器端口8082暴露给主机。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-docker&#34; data-lang=&#34;docker&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;# Use Alpine Linux rootfs tarball to base our image on&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;FROM&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt; alpine:3.9 &lt;/span&gt;
+
+&lt;span style=&#34;color:#6272a4&#34;&gt;# Set the working directory to be &amp;#39;/home&amp;#39;&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;WORKDIR&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt; &amp;#39;/home&amp;#39;&lt;/span&gt;
+
+&lt;span style=&#34;color:#6272a4&#34;&gt;# Setup our application on container&amp;#39;s file system&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;RUN&lt;/span&gt; wget http://www.cs.cmu.edu/afs/cs/academic/class/15213-s00/www/class28/tiny.c &lt;span style=&#34;color:#f1fa8c&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; apk add build-base &lt;span style=&#34;color:#f1fa8c&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; gcc tiny.c -o tiny &lt;span style=&#34;color:#f1fa8c&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;Hello World&amp;#39;&lt;/span&gt; &amp;gt;&amp;gt; index.html
+
+&lt;span style=&#34;color:#6272a4&#34;&gt;# Start the web server. This is container&amp;#39;s entry point&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;CMD&lt;/span&gt; [&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;./tiny&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;8082&amp;#34;&lt;/span&gt;]
+
+&lt;span style=&#34;color:#6272a4&#34;&gt;# Expose port 8082&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;EXPOSE&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt; 8082 &lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这个 &lt;code&gt;Dockerfile&lt;/code&gt; 包含创建镜像的内容说明。我们创建镜像基于 Alpine Linux（&lt;a href=&#34;http://www.ethernetresearch.com/geekzone/building-linux-rootfs-from-scratch/&#34;&gt;rootfs tarball&lt;/a&gt;），并将工作目录设置为 &lt;code&gt;/home&lt;/code&gt; 。接下来下载，编译并创建了一个用C编写的简单 Web 服务器的可执行文件，然后指定在运行容器时要执行的命令，并将容器端口8082暴露给主机。&lt;/p&gt;
 &lt;p&gt;现在，我们就可以构建镜像了。在 &lt;code&gt;Dockerfile&lt;/code&gt; 的同级目录运行 &lt;code&gt;docker build&lt;/code&gt; 命令：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;umermansoor:dockerprj$ docker build -t codeahoydocker .
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;umermansoor:dockerprj$ docker build -t codeahoydocker .
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如果这个命令成功了，您将看到：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;Successfully tagged codeahoydocker:latest
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;Successfully tagged codeahoydocker:latest
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;此时我们的镜像就创建成功了，该镜像主要包括：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;文件系统快照（Alpine Linux 和 我们安装的 Web 服务）&lt;/li&gt;
@@ -925,7 +925,7 @@ Phippy 与她的新朋友一起乘坐 Kube 船长的巨轮航行于大海之上�
 &lt;/ol&gt;
 &lt;p&gt;&lt;img src=&#34;http://wx4.sinaimg.cn/large/ad5fbf65gy1g2aakgpe16j20zo0bqjt5.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;p&gt;既然成功构建了镜像，那么我们可以使用如下命令运行容器。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;umermansoor:dockerprj$ docker run -p 8082:8082 codeahoydocker:latest
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;umermansoor:dockerprj$ docker run -p 8082:8082 codeahoydocker:latest
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;让我们了解下这里发生了什么。&lt;/p&gt;
 &lt;p&gt;通过 &lt;code&gt;docker run&lt;/code&gt; 命令，我们请求 Docker 基于 &lt;code&gt;codeahoydocker:latest&lt;/code&gt; 镜像创建和启动一个容器。&lt;code&gt;-p 8082:8082&lt;/code&gt; 将本地的8082端口映射到容器的8082端口（容器内的 Web 服务器正在监听8082端口上的连接）。打开你的浏览器并访问 localhost:8082/index.html 。你将可以看到 &lt;em&gt;&lt;strong&gt;Hello World&lt;/strong&gt;&lt;/em&gt; 信息。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;http://wx4.sinaimg.cn/large/ad5fbf65gy1g2aazadeamj20yo0rcq5e.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
@@ -965,20 +965,20 @@ Phippy 与她的新朋友一起乘坐 Kube 船长的巨轮航行于大海之上�
 &lt;p&gt;&lt;strong&gt;kustomize&lt;/strong&gt; 中工具的声明与规范是由名为 &lt;code&gt;kustomization.yaml&lt;/code&gt; 的文件定义。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;kustomize&lt;/strong&gt; 将会读取声明文件和 Kubernetes API 资源文件，将其组合然后将完整的资源进行标准化的输出。输出的文本可以被其他工具进一步处理，或者直接通过 &lt;strong&gt;kubectl&lt;/strong&gt; 应用于集群。&lt;/p&gt;
 &lt;p&gt;例如，如果 &lt;code&gt;kustomization.yaml&lt;/code&gt; 文件包括：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;commonLabels&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;app&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;hello&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;resources&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;- deployment.yaml&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;- configMap.yaml&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;- service.yaml&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;确保这三个文件与 &lt;code&gt;kustomization.yaml&lt;/code&gt; 位于同一目录下，然后运行：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;kustomize build
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;commonLabels&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;app&lt;/span&gt;: hello
+&lt;span style=&#34;color:#ff79c6&#34;&gt;resources&lt;/span&gt;:
+- deployment.yaml
+- configMap.yaml
+- service.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;确保这三个文件与 &lt;code&gt;kustomization.yaml&lt;/code&gt; 位于同一目录下，然后运行：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;kustomize build
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;将创建包含三个资源的 YAML 流，其中 &lt;code&gt;app: hello&lt;/code&gt; 为每个资源共同的标签。&lt;/p&gt;
 &lt;p&gt;同样的，你可以使用 &lt;em&gt;&lt;strong&gt;commonAnnotations&lt;/strong&gt;&lt;/em&gt; 字段给所有资源添加注释， &lt;em&gt;&lt;strong&gt;namePrefix&lt;/strong&gt;&lt;/em&gt; 字段为所有的资源添加共同的前缀名。这些琐碎而有常见的定制只是一个开始。&lt;/p&gt;
 &lt;p&gt;一个更常见的例子是，你需要为一组相同资源设置不同的参数。例如：开发、演示和生产的参数。&lt;/p&gt;
 &lt;p&gt;为此，&lt;strong&gt;Kustomize&lt;/strong&gt; 允许用户以一个应用描述文件 （YAML 文件）为基础（Base YAML），然后通过 Overlay 的方式生成最终部署应用所需的描述文件。两者都是由 kustomization 文件表示。基础（Base）声明了共享的内容（资源和常见的资源配置），Overlay 则声明了差异。&lt;/p&gt;
 &lt;p&gt;这里是一个目录树，用于管理集群应用程序的 &lt;em&gt;&lt;strong&gt;演示&lt;/strong&gt;&lt;/em&gt; 和 &lt;em&gt;&lt;strong&gt;生产&lt;/strong&gt;&lt;/em&gt; 配置参数：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;someapp/
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;someapp/
 ├── base/
 │   ├── kustomization.yaml
 │   ├── deployment.yaml
@@ -993,23 +993,23 @@ Phippy 与她的新朋友一起乘坐 Kube 船长的巨轮航行于大海之上�
         └── cpu_count.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;&lt;code&gt;someapp/base/kustomization.yaml&lt;/code&gt; 文件指定了公共资源和常见自定义配置（例如，它们一些相同的标签，名称前缀和注释）。&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;&lt;code&gt;someapp/overlays/production/kustomization.yaml&lt;/code&gt; 文件的内容可能是：&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;commonLabels&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;env&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;production&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;bases&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;- ../../base&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;patches&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;- replica_count.yaml&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这个 kustomization 指定了一个 &lt;em&gt;&lt;strong&gt;patch&lt;/strong&gt;&lt;/em&gt; 文件 &lt;code&gt;replica_count.yaml&lt;/code&gt; ，其内容可能是：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;apps/v1&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;kind&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Deployment&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;metadata&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;the-deployment&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;spec&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;replicas&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;100&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;em&gt;&lt;strong&gt;patch&lt;/strong&gt;&lt;/em&gt; 是部分的资源声明，在这个例子中是 Deployment 的补丁 &lt;code&gt;someapp/base/deployment.yaml&lt;/code&gt; ，仅修改了副本数用以处理生产流量。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;commonLabels&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;env&lt;/span&gt;: production
+&lt;span style=&#34;color:#ff79c6&#34;&gt;bases&lt;/span&gt;:
+- ../../base
+&lt;span style=&#34;color:#ff79c6&#34;&gt;patches&lt;/span&gt;:
+- replica_count.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这个 kustomization 指定了一个 &lt;em&gt;&lt;strong&gt;patch&lt;/strong&gt;&lt;/em&gt; 文件 &lt;code&gt;replica_count.yaml&lt;/code&gt; ，其内容可能是：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;apiVersion&lt;/span&gt;: apps/v1
+&lt;span style=&#34;color:#ff79c6&#34;&gt;kind&lt;/span&gt;: Deployment
+&lt;span style=&#34;color:#ff79c6&#34;&gt;metadata&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: the-deployment
+&lt;span style=&#34;color:#ff79c6&#34;&gt;spec&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;replicas&lt;/span&gt;: &lt;span style=&#34;color:#bd93f9&#34;&gt;100&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;em&gt;&lt;strong&gt;patch&lt;/strong&gt;&lt;/em&gt; 是部分的资源声明，在这个例子中是 Deployment 的补丁 &lt;code&gt;someapp/base/deployment.yaml&lt;/code&gt; ，仅修改了副本数用以处理生产流量。&lt;/p&gt;
 &lt;p&gt;该补丁不仅仅是一个无上下文 {parameter name，value} 元组。其作为部分 deployment spec，可以通过验证，即使与其余配置隔离读取，也具有明确的上下文和用途。&lt;/p&gt;
 &lt;p&gt;要为生产环境创建资源，请运行：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;kustomize build someapp/overlays/production
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;kustomize build someapp/overlays/production
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;运行结果将作为一组完整资源打印到标准输出，并准备应用于集群。可以用类似的命令定义演示环境的配置。&lt;/p&gt;
 &lt;h2 id=&#34;综上所述&#34;&gt;综上所述&lt;/h2&gt;
 &lt;p&gt;使用 &lt;strong&gt;kustomize&lt;/strong&gt; ，您可以仅使用 Kubernetes API 资源文件就可以管理任意数量的 Kubernetes 定制配置。kustomize 的每个产物都是纯 YAML 的，每个都可以进行验证和运行的。&lt;strong&gt;kustomize&lt;/strong&gt; 鼓励通过 fork/modify/rebase 这样的&lt;a href=&#34;https://github.com/kubernetes-sigs/kustomize/blob/master/docs/workflows.md&#34;&gt;工作流&lt;/a&gt;来管理海量的应用描述文件。&lt;/p&gt;

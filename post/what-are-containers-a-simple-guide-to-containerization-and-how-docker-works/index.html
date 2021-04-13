@@ -42,7 +42,7 @@
       "datePublished": "2019-04-20 19:54:50 \u002b0800 \u002b0800",
       "dateModified" : "2019-04-20 19:54:50 \u002b0800 \u002b0800",
       "url" : "https:\/\/guoxudong.io\/post\/what-are-containers-a-simple-guide-to-containerization-and-how-docker-works\/",
-      "wordCount" : "291",
+      "wordCount" : "299",
       "keywords" : [ "翻译","Docker","容器","Guoxudong" ]
   }
   </script>
@@ -56,7 +56,7 @@
 <meta itemprop="name" content="什么的容器？Docker 工作原理及容器化简易指南">
 <meta itemprop="description" content="Docker 非常棒！ 它使软件开发者无需担心配置和依赖性，在任何地方打包，发送和运行他们的应用程序。而在与 kubernetes 相结合后，它使应用集群部署和管理变得更方便。这使得 Docker 深受软件开发者的喜爱，越来越多的开发者开始使用 Docker。"><meta itemprop="datePublished" content="2019-04-20T19:54:50&#43;08:00" />
 <meta itemprop="dateModified" content="2020-08-04T11:59:33&#43;08:00" />
-<meta itemprop="wordCount" content="291">
+<meta itemprop="wordCount" content="299">
 <meta itemprop="keywords" content="翻译,Docker,容器," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="什么的容器？Docker 工作原理及容器化简易指南"/>
 <meta name="twitter:description" content="Docker 非常棒！ 它使软件开发者无需担心配置和依赖性，在任何地方打包，发送和运行他们的应用程序。而在与 kubernetes 相结合后，它使应用集群部署和管理变得更方便。这使得 Docker 深受软件开发者的喜爱，越来越多的开发者开始使用 Docker。"/>
@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -223,6 +223,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -230,8 +232,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -670,30 +670,30 @@ if (!doNotTrack) {
 <p>在 Docker 的世界，使用别人的镜像作为基础镜像来创建自己的镜像是十分普遍的。例如，官方 reds Docker 镜像就是基于 Debian 文件系统快照（<a href="http://www.ethernetresearch.com/geekzone/building-linux-rootfs-from-scratch/">rootfs tarball</a>），并安装在其上配置 Redis。</p>
 <p>在我们的示例中，我们选择 <a href="https://hub.docker.com/_/alpine">Alpine Linux</a> 为基础镜像。当您在 Docker 中看到 “alpine” 时，它通常意味着一个精简的基本镜像。 Alpine Linux 镜像大小只有约为5 MB！</p>
 <p>在您的计算机创建一个新目录（例如 <code>dockerprj</code> ），然后新建一个 <code>Dockerfile</code> 文件。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">umermansoor:dockerprj$ touch Dockerfile
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">umermansoor:dockerprj$ touch Dockerfile
 </code></pre></div><p>将如下内容粘贴到 <code>Dockerfile</code>：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-docker" data-lang="docker"><span style="color:#999;font-style:italic"># Use Alpine Linux rootfs tarball to base our image on</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#6ab825;font-weight:bold">FROM</span><span style="color:#ed9d13"> alpine:3.9 </span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#999;font-style:italic"># Set the working directory to be &#39;/home&#39;</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#6ab825;font-weight:bold">WORKDIR</span><span style="color:#ed9d13"> &#39;/home&#39;</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#999;font-style:italic"># Setup our application on container&#39;s file system</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#6ab825;font-weight:bold">RUN</span> wget http://www.cs.cmu.edu/afs/cs/academic/class/15213-s00/www/class28/tiny.c <span style="color:#ed9d13">\
-</span><span style="color:#ed9d13"></span>  &amp;&amp; apk add build-base <span style="color:#ed9d13">\
-</span><span style="color:#ed9d13"></span>  &amp;&amp; gcc tiny.c -o tiny <span style="color:#ed9d13">\
-</span><span style="color:#ed9d13"></span>  &amp;&amp; <span style="color:#24909d">echo</span> <span style="color:#ed9d13">&#39;Hello World&#39;</span> &gt;&gt; index.html<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#999;font-style:italic"># Start the web server. This is container&#39;s entry point</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#6ab825;font-weight:bold">CMD</span> [<span style="color:#ed9d13">&#34;./tiny&#34;</span>, <span style="color:#ed9d13">&#34;8082&#34;</span>]<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#999;font-style:italic"># Expose port 8082</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#6ab825;font-weight:bold">EXPOSE</span><span style="color:#ed9d13"> 8082 </span><span style="color:#a61717;background-color:#e3d2d2">
-</span></code></pre></div><p>这个 <code>Dockerfile</code> 包含创建镜像的内容说明。我们创建镜像基于 Alpine Linux（<a href="http://www.ethernetresearch.com/geekzone/building-linux-rootfs-from-scratch/">rootfs tarball</a>），并将工作目录设置为 <code>/home</code> 。接下来下载，编译并创建了一个用C编写的简单 Web 服务器的可执行文件，然后指定在运行容器时要执行的命令，并将容器端口8082暴露给主机。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-docker" data-lang="docker"><span style="color:#6272a4"># Use Alpine Linux rootfs tarball to base our image on</span>
+<span style="color:#ff79c6">FROM</span><span style="color:#f1fa8c"> alpine:3.9 </span>
+
+<span style="color:#6272a4"># Set the working directory to be &#39;/home&#39;</span>
+<span style="color:#ff79c6">WORKDIR</span><span style="color:#f1fa8c"> &#39;/home&#39;</span>
+
+<span style="color:#6272a4"># Setup our application on container&#39;s file system</span>
+<span style="color:#ff79c6">RUN</span> wget http://www.cs.cmu.edu/afs/cs/academic/class/15213-s00/www/class28/tiny.c <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>  <span style="color:#ff79c6">&amp;&amp;</span> apk add build-base <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>  <span style="color:#ff79c6">&amp;&amp;</span> gcc tiny.c -o tiny <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>  <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#8be9fd;font-style:italic">echo</span> <span style="color:#f1fa8c">&#39;Hello World&#39;</span> &gt;&gt; index.html
+
+<span style="color:#6272a4"># Start the web server. This is container&#39;s entry point</span>
+<span style="color:#ff79c6">CMD</span> [<span style="color:#f1fa8c">&#34;./tiny&#34;</span>, <span style="color:#f1fa8c">&#34;8082&#34;</span>]
+
+<span style="color:#6272a4"># Expose port 8082</span>
+<span style="color:#ff79c6">EXPOSE</span><span style="color:#f1fa8c"> 8082 </span>
+</code></pre></div><p>这个 <code>Dockerfile</code> 包含创建镜像的内容说明。我们创建镜像基于 Alpine Linux（<a href="http://www.ethernetresearch.com/geekzone/building-linux-rootfs-from-scratch/">rootfs tarball</a>），并将工作目录设置为 <code>/home</code> 。接下来下载，编译并创建了一个用C编写的简单 Web 服务器的可执行文件，然后指定在运行容器时要执行的命令，并将容器端口8082暴露给主机。</p>
 <p>现在，我们就可以构建镜像了。在 <code>Dockerfile</code> 的同级目录运行 <code>docker build</code> 命令：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">umermansoor:dockerprj$ docker build -t codeahoydocker .
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">umermansoor:dockerprj$ docker build -t codeahoydocker .
 </code></pre></div><p>如果这个命令成功了，您将看到：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Successfully tagged codeahoydocker:latest
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Successfully tagged codeahoydocker:latest
 </code></pre></div><p>此时我们的镜像就创建成功了，该镜像主要包括：</p>
 <ol>
 <li>文件系统快照（Alpine Linux 和 我们安装的 Web 服务）</li>
@@ -701,7 +701,7 @@ if (!doNotTrack) {
 </ol>
 <p><img src="http://wx4.sinaimg.cn/large/ad5fbf65gy1g2aakgpe16j20zo0bqjt5.jpg" alt="image"></p>
 <p>既然成功构建了镜像，那么我们可以使用如下命令运行容器。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">umermansoor:dockerprj$ docker run -p 8082:8082 codeahoydocker:latest
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">umermansoor:dockerprj$ docker run -p 8082:8082 codeahoydocker:latest
 </code></pre></div><p>让我们了解下这里发生了什么。</p>
 <p>通过 <code>docker run</code> 命令，我们请求 Docker 基于 <code>codeahoydocker:latest</code> 镜像创建和启动一个容器。<code>-p 8082:8082</code> 将本地的8082端口映射到容器的8082端口（容器内的 Web 服务器正在监听8082端口上的连接）。打开你的浏览器并访问 localhost:8082/index.html 。你将可以看到 <em><strong>Hello World</strong></em> 信息。</p>
 <p><img src="http://wx4.sinaimg.cn/large/ad5fbf65gy1g2aazadeamj20yo0rcq5e.jpg" alt="image"></p>

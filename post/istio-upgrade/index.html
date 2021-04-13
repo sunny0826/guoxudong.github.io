@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -240,6 +240,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -247,8 +249,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -662,29 +662,29 @@ if (!doNotTrack) {
 <h3 id="控制平面升级">控制平面升级</h3>
 <p>首先需要<a href="https://github.com/istio/istio/releases">下载新版本 Istio</a> 并切换目录为新版本目录。</p>
 <p>安装<code>canary</code>版本，将<code>revision</code>字段设置为<code>canary</code>：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ istioctl install --set <span style="color:#40ffff">revision</span>=canary
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ istioctl install --set <span style="color:#8be9fd;font-style:italic">revision</span><span style="color:#ff79c6">=</span>canary
 </code></pre></div><p>这里会部署新的 <code>istiod-canary</code>，但并不会对原有的控制平面造成影响，部署成功后会看到两个并行的 <code>istiod</code>：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get pods -n istio-system
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get pods -n istio-system
 NAME                                        READY   STATUS    RESTARTS   AGE
-pod/istiod-85745c747b-knlwb                 1/1     Running   <span style="color:#3677a9">0</span>          33m
-pod/istiod-canary-865f754fdd-gx7dh          1/1     Running   <span style="color:#3677a9">0</span>          3m25s
+pod/istiod-85745c747b-knlwb                 1/1     Running   <span style="color:#bd93f9">0</span>          33m
+pod/istiod-canary-865f754fdd-gx7dh          1/1     Running   <span style="color:#bd93f9">0</span>          3m25s
 </code></pre></div><p>这里还可以看到新版的 <code>sidecar injector</code> 配置：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get mutatingwebhookconfigurations
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get mutatingwebhookconfigurations
 NAME                            CREATED AT
 istio-sidecar-injector          2020-07-07T08:39:37Z
 istio-sidecar-injector-canary   2020-07-07T09:06:24Z
 </code></pre></div><h3 id="数据平面升级">数据平面升级</h3>
 <p>只安装 <code>canary</code> 版本的控制平面并不会对现有的代理造成影响，要升级数据平面，并将他们指向新的控制平面，就需要在 namespace 中插入 <code>istio.io/rev</code> 标签。</p>
 <p>例如，想要要升级 <code>default</code> namespace 的数据平面，需要添加 <code>istio.io/rev</code> 标签并删除<code>istio-injection</code>标签，以指向 <code>canary</code> 版本的控制平面：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl label namespace default istio-injection- istio.io/rev=canary
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl label namespace default istio-injection- istio.io/rev<span style="color:#ff79c6">=</span>canary
 </code></pre></div><p>注意：<code>istio-injection</code> 标签必须删除，因为该标签的优先级高于 <code>istio.io/rev</code> 标签，保留该标签将导致无法升级数据平面。</p>
 <p>在 namespace 更新成功后，需要重启 Pod 来重新注入 Sidecar：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl rollout restart deployment -n default
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl rollout restart deployment -n default
 </code></pre></div><p>当重启成功后，该 namespace 的 pod 将被配置指向新的<code>istiod-canary</code>控制平面，使用如下命令查看启用新代理的 Pod：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get pods -n default -l istio.io/rev=canary
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get pods -n default -l istio.io/rev<span style="color:#ff79c6">=</span>canary
 </code></pre></div><p>同时可以使用如下命令验证新 Pod 的控制平面为<code>istiod-canary</code>：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ istioctl proxy-config endpoints <span style="color:#ed9d13">${</span><span style="color:#40ffff">pod_name</span><span style="color:#ed9d13">}</span>.default --cluster xds-grpc -ojson | grep hostname
-    <span style="color:#ed9d13">&#34;hostname&#34;</span>: <span style="color:#ed9d13">&#34;istiod-canary.istio-system.svc&#34;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ istioctl proxy-config endpoints <span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">pod_name</span><span style="color:#f1fa8c">}</span>.default --cluster xds-grpc -ojson | grep hostname
+    <span style="color:#f1fa8c">&#34;hostname&#34;</span>: <span style="color:#f1fa8c">&#34;istiod-canary.istio-system.svc&#34;</span>
 </code></pre></div><p>这时 <code>default</code> namespace 内的 Pod 就完成了金丝雀升级，接下来就可以进行验证，确定这些 Pod 有没有因为 Istio 升级而导致功能异常。</p>
 <h2 id="原地升级--降级">原地升级 &amp; 降级</h2>
 <p>目前原地升级有很大的概率通不过升级检测，导致无法升级，不推荐这种升级方式，这里就不做介绍了，详情见<a href="https://istio.io/latest/docs/setup/upgrade/">官方文档</a>。</p>

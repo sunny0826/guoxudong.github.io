@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -245,6 +245,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -252,8 +254,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -665,17 +665,17 @@ if (!doNotTrack) {
 <p>Krew 是 kubernetes SIG 项目，是 <code>kubectl</code> 的插件管理器，其提供了类似 brew 的包管理功能，用户可以方便的使用 krew 安装和使用 kubectl 插件，极大的方便了 kubectl 插件的开发和管理。</p>
 <h3 id="安装">安装</h3>
 <p>Krew 虽然也可以使用 <code>brew</code> 进行安装，但是官方貌似并不积极支持该方式。这里使用如下命令脚本来完成安装：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">(
-  <span style="color:#24909d">set</span> -x; <span style="color:#24909d">cd</span> <span style="color:#ed9d13">&#34;</span><span style="color:#6ab825;font-weight:bold">$(</span>mktemp -d<span style="color:#6ab825;font-weight:bold">)</span><span style="color:#ed9d13">&#34;</span> &amp;&amp;
-  <span style="color:#40ffff">OS</span>=<span style="color:#ed9d13">&#34;</span><span style="color:#6ab825;font-weight:bold">$(</span>uname | tr <span style="color:#ed9d13">&#39;[:upper:]&#39;</span> <span style="color:#ed9d13">&#39;[:lower:]&#39;</span><span style="color:#6ab825;font-weight:bold">)</span><span style="color:#ed9d13">&#34;</span> &amp;&amp;
-  <span style="color:#40ffff">ARCH</span>=<span style="color:#ed9d13">&#34;</span><span style="color:#6ab825;font-weight:bold">$(</span>uname -m | sed -e <span style="color:#ed9d13">&#39;s/x86_64/amd64/&#39;</span> -e <span style="color:#ed9d13">&#39;s/\(arm\)\(64\)\?.*/\1\2/&#39;</span> -e <span style="color:#ed9d13">&#39;s/aarch64$/arm64/&#39;</span><span style="color:#6ab825;font-weight:bold">)</span><span style="color:#ed9d13">&#34;</span> &amp;&amp;
-  curl -fsSLO <span style="color:#ed9d13">&#34;https://github.com/kubernetes-sigs/krew/releases/latest/download/krew.tar.gz&#34;</span> &amp;&amp;
-  tar zxvf krew.tar.gz &amp;&amp;
-  <span style="color:#40ffff">KREW</span>=./krew-<span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">${</span><span style="color:#40ffff">OS</span><span style="color:#ed9d13">}</span><span style="color:#ed9d13">_</span><span style="color:#ed9d13">${</span><span style="color:#40ffff">ARCH</span><span style="color:#ed9d13">}</span><span style="color:#ed9d13">&#34;</span> &amp;&amp;
-  <span style="color:#ed9d13">&#34;</span><span style="color:#40ffff">$KREW</span><span style="color:#ed9d13">&#34;</span> install krew
-)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#ff79c6">(</span>
+  <span style="color:#8be9fd;font-style:italic">set</span> -x; <span style="color:#8be9fd;font-style:italic">cd</span> <span style="color:#f1fa8c">&#34;</span><span style="color:#ff79c6">$(</span>mktemp -d<span style="color:#ff79c6">)</span><span style="color:#f1fa8c">&#34;</span> <span style="color:#ff79c6">&amp;&amp;</span>
+  <span style="color:#8be9fd;font-style:italic">OS</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;</span><span style="color:#ff79c6">$(</span>uname | tr <span style="color:#f1fa8c">&#39;[:upper:]&#39;</span> <span style="color:#f1fa8c">&#39;[:lower:]&#39;</span><span style="color:#ff79c6">)</span><span style="color:#f1fa8c">&#34;</span> <span style="color:#ff79c6">&amp;&amp;</span>
+  <span style="color:#8be9fd;font-style:italic">ARCH</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;</span><span style="color:#ff79c6">$(</span>uname -m | sed -e <span style="color:#f1fa8c">&#39;s/x86_64/amd64/&#39;</span> -e <span style="color:#f1fa8c">&#39;s/\(arm\)\(64\)\?.*/\1\2/&#39;</span> -e <span style="color:#f1fa8c">&#39;s/aarch64$/arm64/&#39;</span><span style="color:#ff79c6">)</span><span style="color:#f1fa8c">&#34;</span> <span style="color:#ff79c6">&amp;&amp;</span>
+  curl -fsSLO <span style="color:#f1fa8c">&#34;https://github.com/kubernetes-sigs/krew/releases/latest/download/krew.tar.gz&#34;</span> <span style="color:#ff79c6">&amp;&amp;</span>
+  tar zxvf krew.tar.gz <span style="color:#ff79c6">&amp;&amp;</span>
+  <span style="color:#8be9fd;font-style:italic">KREW</span><span style="color:#ff79c6">=</span>./krew-<span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">OS</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">_</span><span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">ARCH</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span> <span style="color:#ff79c6">&amp;&amp;</span>
+  <span style="color:#f1fa8c">&#34;</span><span style="color:#8be9fd;font-style:italic">$KREW</span><span style="color:#f1fa8c">&#34;</span> install krew
+<span style="color:#ff79c6">)</span>
 </code></pre></div><p>脚本运行成功后，将 <code>$HOME/.krew/bin</code> 添加到 <code>PATH</code> 中，在 <code>.bashrc</code> 或 <code>.zshrc</code> 文件中添加以下内容：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#24909d">export</span> <span style="color:#40ffff">PATH</span>=<span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">${</span><span style="color:#40ffff">KREW_ROOT</span><span style="color:#6ab825;font-weight:bold">:-</span><span style="color:#40ffff">$HOME</span>/.krew<span style="color:#ed9d13">}</span><span style="color:#ed9d13">/bin:</span><span style="color:#40ffff">$PATH</span><span style="color:#ed9d13">&#34;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#8be9fd;font-style:italic">export</span> <span style="color:#8be9fd;font-style:italic">PATH</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">KREW_ROOT</span><span style="color:#ff79c6">:-</span><span style="color:#8be9fd;font-style:italic">$HOME</span>/.krew<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">/bin:</span><span style="color:#8be9fd;font-style:italic">$PATH</span><span style="color:#f1fa8c">&#34;</span>
 </code></pre></div><p>添加完成后请重启终端，使用 <code>kubectl krew</code> 检查是否安装成功。</p>
 <h2 id="插件推荐">插件推荐</h2>
 <p>接下来推荐一些增强可观测性的 kubectl plugin。</p>
@@ -683,7 +683,7 @@ if (!doNotTrack) {
 <p>该插件是由 Google 大佬开发，通过 <code>ownerReferences</code> 来发现 kubernetes 对象之间的相互关联，并通过树状图来展示，对资源的关系一目了然。</p>
 <p>项目地址：https://github.com/ahmetb/kubectl-tree</p>
 <h4 id="安装-1">安装</h4>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl krew install tree
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl krew install tree
 $ kubectl tree --help
 </code></pre></div><h4 id="示例">示例</h4>
 <p><img src="https://tvax2.sinaimg.cn/large/ad5fbf65gy1go810e9dtxj21ps0rwtyh.jpg" alt="kubectl tree"></p>
@@ -691,7 +691,7 @@ $ kubectl tree --help
 <p>kubectl-status 这个插件简化了 <code>get</code> 和 <code>describe</code> 操作，采用不同颜色和箭头等元素来展示 kubernetes 资源的生命周期和状态信息，可以查看单个资源，也可以查看该 namespace 下的所有该资源的状态，极大的缩短了问题排查的时间，减少了操作步骤。</p>
 <p>项目地址：https://github.com/bergerx/kubectl-status</p>
 <h4 id="安装-2">安装</h4>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl krew install status
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl krew install status
 $ kubectl status --help
 </code></pre></div><h4 id="示例-1">示例</h4>
 <p><img src="https://tvax2.sinaimg.cn/large/ad5fbf65gy1go81g4jkwxj21da0yg0vn.jpg" alt="Pod"></p>
@@ -701,34 +701,34 @@ $ kubectl status --help
 <p>项目地址：https://github.com/davidB/kubectl-view-allocations</p>
 <h4 id="安装-3">安装</h4>
 <p><strong>脚本安装</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ curl https://raw.githubusercontent.com/davidB/kubectl-view-allocations/master/scripts/getLatest.sh | bash
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ curl https://raw.githubusercontent.com/davidB/kubectl-view-allocations/master/scripts/getLatest.sh | bash
 </code></pre></div><p><strong>krew</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl krew install view-allocations
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl krew install view-allocations
 </code></pre></div><p><strong>cargo</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ cargo install kubectl-view-allocations
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ cargo install kubectl-view-allocations
 </code></pre></div><h4 id="示例-2">示例</h4>
 <p><strong>展示 GPU 的分配情况</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl-view-allocations -r gpu
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl-view-allocations -r gpu
 
  Resource                   Requested       Limit  Allocatable  Free 
-  nvidia.com/gpu           (71%) 10.0  (71%) 10.0         14.0   4.0 
-  ├─ node-gpu1               (0%) 0.0    (0%) 0.0          2.0   2.0 
-  ├─ node-gpu2               (0%) 0.0    (0%) 0.0          2.0   2.0 
-  ├─ node-gpu3             (100%) 2.0  (100%) 2.0          2.0   0.0 
+  nvidia.com/gpu           <span style="color:#ff79c6">(</span>71%<span style="color:#ff79c6">)</span> 10.0  <span style="color:#ff79c6">(</span>71%<span style="color:#ff79c6">)</span> 10.0         14.0   4.0 
+  ├─ node-gpu1               <span style="color:#ff79c6">(</span>0%<span style="color:#ff79c6">)</span> 0.0    <span style="color:#ff79c6">(</span>0%<span style="color:#ff79c6">)</span> 0.0          2.0   2.0 
+  ├─ node-gpu2               <span style="color:#ff79c6">(</span>0%<span style="color:#ff79c6">)</span> 0.0    <span style="color:#ff79c6">(</span>0%<span style="color:#ff79c6">)</span> 0.0          2.0   2.0 
+  ├─ node-gpu3             <span style="color:#ff79c6">(</span>100%<span style="color:#ff79c6">)</span> 2.0  <span style="color:#ff79c6">(</span>100%<span style="color:#ff79c6">)</span> 2.0          2.0   0.0 
   │  └─ fah-gpu-cpu-d29sc         2.0         2.0                    
-  ├─ node-gpu4             (100%) 2.0  (100%) 2.0          2.0   0.0 
+  ├─ node-gpu4             <span style="color:#ff79c6">(</span>100%<span style="color:#ff79c6">)</span> 2.0  <span style="color:#ff79c6">(</span>100%<span style="color:#ff79c6">)</span> 2.0          2.0   0.0 
   │  └─ fah-gpu-cpu-hkg59         2.0         2.0                    
-  ├─ node-gpu5             (100%) 2.0  (100%) 2.0          2.0   0.0 
+  ├─ node-gpu5             <span style="color:#ff79c6">(</span>100%<span style="color:#ff79c6">)</span> 2.0  <span style="color:#ff79c6">(</span>100%<span style="color:#ff79c6">)</span> 2.0          2.0   0.0 
   │  └─ fah-gpu-cpu-nw9fc         2.0         2.0                    
-  ├─ node-gpu6             (100%) 2.0  (100%) 2.0          2.0   0.0 
+  ├─ node-gpu6             <span style="color:#ff79c6">(</span>100%<span style="color:#ff79c6">)</span> 2.0  <span style="color:#ff79c6">(</span>100%<span style="color:#ff79c6">)</span> 2.0          2.0   0.0 
   │  └─ fah-gpu-cpu-gtwsf         2.0         2.0                    
-  └─ node-gpu7             (100%) 2.0  (100%) 2.0          2.0   0.0 
+  └─ node-gpu7             <span style="color:#ff79c6">(</span>100%<span style="color:#ff79c6">)</span> 2.0  <span style="color:#ff79c6">(</span>100%<span style="color:#ff79c6">)</span> 2.0          2.0   0.0 
      └─ fah-gpu-cpu-x7zfb         2.0         2.0    
 </code></pre></div><p><strong>展示 namespace 维度资源的分配情况</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl-view-allocations -g namespace
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl-view-allocations -g namespace
 
  Resource              Requested          Limit  Allocatable     Free 
-  cpu                 (21%) 56.7    (65%) 176.1        272.0     95.9 
+  cpu                 <span style="color:#ff79c6">(</span>21%<span style="color:#ff79c6">)</span> 56.7    <span style="color:#ff79c6">(</span>65%<span style="color:#ff79c6">)</span> 176.1        272.0     95.9 
   ├─ default                42.1           57.4                       
   ├─ dev                     5.3          102.1                       
   ├─ dns-external         200.0m            0.0                       
@@ -739,8 +739,8 @@ $ kubectl status --help
   ├─ monitoring              3.5            7.0                       
   ├─ sharelatex           700.0m            2.4                       
   └─ weave                   1.3            1.8                       
-  ephemeral-storage     (0%) 0.0       (0%) 0.0        38.4T    38.4T 
-  memory             (8%) 52.7Gi  (15%) 101.3Gi      675.6Gi  574.3Gi 
+  ephemeral-storage     <span style="color:#ff79c6">(</span>0%<span style="color:#ff79c6">)</span> 0.0       <span style="color:#ff79c6">(</span>0%<span style="color:#ff79c6">)</span> 0.0        38.4T    38.4T 
+  memory             <span style="color:#ff79c6">(</span>8%<span style="color:#ff79c6">)</span> 52.7Gi  <span style="color:#ff79c6">(</span>15%<span style="color:#ff79c6">)</span> 101.3Gi      675.6Gi  574.3Gi 
   ├─ default              34.6Gi         60.0Gi                       
   ├─ dev                   5.3Gi         22.1Gi                       
   ├─ dns-external        140.0Mi        340.0Mi                       
@@ -751,9 +751,9 @@ $ kubectl status --help
   ├─ monitoring            5.9Gi          5.7Gi                       
   ├─ sharelatex            2.5Gi          7.0Gi                       
   └─ weave                 1.3Gi          1.8Gi                       
-  nvidia.com/gpu      (71%) 10.0     (71%) 10.0         14.0      4.0 
+  nvidia.com/gpu      <span style="color:#ff79c6">(</span>71%<span style="color:#ff79c6">)</span> 10.0     <span style="color:#ff79c6">(</span>71%<span style="color:#ff79c6">)</span> 10.0         14.0      4.0 
   └─ dev                    10.0           10.0                       
-  pods                (9%) 147.0     (9%) 147.0         1.6k     1.5k 
+  pods                <span style="color:#ff79c6">(</span>9%<span style="color:#ff79c6">)</span> 147.0     <span style="color:#ff79c6">(</span>9%<span style="color:#ff79c6">)</span> 147.0         1.6k     1.5k 
   ├─ cert-manager            3.0            3.0                       
   ├─ default                13.0           13.0                       
   ├─ dev                     9.0            9.0                       
@@ -769,7 +769,7 @@ $ kubectl status --help
 <p>kubectl-images 可以展示集群中正在使用的镜像，并对 namespace 进行一个简单的统计。使用这个插件可以非常方面的查看 namespace 中使用了哪些镜像，尤其在排查问题需要查看镜像版本时非常有用。</p>
 <p>项目地址：https://github.com/chenjiandongx/kubectl-images</p>
 <h4 id="安装-4">安装</h4>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl krew install images
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl krew install images
 $ kubectl images --help
 </code></pre></div><h4 id="示例-3">示例</h4>
 <p><img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1go81ui9oidj21sk17qx3l.jpg" alt="kubectl-images"></p>

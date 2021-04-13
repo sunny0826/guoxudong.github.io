@@ -42,7 +42,7 @@
       "datePublished": "2020-12-22 15:59:28 \u002b0800 \u002b0800",
       "dateModified" : "2020-12-22 15:59:28 \u002b0800 \u002b0800",
       "url" : "https:\/\/guoxudong.io\/post\/helmfile-quick-start\/",
-      "wordCount" : "1023",
+      "wordCount" : "1338",
       "keywords" : [ "helm","kubernetes","Guoxudong" ]
   }
   </script>
@@ -56,7 +56,7 @@
 <meta itemprop="name" content="使用 Helmfile 解放你的 Helm Chart">
 <meta itemprop="description" content="介绍一款小工具：Helmfile"><meta itemprop="datePublished" content="2020-12-22T15:59:28&#43;08:00" />
 <meta itemprop="dateModified" content="2020-12-23T17:59:21&#43;08:00" />
-<meta itemprop="wordCount" content="1023">
+<meta itemprop="wordCount" content="1338">
 <meta itemprop="keywords" content="helm,kubernetes," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="使用 Helmfile 解放你的 Helm Chart"/>
 <meta name="twitter:description" content="介绍一款小工具：Helmfile"/>
@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -249,6 +249,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -256,8 +258,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -597,7 +597,7 @@ if (!doNotTrack) {
 	<div class="td-byline mb-4">
 		<span>By  <b>guoxudong</b> </span> ·
 		<span>
-			5 分钟阅读时间
+			7 分钟阅读时间
 		</span> ·
 		<span>发布于 </span><time datetime=" 2020-12-22" 
 			class="text-muted">2020年12月22日</time> ·
@@ -681,200 +681,200 @@ if (!doNotTrack) {
 <li>openSUSE: <code>zypper in helmfile</code></li>
 </ul>
 <p>同时还支持作为容器运行，可以非常方便的集成到 CI/CD 系统中：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># helm 2</span>
-$ docker run --rm --net=host -v <span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">${</span><span style="color:#40ffff">HOME</span><span style="color:#ed9d13">}</span><span style="color:#ed9d13">/.kube:/root/.kube&#34;</span> -v <span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">${</span><span style="color:#40ffff">HOME</span><span style="color:#ed9d13">}</span><span style="color:#ed9d13">/.helm:/root/.helm&#34;</span> -v <span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">${</span><span style="color:#40ffff">PWD</span><span style="color:#ed9d13">}</span><span style="color:#ed9d13">:/wd&#34;</span> --workdir /wd quay.io/roboll/helmfile:v0.135.0 helmfile sync
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># helm 2</span>
+$ docker run --rm --net<span style="color:#ff79c6">=</span>host -v <span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">HOME</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">/.kube:/root/.kube&#34;</span> -v <span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">HOME</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">/.helm:/root/.helm&#34;</span> -v <span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">PWD</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">:/wd&#34;</span> --workdir /wd quay.io/roboll/helmfile:v0.135.0 helmfile sync
 
-<span style="color:#999;font-style:italic"># helm 3</span>
-$ docker run --rm --net=host -v <span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">${</span><span style="color:#40ffff">HOME</span><span style="color:#ed9d13">}</span><span style="color:#ed9d13">/.kube:/root/.kube&#34;</span> -v <span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">${</span><span style="color:#40ffff">HOME</span><span style="color:#ed9d13">}</span><span style="color:#ed9d13">/.config/helm:/root/.config/helm&#34;</span> -v <span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">${</span><span style="color:#40ffff">PWD</span><span style="color:#ed9d13">}</span><span style="color:#ed9d13">:/wd&#34;</span> --workdir /wd quay.io/roboll/helmfile:helm3-v0.135.0 helmfile sync
+<span style="color:#6272a4"># helm 3</span>
+$ docker run --rm --net<span style="color:#ff79c6">=</span>host -v <span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">HOME</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">/.kube:/root/.kube&#34;</span> -v <span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">HOME</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">/.config/helm:/root/.config/helm&#34;</span> -v <span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">PWD</span><span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">:/wd&#34;</span> --workdir /wd quay.io/roboll/helmfile:helm3-v0.135.0 helmfile sync
 </code></pre></div><h3 id="其他依赖">其他依赖</h3>
 <p>除了安装 helmfile 以外，还需要安装 <code>helm</code>、<code>kubectl</code> 以及 helm 插件 <a href="https://github.com/databus23/helm-diff"><code>helm-diff</code></a>。</p>
 <p>helm-diff 安装方式：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ helm plugin install https://github.com/databus23/helm-diff
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ helm plugin install https://github.com/databus23/helm-diff
 </code></pre></div><h3 id="helmfileyaml">helmfile.yaml</h3>
 <p><code>helmfile.yaml</code> 是 helmfile 的核心文件，其用来声明所有的配置。下面会简要介绍一下，详细内容见<a href="https://github.com/roboll/helmfile#configuration">官方文档</a>。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#999;font-style:italic"># 声明 repo 配置</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">repositories</span>:<span style="color:#666">
-</span><span style="color:#666"></span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>&lt;repo-name&gt;<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># url: repo url</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># 可以设置基础配置 或 tls 认证</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># certFile: certificate 文件</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># keyFile: key 文件</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># username: 用户名</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># password: 密码</span><span style="color:#666">
-</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#999;font-style:italic"># helm 二进制文件的路径</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">helmBinary</span>:<span style="color:#666"> </span>path/to/helm3<span style="color:#666">
-</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#999;font-style:italic"># helm 的一些默认设置，这些配置与 `helm SUBCOMMAND` 相同，可以通过这个配置声明一些，默认的配置</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">helmDefaults</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">tillerNamespace</span>:<span style="color:#666"> </span>tiller-namespace <span style="color:#666"> </span><span style="color:#999;font-style:italic">#dedicated default key for tiller-namespace</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">tillerless</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">                  </span><span style="color:#999;font-style:italic">#dedicated default key for tillerless</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">kubeContext</span>:<span style="color:#666"> </span>kube-context         <span style="color:#666"> </span><span style="color:#999;font-style:italic">#dedicated default key for kube-context (--kube-context)</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">cleanupOnFail</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">               </span><span style="color:#999;font-style:italic">#dedicated default key for helm flag --cleanup-on-fail</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># additional and global args passed to helm (default &#34;&#34;)</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">args</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#ed9d13">&#34;--set k=v&#34;</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># verify the chart before upgrading (only works with packaged charts not directories) (default false)</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">verify</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">true</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># wait for k8s resources via --wait. (default false)</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">wait</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">true</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># time in seconds to wait for any individual Kubernetes operation (like Jobs for hooks, and waits on pod/pvc/svc/deployment readiness) (default 300)</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">timeout</span>:<span style="color:#666"> </span><span style="color:#3677a9">600</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># performs pods restart for the resource if applicable (default false)</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">recreatePods</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">true</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># forces resource update through delete/recreate if needed (default false)</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">force</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># when using helm 3.2+, automatically create release namespaces if they do not exist (default true)</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">createNamespace</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">true</span><span style="color:#666">
-</span><span style="color:#666">  </span>...<span style="color:#666">
-</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#999;font-style:italic"># 为 helmfile 中所有的 release 设置相同的 label，可用于为所有 release 标记相同的版本</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">commonLabels</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">hello</span>:<span style="color:#666"> </span>world<span style="color:#666">
-</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#999;font-style:italic"># 设置 release 配置（支持多 release）</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">releases</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># 远程 chart 示例（chart 已经上传到 remote 仓库）</span><span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>vault                           <span style="color:#666"> </span><span style="color:#999;font-style:italic"># name of this release</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">namespace</span>:<span style="color:#666"> </span>vault                      <span style="color:#666"> </span><span style="color:#999;font-style:italic"># target namespace</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">createNamespace</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">true</span><span style="color:#666">                  </span><span style="color:#999;font-style:italic"># helm 3.2+ automatically create release namespace (default true)</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">labels</span>:<span style="color:#666">                                </span><span style="color:#999;font-style:italic"># Arbitrary key value pairs for filtering releases</span><span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">foo</span>:<span style="color:#666"> </span>bar<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">chart</span>:<span style="color:#666"> </span>roboll/vault-secret-manager    <span style="color:#666"> </span><span style="color:#999;font-style:italic"># the chart being installed to create this release, referenced by `repository/chart` syntax</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">version</span>:<span style="color:#666"> </span>~1.24.1                      <span style="color:#666"> </span><span style="color:#999;font-style:italic"># the semver of the chart. range constraint is supported</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">condition</span>:<span style="color:#666"> </span>vault.enabled              <span style="color:#666"> </span><span style="color:#999;font-style:italic"># The values lookup key for filtering releases. Corresponds to the boolean value of `vault.enabled`, where `vault` is an arbitrary value</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">missingFileHandler</span>:<span style="color:#666"> </span>Warn<span style="color:#666"> </span><span style="color:#999;font-style:italic"># set to either &#34;Error&#34; or &#34;Warn&#34;. &#34;Error&#34; instructs helmfile to fail when unable to find a values or secrets file. When &#34;Warn&#34;, it prints the file and continues.</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#999;font-style:italic"># Values files used for rendering the chart</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">values</span>:<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#999;font-style:italic"># Value files passed via --values</span><span style="color:#666">
-</span><span style="color:#666">      </span>- vault.yaml<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#999;font-style:italic"># Inline values, passed via a temporary values file and --values, so that it doesn&#39;t suffer from type issues like --set</span><span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#6ab825;font-weight:bold">address</span>:<span style="color:#666"> </span>https://vault.example.com<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#999;font-style:italic"># Go template available in inline values and values files.</span><span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#999;font-style:italic"># The end result is more or less YAML. So do `quote` to prevent number-like strings from accidentally parsed into numbers!</span><span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#999;font-style:italic"># See https://github.com/roboll/helmfile/issues/608</span><span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">tag</span>:<span style="color:#666"> </span>{{<span style="color:#666"> </span>requiredEnv &#34;IMAGE_TAG&#34; | quote }}<span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#999;font-style:italic"># Otherwise:</span><span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#999;font-style:italic">#   tag: &#34;{{ requiredEnv &#34;IMAGE_TAG&#34; }}&#34;</span><span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#999;font-style:italic">#   tag: !!string {{ requiredEnv &#34;IMAGE_TAG&#34; }}</span><span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">db</span>:<span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">username</span>:<span style="color:#666"> </span>{{<span style="color:#666"> </span>requiredEnv &#34;DB_USERNAME&#34; }}<span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#999;font-style:italic"># value taken from environment variable. Quotes are necessary. Will throw an error if the environment variable is not set. $DB_PASSWORD needs to be set in the calling environment ex: export DB_PASSWORD=&#39;password1&#39;</span><span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">password</span>:<span style="color:#666"> </span>{{<span style="color:#666"> </span>requiredEnv &#34;DB_PASSWORD&#34; }}<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">proxy</span>:<span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#999;font-style:italic"># Interpolate environment variable with a fixed string</span><span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">domain</span>:<span style="color:#666"> </span>{{<span style="color:#666"> </span>requiredEnv &#34;PLATFORM_ID&#34; }}.my-domain.com<span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">scheme</span>:<span style="color:#666"> </span>{{<span style="color:#666"> </span>env &#34;SCHEME&#34; | default &#34;https&#34; }}<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#999;font-style:italic"># Use `values` whenever possible!</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#999;font-style:italic"># `set` translates to helm&#39;s `--set key=val`, that is known to suffer from type issues like https://github.com/roboll/helmfile/issues/608</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">set</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#999;font-style:italic"># single value loaded from a local file, translates to --set-file foo.config=path/to/file</span><span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>foo.config<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">file</span>:<span style="color:#666"> </span>path/to/file<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#999;font-style:italic"># set a single array value in an array, translates to --set bar[0]={1,2}</span><span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>bar[0]<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">values</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#3677a9">1</span><span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#3677a9">2</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#999;font-style:italic"># set a templated value</span><span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>namespace<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>{{<span style="color:#666"> </span>.Namespace }}<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#999;font-style:italic"># will attempt to decrypt it using helm-secrets plugin</span><span style="color:#666">
-</span><span style="color:#666">    
-</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># 本地 chart 示例（chart 保存在本地）</span><span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>grafana                           <span style="color:#666"> </span><span style="color:#999;font-style:italic"># name of this release</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">namespace</span>:<span style="color:#666"> </span>another                      <span style="color:#666"> </span><span style="color:#999;font-style:italic"># target namespace</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">chart</span>:<span style="color:#666"> </span>../my-charts/grafana             <span style="color:#666"> </span><span style="color:#999;font-style:italic"># the chart being installed to create this release, referenced by relative path to local helmfile</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">values</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#ed9d13">&#34;../../my-values/grafana/values.yaml&#34;</span><span style="color:#666">             </span><span style="color:#999;font-style:italic"># Values file (relative path to manifest)</span><span style="color:#666">
-</span><span style="color:#666">    </span>- ./values/{{ requiredEnv &#34;PLATFORM_ENV&#34; }}/config.yaml<span style="color:#666"> </span><span style="color:#999;font-style:italic"># Values file taken from path with environment variable. $PLATFORM_ENV must be set in the calling environment.</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">wait</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">true</span><span style="color:#666">
-</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#999;font-style:italic"># 可以嵌套其他的 helmfiles，支持从本地和远程拉取 helmfile</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">helmfiles</span>:<span style="color:#666">
-</span><span style="color:#666"></span>- <span style="color:#6ab825;font-weight:bold">path</span>:<span style="color:#666"> </span>path/to/subhelmfile.yaml<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># label 选择器可以过滤需要覆盖的 release</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">selectors</span>:<span style="color:#666">
-</span><span style="color:#666">  </span>- name=prometheus<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># 覆盖 value</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">values</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># 使用文件覆盖</span><span style="color:#666">
-</span><span style="color:#666">  </span>- additional.values.yaml<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># 覆盖单独的 key</span><span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">key1</span>:<span style="color:#666"> </span>val1<span style="color:#666">
-</span><span style="color:#666"></span>- <span style="color:#999;font-style:italic"># 远程拉取配置</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">path</span>:<span style="color:#666"> </span>git::https://github.com/cloudposse/helmfiles.git@releases/kiam.yaml?ref=0.40.0<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#999;font-style:italic"># 如果指向不存在路径，则打印告警错误</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">missingFileHandler</span>:<span style="color:#666"> </span>Error<span style="color:#666">
-</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#999;font-style:italic"># 多环境管理</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">environments</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># 当没有设置 `--environment NAME` 时，使用 default </span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">default</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">values</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#999;font-style:italic"># 内容可以是文件路径或者 key:value</span><span style="color:#666">
-</span><span style="color:#666">    </span>- environments/default/values.yaml<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">myChartVer</span>:<span style="color:#666"> </span><span style="color:#3677a9">1.0.0</span>-dev<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># &#34;production&#34; 环境，当设置了 `helmfile --environment production sync` 时</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">production</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">values</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- environment/production/values.yaml<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">myChartVer</span>:<span style="color:#666"> </span><span style="color:#3677a9">1.0.0</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#999;font-style:italic"># disable vault release processing</span><span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">vault</span>:<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">enabled</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#999;font-style:italic">## `secrets.yaml` is decrypted by `helm-secrets` and available via `{{ .Environment.Values.KEY }}`</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">secrets</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- environment/production/secrets.yaml<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#999;font-style:italic"># 当占不到 `environments.NAME.values` 时，可以设置为 &#34;Error&#34;, &#34;Warn&#34;, &#34;Info&#34;, &#34;Debug&#34;，默认是 &#34;Error&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">missingFileHandler</span>:<span style="color:#666"> </span>Error<span style="color:#666">
-</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#999;font-style:italic"># 分层管理，可以将所有文件合并，顺序为：environments.yaml &lt; - defaults.yaml &lt; - templates.yaml &lt; - helmfile.yaml</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">bases</span>:<span style="color:#666">
-</span><span style="color:#666"></span>- environments.yaml<span style="color:#666">
-</span><span style="color:#666"></span>- defaults.yaml<span style="color:#666">
-</span><span style="color:#666"></span>- templates.yaml<span style="color:#666">
-</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#999;font-style:italic"># API 功能</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">apiVersions</span>:<span style="color:#666">
-</span><span style="color:#666"></span>- example/v1<span style="color:#666">
-</span></code></pre></div><h3 id="apply">Apply</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6272a4"># 声明 repo 配置</span>
+<span style="color:#ff79c6">repositories</span>:
+- <span style="color:#ff79c6">name</span>: &lt;repo-name&gt;
+  <span style="color:#6272a4"># url: repo url</span>
+  <span style="color:#6272a4"># 可以设置基础配置 或 tls 认证</span>
+  <span style="color:#6272a4"># certFile: certificate 文件</span>
+  <span style="color:#6272a4"># keyFile: key 文件</span>
+  <span style="color:#6272a4"># username: 用户名</span>
+  <span style="color:#6272a4"># password: 密码</span>
+
+<span style="color:#6272a4"># helm 二进制文件的路径</span>
+<span style="color:#ff79c6">helmBinary</span>: path/to/helm3
+
+<span style="color:#6272a4"># helm 的一些默认设置，这些配置与 `helm SUBCOMMAND` 相同，可以通过这个配置声明一些，默认的配置</span>
+<span style="color:#ff79c6">helmDefaults</span>:
+  <span style="color:#ff79c6">tillerNamespace</span>: tiller-namespace  <span style="color:#6272a4">#dedicated default key for tiller-namespace</span>
+  <span style="color:#ff79c6">tillerless</span>: <span style="color:#ff79c6">false</span>                  <span style="color:#6272a4">#dedicated default key for tillerless</span>
+  <span style="color:#ff79c6">kubeContext</span>: kube-context          <span style="color:#6272a4">#dedicated default key for kube-context (--kube-context)</span>
+  <span style="color:#ff79c6">cleanupOnFail</span>: <span style="color:#ff79c6">false</span>               <span style="color:#6272a4">#dedicated default key for helm flag --cleanup-on-fail</span>
+  <span style="color:#6272a4"># additional and global args passed to helm (default &#34;&#34;)</span>
+  <span style="color:#ff79c6">args</span>:
+    - <span style="color:#f1fa8c">&#34;--set k=v&#34;</span>
+  <span style="color:#6272a4"># verify the chart before upgrading (only works with packaged charts not directories) (default false)</span>
+  <span style="color:#ff79c6">verify</span>: <span style="color:#ff79c6">true</span>
+  <span style="color:#6272a4"># wait for k8s resources via --wait. (default false)</span>
+  <span style="color:#ff79c6">wait</span>: <span style="color:#ff79c6">true</span>
+  <span style="color:#6272a4"># time in seconds to wait for any individual Kubernetes operation (like Jobs for hooks, and waits on pod/pvc/svc/deployment readiness) (default 300)</span>
+  <span style="color:#ff79c6">timeout</span>: <span style="color:#bd93f9">600</span>
+  <span style="color:#6272a4"># performs pods restart for the resource if applicable (default false)</span>
+  <span style="color:#ff79c6">recreatePods</span>: <span style="color:#ff79c6">true</span>
+  <span style="color:#6272a4"># forces resource update through delete/recreate if needed (default false)</span>
+  <span style="color:#ff79c6">force</span>: <span style="color:#ff79c6">false</span>
+  <span style="color:#6272a4"># when using helm 3.2+, automatically create release namespaces if they do not exist (default true)</span>
+  <span style="color:#ff79c6">createNamespace</span>: <span style="color:#ff79c6">true</span>
+  ...
+
+<span style="color:#6272a4"># 为 helmfile 中所有的 release 设置相同的 label，可用于为所有 release 标记相同的版本</span>
+<span style="color:#ff79c6">commonLabels</span>:
+  <span style="color:#ff79c6">hello</span>: world
+
+<span style="color:#6272a4"># 设置 release 配置（支持多 release）</span>
+<span style="color:#ff79c6">releases</span>:
+  <span style="color:#6272a4"># 远程 chart 示例（chart 已经上传到 remote 仓库）</span>
+  - <span style="color:#ff79c6">name</span>: vault                            <span style="color:#6272a4"># name of this release</span>
+    <span style="color:#ff79c6">namespace</span>: vault                       <span style="color:#6272a4"># target namespace</span>
+    <span style="color:#ff79c6">createNamespace</span>: <span style="color:#ff79c6">true</span>                  <span style="color:#6272a4"># helm 3.2+ automatically create release namespace (default true)</span>
+    <span style="color:#ff79c6">labels</span>:                                <span style="color:#6272a4"># Arbitrary key value pairs for filtering releases</span>
+      <span style="color:#ff79c6">foo</span>: bar
+    <span style="color:#ff79c6">chart</span>: roboll/vault-secret-manager     <span style="color:#6272a4"># the chart being installed to create this release, referenced by `repository/chart` syntax</span>
+    <span style="color:#ff79c6">version</span>: ~1.24.1                       <span style="color:#6272a4"># the semver of the chart. range constraint is supported</span>
+    <span style="color:#ff79c6">condition</span>: vault.enabled               <span style="color:#6272a4"># The values lookup key for filtering releases. Corresponds to the boolean value of `vault.enabled`, where `vault` is an arbitrary value</span>
+    <span style="color:#ff79c6">missingFileHandler</span>: Warn <span style="color:#6272a4"># set to either &#34;Error&#34; or &#34;Warn&#34;. &#34;Error&#34; instructs helmfile to fail when unable to find a values or secrets file. When &#34;Warn&#34;, it prints the file and continues.</span>
+    <span style="color:#6272a4"># Values files used for rendering the chart</span>
+    <span style="color:#ff79c6">values</span>:
+      <span style="color:#6272a4"># Value files passed via --values</span>
+      - vault.yaml
+      <span style="color:#6272a4"># Inline values, passed via a temporary values file and --values, so that it doesn&#39;t suffer from type issues like --set</span>
+      - <span style="color:#ff79c6">address</span>: https://vault.example.com
+      <span style="color:#6272a4"># Go template available in inline values and values files.</span>
+      - <span style="color:#ff79c6">image</span>:
+          <span style="color:#6272a4"># The end result is more or less YAML. So do `quote` to prevent number-like strings from accidentally parsed into numbers!</span>
+          <span style="color:#6272a4"># See https://github.com/roboll/helmfile/issues/608</span>
+          <span style="color:#ff79c6">tag</span>: {{ requiredEnv &#34;IMAGE_TAG&#34; | quote }}
+          <span style="color:#6272a4"># Otherwise:</span>
+          <span style="color:#6272a4">#   tag: &#34;{{ requiredEnv &#34;IMAGE_TAG&#34; }}&#34;</span>
+          <span style="color:#6272a4">#   tag: !!string {{ requiredEnv &#34;IMAGE_TAG&#34; }}</span>
+        <span style="color:#ff79c6">db</span>:
+          <span style="color:#ff79c6">username</span>: {{ requiredEnv &#34;DB_USERNAME&#34; }}
+          <span style="color:#6272a4"># value taken from environment variable. Quotes are necessary. Will throw an error if the environment variable is not set. $DB_PASSWORD needs to be set in the calling environment ex: export DB_PASSWORD=&#39;password1&#39;</span>
+          <span style="color:#ff79c6">password</span>: {{ requiredEnv &#34;DB_PASSWORD&#34; }}
+        <span style="color:#ff79c6">proxy</span>:
+          <span style="color:#6272a4"># Interpolate environment variable with a fixed string</span>
+          <span style="color:#ff79c6">domain</span>: {{ requiredEnv &#34;PLATFORM_ID&#34; }}.my-domain.com
+          <span style="color:#ff79c6">scheme</span>: {{ env &#34;SCHEME&#34; | default &#34;https&#34; }}
+    <span style="color:#6272a4"># Use `values` whenever possible!</span>
+    <span style="color:#6272a4"># `set` translates to helm&#39;s `--set key=val`, that is known to suffer from type issues like https://github.com/roboll/helmfile/issues/608</span>
+    <span style="color:#ff79c6">set</span>:
+    <span style="color:#6272a4"># single value loaded from a local file, translates to --set-file foo.config=path/to/file</span>
+    - <span style="color:#ff79c6">name</span>: foo.config
+      <span style="color:#ff79c6">file</span>: path/to/file
+    <span style="color:#6272a4"># set a single array value in an array, translates to --set bar[0]={1,2}</span>
+    - <span style="color:#ff79c6">name</span>: bar[0]
+      <span style="color:#ff79c6">values</span>:
+      - <span style="color:#bd93f9">1</span>
+      - <span style="color:#bd93f9">2</span>
+    <span style="color:#6272a4"># set a templated value</span>
+    - <span style="color:#ff79c6">name</span>: namespace
+      <span style="color:#ff79c6">value</span>: {{ .Namespace }}
+    <span style="color:#6272a4"># will attempt to decrypt it using helm-secrets plugin</span>
+    
+  <span style="color:#6272a4"># 本地 chart 示例（chart 保存在本地）</span>
+  - <span style="color:#ff79c6">name</span>: grafana                            <span style="color:#6272a4"># name of this release</span>
+    <span style="color:#ff79c6">namespace</span>: another                       <span style="color:#6272a4"># target namespace</span>
+    <span style="color:#ff79c6">chart</span>: ../my-charts/grafana              <span style="color:#6272a4"># the chart being installed to create this release, referenced by relative path to local helmfile</span>
+    <span style="color:#ff79c6">values</span>:
+    - <span style="color:#f1fa8c">&#34;../../my-values/grafana/values.yaml&#34;</span>             <span style="color:#6272a4"># Values file (relative path to manifest)</span>
+    - ./values/{{ requiredEnv &#34;PLATFORM_ENV&#34; }}/config.yaml <span style="color:#6272a4"># Values file taken from path with environment variable. $PLATFORM_ENV must be set in the calling environment.</span>
+    <span style="color:#ff79c6">wait</span>: <span style="color:#ff79c6">true</span>
+
+<span style="color:#6272a4"># 可以嵌套其他的 helmfiles，支持从本地和远程拉取 helmfile</span>
+<span style="color:#ff79c6">helmfiles</span>:
+- <span style="color:#ff79c6">path</span>: path/to/subhelmfile.yaml
+  <span style="color:#6272a4"># label 选择器可以过滤需要覆盖的 release</span>
+  <span style="color:#ff79c6">selectors</span>:
+  - name=prometheus
+  <span style="color:#6272a4"># 覆盖 value</span>
+  <span style="color:#ff79c6">values</span>:
+  <span style="color:#6272a4"># 使用文件覆盖</span>
+  - additional.values.yaml
+  <span style="color:#6272a4"># 覆盖单独的 key</span>
+  - <span style="color:#ff79c6">key1</span>: val1
+- <span style="color:#6272a4"># 远程拉取配置</span>
+  <span style="color:#ff79c6">path</span>: git::https://github.com/cloudposse/helmfiles.git@releases/kiam.yaml?ref=0.40.0
+<span style="color:#6272a4"># 如果指向不存在路径，则打印告警错误</span>
+<span style="color:#ff79c6">missingFileHandler</span>: Error
+
+<span style="color:#6272a4"># 多环境管理</span>
+<span style="color:#ff79c6">environments</span>:
+  <span style="color:#6272a4"># 当没有设置 `--environment NAME` 时，使用 default </span>
+  <span style="color:#ff79c6">default</span>:
+    <span style="color:#ff79c6">values</span>:
+    <span style="color:#6272a4"># 内容可以是文件路径或者 key:value</span>
+    - environments/default/values.yaml
+    - <span style="color:#ff79c6">myChartVer</span>: <span style="color:#bd93f9">1.0.0</span>-dev
+  <span style="color:#6272a4"># &#34;production&#34; 环境，当设置了 `helmfile --environment production sync` 时</span>
+  <span style="color:#ff79c6">production</span>:
+    <span style="color:#ff79c6">values</span>:
+    - environment/production/values.yaml
+    - <span style="color:#ff79c6">myChartVer</span>: <span style="color:#bd93f9">1.0.0</span>
+    <span style="color:#6272a4"># disable vault release processing</span>
+    - <span style="color:#ff79c6">vault</span>:
+        <span style="color:#ff79c6">enabled</span>: <span style="color:#ff79c6">false</span>
+    <span style="color:#6272a4">## `secrets.yaml` is decrypted by `helm-secrets` and available via `{{ .Environment.Values.KEY }}`</span>
+    <span style="color:#ff79c6">secrets</span>:
+    - environment/production/secrets.yaml
+    <span style="color:#6272a4"># 当占不到 `environments.NAME.values` 时，可以设置为 &#34;Error&#34;, &#34;Warn&#34;, &#34;Info&#34;, &#34;Debug&#34;，默认是 &#34;Error&#34;</span>
+    <span style="color:#ff79c6">missingFileHandler</span>: Error
+
+<span style="color:#6272a4"># 分层管理，可以将所有文件合并，顺序为：environments.yaml &lt; - defaults.yaml &lt; - templates.yaml &lt; - helmfile.yaml</span>
+<span style="color:#ff79c6">bases</span>:
+- environments.yaml
+- defaults.yaml
+- templates.yaml
+
+<span style="color:#6272a4"># API 功能</span>
+<span style="color:#ff79c6">apiVersions</span>:
+- example/v1
+</code></pre></div><h3 id="apply">Apply</h3>
 <p><code>helmfile apply</code> 是 helmfile 中最常用命令，体验与 <code>kubectl apply</code> 类似，根据 <code>helmfile.yaml</code> 中声明的配置可以一键执行相应的动作，如：添加 repo、安装或更新 release 等。</p>
 <p><code>helmfile.yaml</code> 如下：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">repositories</span>:<span style="color:#666">
-</span><span style="color:#666"></span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>stable<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">url</span>:<span style="color:#666"> </span>https://charts.helm.sh/stable<span style="color:#666">
-</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">releases</span>:<span style="color:#666">
-</span><span style="color:#666"></span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>prom-norbac-ubuntu<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">namespace</span>:<span style="color:#666"> </span>prometheus<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">chart</span>:<span style="color:#666"> </span>stable/prometheus<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">set</span>:<span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>rbac.create<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
-</span></code></pre></div><p>执行 <code>helmfile apply</code> 之后，helmfile 会进行如下操作：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">repositories</span>:
+- <span style="color:#ff79c6">name</span>: stable
+  <span style="color:#ff79c6">url</span>: https://charts.helm.sh/stable
+
+<span style="color:#ff79c6">releases</span>:
+- <span style="color:#ff79c6">name</span>: prom-norbac-ubuntu
+  <span style="color:#ff79c6">namespace</span>: prometheus
+  <span style="color:#ff79c6">chart</span>: stable/prometheus
+  <span style="color:#ff79c6">set</span>:
+  - <span style="color:#ff79c6">name</span>: rbac.create
+    <span style="color:#ff79c6">value</span>: <span style="color:#ff79c6">false</span>
+</code></pre></div><p>执行 <code>helmfile apply</code> 之后，helmfile 会进行如下操作：</p>
 <ol>
 <li>添加 <code>repositories</code> 中声明的 repo</li>
 <li>运行 <code>helm diff</code> 进行对比</li>
 <li>根据 <code>release</code>中声明的配置，安装或更新 chart</li>
 </ol>
 <p>效果如下(由于输出内容过多，这里只节选了部分输出)：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Adding repo stable https://charts.helm.sh/stable
-<span style="color:#ed9d13">&#34;stable&#34;</span> has been added to your repositories
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Adding repo stable https://charts.helm.sh/stable
+<span style="color:#f1fa8c">&#34;stable&#34;</span> has been added to your repositories
 
-Comparing <span style="color:#40ffff">release</span>=prom-norbac-ubuntu, <span style="color:#40ffff">chart</span>=stable/prometheus
+Comparing <span style="color:#8be9fd;font-style:italic">release</span><span style="color:#ff79c6">=</span>prom-norbac-ubuntu, <span style="color:#8be9fd;font-style:italic">chart</span><span style="color:#ff79c6">=</span>stable/prometheus
 
 ...
 
-prometheus, prom-norbac-ubuntu-prometheus-server, ServiceAccount (v1) has been added:
+prometheus, prom-norbac-ubuntu-prometheus-server, ServiceAccount <span style="color:#ff79c6">(</span>v1<span style="color:#ff79c6">)</span> has been added:
 -
-+ <span style="color:#999;font-style:italic"># Source: prometheus/templates/rbac/server-serviceaccount.yaml</span>
++ <span style="color:#6272a4"># Source: prometheus/templates/rbac/server-serviceaccount.yaml</span>
 + apiVersion: v1
 + kind: ServiceAccount
 + metadata:
 +   labels:
-+     component: <span style="color:#ed9d13">&#34;server&#34;</span>
++     component: <span style="color:#f1fa8c">&#34;server&#34;</span>
 +     app: prometheus
 +     release: prom-norbac-ubuntu
 +     chart: prometheus-11.12.1
@@ -882,22 +882,22 @@ prometheus, prom-norbac-ubuntu-prometheus-server, ServiceAccount (v1) has been a
 +   name: prom-norbac-ubuntu-prometheus-server
 +   namespace: prometheus
 +   annotations:
-+     {}
++     <span style="color:#ff79c6">{}</span>
 
-Upgrading <span style="color:#40ffff">release</span>=prom-norbac-ubuntu, <span style="color:#40ffff">chart</span>=stable/prometheus
-Release <span style="color:#ed9d13">&#34;prom-norbac-ubuntu&#34;</span> does not exist. Installing it now.
+Upgrading <span style="color:#8be9fd;font-style:italic">release</span><span style="color:#ff79c6">=</span>prom-norbac-ubuntu, <span style="color:#8be9fd;font-style:italic">chart</span><span style="color:#ff79c6">=</span>stable/prometheus
+Release <span style="color:#f1fa8c">&#34;prom-norbac-ubuntu&#34;</span> does not exist. Installing it now.
 NAME: prom-norbac-ubuntu
-LAST DEPLOYED: Wed Dec <span style="color:#3677a9">23</span> 11:23:31 <span style="color:#3677a9">2020</span>
+LAST DEPLOYED: Wed Dec <span style="color:#bd93f9">23</span> 11:23:31 <span style="color:#bd93f9">2020</span>
 NAMESPACE: prometheus
 STATUS: deployed
-REVISION: <span style="color:#3677a9">1</span>
+REVISION: <span style="color:#bd93f9">1</span>
 TEST SUITE: None
 NOTES:
 
 ...
 
 Listing releases matching ^prom-norbac-ubuntu$
-prom-norbac-ubuntu	prometheus	<span style="color:#3677a9">1</span>       	2020-12-23 11:23:31.779328 +0800 CST	deployed	prometheus-11.12.1	2.20.1
+prom-norbac-ubuntu	prometheus	<span style="color:#bd93f9">1</span>       	2020-12-23 11:23:31.779328 +0800 CST	deployed	prometheus-11.12.1	2.20.1
 
 
 UPDATED RELEASES:
@@ -907,66 +907,66 @@ prom-norbac-ubuntu   stable/prometheus   11.12.1
 <p>helmfile 和 helm templete 一样可以使用 <a href="https://godoc.org/text/template">Go templates</a>，同时还有一个特殊的功能 <code>requiredEnv</code>，该函数允许声明模板渲染所需的特定环境变量，如果环境变量未设置或为空，则渲染失败返回错误信息。</p>
 <h3 id="使用环境变量">使用环境变量</h3>
 <p>可以在 helmfile 中直接使用环境变量，使用方式如下：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">repositories</span>:<span style="color:#666">
-</span><span style="color:#666"></span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>your-private-git-repo-hosted-charts<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">url</span>:<span style="color:#666"> </span>https://{{ requiredEnv &#34;GITHUB_TOKEN&#34;}}@raw.githubusercontent.com/kmzfs/helm-repo-in-github/master/<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">releases</span>:<span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>{{<span style="color:#666"> </span>requiredEnv &#34;NAME&#34; }}-vault<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">namespace</span>:<span style="color:#666"> </span>{{<span style="color:#666"> </span>requiredEnv &#34;NAME&#34; }}<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">chart</span>:<span style="color:#666"> </span>roboll/vault-secret-manager<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">values</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#6ab825;font-weight:bold">db</span>:<span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">username</span>:<span style="color:#666"> </span>{{<span style="color:#666"> </span>requiredEnv &#34;DB_USERNAME&#34; }}<span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">password</span>:<span style="color:#666"> </span>{{<span style="color:#666"> </span>requiredEnv &#34;DB_PASSWORD&#34; }}<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">set</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>proxy.domain<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>{{<span style="color:#666"> </span>requiredEnv &#34;PLATFORM_ID&#34; }}.my-domain.com<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>proxy.scheme<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>{{<span style="color:#666"> </span>env &#34;SCHEME&#34; | default &#34;https&#34; }}<span style="color:#666">
-</span></code></pre></div><h2 id="进阶实践">进阶实践</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">repositories</span>:
+- <span style="color:#ff79c6">name</span>: your-private-git-repo-hosted-charts
+  <span style="color:#ff79c6">url</span>: https://{{ requiredEnv &#34;GITHUB_TOKEN&#34;}}@raw.githubusercontent.com/kmzfs/helm-repo-in-github/master/
+<span style="color:#ff79c6">releases</span>:
+  - <span style="color:#ff79c6">name</span>: {{ requiredEnv &#34;NAME&#34; }}-vault
+    <span style="color:#ff79c6">namespace</span>: {{ requiredEnv &#34;NAME&#34; }}
+    <span style="color:#ff79c6">chart</span>: roboll/vault-secret-manager
+    <span style="color:#ff79c6">values</span>:
+      - <span style="color:#ff79c6">db</span>:
+          <span style="color:#ff79c6">username</span>: {{ requiredEnv &#34;DB_USERNAME&#34; }}
+          <span style="color:#ff79c6">password</span>: {{ requiredEnv &#34;DB_PASSWORD&#34; }}
+    <span style="color:#ff79c6">set</span>:
+      - <span style="color:#ff79c6">name</span>: proxy.domain
+        <span style="color:#ff79c6">value</span>: {{ requiredEnv &#34;PLATFORM_ID&#34; }}.my-domain.com
+      - <span style="color:#ff79c6">name</span>: proxy.scheme
+        <span style="color:#ff79c6">value</span>: {{ env &#34;SCHEME&#34; | default &#34;https&#34; }}
+</code></pre></div><h2 id="进阶实践">进阶实践</h2>
 <p>helm 还有一些进阶使用方式，如：版本控制、环境区分、hook、交互式操作、集成 kustomize 等。这里简单介绍几种，更多功能请看<a href="https://github.com/roboll/helmfile">官方文档</a>。</p>
 <h3 id="版本控制">版本控制</h3>
 <p>helmfile 支持 <a href="https://semver.org/lang/zh-CN/">Semver 2.0</a> 的版本号，可以锁定主版本，防止误升级导致的错误。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">releases</span>:<span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>vault                            <span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">namespace</span>:<span style="color:#666"> </span>vault                      <span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">version</span>:<span style="color:#666"> </span>~1.24.1  <span style="color:#666"> </span><span style="color:#999;font-style:italic"># 限制版本 &gt;=1.24.1 &amp;&amp; &lt; 1.25.0</span><span style="color:#666">
-</span></code></pre></div><p>同时还能通过 <code>helmfile deps</code> 命令生成 lock 文件，在 CD 时，除非修改 lock 文件，否无法发布新版本。<code>helmfile.lock</code> 内容如下：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">version</span>:<span style="color:#666"> </span>v0.135.0<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">dependencies</span>:<span style="color:#666">
-</span><span style="color:#666"></span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>prometheus<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">repository</span>:<span style="color:#666"> </span>https://charts.helm.sh/stable<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">version</span>:<span style="color:#666"> </span><span style="color:#3677a9">11.12.1</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">digest</span>:<span style="color:#666"> </span>sha256:a5158f1361f2bbc4e73a80a22dd92b44538bdebeb2419658c36e31aa603b05fd<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">generated</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;2020-12-23T16:26:57.42503+08:00&#34;</span><span style="color:#666">
-</span></code></pre></div><p>当需要更新时，再次执行 <code>helmfile deps</code> 即可。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">releases</span>:
+  - <span style="color:#ff79c6">name</span>: vault                            
+    <span style="color:#ff79c6">namespace</span>: vault                      
+    <span style="color:#ff79c6">version</span>: ~1.24.1   <span style="color:#6272a4"># 限制版本 &gt;=1.24.1 &amp;&amp; &lt; 1.25.0</span>
+</code></pre></div><p>同时还能通过 <code>helmfile deps</code> 命令生成 lock 文件，在 CD 时，除非修改 lock 文件，否无法发布新版本。<code>helmfile.lock</code> 内容如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">version</span>: v0.135.0
+<span style="color:#ff79c6">dependencies</span>:
+- <span style="color:#ff79c6">name</span>: prometheus
+  <span style="color:#ff79c6">repository</span>: https://charts.helm.sh/stable
+  <span style="color:#ff79c6">version</span>: <span style="color:#bd93f9">11.12.1</span>
+<span style="color:#ff79c6">digest</span>: sha256:a5158f1361f2bbc4e73a80a22dd92b44538bdebeb2419658c36e31aa603b05fd
+<span style="color:#ff79c6">generated</span>: <span style="color:#f1fa8c">&#34;2020-12-23T16:26:57.42503+08:00&#34;</span>
+</code></pre></div><p>当需要更新时，再次执行 <code>helmfile deps</code> 即可。</p>
 <h3 id="区分环境">区分环境</h3>
 <p>这也是个使用率较高的功能，使用 <code>environments</code> 配置·。如果不指定 <code>--environment NAME</code> 参数，默认使用 <code>default</code> 配置。</p>
 <p>这里假设有三个文件，<code>helmfile.yaml</code>、<code>production.yaml</code> 和 <code>default.yaml</code>：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#999;font-style:italic"># helmfile.yaml</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">environments</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">default</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">values</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- default.yaml<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">production</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">values</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- production.yaml <span style="color:#666">
-</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">releases</span>:<span style="color:#666">
-</span><span style="color:#666"></span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>myapp-{{ .Values.releaseName }}<span style="color:#666"> </span><span style="color:#999;font-style:italic"># 根据环境名，可能是 `dev` 或 `prod`</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">values</span>:<span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">url</span>:<span style="color:#666"> </span>{<span style="color:#666"> </span>.Values.domain }}<span style="color:#666"> </span><span style="color:#999;font-style:italic"># 根据环境名，可能是 `dev.example.com` 或 `prod.example.com`</span><span style="color:#666">
-</span><span style="color:#666"></span>{{<span style="color:#666"> </span>if eq .Environment.Name &#34;production&#34; }}<span style="color:#666"> </span><span style="color:#999;font-style:italic"># 使用 Go template 的</span><span style="color:#666">
-</span><span style="color:#666">      </span>- values/production-specified-values.yaml<span style="color:#666">
-</span><span style="color:#666"></span>{{<span style="color:#666"> </span>end }}<span style="color:#666">
-</span></code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#999;font-style:italic"># production.yaml</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">domain</span>:<span style="color:#666"> </span>prod.example.com<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">releaseName</span>:<span style="color:#666"> </span>prod<span style="color:#666">
-</span></code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#999;font-style:italic"># default.yaml</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">domain</span>:<span style="color:#666"> </span>dev.example.com<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">releaseName</span>:<span style="color:#666"> </span>dev<span style="color:#666">
-</span></code></pre></div><p>在执行 <code>helmfile</code> 时，只需使用 <code>--environment</code> 指定需要安装的环境：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ helmfile --environment production apply
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6272a4"># helmfile.yaml</span>
+<span style="color:#ff79c6">environments</span>:
+  <span style="color:#ff79c6">default</span>:
+    <span style="color:#ff79c6">values</span>:
+    - default.yaml
+  <span style="color:#ff79c6">production</span>:
+    <span style="color:#ff79c6">values</span>:
+    - production.yaml 
+
+<span style="color:#ff79c6">releases</span>:
+- <span style="color:#ff79c6">name</span>: myapp-{{ .Values.releaseName }} <span style="color:#6272a4"># 根据环境名，可能是 `dev` 或 `prod`</span>
+  <span style="color:#ff79c6">values</span>:
+  - <span style="color:#ff79c6">url</span>: { .Values.domain }} <span style="color:#6272a4"># 根据环境名，可能是 `dev.example.com` 或 `prod.example.com`</span>
+{{ if eq .Environment.Name &#34;production&#34; }} <span style="color:#6272a4"># 使用 Go template 的</span>
+      - values/production-specified-values.yaml
+{{ end }}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6272a4"># production.yaml</span>
+<span style="color:#ff79c6">domain</span>: prod.example.com
+<span style="color:#ff79c6">releaseName</span>: prod
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6272a4"># default.yaml</span>
+<span style="color:#ff79c6">domain</span>: dev.example.com
+<span style="color:#ff79c6">releaseName</span>: dev
+</code></pre></div><p>在执行 <code>helmfile</code> 时，只需使用 <code>--environment</code> 指定需要安装的环境：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ helmfile --environment production apply
 </code></pre></div><h3 id="hook">Hook</h3>
 <p>Helmfile hook 是一个每次发布的扩展点，它由以下部分组成：</p>
 <ul>
@@ -985,25 +985,25 @@ prom-norbac-ubuntu   stable/prometheus   11.12.1
 <li><code>cleanup</code></li>
 </ul>
 <p>下面这个示例，会打印事件触发时的的上下文信息。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">environments</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">default</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">prod</span>:<span style="color:#666">
-</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">releases</span>:<span style="color:#666">
-</span><span style="color:#666"></span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>myapp<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">chart</span>:<span style="color:#666"> </span>mychart<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># *snip*</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">hooks</span>:<span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">events</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;prepare&#34;</span>,<span style="color:#666"> </span><span style="color:#ed9d13">&#34;cleanup&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">showlogs</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">true</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">command</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;echo&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">args</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;{{`{{.Environment.Name}}`}}&#34;</span>,<span style="color:#666"> </span><span style="color:#ed9d13">&#34;{{`{{.Release.Name}}`}}&#34;</span>,<span style="color:#666"> </span><span style="color:#ed9d13">&#34;{{`{{.HelmfileCommand}}`}}\
-</span><span style="color:#ed9d13">&#34;</span>]<span style="color:#666">
-</span></code></pre></div><p>执行命令，可以看到 command 执行成功：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ helmfile -e prod sync
-helmfile.yaml: <span style="color:#40ffff">basePath</span>=.
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">environments</span>:
+  <span style="color:#ff79c6">default</span>:
+  <span style="color:#ff79c6">prod</span>:
 
-hook[prepare] logs | prod myapp sync
+<span style="color:#ff79c6">releases</span>:
+- <span style="color:#ff79c6">name</span>: myapp
+  <span style="color:#ff79c6">chart</span>: mychart
+  <span style="color:#6272a4"># *snip*</span>
+  <span style="color:#ff79c6">hooks</span>:
+  - <span style="color:#ff79c6">events</span>: [<span style="color:#f1fa8c">&#34;prepare&#34;</span>, <span style="color:#f1fa8c">&#34;cleanup&#34;</span>]
+    <span style="color:#ff79c6">showlogs</span>: <span style="color:#ff79c6">true</span>
+    <span style="color:#ff79c6">command</span>: <span style="color:#f1fa8c">&#34;echo&#34;</span>
+    <span style="color:#ff79c6">args</span>: [<span style="color:#f1fa8c">&#34;{{`{{.Environment.Name}}`}}&#34;</span>, <span style="color:#f1fa8c">&#34;{{`{{.Release.Name}}`}}&#34;</span>, <span style="color:#f1fa8c">&#34;{{`{{.HelmfileCommand}}`}}\
+</span><span style="color:#f1fa8c">&#34;</span>]
+</code></pre></div><p>执行命令，可以看到 command 执行成功：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ helmfile -e prod sync
+helmfile.yaml: <span style="color:#8be9fd;font-style:italic">basePath</span><span style="color:#ff79c6">=</span>.
+
+hook<span style="color:#ff79c6">[</span>prepare<span style="color:#ff79c6">]</span> logs | prod myapp sync
 </code></pre></div><p>这也是个十分好用的功能，可以为不同的事件配置不同的 hook，这样在 CD 出现问题时，通过 hook 可以第一时间收到通知，并快速定位问题。</p>
 <h2 id="结语">结语</h2>
 <p>Helmfile 是一个很不错 Helm 生态工具，很大程度上弥补了 Helm 的不足。提高部署的可观测性和可重复性，提高了效率，最终实现 Release AS Code。</p>

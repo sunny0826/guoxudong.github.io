@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -247,6 +247,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -254,8 +256,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -676,33 +676,33 @@ if (!doNotTrack) {
 <p>除了 <code>kubectl</code>，由于需要进行绘图，所以还需安装上面两种展示方式的依赖。</p>
 <h3 id="graphviz">Graphviz</h3>
 <p>安装 Graphviz 用来生成关系图，需要使用 <code>dot</code> CLI 工具，并将图像输出为 SVG 格式：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ brew install graphviz
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ brew install graphviz
 </code></pre></div><h3 id="neo4j">Neo4j</h3>
 <p>Neo4j 是一个高性能的 NoSQL 图形数据库，它将结构化数据存储在网络上而不是表中，很适合用来展示 kubernetes resource 之间的关系，但 Neo4j 的依赖较多，需要一点时间来安装。</p>
 <h4 id="安装-java">安装 Java</h4>
 <p>Neo4j 依赖 Java 环境，如果本机上没有安装 Java，请先前往 <a href="http://www.java.com">http://www.java.com</a> 下载并安装。</p>
 <h4 id="安装-cypher-shell">安装 cypher-shell</h4>
 <p>因为需要连接到 Neo4j 数据库，所以要安装 <code>cypher-shell</code> CLI：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ brew install cypher-shell
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ brew install cypher-shell
 </code></pre></div><h4 id="安装-neo4j-desktop可选">安装 Neo4j Desktop（可选）</h4>
 <p>接下来就是 Neo4j 本身的安装，我这里使用了 <code>Neo4j Desktop</code>，使用和管理起来比较方便，也是使用 <code>brew</code> 安装：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ brew install --cask neo4j
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ brew install --cask neo4j
 </code></pre></div><p>安装好后，运行 <code>Neo4j Desktop</code>，完成设置即可</p>
 <p><img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1gm4ngqfkvzj21z41kwgqi.jpg" alt="设置 neo4j"></p>
 <h4 id="使用-docker-运行-neo4j可选">使用 docker 运行 Neo4j（可选）</h4>
 <p>当然，如果你感觉安装 <code>Neo4j Desktop</code> 比较麻烦，也可以使用 docker 运行 Neo4j：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ docker run --rm -p 7474:7474 -p 7687:7687 -e <span style="color:#40ffff">NEO4J_AUTH</span>=none neo4j
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ docker run --rm -p 7474:7474 -p 7687:7687 -e <span style="color:#8be9fd;font-style:italic">NEO4J_AUTH</span><span style="color:#ff79c6">=</span>none neo4j
 </code></pre></div><p>只不过后续查看关系图时，需要使用浏览器访问 http://localhost:7474 来查看结果。</p>
 <h3 id="安装-kubectl-graph">安装 kubectl-graph</h3>
 <p>插件的安装方式比较简单，如果你使用的是 <code>kubectl 1.19</code> 之前的版本：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl-krew install graph
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl-krew install graph
 </code></pre></div><p>使用 <code>kubectl 1.19</code> 之后的版本：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl krew install graph
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl krew install graph
 </code></pre></div><h2 id="使用方式">使用方式</h2>
 <p>安装完成后，就可以开始绘制 kubernetes resource 关系图了。</p>
 <h3 id="graphviz-1">Graphviz</h3>
 <p>使用 <code>kubectl graph</code> 命令获取 <code>kubec-system</code> 中正在运行的 pod，并通过管道传递给 <code>dot</code>：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl graph pods --field-selector status.phase=Running -n kube-system | dot -T svg -o pods.svg
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl graph pods --field-selector status.phase<span style="color:#ff79c6">=</span>Running -n kube-system | dot -T svg -o pods.svg
 </code></pre></div><p>查看 <code>pods.svg</code> ，资源果然很多：</p>
 <p><img src="https://tva1.sinaimg.cn/large/ad5fbf65gy1gm4nxnytzkj22d41zq19w.jpg" alt="pods.svg"></p>
 <h3 id="neo4j-1">Neo4j</h3>
@@ -711,7 +711,7 @@ if (!doNotTrack) {
 <p>数据库创建好后，点击 <code>Start</code> 运行并点击 <code>Open</code> 打开 <code>Neo4j Browser</code>：</p>
 <p><img src="https://tva3.sinaimg.cn/large/ad5fbf65gy1gm4o605br2j20ow0fkjs1.jpg" alt="打开数据库"></p>
 <p>执行命令将 kubernetes resource 导入 Neo4j：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl graph all -n kube-system -o cypher | cypher-shell -u neo4j -p &lt;your-pass&gt;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl graph all -n kube-system -o cypher | cypher-shell -u neo4j -p &lt;your-pass&gt;
 </code></pre></div>
 
 <div class="alert alert-warning" role="alert">

@@ -42,7 +42,7 @@
       "datePublished": "2020-06-15 15:45:36 \u002b0800 \u002b0800",
       "dateModified" : "2020-06-15 15:45:36 \u002b0800 \u002b0800",
       "url" : "https:\/\/guoxudong.io\/post\/start-chaosblade-2\/",
-      "wordCount" : "722",
+      "wordCount" : "921",
       "keywords" : [ "混沌工程","Guoxudong" ]
   }
   </script>
@@ -56,7 +56,7 @@
 <meta itemprop="name" content="ChaosBlade：从零开始的混沌工程（三）">
 <meta itemprop="description" content="本篇为系列文章第三篇，将使用 ChaosBlade Operator 对 Kubernetes Pod 进行混沌工程实验，实验包括：删除 POD 场景、Pod 网络延迟场景、Pod 网络丢包场景、Pod 域名访问异常场景和Pod 文件系统 I/O 故障场景。"><meta itemprop="datePublished" content="2020-06-15T15:45:36&#43;08:00" />
 <meta itemprop="dateModified" content="2020-08-06T18:11:30&#43;08:00" />
-<meta itemprop="wordCount" content="722">
+<meta itemprop="wordCount" content="921">
 <meta itemprop="keywords" content="混沌工程," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="ChaosBlade：从零开始的混沌工程（三）"/>
 <meta name="twitter:description" content="本篇为系列文章第三篇，将使用 ChaosBlade Operator 对 Kubernetes Pod 进行混沌工程实验，实验包括：删除 POD 场景、Pod 网络延迟场景、Pod 网络丢包场景、Pod 域名访问异常场景和Pod 文件系统 I/O 故障场景。"/>
@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -242,6 +242,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -249,8 +251,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -584,7 +584,7 @@ if (!doNotTrack) {
 	<div class="td-byline mb-4">
 		<span>By  <b>guoxudong</b> </span> ·
 		<span>
-			4 分钟阅读时间
+			5 分钟阅读时间
 		</span> ·
 		<span>发布于 </span><time datetime=" 2020-06-15" 
 			class="text-muted">2020年06月15日</time> ·
@@ -674,31 +674,31 @@ if (!doNotTrack) {
 <p><strong>实验目标</strong>：删除 <code>chaosblade</code> 命名空间下标签是 <code>role=master</code> 的 pod。</p>
 <p><strong>执行观测</strong></p>
 <p>开始观察需要删除的 pod：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get pod -l <span style="color:#ed9d13">&#34;role=master&#34;</span> -n chaosblade -w
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get pod -l <span style="color:#f1fa8c">&#34;role=master&#34;</span> -n chaosblade -w
 </code></pre></div><p><strong>开始实验</strong></p>
 <p><code>delete_pod_by_labels.yaml</code> 内容：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>delete-two-pod-by-labels<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">experiments</span>:<span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">scope</span>:<span style="color:#666"> </span>pod<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">target</span>:<span style="color:#666"> </span>pod<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">action</span>:<span style="color:#666"> </span>delete<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">desc</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;delete pod by labels&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">matchers</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>labels<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;role=master&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>namespace<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;chaosblade&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>evict-count<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;2&#34;</span><span style="color:#666">
-</span></code></pre></div><p>新建终端，并开始实验：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f delete_pod_by_labels.yaml
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">apiVersion</span>: chaosblade.io/v1alpha1
+<span style="color:#ff79c6">kind</span>: ChaosBlade
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#ff79c6">name</span>: delete-two-pod-by-labels
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">experiments</span>:
+  - <span style="color:#ff79c6">scope</span>: pod
+    <span style="color:#ff79c6">target</span>: pod
+    <span style="color:#ff79c6">action</span>: delete
+    <span style="color:#ff79c6">desc</span>: <span style="color:#f1fa8c">&#34;delete pod by labels&#34;</span>
+    <span style="color:#ff79c6">matchers</span>:
+    - <span style="color:#ff79c6">name</span>: labels
+      <span style="color:#ff79c6">value</span>:
+      - <span style="color:#f1fa8c">&#34;role=master&#34;</span>
+    - <span style="color:#ff79c6">name</span>: namespace
+      <span style="color:#ff79c6">value</span>:
+      - <span style="color:#f1fa8c">&#34;chaosblade&#34;</span>
+    - <span style="color:#ff79c6">name</span>: evict-count
+      <span style="color:#ff79c6">value</span>:
+      - <span style="color:#f1fa8c">&#34;2&#34;</span>
+</code></pre></div><p>新建终端，并开始实验：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f delete_pod_by_labels.yaml
 </code></pre></div><p><strong>查看实验状态</strong></p>
 <p>执行命令：<code>kubectl get blade delete-two-pod-by-labels -o json</code>，查看实验状态。</p>
 <p><strong>查看实验结果</strong></p>
@@ -711,51 +711,51 @@ if (!doNotTrack) {
 <p><strong>实验目标</strong>：在 chaosblade 命名空间中，对 <code>redis-master-68857cd57c-dzbs9</code> Pod 的本地 6379 端口添加 3000 毫秒访问延迟，延迟时间上下浮动 1000 毫秒。</p>
 <p><strong>开始实验</strong></p>
 <p><code>delay_pod_network_by_names.yaml</code> 内容：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>delay-pod-network-by-names<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">experiments</span>:<span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">scope</span>:<span style="color:#666"> </span>pod<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">target</span>:<span style="color:#666"> </span>network<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">action</span>:<span style="color:#666"> </span>delay<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">desc</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;delay pod network by names&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">matchers</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>names<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;redis-master-68857cd57c-dzbs9&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>namespace<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;chaosblade&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>local-port<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;6379&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>interface<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;eth0&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>time<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;3000&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>offset<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;1000&#34;</span>]<span style="color:#666">
-</span></code></pre></div><p>获取 Pod 名称：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get pod -l <span style="color:#40ffff">app</span>=redis,role=master -o <span style="color:#40ffff">jsonpath</span>={.items..metadata.name}
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">apiVersion</span>: chaosblade.io/v1alpha1
+<span style="color:#ff79c6">kind</span>: ChaosBlade
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#ff79c6">name</span>: delay-pod-network-by-names
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">experiments</span>:
+  - <span style="color:#ff79c6">scope</span>: pod
+    <span style="color:#ff79c6">target</span>: network
+    <span style="color:#ff79c6">action</span>: delay
+    <span style="color:#ff79c6">desc</span>: <span style="color:#f1fa8c">&#34;delay pod network by names&#34;</span>
+    <span style="color:#ff79c6">matchers</span>:
+    - <span style="color:#ff79c6">name</span>: names
+      <span style="color:#ff79c6">value</span>:
+      - <span style="color:#f1fa8c">&#34;redis-master-68857cd57c-dzbs9&#34;</span>
+    - <span style="color:#ff79c6">name</span>: namespace
+      <span style="color:#ff79c6">value</span>:
+      - <span style="color:#f1fa8c">&#34;chaosblade&#34;</span>
+    - <span style="color:#ff79c6">name</span>: local-port
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;6379&#34;</span>]
+    - <span style="color:#ff79c6">name</span>: interface
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;eth0&#34;</span>]
+    - <span style="color:#ff79c6">name</span>: time
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;3000&#34;</span>]
+    - <span style="color:#ff79c6">name</span>: offset
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;1000&#34;</span>]
+</code></pre></div><p>获取 Pod 名称：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get pod -l <span style="color:#8be9fd;font-style:italic">app</span><span style="color:#ff79c6">=</span>redis,role<span style="color:#ff79c6">=</span>master -o <span style="color:#8be9fd;font-style:italic">jsonpath</span><span style="color:#ff79c6">={</span>.items..metadata.name<span style="color:#ff79c6">}</span>
 </code></pre></div><p>修改 <code>delay_pod_network_by_names.yaml</code> 中的 <code>name</code> 字段的值。</p>
 <p>执行命令，开始实验：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f delay_pod_network_by_names.yaml
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f delay_pod_network_by_names.yaml
 </code></pre></div><p><strong>查看实验状态</strong></p>
 <p>执行 <code>kubectl get blade delay-pod-network-by-names -o json</code> 命令，查看实验状态。</p>
 <p><strong>观测结果</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># 获取实验 pod ip</span>
-$ kubectl get pod -l <span style="color:#40ffff">app</span>=redis,role=master -o <span style="color:#40ffff">jsonpath</span>={.items..status.podIP}
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># 获取实验 pod ip</span>
+$ kubectl get pod -l <span style="color:#8be9fd;font-style:italic">app</span><span style="color:#ff79c6">=</span>redis,role<span style="color:#ff79c6">=</span>master -o <span style="color:#8be9fd;font-style:italic">jsonpath</span><span style="color:#ff79c6">={</span>.items..status.podIP<span style="color:#ff79c6">}</span>
 10.42.69.44
-<span style="color:#999;font-style:italic"># 进入观测 pod</span>
-$ kubectl <span style="color:#24909d">exec</span> -it redis-slave-6dd975d4c8-2zrkb bash
-<span style="color:#999;font-style:italic"># 在 pod 中安装 telnet</span>
-$ apt-get update &amp;&amp; apt-get install -y telnet
-<span style="color:#999;font-style:italic"># 测试时间</span>
-$ <span style="color:#24909d">time</span> <span style="color:#24909d">echo</span> <span style="color:#ed9d13">&#34;&#34;</span> | telnet 10.42.69.44 <span style="color:#3677a9">6379</span>
+<span style="color:#6272a4"># 进入观测 pod</span>
+$ kubectl <span style="color:#8be9fd;font-style:italic">exec</span> -it redis-slave-6dd975d4c8-2zrkb bash
+<span style="color:#6272a4"># 在 pod 中安装 telnet</span>
+$ apt-get update <span style="color:#ff79c6">&amp;&amp;</span> apt-get install -y telnet
+<span style="color:#6272a4"># 测试时间</span>
+$ <span style="color:#8be9fd;font-style:italic">time</span> <span style="color:#8be9fd;font-style:italic">echo</span> <span style="color:#f1fa8c">&#34;&#34;</span> | telnet 10.42.69.44 <span style="color:#bd93f9">6379</span>
 Trying 10.42.69.44...
 Connected to 10.42.69.44.
-Escape character is <span style="color:#ed9d13">&#39;^]&#39;</span>.
+Escape character is <span style="color:#f1fa8c">&#39;^]&#39;</span>.
 Connection closed by foreign host.
 
 real    0m3.790s
@@ -771,56 +771,56 @@ sys     0m0.001s
 <p><strong>开始实验</strong></p>
 <p>获取 pod 名称内容同上。</p>
 <p><code>loss_pod_network_by_names.yaml</code> 内容：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>loss-pod-network-by-names<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">experiments</span>:<span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">scope</span>:<span style="color:#666"> </span>pod<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">target</span>:<span style="color:#666"> </span>network<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">action</span>:<span style="color:#666"> </span>loss<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">desc</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;loss pod network by names&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">matchers</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>names<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;redis-master-68857cd57c-dzbs9&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>namespace<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;chaosblade&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>interface<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;eth0&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>percent<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;100&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>timeout<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;60&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>destination-ip<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;10.42.69.42&#34;</span>]<span style="color:#666">
-</span></code></pre></div><p>执行命令，开始实验：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f loss_pod_network_by_names.yaml
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">apiVersion</span>: chaosblade.io/v1alpha1
+<span style="color:#ff79c6">kind</span>: ChaosBlade
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#ff79c6">name</span>: loss-pod-network-by-names
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">experiments</span>:
+  - <span style="color:#ff79c6">scope</span>: pod
+    <span style="color:#ff79c6">target</span>: network
+    <span style="color:#ff79c6">action</span>: loss
+    <span style="color:#ff79c6">desc</span>: <span style="color:#f1fa8c">&#34;loss pod network by names&#34;</span>
+    <span style="color:#ff79c6">matchers</span>:
+    - <span style="color:#ff79c6">name</span>: names
+      <span style="color:#ff79c6">value</span>:
+      - <span style="color:#f1fa8c">&#34;redis-master-68857cd57c-dzbs9&#34;</span>
+    - <span style="color:#ff79c6">name</span>: namespace
+      <span style="color:#ff79c6">value</span>:
+      - <span style="color:#f1fa8c">&#34;chaosblade&#34;</span>
+    - <span style="color:#ff79c6">name</span>: interface
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;eth0&#34;</span>]
+    - <span style="color:#ff79c6">name</span>: percent
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;100&#34;</span>]
+    - <span style="color:#ff79c6">name</span>: timeout
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;60&#34;</span>]
+    - <span style="color:#ff79c6">name</span>: destination-ip
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;10.42.69.42&#34;</span>]
+</code></pre></div><p>执行命令，开始实验：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f loss_pod_network_by_names.yaml
 </code></pre></div><p><strong>查看实验状态</strong></p>
 <p>执行 <code>kubectl get blade loss-pod-network-by-names -o json</code> 命令，查看实验状态。</p>
 <p><strong>观测结果</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># 获取实验 pod ip</span>
-$ kubectl get pod -l <span style="color:#40ffff">app</span>=redis,role=master -o <span style="color:#40ffff">jsonpath</span>={.items..status.podIP}
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># 获取实验 pod ip</span>
+$ kubectl get pod -l <span style="color:#8be9fd;font-style:italic">app</span><span style="color:#ff79c6">=</span>redis,role<span style="color:#ff79c6">=</span>master -o <span style="color:#8be9fd;font-style:italic">jsonpath</span><span style="color:#ff79c6">={</span>.items..status.podIP<span style="color:#ff79c6">}</span>
 10.42.69.44
-<span style="color:#999;font-style:italic"># 进入观测 pod，IP为：10.42.69.42（被设置丢包率 100%）</span>
-$ kubectl <span style="color:#24909d">exec</span> -it redis-slave-6dd975d4c8-lm8jz bash
-<span style="color:#999;font-style:italic"># Ping 实验Pod ip</span>
+<span style="color:#6272a4"># 进入观测 pod，IP为：10.42.69.42（被设置丢包率 100%）</span>
+$ kubectl <span style="color:#8be9fd;font-style:italic">exec</span> -it redis-slave-6dd975d4c8-lm8jz bash
+<span style="color:#6272a4"># Ping 实验Pod ip</span>
 $ ping 10.42.69.44
-PING 10.42.69.44 (10.42.69.44) 56(84) bytes of data.
-<span style="color:#999;font-style:italic"># 无响应</span>
+PING 10.42.69.44 <span style="color:#ff79c6">(</span>10.42.69.44<span style="color:#ff79c6">)</span> 56<span style="color:#ff79c6">(</span>84<span style="color:#ff79c6">)</span> bytes of data.
+<span style="color:#6272a4"># 无响应</span>
 
-<span style="color:#999;font-style:italic"># 进入观测 pod，该 pod 未被指定丢包</span>
-$ kubectl <span style="color:#24909d">exec</span> -it redis-slave-6dd975d4c8-2zrkb bash
-<span style="color:#999;font-style:italic"># Ping 实验Pod ip</span>
+<span style="color:#6272a4"># 进入观测 pod，该 pod 未被指定丢包</span>
+$ kubectl <span style="color:#8be9fd;font-style:italic">exec</span> -it redis-slave-6dd975d4c8-2zrkb bash
+<span style="color:#6272a4"># Ping 实验Pod ip</span>
 $ ping 10.42.69.44
-PING 10.42.69.44 (10.42.69.44) 56(84) bytes of data.
-<span style="color:#3677a9">64</span> bytes from 10.42.69.44: <span style="color:#40ffff">icmp_seq</span>=<span style="color:#3677a9">1</span> <span style="color:#40ffff">ttl</span>=<span style="color:#3677a9">63</span> <span style="color:#40ffff">time</span>=0.128 ms
-<span style="color:#3677a9">64</span> bytes from 10.42.69.44: <span style="color:#40ffff">icmp_seq</span>=<span style="color:#3677a9">2</span> <span style="color:#40ffff">ttl</span>=<span style="color:#3677a9">63</span> <span style="color:#40ffff">time</span>=0.128 ms
-<span style="color:#3677a9">64</span> bytes from 10.42.69.44: <span style="color:#40ffff">icmp_seq</span>=<span style="color:#3677a9">3</span> <span style="color:#40ffff">ttl</span>=<span style="color:#3677a9">63</span> <span style="color:#40ffff">time</span>=0.092 ms
+PING 10.42.69.44 <span style="color:#ff79c6">(</span>10.42.69.44<span style="color:#ff79c6">)</span> 56<span style="color:#ff79c6">(</span>84<span style="color:#ff79c6">)</span> bytes of data.
+<span style="color:#bd93f9">64</span> bytes from 10.42.69.44: <span style="color:#8be9fd;font-style:italic">icmp_seq</span><span style="color:#ff79c6">=</span><span style="color:#bd93f9">1</span> <span style="color:#8be9fd;font-style:italic">ttl</span><span style="color:#ff79c6">=</span><span style="color:#bd93f9">63</span> <span style="color:#8be9fd;font-style:italic">time</span><span style="color:#ff79c6">=</span>0.128 ms
+<span style="color:#bd93f9">64</span> bytes from 10.42.69.44: <span style="color:#8be9fd;font-style:italic">icmp_seq</span><span style="color:#ff79c6">=</span><span style="color:#bd93f9">2</span> <span style="color:#8be9fd;font-style:italic">ttl</span><span style="color:#ff79c6">=</span><span style="color:#bd93f9">63</span> <span style="color:#8be9fd;font-style:italic">time</span><span style="color:#ff79c6">=</span>0.128 ms
+<span style="color:#bd93f9">64</span> bytes from 10.42.69.44: <span style="color:#8be9fd;font-style:italic">icmp_seq</span><span style="color:#ff79c6">=</span><span style="color:#bd93f9">3</span> <span style="color:#8be9fd;font-style:italic">ttl</span><span style="color:#ff79c6">=</span><span style="color:#bd93f9">63</span> <span style="color:#8be9fd;font-style:italic">time</span><span style="color:#ff79c6">=</span>0.092 ms
 ...
-<span style="color:#999;font-style:italic"># 响应正常</span>
+<span style="color:#6272a4"># 响应正常</span>
 </code></pre></div><p>可以看到观测 pod 访问实验 pod 丢包率 100%（无法访问），而其他 pod 不受影响，结果符合预期。</p>
 <p><img src="https://tvax2.sinaimg.cn/large/ad5fbf65ly1gft2c288oqg20p607i7wi.gif" alt="loss-pod-network"></p>
 <p>这里在配置中将 <code>timeout</code> 设置为 60 秒，60 秒后 100% 丢包的情况将会消失，这个配置是为了防止因丢包率设置太高，造成机器无法连接的情况。与其有相似功能的还有 <code>exclude-port</code>，该配置指定一些端口不会丢包，以免该 pod 失联。</p>
@@ -832,37 +832,37 @@ PING 10.42.69.44 (10.42.69.44) 56(84) bytes of data.
 <p><strong>开始实验</strong></p>
 <p>获取 pod 名称内容同上。</p>
 <p><code>dns_pod_network_by_names.yaml</code> 内容：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>dns-pod-network-by-names<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">experiments</span>:<span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">scope</span>:<span style="color:#666"> </span>pod<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">target</span>:<span style="color:#666"> </span>network<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">action</span>:<span style="color:#666"> </span>dns<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">desc</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;dns pod network by names&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">matchers</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>names<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;redis-slave-6dd975d4c8-lm8jz&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>namespace<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;chaosblade&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>domain<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;www.baidu.com&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>ip<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;10.0.0.1&#34;</span>]<span style="color:#666">
-</span></code></pre></div><p>执行命令，开始实验：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f dns_pod_network_by_names.yaml
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">apiVersion</span>: chaosblade.io/v1alpha1
+<span style="color:#ff79c6">kind</span>: ChaosBlade
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#ff79c6">name</span>: dns-pod-network-by-names
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">experiments</span>:
+  - <span style="color:#ff79c6">scope</span>: pod
+    <span style="color:#ff79c6">target</span>: network
+    <span style="color:#ff79c6">action</span>: dns
+    <span style="color:#ff79c6">desc</span>: <span style="color:#f1fa8c">&#34;dns pod network by names&#34;</span>
+    <span style="color:#ff79c6">matchers</span>:
+    - <span style="color:#ff79c6">name</span>: names
+      <span style="color:#ff79c6">value</span>:
+      - <span style="color:#f1fa8c">&#34;redis-slave-6dd975d4c8-lm8jz&#34;</span>
+    - <span style="color:#ff79c6">name</span>: namespace
+      <span style="color:#ff79c6">value</span>:
+      - <span style="color:#f1fa8c">&#34;chaosblade&#34;</span>
+    - <span style="color:#ff79c6">name</span>: domain
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;www.baidu.com&#34;</span>]
+    - <span style="color:#ff79c6">name</span>: ip
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;10.0.0.1&#34;</span>]
+</code></pre></div><p>执行命令，开始实验：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f dns_pod_network_by_names.yaml
 </code></pre></div><p><strong>查看实验状态</strong></p>
 <p>执行 <code>kubectl get blade dns-pod-network-by-names -o json </code> 命令，查看实验状态。</p>
 <p><strong>观测结果</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># 进入实验 pod</span>
-$ kubectl <span style="color:#24909d">exec</span> -it redis-slave-6dd975d4c8-lm8jz bash
-<span style="color:#999;font-style:italic"># Ping www.baidu.com</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># 进入实验 pod</span>
+$ kubectl <span style="color:#8be9fd;font-style:italic">exec</span> -it redis-slave-6dd975d4c8-lm8jz bash
+<span style="color:#6272a4"># Ping www.baidu.com</span>
 $ ping www.baidu.com
-<span style="color:#999;font-style:italic"># 无响应</span>
+<span style="color:#6272a4"># 无响应</span>
 </code></pre></div><p>可以看到访问指定域名 <code>www.baidu.com</code> 异常，结果符合预期。</p>
 <p><img src="https://tvax1.sinaimg.cn/large/ad5fbf65ly1gft2hti44bg20p607i4nj.gif" alt="dns-pod-network"></p>
 <p><strong>停止实验</strong></p>
@@ -878,9 +878,9 @@ $ ping www.baidu.com
 <li>集群中部署了 <code>chaosblade-admission-webhook</code></li>
 <li>需要注入故障的 <code>volume</code> 设置 <code>mountPropagation</code> 为 <code>HostToContainer</code></li>
 <li>pod上面添加了如下annotations:
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">chaosblade/inject-volume</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;data&#34;</span><span style="color:#666"> </span>//需要注入故障的volume name<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">chaosblade/inject-volume-subpath</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;conf&#34;</span><span style="color:#666"> </span>//volume挂载的子目录<span style="color:#666">
-</span></code></pre></div></li>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">chaosblade/inject-volume</span>: <span style="color:#f1fa8c">&#34;data&#34;</span> //需要注入故障的volume name
+<span style="color:#ff79c6">chaosblade/inject-volume-subpath</span>: <span style="color:#f1fa8c">&#34;conf&#34;</span> //volume挂载的子目录
+</code></pre></div></li>
 </ul>
 <p><strong>部署测试 pod</strong></p>
 <p>chaosblade webhook 会根据 pod 的 annotation，注入 fuse 的 sidecar 容器：</p>
@@ -889,64 +889,64 @@ $ ping www.baidu.com
 <li><code>chaosblade/inject-volume-subpath</code> 指明 volume 挂载路径的子目录。上面的例子中，volume 的挂载路径是 <code>/data</code>,子目录是 <code>conf</code>，则在 pod 内，注入I/O异常的目录是 <code>/data/conf</code>。</li>
 <li>指定需要注入故障的 volume 需要指定 <code>mountPropagation：HostToContainer</code>，这个字段的含义可以参考官方文档 <a href="https://kubernetes.io/docs/concepts/storage/volumes/#mount-propagation">Volumes</a>。</li>
 </ol>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># 部署测试 pod</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># 部署测试 pod</span>
 $ kubectl apply -f io-test-pod.yaml
-<span style="color:#999;font-style:italic"># 查看 sidecar 是否注入成功</span>
+<span style="color:#6272a4"># 查看 sidecar 是否注入成功</span>
 $ kubectl get pod test-7c9fc6fd88-7lx6b -n chaosblade
 NAME                    READY   STATUS    RESTARTS   AGE
-test-7c9fc6fd88-7lx6b   2/2     Running   <span style="color:#3677a9">0</span>          4m8s
+test-7c9fc6fd88-7lx6b   2/2     Running   <span style="color:#bd93f9">0</span>          4m8s
 </code></pre></div><p><strong>开始实验</strong></p>
 <p><code>pod_io.yaml</code> 内容：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>inject-pod-by-labels<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">experiments</span>:<span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">scope</span>:<span style="color:#666"> </span>pod<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">target</span>:<span style="color:#666"> </span>pod<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">action</span>:<span style="color:#666"> </span>IO<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">desc</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;Pod IO Exception by labels&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">matchers</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>labels<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;app=test&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>namespace<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;chaosblade&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>method<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;read&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>delay<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;1000&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>path<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>percent<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;60&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>errno<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;28&#34;</span><span style="color:#666">
-</span></code></pre></div><p>执行命令，开始实验：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f pod_io.yaml
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">apiVersion</span>: chaosblade.io/v1alpha1
+<span style="color:#ff79c6">kind</span>: ChaosBlade
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#ff79c6">name</span>: inject-pod-by-labels
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">experiments</span>:
+  - <span style="color:#ff79c6">scope</span>: pod
+    <span style="color:#ff79c6">target</span>: pod
+    <span style="color:#ff79c6">action</span>: IO
+    <span style="color:#ff79c6">desc</span>: <span style="color:#f1fa8c">&#34;Pod IO Exception by labels&#34;</span>
+    <span style="color:#ff79c6">matchers</span>:
+    - <span style="color:#ff79c6">name</span>: labels
+      <span style="color:#ff79c6">value</span>:
+      - <span style="color:#f1fa8c">&#34;app=test&#34;</span>
+    - <span style="color:#ff79c6">name</span>: namespace
+      <span style="color:#ff79c6">value</span>:
+      - <span style="color:#f1fa8c">&#34;chaosblade&#34;</span>
+    - <span style="color:#ff79c6">name</span>: method
+      <span style="color:#ff79c6">value</span>:
+      - <span style="color:#f1fa8c">&#34;read&#34;</span>
+    - <span style="color:#ff79c6">name</span>: delay
+      <span style="color:#ff79c6">value</span>:
+      - <span style="color:#f1fa8c">&#34;1000&#34;</span>
+    - <span style="color:#ff79c6">name</span>: path
+      <span style="color:#ff79c6">value</span>:
+      - <span style="color:#f1fa8c">&#34;&#34;</span>
+    - <span style="color:#ff79c6">name</span>: percent
+      <span style="color:#ff79c6">value</span>:
+      - <span style="color:#f1fa8c">&#34;60&#34;</span>
+    - <span style="color:#ff79c6">name</span>: errno
+      <span style="color:#ff79c6">value</span>:
+      - <span style="color:#f1fa8c">&#34;28&#34;</span>
+</code></pre></div><p>执行命令，开始实验：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f pod_io.yaml
 </code></pre></div><p><strong>查看实验状态</strong></p>
 <p>执行 <code>kubectl get blade inject-pod-by-labels -o json </code> 命令，查看实验状态。</p>
 <p><strong>观测结果</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># 进入实验 pod</span>
-$ kubectl <span style="color:#24909d">exec</span> -it test-7c9fc6fd88-7lx6b bash
-<span style="color:#999;font-style:italic"># 在 pod 内读取指定目录中的文件，如果没有可以新建一个</span>
-$ <span style="color:#24909d">time</span> cat /data/conf/test.yaml
-cat: <span style="color:#24909d">read</span> error: No space left on device
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># 进入实验 pod</span>
+$ kubectl <span style="color:#8be9fd;font-style:italic">exec</span> -it test-7c9fc6fd88-7lx6b bash
+<span style="color:#6272a4"># 在 pod 内读取指定目录中的文件，如果没有可以新建一个</span>
+$ <span style="color:#8be9fd;font-style:italic">time</span> cat /data/conf/test.yaml
+cat: <span style="color:#8be9fd;font-style:italic">read</span> error: No space left on device
 
 real    0m3.007s
 user    0m0.002s
 sys     0m0.002s
-<span style="color:#999;font-style:italic"># 因为有重试，显示有 3s 的延迟</span>
-<span style="color:#999;font-style:italic"># 因为设置了 60% 的异常，所有还是有成功的情况</span>
-$ <span style="color:#24909d">time</span> cat /data/conf/test.yaml
-<span style="color:#3677a9">123</span>
+<span style="color:#6272a4"># 因为有重试，显示有 3s 的延迟</span>
+<span style="color:#6272a4"># 因为设置了 60% 的异常，所有还是有成功的情况</span>
+$ <span style="color:#8be9fd;font-style:italic">time</span> cat /data/conf/test.yaml
+<span style="color:#bd93f9">123</span>
 
 real    0m0.004s
 user    0m0.002s

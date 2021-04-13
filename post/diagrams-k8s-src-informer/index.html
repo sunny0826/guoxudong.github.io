@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -240,6 +240,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -247,8 +249,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -662,52 +662,52 @@ if (!doNotTrack) {
 <h3 id="informer">Informer</h3>
 <p>所谓 informer，其实就是一个带有本地缓存和索引机制的，可以注册 EventHandler 的 client，目的是为了减轻频繁通信 API Server 的压力而抽取出来的一层 cache，客户端对 API Server 数据的<strong>读取</strong>和<strong>监测</strong>操作都通过本地的 informer 来进行。</p>
 <p>每一个 Kubernetes 资源上都实现了 informer 机制，每一个 informer 上都会实现 <code>Informer()</code> 和 <code>Lister()</code> 方法：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#999;font-style:italic">// client-go/informers/core/v1/pod.go
-</span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">type</span> PodInformer <span style="color:#6ab825;font-weight:bold">interface</span> {
-  <span style="color:#447fcf">Informer</span>() cache.SharedIndexInformer
-  <span style="color:#447fcf">Lister</span>() v1.PodLister
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#6272a4">// client-go/informers/core/v1/pod.go
+</span><span style="color:#6272a4"></span><span style="color:#8be9fd;font-style:italic">type</span> PodInformer <span style="color:#8be9fd;font-style:italic">interface</span> {
+  <span style="color:#50fa7b">Informer</span>() cache.SharedIndexInformer
+  <span style="color:#50fa7b">Lister</span>() v1.PodLister
 }
 </code></pre></div><p>定义不同资源的 Informer，允许监控不同资源事件。同时为了避免同一资源的 Informer 被实例化多次，而每个 Informer 都会使用一个 Reflector，这样会运行过多相同的 ListAndWatch，从而加重 API Server 的压力，Informer 还提供了共享机制，多个 Informer 可以共享一个 Reflector，从而达到节约资源的目的。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#999;font-style:italic">// client-go/informers/factory.go
-</span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">type</span> sharedInformerFactory <span style="color:#6ab825;font-weight:bold">struct</span> {
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#6272a4">// client-go/informers/factory.go
+</span><span style="color:#6272a4"></span><span style="color:#8be9fd;font-style:italic">type</span> sharedInformerFactory <span style="color:#8be9fd;font-style:italic">struct</span> {
   client           kubernetes.Interface
-  namespace        <span style="color:#6ab825;font-weight:bold">string</span>
+  namespace        <span style="color:#8be9fd">string</span>
   tweakListOptions internalinterfaces.TweakListOptionsFunc
   lock             sync.Mutex
   defaultResync    time.Duration
-  customResync     <span style="color:#6ab825;font-weight:bold">map</span>[reflect.Type]time.Duration
+  customResync     <span style="color:#8be9fd;font-style:italic">map</span>[reflect.Type]time.Duration
 
-  informers <span style="color:#6ab825;font-weight:bold">map</span>[reflect.Type]cache.SharedIndexInformer
-  <span style="color:#999;font-style:italic">// startedInformers is used for tracking which informers have been started.
-</span><span style="color:#999;font-style:italic"></span>  <span style="color:#999;font-style:italic">// This allows Start() to be called multiple times safely.
-</span><span style="color:#999;font-style:italic"></span>  startedInformers <span style="color:#6ab825;font-weight:bold">map</span>[reflect.Type]<span style="color:#6ab825;font-weight:bold">bool</span>
+  informers <span style="color:#8be9fd;font-style:italic">map</span>[reflect.Type]cache.SharedIndexInformer
+  <span style="color:#6272a4">// startedInformers is used for tracking which informers have been started.
+</span><span style="color:#6272a4"></span>  <span style="color:#6272a4">// This allows Start() to be called multiple times safely.
+</span><span style="color:#6272a4"></span>  startedInformers <span style="color:#8be9fd;font-style:italic">map</span>[reflect.Type]<span style="color:#8be9fd">bool</span>
 }
-...
-<span style="color:#999;font-style:italic">// InternalInformerFor returns the SharedIndexInformer for obj using an internal client.
-</span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">func</span> (f *sharedInformerFactory) <span style="color:#447fcf">InformerFor</span>(obj runtime.Object, newFunc internalinterfaces.NewInformerFunc) cache.SharedIndexInformer {
-  f.lock.<span style="color:#447fcf">Lock</span>()
-  <span style="color:#6ab825;font-weight:bold">defer</span> f.lock.<span style="color:#447fcf">Unlock</span>()
+<span style="color:#ff79c6">...</span>
+<span style="color:#6272a4">// InternalInformerFor returns the SharedIndexInformer for obj using an internal client.
+</span><span style="color:#6272a4"></span><span style="color:#8be9fd;font-style:italic">func</span> (f <span style="color:#ff79c6">*</span>sharedInformerFactory) <span style="color:#50fa7b">InformerFor</span>(obj runtime.Object, newFunc internalinterfaces.NewInformerFunc) cache.SharedIndexInformer {
+  f.lock.<span style="color:#50fa7b">Lock</span>()
+  <span style="color:#ff79c6">defer</span> f.lock.<span style="color:#50fa7b">Unlock</span>()
 
-  informerType := reflect.<span style="color:#447fcf">TypeOf</span>(obj)
-  informer, exists := f.informers[informerType]
-  <span style="color:#6ab825;font-weight:bold">if</span> exists {
-    <span style="color:#6ab825;font-weight:bold">return</span> informer
+  informerType <span style="color:#ff79c6">:=</span> reflect.<span style="color:#50fa7b">TypeOf</span>(obj)
+  informer, exists <span style="color:#ff79c6">:=</span> f.informers[informerType]
+  <span style="color:#ff79c6">if</span> exists {
+    <span style="color:#ff79c6">return</span> informer
   }
 
-  resyncPeriod, exists := f.customResync[informerType]
-  <span style="color:#6ab825;font-weight:bold">if</span> !exists {
+  resyncPeriod, exists <span style="color:#ff79c6">:=</span> f.customResync[informerType]
+  <span style="color:#ff79c6">if</span> !exists {
     resyncPeriod = f.defaultResync
   }
 
-  informer = <span style="color:#447fcf">newFunc</span>(f.client, resyncPeriod)
+  informer = <span style="color:#50fa7b">newFunc</span>(f.client, resyncPeriod)
   f.informers[informerType] = informer
 
-  <span style="color:#6ab825;font-weight:bold">return</span> informer
+  <span style="color:#ff79c6">return</span> informer
 }
 </code></pre></div><p>使用 map 数据结构实现共享 Informer 机制，在 <code>InformerFor()</code> 函数添加了不同资源的 Informer，在添加过程中如果已经存在同类型的 Informer，则返回当前 Informer，不再继续添加。如下就是 <code>deployment</code> 的 <code>Informer()</code> 方法，其中就调用了 <code>InformerFor()</code> 函数。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#999;font-style:italic">// client-go/informers/apps/v1beta1/deployment.go
-</span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">func</span> (f *deploymentInformer) <span style="color:#447fcf">Informer</span>() cache.SharedIndexInformer {
-  <span style="color:#6ab825;font-weight:bold">return</span> f.factory.<span style="color:#447fcf">InformerFor</span>(&amp;appsv1beta1.Deployment{}, f.defaultInformer)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#6272a4">// client-go/informers/apps/v1beta1/deployment.go
+</span><span style="color:#6272a4"></span><span style="color:#8be9fd;font-style:italic">func</span> (f <span style="color:#ff79c6">*</span>deploymentInformer) <span style="color:#50fa7b">Informer</span>() cache.SharedIndexInformer {
+  <span style="color:#ff79c6">return</span> f.factory.<span style="color:#50fa7b">InformerFor</span>(<span style="color:#ff79c6">&amp;</span>appsv1beta1.Deployment{}, f.defaultInformer)
 }
 </code></pre></div><h3 id="reflector">Reflector</h3>
 <p>Reflector 用于监测制定 Kubernetes 资源，当资源发生变化时，触发相应的事件，如：Added（资源添加）事件、Update（资源更新）事件、Delete（资源删除）事件，并将事件及资源名称添加到 DeltaFIFO 中。</p>

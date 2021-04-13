@@ -42,7 +42,7 @@
       "datePublished": "2020-07-22 17:30:53 \u002b0800 \u002b0800",
       "dateModified" : "2020-07-22 17:30:53 \u002b0800 \u002b0800",
       "url" : "https:\/\/guoxudong.io\/post\/start-chaosblade-3\/",
-      "wordCount" : "732",
+      "wordCount" : "938",
       "keywords" : [ "混沌工程","Guoxudong" ]
   }
   </script>
@@ -56,7 +56,7 @@
 <meta itemprop="name" content="ChaosBlade：从零开始的混沌工程（四）">
 <meta itemprop="description" content="本篇为系列文章第四篇，将介绍使用 ChaosBlade Operator 对 Kubernetes Node 进行混沌工程实验，实验包括：Node CPU 负载场景、Node 网络延迟场景、Node 网络丢包场景、Node 域名访问异常场景、Node 磁盘填充场景、Node 杀指定进程和Node 挂起指定进程等。"><meta itemprop="datePublished" content="2020-07-22T17:30:53&#43;08:00" />
 <meta itemprop="dateModified" content="2020-08-06T18:11:30&#43;08:00" />
-<meta itemprop="wordCount" content="732">
+<meta itemprop="wordCount" content="938">
 <meta itemprop="keywords" content="混沌工程," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="ChaosBlade：从零开始的混沌工程（四）"/>
 <meta name="twitter:description" content="本篇为系列文章第四篇，将介绍使用 ChaosBlade Operator 对 Kubernetes Node 进行混沌工程实验，实验包括：Node CPU 负载场景、Node 网络延迟场景、Node 网络丢包场景、Node 域名访问异常场景、Node 磁盘填充场景、Node 杀指定进程和Node 挂起指定进程等。"/>
@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -241,6 +241,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -248,8 +250,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -585,7 +585,7 @@ if (!doNotTrack) {
 	<div class="td-byline mb-4">
 		<span>By  <b>guoxudong</b> </span> ·
 		<span>
-			4 分钟阅读时间
+			5 分钟阅读时间
 		</span> ·
 		<span>发布于 </span><time datetime=" 2020-07-22" 
 			class="text-muted">2020年07月22日</time> ·
@@ -673,26 +673,26 @@ if (!doNotTrack) {
 <p><strong>实验目标</strong>：指定一个节点，做 CPU 负载 80% 实验。</p>
 <p><strong>开始实验</strong></p>
 <p><code>node_cpu_load.yaml</code> 内容：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>cpu-load<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">experiments</span>:<span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">scope</span>:<span style="color:#666"> </span>node<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">target</span>:<span style="color:#666"> </span>cpu<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">action</span>:<span style="color:#666"> </span>fullload<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">desc</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;increase node cpu load by names&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">matchers</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>names<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;docker20&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>cpu-percent<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;80&#34;</span><span style="color:#666">
-</span></code></pre></div><p>选择一个节点，修改 <code>node_cpu_load.yaml</code> 中的 <code>names</code> 值。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">apiVersion</span>: chaosblade.io/v1alpha1
+<span style="color:#ff79c6">kind</span>: ChaosBlade
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#ff79c6">name</span>: cpu-load
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">experiments</span>:
+  - <span style="color:#ff79c6">scope</span>: node
+    <span style="color:#ff79c6">target</span>: cpu
+    <span style="color:#ff79c6">action</span>: fullload
+    <span style="color:#ff79c6">desc</span>: <span style="color:#f1fa8c">&#34;increase node cpu load by names&#34;</span>
+    <span style="color:#ff79c6">matchers</span>:
+    - <span style="color:#ff79c6">name</span>: names
+      <span style="color:#ff79c6">value</span>:
+      - <span style="color:#f1fa8c">&#34;docker20&#34;</span>
+    - <span style="color:#ff79c6">name</span>: cpu-percent
+      <span style="color:#ff79c6">value</span>:
+      - <span style="color:#f1fa8c">&#34;80&#34;</span>
+</code></pre></div><p>选择一个节点，修改 <code>node_cpu_load.yaml</code> 中的 <code>names</code> 值。</p>
 <p>执行命令，开始实验：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f node_cpu_load.yaml
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f node_cpu_load.yaml
 </code></pre></div><p><strong>查看实验状态</strong></p>
 <p>执行 <code>kubectl get blade cpu-load -o json</code> 命令，查看实验状态。</p>
 <p><strong>查看实验结果</strong></p>
@@ -711,40 +711,40 @@ if (!doNotTrack) {
 <p>选择一个节点，修改 <code>delay_node_network_by_names.yaml</code> 中的 <code>names</code> 值。</p>
 <p>对 docker20 节点本地端口 32436 访问丢包率 100%。</p>
 <p><code>delay_node_network_by_names.yaml</code> 内容：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>delay-node-network-by-names<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">experiments</span>:<span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">scope</span>:<span style="color:#666"> </span>node<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">target</span>:<span style="color:#666"> </span>network<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">action</span>:<span style="color:#666"> </span>delay<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">desc</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;delay node network loss&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">matchers</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>names<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;docker20&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>interface<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;ens33&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>local-port<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;32436&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>time<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;3000&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>offset<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;1000&#34;</span>]<span style="color:#666">
-</span></code></pre></div><p>执行命令，开始实验：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f delay_node_network_by_names.yaml
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">apiVersion</span>: chaosblade.io/v1alpha1
+<span style="color:#ff79c6">kind</span>: ChaosBlade
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#ff79c6">name</span>: delay-node-network-by-names
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">experiments</span>:
+  - <span style="color:#ff79c6">scope</span>: node
+    <span style="color:#ff79c6">target</span>: network
+    <span style="color:#ff79c6">action</span>: delay
+    <span style="color:#ff79c6">desc</span>: <span style="color:#f1fa8c">&#34;delay node network loss&#34;</span>
+    <span style="color:#ff79c6">matchers</span>:
+    - <span style="color:#ff79c6">name</span>: names
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;docker20&#34;</span>]
+    - <span style="color:#ff79c6">name</span>: interface
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;ens33&#34;</span>]
+    - <span style="color:#ff79c6">name</span>: local-port
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;32436&#34;</span>]
+    - <span style="color:#ff79c6">name</span>: time
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;3000&#34;</span>]
+    - <span style="color:#ff79c6">name</span>: offset
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;1000&#34;</span>]
+</code></pre></div><p>执行命令，开始实验：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f delay_node_network_by_names.yaml
 </code></pre></div><p><strong>查看实验状态</strong></p>
 <p>执行 <code>kubectl get blade delay-node-network-by-names -o json</code> 命令，查看实验状态。</p>
 <p><strong>查看实验结果</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># 从实验节点访问 Guestbook</span>
-$ <span style="color:#24909d">time</span> <span style="color:#24909d">echo</span> <span style="color:#ed9d13">&#34;&#34;</span> | telnet 192.168.1.129 <span style="color:#3677a9">32436</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># 从实验节点访问 Guestbook</span>
+$ <span style="color:#8be9fd;font-style:italic">time</span> <span style="color:#8be9fd;font-style:italic">echo</span> <span style="color:#f1fa8c">&#34;&#34;</span> | telnet 192.168.1.129 <span style="color:#bd93f9">32436</span>
 Trying 192.168.1.129...
 Connected to 192.168.1.129.
-Escape character is <span style="color:#ed9d13">&#39;^]&#39;</span>.
+Escape character is <span style="color:#f1fa8c">&#39;^]&#39;</span>.
 Connection closed by foreign host.
-<span style="color:#24909d">echo</span> <span style="color:#ed9d13">&#34;&#34;</span>  0.00s user 0.00s system 35% cpu 0.003 total
-telnet 192.168.1.129 <span style="color:#3677a9">32436</span>  0.01s user 0.00s system 0% cpu 3.248 total
+<span style="color:#8be9fd;font-style:italic">echo</span> <span style="color:#f1fa8c">&#34;&#34;</span>  0.00s user 0.00s system 35% cpu 0.003 total
+telnet 192.168.1.129 <span style="color:#bd93f9">32436</span>  0.01s user 0.00s system 0% cpu 3.248 total
 </code></pre></div><p><img src="https://tva4.sinaimg.cn/large/ad5fbf65ly1ggzwhc0n0yg20qg070dou.gif" alt="节点网络延迟场景"></p>
 <p><strong>停止实验</strong></p>
 <p>执行命令：<code>kubectl delete -f delay_node_network_by_names.yaml</code></p>
@@ -754,46 +754,46 @@ telnet 192.168.1.129 <span style="color:#3677a9">32436</span>  0.01s user 0.00s 
 <p><strong>开始实验</strong></p>
 <p>选择一个节点，修改 <code>loss_node_network_by_names.yaml</code> 中的 <code>names</code> 值。</p>
 <p><code>loss_node_network_by_names.yaml</code> 内容：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>loss-node-network-by-names<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">experiments</span>:<span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">scope</span>:<span style="color:#666"> </span>node<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">target</span>:<span style="color:#666"> </span>network<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">action</span>:<span style="color:#666"> </span>loss<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">desc</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;node network loss&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">matchers</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>names<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;docker20&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>percent<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;100&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>interface<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;ens33&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>local-port<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;32436&#34;</span>]<span style="color:#666">
-</span></code></pre></div><p>执行命令，开始实验：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f loss_node_network_by_names.yaml
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">apiVersion</span>: chaosblade.io/v1alpha1
+<span style="color:#ff79c6">kind</span>: ChaosBlade
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#ff79c6">name</span>: loss-node-network-by-names
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">experiments</span>:
+  - <span style="color:#ff79c6">scope</span>: node
+    <span style="color:#ff79c6">target</span>: network
+    <span style="color:#ff79c6">action</span>: loss
+    <span style="color:#ff79c6">desc</span>: <span style="color:#f1fa8c">&#34;node network loss&#34;</span>
+    <span style="color:#ff79c6">matchers</span>:
+    - <span style="color:#ff79c6">name</span>: names
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;docker20&#34;</span>]
+    - <span style="color:#ff79c6">name</span>: percent
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;100&#34;</span>]
+    - <span style="color:#ff79c6">name</span>: interface
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;ens33&#34;</span>]
+    - <span style="color:#ff79c6">name</span>: local-port
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;32436&#34;</span>]
+</code></pre></div><p>执行命令，开始实验：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f loss_node_network_by_names.yaml
 </code></pre></div><p><strong>查看实验结果</strong></p>
 <p>执行 <code>kubectl get blade loss-node-network-by-names -o json</code> 命令，查看实验状态。</p>
 <p><strong>观测结果</strong></p>
 <p>该端口为 <code>Guestbook</code> nodeport 的端口，访问实验端口无响应，但是访问未开启实验的端口可以正常使用：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># 获取节点 IP</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># 获取节点 IP</span>
 $ kubectl get node -o wide
 NAME       STATUS   ROLES                      AGE     VERSION   INTERNAL-IP     EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION       CONTAINER-RUNTIME
 docker20   Ready    worker                     3d16h   v1.17.6   192.168.1.129   &lt;none&gt;        Ubuntu 18.04.4 LTS   4.15.0-101-generic   docker://19.3.11
 kk         Ready    controlplane,etcd,worker   4d16h   v1.17.6   192.168.4.210   &lt;none&gt;        Ubuntu 18.04.4 LTS   4.15.0-101-generic   docker://19.3.11
-<span style="color:#999;font-style:italic"># 从实验节点访问 Guestbook - 无法访问</span>
-$ telnet 192.168.1.129 <span style="color:#3677a9">32436</span>
+<span style="color:#6272a4"># 从实验节点访问 Guestbook - 无法访问</span>
+$ telnet 192.168.1.129 <span style="color:#bd93f9">32436</span>
 Trying 192.168.1.129...
 telnet: connect to address 192.168.1.129: Operation timed out
 telnet: Unable to connect to remote host
-<span style="color:#999;font-style:italic"># 从非实验节点访问 Guestbook - 正常访问</span>
-$ telnet 192.168.4.210 <span style="color:#3677a9">32436</span>
+<span style="color:#6272a4"># 从非实验节点访问 Guestbook - 正常访问</span>
+$ telnet 192.168.4.210 <span style="color:#bd93f9">32436</span>
 Trying 192.168.4.210...
 Connected to 192.168.4.210.
-Escape character is <span style="color:#ed9d13">&#39;^]&#39;</span>.
+Escape character is <span style="color:#f1fa8c">&#39;^]&#39;</span>.
 </code></pre></div><p><img src="https://tva2.sinaimg.cn/large/ad5fbf65ly1ggzwjjyj67g20qg07c4az.gif" alt="节点网络丢包场景"></p>
 <p>同样也可以直接从浏览器访问地址，验证实验。</p>
 <p><strong>停止实验</strong></p>
@@ -804,34 +804,34 @@ Escape character is <span style="color:#ed9d13">&#39;^]&#39;</span>.
 <p><strong>开始实验</strong></p>
 <p>选择一个节点，修改 <code>dns_node_network_by_names.yaml</code> 中的 <code>names</code> 值。</p>
 <p><code>dns_node_network_by_names.yaml</code> 内容：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>dns-node-network-by-names<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">experiments</span>:<span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">scope</span>:<span style="color:#666"> </span>node<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">target</span>:<span style="color:#666"> </span>network<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">action</span>:<span style="color:#666"> </span>dns<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">desc</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;dns node network by names&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">matchers</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>names<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;docker20&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>domain<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;www.baidu.com&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>ip<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;10.0.0.1&#34;</span>]<span style="color:#666">
-</span></code></pre></div><p>执行命令，开始实验：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f dns_node_network_by_names.yaml
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">apiVersion</span>: chaosblade.io/v1alpha1
+<span style="color:#ff79c6">kind</span>: ChaosBlade
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#ff79c6">name</span>: dns-node-network-by-names
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">experiments</span>:
+  - <span style="color:#ff79c6">scope</span>: node
+    <span style="color:#ff79c6">target</span>: network
+    <span style="color:#ff79c6">action</span>: dns
+    <span style="color:#ff79c6">desc</span>: <span style="color:#f1fa8c">&#34;dns node network by names&#34;</span>
+    <span style="color:#ff79c6">matchers</span>:
+    - <span style="color:#ff79c6">name</span>: names
+      <span style="color:#ff79c6">value</span>:
+      - <span style="color:#f1fa8c">&#34;docker20&#34;</span>
+    - <span style="color:#ff79c6">name</span>: domain
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;www.baidu.com&#34;</span>]
+    - <span style="color:#ff79c6">name</span>: ip
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;10.0.0.1&#34;</span>]
+</code></pre></div><p>执行命令，开始实验：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f dns_node_network_by_names.yaml
 </code></pre></div><p><strong>查看实验状态</strong></p>
 <p>执行 <code>kubectl get blade dns-node-network-by-names -o json</code> 命令，查看实验状态。</p>
 <p><strong>查看实验结果</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># 进入实验 node</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># 进入实验 node</span>
 $ ssh kk@192.168.1.129
-<span style="color:#999;font-style:italic"># Ping www.baidu.com</span>
+<span style="color:#6272a4"># Ping www.baidu.com</span>
 $ ping www.baidu.com
-<span style="color:#999;font-style:italic"># 无响应</span>
+<span style="color:#6272a4"># 无响应</span>
 </code></pre></div><p><img src="https://tvax4.sinaimg.cn/large/ad5fbf65ly1ggzwluapg5g20qg07011a.gif" alt="节点域名访问异常场景"></p>
 <p>可以看到 Node 的 <code>/etc/hosts</code> 文件被修改，模拟了 dns 解析异常的场景。</p>
 <p><strong>停止实验</strong></p>
@@ -844,41 +844,41 @@ $ ping www.baidu.com
 <p><strong>开始实验</strong></p>
 <p>选择一个节点，修改 <code>fill_node_disk_by_names.yaml</code> 中的 <code>names</code> 值。</p>
 <p><code>fill_node_disk_by_names.yaml</code> 内容：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>fill-node-disk-by-names<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">experiments</span>:<span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">scope</span>:<span style="color:#666"> </span>node<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">target</span>:<span style="color:#666"> </span>disk<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">action</span>:<span style="color:#666"> </span>fill<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">desc</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;node disk fill&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">matchers</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>names<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;docker20&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>percent<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;80&#34;</span>]<span style="color:#666">
-</span></code></pre></div><p>执行命令，开始实验：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f fill_node_disk_by_names.yaml
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">apiVersion</span>: chaosblade.io/v1alpha1
+<span style="color:#ff79c6">kind</span>: ChaosBlade
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#ff79c6">name</span>: fill-node-disk-by-names
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">experiments</span>:
+  - <span style="color:#ff79c6">scope</span>: node
+    <span style="color:#ff79c6">target</span>: disk
+    <span style="color:#ff79c6">action</span>: fill
+    <span style="color:#ff79c6">desc</span>: <span style="color:#f1fa8c">&#34;node disk fill&#34;</span>
+    <span style="color:#ff79c6">matchers</span>:
+    - <span style="color:#ff79c6">name</span>: names
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;docker20&#34;</span>]
+    - <span style="color:#ff79c6">name</span>: percent
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;80&#34;</span>]
+</code></pre></div><p>执行命令，开始实验：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f fill_node_disk_by_names.yaml
 </code></pre></div><p><strong>查看实验状态</strong></p>
 <p>执行 <code>kubectl get blade fill-node-disk-by-names -o json</code> 命令，查看实验状态。</p>
 <p><strong>查看实验结果</strong></p>
 <p>可以看到磁盘占用 80%。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># 进入实验 node</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># 进入实验 node</span>
 $ ssh kk@192.168.1.129
-<span style="color:#999;font-style:italic"># 查看磁盘使用率</span>
+<span style="color:#6272a4"># 查看磁盘使用率</span>
 $ df -h
 Filesystem      Size  Used Avail Use% Mounted on
-udev            7.9G     <span style="color:#3677a9">0</span>  7.9G   0% /dev
+udev            7.9G     <span style="color:#bd93f9">0</span>  7.9G   0% /dev
 tmpfs           1.6G  2.2M  1.6G   1% /run
 /dev/sda2        98G   73G   20G  79% /
-tmpfs           7.9G     <span style="color:#3677a9">0</span>  7.9G   0% /dev/shm
-tmpfs           5.0M     <span style="color:#3677a9">0</span>  5.0M   0% /run/lock
-tmpfs           7.9G     <span style="color:#3677a9">0</span>  7.9G   0% /sys/fs/cgroup
-/dev/loop1       90M   90M     <span style="color:#3677a9">0</span> 100% /snap/core/8268
-tmpfs           1.6G     <span style="color:#3677a9">0</span>  1.6G   0% /run/user/1000
-/dev/loop0       98M   98M     <span style="color:#3677a9">0</span> 100% /snap/core/9289
+tmpfs           7.9G     <span style="color:#bd93f9">0</span>  7.9G   0% /dev/shm
+tmpfs           5.0M     <span style="color:#bd93f9">0</span>  5.0M   0% /run/lock
+tmpfs           7.9G     <span style="color:#bd93f9">0</span>  7.9G   0% /sys/fs/cgroup
+/dev/loop1       90M   90M     <span style="color:#bd93f9">0</span> 100% /snap/core/8268
+tmpfs           1.6G     <span style="color:#bd93f9">0</span>  1.6G   0% /run/user/1000
+/dev/loop0       98M   98M     <span style="color:#bd93f9">0</span> 100% /snap/core/9289
 </code></pre></div><p><img src="https://tva4.sinaimg.cn/large/ad5fbf65ly1ggzwq8gdtrg20t406k7fr.gif" alt="节点磁盘填充场景"></p>
 <p><strong>停止实验</strong></p>
 <p>执行命令：<code>kubectl delete -f fill_node_disk_by_names.yaml</code></p>
@@ -890,34 +890,34 @@ tmpfs           1.6G     <span style="color:#3677a9">0</span>  1.6G   0% /run/us
 <p><strong>开始实验</strong></p>
 <p>选择一个节点，修改 <code>kill_node_process_by_names.yaml</code> 中的 <code>names</code> 值。</p>
 <p><code>kill_node_process_by_names.yaml</code> 内容：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>kill-node-process-by-names<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">experiments</span>:<span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">scope</span>:<span style="color:#666"> </span>node<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">target</span>:<span style="color:#666"> </span>process<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">action</span>:<span style="color:#666"> </span>kill<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">desc</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;kill node process by names&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">matchers</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>names<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;docker20&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>process<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;redis-server&#34;</span>]<span style="color:#666">
-</span></code></pre></div><p>执行命令，开始实验：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f kill_node_process_by_names.yaml
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">apiVersion</span>: chaosblade.io/v1alpha1
+<span style="color:#ff79c6">kind</span>: ChaosBlade
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#ff79c6">name</span>: kill-node-process-by-names
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">experiments</span>:
+  - <span style="color:#ff79c6">scope</span>: node
+    <span style="color:#ff79c6">target</span>: process
+    <span style="color:#ff79c6">action</span>: kill
+    <span style="color:#ff79c6">desc</span>: <span style="color:#f1fa8c">&#34;kill node process by names&#34;</span>
+    <span style="color:#ff79c6">matchers</span>:
+    - <span style="color:#ff79c6">name</span>: names
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;docker20&#34;</span>]
+    - <span style="color:#ff79c6">name</span>: process
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;redis-server&#34;</span>]
+</code></pre></div><p>执行命令，开始实验：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f kill_node_process_by_names.yaml
 </code></pre></div><p><strong>查看实验状态</strong></p>
 <p>执行 <code>kubectl get blade kill-node-process-by-names -o json</code> 命令，查看实验状态。</p>
 <p><strong>查看实验结果</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># 进入实验 node</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># 进入实验 node</span>
 $ ssh kk@192.168.1.129
-<span style="color:#999;font-style:italic"># 查看 redis-server 进程号</span>
+<span style="color:#6272a4"># 查看 redis-server 进程号</span>
 $ ps -ef | grep redis-server
-root     <span style="color:#3677a9">31327</span> <span style="color:#3677a9">31326</span>  <span style="color:#3677a9">0</span> 06:15 ?        00:00:00 redis-server *:6379
-<span style="color:#999;font-style:italic"># 可以看到进程号发生了变化</span>
+root     <span style="color:#bd93f9">31327</span> <span style="color:#bd93f9">31326</span>  <span style="color:#bd93f9">0</span> 06:15 ?        00:00:00 redis-server *:6379
+<span style="color:#6272a4"># 可以看到进程号发生了变化</span>
 $ ps -ef | grep redis-server
-root      <span style="color:#3677a9">2873</span>  <span style="color:#3677a9">2872</span>  <span style="color:#3677a9">0</span> 06:23 ?        00:00:00 redis-server *:6379
+root      <span style="color:#bd93f9">2873</span>  <span style="color:#bd93f9">2872</span>  <span style="color:#bd93f9">0</span> 06:23 ?        00:00:00 redis-server *:6379
 </code></pre></div><p><code>redis-server</code> 的进程号发生改变，说明被杀掉后，又被重新拉起。</p>
 <p><img src="https://tva1.sinaimg.cn/large/ad5fbf65ly1ggzwsx3sbig20t407a4d6.gif" alt="杀节点上指定进程"></p>
 <p><strong>停止实验</strong></p>
@@ -928,31 +928,31 @@ root      <span style="color:#3677a9">2873</span>  <span style="color:#3677a9">2
 <p><strong>开始实验</strong></p>
 <p>选择一个节点，修改 <code>stop_node_process_by_names.yaml</code> 中的 <code>names</code> 值。</p>
 <p><code>stop_node_process_by_names.yaml</code> 内容：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>stop-node-process-by-names<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">experiments</span>:<span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">scope</span>:<span style="color:#666"> </span>node<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">target</span>:<span style="color:#666"> </span>process<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">action</span>:<span style="color:#666"> </span>stop<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">desc</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;kill node process by names&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">matchers</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>names<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;docker20&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>process<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;redis-server&#34;</span>]<span style="color:#666">
-</span></code></pre></div><p>执行命令，开始实验：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f stop_node_process_by_names.yaml
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">apiVersion</span>: chaosblade.io/v1alpha1
+<span style="color:#ff79c6">kind</span>: ChaosBlade
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#ff79c6">name</span>: stop-node-process-by-names
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">experiments</span>:
+  - <span style="color:#ff79c6">scope</span>: node
+    <span style="color:#ff79c6">target</span>: process
+    <span style="color:#ff79c6">action</span>: stop
+    <span style="color:#ff79c6">desc</span>: <span style="color:#f1fa8c">&#34;kill node process by names&#34;</span>
+    <span style="color:#ff79c6">matchers</span>:
+    - <span style="color:#ff79c6">name</span>: names
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;docker20&#34;</span>]
+    - <span style="color:#ff79c6">name</span>: process
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;redis-server&#34;</span>]
+</code></pre></div><p>执行命令，开始实验：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f stop_node_process_by_names.yaml
 </code></pre></div><p><strong>查看实验状态</strong></p>
 <p>执行 <code>kubectl get blade stop-node-process-by-names -o json</code> 命令，查看实验状态。</p>
 <p><strong>查看实验结果</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># 进入实验 node</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># 进入实验 node</span>
 $ ssh kk@192.168.1.129
-<span style="color:#999;font-style:italic"># 查看 redis-server 进程号</span>
+<span style="color:#6272a4"># 查看 redis-server 进程号</span>
 $ ps aux| grep redis-server
-root      <span style="color:#3677a9">5632</span>  0.0  0.0  <span style="color:#3677a9">41520</span>  <span style="color:#3677a9">4168</span> ?        Tl   06:28   0:06 redis-server *:6379
+root      <span style="color:#bd93f9">5632</span>  0.0  0.0  <span style="color:#bd93f9">41520</span>  <span style="color:#bd93f9">4168</span> ?        Tl   06:28   0:06 redis-server *:6379
 </code></pre></div><p>可以看到 <code>redis-server</code> 此刻进程处于暂停状态了（T）。</p>
 <p><img src="https://tvax4.sinaimg.cn/large/ad5fbf65ly1ggzwuoz52eg20t407w7m0.gif" alt="挂起节点上指定进程"></p>
 <p><strong>停止实验</strong></p>

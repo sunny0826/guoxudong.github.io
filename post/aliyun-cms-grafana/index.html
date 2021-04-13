@@ -42,7 +42,7 @@
       "datePublished": "2019-11-07 11:08:36 \u002b0800 \u002b0800",
       "dateModified" : "2019-11-07 11:08:36 \u002b0800 \u002b0800",
       "url" : "https:\/\/guoxudong.io\/post\/aliyun-cms-grafana\/",
-      "wordCount" : "220",
+      "wordCount" : "229",
       "keywords" : [ "阿里云","kubernetes","grafana","Guoxudong" ]
   }
   </script>
@@ -56,7 +56,7 @@
 <meta itemprop="name" content="使用 Grafana 展示阿里云监控指标">
 <meta itemprop="description" content="本文介绍使用 Grafana 展示阿里云监控指标的方法，并提供了使用 helm chart 一键部署包含阿里云监控 dashboard 的 Grafana-Server。"><meta itemprop="datePublished" content="2019-11-07T11:08:36&#43;08:00" />
 <meta itemprop="dateModified" content="2020-08-04T11:59:33&#43;08:00" />
-<meta itemprop="wordCount" content="220">
+<meta itemprop="wordCount" content="229">
 <meta itemprop="keywords" content="阿里云,kubernetes,grafana," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="使用 Grafana 展示阿里云监控指标"/>
 <meta name="twitter:description" content="本文介绍使用 Grafana 展示阿里云监控指标的方法，并提供了使用 helm chart 一键部署包含阿里云监控 dashboard 的 Grafana-Server。"/>
@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -253,6 +253,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -260,8 +262,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -684,18 +684,18 @@ if (!doNotTrack) {
 <p>首先 Grafana 服务的部署方式这里就不做介绍了，请使用较新版本的 Grafana，最好是 5.5.0+。后文中也有我开源的基于阿里云云监控的 Grafana 的 helm chart，可以使用 helm 安装，并会直接导入云监控的指标，这个会在后文中介绍。</p>
 <h3 id="安装阿里云监控插件">安装阿里云监控插件</h3>
 <p>进入插件目录进行安装</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#24909d">cd</span> /var/lib/grafana/plugins/
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#8be9fd;font-style:italic">cd</span> /var/lib/grafana/plugins/
 git clone https://github.com/aliyun/aliyun-cms-grafana.git 
 service grafana-server restart
 </code></pre></div><p>如果是使用 docker 或者部署在 k8s 集群，这里也可以使用环境变量在 Grafana 部署的时候进行安装</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#447fcf;text-decoration:underline">...</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">containers</span>:<span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">env</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>GF_INSTALL_PLUGINS <span style="color:#666"> </span><span style="color:#999;font-style:italic"># 多个插件请使用,隔开</span><span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>grafana-simple-json-datasource,https://github.com/aliyun/aliyun-cms-grafana/archive/master.zip;aliyun-cms-grafana<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#447fcf;text-decoration:underline">...</span><span style="color:#666">
-</span></code></pre></div><p>您也可以下载 aliyun-cms-grafana.zip 插件解压后，上传服务器的 Grafana 的 plugins 目录下，重启 grafana-server 即可。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">...
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">containers</span>:
+  - <span style="color:#ff79c6">env</span>:
+    - <span style="color:#ff79c6">name</span>: GF_INSTALL_PLUGINS  <span style="color:#6272a4"># 多个插件请使用,隔开</span>
+      <span style="color:#ff79c6">value</span>: grafana-simple-json-datasource,https://github.com/aliyun/aliyun-cms-grafana/archive/master.zip;aliyun-cms-grafana
+...
+</code></pre></div><p>您也可以下载 aliyun-cms-grafana.zip 插件解压后，上传服务器的 Grafana 的 plugins 目录下，重启 grafana-server 即可。</p>
 <h3 id="配置云监控-datasource">配置云监控 DataSource</h3>
 <ol>
 <li>Grafana 启动后，进入 <code>Configuration</code> 页面，选择 <code>DataSource</code> Tab 页，单击右上方的<code>Add data source</code>，添加数据源。</li>
@@ -719,12 +719,12 @@ service grafana-server restart
 <p>这就是我开发这个 Grafana 指标参数生成器的原因，起初只是一个 python 脚本，用来将我们要监控的指标组装成一个 Grafana 可以使用 json 文件，之后结合 Grafana 的容器化部署方法，将其做成了一个 helm chart。可以在启动的时候自动将需要的参数生成，并且每日会对所有指标进行更新，这样就不用每次新购或者释放掉资源后还需要再跑一遍脚本。</p>
 <h3 id="部署">部署</h3>
 <p>只需要将项目拉取下来运行 <code>helm install</code> 命令</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">helm install my-release kk-grafana-cms <span style="color:#ed9d13">\
-</span><span style="color:#ed9d13"></span>--namespace {your_namespace} <span style="color:#ed9d13">\
-</span><span style="color:#ed9d13"></span>--set <span style="color:#40ffff">access_key_id</span>={your_access_key_id} <span style="color:#ed9d13">\
-</span><span style="color:#ed9d13"></span>--set <span style="color:#40ffff">access_secret</span>={your_access_secret} <span style="color:#ed9d13">\
-</span><span style="color:#ed9d13"></span>--set <span style="color:#40ffff">region_id</span>={your_aliyun_region_id} <span style="color:#ed9d13">\
-</span><span style="color:#ed9d13"></span>--set <span style="color:#40ffff">password</span>={admin_password}
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">helm install my-release kk-grafana-cms <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>--namespace <span style="color:#ff79c6">{</span>your_namespace<span style="color:#ff79c6">}</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>--set <span style="color:#8be9fd;font-style:italic">access_key_id</span><span style="color:#ff79c6">={</span>your_access_key_id<span style="color:#ff79c6">}</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>--set <span style="color:#8be9fd;font-style:italic">access_secret</span><span style="color:#ff79c6">={</span>your_access_secret<span style="color:#ff79c6">}</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>--set <span style="color:#8be9fd;font-style:italic">region_id</span><span style="color:#ff79c6">={</span>your_aliyun_region_id<span style="color:#ff79c6">}</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>--set <span style="color:#8be9fd;font-style:italic">password</span><span style="color:#ff79c6">={</span>admin_password<span style="color:#ff79c6">}</span>
 </code></pre></div><p>更多详情见 <a href="https://github.com/sunny0826/cms-grafana-builder">github README</a>，欢迎提 issue 交流。</p>
 <h3 id="指标选择">指标选择</h3>
 <p>在部署成功后，可修改 ConfigMap：<code>grafana-cms-metric</code>，然后修改对应的监控指标项。</p>

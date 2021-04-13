@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -245,6 +245,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -252,8 +254,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -665,7 +665,7 @@ if (!doNotTrack) {
 <p>该插件使用树状图和表格展示 pod 相关资源，在排查问题可以非常方便的查看 Pod 相关资源信息和状态。</p>
 <p>项目地址：https://github.com/sunny0826/kubectl-pod-lens</p>
 <h4 id="安装">安装</h4>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl krew install pod-lens
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl krew install pod-lens
 $ kubectl pod-lens --help
 </code></pre></div><h4 id="示例">示例</h4>
 <p><img src="https://tvax4.sinaimg.cn/large/ad5fbf65gy1godp0s6wj6j219014ugx8.jpg" alt="pod-lens"></p>
@@ -676,7 +676,7 @@ $ kubectl pod-lens --help
 <p>工作中，我们经常会使用 <code>kubectl exec</code> 命令进入容器中进行问题排查 和 debug。而在实际操作中，除了需要加 <code>-it</code> 等参数外，还需要选择 Pod name 和 Container name，比较费事且经常操作失误。而 <code>kubectl-iexec</code> 这款插件很好的简化了这一系列操作。</p>
 <p>项目地址：https://github.com/gabeduke/kubectl-iexec</p>
 <h4 id="安装-1">安装</h4>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl krew install iexec
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl krew install iexec
 $ kubectl iexec --help
 </code></pre></div><h4 id="用法">用法</h4>
 <p>该插件极大的简化了 <code>kubectl exec</code> 操作。其可以模糊匹配 pod name，如果只有一个 pod 匹配输入的名称，将会直接进入该 Pod。</p>
@@ -687,7 +687,7 @@ $ kubectl iexec --help
 <p>日常工作中，常常需要使用 <code>kubectl port-forward</code> 命令来在本地访问部署在 k8s 中的服务，<code>open-svc</code> 则简化了这一步骤，输入命令，相应服务会直接在浏览器中弹出。</p>
 <p>项目地址：https://github.com/superbrothers/kubectl-open-svc-plugin</p>
 <h4 id="安装-2">安装</h4>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl krew install open-svc
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl krew install open-svc
 $ kubectl open-svc --help
 </code></pre></div><h4 id="示例-1">示例</h4>
 <p><img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1godnz8c836g20ok0aymzp.gif" alt="open-svc"></p>
@@ -701,7 +701,7 @@ $ kubectl open-svc --help
 <p>而 <code>view-secret</code> 这个插件就简化了这一步骤，直接在终端打印解码后的内容。</p>
 <p>项目地址：https://github.com/elsesiy/kubectl-view-secret</p>
 <h4 id="安装-3">安装</h4>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl krew install view-secret
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl krew install view-secret
 $ kubectl view-secret --help
 </code></pre></div><h4 id="示例-2">示例</h4>
 <p><img src="https://tvax3.sinaimg.cn/large/ad5fbf65gy1godoks7qwbj20oa11oq9n.jpg" alt="view-secret"></p>
@@ -709,7 +709,7 @@ $ kubectl view-secret --help
 <p>当需要在 k8s 中进行抓包时，<code>ksniff</code> 是个不错的选择，该插件使用 tcpdump 和 Wireshark 在 k8s 中进行抓包。</p>
 <p>项目地址：https://github.com/eldadru/ksniff</p>
 <h4 id="安装-4">安装</h4>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl krew install sniff
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl krew install sniff
 $ kubectl sniff --help
 </code></pre></div><h4 id="示例-3">示例</h4>
 <p><img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1godop5l1hqg21bp0oval7.gif" alt="ksniff"></p>

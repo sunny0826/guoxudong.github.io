@@ -42,7 +42,7 @@
       "datePublished": "2019-03-13 15:45:43 \u002b0800 \u002b0800",
       "dateModified" : "2019-03-13 15:45:43 \u002b0800 \u002b0800",
       "url" : "https:\/\/guoxudong.io\/post\/istio-demo\/",
-      "wordCount" : "205",
+      "wordCount" : "410",
       "keywords" : [ "istio","service mesh","阿里云","Guoxudong" ]
   }
   </script>
@@ -56,7 +56,7 @@
 <meta itemprop="name" content="阿里云环境Istio初探">
 <meta itemprop="description" content="极简的istio样例部署，可以帮助新手快速入门，相较官方提供的Bookinfo应用更容易上手。"><meta itemprop="datePublished" content="2019-03-13T15:45:43&#43;08:00" />
 <meta itemprop="dateModified" content="2020-08-04T11:59:33&#43;08:00" />
-<meta itemprop="wordCount" content="205">
+<meta itemprop="wordCount" content="410">
 <meta itemprop="keywords" content="istio,service mesh,阿里云," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="阿里云环境Istio初探"/>
 <meta name="twitter:description" content="极简的istio样例部署，可以帮助新手快速入门，相较官方提供的Bookinfo应用更容易上手。"/>
@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -243,6 +243,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -250,8 +252,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -587,7 +587,7 @@ if (!doNotTrack) {
 	<div class="td-byline mb-4">
 		<span>By  <b>guoxudong</b> </span> ·
 		<span>
-			1 分钟阅读时间
+			2 分钟阅读时间
 		</span> ·
 		<span>发布于 </span><time datetime=" 2019-03-13" 
 			class="text-muted">2019年03月13日</time> ·
@@ -665,72 +665,72 @@ if (!doNotTrack) {
 <li>另一个是/fetch ，用于获取在参数url中指定的网址的内容，例如 http://flaskapp/fetch?url=http://weibo.com</li>
 </ul>
 <p>创建2个Deployment，分别命名为 flaskapp-v1 和 flaskapp-v2 ，同时创建一个 Service ,将其命名为flaskapp。代码文件为 <code>flaskapp.istio.yaml</code>。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">caption</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;Image from: [**Pexels**](https://www.pexels.com)&#34;</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">focal_point</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;&#34;</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">preview_only</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#447fcf;text-decoration:underline">---</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>v1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>Service<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>flaskapp<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">labels</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">app</span>:<span style="color:#666"> </span>flaskapp<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">selector</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">app</span>:<span style="color:#666"> </span>flaskapp<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">ports</span>:<span style="color:#666">
-</span><span style="color:#666"></span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>http<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">port</span>:<span style="color:#666"> </span><span style="color:#3677a9">80</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">caption</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;Image from: [**Pexels**](https://www.pexels.com)&#34;</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">focal_point</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;&#34;</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">preview_only</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#447fcf;text-decoration:underline">---</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>extensions/v1beta1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>Deployment<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>flaskapp-v1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">replicas</span>:<span style="color:#666"> </span><span style="color:#3677a9">1</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">template</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">labels</span>:<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">app</span>:<span style="color:#666"> </span>flaskapp<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">version</span>:<span style="color:#666"> </span>v1<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">containers</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>flaskapp<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666"> </span>dustise/flaskapp<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">imagePullPolicy</span>:<span style="color:#666"> </span>IfNotPresent<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">env</span>:<span style="color:#666">
-</span><span style="color:#666">        </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>version<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>v1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">caption</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;Image from: [**Pexels**](https://www.pexels.com)&#34;</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">focal_point</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;&#34;</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">preview_only</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#447fcf;text-decoration:underline">---</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>extensions/v1beta1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>Deployment<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>flaskapp-v2<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">replicas</span>:<span style="color:#666"> </span><span style="color:#3677a9">1</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">template</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">labels</span>:<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">app</span>:<span style="color:#666"> </span>flaskapp<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">version</span>:<span style="color:#666"> </span>v2<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">containers</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>flaskapp<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666"> </span>dustise/flaskapp<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">imagePullPolicy</span>:<span style="color:#666"> </span>IfNotPresent<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">env</span>:<span style="color:#666">
-</span><span style="color:#666">        </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>version<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>v2<span style="color:#666">
-</span></code></pre></div><p><strong>注意</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">image</span>:
+  <span style="color:#ff79c6">caption</span>: <span style="color:#f1fa8c">&#34;Image from: [**Pexels**](https://www.pexels.com)&#34;</span>
+  <span style="color:#ff79c6">focal_point</span>: <span style="color:#f1fa8c">&#34;&#34;</span>
+  <span style="color:#ff79c6">preview_only</span>: <span style="color:#ff79c6">false</span>
+---
+<span style="color:#ff79c6">apiVersion</span>: v1
+<span style="color:#ff79c6">kind</span>: Service
+<span style="color:#ff79c6">metadata</span>:
+<span style="color:#ff79c6">name</span>: flaskapp
+<span style="color:#ff79c6">labels</span>:
+    <span style="color:#ff79c6">app</span>: flaskapp
+<span style="color:#ff79c6">spec</span>:
+<span style="color:#ff79c6">selector</span>:
+    <span style="color:#ff79c6">app</span>: flaskapp
+<span style="color:#ff79c6">ports</span>:
+- <span style="color:#ff79c6">name</span>: http
+    <span style="color:#ff79c6">port</span>: <span style="color:#bd93f9">80</span>
+<span style="color:#ff79c6">image</span>:
+  <span style="color:#ff79c6">caption</span>: <span style="color:#f1fa8c">&#34;Image from: [**Pexels**](https://www.pexels.com)&#34;</span>
+  <span style="color:#ff79c6">focal_point</span>: <span style="color:#f1fa8c">&#34;&#34;</span>
+  <span style="color:#ff79c6">preview_only</span>: <span style="color:#ff79c6">false</span>
+---
+<span style="color:#ff79c6">apiVersion</span>: extensions/v1beta1
+<span style="color:#ff79c6">kind</span>: Deployment
+<span style="color:#ff79c6">metadata</span>:
+<span style="color:#ff79c6">name</span>: flaskapp-v1
+<span style="color:#ff79c6">spec</span>:
+<span style="color:#ff79c6">replicas</span>: <span style="color:#bd93f9">1</span>
+<span style="color:#ff79c6">template</span>:
+    <span style="color:#ff79c6">metadata</span>:
+    <span style="color:#ff79c6">labels</span>:
+        <span style="color:#ff79c6">app</span>: flaskapp
+        <span style="color:#ff79c6">version</span>: v1
+    <span style="color:#ff79c6">spec</span>:
+    <span style="color:#ff79c6">containers</span>:
+    - <span style="color:#ff79c6">name</span>: flaskapp
+        <span style="color:#ff79c6">image</span>: dustise/flaskapp
+        <span style="color:#ff79c6">imagePullPolicy</span>: IfNotPresent
+        <span style="color:#ff79c6">env</span>:
+        - <span style="color:#ff79c6">name</span>: version
+        <span style="color:#ff79c6">value</span>: v1
+<span style="color:#ff79c6">image</span>:
+  <span style="color:#ff79c6">caption</span>: <span style="color:#f1fa8c">&#34;Image from: [**Pexels**](https://www.pexels.com)&#34;</span>
+  <span style="color:#ff79c6">focal_point</span>: <span style="color:#f1fa8c">&#34;&#34;</span>
+  <span style="color:#ff79c6">preview_only</span>: <span style="color:#ff79c6">false</span>
+---
+<span style="color:#ff79c6">apiVersion</span>: extensions/v1beta1
+<span style="color:#ff79c6">kind</span>: Deployment
+<span style="color:#ff79c6">metadata</span>:
+<span style="color:#ff79c6">name</span>: flaskapp-v2
+<span style="color:#ff79c6">spec</span>:
+<span style="color:#ff79c6">replicas</span>: <span style="color:#bd93f9">1</span>
+<span style="color:#ff79c6">template</span>:
+    <span style="color:#ff79c6">metadata</span>:
+    <span style="color:#ff79c6">labels</span>:
+        <span style="color:#ff79c6">app</span>: flaskapp
+        <span style="color:#ff79c6">version</span>: v2
+    <span style="color:#ff79c6">spec</span>:
+    <span style="color:#ff79c6">containers</span>:
+    - <span style="color:#ff79c6">name</span>: flaskapp
+        <span style="color:#ff79c6">image</span>: dustise/flaskapp
+        <span style="color:#ff79c6">imagePullPolicy</span>: IfNotPresent
+        <span style="color:#ff79c6">env</span>:
+        - <span style="color:#ff79c6">name</span>: version
+        <span style="color:#ff79c6">value</span>: v2
+</code></pre></div><p><strong>注意</strong></p>
 <ul>
 <li>两个版本Deployment的镜像一致，但是使用了不同的version标签区分，分别为 v1 和 v2 。实际环境中的镜像是不同的</li>
 <li>在两个Deployment中都有一个名为version的环境变量，分别为 v1 和 v2 。这里设置是为了方便后续区分服务。</li>
@@ -739,7 +739,7 @@ if (!doNotTrack) {
 <li>将在 Service 中定义的端口根据 <strong>istio 规范</strong>命名为http。</li>
 </ul>
 <p><strong>istio注入并部署服务端</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ istioctl kube-inject -f flask.istio.yaml | kubectl apply -f -
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ istioctl kube-inject -f flask.istio.yaml | kubectl apply -f -
 service/flaskapp created
 deployment.extensions/flaskapp-v1 created
 deployment.extensions/flaskapp-v2 created
@@ -748,54 +748,54 @@ deployment.extensions/flaskapp-v2 created
 <p>这里也可以使用<code>kubectl describe po flaskapp-v1-7d4f9b8459-2ncnf</code>命令查看Pod容器，这里可以看到Pod中多了一个容器，名为<code>istio-proxy</code>，这就表示注入成功了。而前面<code>istio-init</code>的初始化容器，这个容器是用于初始化劫持的。</p>
 <h3 id="部署客户端">部署客户端</h3>
 <p>这里的客户端是一个安装了测试工具的镜像，测试的内容可以在容器内通过shell完成。代码文件为 <code>sleep.istio.yaml</code>。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">caption</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;Image from: [**Pexels**](https://www.pexels.com)&#34;</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">focal_point</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;&#34;</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">preview_only</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#447fcf;text-decoration:underline">---</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>v1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>Service<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>sleep<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">labels</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">app</span>:<span style="color:#666"> </span>sleep<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">version</span>:<span style="color:#666"> </span>v1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">selector</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">app</span>:<span style="color:#666"> </span>sleep<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">version</span>:<span style="color:#666"> </span>v1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">ports</span>:<span style="color:#666">
-</span><span style="color:#666"></span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>ssh<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">port</span>:<span style="color:#666"> </span><span style="color:#3677a9">80</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">caption</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;Image from: [**Pexels**](https://www.pexels.com)&#34;</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">focal_point</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;&#34;</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">preview_only</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#447fcf;text-decoration:underline">---</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>extensions/v1beta1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>Deployment<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>sleep<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">replicas</span>:<span style="color:#666"> </span><span style="color:#3677a9">1</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">template</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">labels</span>:<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">app</span>:<span style="color:#666"> </span>sleep<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">version</span>:<span style="color:#666"> </span>v1<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">containers</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>sleep<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666"> </span>dustise/sleep<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">imagePullPolicy</span>:<span style="color:#666"> </span>IfNotPresent<span style="color:#666">
-</span></code></pre></div><p><strong>istio注入并部署客户端</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ istioctl kube-inject -f sleep.istio.yaml | kubectl apply -f -
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">image</span>:
+  <span style="color:#ff79c6">caption</span>: <span style="color:#f1fa8c">&#34;Image from: [**Pexels**](https://www.pexels.com)&#34;</span>
+  <span style="color:#ff79c6">focal_point</span>: <span style="color:#f1fa8c">&#34;&#34;</span>
+  <span style="color:#ff79c6">preview_only</span>: <span style="color:#ff79c6">false</span>
+---
+<span style="color:#ff79c6">apiVersion</span>: v1
+<span style="color:#ff79c6">kind</span>: Service
+<span style="color:#ff79c6">metadata</span>:
+<span style="color:#ff79c6">name</span>: sleep
+<span style="color:#ff79c6">labels</span>:
+    <span style="color:#ff79c6">app</span>: sleep
+    <span style="color:#ff79c6">version</span>: v1
+<span style="color:#ff79c6">spec</span>:
+<span style="color:#ff79c6">selector</span>:
+    <span style="color:#ff79c6">app</span>: sleep
+    <span style="color:#ff79c6">version</span>: v1
+<span style="color:#ff79c6">ports</span>:
+- <span style="color:#ff79c6">name</span>: ssh
+    <span style="color:#ff79c6">port</span>: <span style="color:#bd93f9">80</span>
+<span style="color:#ff79c6">image</span>:
+  <span style="color:#ff79c6">caption</span>: <span style="color:#f1fa8c">&#34;Image from: [**Pexels**](https://www.pexels.com)&#34;</span>
+  <span style="color:#ff79c6">focal_point</span>: <span style="color:#f1fa8c">&#34;&#34;</span>
+  <span style="color:#ff79c6">preview_only</span>: <span style="color:#ff79c6">false</span>
+---
+<span style="color:#ff79c6">apiVersion</span>: extensions/v1beta1
+<span style="color:#ff79c6">kind</span>: Deployment
+<span style="color:#ff79c6">metadata</span>:
+<span style="color:#ff79c6">name</span>: sleep
+<span style="color:#ff79c6">spec</span>:
+<span style="color:#ff79c6">replicas</span>: <span style="color:#bd93f9">1</span>
+<span style="color:#ff79c6">template</span>:
+    <span style="color:#ff79c6">metadata</span>:
+    <span style="color:#ff79c6">labels</span>:
+        <span style="color:#ff79c6">app</span>: sleep
+        <span style="color:#ff79c6">version</span>: v1
+    <span style="color:#ff79c6">spec</span>:
+    <span style="color:#ff79c6">containers</span>:
+    - <span style="color:#ff79c6">name</span>: sleep
+        <span style="color:#ff79c6">image</span>: dustise/sleep
+        <span style="color:#ff79c6">imagePullPolicy</span>: IfNotPresent
+</code></pre></div><p><strong>istio注入并部署客户端</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ istioctl kube-inject -f sleep.istio.yaml | kubectl apply -f -
 service/sleep created
 deployment.extensions/sleep created
 </code></pre></div><p><strong><code>sleep</code>应用的Pod进入Running状态就可以进行验证了</strong></p>
 <h3 id="验证服务">验证服务</h3>
 <p>直接在sleep容器中执行命令行</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ <span style="color:#6ab825;font-weight:bold">for</span> i in <span style="color:#ed9d13">`</span>seq 10<span style="color:#ed9d13">`</span>;<span style="color:#6ab825;font-weight:bold">do</span> http --body http://flaskapp/env/version;<span style="color:#6ab825;font-weight:bold">done</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ <span style="color:#ff79c6">for</span> i in <span style="color:#f1fa8c">`</span>seq 10<span style="color:#f1fa8c">`</span>;<span style="color:#ff79c6">do</span> http --body http://flaskapp/env/version;<span style="color:#ff79c6">done</span>
 v1
 v2
 ...
@@ -803,42 +803,42 @@ v1
 </code></pre></div><p>该命令使用一个for循环，重复访问 http://flaskapp/env/version ，查看内容，结果为 v1 和 v2 随机出现，各占一半。出现 v1 和 v2 版本轮流调用的效果，达到了基本的负载均衡的功能。</p>
 <h3 id="创建目标规则">创建目标规则</h3>
 <p>目标规则代码 <code>flaskapp-destinationrule.yaml</code></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>networking.istio.io/v1alpha3<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>DestinationRule<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>flaskapp<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">host</span>:<span style="color:#666"> </span>flaskapp<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">subsets</span>:<span style="color:#666">
-</span><span style="color:#666"></span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>v1<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">labels</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">version</span>:<span style="color:#666"> </span>v1<span style="color:#666">
-</span><span style="color:#666"></span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>v2<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">labels</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">version</span>:<span style="color:#666"> </span>v2<span style="color:#666">
-</span></code></pre></div><p><strong>部署目标规则（这里使用kubectl和istioctl均可）</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f flaskapp-destinationrule.yaml
-Created config destination-rule/default/flaskapp at revision <span style="color:#3677a9">59183403</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">apiVersion</span>: networking.istio.io/v1alpha3
+<span style="color:#ff79c6">kind</span>: DestinationRule
+<span style="color:#ff79c6">metadata</span>:
+<span style="color:#ff79c6">name</span>: flaskapp
+<span style="color:#ff79c6">spec</span>:
+<span style="color:#ff79c6">host</span>: flaskapp
+<span style="color:#ff79c6">subsets</span>:
+- <span style="color:#ff79c6">name</span>: v1
+    <span style="color:#ff79c6">labels</span>:
+    <span style="color:#ff79c6">version</span>: v1
+- <span style="color:#ff79c6">name</span>: v2
+    <span style="color:#ff79c6">labels</span>:
+    <span style="color:#ff79c6">version</span>: v2
+</code></pre></div><p><strong>部署目标规则（这里使用kubectl和istioctl均可）</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f flaskapp-destinationrule.yaml
+Created config destination-rule/default/flaskapp at revision <span style="color:#bd93f9">59183403</span>
 </code></pre></div><h3 id="创建默认路由">创建默认路由</h3>
 <p>默认路由代码 <code>flaskapp-default-vs-v2.yaml</code></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>networking.istio.io/v1alpha3<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>VirtualService<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>flaskapp-default-v2<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">hosts</span>:<span style="color:#666"> 
-</span><span style="color:#666"></span>- flaskapp<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">http</span>:<span style="color:#666">
-</span><span style="color:#666"></span>- <span style="color:#6ab825;font-weight:bold">route</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">destination</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">host</span>:<span style="color:#666"> </span>flaskapp<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">subset</span>:<span style="color:#666"> </span>v2<span style="color:#666">
-</span></code></pre></div><p><strong>部署默认路由</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f flaskapp-default-vs-v2.yaml
-Created config virtual-service/default/flaskapp-default-v2 at revision <span style="color:#3677a9">59185583</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">apiVersion</span>: networking.istio.io/v1alpha3
+<span style="color:#ff79c6">kind</span>: VirtualService
+<span style="color:#ff79c6">metadata</span>:
+<span style="color:#ff79c6">name</span>: flaskapp-default-v2
+<span style="color:#ff79c6">spec</span>:
+<span style="color:#ff79c6">hosts</span>: 
+- flaskapp
+<span style="color:#ff79c6">http</span>:
+- <span style="color:#ff79c6">route</span>:
+    - <span style="color:#ff79c6">destination</span>:
+    <span style="color:#ff79c6">host</span>: flaskapp
+    <span style="color:#ff79c6">subset</span>: v2
+</code></pre></div><p><strong>部署默认路由</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f flaskapp-default-vs-v2.yaml
+Created config virtual-service/default/flaskapp-default-v2 at revision <span style="color:#bd93f9">59185583</span>
 </code></pre></div><h3 id="验证路由规则是否生效">验证路由规则是否生效</h3>
 <p>再次在sleep容器中执行命令，查看新定义的流量管理规则是否生效</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ <span style="color:#6ab825;font-weight:bold">for</span> i in <span style="color:#ed9d13">`</span>seq 10<span style="color:#ed9d13">`</span>;<span style="color:#6ab825;font-weight:bold">do</span> http --body http://flaskapp/env/version;<span style="color:#6ab825;font-weight:bold">done</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ <span style="color:#ff79c6">for</span> i in <span style="color:#f1fa8c">`</span>seq 10<span style="color:#f1fa8c">`</span>;<span style="color:#ff79c6">do</span> http --body http://flaskapp/env/version;<span style="color:#ff79c6">done</span>
 v2
 v2
 v2

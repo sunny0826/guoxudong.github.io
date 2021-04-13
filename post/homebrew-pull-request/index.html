@@ -42,7 +42,7 @@
       "datePublished": "2020-12-03 11:17:34 \u002b0800 \u002b0800",
       "dateModified" : "2020-12-03 11:17:34 \u002b0800 \u002b0800",
       "url" : "https:\/\/guoxudong.io\/post\/homebrew-pull-request\/",
-      "wordCount" : "489",
+      "wordCount" : "523",
       "keywords" : [ "homebrew","mac","Guoxudong" ]
   }
   </script>
@@ -56,7 +56,7 @@
 <meta itemprop="name" content="将项目发布到 Homebrew 官方仓库">
 <meta itemprop="description" content="最近将 kubecm 推到了官方 homebrew-core 仓库，分享一下经验。"><meta itemprop="datePublished" content="2020-12-03T11:17:34&#43;08:00" />
 <meta itemprop="dateModified" content="2020-12-03T17:43:39&#43;08:00" />
-<meta itemprop="wordCount" content="489">
+<meta itemprop="wordCount" content="523">
 <meta itemprop="keywords" content="homebrew,mac," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="将项目发布到 Homebrew 官方仓库"/>
 <meta name="twitter:description" content="最近将 kubecm 推到了官方 homebrew-core 仓库，分享一下经验。"/>
@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -248,6 +248,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -255,8 +257,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -652,46 +652,46 @@ if (!doNotTrack) {
 <h3 id="准备阶段">准备阶段</h3>
 <p>首先需要在 GitHub 上 fork <a href="https://github.com/Homebrew/homebrew-core">homebrew-core</a> 项目。</p>
 <p>然后在本地找到保存 homebrew-core 的目录：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ <span style="color:#24909d">cd</span> <span style="color:#6ab825;font-weight:bold">$(</span>brew --repository homebrew/core<span style="color:#6ab825;font-weight:bold">)</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ <span style="color:#8be9fd;font-style:italic">cd</span> <span style="color:#ff79c6">$(</span>brew --repository homebrew/core<span style="color:#ff79c6">)</span>
 </code></pre></div><p>新增 remote 地址为 fork 仓库的地址：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git remote add &lt;YOUR_USERNAME&gt; https://github.com/&lt;YOUR_USERNAME&gt;/homebrew-core.git
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git remote add &lt;YOUR_USERNAME&gt; https://github.com/&lt;YOUR_USERNAME&gt;/homebrew-core.git
 </code></pre></div><p>这里的 <code>YOUR_USERNAME</code> 是 GitHub username。</p>
 <h3 id="新建分支">新建分支</h3>
 <p>这里的操作就和向开源项目提交 PR 一样，新建 branch 并创建安装脚本。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git checkout master
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git checkout master
 </code></pre></div><p>更新 master 分支</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ brew update
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ brew update
 </code></pre></div><p>从最新的 master 分支创建新 branch</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git checkout -b &lt;YOUR_BRANCH_NAME&gt; origin/master
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git checkout -b &lt;YOUR_BRANCH_NAME&gt; origin/master
 </code></pre></div><h3 id="编写脚本">编写脚本</h3>
 <p>首先需要使用 <code>brew search &lt;formula&gt;</code> 来查看上游仓库中是否有同名的项目，同时确保你的项目是稳定版且带有 <code>tag</code>（不能只是一个 GitHub repo）。</p>
 <p>使用 <code>brew create</code> 创建一个脚本模板，命令如下：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ brew create https://example.com/foo-0.1.tar.gz
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ brew create https://example.com/foo-0.1.tar.gz
 </code></pre></div><p>这里的 URL 地址，就是 GitHub Release 页面的 <code>Source code(tar.gz)</code> 的 URL 地址。</p>
 <p>打开 <code>Formula/foo.rb</code> 可以看到：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#6ab825;font-weight:bold">class</span> <span style="color:#447fcf;text-decoration:underline">Foo</span> &lt; <span style="color:#40ffff">Formula</span>
-  desc <span style="color:#ed9d13">&#34;&#34;</span>
-  homepage <span style="color:#ed9d13">&#34;&#34;</span>
-  url <span style="color:#ed9d13">&#34;https://example.com/foo-0.1.tar.gz&#34;</span>
-  sha256 <span style="color:#ed9d13">&#34;85cc828a96735bdafcf29eb6291ca91bac846579bcef7308536e0c875d6c81d7&#34;</span>
-  license <span style="color:#ed9d13">&#34;&#34;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#ff79c6">class</span> <span style="color:#50fa7b">Foo</span> <span style="color:#ff79c6">&lt;</span> Formula
+  desc <span style="color:#f1fa8c">&#34;&#34;</span>
+  homepage <span style="color:#f1fa8c">&#34;&#34;</span>
+  url <span style="color:#f1fa8c">&#34;https://example.com/foo-0.1.tar.gz&#34;</span>
+  sha256 <span style="color:#f1fa8c">&#34;85cc828a96735bdafcf29eb6291ca91bac846579bcef7308536e0c875d6c81d7&#34;</span>
+  license <span style="color:#f1fa8c">&#34;&#34;</span>
 
-  <span style="color:#999;font-style:italic"># depends_on &#34;cmake&#34; =&gt; :build</span>
+  <span style="color:#6272a4"># depends_on &#34;cmake&#34; =&gt; :build</span>
 
-  <span style="color:#6ab825;font-weight:bold">def</span> <span style="color:#447fcf">install</span>
-    <span style="color:#999;font-style:italic"># ENV.deparallelize</span>
-    <span style="color:#24909d">system</span> <span style="color:#ed9d13">&#34;./configure&#34;</span>, <span style="color:#ed9d13">&#34;--disable-debug&#34;</span>,
-                          <span style="color:#ed9d13">&#34;--disable-dependency-tracking&#34;</span>,
-                          <span style="color:#ed9d13">&#34;--disable-silent-rules&#34;</span>,
-                          <span style="color:#ed9d13">&#34;--prefix=</span><span style="color:#ed9d13">#{</span>prefix<span style="color:#ed9d13">}</span><span style="color:#ed9d13">&#34;</span>
-    <span style="color:#999;font-style:italic"># system &#34;cmake&#34;, &#34;.&#34;, *std_cmake_args</span>
-    <span style="color:#24909d">system</span> <span style="color:#ed9d13">&#34;make&#34;</span>, <span style="color:#ed9d13">&#34;install&#34;</span>
-  <span style="color:#6ab825;font-weight:bold">end</span>
+  <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">install</span>
+    <span style="color:#6272a4"># ENV.deparallelize</span>
+    <span style="color:#8be9fd;font-style:italic">system</span> <span style="color:#f1fa8c">&#34;./configure&#34;</span>, <span style="color:#f1fa8c">&#34;--disable-debug&#34;</span>,
+                          <span style="color:#f1fa8c">&#34;--disable-dependency-tracking&#34;</span>,
+                          <span style="color:#f1fa8c">&#34;--disable-silent-rules&#34;</span>,
+                          <span style="color:#f1fa8c">&#34;--prefix=</span><span style="color:#f1fa8c">#{</span>prefix<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span>
+    <span style="color:#6272a4"># system &#34;cmake&#34;, &#34;.&#34;, *std_cmake_args</span>
+    <span style="color:#8be9fd;font-style:italic">system</span> <span style="color:#f1fa8c">&#34;make&#34;</span>, <span style="color:#f1fa8c">&#34;install&#34;</span>
+  <span style="color:#ff79c6">end</span>
 
-  <span style="color:#24909d">test</span> <span style="color:#6ab825;font-weight:bold">do</span>
-    <span style="color:#24909d">system</span> <span style="color:#ed9d13">&#34;false&#34;</span>
-  <span style="color:#6ab825;font-weight:bold">end</span>
-<span style="color:#6ab825;font-weight:bold">end</span>
+  <span style="color:#8be9fd;font-style:italic">test</span> <span style="color:#ff79c6">do</span>
+    <span style="color:#8be9fd;font-style:italic">system</span> <span style="color:#f1fa8c">&#34;false&#34;</span>
+  <span style="color:#ff79c6">end</span>
+<span style="color:#ff79c6">end</span>
 </code></pre></div><p>之后就是完善这个脚本，<code>desc</code>、<code>homepage</code>、<code>license</code> 都请根据项目情况填写。</p>
 <p>如果是 Golang 项目，则需要添加 Go 依赖 <code>depends_on &quot;go&quot; =&gt; :build</code>，同时在 <code>install</code> 中完善安装脚本，golang 开发的项目一般都是使用 <code>go build</code> 来构建。</p>
 
@@ -702,59 +702,59 @@ if (!doNotTrack) {
 </div>
 
 <p>这里附上一份 <a href="https://github.com/kubernetes-sigs/kind">kind</a> 的脚本供大家参考：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#6ab825;font-weight:bold">class</span> <span style="color:#447fcf;text-decoration:underline">Kind</span> &lt; <span style="color:#40ffff">Formula</span>
-  desc <span style="color:#ed9d13">&#34;Run local Kubernetes cluster in Docker&#34;</span>
-  homepage <span style="color:#ed9d13">&#34;https://kind.sigs.k8s.io/&#34;</span>
-  url <span style="color:#ed9d13">&#34;https://github.com/kubernetes-sigs/kind/archive/v0.9.0.tar.gz&#34;</span>
-  sha256 <span style="color:#ed9d13">&#34;c154289659a7ef30b301a0787ecfa2e08edaada6059bf5acefe9f3be1e026381&#34;</span>
-  license <span style="color:#ed9d13">&#34;Apache-2.0&#34;</span>
-  head <span style="color:#ed9d13">&#34;https://github.com/kubernetes-sigs/kind.git&#34;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#ff79c6">class</span> <span style="color:#50fa7b">Kind</span> <span style="color:#ff79c6">&lt;</span> Formula
+  desc <span style="color:#f1fa8c">&#34;Run local Kubernetes cluster in Docker&#34;</span>
+  homepage <span style="color:#f1fa8c">&#34;https://kind.sigs.k8s.io/&#34;</span>
+  url <span style="color:#f1fa8c">&#34;https://github.com/kubernetes-sigs/kind/archive/v0.9.0.tar.gz&#34;</span>
+  sha256 <span style="color:#f1fa8c">&#34;c154289659a7ef30b301a0787ecfa2e08edaada6059bf5acefe9f3be1e026381&#34;</span>
+  license <span style="color:#f1fa8c">&#34;Apache-2.0&#34;</span>
+  head <span style="color:#f1fa8c">&#34;https://github.com/kubernetes-sigs/kind.git&#34;</span>
 
-  bottle <span style="color:#6ab825;font-weight:bold">do</span>
-    cellar <span style="color:#ed9d13">:any_skip_relocation</span>
-    rebuild <span style="color:#3677a9">1</span>
-    sha256 <span style="color:#ed9d13">&#34;e40a2343bf999585fa4fcb1a1e9b801427e921c098fc3f7e3026c071a0e72520&#34;</span> =&gt; <span style="color:#ed9d13">:big_sur</span>
-    sha256 <span style="color:#ed9d13">&#34;e5ba99b5f14711e0dcb121a992d74c5ee6c6b0468b27e5200bf796d4987e13c0&#34;</span> =&gt; <span style="color:#ed9d13">:catalina</span>
-    sha256 <span style="color:#ed9d13">&#34;d52a780ad6af93a2a7c480a41c5178a461b9966ddc1adb66adde8ff3bce15238&#34;</span> =&gt; <span style="color:#ed9d13">:mojave</span>
-    sha256 <span style="color:#ed9d13">&#34;423ea750ae8589d1a199847f746d8e9b5b1f1d81ceff3a9dab2d63f161532588&#34;</span> =&gt; <span style="color:#ed9d13">:high_sierra</span>
-  <span style="color:#6ab825;font-weight:bold">end</span>
+  bottle <span style="color:#ff79c6">do</span>
+    cellar <span style="color:#f1fa8c">:any_skip_relocation</span>
+    rebuild <span style="color:#bd93f9">1</span>
+    sha256 <span style="color:#f1fa8c">&#34;e40a2343bf999585fa4fcb1a1e9b801427e921c098fc3f7e3026c071a0e72520&#34;</span> <span style="color:#ff79c6">=&gt;</span> <span style="color:#f1fa8c">:big_sur</span>
+    sha256 <span style="color:#f1fa8c">&#34;e5ba99b5f14711e0dcb121a992d74c5ee6c6b0468b27e5200bf796d4987e13c0&#34;</span> <span style="color:#ff79c6">=&gt;</span> <span style="color:#f1fa8c">:catalina</span>
+    sha256 <span style="color:#f1fa8c">&#34;d52a780ad6af93a2a7c480a41c5178a461b9966ddc1adb66adde8ff3bce15238&#34;</span> <span style="color:#ff79c6">=&gt;</span> <span style="color:#f1fa8c">:mojave</span>
+    sha256 <span style="color:#f1fa8c">&#34;423ea750ae8589d1a199847f746d8e9b5b1f1d81ceff3a9dab2d63f161532588&#34;</span> <span style="color:#ff79c6">=&gt;</span> <span style="color:#f1fa8c">:high_sierra</span>
+  <span style="color:#ff79c6">end</span>
 
-  depends_on <span style="color:#ed9d13">&#34;go&#34;</span> =&gt; <span style="color:#ed9d13">:build</span>
+  depends_on <span style="color:#f1fa8c">&#34;go&#34;</span> <span style="color:#ff79c6">=&gt;</span> <span style="color:#f1fa8c">:build</span>
 
-  <span style="color:#6ab825;font-weight:bold">def</span> <span style="color:#447fcf">install</span>
-    <span style="color:#24909d">system</span> <span style="color:#ed9d13">&#34;go&#34;</span>, <span style="color:#ed9d13">&#34;build&#34;</span>, <span style="color:#ed9d13">&#34;-o&#34;</span>, bin/<span style="color:#ed9d13">&#34;kind&#34;</span>
-    prefix.install_metafiles
+  <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">install</span>
+    <span style="color:#8be9fd;font-style:italic">system</span> <span style="color:#f1fa8c">&#34;go&#34;</span>, <span style="color:#f1fa8c">&#34;build&#34;</span>, <span style="color:#f1fa8c">&#34;-o&#34;</span>, bin<span style="color:#ff79c6">/</span><span style="color:#f1fa8c">&#34;kind&#34;</span>
+    prefix<span style="color:#ff79c6">.</span>install_metafiles
 
-    <span style="color:#999;font-style:italic"># Install bash completion</span>
-    output = <span style="color:#40ffff">Utils</span>.safe_popen_read(<span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">#{</span>bin<span style="color:#ed9d13">}</span><span style="color:#ed9d13">/kind&#34;</span>, <span style="color:#ed9d13">&#34;completion&#34;</span>, <span style="color:#ed9d13">&#34;bash&#34;</span>)
-    (bash_completion/<span style="color:#ed9d13">&#34;kind&#34;</span>).write output
+    <span style="color:#6272a4"># Install bash completion</span>
+    output <span style="color:#ff79c6">=</span> Utils<span style="color:#ff79c6">.</span>safe_popen_read(<span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">#{</span>bin<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">/kind&#34;</span>, <span style="color:#f1fa8c">&#34;completion&#34;</span>, <span style="color:#f1fa8c">&#34;bash&#34;</span>)
+    (bash_completion<span style="color:#ff79c6">/</span><span style="color:#f1fa8c">&#34;kind&#34;</span>)<span style="color:#ff79c6">.</span>write output
 
-    <span style="color:#999;font-style:italic"># Install zsh completion</span>
-    output = <span style="color:#40ffff">Utils</span>.safe_popen_read(<span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">#{</span>bin<span style="color:#ed9d13">}</span><span style="color:#ed9d13">/kind&#34;</span>, <span style="color:#ed9d13">&#34;completion&#34;</span>, <span style="color:#ed9d13">&#34;zsh&#34;</span>)
-    (zsh_completion/<span style="color:#ed9d13">&#34;_kind&#34;</span>).write output
+    <span style="color:#6272a4"># Install zsh completion</span>
+    output <span style="color:#ff79c6">=</span> Utils<span style="color:#ff79c6">.</span>safe_popen_read(<span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">#{</span>bin<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">/kind&#34;</span>, <span style="color:#f1fa8c">&#34;completion&#34;</span>, <span style="color:#f1fa8c">&#34;zsh&#34;</span>)
+    (zsh_completion<span style="color:#ff79c6">/</span><span style="color:#f1fa8c">&#34;_kind&#34;</span>)<span style="color:#ff79c6">.</span>write output
 
-    <span style="color:#999;font-style:italic"># Install fish completion</span>
-    output = <span style="color:#40ffff">Utils</span>.safe_popen_read(<span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">#{</span>bin<span style="color:#ed9d13">}</span><span style="color:#ed9d13">/kind&#34;</span>, <span style="color:#ed9d13">&#34;completion&#34;</span>, <span style="color:#ed9d13">&#34;fish&#34;</span>)
-    (fish_completion/<span style="color:#ed9d13">&#34;kind.fish&#34;</span>).write output
-  <span style="color:#6ab825;font-weight:bold">end</span>
+    <span style="color:#6272a4"># Install fish completion</span>
+    output <span style="color:#ff79c6">=</span> Utils<span style="color:#ff79c6">.</span>safe_popen_read(<span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">#{</span>bin<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">/kind&#34;</span>, <span style="color:#f1fa8c">&#34;completion&#34;</span>, <span style="color:#f1fa8c">&#34;fish&#34;</span>)
+    (fish_completion<span style="color:#ff79c6">/</span><span style="color:#f1fa8c">&#34;kind.fish&#34;</span>)<span style="color:#ff79c6">.</span>write output
+  <span style="color:#ff79c6">end</span>
 
-  <span style="color:#24909d">test</span> <span style="color:#6ab825;font-weight:bold">do</span>
-    <span style="color:#999;font-style:italic"># Should error out as creating a kind cluster requires root</span>
-    status_output = shell_output(<span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">#{</span>bin<span style="color:#ed9d13">}</span><span style="color:#ed9d13">/kind get kubeconfig --name homebrew 2&gt;&amp;1&#34;</span>, <span style="color:#3677a9">1</span>)
-    assert_match <span style="color:#ed9d13">&#34;failed to list clusters&#34;</span>, status_output
-  <span style="color:#6ab825;font-weight:bold">end</span>
-<span style="color:#6ab825;font-weight:bold">end</span>
+  <span style="color:#8be9fd;font-style:italic">test</span> <span style="color:#ff79c6">do</span>
+    <span style="color:#6272a4"># Should error out as creating a kind cluster requires root</span>
+    status_output <span style="color:#ff79c6">=</span> shell_output(<span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">#{</span>bin<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">/kind get kubeconfig --name homebrew 2&gt;&amp;1&#34;</span>, <span style="color:#bd93f9">1</span>)
+    assert_match <span style="color:#f1fa8c">&#34;failed to list clusters&#34;</span>, status_output
+  <span style="color:#ff79c6">end</span>
+<span style="color:#ff79c6">end</span>
 </code></pre></div><p>更多内容见<a href="https://docs.brew.sh/Formula-Cookbook">官方文档</a>。</p>
 <h3 id="检测脚本">检测脚本</h3>
 <p>在脚本完成后，请先进行如下测试，确保测试通过且无任何报错。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ brew tests
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ brew tests
 $ brew install --build-from-source &lt;CHANGED_FORMULA&gt;
-$ brew <span style="color:#24909d">test</span> &lt;CHANGED_FORMULA&gt;
+$ brew <span style="color:#8be9fd;font-style:italic">test</span> &lt;CHANGED_FORMULA&gt;
 $ brew audit --strict &lt;CHANGED_FORMULA&gt;
 </code></pre></div><h3 id="提交代码">提交代码</h3>
 <p>在通过所有测试后，就可以提交代码了，需要对每个更改单独提交 PR，且 commit 有格式要求，一般为 <code>&lt;FORMULA_NAME&gt; &lt;NEW_VERSION&gt;</code> 如 <code>kbecm 0.10.3</code>。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git add Formula/foo.rb
-$ git commit -m <span style="color:#ed9d13">&#39;foo 0.0.1&#39;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git add Formula/foo.rb
+$ git commit -m <span style="color:#f1fa8c">&#39;foo 0.0.1&#39;</span>
 $ git push --set-upstream &lt;YOUR_USERNAME&gt; &lt;YOUR_BRANCH_NAME&gt;
 </code></pre></div><p>在这里提交后，代码就会 push 到之前 fork 的 <code>homebrew/core</code> 项目。</p>
 <h3 id="提交-pr">提交 PR</h3>
@@ -764,37 +764,37 @@ $ git push --set-upstream &lt;YOUR_USERNAME&gt; &lt;YOUR_BRANCH_NAME&gt;
 <p>PR 合并成功后，如果要发布新版本，这里推荐两种方式提交新版本。</p>
 <h3 id="cli">CLI</h3>
 <p><code>brew</code> 提供了十分简单的方式自动创建 PR，命令如下：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ brew bump-formula-pr --url https://example.com/foo-0.1.tar.gz
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ brew bump-formula-pr --url https://example.com/foo-0.1.tar.gz
 </code></pre></div><p>更多的信息可以通过 <code>brew bump-formula-pr --help</code> 查看。</p>
 <h3 id="github-action">GitHub action</h3>
 <p>这一步也可以在 GitHub action 中自动完成，使用 <a href="https://github.com/marketplace/actions/homebrew-bump-formula">homebrew-bump-formula</a> 插件。原理其实也是使用了 <code>brew bump-formula-pr</code>，但是这样就无需手动触发，可以集成到 Release 的 CI 中。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>Bump Homebrew kubecm formula<span style="color:#666">
-</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">on</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">push</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">tags</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#39;v*&#39;</span><span style="color:#666">
-</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">jobs</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">homebrew</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">runs-on</span>:<span style="color:#666"> </span>ubuntu-latest<span style="color:#666">
-</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">steps</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>Update Homebrew formula<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">uses</span>:<span style="color:#666"> </span>dawidd6/action-homebrew-bump-formula@v3<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">with</span>:<span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#999;font-style:italic"># GitHub token, required, not the default one</span><span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">token</span>:<span style="color:#666"> </span>${{secrets.TOKEN}}<span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#999;font-style:italic"># Optional, defaults to homebrew/core</span><span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">tap</span>:<span style="color:#666"> </span>USER/REPO<span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#999;font-style:italic"># Formula name, required</span><span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">formula</span>:<span style="color:#666"> </span>FORMULA<span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#999;font-style:italic"># Optional, will be determined automatically</span><span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">tag</span>:<span style="color:#666"> </span>${{github.ref}}<span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#999;font-style:italic"># Optional, will be determined automatically</span><span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">revision</span>:<span style="color:#666"> </span>${{github.sha}}<span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#999;font-style:italic"># Optional, if don&#39;t want to check for already open PRs</span><span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">force</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666"> </span><span style="color:#999;font-style:italic"># true</span><span style="color:#666">
-</span></code></pre></div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">name</span>: Bump Homebrew kubecm formula
+
+<span style="color:#ff79c6">on</span>:
+  <span style="color:#ff79c6">push</span>:
+    <span style="color:#ff79c6">tags</span>: <span style="color:#f1fa8c">&#39;v*&#39;</span>
+
+<span style="color:#ff79c6">jobs</span>:
+  <span style="color:#ff79c6">homebrew</span>:
+    <span style="color:#ff79c6">runs-on</span>: ubuntu-latest
+
+    <span style="color:#ff79c6">steps</span>:
+      - <span style="color:#ff79c6">name</span>: Update Homebrew formula
+        <span style="color:#ff79c6">uses</span>: dawidd6/action-homebrew-bump-formula@v3
+        <span style="color:#ff79c6">with</span>:
+          <span style="color:#6272a4"># GitHub token, required, not the default one</span>
+          <span style="color:#ff79c6">token</span>: ${{secrets.TOKEN}}
+          <span style="color:#6272a4"># Optional, defaults to homebrew/core</span>
+          <span style="color:#ff79c6">tap</span>: USER/REPO
+          <span style="color:#6272a4"># Formula name, required</span>
+          <span style="color:#ff79c6">formula</span>: FORMULA
+          <span style="color:#6272a4"># Optional, will be determined automatically</span>
+          <span style="color:#ff79c6">tag</span>: ${{github.ref}}
+          <span style="color:#6272a4"># Optional, will be determined automatically</span>
+          <span style="color:#ff79c6">revision</span>: ${{github.sha}}
+          <span style="color:#6272a4"># Optional, if don&#39;t want to check for already open PRs</span>
+          <span style="color:#ff79c6">force</span>: <span style="color:#ff79c6">false</span> <span style="color:#6272a4"># true</span>
+</code></pre></div>
 
 <div class="alert alert-warning" role="alert">
 <h4 class="alert-heading">注意</h4>

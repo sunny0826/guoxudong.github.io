@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -235,6 +235,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -242,8 +244,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -689,32 +689,32 @@ if (!doNotTrack) {
 <p>说那么多其实意义不大，好不好用，只有试过才知道。这里使用的 Fleet 版本为<code>v0.2.0</code>，是目前的最新版本。</p>
 <p><strong>下载 CLI 工具</strong></p>
 <p>首先需要下载<code>fleet</code>的 CLI 工具，这里的体验和 k3s 类似，都是直接<code>curl</code> GitHub 上的安装脚本并执行：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ curl -sfL https://raw.githubusercontent.com/rancher/fleet/master/install.sh | sh -
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ curl -sfL https://raw.githubusercontent.com/rancher/fleet/master/install.sh | sh -
 </code></pre></div><p><strong>部署控制平面</strong></p>
 <p>使用 CLI 工具将<code>Fleet Manager</code>部署到 Kubernetes 集群上：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># Kubeconfig should point to Manager cluster</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># Kubeconfig should point to Manager cluster</span>
 $ fleet install manager | kubectl apply -f -
 </code></pre></div><p><strong>生成 Cluster group token</strong></p>
 <p>到这控制平面就部署好了，接下来部署<code>agent</code>目标集群。这里生成的其实是一个 yaml 文件，内容包含 fleet 需要的 RBAC 权限和 fleet-agent 的 Deployment：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># Kubeconfig should point to Manager cluster</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># Kubeconfig should point to Manager cluster</span>
 $ fleet install agent-token &gt; token
 </code></pre></div><p><strong>目标集群注册</strong></p>
 <p>将需要纳管的目标集群加入到 fleet 中，<strong>注意</strong>：这里需要将 kubeconfig 切换到目标集群，也就是需要部署<code>agent</code>的集，每个需要注册的集群都要部署<code>agent</code>：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># Kubeconfig should point to AGENT cluster</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># Kubeconfig should point to AGENT cluster</span>
 $ kubectl apply -f token
 </code></pre></div><p><strong>部署 bundles</strong></p>
 <p>这里就是向多个集群同时部署 bundles，使用方法也和<code>Kustomize</code>类似（<code>example</code> 目录是 fleet 官方仓库中的示例目录）：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># Kubeconfig should point to Manager cluster</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># Kubeconfig should point to Manager cluster</span>
 $ fleet apply ./examples/helm-kustomize
 </code></pre></div><p><strong>查看状态</strong></p>
 <p>现在就可以查看所有集群 bundles 的状态了，这里可以看到 bundles 在多个集群都部署成功了（这里是我起的两个 k3s 集群做的测试）：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get fleet
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get fleet
 NAME                                   CLUSTER-COUNT   BUNDLES-READY   BUNDLES-DESIRED   STATUS
-clustergroup.fleet.cattle.io/default   <span style="color:#3677a9">2</span>               <span style="color:#3677a9">3</span>               <span style="color:#3677a9">4</span>                 Modified: <span style="color:#3677a9">1</span> (helm-kustomize )
+clustergroup.fleet.cattle.io/default   <span style="color:#bd93f9">2</span>               <span style="color:#bd93f9">3</span>               <span style="color:#bd93f9">4</span>                 Modified: <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">(</span>helm-kustomize <span style="color:#ff79c6">)</span>
 
 NAME                                    CLUSTERS-READY   CLUSTERS-DESIRED   STATUS
-bundle.fleet.cattle.io/fleet-agent      <span style="color:#3677a9">2</span>                <span style="color:#3677a9">2</span>
-bundle.fleet.cattle.io/helm-kustomize   <span style="color:#3677a9">1</span>                <span style="color:#3677a9">2</span>                  Modified: <span style="color:#3677a9">1</span> (default-default-group/cluster-5a186072-acbd-4f54-8f22-fb1651ce902f )
+bundle.fleet.cattle.io/fleet-agent      <span style="color:#bd93f9">2</span>                <span style="color:#bd93f9">2</span>
+bundle.fleet.cattle.io/helm-kustomize   <span style="color:#bd93f9">1</span>                <span style="color:#bd93f9">2</span>                  Modified: <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">(</span>default-default-group/cluster-5a186072-acbd-4f54-8f22-fb1651ce902f <span style="color:#ff79c6">)</span>
 </code></pre></div><h2 id="总结">总结</h2>
 <p>总的来说，Fleet 的架构简洁且十分轻量，部署方式简单，使用<code>YAML</code>、<code>Helm</code>、<code>Kustomez</code>都可以进行资源的描述和配置，甚至可以使用<code>Helm</code>+<code>Kustomeze</code>的模式，部署体验不错。</p>
 <p>但遗憾的是，目前 Fleet 还处于项目早期，实践也仅限于尝鲜体验，并不能用于生产环境，项目 README 中还专门提到了<strong>目前 Fleet 仅适用于 10 个集群以下的小规模部署</strong>。目前文档不足且项目维护人员并不积极，文档勘误的 <a href="https://github.com/rancher/fleet/pull/32">RP</a> 和相关 ISSUE 也没有得到相关的反馈。项目是做到了业界首个，但是要真正生产可用甚至做到业界第一还有很长的一段路要走。</p>

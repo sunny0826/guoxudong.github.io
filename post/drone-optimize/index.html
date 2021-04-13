@@ -42,7 +42,7 @@
       "datePublished": "2019-09-11 13:53:09 \u002b0800 \u002b0800",
       "dateModified" : "2019-09-11 13:53:09 \u002b0800 \u002b0800",
       "url" : "https:\/\/guoxudong.io\/post\/drone-optimize\/",
-      "wordCount" : "201",
+      "wordCount" : "331",
       "keywords" : [ "devops","drone","工具","Guoxudong" ]
   }
   </script>
@@ -56,7 +56,7 @@
 <meta itemprop="name" content="玩转 Drone CI">
 <meta itemprop="description" content="通过这篇文章总结一下目前我们对 drone 进行了一些定制化开发以及使用技巧，由于 drone 官方的文档不是很详细，所以也希望通过这种方法来和其他使用 drone 的用户分享和交流使用经验。"><meta itemprop="datePublished" content="2019-09-11T13:53:09&#43;08:00" />
 <meta itemprop="dateModified" content="2020-12-15T11:01:02&#43;08:00" />
-<meta itemprop="wordCount" content="201">
+<meta itemprop="wordCount" content="331">
 <meta itemprop="keywords" content="devops,drone,工具," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="玩转 Drone CI"/>
 <meta name="twitter:description" content="通过这篇文章总结一下目前我们对 drone 进行了一些定制化开发以及使用技巧，由于 drone 官方的文档不是很详细，所以也希望通过这种方法来和其他使用 drone 的用户分享和交流使用经验。"/>
@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -245,6 +245,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -252,8 +254,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -593,7 +593,7 @@ if (!doNotTrack) {
 	<div class="td-byline mb-4">
 		<span>By  <b>guoxudong</b> </span> ·
 		<span>
-			1 分钟阅读时间
+			2 分钟阅读时间
 		</span> ·
 		<span>发布于 </span><time datetime=" 2019-09-11" 
 			class="text-muted">2019年09月11日</time> ·
@@ -665,66 +665,66 @@ if (!doNotTrack) {
 <p>在默认情况下，drone 会按照步骤执行，但是有时会遇到前后端在同一个 repo 的情况，这时使用并行构建就可以省去很多的构建时间。</p>
 <h3 id="构建流程">构建流程</h3>
 <p>在下面的示例里会展示一个如下流程：repo 中包含一个由 Java 写的服务以及一个 vue 前端项目，maven 构建和 npm 构建同时进行，maven 构建成功后会镜像 docker 镜像构建并上传镜像仓库，docker 构建成功后会镜像 k8s 部署，部署成功后会进行 vue 项目前端发布，在 k8s 部署成功并且前端发布成功后，进行钉钉构建成功同时，否则进行钉钉构建失败通知。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">前端构建 ————————————          前端发布
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">前端构建 ————————————          前端发布
                     \      /        \
                      \    /       钉钉通知
                       \  /          /
 后端构建 —— 镜像构建 —— k8s部署 ——————
 
 </code></pre></div><h3 id="droneyml-配置">.drone.yml 配置</h3>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;pipeline&#34;</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;default&#34;</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">steps</span>:<span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;Maven编译&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;guoxudongdocker/drone-maven&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">commands</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;mvn clean install&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">depends_on</span>:<span style="color:#666"> </span>[<span style="color:#666"> </span><span style="color:#ed9d13">&#34;clone&#34;</span><span style="color:#666"> </span>]<span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;构建镜像&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;guoxudongdocker/drone-docker&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">settings</span>:<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">username</span>:<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">from_secret</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;docker_user&#34;</span><span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">password</span>:<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">from_secret</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;docker_pass&#34;</span><span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">dockerfile</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;Dockerfile&#34;</span><span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">repo</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;registry-vpc.cn-shanghai.aliyuncs.com/guoxudong/test&#34;</span><span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">registry</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;registry-vpc.cn-shanghai.aliyuncs.com&#34;</span><span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">tags</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;${DRONE_BUILD_NUMBER}&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">depends_on</span>:<span style="color:#666"> </span>[<span style="color:#666"> </span><span style="color:#ed9d13">&#34;Maven编译&#34;</span><span style="color:#666"> </span>]<span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;Kubernetes 部署&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;guoxudongdocker/kubectl&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">settings</span>:<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">config</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;deploy/overlays/uat&#34;</span><span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">timeout</span>:<span style="color:#666"> </span><span style="color:#3677a9">300</span><span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">check</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">depends_on</span>:<span style="color:#666"> </span>[<span style="color:#666"> </span><span style="color:#ed9d13">&#34;构建镜像&#34;</span><span style="color:#666"> </span>]<span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;前端构建&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;guoxudongdocker/node-drone&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">commands</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;npm install&#34;</span><span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;npm run build&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">depends_on</span>:<span style="color:#666"> </span>[<span style="color:#666"> </span><span style="color:#ed9d13">&#34;clone&#34;</span><span style="color:#666"> </span>]<span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;前端上传&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;guoxudongdocker/node-drone&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">commands</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;do something&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">depends_on</span>:<span style="color:#666"> </span>[<span style="color:#666"> </span><span style="color:#ed9d13">&#34;前端构建&#34;</span>,<span style="color:#ed9d13">&#34;Kubernetes 部署&#34;</span><span style="color:#666"> </span>]<span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;钉钉通知&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;guoxudongdocker/drone-dingtalk&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">settings</span>:<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">token</span>:<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">from_secret</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;dingding&#34;</span><span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">type</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;markdown&#34;</span><span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">message_color</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">true</span><span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">message_pic</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">true</span><span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">sha_link</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">true</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">depends_on</span>:<span style="color:#666"> </span>[<span style="color:#666"> </span><span style="color:#ed9d13">&#34;前端上传&#34;</span>,<span style="color:#ed9d13">&#34;Kubernetes 部署&#34;</span><span style="color:#666"> </span>]<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">when</span>:<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">status</span>:<span style="color:#666">
-</span><span style="color:#666">        </span>- <span style="color:#ed9d13">&#34;failure&#34;</span><span style="color:#666">
-</span><span style="color:#666">        </span>- <span style="color:#ed9d13">&#34;success&#34;</span><span style="color:#666">
-</span></code></pre></div><h2 id="多子项目构建">多子项目构建</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">kind</span>: <span style="color:#f1fa8c">&#34;pipeline&#34;</span>
+<span style="color:#ff79c6">name</span>: <span style="color:#f1fa8c">&#34;default&#34;</span>
+<span style="color:#ff79c6">steps</span>:
+  - <span style="color:#ff79c6">name</span>: <span style="color:#f1fa8c">&#34;Maven编译&#34;</span>
+    <span style="color:#ff79c6">image</span>: <span style="color:#f1fa8c">&#34;guoxudongdocker/drone-maven&#34;</span>
+    <span style="color:#ff79c6">commands</span>:
+      - <span style="color:#f1fa8c">&#34;mvn clean install&#34;</span>
+    <span style="color:#ff79c6">depends_on</span>: [ <span style="color:#f1fa8c">&#34;clone&#34;</span> ]
+  - <span style="color:#ff79c6">name</span>: <span style="color:#f1fa8c">&#34;构建镜像&#34;</span>
+    <span style="color:#ff79c6">image</span>: <span style="color:#f1fa8c">&#34;guoxudongdocker/drone-docker&#34;</span>
+    <span style="color:#ff79c6">settings</span>:
+      <span style="color:#ff79c6">username</span>:
+        <span style="color:#ff79c6">from_secret</span>: <span style="color:#f1fa8c">&#34;docker_user&#34;</span>
+      <span style="color:#ff79c6">password</span>:
+        <span style="color:#ff79c6">from_secret</span>: <span style="color:#f1fa8c">&#34;docker_pass&#34;</span>
+      <span style="color:#ff79c6">dockerfile</span>: <span style="color:#f1fa8c">&#34;Dockerfile&#34;</span>
+      <span style="color:#ff79c6">repo</span>: <span style="color:#f1fa8c">&#34;registry-vpc.cn-shanghai.aliyuncs.com/guoxudong/test&#34;</span>
+      <span style="color:#ff79c6">registry</span>: <span style="color:#f1fa8c">&#34;registry-vpc.cn-shanghai.aliyuncs.com&#34;</span>
+      <span style="color:#ff79c6">tags</span>: <span style="color:#f1fa8c">&#34;${DRONE_BUILD_NUMBER}&#34;</span>
+    <span style="color:#ff79c6">depends_on</span>: [ <span style="color:#f1fa8c">&#34;Maven编译&#34;</span> ]
+  - <span style="color:#ff79c6">name</span>: <span style="color:#f1fa8c">&#34;Kubernetes 部署&#34;</span>
+    <span style="color:#ff79c6">image</span>: <span style="color:#f1fa8c">&#34;guoxudongdocker/kubectl&#34;</span>
+    <span style="color:#ff79c6">settings</span>:
+      <span style="color:#ff79c6">config</span>: <span style="color:#f1fa8c">&#34;deploy/overlays/uat&#34;</span>
+      <span style="color:#ff79c6">timeout</span>: <span style="color:#bd93f9">300</span>
+      <span style="color:#ff79c6">check</span>: <span style="color:#ff79c6">false</span>
+    <span style="color:#ff79c6">depends_on</span>: [ <span style="color:#f1fa8c">&#34;构建镜像&#34;</span> ]
+  - <span style="color:#ff79c6">name</span>: <span style="color:#f1fa8c">&#34;前端构建&#34;</span>
+    <span style="color:#ff79c6">image</span>: <span style="color:#f1fa8c">&#34;guoxudongdocker/node-drone&#34;</span>
+    <span style="color:#ff79c6">commands</span>:
+      - <span style="color:#f1fa8c">&#34;npm install&#34;</span>
+      - <span style="color:#f1fa8c">&#34;npm run build&#34;</span>
+    <span style="color:#ff79c6">depends_on</span>: [ <span style="color:#f1fa8c">&#34;clone&#34;</span> ]
+  - <span style="color:#ff79c6">name</span>: <span style="color:#f1fa8c">&#34;前端上传&#34;</span>
+    <span style="color:#ff79c6">image</span>: <span style="color:#f1fa8c">&#34;guoxudongdocker/node-drone&#34;</span>
+    <span style="color:#ff79c6">commands</span>:
+      - <span style="color:#f1fa8c">&#34;do something&#34;</span>
+    <span style="color:#ff79c6">depends_on</span>: [ <span style="color:#f1fa8c">&#34;前端构建&#34;</span>,<span style="color:#f1fa8c">&#34;Kubernetes 部署&#34;</span> ]
+  - <span style="color:#ff79c6">name</span>: <span style="color:#f1fa8c">&#34;钉钉通知&#34;</span>
+    <span style="color:#ff79c6">image</span>: <span style="color:#f1fa8c">&#34;guoxudongdocker/drone-dingtalk&#34;</span>
+    <span style="color:#ff79c6">settings</span>:
+      <span style="color:#ff79c6">token</span>:
+        <span style="color:#ff79c6">from_secret</span>: <span style="color:#f1fa8c">&#34;dingding&#34;</span>
+      <span style="color:#ff79c6">type</span>: <span style="color:#f1fa8c">&#34;markdown&#34;</span>
+      <span style="color:#ff79c6">message_color</span>: <span style="color:#ff79c6">true</span>
+      <span style="color:#ff79c6">message_pic</span>: <span style="color:#ff79c6">true</span>
+      <span style="color:#ff79c6">sha_link</span>: <span style="color:#ff79c6">true</span>
+    <span style="color:#ff79c6">depends_on</span>: [ <span style="color:#f1fa8c">&#34;前端上传&#34;</span>,<span style="color:#f1fa8c">&#34;Kubernetes 部署&#34;</span> ]
+    <span style="color:#ff79c6">when</span>:
+      <span style="color:#ff79c6">status</span>:
+        - <span style="color:#f1fa8c">&#34;failure&#34;</span>
+        - <span style="color:#f1fa8c">&#34;success&#34;</span>
+</code></pre></div><h2 id="多子项目构建">多子项目构建</h2>
 <p>在使用 drone 中遇到的最大问题就是，我们有很多项目都是在一个 repo 中有很多子项目，而每个子项目都是 k8s 中的一个服务，这时一个 <code>.drone.yml</code> 文件很难把所有的服务都囊括。而又不想每个子项目拉一个分支管理，当前的模式就很不合适。</p>
 <h3 id="插件开发">插件开发</h3>
 <p>针对这个问题，我们对 drone 进行了定制化开发，会在每次提交代码后，对新提交的代码和老代码进行比较，筛选出做了修改的子项目，然后对有修改的子项目尽心 CI ，其余的子项目则不进行发布。</p>
@@ -745,29 +745,29 @@ if (!doNotTrack) {
 <blockquote>
 <p>.drone.yml</p>
 </blockquote>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">steps</span>:<span style="color:#666">
-</span><span style="color:#666"></span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>Kubernetes 部署<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666"> </span>guoxudongdocker/kubectl<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">volumes</span>:<span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>kube<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">path</span>:<span style="color:#666"> </span>/root/.kube<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">settings</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">check</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">                 </span><span style="color:#999;font-style:italic"># 该参数为是否开启子模块检查</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">config</span>:<span style="color:#666"> </span>deploy/overlays/uat <span style="color:#666"> </span><span style="color:#999;font-style:italic"># 这里使用 kustomize ,详细使用方法请见 https://github.com/kubernetes-sigs/kustomize</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">timeout</span>:<span style="color:#666"> </span><span style="color:#3677a9">300</span><span style="color:#666">                 </span><span style="color:#999;font-style:italic"># kubedog 的检测超时</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>{your-deployment-name}<span style="color:#666"> </span><span style="color:#999;font-style:italic"># 如果开启子模块检查则需要填入子模块名称</span><span style="color:#666">
-</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#447fcf;text-decoration:underline">...</span><span style="color:#666">
-</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">volumes</span>:<span style="color:#666">
-</span><span style="color:#666"></span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>kube<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">host</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">path</span>:<span style="color:#666"> </span>/tmp/cache/.kube <span style="color:#666"> </span><span style="color:#999;font-style:italic"># kubeconfig 挂载位置</span><span style="color:#666">
-</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">trigger</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">branch</span>:<span style="color:#666">
-</span><span style="color:#666">  </span>- master <span style="color:#666"> </span><span style="color:#999;font-style:italic"># 触发 CI 的分支</span><span style="color:#666">
-</span></code></pre></div><p>使用该插件会如果为测试构建，则会自动设置 docker 镜像 tag 为 <code>DRONE_BUILD_NUMBER</code> ；如果为生产构建（git tag），则叫自动设置 docker 镜像 tag 为 <code>DRONE_TAG</code> ，然后通过 <code>kubectl apply -k .</code> 进行部署，同时使用 <code>kubedog</code> 进行部署状态检查，如果服务正常启动则该 step 通过，如果超时或者部署报错则该 step 失败。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">steps</span>:
+- <span style="color:#ff79c6">name</span>: Kubernetes 部署
+  <span style="color:#ff79c6">image</span>: guoxudongdocker/kubectl
+  <span style="color:#ff79c6">volumes</span>:
+  - <span style="color:#ff79c6">name</span>: kube
+    <span style="color:#ff79c6">path</span>: /root/.kube
+  <span style="color:#ff79c6">settings</span>:
+    <span style="color:#ff79c6">check</span>: <span style="color:#ff79c6">false</span>                 <span style="color:#6272a4"># 该参数为是否开启子模块检查</span>
+    <span style="color:#ff79c6">config</span>: deploy/overlays/uat  <span style="color:#6272a4"># 这里使用 kustomize ,详细使用方法请见 https://github.com/kubernetes-sigs/kustomize</span>
+    <span style="color:#ff79c6">timeout</span>: <span style="color:#bd93f9">300</span>                 <span style="color:#6272a4"># kubedog 的检测超时</span>
+    <span style="color:#ff79c6">name</span>: {your-deployment-name} <span style="color:#6272a4"># 如果开启子模块检查则需要填入子模块名称</span>
+
+...
+
+<span style="color:#ff79c6">volumes</span>:
+- <span style="color:#ff79c6">name</span>: kube
+  <span style="color:#ff79c6">host</span>:
+    <span style="color:#ff79c6">path</span>: /tmp/cache/.kube  <span style="color:#6272a4"># kubeconfig 挂载位置</span>
+
+<span style="color:#ff79c6">trigger</span>:
+  <span style="color:#ff79c6">branch</span>:
+  - master  <span style="color:#6272a4"># 触发 CI 的分支</span>
+</code></pre></div><p>使用该插件会如果为测试构建，则会自动设置 docker 镜像 tag 为 <code>DRONE_BUILD_NUMBER</code> ；如果为生产构建（git tag），则叫自动设置 docker 镜像 tag 为 <code>DRONE_TAG</code> ，然后通过 <code>kubectl apply -k .</code> 进行部署，同时使用 <code>kubedog</code> 进行部署状态检查，如果服务正常启动则该 step 通过，如果超时或者部署报错则该 step 失败。</p>
 <h2 id="结语">结语</h2>
 <p>根据我们目前的开发模式，对 drone 插件进行了全方位的开发。由于 dockerhub 的镜像拉取经常超时，则将镜像推送到了我们自己的镜像仓库；对钉钉通知也进行了优化；同时也根据我们目前的开发语言进行了插件的开发，提供了基于 Java 、Python 以及 Node.js 的 drone 插件，基本可以满足我们现在的 CI 需求，但随着 drone 的深入使用，越来越多的问题将会暴露出来。后续将会不断解决遇到的问题，持续优化。</p>
 

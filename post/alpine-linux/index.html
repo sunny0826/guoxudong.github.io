@@ -42,7 +42,7 @@
       "datePublished": "2019-03-15 09:53:02 \u002b0800 \u002b0800",
       "dateModified" : "2019-03-15 09:53:02 \u002b0800 \u002b0800",
       "url" : "https:\/\/guoxudong.io\/post\/alpine-linux\/",
-      "wordCount" : "395",
+      "wordCount" : "401",
       "keywords" : [ "Linux","Docker","容器","Guoxudong" ]
   }
   </script>
@@ -56,7 +56,7 @@
 <meta itemprop="name" content="Alpine Linux详解">
 <meta itemprop="description" content="Alpine以其小巧、简单在docker容器中得到了广泛的应用。但是Alpine Linux使用了musl，可能和其他Linux发行版使用的glibc实现会有些不同。这里主要介绍了它的基础用法，但是足以满足日常运维需要。"><meta itemprop="datePublished" content="2019-03-15T09:53:02&#43;08:00" />
 <meta itemprop="dateModified" content="2020-08-04T11:59:33&#43;08:00" />
-<meta itemprop="wordCount" content="395">
+<meta itemprop="wordCount" content="401">
 <meta itemprop="keywords" content="Linux,Docker,容器," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Alpine Linux详解"/>
 <meta name="twitter:description" content="Alpine以其小巧、简单在docker容器中得到了广泛的应用。但是Alpine Linux使用了musl，可能和其他Linux发行版使用的glibc实现会有些不同。这里主要介绍了它的基础用法，但是足以满足日常运维需要。"/>
@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -240,6 +240,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -247,8 +249,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -665,34 +665,34 @@ if (!doNotTrack) {
 <p>由于其小巧、安全、简单以及功能完备的特点，被广泛应用于众多Docker容器中。我司目前使用的基础镜像均是基于该系统，<a href="https://hub.docker.com/_/alpine">dockerhub</a>上有提供各种语言的基础镜像.如：<code>node:8-alpine</code>、<code>python:3.6-alpine</code>，同时也可以基于alpine镜像制作符合自己需求的基础镜像。</p>
 <h3 id="简单的镜像构建示例">简单的镜像构建示例</h3>
 <p>这里提供一个python3的基础镜像的<code>Dockerfile</code>，<a href="https://pip.pypa.io/en/latest/installing/">get-pip.py</a>可在 <a href="https://pip.pypa.io/en/latest/installing/">https://pip.pypa.io/en/latest/installing/</a> 下载。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-docker" data-lang="docker"><span style="color:#6ab825;font-weight:bold">FROM</span><span style="color:#ed9d13"> alpine</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#6ab825;font-weight:bold">MAINTAINER</span><span style="color:#ed9d13"> guoxudong@keking.cn</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#999;font-style:italic"># 拷贝安装pip的脚本</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#6ab825;font-weight:bold">COPY</span> get-pip.py /get-pip.py<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#999;font-style:italic"># 设置alpine的镜像地址为阿里云的地址</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#6ab825;font-weight:bold">RUN</span> <span style="color:#24909d">echo</span> <span style="color:#ed9d13">&#34;https://mirrors.aliyun.com/alpine/v3.6/main/&#34;</span> &gt; /etc/apk/repositories <span style="color:#ed9d13">\
-</span><span style="color:#ed9d13"></span>    <span style="color:#999;font-style:italic"># 安装依赖包</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>    &amp;&amp; apk update <span style="color:#ed9d13">\
-</span><span style="color:#ed9d13"></span>    &amp;&amp; apk add --no-cache bash <span style="color:#ed9d13">\
-</span><span style="color:#ed9d13"></span>    <span style="color:#999;font-style:italic"># libevent-dev libxml2-dev  libffi libxml2 libxslt libxslt-dev  \</span>
-    python3 gcc g++ python3-dev python-dev linux-headers libffi-dev openssl-dev <span style="color:#ed9d13">\
-</span><span style="color:#ed9d13"></span>    <span style="color:#999;font-style:italic"># 由于通过apk安装的pip总是基于python2.7的版本，不符合项目要求，此处使用get-pip.py的方式</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>    <span style="color:#999;font-style:italic">#安装基于python3.6的pip</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>    &amp;&amp; python3 /get-pip.py <span style="color:#ed9d13">\
-</span><span style="color:#ed9d13"></span>    <span style="color:#999;font-style:italic"># 删除不必要的脚本</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>    &amp;&amp; <span style="color:#24909d">cd</span> .. <span style="color:#ed9d13">\
-</span><span style="color:#ed9d13"></span>    &amp;&amp; rm -f /get-pip.py <span style="color:#ed9d13">\
-</span><span style="color:#ed9d13"></span>    <span style="color:#999;font-style:italic"># 此环境专用做运行django项目，因此移除不必要的工具，减少空间</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>    <span style="color:#999;font-style:italic">#    &amp;&amp; pip uninstall -y pip setuptools wheel \</span>
-    <span style="color:#999;font-style:italic"># 最后清空apk安装时产生的无用文件</span><span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>    &amp;&amp; rm -rf /var/cache/apk/*<span style="color:#a61717;background-color:#e3d2d2">
-</span></code></pre></div><p><strong>对比</strong>：同样版本的python，对比镜像大小，可见使用alpine的优势</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">~ docker images | grep python
-python                                  3.4                 ccbffa0d70d9        <span style="color:#3677a9">2</span> months ago        922MB
-alpine-python3                          latest              69e41b673a50        <span style="color:#3677a9">2</span> months ago        297MB
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-docker" data-lang="docker"><span style="color:#ff79c6">FROM</span><span style="color:#f1fa8c"> alpine</span>
+
+<span style="color:#ff79c6">MAINTAINER</span><span style="color:#f1fa8c"> guoxudong@keking.cn</span>
+
+<span style="color:#6272a4"># 拷贝安装pip的脚本</span>
+<span style="color:#ff79c6">COPY</span> get-pip.py /get-pip.py
+
+<span style="color:#6272a4"># 设置alpine的镜像地址为阿里云的地址</span>
+<span style="color:#ff79c6">RUN</span> <span style="color:#8be9fd;font-style:italic">echo</span> <span style="color:#f1fa8c">&#34;https://mirrors.aliyun.com/alpine/v3.6/main/&#34;</span> &gt; /etc/apk/repositories <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    <span style="color:#6272a4"># 安装依赖包</span>
+    <span style="color:#ff79c6">&amp;&amp;</span> apk update <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    <span style="color:#ff79c6">&amp;&amp;</span> apk add --no-cache bash <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    <span style="color:#6272a4"># libevent-dev libxml2-dev  libffi libxml2 libxslt libxslt-dev  \</span>
+    python3 gcc g++ python3-dev python-dev linux-headers libffi-dev openssl-dev <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    <span style="color:#6272a4"># 由于通过apk安装的pip总是基于python2.7的版本，不符合项目要求，此处使用get-pip.py的方式</span>
+    <span style="color:#6272a4">#安装基于python3.6的pip</span>
+    <span style="color:#ff79c6">&amp;&amp;</span> python3 /get-pip.py <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    <span style="color:#6272a4"># 删除不必要的脚本</span>
+    <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#8be9fd;font-style:italic">cd</span> .. <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    <span style="color:#ff79c6">&amp;&amp;</span> rm -f /get-pip.py <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>    <span style="color:#6272a4"># 此环境专用做运行django项目，因此移除不必要的工具，减少空间</span>
+    <span style="color:#6272a4">#    &amp;&amp; pip uninstall -y pip setuptools wheel \</span>
+    <span style="color:#6272a4"># 最后清空apk安装时产生的无用文件</span>
+    <span style="color:#ff79c6">&amp;&amp;</span> rm -rf /var/cache/apk/*
+</code></pre></div><p><strong>对比</strong>：同样版本的python，对比镜像大小，可见使用alpine的优势</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">~ docker images | grep python
+python                                  3.4                 ccbffa0d70d9        <span style="color:#bd93f9">2</span> months ago        922MB
+alpine-python3                          latest              69e41b673a50        <span style="color:#bd93f9">2</span> months ago        297MB
 </code></pre></div><h3 id="apk包管理">apk包管理</h3>
 <ul>
 <li>
@@ -709,11 +709,11 @@ alpine-python3                          latest              69e41b673a50        
 </ul>
 <p>镜像源配置</p>
 <p>这里推荐使用阿里云镜像源，由于公司应用都是部署在阿里云上，使用阿里云镜像源会快很多</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ vi /etc/apk/repositories
-<span style="color:#999;font-style:italic"># 将这两行插入到repositories文件开头</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ vi /etc/apk/repositories
+<span style="color:#6272a4"># 将这两行插入到repositories文件开头</span>
 http://mirrors.aliyun.com/alpine/v3.9/main
 http://mirrors.aliyun.com/alpine/v3.9/community
-<span style="color:#999;font-style:italic"># 后面是原有的默认配置</span>
+<span style="color:#6272a4"># 后面是原有的默认配置</span>
 http://dl-cdn.alpinelinux.org/alpine/v3.8/main
 http://dl-cdn.alpinelinux.org/alpine/v3.8/community
 </code></pre></div></li>
@@ -723,12 +723,12 @@ http://dl-cdn.alpinelinux.org/alpine/v3.8/community
 <ul>
 <li><code>apk --help</code>可以查看完整的包管理命令</li>
 </ul>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">bash-4.3# apk --help
-apk-tools 2.10.0, compiled <span style="color:#6ab825;font-weight:bold">for</span> x86_64.
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">bash-4.3# apk --help
+apk-tools 2.10.0, compiled <span style="color:#ff79c6">for</span> x86_64.
 
 Installing and removing packages:
-add       Add PACKAGEs to <span style="color:#ed9d13">&#39;world&#39;</span> and install (or upgrade) them, <span style="color:#6ab825;font-weight:bold">while</span> ensuring that all dependencies are met
-del       Remove PACKAGEs from <span style="color:#ed9d13">&#39;world&#39;</span> and uninstall them
+add       Add PACKAGEs to <span style="color:#f1fa8c">&#39;world&#39;</span> and install <span style="color:#ff79c6">(</span>or upgrade<span style="color:#ff79c6">)</span> them, <span style="color:#ff79c6">while</span> ensuring that all dependencies are met
+del       Remove PACKAGEs from <span style="color:#f1fa8c">&#39;world&#39;</span> and uninstall them
 
 System maintenance:
 fix       Repair package or upgrade it without modifying main dependencies
@@ -740,16 +740,16 @@ Querying information about packages:
 info      Give detailed information about PACKAGEs or repositories
 list      List packages by PATTERN and other criteria
 dot       Generate graphviz graphs
-policy    Show repository policy <span style="color:#6ab825;font-weight:bold">for</span> packages
+policy    Show repository policy <span style="color:#ff79c6">for</span> packages
 
 Repository maintenance:
 index     Create repository index file from FILEs
-fetch     Download PACKAGEs from global repositories to a <span style="color:#24909d">local</span> directory
+fetch     Download PACKAGEs from global repositories to a <span style="color:#8be9fd;font-style:italic">local</span> directory
 verify    Verify package integrity and signature
 manifest  Show checksums of package contents
 
-Use apk &lt;command&gt; --help <span style="color:#6ab825;font-weight:bold">for</span> command-specific help.
-Use apk --help --verbose <span style="color:#6ab825;font-weight:bold">for</span> a full <span style="color:#24909d">command</span> listing.
+Use apk &lt;command&gt; --help <span style="color:#ff79c6">for</span> command-specific help.
+Use apk --help --verbose <span style="color:#ff79c6">for</span> a full <span style="color:#8be9fd;font-style:italic">command</span> listing.
 
 This apk has coffee making abilities.
 </code></pre></div><ul>
@@ -758,22 +758,22 @@ This apk has coffee making abilities.
 <li><code>apk upgrade</code> 升级软件</li>
 <li><code>apk search</code> 搜索可用软件包，<strong>搜索之前最好先更新镜像源</strong></li>
 </ul>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ apk search <span style="color:#999;font-style:italic">#查找所以可用软件包</span>
-$ apk search -v <span style="color:#999;font-style:italic">#查找所以可用软件包及其描述内容</span>
-$ apk search -v <span style="color:#ed9d13">&#39;acf*&#39;</span> <span style="color:#999;font-style:italic">#通过软件包名称查找软件包</span>
-$ apk search -v -d <span style="color:#ed9d13">&#39;docker&#39;</span> <span style="color:#999;font-style:italic">#通过描述文件查找特定的软件包</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ apk search <span style="color:#6272a4">#查找所以可用软件包</span>
+$ apk search -v <span style="color:#6272a4">#查找所以可用软件包及其描述内容</span>
+$ apk search -v <span style="color:#f1fa8c">&#39;acf*&#39;</span> <span style="color:#6272a4">#通过软件包名称查找软件包</span>
+$ apk search -v -d <span style="color:#f1fa8c">&#39;docker&#39;</span> <span style="color:#6272a4">#通过描述文件查找特定的软件包</span>
 </code></pre></div><ul>
 <li><code>apk add</code> 从仓库中安装最新软件包，并自动安装必须的依赖包,也可以从第三方仓库添加软件包</li>
 </ul>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ apk add curl busybox-extras       <span style="color:#999;font-style:italic">#软件以空格分开这里，这里列举我们用的最多的curl和telnet</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ apk add curl busybox-extras       <span style="color:#6272a4">#软件以空格分开这里，这里列举我们用的最多的curl和telnet</span>
 bash-4.3# apk add --no-cache curl
-bash-4.3# apk add mongodb --update-cache --repository http://mirrors.ustc.edu.cn/alpine/v3.6/main/ --allow-untrusted    <span style="color:#999;font-style:italic">#从指定镜像源拉取</span>
+bash-4.3# apk add mongodb --update-cache --repository http://mirrors.ustc.edu.cn/alpine/v3.6/main/ --allow-untrusted    <span style="color:#6272a4">#从指定镜像源拉取</span>
 </code></pre></div><p>安装指定版本软件包</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">bash-4.3# apk add <span style="color:#40ffff">mongodb</span>=4.0.5-r0
-bash-4.3# apk add <span style="color:#ed9d13">&#39;mongodb&lt;4.0.5&#39;</span>
-bash-4.3# apk add <span style="color:#ed9d13">&#39;mongodb&gt;4.0.5&#39;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">bash-4.3# apk add <span style="color:#8be9fd;font-style:italic">mongodb</span><span style="color:#ff79c6">=</span>4.0.5-r0
+bash-4.3# apk add <span style="color:#f1fa8c">&#39;mongodb&lt;4.0.5&#39;</span>
+bash-4.3# apk add <span style="color:#f1fa8c">&#39;mongodb&gt;4.0.5&#39;</span>
 </code></pre></div><p>升级指定软件包</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">bash-4.3# apk add --upgrade busybox <span style="color:#999;font-style:italic">#升级指定软件包</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">bash-4.3# apk add --upgrade busybox <span style="color:#6272a4">#升级指定软件包</span>
 </code></pre></div><p><strong>注</strong>：安装之前最好修改本地镜像源，更新镜像源，搜索软件包是否存在，选择合适岸本在进行安装。</p>
 <ul>
 <li><code>apk del</code> 卸载并删除指定软件包</li>

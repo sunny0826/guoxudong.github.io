@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -240,6 +240,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -247,8 +249,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -675,24 +675,24 @@ if (!doNotTrack) {
 </blockquote>
 <h3 id="示例">示例</h3>
 <p>到这里问题已经解决了，在更新了 ingress 的配置之后，之前所有无法重定向的服务现在都已经可以正常访问了。修改见如下示例：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ <span style="color:#24909d">echo</span> <span style="color:#ed9d13">&#39;
-</span><span style="color:#ed9d13">apiVersion: extensions/v1beta1
-</span><span style="color:#ed9d13">kind: Ingress
-</span><span style="color:#ed9d13">metadata:
-</span><span style="color:#ed9d13">  annotations:
-</span><span style="color:#ed9d13">    nginx.ingress.kubernetes.io/rewrite-target: /$2
-</span><span style="color:#ed9d13">  name: rewrite
-</span><span style="color:#ed9d13">  namespace: default
-</span><span style="color:#ed9d13">spec:
-</span><span style="color:#ed9d13">  rules:
-</span><span style="color:#ed9d13">  - host: rewrite.bar.com
-</span><span style="color:#ed9d13">    http:
-</span><span style="color:#ed9d13">      paths:
-</span><span style="color:#ed9d13">      - backend:
-</span><span style="color:#ed9d13">          serviceName: http-svc
-</span><span style="color:#ed9d13">          servicePort: 80
-</span><span style="color:#ed9d13">        path: /something(/|$)(.*)
-</span><span style="color:#ed9d13">&#39;</span> | kubectl create -f -
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ <span style="color:#8be9fd;font-style:italic">echo</span> <span style="color:#f1fa8c">&#39;
+</span><span style="color:#f1fa8c">apiVersion: extensions/v1beta1
+</span><span style="color:#f1fa8c">kind: Ingress
+</span><span style="color:#f1fa8c">metadata:
+</span><span style="color:#f1fa8c">  annotations:
+</span><span style="color:#f1fa8c">    nginx.ingress.kubernetes.io/rewrite-target: /$2
+</span><span style="color:#f1fa8c">  name: rewrite
+</span><span style="color:#f1fa8c">  namespace: default
+</span><span style="color:#f1fa8c">spec:
+</span><span style="color:#f1fa8c">  rules:
+</span><span style="color:#f1fa8c">  - host: rewrite.bar.com
+</span><span style="color:#f1fa8c">    http:
+</span><span style="color:#f1fa8c">      paths:
+</span><span style="color:#f1fa8c">      - backend:
+</span><span style="color:#f1fa8c">          serviceName: http-svc
+</span><span style="color:#f1fa8c">          servicePort: 80
+</span><span style="color:#f1fa8c">        path: /something(/|$)(.*)
+</span><span style="color:#f1fa8c">&#39;</span> | kubectl create -f -
 </code></pre></div><h2 id="结语">结语</h2>
 <p>解决这个问题的实际时间虽然不长，但是着实让人出了一身冷汗，同时也给了我警示：变更有风险，升级需谨慎。在升级之前需要先浏览新版本的升级信息，同时需要制定完善的回滚策略，确保万无一失。</p>
 

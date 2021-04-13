@@ -153,14 +153,14 @@
 &lt;p&gt;&lt;img src=&#34;https://tva3.sinaimg.cn/large/ad5fbf65ly1gibatrt4puj21ao1e8tet.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;安装&#34;&gt;安装&lt;/h3&gt;
 &lt;p&gt;阿里云提供了Darabonba 的 Web UI 界面，但是在网页上不好调试，我们选择本地安装 CLI 命令行工具。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# Darabonba CLI 是由 Node.js 开发的，使用 npm 来安装&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;# Darabonba CLI 是由 Node.js 开发的，使用 npm 来安装&lt;/span&gt;
 $ npm install -g @darabonba/cli
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;构建-darabonba-模块&#34;&gt;构建 Darabonba 模块&lt;/h3&gt;
 &lt;p&gt;我们假设要创建一个模块为 &lt;code&gt;sample_ecs&lt;/code&gt;，用来生成查询 ECS 信息的 SDK 代码。首先创建一个目录：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ mkdir sample_ecs
-$ &lt;span style=&#34;color:#24909d&#34;&gt;cd&lt;/span&gt; sample_ecs
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ mkdir sample_ecs
+$ &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;cd&lt;/span&gt; sample_ecs
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;初始化模块，输入相关信息：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ dara init
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ dara init
 package scope: guoxudong.io
 package name: sample_ecs
 package version: 0.0.1
@@ -173,35 +173,35 @@ main entry: main.dara
 &lt;h3 id=&#34;安装-vs-code-插件&#34;&gt;安装 VS Code 插件&lt;/h3&gt;
 &lt;p&gt;打开 VS Code，按 &lt;code&gt;F1&lt;/code&gt; 或 &lt;code&gt;Ctrl + Shift + P&lt;/code&gt; 打开命令面板，选择 Install Extension 并输入 &lt;code&gt;darabonba&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;或启动VS Code 快速打开（&lt;code&gt;Ctrl + P&lt;/code&gt;），粘贴以下命令，然后按 Enter。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;ext install darabonba.darabonba
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;ext install darabonba.darabonba
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;之后就可以使用语法高亮、代码提示、代码格式化、语法检查等功能了。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65ly1gibbkgjhc5j20q80l3wh7.jpg&#34; alt=&#34;代码高亮&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;安装依赖模块&#34;&gt;安装依赖模块&lt;/h3&gt;
 &lt;p&gt;首先需要设置依赖仓库地址：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ dara config &lt;span style=&#34;color:#24909d&#34;&gt;set&lt;/span&gt; registry https://darabonba.api.aliyun.com
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ dara config &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;set&lt;/span&gt; registry https://darabonba.api.aliyun.com
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;之后就是将依赖写入 &lt;code&gt;Darafile&lt;/code&gt; 中：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;{
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;scope&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;guoxudong.io&amp;#34;&lt;/span&gt;,
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;sample_ecs&amp;#34;&lt;/span&gt;,
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;version&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;0.0.1&amp;#34;&lt;/span&gt;,
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;main&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;main.dara&amp;#34;&lt;/span&gt;,
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;libraries&amp;#34;&lt;/span&gt;: {
-    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;Console&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;darabonba:Console:*&amp;#34;&lt;/span&gt;,
-    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;ECS&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;alibabacloud:Ecs20140526:*&amp;#34;&lt;/span&gt;,
-    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;RPC&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;alibabacloud:RPC:*&amp;#34;&lt;/span&gt;,
-    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;Util&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;darabonba:Util:*&amp;#34;&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;{
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;#34;scope&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;guoxudong.io&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;sample_ecs&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;#34;version&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;0.0.1&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;#34;main&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;main.dara&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;#34;libraries&amp;#34;&lt;/span&gt;: {
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;#34;Console&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;darabonba:Console:*&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;#34;ECS&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;alibabacloud:Ecs20140526:*&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;#34;RPC&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;alibabacloud:RPC:*&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;#34;Util&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;darabonba:Util:*&amp;#34;&lt;/span&gt;
   },
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;java&amp;#34;&lt;/span&gt;: {
-    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;package&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;aliyun.com.alibabacloud.sample&amp;#34;&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;#34;java&amp;#34;&lt;/span&gt;: {
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;#34;package&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;aliyun.com.alibabacloud.sample&amp;#34;&lt;/span&gt;
   },
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;csharp&amp;#34;&lt;/span&gt;: {
-    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;namespace&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Alibabacloud.Sample&amp;#34;&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;#34;csharp&amp;#34;&lt;/span&gt;: {
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;#34;namespace&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;Alibabacloud.Sample&amp;#34;&lt;/span&gt;
   },
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;php&amp;#34;&lt;/span&gt;: {
-    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;package&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Alibabacloud.Sample&amp;#34;&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;#34;php&amp;#34;&lt;/span&gt;: {
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;#34;package&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;Alibabacloud.Sample&amp;#34;&lt;/span&gt;
   },
-  &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;python&amp;#34;&lt;/span&gt;: {
-    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;&amp;#34;package&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;alibabacloud_sample&amp;#34;&lt;/span&gt;
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;#34;python&amp;#34;&lt;/span&gt;: {
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;#34;package&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;alibabacloud_sample&amp;#34;&lt;/span&gt;
   }
 }
 
@@ -220,7 +220,7 @@ main entry: main.dara
 &lt;/div&gt;
 
 &lt;p&gt;修改完 &lt;code&gt;Darafile&lt;/code&gt; 之后，安装这些依赖：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ dara install
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ dara install
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;之后就可以看到多了一个 &lt;code&gt;.libraries.json&lt;/code&gt; 文件和一个 &lt;code&gt;libraries&lt;/code&gt; 目录，需要的所有依赖模块就都已经安装好了。&lt;/p&gt;
 &lt;h3 id=&#34;查看模块内容&#34;&gt;查看模块内容&lt;/h3&gt;
 &lt;p&gt;更多的模块，可在&lt;a href=&#34;https://darabonba.api.aliyun.com/module&#34;&gt;模块仓库&lt;/a&gt;中搜索。这里以 ECS 模块为例&lt;/p&gt;
@@ -228,67 +228,67 @@ main entry: main.dara
 &lt;p&gt;可以在 &lt;code&gt;Detail&lt;/code&gt; 中看到所有可以调用的接口，通过还可以点击其他 tab 可以查看版本、安装方法等内容：&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://tvax2.sinaimg.cn/large/ad5fbf65ly1gibbruwd1zj21at0pqadt.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;也可通过命令单独安装模块：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ dara install alibabacloud:Ecs20140526
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ dara install alibabacloud:Ecs20140526
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;代码编写&#34;&gt;代码编写&lt;/h3&gt;
 &lt;p&gt;现在就可以编写 Darabonba 代码了，Darabonba 代码的整体风格偏向于 Java，不是很难懂，这里贴上一段简单的代码：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;ECS&lt;/span&gt;;
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;RPC&lt;/span&gt;;
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;Util&lt;/span&gt;;
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;Console&lt;/span&gt;;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;import&lt;/span&gt; ECS&lt;span style=&#34;color:#ff79c6&#34;&gt;;&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;import&lt;/span&gt; RPC&lt;span style=&#34;color:#ff79c6&#34;&gt;;&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;import&lt;/span&gt; Util&lt;span style=&#34;color:#ff79c6&#34;&gt;;&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;import&lt;/span&gt; Console&lt;span style=&#34;color:#ff79c6&#34;&gt;;&lt;/span&gt;
 
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;/**
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;* Initialization  初始化公共请求参数
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;*/&lt;/span&gt;
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;static&lt;/span&gt; function &lt;span style=&#34;color:#447fcf&#34;&gt;Initialization&lt;/span&gt;(regionId: string)&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;throws&lt;/span&gt; : ECS{
+&lt;span style=&#34;color:#6272a4&#34;&gt;/**
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;* Initialization  初始化公共请求参数
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;*/&lt;/span&gt;
+&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;static&lt;/span&gt; function &lt;span style=&#34;color:#50fa7b&#34;&gt;Initialization&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;regionId&lt;span style=&#34;color:#ff79c6&#34;&gt;:&lt;/span&gt; string&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;throws&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;:&lt;/span&gt; ECS&lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;
 
-    var config = &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;new&lt;/span&gt; RPC.&lt;span style=&#34;color:#bbb&#34;&gt;Config&lt;/span&gt;{};
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 您的AccessKey ID
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    config.&lt;span style=&#34;color:#bbb&#34;&gt;accessKeyId&lt;/span&gt; = &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;lt;accessKeyId&amp;gt;&amp;#34;&lt;/span&gt;;
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 您的AccessKey Secret
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    config.&lt;span style=&#34;color:#bbb&#34;&gt;accessKeySecret&lt;/span&gt; = &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;lt;accessKeySecret&amp;gt;&amp;#34;&lt;/span&gt;;
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 您的可用区ID
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    config.&lt;span style=&#34;color:#bbb&#34;&gt;regionId&lt;/span&gt; = regionId;
+    var config &lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;new&lt;/span&gt; RPC&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#50fa7b&#34;&gt;Config&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;{};&lt;/span&gt;
+    &lt;span style=&#34;color:#6272a4&#34;&gt;// 您的AccessKey ID
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;    config&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#50fa7b&#34;&gt;accessKeyId&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;&amp;lt;accessKeyId&amp;gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;;&lt;/span&gt;
+    &lt;span style=&#34;color:#6272a4&#34;&gt;// 您的AccessKey Secret
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;    config&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#50fa7b&#34;&gt;accessKeySecret&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;&amp;lt;accessKeySecret&amp;gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;;&lt;/span&gt;
+    &lt;span style=&#34;color:#6272a4&#34;&gt;// 您的可用区ID
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;    config&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#50fa7b&#34;&gt;regionId&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt; regionId&lt;span style=&#34;color:#ff79c6&#34;&gt;;&lt;/span&gt;
 
-    &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;new&lt;/span&gt; ECS(config);
-}
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;new&lt;/span&gt; ECS&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;config&lt;span style=&#34;color:#ff79c6&#34;&gt;);&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;
 
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;/**
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;* DescribeZones    查询一个阿里云地域下的可用区
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;*/&lt;/span&gt;
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;static&lt;/span&gt; async function &lt;span style=&#34;color:#447fcf&#34;&gt;DescribeZones&lt;/span&gt;(client: ECS, regionId: string)&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;throws&lt;/span&gt;: &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;void&lt;/span&gt;{
-    var req = &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;new&lt;/span&gt; ECS.&lt;span style=&#34;color:#bbb&#34;&gt;DescribeZonesRequest&lt;/span&gt;{};
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 可用区所在的地域ID。您可以调用DescribeRegions查看最新的阿里云地域列表
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    req.&lt;span style=&#34;color:#bbb&#34;&gt;regionId&lt;/span&gt; = regionId;
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 根据汉语、英语和日语筛选返回结果。更多详情，请参见RFC7231
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 取值范围：
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// zh-CN
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// en-US
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// ja
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 默认值：zh-CN。
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    req.&lt;span style=&#34;color:#bbb&#34;&gt;acceptLanguage&lt;/span&gt; = &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;zh-CN&amp;#34;&lt;/span&gt;;
-    var resp = client.&lt;span style=&#34;color:#bbb&#34;&gt;describeZones&lt;/span&gt;(req);
-    Console.&lt;span style=&#34;color:#bbb&#34;&gt;log&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;--------------------查询地域下的可用区--------------------&amp;#34;&lt;/span&gt;);
-    Console.&lt;span style=&#34;color:#bbb&#34;&gt;log&lt;/span&gt;(Util.&lt;span style=&#34;color:#bbb&#34;&gt;toJSONString&lt;/span&gt;(resp));
-}
+&lt;span style=&#34;color:#6272a4&#34;&gt;/**
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;* DescribeZones    查询一个阿里云地域下的可用区
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;*/&lt;/span&gt;
+&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;static&lt;/span&gt; async function &lt;span style=&#34;color:#50fa7b&#34;&gt;DescribeZones&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;client&lt;span style=&#34;color:#ff79c6&#34;&gt;:&lt;/span&gt; ECS&lt;span style=&#34;color:#ff79c6&#34;&gt;,&lt;/span&gt; regionId&lt;span style=&#34;color:#ff79c6&#34;&gt;:&lt;/span&gt; string&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;throws&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#8be9fd&#34;&gt;void&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;
+    var req &lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;new&lt;/span&gt; ECS&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#50fa7b&#34;&gt;DescribeZonesRequest&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;{};&lt;/span&gt;
+    &lt;span style=&#34;color:#6272a4&#34;&gt;// 可用区所在的地域ID。您可以调用DescribeRegions查看最新的阿里云地域列表
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;    req&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#50fa7b&#34;&gt;regionId&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt; regionId&lt;span style=&#34;color:#ff79c6&#34;&gt;;&lt;/span&gt;
+    &lt;span style=&#34;color:#6272a4&#34;&gt;// 根据汉语、英语和日语筛选返回结果。更多详情，请参见RFC7231
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#6272a4&#34;&gt;// 取值范围：
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#6272a4&#34;&gt;// zh-CN
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#6272a4&#34;&gt;// en-US
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#6272a4&#34;&gt;// ja
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#6272a4&#34;&gt;// 默认值：zh-CN。
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;    req&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#50fa7b&#34;&gt;acceptLanguage&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;zh-CN&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;;&lt;/span&gt;
+    var resp &lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt; client&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#50fa7b&#34;&gt;describeZones&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;req&lt;span style=&#34;color:#ff79c6&#34;&gt;);&lt;/span&gt;
+    Console&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#50fa7b&#34;&gt;log&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;--------------------查询地域下的可用区--------------------&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;);&lt;/span&gt;
+    Console&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#50fa7b&#34;&gt;log&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;Util&lt;span style=&#34;color:#ff79c6&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#50fa7b&#34;&gt;toJSONString&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;resp&lt;span style=&#34;color:#ff79c6&#34;&gt;));&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;
 
 
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;static&lt;/span&gt; async function &lt;span style=&#34;color:#447fcf&#34;&gt;main&lt;/span&gt;(args: [string]) &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;throws&lt;/span&gt;: &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;void&lt;/span&gt; {
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 可用区域Id （请自行配置）
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    var regionId = &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;&amp;lt;regionId&amp;gt;&amp;#34;&lt;/span&gt;;
+&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;static&lt;/span&gt; async function &lt;span style=&#34;color:#50fa7b&#34;&gt;main&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;args&lt;span style=&#34;color:#ff79c6&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;[&lt;/span&gt;string&lt;span style=&#34;color:#ff79c6&#34;&gt;])&lt;/span&gt; &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;throws&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#8be9fd&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;
+    &lt;span style=&#34;color:#6272a4&#34;&gt;// 可用区域Id （请自行配置）
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;    var regionId &lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;&amp;lt;regionId&amp;gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;;&lt;/span&gt;
 
-    var client = Initialization(regionId);
+    var client &lt;span style=&#34;color:#ff79c6&#34;&gt;=&lt;/span&gt; Initialization&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;regionId&lt;span style=&#34;color:#ff79c6&#34;&gt;);&lt;/span&gt;
 
-    &lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// 查询阿里云地域下的可用区
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;    DescribeZones(client, regionId)
-}
+    &lt;span style=&#34;color:#6272a4&#34;&gt;// 查询阿里云地域下的可用区
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;    DescribeZones&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;client&lt;span style=&#34;color:#ff79c6&#34;&gt;,&lt;/span&gt; regionId&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这个代码注释很完善，这里就不多讲解了，本示例在官网有&lt;a href=&#34;https://api.aliyun.com/?spm=a2c6h.17640777.J_1935739830.2.8f9a54e1V4j8vN#/codesample&#34;&gt;完整示例&lt;/a&gt;，有兴趣的同学可以研究一下。而 Darabonba 的文档，可以在 &lt;a href=&#34;https://github.com/aliyun/darabonba&#34;&gt;Github&lt;/a&gt; 上找到。&lt;/p&gt;
 &lt;h3 id=&#34;代码生成&#34;&gt;代码生成&lt;/h3&gt;
 &lt;p&gt;现在就可以生成代码了，下面以生成 Python 代码为例，执行命令：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ dara codegen python ./tmp
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ dara codegen python ./tmp
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;命令执行成功后，就可以看到 Python 代码已经生成了：&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://tva4.sinaimg.cn/large/ad5fbf65gy1gic21suu35j208a05h3yh.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;如果代码还没有写完，想检查是否有语法错误，可以使用 &lt;code&gt;check&lt;/code&gt; 命令检查：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ dara check main.dara
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ dara check main.dara
 Check success !
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;到这我们的代码就生成成功了，但是这还不是结束，我们需要去测试一下生成的代码能否正常运行，在实践中就出现过代码生成成功，但是运行报错的情况。&lt;/p&gt;
 

@@ -42,7 +42,7 @@
       "datePublished": "2020-03-02 15:29:16 \u002b0800 \u002b0800",
       "dateModified" : "2020-03-02 15:29:16 \u002b0800 \u002b0800",
       "url" : "https:\/\/guoxudong.io\/post\/nginx-ingress-log-aliyun\/",
-      "wordCount" : "197",
+      "wordCount" : "269",
       "keywords" : [ "ingress","阿里云","日志服务","Guoxudong" ]
   }
   </script>
@@ -56,7 +56,7 @@
 <meta itemprop="name" content="修改 Nginx Ingress 日志打印格式">
 <meta itemprop="description" content="修改 nginx-ingress 日志，并结合阿里云日志服务制作系统访问日志统计图表。"><meta itemprop="datePublished" content="2020-03-02T15:29:16&#43;08:00" />
 <meta itemprop="dateModified" content="2020-08-04T11:59:33&#43;08:00" />
-<meta itemprop="wordCount" content="197">
+<meta itemprop="wordCount" content="269">
 <meta itemprop="keywords" content="ingress,阿里云,日志服务," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="修改 Nginx Ingress 日志打印格式"/>
 <meta name="twitter:description" content="修改 nginx-ingress 日志，并结合阿里云日志服务制作系统访问日志统计图表。"/>
@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -241,6 +241,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -248,8 +250,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -589,7 +589,7 @@ if (!doNotTrack) {
 	<div class="td-byline mb-4">
 		<span>By  <b>guoxudong</b> </span> ·
 		<span>
-			1 分钟阅读时间
+			2 分钟阅读时间
 		</span> ·
 		<span>发布于 </span><time datetime=" 2020-03-02" 
 			class="text-muted">2020年03月02日</time> ·
@@ -681,7 +681,7 @@ if (!doNotTrack) {
 </div>
 
 <p>修改 ConfigMap，<code>ingress-controller</code> 将进行热更新，看到如下日志，就证明配置已完成更新，接下来就可以看到你自定义字段的值已经打印出来了。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">I0302 <span style="color:#3677a9">08</span>:<span style="color:#3677a9">20</span>:<span style="color:#3677a9">58.393365</span> <span style="color:#3677a9">9</span> controller.<span style="color:#6ab825;font-weight:bold">go</span>:<span style="color:#3677a9">200</span>] Backend successfully reloaded.
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">I0302 <span style="color:#bd93f9">08</span>:<span style="color:#bd93f9">20</span>:<span style="color:#bd93f9">58.393365</span> <span style="color:#bd93f9">9</span> controller.<span style="color:#ff79c6">go</span>:<span style="color:#bd93f9">200</span>] Backend successfully reloaded.
 </code></pre></div><h3 id="调整阿里云日志组件配置">调整阿里云日志组件配置</h3>
 
 
@@ -691,66 +691,66 @@ if (!doNotTrack) {
 </div>
 
 <p>日志已经成功打印了，接下来就是调整日志采集的字段了，这里只需要调整日志服务 CRD 的扩展配置即可。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl edit AliyunLogConfig k8s-nginx-ingress
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl edit AliyunLogConfig k8s-nginx-ingress
 </code></pre></div><p>在修改配置之前，推荐先去 <a href="https://regex101.com/">https://regex101.com/</a> 验证正则表达式是否正确，将调整过的正则表达式和 <code>ingress-controller</code> 打印的日志贴入下图指定位置，就可以看出正则表达式是否正确。</p>
 <p><img src="https://tvax1.sinaimg.cn/large/ad5fbf65gy1gcfo9lxuc6j21gv0juwka.jpg" alt="image"></p>
 <p>然后将添加的字段名称（这个名称将作为 key 在日志服务中展示，可以与 header 中的字段不同）和正则表达式贴入如下 CRD 中。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>log.alibabacloud.com/v1alpha1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>AliyunLogConfig<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># your config name, must be unique in you k8s cluster</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>k8s-nginx-ingress<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># logstore name to upload log</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">logstore</span>:<span style="color:#666"> </span>nginx-ingress<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># product code, only for k8s nginx ingress</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">productCode</span>:<span style="color:#666"> </span>k8s-nginx-ingress<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># logtail config detail</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">logtailConfig</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">inputType</span>:<span style="color:#666"> </span>plugin<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#999;font-style:italic"># logtail config name, should be same with [metadata.name]</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">configName</span>:<span style="color:#666"> </span>k8s-nginx-ingress<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">inputDetail</span>:<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">plugin</span>:<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">inputs</span>:<span style="color:#666">
-</span><span style="color:#666">        </span>- <span style="color:#6ab825;font-weight:bold">type</span>:<span style="color:#666"> </span>service_docker_stdout<span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">detail</span>:<span style="color:#666">
-</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">IncludeLabel</span>:<span style="color:#666">
-</span><span style="color:#666">              </span><span style="color:#6ab825;font-weight:bold">io.kubernetes.container.name</span>:<span style="color:#666"> </span>nginx-ingress-controller<span style="color:#666">
-</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">Stderr</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
-</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">Stdout</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">true</span><span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">processors</span>:<span style="color:#666">
-</span><span style="color:#666">        </span>- <span style="color:#6ab825;font-weight:bold">type</span>:<span style="color:#666"> </span>processor_regex<span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">detail</span>:<span style="color:#666">
-</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">KeepSource</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
-</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">Keys</span>:<span style="color:#666">
-</span><span style="color:#666">            </span>- client_ip<span style="color:#666">
-</span><span style="color:#666">            </span>- x_forward_for<span style="color:#666">
-</span><span style="color:#666">            </span>- remote_user<span style="color:#666">
-</span><span style="color:#666">            </span>- time<span style="color:#666">
-</span><span style="color:#666">            </span>- method<span style="color:#666">
-</span><span style="color:#666">            </span>- url<span style="color:#666">
-</span><span style="color:#666">            </span>- version<span style="color:#666">
-</span><span style="color:#666">            </span>- status<span style="color:#666">
-</span><span style="color:#666">            </span>- body_bytes_sent<span style="color:#666">
-</span><span style="color:#666">            </span>- http_referer<span style="color:#666">
-</span><span style="color:#666">            </span>- http_user_agent<span style="color:#666">
-</span><span style="color:#666">            </span>- request_length<span style="color:#666">
-</span><span style="color:#666">            </span>- request_time<span style="color:#666">
-</span><span style="color:#666">            </span>- proxy_upstream_name<span style="color:#666">
-</span><span style="color:#666">            </span>- upstream_addr<span style="color:#666">
-</span><span style="color:#666">            </span>- upstream_response_length<span style="color:#666">
-</span><span style="color:#666">            </span>- upstream_response_time<span style="color:#666">
-</span><span style="color:#666">            </span>- upstream_status<span style="color:#666">
-</span><span style="color:#666">            </span>- req_id<span style="color:#666">
-</span><span style="color:#666">            </span>- host<span style="color:#666">
-</span><span style="color:#666">            </span>- <span style="color:#999;font-style:italic">#需要添加的字段名称</span><span style="color:#666">
-</span><span style="color:#666">            </span>- ...<span style="color:#666">
-</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">NoKeyError</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">true</span><span style="color:#666">
-</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">NoMatchError</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">true</span><span style="color:#666">
-</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">Regex</span>:<span style="color:#666"> </span><span style="color:#999;font-style:italic">#修改后的正则表达式</span><span style="color:#666">
-</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">SourceKey</span>:<span style="color:#666"> </span>content<span style="color:#666">
-</span></code></pre></div><h3 id="日志控制台新增字段">日志控制台新增字段</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">apiVersion</span>: log.alibabacloud.com/v1alpha1
+<span style="color:#ff79c6">kind</span>: AliyunLogConfig
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#6272a4"># your config name, must be unique in you k8s cluster</span>
+  <span style="color:#ff79c6">name</span>: k8s-nginx-ingress
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#6272a4"># logstore name to upload log</span>
+  <span style="color:#ff79c6">logstore</span>: nginx-ingress
+  <span style="color:#6272a4"># product code, only for k8s nginx ingress</span>
+  <span style="color:#ff79c6">productCode</span>: k8s-nginx-ingress
+  <span style="color:#6272a4"># logtail config detail</span>
+  <span style="color:#ff79c6">logtailConfig</span>:
+    <span style="color:#ff79c6">inputType</span>: plugin
+    <span style="color:#6272a4"># logtail config name, should be same with [metadata.name]</span>
+    <span style="color:#ff79c6">configName</span>: k8s-nginx-ingress
+    <span style="color:#ff79c6">inputDetail</span>:
+      <span style="color:#ff79c6">plugin</span>:
+        <span style="color:#ff79c6">inputs</span>:
+        - <span style="color:#ff79c6">type</span>: service_docker_stdout
+          <span style="color:#ff79c6">detail</span>:
+            <span style="color:#ff79c6">IncludeLabel</span>:
+              <span style="color:#ff79c6">io.kubernetes.container.name</span>: nginx-ingress-controller
+            <span style="color:#ff79c6">Stderr</span>: <span style="color:#ff79c6">false</span>
+            <span style="color:#ff79c6">Stdout</span>: <span style="color:#ff79c6">true</span>
+        <span style="color:#ff79c6">processors</span>:
+        - <span style="color:#ff79c6">type</span>: processor_regex
+          <span style="color:#ff79c6">detail</span>:
+            <span style="color:#ff79c6">KeepSource</span>: <span style="color:#ff79c6">false</span>
+            <span style="color:#ff79c6">Keys</span>:
+            - client_ip
+            - x_forward_for
+            - remote_user
+            - time
+            - method
+            - url
+            - version
+            - status
+            - body_bytes_sent
+            - http_referer
+            - http_user_agent
+            - request_length
+            - request_time
+            - proxy_upstream_name
+            - upstream_addr
+            - upstream_response_length
+            - upstream_response_time
+            - upstream_status
+            - req_id
+            - host
+            - <span style="color:#6272a4">#需要添加的字段名称</span>
+            - ...
+            <span style="color:#ff79c6">NoKeyError</span>: <span style="color:#ff79c6">true</span>
+            <span style="color:#ff79c6">NoMatchError</span>: <span style="color:#ff79c6">true</span>
+            <span style="color:#ff79c6">Regex</span>: <span style="color:#6272a4">#修改后的正则表达式</span>
+            <span style="color:#ff79c6">SourceKey</span>: content
+</code></pre></div><h3 id="日志控制台新增字段">日志控制台新增字段</h3>
 <p>如果上面的操作无误的话，日志服务中就会展示您添加的字段了，如果配置有误，所有的自定义字段都会不显示，只会显示保留字段名称。</p>
 <p>添加指定字段查询，就可以快速查看添加的字段了。</p>
 <p><img src="https://tva3.sinaimg.cn/large/ad5fbf65gy1gcfohy9fv4j21460gxtc6.jpg" alt="image"></p>

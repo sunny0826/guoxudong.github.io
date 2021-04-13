@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -244,6 +244,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -251,8 +253,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -673,27 +673,27 @@ if (!doNotTrack) {
 <h3 id="安装-aws-cdk">安装 AWS CDK</h3>
 <p>首先其实需要有 <code>AWS CLI</code> 命令行工具，并配置了 <code>AWS_ACCESS_KEY_ID</code>、<code>AWS_SECRET_ACCESS_KEY</code> 和 <code>AWS_DEFAULT_REGION</code>，这里就不做详细介绍了，同时还要安装 <code>Node.js</code> 10.3.0 以上的版本。</p>
 <p>使用 <code>npm</code> 安装：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ npm install -g aws-cdk
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ npm install -g aws-cdk
 </code></pre></div><p>安装完成后，检查 <code>AWS CDK</code> 版本：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ cdk --version
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ cdk --version
 </code></pre></div><h3 id="创建-app">创建 APP</h3>
 <p><code>AWS CDK</code> 安装完成后，就可以开始创建项目了。</p>
 <p>新建一个目录：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ mkdir aws-cdk-eks
-$ <span style="color:#24909d">cd</span> aws-cdk-eks
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ mkdir aws-cdk-eks
+$ <span style="color:#8be9fd;font-style:italic">cd</span> aws-cdk-eks
 </code></pre></div><p>初始化项目：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ cdk init app --language python
-$ <span style="color:#24909d">source</span> .venv/bin/activate
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ cdk init app --language python
+$ <span style="color:#8be9fd;font-style:italic">source</span> .venv/bin/activate
 $ python -m pip install -r requirements.txt
 </code></pre></div><p>这里就会生成一个 Python 项目，目录结构如下如下：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ tree
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ tree
 .
 ├── README.md
 ├── app.py
 ├── cdk.json
 ├── cdk_python
 │   ├── __init__.py
-│   └── cdk_python_stack.py   <span style="color:#999;font-style:italic"># 主要文件</span>
+│   └── cdk_python_stack.py   <span style="color:#6272a4"># 主要文件</span>
 ├── requirements.txt
 ├── setup.py
 └── source.bat
@@ -708,53 +708,53 @@ $ python -m pip install -r requirements.txt
 <li>新建一个 VPC</li>
 </ul>
 <p>直接使用 <code>default</code> VPC:</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">vpc = ec2.Vpc.from_lookup(self, <span style="color:#24909d">id</span>=<span style="color:#ed9d13">&#39;Vpc&#39;</span>, is_default=True)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">vpc <span style="color:#ff79c6">=</span> ec2<span style="color:#ff79c6">.</span>Vpc<span style="color:#ff79c6">.</span>from_lookup(self, <span style="color:#8be9fd;font-style:italic">id</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#39;Vpc&#39;</span>, is_default<span style="color:#ff79c6">=</span>True)
 </code></pre></div><p>指定现有 VPC：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">vpc = ec2.Vpc.from_lookup(self, <span style="color:#24909d">id</span>=<span style="color:#ed9d13">&#39;Vpc&#39;</span>, vpc_id=<span style="color:#ed9d13">&#39;vpc-0417e46d&#39;</span>)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">vpc <span style="color:#ff79c6">=</span> ec2<span style="color:#ff79c6">.</span>Vpc<span style="color:#ff79c6">.</span>from_lookup(self, <span style="color:#8be9fd;font-style:italic">id</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#39;Vpc&#39;</span>, vpc_id<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#39;vpc-0417e46d&#39;</span>)
 </code></pre></div><p>新建 VPC：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">vpc = ec2.Vpc(self,
-    <span style="color:#ed9d13">&#39;eks-vpc&#39;</span>, <span style="color:#999;font-style:italic"># VPC id</span>
-    cidr=<span style="color:#ed9d13">&#39;10.3.0.0/16&#39;</span>, <span style="color:#999;font-style:italic"># CIDR</span>
-    max_azs=<span style="color:#3677a9">3</span>,  <span style="color:#999;font-style:italic"># 跨3个AZ</span>
-    nat_gateways=<span style="color:#3677a9">1</span> <span style="color:#999;font-style:italic"># 新建一个 NAT Gateway</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">vpc <span style="color:#ff79c6">=</span> ec2<span style="color:#ff79c6">.</span>Vpc(self,
+    <span style="color:#f1fa8c">&#39;eks-vpc&#39;</span>, <span style="color:#6272a4"># VPC id</span>
+    cidr<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#39;10.3.0.0/16&#39;</span>, <span style="color:#6272a4"># CIDR</span>
+    max_azs<span style="color:#ff79c6">=</span><span style="color:#bd93f9">3</span>,  <span style="color:#6272a4"># 跨3个AZ</span>
+    nat_gateways<span style="color:#ff79c6">=</span><span style="color:#bd93f9">1</span> <span style="color:#6272a4"># 新建一个 NAT Gateway</span>
     )
 </code></pre></div><p>还有很多其他参数可以配置，这里用不到直接使用默认值。</p>
 <h4 id="创建-iam">创建 IAM</h4>
 <p>这里需要给 k8s 的 master 创建一个  IAM Role，这样我们才能对 EKS 进行管理。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">eks_master_role = iam.Role(self, <span style="color:#ed9d13">&#39;EksMasterRole&#39;</span>,
-    role_name=<span style="color:#ed9d13">&#39;EksAdminRole&#39;</span>,
-    assumed_by=iam.AccountRootPrincipal()
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">eks_master_role <span style="color:#ff79c6">=</span> iam<span style="color:#ff79c6">.</span>Role(self, <span style="color:#f1fa8c">&#39;EksMasterRole&#39;</span>,
+    role_name<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#39;EksAdminRole&#39;</span>,
+    assumed_by<span style="color:#ff79c6">=</span>iam<span style="color:#ff79c6">.</span>AccountRootPrincipal()
     )
 </code></pre></div><h4 id="创建-eks">创建 EKS</h4>
 <p>VPC 和 IAM 都已经准备好了，现在可以创建 EKS 集群了。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">cluster = eks.Cluster(self, 
-    <span style="color:#ed9d13">&#39;Cluster&#39;</span>,  <span style="color:#999;font-style:italic"># 集群 id</span>
-    vpc=vpc,  <span style="color:#999;font-style:italic"># 指定 VPC</span>
-    version=eks.KubernetesVersion.V1_18,  <span style="color:#999;font-style:italic"># K8S 版本</span>
-    masters_role=eks_master_role, <span style="color:#999;font-style:italic"># naster 的 IAM Role</span>
-    default_capacity=<span style="color:#3677a9">0</span>  <span style="color:#999;font-style:italic"># 这里不需要 worker 节点，后面采用 MNG 或 ASG 来管理</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">cluster <span style="color:#ff79c6">=</span> eks<span style="color:#ff79c6">.</span>Cluster(self, 
+    <span style="color:#f1fa8c">&#39;Cluster&#39;</span>,  <span style="color:#6272a4"># 集群 id</span>
+    vpc<span style="color:#ff79c6">=</span>vpc,  <span style="color:#6272a4"># 指定 VPC</span>
+    version<span style="color:#ff79c6">=</span>eks<span style="color:#ff79c6">.</span>KubernetesVersion<span style="color:#ff79c6">.</span>V1_18,  <span style="color:#6272a4"># K8S 版本</span>
+    masters_role<span style="color:#ff79c6">=</span>eks_master_role, <span style="color:#6272a4"># naster 的 IAM Role</span>
+    default_capacity<span style="color:#ff79c6">=</span><span style="color:#bd93f9">0</span>  <span style="color:#6272a4"># 这里不需要 worker 节点，后面采用 MNG 或 ASG 来管理</span>
     )
 </code></pre></div><p>可以看到先前定义的 <code>vpc</code> 和 <code>eks_master_role</code> 都作为参数被传给了 <code>cluster</code>，而 <code>default_capacity</code> 是定义默认 worker 节点的，下面我们会采用 MNG 和 ASG 来管理 worker 节点，所以这里设置为 0.</p>
 <h4 id="为-eks-添加-mng">为 EKS 添加 MNG</h4>
 <p><code>cluster</code> 定义好后，相当于 K8S 的 master 节点已经配置完成，接下来就是 worker 节点的配置。EKS 可以使用 MNG 和 ASG 来管理 worker 节点。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">cluster.add_nodegroup_capacity(
-    <span style="color:#ed9d13">&#39;MNG&#39;</span>,  <span style="color:#999;font-style:italic"># MNG id</span>
-    capacity_type=eks.CapacityType.SPOT,  <span style="color:#999;font-style:italic"># 节点类型</span>
-    desired_size=<span style="color:#3677a9">2</span>, <span style="color:#999;font-style:italic"># 节点数量</span>
-    instance_types=[  <span style="color:#999;font-style:italic"># 节点规格</span>
-        ec2.InstanceType(<span style="color:#ed9d13">&#39;t3.large&#39;</span>),
-        ec2.InstanceType(<span style="color:#ed9d13">&#39;m5.large&#39;</span>),
-        ec2.InstanceType(<span style="color:#ed9d13">&#39;c5.large&#39;</span>),
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">cluster<span style="color:#ff79c6">.</span>add_nodegroup_capacity(
+    <span style="color:#f1fa8c">&#39;MNG&#39;</span>,  <span style="color:#6272a4"># MNG id</span>
+    capacity_type<span style="color:#ff79c6">=</span>eks<span style="color:#ff79c6">.</span>CapacityType<span style="color:#ff79c6">.</span>SPOT,  <span style="color:#6272a4"># 节点类型</span>
+    desired_size<span style="color:#ff79c6">=</span><span style="color:#bd93f9">2</span>, <span style="color:#6272a4"># 节点数量</span>
+    instance_types<span style="color:#ff79c6">=</span>[  <span style="color:#6272a4"># 节点规格</span>
+        ec2<span style="color:#ff79c6">.</span>InstanceType(<span style="color:#f1fa8c">&#39;t3.large&#39;</span>),
+        ec2<span style="color:#ff79c6">.</span>InstanceType(<span style="color:#f1fa8c">&#39;m5.large&#39;</span>),
+        ec2<span style="color:#ff79c6">.</span>InstanceType(<span style="color:#f1fa8c">&#39;c5.large&#39;</span>),
     ]),
 </code></pre></div><h4 id="为-eks-添加-asg">为 EKS 添加 ASG</h4>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">cluster.add_auto_scaling_group_capacity(
-  <span style="color:#ed9d13">&#39;ASGNG&#39;</span>, <span style="color:#999;font-style:italic"># ASG id</span>
-  instance_type=[  <span style="color:#999;font-style:italic"># 节点规格</span>
-        ec2.InstanceType(<span style="color:#ed9d13">&#39;t3.large&#39;</span>),
-        ec2.InstanceType(<span style="color:#ed9d13">&#39;m5.large&#39;</span>),
-        ec2.InstanceType(<span style="color:#ed9d13">&#39;c5.large&#39;</span>),
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">cluster<span style="color:#ff79c6">.</span>add_auto_scaling_group_capacity(
+  <span style="color:#f1fa8c">&#39;ASGNG&#39;</span>, <span style="color:#6272a4"># ASG id</span>
+  instance_type<span style="color:#ff79c6">=</span>[  <span style="color:#6272a4"># 节点规格</span>
+        ec2<span style="color:#ff79c6">.</span>InstanceType(<span style="color:#f1fa8c">&#39;t3.large&#39;</span>),
+        ec2<span style="color:#ff79c6">.</span>InstanceType(<span style="color:#f1fa8c">&#39;m5.large&#39;</span>),
+        ec2<span style="color:#ff79c6">.</span>InstanceType(<span style="color:#f1fa8c">&#39;c5.large&#39;</span>),
   ],
-  desired_capacity=<span style="color:#3677a9">2</span> <span style="color:#999;font-style:italic"># 节点数量</span>
+  desired_capacity<span style="color:#ff79c6">=</span><span style="color:#bd93f9">2</span> <span style="color:#6272a4"># 节点数量</span>
   )
 </code></pre></div><p>当然 MNG 和 ASG 都可以设置 <code>max_size</code> 和 <code>min_size</code>，也就是可以实现节点级别的弹性伸缩，但是目前测试下来只有 ASG 可以将配置的资源 TAG 带入 EC2 的配置，而 MNG 需要通过定制 <code>launch_template_spec</code> 的方式才能实现。如果对这方面没有要求的话推荐使用 MNG。</p>
 <p>到这里代码就写好了，只有几十行代码，下面我们就是检查和部署了。</p>
@@ -768,7 +768,7 @@ $ python -m pip install -r requirements.txt
 <p>在检查无误后就可以开始部署了，执行命令 <code>cdk deploy</code> 并输入 <code>y</code> 确认，之后可以看到部署的进度条。如果部署中间出现错误， CDK 会自动进行回滚，之前创建和修改的资源都会被恢复原样，可以放心使用。</p>
 <p><img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1gmzpw3ltfkj21920h2n2q.jpg" alt="部署成功"></p>
 <p>到这里，EKS 集群就已经部署成功了，执行两条命令，就能生成 <code>kubeconfig</code> 并使用 <code>kubectl</code> 访问了。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ aws eks updata-kubeconfig ...
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ aws eks updata-kubeconfig ...
 $ aws eks get-token ...
 </code></pre></div><h3 id="销毁">销毁</h3>
 <p>在完成测试后，执行命令 <code>cdk destroy</code> 对创建的资源进行释放。</p>

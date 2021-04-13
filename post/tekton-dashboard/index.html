@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -243,6 +243,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -250,8 +252,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -670,19 +670,19 @@ if (!doNotTrack) {
 <p>这是所有步骤中最麻烦的一步，由于官方提供的 Tekton 镜像都在 <code>gcr.io</code> 上，在国内并不能直接拉取，所以在测试的时候着实花费了不少时间。</p>
 <p>我特意将这些镜像转储到 dockerhub 上，如果官方版无法使用，可以使用克隆版：</p>
 <p><strong>安装 <a href="https://github.com/tektoncd/pipeline/blob/master/docs/install.md">Tekton Pipelines</a></strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#999;font-style:italic"># 官方</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#6272a4"># 官方</span>
 $ kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline/previous/v0.10.1/release.yaml
-<span style="color:#999;font-style:italic"># 克隆版</span>
+<span style="color:#6272a4"># 克隆版</span>
 $ kubectl apply -f https://raw.githubusercontent.com/sunny0826/tekton-local/v0.10.1/tekton-pipeline.yaml
 </code></pre></div><p><strong>安装 <a href="https://github.com/tektoncd/dashboard#install-dashboard">Tekton Dashboard</a></strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#999;font-style:italic"># 官方</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#6272a4"># 官方</span>
 $ kubectl apply --filename https://storage.googleapis.com/tekton-releases/dashboard/previous/v0.5.3/tekton-dashboard-release.yaml
-<span style="color:#999;font-style:italic"># 克隆版</span>
+<span style="color:#6272a4"># 克隆版</span>
 $ kubectl apply -f https://raw.githubusercontent.com/sunny0826/tekton-local/v0.10.1/tekton-dashboard.yaml
 </code></pre></div><p>安装成功之后需要配置 Tekton Dashboard 的访问地址，可以使用 ingress 或 Nodeport 暴露端口，这里采用 <code>port-forward</code> 的形式将端口映射到本地：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl port-forward svc/tekton-dashboard 8097:9097 -n tekton-pipelines
-Forwarding from 127.0.0.1:8097 -&gt; <span style="color:#3677a9">9097</span>
-Forwarding from [::1]:8097 -&gt; <span style="color:#3677a9">9097</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl port-forward svc/tekton-dashboard 8097:9097 -n tekton-pipelines
+Forwarding from 127.0.0.1:8097 -&gt; <span style="color:#bd93f9">9097</span>
+Forwarding from <span style="color:#ff79c6">[</span>::1<span style="color:#ff79c6">]</span>:8097 -&gt; <span style="color:#bd93f9">9097</span>
 ...
 </code></pre></div><p><strong>访问 Tekton Dashboard</strong></p>
 <p>打开浏览器访问访问 http://localhost:8097</p>
@@ -737,7 +737,7 @@ Forwarding from [::1]:8097 -&gt; <span style="color:#3677a9">9097</span>
 <blockquote>
 <p>deploy 步骤中，有时会出现权限错误，需要给 default:default 绑定上 admin 的 clusterrole 权限：</p>
 </blockquote>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl create rolebinding default-admin --clusterrole=admin --serviceaccount=default:default
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl create rolebinding default-admin --clusterrole<span style="color:#ff79c6">=</span>admin --serviceaccount<span style="color:#ff79c6">=</span>default:default
 </code></pre></div><p>确认 <code>build</code> 和 <code>deploy</code> 任务均已成功。</p>
 <p><img src="https://tvax1.sinaimg.cn/large/ad5fbf65gy1geqrmy2mc9j218w0jo0uj.jpg" alt="image"></p>
 
@@ -748,9 +748,9 @@ Forwarding from [::1]:8097 -&gt; <span style="color:#3677a9">9097</span>
 </div>
 
 <h3 id="查看构建结果">查看构建结果</h3>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get deploy
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get deploy
 NAME                 READY   UP-TO-DATE   AVAILABLE   AGE
-example-greenhouse   1/1     <span style="color:#3677a9">1</span>            <span style="color:#3677a9">1</span>           5h2m
+example-greenhouse   1/1     <span style="color:#bd93f9">1</span>            <span style="color:#bd93f9">1</span>           5h2m
 </code></pre></div><h2 id="总结">总结</h2>
 <p>Tekton Dashboard 将 Tekton 的资源进行了可视化展示，指导用户快速理解 Tekton pipeline 流程以及配置方式，快速上手 Tekton。但是由于镜像的原因，导致新手体验不佳，所幸官方还提供了 <a href="https://katacoda.com">katacoda</a> 交互式教程，该教程我已汉化完成并获得了官方的许可，可以在浏览器端快速体验从安装 Tekton 到部署应用的整个过程。</p>
 

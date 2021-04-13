@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -242,6 +242,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -249,8 +251,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -666,76 +666,76 @@ if (!doNotTrack) {
 <p>首先进入 release 页面，拷贝 macOS 的 Darwin 包地址</p>
 <p><img src="https://ws4.sinaimg.cn/large/ad5fbf65gy1g5c7b4mi5fj21lq0se4ck.jpg" alt="image"></p>
 <p>然后通过命令在本地创建 Formula</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">brew create https://github.com/sunny0826/kubecm/releases/download/v0.0.1/kubecm_0.0.1_Darwin_x86_64.tar.gz
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">brew create https://github.com/sunny0826/kubecm/releases/download/v0.0.1/kubecm_0.0.1_Darwin_x86_64.tar.gz
 </code></pre></div><p>通过这个命令，<code>brew</code> 会创建一个名为 <code>kubecm.rb</code> 的文件在 <code>/usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula/</code> 目录。</p>
 <h3 id="修改-rb-脚本">修改 rb 脚本</h3>
 <p>然后在该目录可以看到 <code>kubecm.rb</code> 这个脚本：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Ruby" data-lang="Ruby"><span style="color:#999;font-style:italic"># Documentation: https://github.com/Homebrew/brew/blob/master/share/doc/homebrew/Formula-Cookbook.md</span>
-<span style="color:#999;font-style:italic">#                http://www.rubydoc.info/github/Homebrew/brew/master/Formula</span>
-<span style="color:#999;font-style:italic"># PLEASE REMOVE ALL GENERATED COMMENTS BEFORE SUBMITTING YOUR PULL REQUEST!</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Ruby" data-lang="Ruby"><span style="color:#6272a4"># Documentation: https://github.com/Homebrew/brew/blob/master/share/doc/homebrew/Formula-Cookbook.md</span>
+<span style="color:#6272a4">#                http://www.rubydoc.info/github/Homebrew/brew/master/Formula</span>
+<span style="color:#6272a4"># PLEASE REMOVE ALL GENERATED COMMENTS BEFORE SUBMITTING YOUR PULL REQUEST!</span>
 
-<span style="color:#6ab825;font-weight:bold">class</span> <span style="color:#447fcf;text-decoration:underline">OtfccMac64</span> &lt; <span style="color:#40ffff">Formula</span>
-  desc <span style="color:#ed9d13">&#34;&#34;</span>
-  homepage <span style="color:#ed9d13">&#34;&#34;</span>
-  url <span style="color:#ed9d13">&#34;https://github.com/sunny0826/kubecm/releases/download/v0.0.1/kubecm_0.0.1_Darwin_x86_64.tar.gz&#34;</span>
-  version <span style="color:#ed9d13">&#34;0.0.1&#34;</span>
-  sha256 <span style="color:#ed9d13">&#34;f393b14f9c42c890b8a60949b13a8f9b5c3f814daa8b18901656ccc3b866f646&#34;</span>
+<span style="color:#ff79c6">class</span> <span style="color:#50fa7b">OtfccMac64</span> <span style="color:#ff79c6">&lt;</span> Formula
+  desc <span style="color:#f1fa8c">&#34;&#34;</span>
+  homepage <span style="color:#f1fa8c">&#34;&#34;</span>
+  url <span style="color:#f1fa8c">&#34;https://github.com/sunny0826/kubecm/releases/download/v0.0.1/kubecm_0.0.1_Darwin_x86_64.tar.gz&#34;</span>
+  version <span style="color:#f1fa8c">&#34;0.0.1&#34;</span>
+  sha256 <span style="color:#f1fa8c">&#34;f393b14f9c42c890b8a60949b13a8f9b5c3f814daa8b18901656ccc3b866f646&#34;</span>
 
-  <span style="color:#999;font-style:italic"># depends_on &#34;cmake&#34; =&gt; :build</span>
-  depends_on <span style="color:#ed9d13">:x11</span> <span style="color:#999;font-style:italic"># if your formula requires any X11/XQuartz components</span>
+  <span style="color:#6272a4"># depends_on &#34;cmake&#34; =&gt; :build</span>
+  depends_on <span style="color:#f1fa8c">:x11</span> <span style="color:#6272a4"># if your formula requires any X11/XQuartz components</span>
 
-  <span style="color:#6ab825;font-weight:bold">def</span> <span style="color:#447fcf">install</span>
-    <span style="color:#999;font-style:italic"># ENV.deparallelize  # if your formula fails when building in parallel</span>
+  <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">install</span>
+    <span style="color:#6272a4"># ENV.deparallelize  # if your formula fails when building in parallel</span>
 
-    <span style="color:#999;font-style:italic"># Remove unrecognized options if warned by configure</span>
-    <span style="color:#24909d">system</span> <span style="color:#ed9d13">&#34;./configure&#34;</span>, <span style="color:#ed9d13">&#34;--disable-debug&#34;</span>,
-                          <span style="color:#ed9d13">&#34;--disable-dependency-tracking&#34;</span>,
-                          <span style="color:#ed9d13">&#34;--disable-silent-rules&#34;</span>,
-                          <span style="color:#ed9d13">&#34;--prefix=</span><span style="color:#ed9d13">#{</span>prefix<span style="color:#ed9d13">}</span><span style="color:#ed9d13">&#34;</span>
-    <span style="color:#999;font-style:italic"># system &#34;cmake&#34;, &#34;.&#34;, *std_cmake_args</span>
-    <span style="color:#24909d">system</span> <span style="color:#ed9d13">&#34;make&#34;</span>, <span style="color:#ed9d13">&#34;install&#34;</span> <span style="color:#999;font-style:italic"># if this fails, try separate make/make install steps</span>
-  <span style="color:#6ab825;font-weight:bold">end</span>
+    <span style="color:#6272a4"># Remove unrecognized options if warned by configure</span>
+    <span style="color:#8be9fd;font-style:italic">system</span> <span style="color:#f1fa8c">&#34;./configure&#34;</span>, <span style="color:#f1fa8c">&#34;--disable-debug&#34;</span>,
+                          <span style="color:#f1fa8c">&#34;--disable-dependency-tracking&#34;</span>,
+                          <span style="color:#f1fa8c">&#34;--disable-silent-rules&#34;</span>,
+                          <span style="color:#f1fa8c">&#34;--prefix=</span><span style="color:#f1fa8c">#{</span>prefix<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span>
+    <span style="color:#6272a4"># system &#34;cmake&#34;, &#34;.&#34;, *std_cmake_args</span>
+    <span style="color:#8be9fd;font-style:italic">system</span> <span style="color:#f1fa8c">&#34;make&#34;</span>, <span style="color:#f1fa8c">&#34;install&#34;</span> <span style="color:#6272a4"># if this fails, try separate make/make install steps</span>
+  <span style="color:#ff79c6">end</span>
 
-  <span style="color:#24909d">test</span> <span style="color:#6ab825;font-weight:bold">do</span>
-    <span style="color:#999;font-style:italic"># `test do` will create, run in and delete a temporary directory.</span>
-    <span style="color:#999;font-style:italic">#</span>
-    <span style="color:#999;font-style:italic"># This test will fail and we won&#39;t accept that! It&#39;s enough to just replace</span>
-    <span style="color:#999;font-style:italic"># &#34;false&#34; with the main program this formula installs, but it&#39;d be nice if you</span>
-    <span style="color:#999;font-style:italic"># were more thorough. Run the test with `brew test otfcc-win32`. Options passed</span>
-    <span style="color:#999;font-style:italic"># to `brew install` such as `--HEAD` also need to be provided to `brew test`.</span>
-    <span style="color:#999;font-style:italic">#</span>
-    <span style="color:#999;font-style:italic"># The installed folder is not in the path, so use the entire path to any</span>
-    <span style="color:#999;font-style:italic"># executables being tested: `system &#34;#{bin}/program&#34;, &#34;do&#34;, &#34;something&#34;`.</span>
-    <span style="color:#24909d">system</span> <span style="color:#ed9d13">&#34;false&#34;</span>
-  <span style="color:#6ab825;font-weight:bold">end</span>
-<span style="color:#6ab825;font-weight:bold">end</span>
+  <span style="color:#8be9fd;font-style:italic">test</span> <span style="color:#ff79c6">do</span>
+    <span style="color:#6272a4"># `test do` will create, run in and delete a temporary directory.</span>
+    <span style="color:#6272a4">#</span>
+    <span style="color:#6272a4"># This test will fail and we won&#39;t accept that! It&#39;s enough to just replace</span>
+    <span style="color:#6272a4"># &#34;false&#34; with the main program this formula installs, but it&#39;d be nice if you</span>
+    <span style="color:#6272a4"># were more thorough. Run the test with `brew test otfcc-win32`. Options passed</span>
+    <span style="color:#6272a4"># to `brew install` such as `--HEAD` also need to be provided to `brew test`.</span>
+    <span style="color:#6272a4">#</span>
+    <span style="color:#6272a4"># The installed folder is not in the path, so use the entire path to any</span>
+    <span style="color:#6272a4"># executables being tested: `system &#34;#{bin}/program&#34;, &#34;do&#34;, &#34;something&#34;`.</span>
+    <span style="color:#8be9fd;font-style:italic">system</span> <span style="color:#f1fa8c">&#34;false&#34;</span>
+  <span style="color:#ff79c6">end</span>
+<span style="color:#ff79c6">end</span>
 </code></pre></div><p>默认提供的脚本并不适合我们，修改这个脚本：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Ruby" data-lang="Ruby"><span style="color:#6ab825;font-weight:bold">class</span> <span style="color:#447fcf;text-decoration:underline">Kubecm</span> &lt; <span style="color:#40ffff">Formula</span>
-  desc <span style="color:#ed9d13">&#34;Merge multiple kubeconfig&#34;</span>
-  homepage <span style="color:#ed9d13">&#34;https://github.com/sunny0826/kubecm&#34;</span>
-  url <span style="color:#ed9d13">&#34;https://github.com/sunny0826/kubecm/releases/download/v0.0.1/kubecm_0.0.1_Darwin_x86_64.tar.gz&#34;</span>
-  version <span style="color:#ed9d13">&#34;0.0.1&#34;</span>
-  sha256 <span style="color:#ed9d13">&#34;8c2766e7720049ba0ce9e3d20b7511796a6ba224ce1386cd1d4ef8cc6e1315cd&#34;</span>
-  <span style="color:#999;font-style:italic"># depends_on &#34;cmake&#34; =&gt; :build</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Ruby" data-lang="Ruby"><span style="color:#ff79c6">class</span> <span style="color:#50fa7b">Kubecm</span> <span style="color:#ff79c6">&lt;</span> Formula
+  desc <span style="color:#f1fa8c">&#34;Merge multiple kubeconfig&#34;</span>
+  homepage <span style="color:#f1fa8c">&#34;https://github.com/sunny0826/kubecm&#34;</span>
+  url <span style="color:#f1fa8c">&#34;https://github.com/sunny0826/kubecm/releases/download/v0.0.1/kubecm_0.0.1_Darwin_x86_64.tar.gz&#34;</span>
+  version <span style="color:#f1fa8c">&#34;0.0.1&#34;</span>
+  sha256 <span style="color:#f1fa8c">&#34;8c2766e7720049ba0ce9e3d20b7511796a6ba224ce1386cd1d4ef8cc6e1315cd&#34;</span>
+  <span style="color:#6272a4"># depends_on &#34;cmake&#34; =&gt; :build</span>
 
-  <span style="color:#6ab825;font-weight:bold">def</span> <span style="color:#447fcf">install</span>
-    bin.install <span style="color:#ed9d13">&#34;kubecm&#34;</span>
-  <span style="color:#6ab825;font-weight:bold">end</span>
-<span style="color:#6ab825;font-weight:bold">end</span>
+  <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">install</span>
+    bin<span style="color:#ff79c6">.</span>install <span style="color:#f1fa8c">&#34;kubecm&#34;</span>
+  <span style="color:#ff79c6">end</span>
+<span style="color:#ff79c6">end</span>
 </code></pre></div><p>分布填上 <code>desc</code> 、 <code>homepage</code> 、<code>url</code> 等信息，由于这里下载的是 darwin 包，所以直接在 <code>install</code> 中填上 <code>bin.install &quot;kubecm&quot;</code> 即可。</p>
 <h3 id="本地测试">本地测试</h3>
 <p>保存脚本，然后使用 <code>brew install kubecm</code> 进行测试，查看结果：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Updating Homebrew...
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Updating Homebrew...
 Fast-forwarded master to origin/master.
 Fast-forwarded master to origin/master.
-==&gt; Auto-updated Homebrew!
-Updated <span style="color:#3677a9">2</span> taps (sunny0826/tap, homebrew/cask).
-==&gt; Updated Formulae
+<span style="color:#ff79c6">==</span>&gt; Auto-updated Homebrew!
+Updated <span style="color:#bd93f9">2</span> taps <span style="color:#ff79c6">(</span>sunny0826/tap, homebrew/cask<span style="color:#ff79c6">)</span>.
+<span style="color:#ff79c6">==</span>&gt; Updated Formulae
 sunny0826/tap/kubecm
 
-==&gt; Downloading https://github.com/sunny0826/kubecm/releases/download/v0.0.1/kubecm_0.0.1_Darwin_x86_64.tar.gz
+<span style="color:#ff79c6">==</span>&gt; Downloading https://github.com/sunny0826/kubecm/releases/download/v0.0.1/kubecm_0.0.1_Darwin_x86_64.tar.gz
 Already downloaded: /Users/guoxudong/Library/Caches/Homebrew/kubecm-86.64.tar.gz
-🍺  /usr/local/Cellar/kubecm/86.64: <span style="color:#3677a9">5</span> files, 5.4MB, built in <span style="color:#3677a9">1</span> second
+🍺  /usr/local/Cellar/kubecm/86.64: <span style="color:#bd93f9">5</span> files, 5.4MB, built in <span style="color:#bd93f9">1</span> second
 </code></pre></div><p>可以看到已经安装成功了！</p>
 <h3 id="创建-tap">创建 Tap</h3>
 <p>在本地测试成功之后，就可以把他发布了。这里需要在 GitHub 上创建一个名为 <code>homebrew-tap</code> 的 repo 注意该 repo 需要以 <code>homebrew-</code> 为前缀，像是<a href="https://github.com/sunny0826/homebrew-tap">这样</a>。</p>
@@ -743,12 +743,12 @@ Already downloaded: /Users/guoxudong/Library/Caches/Homebrew/kubecm-86.64.tar.gz
 <h3 id="实际测试">实际测试</h3>
 <p>发布好之后，就可以测试发布成功没有了。</p>
 <p>首先卸载之前使用本地脚本安装的应用：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ brew uninstall kubecm
-Uninstalling /usr/local/Cellar/kubecm/86.64... (<span style="color:#3677a9">5</span> files, 5.4MB)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ brew uninstall kubecm
+Uninstalling /usr/local/Cellar/kubecm/86.64... <span style="color:#ff79c6">(</span><span style="color:#bd93f9">5</span> files, 5.4MB<span style="color:#ff79c6">)</span>
 </code></pre></div><p>然后使用</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">brew tap sunny0826/tap &amp;&amp; brew install kubecm
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">brew tap sunny0826/tap <span style="color:#ff79c6">&amp;&amp;</span> brew install kubecm
 </code></pre></div><p>或者</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">brew install sunny0826/tap/kubecm
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">brew install sunny0826/tap/kubecm
 </code></pre></div><p>来进行安装。</p>
 <h2 id="结语">结语</h2>
 <p>到这我们就成功的在 Homebrew 上发布了自己的 Golang 应用，本篇中的方法仅适合 Golang 开发的二进制可执行文件的发布，其他语言的发布需要在 <code>.rb</code> 脚本上有所修改，更多内容请参考<a href="https://docs.brew.sh/">官方文档</a>。这里要再介绍一下我用 Golang 开发的另一个小工具 <a href="https://github.com/sunny0826/kubecm">kubecm</a> ，该项目之前我是使用 python 开发的，用于合并多个 kubeconfig 文件，本次重写新增了查看所有 kubeconfig 和 删除 kubeconfig 中 context 等功能，同时也在 Homebrew 上发布，欢迎拍砖。</p>

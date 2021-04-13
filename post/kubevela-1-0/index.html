@@ -42,7 +42,7 @@
       "datePublished": "2021-04-06 09:40:41 \u002b0800 \u002b0800",
       "dateModified" : "2021-04-06 09:40:41 \u002b0800 \u002b0800",
       "url" : "https:\/\/guoxudong.io\/post\/kubevela-1-0\/",
-      "wordCount" : "636",
+      "wordCount" : "715",
       "keywords" : [ "OAM","kubevela","Guoxudong" ]
   }
   </script>
@@ -56,7 +56,7 @@
 <meta itemprop="name" content="让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布">
 <meta itemprop="description" content="Kubevela v1.0 正式发布"><meta itemprop="datePublished" content="2021-04-06T09:40:41&#43;08:00" />
 <meta itemprop="dateModified" content="2021-04-08T10:14:01&#43;08:00" />
-<meta itemprop="wordCount" content="636">
+<meta itemprop="wordCount" content="715">
 <meta itemprop="keywords" content="OAM,kubevela," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布"/>
 <meta name="twitter:description" content="Kubevela v1.0 正式发布"/>
@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -243,6 +243,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -250,8 +252,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -585,7 +585,7 @@ if (!doNotTrack) {
 	<div class="td-byline mb-4">
 		<span>By  <b>guoxudong</b> </span> ·
 		<span>
-			3 分钟阅读时间
+			4 分钟阅读时间
 		</span> ·
 		<span>发布于 </span><time datetime=" 2021-04-06" 
 			class="text-muted">2021年04月06日</time> ·
@@ -669,159 +669,159 @@ if (!doNotTrack) {
 <p>此次 KubeVela 的 v1.0 版本较之 v0.X 版本最大的亮点除了 API 版本升级至 <code>v1beta1</code>，标志着 API Resource 基本稳定以外，最大的亮点就是支持 CUE 、Helm 和原生 Kubernetes 资源模板三种应用抽象模式。</p>
 <p>CUE 是一门强大的 DSL 语言，其专为大规模配置而设计，借助 CUE 用户可以定制非常复杂的模板，十分适合用来定义抽象模板。关于 CUE 的更多内容见<a href="https://kubevela.io/zh/docs/cue/basic">官方文档</a>，这里不做详细介绍。</p>
 <p>而在 v1.0 版本中最大的惊喜则是支持纳管 Helm 为 <code>ComponentDefinition</code>。在实际场景中，常常会用到 Helm 来部署第三方应用，但 Helm chart 本身是一个黑盒，如果有一些定制需求则需要手动去修改 Helm chart 的 template，十分的痛苦。而 KubeVela 1.0 版本提供了纳管 Helm chart 的功能，通过如下代码即可将一个 <code>elasticsearch</code> 的 Helm chart 定义为 <code>ComponentDefinition</code>：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>core.oam.dev/v1beta1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ComponentDefinition<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>elasticsearch-chart<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">annotations</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">definition.oam.dev/description</span>:<span style="color:#666"> </span>helm chart for elasticsearch<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">workload</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">definition</span>:<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>apps/v1<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>StatefulSet<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">schematic</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">helm</span>:<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">release</span>:<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">chart</span>:<span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">chart</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;elasticsearch&#34;</span><span style="color:#666">
-</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">version</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;7.11.1&#34;</span><span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">repository</span>:<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">url</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;https://helm.elastic.co/&#34;</span><span style="color:#666">
-</span></code></pre></div><p>使用同样的方式定义一个 kibana 的 <code>ComponentDefinition</code>，即可轻松的描述一个 <code>elasticsearch</code> + <code>kibana</code> 的应用：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>core.oam.dev/v1beta1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>Application<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>elasticsearch<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">namespace</span>:<span style="color:#666"> </span>default<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">components</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>elasticsearch-web<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">type</span>:<span style="color:#666"> </span>elasticsearch-chart<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">properties</span>:<span style="color:#666"> 
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">imageTag</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;7.11.1&#34;</span><span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">replicas</span>:<span style="color:#666"> </span><span style="color:#3677a9">1</span><span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">volumeClaimTemplate</span>:<span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">accessModes</span>:<span style="color:#666"> </span>[<span style="color:#666"> </span><span style="color:#ed9d13">&#34;ReadWriteOnce&#34;</span><span style="color:#666"> </span>]<span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">resources</span>:<span style="color:#666">
-</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">requests</span>:<span style="color:#666">
-</span><span style="color:#666">              </span><span style="color:#6ab825;font-weight:bold">storage</span>:<span style="color:#666"> </span>20Gi<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">fullnameOverride</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;elasticsearch-web&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>kibana-test<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">type</span>:<span style="color:#666"> </span>kibana-chart<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">properties</span>:<span style="color:#666"> 
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">fullnameOverride</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;kibana-web&#34;</span><span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">elasticsearchHosts</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;http://elasticsearch-web:9200&#34;</span><span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">imageTag</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;7.11.1&#34;</span><span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">traits</span>:<span style="color:#666">
-</span><span style="color:#666">        </span>- <span style="color:#6ab825;font-weight:bold">type</span>:<span style="color:#666"> </span>ingress<span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">properties</span>:<span style="color:#666">
-</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">domain</span>:<span style="color:#666"> </span>kibana.guoxudong.io<span style="color:#666">
-</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">http</span>:<span style="color:#666">
-</span><span style="color:#666">              </span><span style="color:#6ab825;font-weight:bold">&#34;/&#34;: </span><span style="color:#3677a9">5610</span><span style="color:#666">
-</span></code></pre></div><p>Helm chart 中所有 value 值都可以在 <code>properties</code> 进行定义，同时还可以为 components 绑定已经定义好的 Trait（运维特性），无需修改 Helm chart 本身的 template，非常方便！</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">apiVersion</span>: core.oam.dev/v1beta1
+<span style="color:#ff79c6">kind</span>: ComponentDefinition
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#ff79c6">name</span>: elasticsearch-chart
+  <span style="color:#ff79c6">annotations</span>:
+    <span style="color:#ff79c6">definition.oam.dev/description</span>: helm chart for elasticsearch
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">workload</span>:
+    <span style="color:#ff79c6">definition</span>:
+      <span style="color:#ff79c6">apiVersion</span>: apps/v1
+      <span style="color:#ff79c6">kind</span>: StatefulSet
+  <span style="color:#ff79c6">schematic</span>:
+    <span style="color:#ff79c6">helm</span>:
+      <span style="color:#ff79c6">release</span>:
+        <span style="color:#ff79c6">chart</span>:
+          <span style="color:#ff79c6">spec</span>:
+            <span style="color:#ff79c6">chart</span>: <span style="color:#f1fa8c">&#34;elasticsearch&#34;</span>
+            <span style="color:#ff79c6">version</span>: <span style="color:#f1fa8c">&#34;7.11.1&#34;</span>
+      <span style="color:#ff79c6">repository</span>:
+        <span style="color:#ff79c6">url</span>: <span style="color:#f1fa8c">&#34;https://helm.elastic.co/&#34;</span>
+</code></pre></div><p>使用同样的方式定义一个 kibana 的 <code>ComponentDefinition</code>，即可轻松的描述一个 <code>elasticsearch</code> + <code>kibana</code> 的应用：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">apiVersion</span>: core.oam.dev/v1beta1
+<span style="color:#ff79c6">kind</span>: Application
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#ff79c6">name</span>: elasticsearch
+  <span style="color:#ff79c6">namespace</span>: default
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">components</span>:
+    - <span style="color:#ff79c6">name</span>: elasticsearch-web
+      <span style="color:#ff79c6">type</span>: elasticsearch-chart
+      <span style="color:#ff79c6">properties</span>: 
+        <span style="color:#ff79c6">imageTag</span>: <span style="color:#f1fa8c">&#34;7.11.1&#34;</span>
+        <span style="color:#ff79c6">replicas</span>: <span style="color:#bd93f9">1</span>
+        <span style="color:#ff79c6">volumeClaimTemplate</span>:
+          <span style="color:#ff79c6">accessModes</span>: [ <span style="color:#f1fa8c">&#34;ReadWriteOnce&#34;</span> ]
+          <span style="color:#ff79c6">resources</span>:
+            <span style="color:#ff79c6">requests</span>:
+              <span style="color:#ff79c6">storage</span>: 20Gi
+        <span style="color:#ff79c6">fullnameOverride</span>: <span style="color:#f1fa8c">&#34;elasticsearch-web&#34;</span>
+    - <span style="color:#ff79c6">name</span>: kibana-test
+      <span style="color:#ff79c6">type</span>: kibana-chart
+      <span style="color:#ff79c6">properties</span>: 
+        <span style="color:#ff79c6">fullnameOverride</span>: <span style="color:#f1fa8c">&#34;kibana-web&#34;</span>
+        <span style="color:#ff79c6">elasticsearchHosts</span>: <span style="color:#f1fa8c">&#34;http://elasticsearch-web:9200&#34;</span>
+        <span style="color:#ff79c6">imageTag</span>: <span style="color:#f1fa8c">&#34;7.11.1&#34;</span>
+      <span style="color:#ff79c6">traits</span>:
+        - <span style="color:#ff79c6">type</span>: ingress
+          <span style="color:#ff79c6">properties</span>:
+            <span style="color:#ff79c6">domain</span>: kibana.guoxudong.io
+            <span style="color:#ff79c6">http</span>:
+              <span style="color:#ff79c6">&#34;/&#34;: </span><span style="color:#bd93f9">5610</span>
+</code></pre></div><p>Helm chart 中所有 value 值都可以在 <code>properties</code> 进行定义，同时还可以为 components 绑定已经定义好的 Trait（运维特性），无需修改 Helm chart 本身的 template，非常方便！</p>
 <p>如果只是开放一些简单的参数，则可以使用原生 Kubernetes 资源模板，虽然没有 CUE 那么灵活，但是可以快速上手且无缝对接 Trait 的能力，非常适合一些简单的场景。</p>
 <p>同时在 1.0 版本，所有的抽象定义都会自动生成 <code>Open-API-v3</code> 架构 JSON 格式的表单数据，方便前端进行集成。无论是 CUE、Helm 还是原生 Kubernetes 资源模板，都会已生成一个名为 <code>schema-&lt;your-definition-name&gt;</code> 的 ConfigMap，其中的 key  <code>openapi-v3-json-schema</code> 的值就是 JSON 格式的参数，可以非常方便生成一个前端表单供平台和应用团队使用，效果如下：</p>
 <p><img src="https://tvax3.sinaimg.cn/large/ad5fbf65gy1gp9zsaw9cxj21cn0ebdhd.jpg" alt=""></p>
 <p>查看 ConfigMap 内容：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get configmaps schema-webservice  -n vela-system  -o <span style="color:#40ffff">jsonpath</span>=<span style="color:#ed9d13">&#34;{.data.openapi-v3-json-schema}&#34;</span> | jq .
-{
-  <span style="color:#ed9d13">&#34;properties&#34;</span>: {
-    <span style="color:#ed9d13">&#34;addRevisionLabel&#34;</span>: {
-      <span style="color:#ed9d13">&#34;default&#34;</span>: false,
-      <span style="color:#ed9d13">&#34;description&#34;</span>: <span style="color:#ed9d13">&#34;If addRevisionLabel is true, the appRevision label will be added to the underlying pods&#34;</span>,
-      <span style="color:#ed9d13">&#34;title&#34;</span>: <span style="color:#ed9d13">&#34;addRevisionLabel&#34;</span>,
-      <span style="color:#ed9d13">&#34;type&#34;</span>: <span style="color:#ed9d13">&#34;boolean&#34;</span>
-    },
-    <span style="color:#ed9d13">&#34;cmd&#34;</span>: {
-      <span style="color:#ed9d13">&#34;description&#34;</span>: <span style="color:#ed9d13">&#34;Commands to run in the container&#34;</span>,
-      <span style="color:#ed9d13">&#34;items&#34;</span>: {
-        <span style="color:#ed9d13">&#34;type&#34;</span>: <span style="color:#ed9d13">&#34;string&#34;</span>
-      },
-      <span style="color:#ed9d13">&#34;title&#34;</span>: <span style="color:#ed9d13">&#34;cmd&#34;</span>,
-      <span style="color:#ed9d13">&#34;type&#34;</span>: <span style="color:#ed9d13">&#34;array&#34;</span>
-    },
-    <span style="color:#ed9d13">&#34;cpu&#34;</span>: {
-      <span style="color:#ed9d13">&#34;description&#34;</span>: <span style="color:#ed9d13">&#34;Number of CPU units for the service, like `0.5` (0.5 CPU core), `1` (1 CPU core)&#34;</span>,
-      <span style="color:#ed9d13">&#34;title&#34;</span>: <span style="color:#ed9d13">&#34;cpu&#34;</span>,
-      <span style="color:#ed9d13">&#34;type&#34;</span>: <span style="color:#ed9d13">&#34;string&#34;</span>
-    },
-    <span style="color:#ed9d13">&#34;env&#34;</span>: {
-      <span style="color:#ed9d13">&#34;description&#34;</span>: <span style="color:#ed9d13">&#34;Define arguments by using environment variables&#34;</span>,
-      <span style="color:#ed9d13">&#34;items&#34;</span>: {
-        <span style="color:#ed9d13">&#34;properties&#34;</span>: {
-          <span style="color:#ed9d13">&#34;name&#34;</span>: {
-            <span style="color:#ed9d13">&#34;description&#34;</span>: <span style="color:#ed9d13">&#34;Environment variable name&#34;</span>,
-            <span style="color:#ed9d13">&#34;title&#34;</span>: <span style="color:#ed9d13">&#34;name&#34;</span>,
-            <span style="color:#ed9d13">&#34;type&#34;</span>: <span style="color:#ed9d13">&#34;string&#34;</span>
-          },
-          <span style="color:#ed9d13">&#34;value&#34;</span>: {
-            <span style="color:#ed9d13">&#34;description&#34;</span>: <span style="color:#ed9d13">&#34;The value of the environment variable&#34;</span>,
-            <span style="color:#ed9d13">&#34;title&#34;</span>: <span style="color:#ed9d13">&#34;value&#34;</span>,
-            <span style="color:#ed9d13">&#34;type&#34;</span>: <span style="color:#ed9d13">&#34;string&#34;</span>
-          },
-          <span style="color:#ed9d13">&#34;valueFrom&#34;</span>: {
-            <span style="color:#ed9d13">&#34;description&#34;</span>: <span style="color:#ed9d13">&#34;Specifies a source the value of this var should come from&#34;</span>,
-            <span style="color:#ed9d13">&#34;properties&#34;</span>: {
-              <span style="color:#ed9d13">&#34;secretKeyRef&#34;</span>: {
-                <span style="color:#ed9d13">&#34;description&#34;</span>: <span style="color:#ed9d13">&#34;Selects a key of a secret in the pod&#39;s namespace&#34;</span>,
-                <span style="color:#ed9d13">&#34;properties&#34;</span>: {
-                  <span style="color:#ed9d13">&#34;key&#34;</span>: {
-                    <span style="color:#ed9d13">&#34;description&#34;</span>: <span style="color:#ed9d13">&#34;The key of the secret to select from. Must be a valid secret key&#34;</span>,
-                    <span style="color:#ed9d13">&#34;title&#34;</span>: <span style="color:#ed9d13">&#34;key&#34;</span>,
-                    <span style="color:#ed9d13">&#34;type&#34;</span>: <span style="color:#ed9d13">&#34;string&#34;</span>
-                  },
-                  <span style="color:#ed9d13">&#34;name&#34;</span>: {
-                    <span style="color:#ed9d13">&#34;description&#34;</span>: <span style="color:#ed9d13">&#34;The name of the secret in the pod&#39;s namespace to select from&#34;</span>,
-                    <span style="color:#ed9d13">&#34;title&#34;</span>: <span style="color:#ed9d13">&#34;name&#34;</span>,
-                    <span style="color:#ed9d13">&#34;type&#34;</span>: <span style="color:#ed9d13">&#34;string&#34;</span>
-                  }
-                },
-                <span style="color:#ed9d13">&#34;required&#34;</span>: [
-                  <span style="color:#ed9d13">&#34;name&#34;</span>,
-                  <span style="color:#ed9d13">&#34;key&#34;</span>
-                ],
-                <span style="color:#ed9d13">&#34;title&#34;</span>: <span style="color:#ed9d13">&#34;secretKeyRef&#34;</span>,
-                <span style="color:#ed9d13">&#34;type&#34;</span>: <span style="color:#ed9d13">&#34;object&#34;</span>
-              }
-            },
-            <span style="color:#ed9d13">&#34;required&#34;</span>: [
-              <span style="color:#ed9d13">&#34;secretKeyRef&#34;</span>
-            ],
-            <span style="color:#ed9d13">&#34;title&#34;</span>: <span style="color:#ed9d13">&#34;valueFrom&#34;</span>,
-            <span style="color:#ed9d13">&#34;type&#34;</span>: <span style="color:#ed9d13">&#34;object&#34;</span>
-          }
-        },
-        <span style="color:#ed9d13">&#34;required&#34;</span>: [
-          <span style="color:#ed9d13">&#34;name&#34;</span>
-        ],
-        <span style="color:#ed9d13">&#34;type&#34;</span>: <span style="color:#ed9d13">&#34;object&#34;</span>
-      },
-      <span style="color:#ed9d13">&#34;title&#34;</span>: <span style="color:#ed9d13">&#34;env&#34;</span>,
-      <span style="color:#ed9d13">&#34;type&#34;</span>: <span style="color:#ed9d13">&#34;array&#34;</span>
-    },
-    <span style="color:#ed9d13">&#34;image&#34;</span>: {
-      <span style="color:#ed9d13">&#34;description&#34;</span>: <span style="color:#ed9d13">&#34;Which image would you like to use for your service&#34;</span>,
-      <span style="color:#ed9d13">&#34;title&#34;</span>: <span style="color:#ed9d13">&#34;image&#34;</span>,
-      <span style="color:#ed9d13">&#34;type&#34;</span>: <span style="color:#ed9d13">&#34;string&#34;</span>
-    },
-    <span style="color:#ed9d13">&#34;port&#34;</span>: {
-      <span style="color:#ed9d13">&#34;default&#34;</span>: 80,
-      <span style="color:#ed9d13">&#34;description&#34;</span>: <span style="color:#ed9d13">&#34;Which port do you want customer traffic sent to&#34;</span>,
-      <span style="color:#ed9d13">&#34;title&#34;</span>: <span style="color:#ed9d13">&#34;port&#34;</span>,
-      <span style="color:#ed9d13">&#34;type&#34;</span>: <span style="color:#ed9d13">&#34;integer&#34;</span>
-    }
-  },
-  <span style="color:#ed9d13">&#34;required&#34;</span>: [
-    <span style="color:#ed9d13">&#34;addRevisionLabel&#34;</span>,
-    <span style="color:#ed9d13">&#34;image&#34;</span>,
-    <span style="color:#ed9d13">&#34;port&#34;</span>
-  ],
-  <span style="color:#ed9d13">&#34;type&#34;</span>: <span style="color:#ed9d13">&#34;object&#34;</span>
-}
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get configmaps schema-webservice  -n vela-system  -o <span style="color:#8be9fd;font-style:italic">jsonpath</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;{.data.openapi-v3-json-schema}&#34;</span> | jq .
+<span style="color:#ff79c6">{</span>
+  <span style="color:#f1fa8c">&#34;properties&#34;</span>: <span style="color:#ff79c6">{</span>
+    <span style="color:#f1fa8c">&#34;addRevisionLabel&#34;</span>: <span style="color:#ff79c6">{</span>
+      <span style="color:#f1fa8c">&#34;default&#34;</span>: false,
+      <span style="color:#f1fa8c">&#34;description&#34;</span>: <span style="color:#f1fa8c">&#34;If addRevisionLabel is true, the appRevision label will be added to the underlying pods&#34;</span>,
+      <span style="color:#f1fa8c">&#34;title&#34;</span>: <span style="color:#f1fa8c">&#34;addRevisionLabel&#34;</span>,
+      <span style="color:#f1fa8c">&#34;type&#34;</span>: <span style="color:#f1fa8c">&#34;boolean&#34;</span>
+    <span style="color:#ff79c6">}</span>,
+    <span style="color:#f1fa8c">&#34;cmd&#34;</span>: <span style="color:#ff79c6">{</span>
+      <span style="color:#f1fa8c">&#34;description&#34;</span>: <span style="color:#f1fa8c">&#34;Commands to run in the container&#34;</span>,
+      <span style="color:#f1fa8c">&#34;items&#34;</span>: <span style="color:#ff79c6">{</span>
+        <span style="color:#f1fa8c">&#34;type&#34;</span>: <span style="color:#f1fa8c">&#34;string&#34;</span>
+      <span style="color:#ff79c6">}</span>,
+      <span style="color:#f1fa8c">&#34;title&#34;</span>: <span style="color:#f1fa8c">&#34;cmd&#34;</span>,
+      <span style="color:#f1fa8c">&#34;type&#34;</span>: <span style="color:#f1fa8c">&#34;array&#34;</span>
+    <span style="color:#ff79c6">}</span>,
+    <span style="color:#f1fa8c">&#34;cpu&#34;</span>: <span style="color:#ff79c6">{</span>
+      <span style="color:#f1fa8c">&#34;description&#34;</span>: <span style="color:#f1fa8c">&#34;Number of CPU units for the service, like `0.5` (0.5 CPU core), `1` (1 CPU core)&#34;</span>,
+      <span style="color:#f1fa8c">&#34;title&#34;</span>: <span style="color:#f1fa8c">&#34;cpu&#34;</span>,
+      <span style="color:#f1fa8c">&#34;type&#34;</span>: <span style="color:#f1fa8c">&#34;string&#34;</span>
+    <span style="color:#ff79c6">}</span>,
+    <span style="color:#f1fa8c">&#34;env&#34;</span>: <span style="color:#ff79c6">{</span>
+      <span style="color:#f1fa8c">&#34;description&#34;</span>: <span style="color:#f1fa8c">&#34;Define arguments by using environment variables&#34;</span>,
+      <span style="color:#f1fa8c">&#34;items&#34;</span>: <span style="color:#ff79c6">{</span>
+        <span style="color:#f1fa8c">&#34;properties&#34;</span>: <span style="color:#ff79c6">{</span>
+          <span style="color:#f1fa8c">&#34;name&#34;</span>: <span style="color:#ff79c6">{</span>
+            <span style="color:#f1fa8c">&#34;description&#34;</span>: <span style="color:#f1fa8c">&#34;Environment variable name&#34;</span>,
+            <span style="color:#f1fa8c">&#34;title&#34;</span>: <span style="color:#f1fa8c">&#34;name&#34;</span>,
+            <span style="color:#f1fa8c">&#34;type&#34;</span>: <span style="color:#f1fa8c">&#34;string&#34;</span>
+          <span style="color:#ff79c6">}</span>,
+          <span style="color:#f1fa8c">&#34;value&#34;</span>: <span style="color:#ff79c6">{</span>
+            <span style="color:#f1fa8c">&#34;description&#34;</span>: <span style="color:#f1fa8c">&#34;The value of the environment variable&#34;</span>,
+            <span style="color:#f1fa8c">&#34;title&#34;</span>: <span style="color:#f1fa8c">&#34;value&#34;</span>,
+            <span style="color:#f1fa8c">&#34;type&#34;</span>: <span style="color:#f1fa8c">&#34;string&#34;</span>
+          <span style="color:#ff79c6">}</span>,
+          <span style="color:#f1fa8c">&#34;valueFrom&#34;</span>: <span style="color:#ff79c6">{</span>
+            <span style="color:#f1fa8c">&#34;description&#34;</span>: <span style="color:#f1fa8c">&#34;Specifies a source the value of this var should come from&#34;</span>,
+            <span style="color:#f1fa8c">&#34;properties&#34;</span>: <span style="color:#ff79c6">{</span>
+              <span style="color:#f1fa8c">&#34;secretKeyRef&#34;</span>: <span style="color:#ff79c6">{</span>
+                <span style="color:#f1fa8c">&#34;description&#34;</span>: <span style="color:#f1fa8c">&#34;Selects a key of a secret in the pod&#39;s namespace&#34;</span>,
+                <span style="color:#f1fa8c">&#34;properties&#34;</span>: <span style="color:#ff79c6">{</span>
+                  <span style="color:#f1fa8c">&#34;key&#34;</span>: <span style="color:#ff79c6">{</span>
+                    <span style="color:#f1fa8c">&#34;description&#34;</span>: <span style="color:#f1fa8c">&#34;The key of the secret to select from. Must be a valid secret key&#34;</span>,
+                    <span style="color:#f1fa8c">&#34;title&#34;</span>: <span style="color:#f1fa8c">&#34;key&#34;</span>,
+                    <span style="color:#f1fa8c">&#34;type&#34;</span>: <span style="color:#f1fa8c">&#34;string&#34;</span>
+                  <span style="color:#ff79c6">}</span>,
+                  <span style="color:#f1fa8c">&#34;name&#34;</span>: <span style="color:#ff79c6">{</span>
+                    <span style="color:#f1fa8c">&#34;description&#34;</span>: <span style="color:#f1fa8c">&#34;The name of the secret in the pod&#39;s namespace to select from&#34;</span>,
+                    <span style="color:#f1fa8c">&#34;title&#34;</span>: <span style="color:#f1fa8c">&#34;name&#34;</span>,
+                    <span style="color:#f1fa8c">&#34;type&#34;</span>: <span style="color:#f1fa8c">&#34;string&#34;</span>
+                  <span style="color:#ff79c6">}</span>
+                <span style="color:#ff79c6">}</span>,
+                <span style="color:#f1fa8c">&#34;required&#34;</span>: <span style="color:#ff79c6">[</span>
+                  <span style="color:#f1fa8c">&#34;name&#34;</span>,
+                  <span style="color:#f1fa8c">&#34;key&#34;</span>
+                <span style="color:#ff79c6">]</span>,
+                <span style="color:#f1fa8c">&#34;title&#34;</span>: <span style="color:#f1fa8c">&#34;secretKeyRef&#34;</span>,
+                <span style="color:#f1fa8c">&#34;type&#34;</span>: <span style="color:#f1fa8c">&#34;object&#34;</span>
+              <span style="color:#ff79c6">}</span>
+            <span style="color:#ff79c6">}</span>,
+            <span style="color:#f1fa8c">&#34;required&#34;</span>: <span style="color:#ff79c6">[</span>
+              <span style="color:#f1fa8c">&#34;secretKeyRef&#34;</span>
+            <span style="color:#ff79c6">]</span>,
+            <span style="color:#f1fa8c">&#34;title&#34;</span>: <span style="color:#f1fa8c">&#34;valueFrom&#34;</span>,
+            <span style="color:#f1fa8c">&#34;type&#34;</span>: <span style="color:#f1fa8c">&#34;object&#34;</span>
+          <span style="color:#ff79c6">}</span>
+        <span style="color:#ff79c6">}</span>,
+        <span style="color:#f1fa8c">&#34;required&#34;</span>: <span style="color:#ff79c6">[</span>
+          <span style="color:#f1fa8c">&#34;name&#34;</span>
+        <span style="color:#ff79c6">]</span>,
+        <span style="color:#f1fa8c">&#34;type&#34;</span>: <span style="color:#f1fa8c">&#34;object&#34;</span>
+      <span style="color:#ff79c6">}</span>,
+      <span style="color:#f1fa8c">&#34;title&#34;</span>: <span style="color:#f1fa8c">&#34;env&#34;</span>,
+      <span style="color:#f1fa8c">&#34;type&#34;</span>: <span style="color:#f1fa8c">&#34;array&#34;</span>
+    <span style="color:#ff79c6">}</span>,
+    <span style="color:#f1fa8c">&#34;image&#34;</span>: <span style="color:#ff79c6">{</span>
+      <span style="color:#f1fa8c">&#34;description&#34;</span>: <span style="color:#f1fa8c">&#34;Which image would you like to use for your service&#34;</span>,
+      <span style="color:#f1fa8c">&#34;title&#34;</span>: <span style="color:#f1fa8c">&#34;image&#34;</span>,
+      <span style="color:#f1fa8c">&#34;type&#34;</span>: <span style="color:#f1fa8c">&#34;string&#34;</span>
+    <span style="color:#ff79c6">}</span>,
+    <span style="color:#f1fa8c">&#34;port&#34;</span>: <span style="color:#ff79c6">{</span>
+      <span style="color:#f1fa8c">&#34;default&#34;</span>: 80,
+      <span style="color:#f1fa8c">&#34;description&#34;</span>: <span style="color:#f1fa8c">&#34;Which port do you want customer traffic sent to&#34;</span>,
+      <span style="color:#f1fa8c">&#34;title&#34;</span>: <span style="color:#f1fa8c">&#34;port&#34;</span>,
+      <span style="color:#f1fa8c">&#34;type&#34;</span>: <span style="color:#f1fa8c">&#34;integer&#34;</span>
+    <span style="color:#ff79c6">}</span>
+  <span style="color:#ff79c6">}</span>,
+  <span style="color:#f1fa8c">&#34;required&#34;</span>: <span style="color:#ff79c6">[</span>
+    <span style="color:#f1fa8c">&#34;addRevisionLabel&#34;</span>,
+    <span style="color:#f1fa8c">&#34;image&#34;</span>,
+    <span style="color:#f1fa8c">&#34;port&#34;</span>
+  <span style="color:#ff79c6">]</span>,
+  <span style="color:#f1fa8c">&#34;type&#34;</span>: <span style="color:#f1fa8c">&#34;object&#34;</span>
+<span style="color:#ff79c6">}</span>
 </code></pre></div><p>基于该功能，通过一条命令，即可在本地浏览器查看 <code>Components Types</code> 和 <code>Traits</code> 的文档，效果如下：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ vela show webservice --web
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ vela show webservice --web
 </code></pre></div><p><img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1gpax5vem5hj22qq202tmu.jpg" alt="CLI 打开文档页面"></p>
 <h3 id="关注点分离实现真正的-devops">关注点分离，实现真正的 DevOps</h3>
 <p>关注点分离是 OAM 和 KubeVela 用来解决最终用户与平台团队所面临的困境的方式。</p>
@@ -940,7 +940,7 @@ s.setAttribute('data-timestamp', +new Date());
 
 	<div class="entry-shang pt-5">
   <a href="/post/open-source-license/" class=".-text-primary float-left"><i class="fas fa-angle-left"></i> 如何选择开源许可证</a>
-  <a  class=".-text-primary float-right"></a>
+  <a href="/post/kubenav/" class=".-text-primary float-right">Kubenav: 使用手机管理你的 K8S 集群 <i class="fas fa-angle-right"></i></a>
 </div>
 	<script src="https://my.openwrite.cn/js/readmore.js" type="text/javascript"></script>
 	<script>

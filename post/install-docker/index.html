@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -223,6 +223,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -230,8 +232,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -623,51 +623,51 @@ if (!doNotTrack) {
 <p>在使用<strong>centos7</strong>，并使用荫安装搬运工的时候，往往不希望安装最新版本的搬运工，而是希望安装与自己熟悉或者当前业务环境需要的版本，例如目前Kubernetes支持的最新搬运工版本为v17.03，所以就产生了安装指定版本码头工人的需求。</p>
 </blockquote>
 <h1 id="安装步骤">安装步骤</h1>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># 安装依赖包</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># 安装依赖包</span>
 yum install -y yum-utils device-mapper-persistent-data lvm2
 
-<span style="color:#999;font-style:italic"># 添加Docker软件包源</span>
+<span style="color:#6272a4"># 添加Docker软件包源</span>
 yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 
-<span style="color:#999;font-style:italic">#关闭测试版本list（只显示稳定版）</span>
+<span style="color:#6272a4">#关闭测试版本list（只显示稳定版）</span>
 sudo yum-config-manager --enable docker-ce-edge
 sudo yum-config-manager --enable docker-ce-test
 
-<span style="color:#999;font-style:italic"># 更新yum包索引</span>
+<span style="color:#6272a4"># 更新yum包索引</span>
 yum makecache fast
 
-<span style="color:#999;font-style:italic">#NO.1 直接安装Docker CE （will always install the highest  possible version，可能不符合你的需求）</span>
+<span style="color:#6272a4">#NO.1 直接安装Docker CE （will always install the highest  possible version，可能不符合你的需求）</span>
 yum install docker-ce
 
-<span style="color:#999;font-style:italic">#NO.2 指定版本安装</span>
+<span style="color:#6272a4">#NO.2 指定版本安装</span>
 yum list docker-ce --showduplicates|sort -r 
-<span style="color:#999;font-style:italic">#找到需要安装的</span>
+<span style="color:#6272a4">#找到需要安装的</span>
 yum install docker-ce-17.09.0.ce -y
-<span style="color:#999;font-style:italic">#启动docker</span>
-systemctl start docker &amp; systemctl <span style="color:#24909d">enable</span> docker
+<span style="color:#6272a4">#启动docker</span>
+systemctl start docker &amp; systemctl <span style="color:#8be9fd;font-style:italic">enable</span> docker
 </code></pre></div><h1 id="采坑指南">采坑指南</h1>
 <blockquote>
 <p>当然本着万事皆有坑的原则，这里也是有坑的，在安装中也是会遇到如下的问题</p>
 </blockquote>
 <p>在执行一下命令的时候：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum install docker-ce-17.03.0.ce -y
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum install docker-ce-17.03.0.ce -y
 </code></pre></div><p>会出现如下的报错：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">--&gt; Finished Dependency Resolution
-Error: Package: docker-ce-17.03.0.ce-1.el7.centos.x86_64 (docker-ce-stable)
-        Requires: docker-ce-selinux &gt;= 17.03.0.ce-1.el7.centos
-        Available: docker-ce-selinux-17.03.0.ce-1.el7.centos.noarch (docker-ce-stable)
-            docker-ce-selinux = 17.03.0.ce-1.el7.centos
-        Available: docker-ce-selinux-17.03.1.ce-1.el7.centos.noarch (docker-ce-stable)
-            docker-ce-selinux = 17.03.1.ce-1.el7.centos
-        Available: docker-ce-selinux-17.03.2.ce-1.el7.centos.noarch (docker-ce-stable)
-            docker-ce-selinux = 17.03.2.ce-1.el7.centos
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">--&gt; Finished Dependency Resolution
+Error: Package: docker-ce-17.03.0.ce-1.el7.centos.x86_64 <span style="color:#ff79c6">(</span>docker-ce-stable<span style="color:#ff79c6">)</span>
+        Requires: docker-ce-selinux &gt;<span style="color:#ff79c6">=</span> 17.03.0.ce-1.el7.centos
+        Available: docker-ce-selinux-17.03.0.ce-1.el7.centos.noarch <span style="color:#ff79c6">(</span>docker-ce-stable<span style="color:#ff79c6">)</span>
+            docker-ce-selinux <span style="color:#ff79c6">=</span> 17.03.0.ce-1.el7.centos
+        Available: docker-ce-selinux-17.03.1.ce-1.el7.centos.noarch <span style="color:#ff79c6">(</span>docker-ce-stable<span style="color:#ff79c6">)</span>
+            docker-ce-selinux <span style="color:#ff79c6">=</span> 17.03.1.ce-1.el7.centos
+        Available: docker-ce-selinux-17.03.2.ce-1.el7.centos.noarch <span style="color:#ff79c6">(</span>docker-ce-stable<span style="color:#ff79c6">)</span>
+            docker-ce-selinux <span style="color:#ff79c6">=</span> 17.03.2.ce-1.el7.centos
 You could try using --skip-broken to work around the problem
 You could try running: rpm -Va --nofiles --nodigest
 </code></pre></div><p>在出现这个问题之后，需要执行以下命令：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic">#要先安装docker-ce-selinux-17.03.2.ce，否则安装docker-ce会报错</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4">#要先安装docker-ce-selinux-17.03.2.ce，否则安装docker-ce会报错</span>
 yum install https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-selinux-17.03.2.ce-1.el7.centos.noarch.rpm
 
-<span style="color:#999;font-style:italic">#然后再安装 docker-ce-17.03.2.ce，就能正常安装</span>
+<span style="color:#6272a4">#然后再安装 docker-ce-17.03.2.ce，就能正常安装</span>
 yum install docker-ce-17.03.2.ce-1.el7.centos
 </code></pre></div>
 	<br>

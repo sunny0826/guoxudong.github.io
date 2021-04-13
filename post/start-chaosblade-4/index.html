@@ -42,7 +42,7 @@
       "datePublished": "2020-08-06 16:34:23 \u002b0800 \u002b0800",
       "dateModified" : "2020-08-06 16:34:23 \u002b0800 \u002b0800",
       "url" : "https:\/\/guoxudong.io\/post\/start-chaosblade-4\/",
-      "wordCount" : "993",
+      "wordCount" : "1259",
       "keywords" : [ "混沌工程","Guoxudong" ]
   }
   </script>
@@ -56,7 +56,7 @@
 <meta itemprop="name" content="ChaosBlade：从零开始的混沌工程（五）">
 <meta itemprop="description" content="本篇为系列文章第五篇，将介绍使用 ChaosBlade Operator 对 Kubernetes Container 进行混沌工程实验，实验包括：删除 container、container 内CPU负载场景、container 网络延迟场景、container 网络丢包场景、container 域名访问异常场景、杀 container 内指定进程和挂起 container 内指定进程。"><meta itemprop="datePublished" content="2020-08-06T16:34:23&#43;08:00" />
 <meta itemprop="dateModified" content="2020-08-07T09:36:56&#43;08:00" />
-<meta itemprop="wordCount" content="993">
+<meta itemprop="wordCount" content="1259">
 <meta itemprop="keywords" content="混沌工程," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="ChaosBlade：从零开始的混沌工程（五）"/>
 <meta name="twitter:description" content="本篇为系列文章第五篇，将介绍使用 ChaosBlade Operator 对 Kubernetes Container 进行混沌工程实验，实验包括：删除 container、container 内CPU负载场景、container 网络延迟场景、container 网络丢包场景、container 域名访问异常场景、杀 container 内指定进程和挂起 container 内指定进程。"/>
@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -241,6 +241,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -248,8 +250,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -587,7 +587,7 @@ if (!doNotTrack) {
 	<div class="td-byline mb-4">
 		<span>By  <b>guoxuodng</b> </span> ·
 		<span>
-			5 分钟阅读时间
+			6 分钟阅读时间
 		</span> ·
 		<span>发布于 </span><time datetime=" 2020-08-06" 
 			class="text-muted">2020年08月06日</time> ·
@@ -675,29 +675,29 @@ if (!doNotTrack) {
 <p><strong>实验目标</strong>：删除 chaosblade 命名空间下，Pod 名为 <code>guestbook-7b87b7459f-cqkq2</code> 中 container id 是 <code>c6cdcf60b82b854bc4bab64308b466102245259d23e14e449590a8ed816403ed</code> 的容器。</p>
 <p><strong>开始实验</strong></p>
 <p><code>remove_container_by_id.yaml</code> 内容：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>remove-container-by-id<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">experiments</span>:<span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">scope</span>:<span style="color:#666"> </span>container<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">target</span>:<span style="color:#666"> </span>container<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">action</span>:<span style="color:#666"> </span>remove<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">desc</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;remove container by id&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">matchers</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>container-ids<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;c6cdcf60b82b854bc4bab64308b466102245259d23e14e449590a8ed816403ed&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#999;font-style:italic"># pod name</span><span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>names<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;guestbook-7b87b7459f-cqkq2&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>namespace<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;chaosblade&#34;</span>]<span style="color:#666">
-</span></code></pre></div><p>获取 container 名称：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get pod guestbook-7b87b7459f-cqkq2 -o custom-columns=CONTAINER:.status.containerStatuses[0].name,ID:.status.containerStatuses[0].containerID
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">apiVersion</span>: chaosblade.io/v1alpha1
+<span style="color:#ff79c6">kind</span>: ChaosBlade
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#ff79c6">name</span>: remove-container-by-id
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">experiments</span>:
+  - <span style="color:#ff79c6">scope</span>: container
+    <span style="color:#ff79c6">target</span>: container
+    <span style="color:#ff79c6">action</span>: remove
+    <span style="color:#ff79c6">desc</span>: <span style="color:#f1fa8c">&#34;remove container by id&#34;</span>
+    <span style="color:#ff79c6">matchers</span>:
+    - <span style="color:#ff79c6">name</span>: container-ids
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;c6cdcf60b82b854bc4bab64308b466102245259d23e14e449590a8ed816403ed&#34;</span>]
+      <span style="color:#6272a4"># pod name</span>
+    - <span style="color:#ff79c6">name</span>: names
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;guestbook-7b87b7459f-cqkq2&#34;</span>]
+    - <span style="color:#ff79c6">name</span>: namespace
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;chaosblade&#34;</span>]
+</code></pre></div><p>获取 container 名称：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get pod guestbook-7b87b7459f-cqkq2 -o custom-columns<span style="color:#ff79c6">=</span>CONTAINER:.status.containerStatuses<span style="color:#ff79c6">[</span>0<span style="color:#ff79c6">]</span>.name,ID:.status.containerStatuses<span style="color:#ff79c6">[</span>0<span style="color:#ff79c6">]</span>.containerID
 </code></pre></div><p>修改 <code>remove_container_by_id.yaml</code> 中的 <code>container-ids</code> 和 <code>names</code>。</p>
 <p>执行命令，开始实验：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f remove_container_by_id.yaml
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f remove_container_by_id.yaml
 </code></pre></div><p><strong>查看实验状态</strong></p>
 <p>执行 <code>kubectl get blade remove-container-by-id -o json</code> 命令，查看实验状态。</p>
 <p><strong>观测结果</strong></p>
@@ -710,32 +710,32 @@ if (!doNotTrack) {
 <p><strong>实验目标</strong>：指定 chaosblade 命名空间下 Pod 名为 <code>guestbook-7b87b7459f-cqkq2</code>，container id 为 2ff814b246f86，使其 CPU 负载为 100%。</p>
 <p><strong>实验准备</strong></p>
 <p>由于使用 helm 安装的 <a href="https://github.com/cloudnativeapp/guestbook?spm=5176.2020520152.0.0.7c5f16ddH8myx6">guestbook</a> 没有对资源进行限制，进行负载实验的话，会导致整个节点的故障，所以在实验之前需要<strong>对资源进行限制</strong>。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl patch deployment redis-slave --patch <span style="color:#ed9d13">&#39;{&#34;spec&#34;: {&#34;template&#34;: {&#34;spec&#34;: {&#34;containers&#34;: [{&#34;name&#34;: &#34;redis-slave&#34;,&#34;resources&#34;: {&#34;limits&#34;:{&#34;cpu&#34;:&#34;300m&#34;,&#34;memory&#34;:&#34;512Mi&#34;} }}]}}}}&#39;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl patch deployment redis-slave --patch <span style="color:#f1fa8c">&#39;{&#34;spec&#34;: {&#34;template&#34;: {&#34;spec&#34;: {&#34;containers&#34;: [{&#34;name&#34;: &#34;redis-slave&#34;,&#34;resources&#34;: {&#34;limits&#34;:{&#34;cpu&#34;:&#34;300m&#34;,&#34;memory&#34;:&#34;512Mi&#34;} }}]}}}}&#39;</span>
 </code></pre></div><p><strong>开始实验</strong></p>
 <p><code>increase_container_cpu_load_by_id.yaml</code> 内容：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>increase-container-cpu-load-by-id<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">experiments</span>:<span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">scope</span>:<span style="color:#666"> </span>container<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">target</span>:<span style="color:#666"> </span>cpu<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">action</span>:<span style="color:#666"> </span>fullload<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">desc</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;increase container cpu load by id&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">matchers</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>container-ids<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;5ad91eb49c1c6f8357e8d455fd27dad5d0c01c5cc3df36a3acdb1abc75f68a11&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>cpu-percent<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;100&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#999;font-style:italic"># pod names</span><span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>names<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;redis-slave-55d8c8ffbd-jd8sm&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>namespace<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;chaosblade&#34;</span>]<span style="color:#666">
-</span></code></pre></div><p>获取 container 名称：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get pod redis-slave-55d8c8ffbd-jd8sm -o custom-columns=CONTAINER:.status.containerStatuses[0].name,ID:.status.containerStatuses[0].containerID
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">apiVersion</span>: chaosblade.io/v1alpha1
+<span style="color:#ff79c6">kind</span>: ChaosBlade
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#ff79c6">name</span>: increase-container-cpu-load-by-id
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">experiments</span>:
+  - <span style="color:#ff79c6">scope</span>: container
+    <span style="color:#ff79c6">target</span>: cpu
+    <span style="color:#ff79c6">action</span>: fullload
+    <span style="color:#ff79c6">desc</span>: <span style="color:#f1fa8c">&#34;increase container cpu load by id&#34;</span>
+    <span style="color:#ff79c6">matchers</span>:
+    - <span style="color:#ff79c6">name</span>: container-ids
+      <span style="color:#ff79c6">value</span>:
+      - <span style="color:#f1fa8c">&#34;5ad91eb49c1c6f8357e8d455fd27dad5d0c01c5cc3df36a3acdb1abc75f68a11&#34;</span>
+    - <span style="color:#ff79c6">name</span>: cpu-percent
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;100&#34;</span>]
+      <span style="color:#6272a4"># pod names</span>
+    - <span style="color:#ff79c6">name</span>: names
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;redis-slave-55d8c8ffbd-jd8sm&#34;</span>]
+    - <span style="color:#ff79c6">name</span>: namespace
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;chaosblade&#34;</span>]
+</code></pre></div><p>获取 container 名称：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get pod redis-slave-55d8c8ffbd-jd8sm -o custom-columns<span style="color:#ff79c6">=</span>CONTAINER:.status.containerStatuses<span style="color:#ff79c6">[</span>0<span style="color:#ff79c6">]</span>.name,ID:.status.containerStatuses<span style="color:#ff79c6">[</span>0<span style="color:#ff79c6">]</span>.containerID
 </code></pre></div><p>修改 <code>increase_container_cpu_load_by_id.yaml</code> 中的 <code>container-ids</code> 和 <code>names</code>。</p>
 <p><strong>查看实验状态</strong></p>
 <p>执行命令：<code>kubectl get blade increase-container-cpu-load-by-id -o json</code>，查看实验状态。</p>
@@ -818,54 +818,54 @@ if (!doNotTrack) {
 </table>
 <p><strong>开始实验</strong></p>
 <p><code>delay_container_network_by_id.yaml</code> 内容：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>delay-container-network-by-id<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">experiments</span>:<span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">scope</span>:<span style="color:#666"> </span>container<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">target</span>:<span style="color:#666"> </span>network<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">action</span>:<span style="color:#666"> </span>delay<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">desc</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;delay container network by container id&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">matchers</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>container-ids<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;02655dfdd9f0f712a10d63fdc6721f4dcee0a390e37717fff068bf3f85abf85e&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>names<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;redis-master-68857cd57c-hknb6&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>namespace<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;chaosblade&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>local-port<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;6379&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>interface<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;eth0&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>time<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;3000&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>offset<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;1000&#34;</span>]<span style="color:#666">
-</span></code></pre></div><p>获取 Pod 名称和 container id：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get pod redis-master-68857cd57c-hknb6 -o custom-columns=POD_NAME:.metadata.name,CONTAINER:.status.containerStatuses[0].name,ID:.status.containerStatuses[0].containerID
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">apiVersion</span>: chaosblade.io/v1alpha1
+<span style="color:#ff79c6">kind</span>: ChaosBlade
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#ff79c6">name</span>: delay-container-network-by-id
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">experiments</span>:
+  - <span style="color:#ff79c6">scope</span>: container
+    <span style="color:#ff79c6">target</span>: network
+    <span style="color:#ff79c6">action</span>: delay
+    <span style="color:#ff79c6">desc</span>: <span style="color:#f1fa8c">&#34;delay container network by container id&#34;</span>
+    <span style="color:#ff79c6">matchers</span>:
+    - <span style="color:#ff79c6">name</span>: container-ids
+      <span style="color:#ff79c6">value</span>:
+      - <span style="color:#f1fa8c">&#34;02655dfdd9f0f712a10d63fdc6721f4dcee0a390e37717fff068bf3f85abf85e&#34;</span>
+    - <span style="color:#ff79c6">name</span>: names
+      <span style="color:#ff79c6">value</span>:
+      - <span style="color:#f1fa8c">&#34;redis-master-68857cd57c-hknb6&#34;</span>
+    - <span style="color:#ff79c6">name</span>: namespace
+      <span style="color:#ff79c6">value</span>:
+      - <span style="color:#f1fa8c">&#34;chaosblade&#34;</span>
+    - <span style="color:#ff79c6">name</span>: local-port
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;6379&#34;</span>]
+    - <span style="color:#ff79c6">name</span>: interface
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;eth0&#34;</span>]
+    - <span style="color:#ff79c6">name</span>: time
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;3000&#34;</span>]
+    - <span style="color:#ff79c6">name</span>: offset
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;1000&#34;</span>]
+</code></pre></div><p>获取 Pod 名称和 container id：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get pod redis-master-68857cd57c-hknb6 -o custom-columns<span style="color:#ff79c6">=</span>POD_NAME:.metadata.name,CONTAINER:.status.containerStatuses<span style="color:#ff79c6">[</span>0<span style="color:#ff79c6">]</span>.name,ID:.status.containerStatuses<span style="color:#ff79c6">[</span>0<span style="color:#ff79c6">]</span>.containerID
 </code></pre></div><p>修改 <code>delay_container_network_by_id.yaml</code> 中的 <code>container-ids</code> 和 <code>names</code>。</p>
 <p>执行命令，开始实验：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f delay_container_network_by_id.yaml
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f delay_container_network_by_id.yaml
 </code></pre></div><p><strong>查看实验状态</strong></p>
 <p>执行 <code>kubectl get blade delay-container-network-by-id -o json</code> 命令，查看实验状态.</p>
 <p><strong>观测结果</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># 获取实验 pod ip</span>
-$ kubectl get pod -l <span style="color:#40ffff">app</span>=redis,role=master -o <span style="color:#40ffff">jsonpath</span>={.items..status.podIP}
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># 获取实验 pod ip</span>
+$ kubectl get pod -l <span style="color:#8be9fd;font-style:italic">app</span><span style="color:#ff79c6">=</span>redis,role<span style="color:#ff79c6">=</span>master -o <span style="color:#8be9fd;font-style:italic">jsonpath</span><span style="color:#ff79c6">={</span>.items..status.podIP<span style="color:#ff79c6">}</span>
 10.42.0.19
-<span style="color:#999;font-style:italic"># 进入观测 pod</span>
-$ kubectl <span style="color:#24909d">exec</span> -it redis-slave-55d8c8ffbd-jd8sm bash
-<span style="color:#999;font-style:italic"># 在 pod 中安装 telnet</span>
-$ apt-get update &amp;&amp; apt-get install -y telnet
-<span style="color:#999;font-style:italic"># 测试时间</span>
-$ <span style="color:#24909d">time</span> <span style="color:#24909d">echo</span> <span style="color:#ed9d13">&#34;&#34;</span> | telnet 10.42.0.19 <span style="color:#3677a9">6379</span>
+<span style="color:#6272a4"># 进入观测 pod</span>
+$ kubectl <span style="color:#8be9fd;font-style:italic">exec</span> -it redis-slave-55d8c8ffbd-jd8sm bash
+<span style="color:#6272a4"># 在 pod 中安装 telnet</span>
+$ apt-get update <span style="color:#ff79c6">&amp;&amp;</span> apt-get install -y telnet
+<span style="color:#6272a4"># 测试时间</span>
+$ <span style="color:#8be9fd;font-style:italic">time</span> <span style="color:#8be9fd;font-style:italic">echo</span> <span style="color:#f1fa8c">&#34;&#34;</span> | telnet 10.42.0.19 <span style="color:#bd93f9">6379</span>
 Trying 10.42.0.19...
 Connected to 10.42.0.19.
-Escape character is <span style="color:#ed9d13">&#39;^]&#39;</span>.
+Escape character is <span style="color:#f1fa8c">&#39;^]&#39;</span>.
 Connection closed by foreign host.
 
 real    0m3.790s
@@ -942,60 +942,60 @@ sys     0m0.001s
 </table>
 <p><strong>开始实验</strong></p>
 <p><code>loss_container_network_by_id.yaml</code> 内容：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>loss-container-network-by-id<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">experiments</span>:<span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">scope</span>:<span style="color:#666"> </span>container<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">target</span>:<span style="color:#666"> </span>network<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">action</span>:<span style="color:#666"> </span>loss<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">desc</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;loss container network by container id&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">matchers</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>container-ids<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;02655dfdd9f0f712a10d63fdc6721f4dcee0a390e37717fff068bf3f85abf85e&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>names<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;redis-master-68857cd57c-hknb6&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>namespace<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;chaosblade&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>interface<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;eth0&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>percent<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;100&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>timeout<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;60&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>destination-ip<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;10.42.0.26&#34;</span>]<span style="color:#666">
-</span></code></pre></div><p>获取 pod 名称和 container id 内容同上。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">apiVersion</span>: chaosblade.io/v1alpha1
+<span style="color:#ff79c6">kind</span>: ChaosBlade
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#ff79c6">name</span>: loss-container-network-by-id
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">experiments</span>:
+  - <span style="color:#ff79c6">scope</span>: container
+    <span style="color:#ff79c6">target</span>: network
+    <span style="color:#ff79c6">action</span>: loss
+    <span style="color:#ff79c6">desc</span>: <span style="color:#f1fa8c">&#34;loss container network by container id&#34;</span>
+    <span style="color:#ff79c6">matchers</span>:
+    - <span style="color:#ff79c6">name</span>: container-ids
+      <span style="color:#ff79c6">value</span>:
+      - <span style="color:#f1fa8c">&#34;02655dfdd9f0f712a10d63fdc6721f4dcee0a390e37717fff068bf3f85abf85e&#34;</span>
+    - <span style="color:#ff79c6">name</span>: names
+      <span style="color:#ff79c6">value</span>:
+      - <span style="color:#f1fa8c">&#34;redis-master-68857cd57c-hknb6&#34;</span>
+    - <span style="color:#ff79c6">name</span>: namespace
+      <span style="color:#ff79c6">value</span>:
+      - <span style="color:#f1fa8c">&#34;chaosblade&#34;</span>
+    - <span style="color:#ff79c6">name</span>: interface
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;eth0&#34;</span>]
+    - <span style="color:#ff79c6">name</span>: percent
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;100&#34;</span>]
+    - <span style="color:#ff79c6">name</span>: timeout
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;60&#34;</span>]
+    - <span style="color:#ff79c6">name</span>: destination-ip
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;10.42.0.26&#34;</span>]
+</code></pre></div><p>获取 pod 名称和 container id 内容同上。</p>
 <p>执行命令，开始实验：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f loss_container_network_by_id.yaml
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f loss_container_network_by_id.yaml
 </code></pre></div><p><strong>查看实验状态</strong></p>
 <p>执行 <code>kubectl get blade loss-container-network-by-id -o json</code> 命令，查看实验状态。</p>
 <p><strong>观测结果</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># 获取实验 pod ip</span>
-$ kubectl get pod -l <span style="color:#40ffff">app</span>=redis,role=master -o <span style="color:#40ffff">jsonpath</span>={.items..status.podIP}
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># 获取实验 pod ip</span>
+$ kubectl get pod -l <span style="color:#8be9fd;font-style:italic">app</span><span style="color:#ff79c6">=</span>redis,role<span style="color:#ff79c6">=</span>master -o <span style="color:#8be9fd;font-style:italic">jsonpath</span><span style="color:#ff79c6">={</span>.items..status.podIP<span style="color:#ff79c6">}</span>
 10.42.0.19
-<span style="color:#999;font-style:italic"># 进入观测 pod，IP为：10.42.0.26（被设置丢包率 100%）</span>
-$ kubectl <span style="color:#24909d">exec</span> -it redis-slave-55d8c8ffbd-jd8sm bash
-<span style="color:#999;font-style:italic"># Ping 实验Pod ip</span>
+<span style="color:#6272a4"># 进入观测 pod，IP为：10.42.0.26（被设置丢包率 100%）</span>
+$ kubectl <span style="color:#8be9fd;font-style:italic">exec</span> -it redis-slave-55d8c8ffbd-jd8sm bash
+<span style="color:#6272a4"># Ping 实验Pod ip</span>
 $ ping 10.42.0.19
-PING 10.42.0.19 (10.42.0.19) 56(84) bytes of data.
-<span style="color:#999;font-style:italic"># 无响应</span>
+PING 10.42.0.19 <span style="color:#ff79c6">(</span>10.42.0.19<span style="color:#ff79c6">)</span> 56<span style="color:#ff79c6">(</span>84<span style="color:#ff79c6">)</span> bytes of data.
+<span style="color:#6272a4"># 无响应</span>
 
-<span style="color:#999;font-style:italic"># 进入观测 pod，该 pod 未被指定丢包</span>
-$ kubectl <span style="color:#24909d">exec</span> -it redis-slave-55d8c8ffbd-22tsc bash
-<span style="color:#999;font-style:italic"># Ping 实验Pod ip</span>
+<span style="color:#6272a4"># 进入观测 pod，该 pod 未被指定丢包</span>
+$ kubectl <span style="color:#8be9fd;font-style:italic">exec</span> -it redis-slave-55d8c8ffbd-22tsc bash
+<span style="color:#6272a4"># Ping 实验Pod ip</span>
 $ ping 10.42.0.19
-PING 10.42.0.19 (10.42.0.19) 56(84) bytes of data.
-<span style="color:#3677a9">64</span> bytes from 10.42.0.19: <span style="color:#40ffff">icmp_seq</span>=<span style="color:#3677a9">1</span> <span style="color:#40ffff">ttl</span>=<span style="color:#3677a9">64</span> <span style="color:#40ffff">time</span>=0.065 ms
-<span style="color:#3677a9">64</span> bytes from 10.42.0.19: <span style="color:#40ffff">icmp_seq</span>=<span style="color:#3677a9">2</span> <span style="color:#40ffff">ttl</span>=<span style="color:#3677a9">64</span> <span style="color:#40ffff">time</span>=0.051 ms
-<span style="color:#3677a9">64</span> bytes from 10.42.0.19: <span style="color:#40ffff">icmp_seq</span>=<span style="color:#3677a9">3</span> <span style="color:#40ffff">ttl</span>=<span style="color:#3677a9">64</span> <span style="color:#40ffff">time</span>=0.078 ms
+PING 10.42.0.19 <span style="color:#ff79c6">(</span>10.42.0.19<span style="color:#ff79c6">)</span> 56<span style="color:#ff79c6">(</span>84<span style="color:#ff79c6">)</span> bytes of data.
+<span style="color:#bd93f9">64</span> bytes from 10.42.0.19: <span style="color:#8be9fd;font-style:italic">icmp_seq</span><span style="color:#ff79c6">=</span><span style="color:#bd93f9">1</span> <span style="color:#8be9fd;font-style:italic">ttl</span><span style="color:#ff79c6">=</span><span style="color:#bd93f9">64</span> <span style="color:#8be9fd;font-style:italic">time</span><span style="color:#ff79c6">=</span>0.065 ms
+<span style="color:#bd93f9">64</span> bytes from 10.42.0.19: <span style="color:#8be9fd;font-style:italic">icmp_seq</span><span style="color:#ff79c6">=</span><span style="color:#bd93f9">2</span> <span style="color:#8be9fd;font-style:italic">ttl</span><span style="color:#ff79c6">=</span><span style="color:#bd93f9">64</span> <span style="color:#8be9fd;font-style:italic">time</span><span style="color:#ff79c6">=</span>0.051 ms
+<span style="color:#bd93f9">64</span> bytes from 10.42.0.19: <span style="color:#8be9fd;font-style:italic">icmp_seq</span><span style="color:#ff79c6">=</span><span style="color:#bd93f9">3</span> <span style="color:#8be9fd;font-style:italic">ttl</span><span style="color:#ff79c6">=</span><span style="color:#bd93f9">64</span> <span style="color:#8be9fd;font-style:italic">time</span><span style="color:#ff79c6">=</span>0.078 ms
 ...
-<span style="color:#999;font-style:italic"># 响应正常</span>
+<span style="color:#6272a4"># 响应正常</span>
 </code></pre></div><p><img src="https://tva3.sinaimg.cn/large/ad5fbf65gy1ghh7th88pmg20si06au0x.gif" alt="container 网络丢包场景"></p>
 <p>这里在配置中还将 <code>timeout</code> 设置为 60 秒，60 秒后 100% 丢包的情况将会消失，这个配置是为了防止因丢包率设置太高，造成机器无法连接的情况。与其有相似功能的还有 <code>exclude-port</code>，该配置用来指定排除掉的丢包端口。</p>
 <p><strong>停止实验</strong></p>
@@ -1032,41 +1032,41 @@ PING 10.42.0.19 (10.42.0.19) 56(84) bytes of data.
 </table>
 <p><strong>开始实验</strong></p>
 <p><code>tamper_container_dns_by_id.yaml</code> 内容：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>tamper-container-dns-by-id<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">experiments</span>:<span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">scope</span>:<span style="color:#666"> </span>container<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">target</span>:<span style="color:#666"> </span>network<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">action</span>:<span style="color:#666"> </span>dns<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">desc</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;tamper container dns by id&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">matchers</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>container-ids<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;02655dfdd9f0f712a10d63fdc6721f4dcee0a390e37717fff068bf3f85abf85e&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>domain<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;www.baidu.com&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>ip<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;10.0.0.1&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#999;font-style:italic"># pod names</span><span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>names<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;redis-master-68857cd57c-hknb6&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#999;font-style:italic"># or use pod labels</span><span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>namespace<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;chaosblade&#34;</span>]<span style="color:#666">
-</span></code></pre></div><p>获取 pod 名称和 container id 内容同上。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">apiVersion</span>: chaosblade.io/v1alpha1
+<span style="color:#ff79c6">kind</span>: ChaosBlade
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#ff79c6">name</span>: tamper-container-dns-by-id
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">experiments</span>:
+  - <span style="color:#ff79c6">scope</span>: container
+    <span style="color:#ff79c6">target</span>: network
+    <span style="color:#ff79c6">action</span>: dns
+    <span style="color:#ff79c6">desc</span>: <span style="color:#f1fa8c">&#34;tamper container dns by id&#34;</span>
+    <span style="color:#ff79c6">matchers</span>:
+    - <span style="color:#ff79c6">name</span>: container-ids
+      <span style="color:#ff79c6">value</span>:
+      - <span style="color:#f1fa8c">&#34;02655dfdd9f0f712a10d63fdc6721f4dcee0a390e37717fff068bf3f85abf85e&#34;</span>
+    - <span style="color:#ff79c6">name</span>: domain
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;www.baidu.com&#34;</span>]
+    - <span style="color:#ff79c6">name</span>: ip
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;10.0.0.1&#34;</span>]
+      <span style="color:#6272a4"># pod names</span>
+    - <span style="color:#ff79c6">name</span>: names
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;redis-master-68857cd57c-hknb6&#34;</span>]
+      <span style="color:#6272a4"># or use pod labels</span>
+    - <span style="color:#ff79c6">name</span>: namespace
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;chaosblade&#34;</span>]
+</code></pre></div><p>获取 pod 名称和 container id 内容同上。</p>
 <p>执行命令，开始实验：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f tamper_container_dns_by_id.yaml
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f tamper_container_dns_by_id.yaml
 </code></pre></div><p><strong>查看实验状态</strong></p>
 <p>执行 <code>kubectl get blade tamper-container-dns-by-id -o json</code> 命令，查看实验状态.</p>
 <p><strong>观测结果</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># 进入实验 pod</span>
-$ kubectl <span style="color:#24909d">exec</span> -it redis-master-68857cd57c-hknb6 bash
-<span style="color:#999;font-style:italic"># Ping www.baidu.com</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># 进入实验 pod</span>
+$ kubectl <span style="color:#8be9fd;font-style:italic">exec</span> -it redis-master-68857cd57c-hknb6 bash
+<span style="color:#6272a4"># Ping www.baidu.com</span>
 $ ping www.baidu.com
-<span style="color:#999;font-style:italic"># 无响应</span>
+<span style="color:#6272a4"># 无响应</span>
 </code></pre></div><p><img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1ghh7wcg01ng20si06ah3v.gif" alt="container 域名访问异常场景"></p>
 <p>可以看到 Pod 的 <code>/etc/hosts</code> 文件被修改，模拟了 dns 解析异常的场景。</p>
 <h3 id="container-内进程场景">container 内进程场景</h3>
@@ -1111,38 +1111,38 @@ $ ping www.baidu.com
 </table>
 <p><strong>开始实验</strong></p>
 <p><code>kill_container_process_by_id.yaml</code> 内容：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>kill-container-process-by-id<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">experiments</span>:<span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">scope</span>:<span style="color:#666"> </span>container<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">target</span>:<span style="color:#666"> </span>process<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">action</span>:<span style="color:#666"> </span>kill<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">desc</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;kill container process by id&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">matchers</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>container-ids<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;94bc61ac84fb505f3f89b3ce5e4cc804ea8501ed091940b17b0f492835dc57d1&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>process<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;redis-server&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>names<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;redis-slave-55d8c8ffbd-4pz8m&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>namespace<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;chaosblade&#34;</span>]<span style="color:#666">
-</span></code></pre></div><p>选择一个 pod，获取容器 ID ，修改 <code>kill_container_process_by_id.yaml</code> 中的 <code>container-ids</code> 值。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">apiVersion</span>: chaosblade.io/v1alpha1
+<span style="color:#ff79c6">kind</span>: ChaosBlade
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#ff79c6">name</span>: kill-container-process-by-id
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">experiments</span>:
+  - <span style="color:#ff79c6">scope</span>: container
+    <span style="color:#ff79c6">target</span>: process
+    <span style="color:#ff79c6">action</span>: kill
+    <span style="color:#ff79c6">desc</span>: <span style="color:#f1fa8c">&#34;kill container process by id&#34;</span>
+    <span style="color:#ff79c6">matchers</span>:
+    - <span style="color:#ff79c6">name</span>: container-ids
+      <span style="color:#ff79c6">value</span>:
+      - <span style="color:#f1fa8c">&#34;94bc61ac84fb505f3f89b3ce5e4cc804ea8501ed091940b17b0f492835dc57d1&#34;</span>
+    - <span style="color:#ff79c6">name</span>: process
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;redis-server&#34;</span>]
+    - <span style="color:#ff79c6">name</span>: names
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;redis-slave-55d8c8ffbd-4pz8m&#34;</span>]
+    - <span style="color:#ff79c6">name</span>: namespace
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;chaosblade&#34;</span>]
+</code></pre></div><p>选择一个 pod，获取容器 ID ，修改 <code>kill_container_process_by_id.yaml</code> 中的 <code>container-ids</code> 值。</p>
 <p>执行命令，开始实验：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f kill_container_process_by_id.yaml
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f kill_container_process_by_id.yaml
 </code></pre></div><p><strong>查看实验状态</strong></p>
 <p>执行 <code>kubectl get blade kill-container-process-by-id -o json</code> 命令，查看实验状态。</p>
 <p><strong>观测结果</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># 开始实验前查看容器 id</span>
-$ kubectl get pod redis-slave-55d8c8ffbd-4pz8m -o custom-columns=POD_NAME:.metadata.name,CONTAINER:.status.containerStatuses[0].name,ID:.status.containerStatuses[0].containerID
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># 开始实验前查看容器 id</span>
+$ kubectl get pod redis-slave-55d8c8ffbd-4pz8m -o custom-columns<span style="color:#ff79c6">=</span>POD_NAME:.metadata.name,CONTAINER:.status.containerStatuses<span style="color:#ff79c6">[</span>0<span style="color:#ff79c6">]</span>.name,ID:.status.containerStatuses<span style="color:#ff79c6">[</span>0<span style="color:#ff79c6">]</span>.containerID
 POD_NAME                        CONTAINER      ID
 redis-slave-55d8c8ffbd-4pz8m   redis-master   docker://bfc9ca01fac33f60d300485f96549644b634f274351df1d4897526451f49e3fb
-<span style="color:#999;font-style:italic"># 实验后查看容器 id</span>
-$ kubectl get pod redis-slave-55d8c8ffbd-4pz8m -o custom-columns=POD_NAME:.metadata.name,CONTAINER:.status.containerStatuses[0].name,ID:.status.containerStatuses[0].containerID
+<span style="color:#6272a4"># 实验后查看容器 id</span>
+$ kubectl get pod redis-slave-55d8c8ffbd-4pz8m -o custom-columns<span style="color:#ff79c6">=</span>POD_NAME:.metadata.name,CONTAINER:.status.containerStatuses<span style="color:#ff79c6">[</span>0<span style="color:#ff79c6">]</span>.name,ID:.status.containerStatuses<span style="color:#ff79c6">[</span>0<span style="color:#ff79c6">]</span>.containerID
 POD_NAME                       CONTAINER     ID
 redis-slave-55d8c8ffbd-4pz8m   redis-slave   docker://94bc61ac84fb505f3f89b3ce5e4cc804ea8501ed091940b17b0f492835dc57d1
 </code></pre></div><p><img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1ghh7y7r2nmg20r0068wxo.gif" alt="杀 container 内指定进程"></p>
@@ -1182,37 +1182,37 @@ redis-slave-55d8c8ffbd-4pz8m   redis-slave   docker://94bc61ac84fb505f3f89b3ce5e
 </table>
 <p><strong>开始实验</strong></p>
 <p><code>stop_container_process_by_names.yaml</code> 内容：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>chaosblade.io/v1alpha1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ChaosBlade<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>stop-container-process-by-id<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">experiments</span>:<span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">scope</span>:<span style="color:#666"> </span>container<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">target</span>:<span style="color:#666"> </span>process<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">action</span>:<span style="color:#666"> </span>stop<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">desc</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;kill container process by id&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">matchers</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>container-ids<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666">
-</span><span style="color:#666">      </span>- <span style="color:#ed9d13">&#34;bfc9ca01fac33f60d300485f96549644b634f274351df1d4897526451f49e3fb&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>process<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;redis-server&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>names<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;redis-slave-55d8c8ffbd-4pz8m&#34;</span>]<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>namespace<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">value</span>:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;chaosblade&#34;</span>]<span style="color:#666">
-</span></code></pre></div><p>选择一个节点，修改 <code>stop_container_process_by_names.yaml</code> 中的 <code>names</code> 值。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">apiVersion</span>: chaosblade.io/v1alpha1
+<span style="color:#ff79c6">kind</span>: ChaosBlade
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#ff79c6">name</span>: stop-container-process-by-id
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">experiments</span>:
+  - <span style="color:#ff79c6">scope</span>: container
+    <span style="color:#ff79c6">target</span>: process
+    <span style="color:#ff79c6">action</span>: stop
+    <span style="color:#ff79c6">desc</span>: <span style="color:#f1fa8c">&#34;kill container process by id&#34;</span>
+    <span style="color:#ff79c6">matchers</span>:
+    - <span style="color:#ff79c6">name</span>: container-ids
+      <span style="color:#ff79c6">value</span>:
+      - <span style="color:#f1fa8c">&#34;bfc9ca01fac33f60d300485f96549644b634f274351df1d4897526451f49e3fb&#34;</span>
+    - <span style="color:#ff79c6">name</span>: process
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;redis-server&#34;</span>]
+    - <span style="color:#ff79c6">name</span>: names
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;redis-slave-55d8c8ffbd-4pz8m&#34;</span>]
+    - <span style="color:#ff79c6">name</span>: namespace
+      <span style="color:#ff79c6">value</span>: [<span style="color:#f1fa8c">&#34;chaosblade&#34;</span>]
+</code></pre></div><p>选择一个节点，修改 <code>stop_container_process_by_names.yaml</code> 中的 <code>names</code> 值。</p>
 <p>执行命令，开始实验：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f stop_container_process_by_names.yaml
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl apply -f stop_container_process_by_names.yaml
 </code></pre></div><p><strong>查看实验状态</strong></p>
 <p>执行 <code>kubectl get blade stop-container-process-by-names -o json</code> 命令，查看实验状态。</p>
 <p><strong>观测结果</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># 进入实验 pod</span>
-$ kubectl <span style="color:#24909d">exec</span> -it redis-slave-55d8c8ffbd-4pz8m bash
-<span style="color:#999;font-style:italic"># 查看 redis-server 进程号</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># 进入实验 pod</span>
+$ kubectl <span style="color:#8be9fd;font-style:italic">exec</span> -it redis-slave-55d8c8ffbd-4pz8m bash
+<span style="color:#6272a4"># 查看 redis-server 进程号</span>
 $ ps aux| grep redis-server
-root      <span style="color:#3677a9">5632</span>  0.0  0.0  <span style="color:#3677a9">41520</span>  <span style="color:#3677a9">4168</span> ?        Tl   06:28   0:06 redis-server *:6379
+root      <span style="color:#bd93f9">5632</span>  0.0  0.0  <span style="color:#bd93f9">41520</span>  <span style="color:#bd93f9">4168</span> ?        Tl   06:28   0:06 redis-server *:6379
 </code></pre></div><p>可以看到 <code>redis-server</code> 此刻进程处于暂停状态了（T）。</p>
 <p><img src="https://tva3.sinaimg.cn/large/ad5fbf65gy1ghh8090cr1g20t406y1kx.gif" alt="挂起 container 内指定进程"></p>
 <p><strong>停止实验</strong></p>

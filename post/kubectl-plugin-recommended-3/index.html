@@ -42,7 +42,7 @@
       "datePublished": "2021-03-17 09:54:18 \u002b0800 \u002b0800",
       "dateModified" : "2021-03-17 09:54:18 \u002b0800 \u002b0800",
       "url" : "https:\/\/guoxudong.io\/post\/kubectl-plugin-recommended-3\/",
-      "wordCount" : "332",
+      "wordCount" : "370",
       "keywords" : [ "Kubernetes","Kubernetes Plugin","Krew","Guoxudong" ]
   }
   </script>
@@ -56,7 +56,7 @@
 <meta itemprop="name" content="Kubectl Plugin 推荐（三）| 插件开发篇">
 <meta itemprop="description" content="讲解如何快速开发一款自己的 Kubectl Plugin。"><meta itemprop="datePublished" content="2021-03-17T09:54:18&#43;08:00" />
 <meta itemprop="dateModified" content="2021-03-17T14:43:00&#43;08:00" />
-<meta itemprop="wordCount" content="332">
+<meta itemprop="wordCount" content="370">
 <meta itemprop="keywords" content="Kubernetes,Kubernetes Plugin,Krew," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Kubectl Plugin 推荐（三）| 插件开发篇"/>
 <meta name="twitter:description" content="讲解如何快速开发一款自己的 Kubectl Plugin。"/>
@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -249,6 +249,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -256,8 +258,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -682,25 +682,25 @@ if (!doNotTrack) {
 <p><img src="https://tvax2.sinaimg.cn/large/ad5fbf65gy1gomp5bbcl2j21fk0x4wis.jpg" alt="创建项目"></p>
 <h3 id="配置项目">配置项目</h3>
 <p>待项目创建完成后， clone 该项目并在本地通过终端进入该项目所在目录。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git clone https://github.com/sunny0826/kubectl-demo.git
-$ <span style="color:#24909d">cd</span> kubectl-demo
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git clone https://github.com/sunny0826/kubectl-demo.git
+$ <span style="color:#8be9fd;font-style:italic">cd</span> kubectl-demo
 </code></pre></div><p>使用 <code>make setup</code> 命令开始配置</p>
 <p><img src="https://tvax4.sinaimg.cn/large/ad5fbf65gy1gomq1rr8vzj20y80eg0wp.jpg" alt="set up"></p>
 <p>根据提示，填入 <code>GitHub Organization or Username</code>、<code>GitHub Repo Namek</code> 和 <code>Plugin Name</code> 后，会自动对项目进行配置。</p>
 <h3 id="项目结构">项目结构</h3>
 <p>配置完成后，一个 Kubectl Plugin 项目的基本框架就完成了，结构如下：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">.
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">.
 ├── LICENSE
 ├── Makefile
 ├── README.md
 ├── cmd
 │   └── plugin
 │       ├── cli
-│       │   └── root.go   <span style="color:#999;font-style:italic"># cli 配置</span>
-│       └── main.go       <span style="color:#999;font-style:italic"># 项目入口</span>
+│       │   └── root.go   <span style="color:#6272a4"># cli 配置</span>
+│       └── main.go       <span style="color:#6272a4"># 项目入口</span>
 ├── deploy
 │   └── krew
-│       └── plugin.yaml   <span style="color:#999;font-style:italic"># krew-index 配置</span>
+│       └── plugin.yaml   <span style="color:#6272a4"># krew-index 配置</span>
 ├── doc
 │   └── USAGE.md
 ├── go.mod
@@ -709,14 +709,14 @@ $ <span style="color:#24909d">cd</span> kubectl-demo
     ├── logger
     │   └── logger.go
     └── plugin
-        └── plugin.go     <span style="color:#999;font-style:italic"># 业务逻辑代码</span>
+        └── plugin.go     <span style="color:#6272a4"># 业务逻辑代码</span>
 </code></pre></div><p>接下来就是业务逻辑的开发，主要的业务逻辑代码就写在 <code>pkg/plugn/plugin.go</code> 中；CLI 的相关配置，如 <code>flag</code> 和子命令的配置则在 <code>cmd/plugin/cli/root.go</code> 中。开发所需的 client-go 、k8s API 等资源也都已经集成在项目中，可直接使用。</p>
 <h3 id="构建测试">构建测试</h3>
 <p>在业务逻辑完成后，需要先在本地进行测试。使用 <code>make bin</code> 命令可以将项目构建为可执行文件并用来测试，该命令会完成基础的 <code>fmt</code>、<code>vet</code> 测试并完成 <code>build</code>。</p>
 <p><img src="https://tvax4.sinaimg.cn/large/ad5fbf65gy1gomqjcj5krj21py0uiwnd.jpg" alt="make bin"></p>
 <h3 id="创建-release">创建 Release</h3>
 <p>在完成代码逻辑和测试后，就可以将其发布到 github release 了，GitHub Action 和 <a href="https://goreleaser.com/">GoReleaser</a> 会自动完成 Release 相关操作，只需给项目打上 tag 并 push 代码，无需任何手动操作。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git tag v0.1.0 -m <span style="color:#ed9d13">&#39;initial release&#39;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git tag v0.1.0 -m <span style="color:#f1fa8c">&#39;initial release&#39;</span>
 $ git push --tags
 </code></pre></div><blockquote>
 <p>如果是首次 Release，会出现 Release 成功但是 GitHub Action 失败的情况，这里可以忽略，失败的是自动推送 PR 到 krew-index 的步骤。</p>
@@ -731,31 +731,31 @@ $ git push --tags
 <p><img src="https://tva3.sinaimg.cn/large/ad5fbf65gy1gomu5iw2ngj22bk116afg.jpg" alt="Krew Release Bot Helper"></p>
 <p>工具地址：https://rajatjindal.com/tools/krew-release-bot-helper/</p>
 <p>在 <code>&lt;your-git-root&gt;/.github/workflows/release.yml</code> 添加配置（GitHub Template 中已包含该配置）：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>release<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">on</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">push</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">tags</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#ed9d13">&#39;v*.*.*&#39;</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">jobs</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">goreleaser</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">runs-on</span>:<span style="color:#666"> </span>ubuntu-latest<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">steps</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>Checkout<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">uses</span>:<span style="color:#666"> </span>actions/checkout@master<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>Setup Go<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">uses</span>:<span style="color:#666"> </span>actions/setup-go@v1<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">with</span>:<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">go-version</span>:<span style="color:#666"> </span><span style="color:#3677a9">1.13</span><span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>GoReleaser<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">uses</span>:<span style="color:#666"> </span>goreleaser/goreleaser-action@v1<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">with</span>:<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">version</span>:<span style="color:#666"> </span>latest<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">args</span>:<span style="color:#666"> </span>release --rm-dist<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">env</span>:<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">GITHUB_TOKEN</span>:<span style="color:#666"> </span>${{ secrets.GITHUB_TOKEN }}<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>Update new version in krew-index<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">uses</span>:<span style="color:#666"> </span>rajatjindal/krew-release-bot@v0.0.38<span style="color:#666">
-</span></code></pre></div><p>之后每次 Release 都会自动推送更新 PR，效果如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">name</span>: release
+<span style="color:#ff79c6">on</span>:
+  <span style="color:#ff79c6">push</span>:
+    <span style="color:#ff79c6">tags</span>:
+    - <span style="color:#f1fa8c">&#39;v*.*.*&#39;</span>
+<span style="color:#ff79c6">jobs</span>:
+  <span style="color:#ff79c6">goreleaser</span>:
+    <span style="color:#ff79c6">runs-on</span>: ubuntu-latest
+    <span style="color:#ff79c6">steps</span>:
+    - <span style="color:#ff79c6">name</span>: Checkout
+      <span style="color:#ff79c6">uses</span>: actions/checkout@master
+    - <span style="color:#ff79c6">name</span>: Setup Go
+      <span style="color:#ff79c6">uses</span>: actions/setup-go@v1
+      <span style="color:#ff79c6">with</span>:
+        <span style="color:#ff79c6">go-version</span>: <span style="color:#bd93f9">1.13</span>
+    - <span style="color:#ff79c6">name</span>: GoReleaser
+      <span style="color:#ff79c6">uses</span>: goreleaser/goreleaser-action@v1
+      <span style="color:#ff79c6">with</span>:
+        <span style="color:#ff79c6">version</span>: latest
+        <span style="color:#ff79c6">args</span>: release --rm-dist
+      <span style="color:#ff79c6">env</span>:
+        <span style="color:#ff79c6">GITHUB_TOKEN</span>: ${{ secrets.GITHUB_TOKEN }}
+    - <span style="color:#ff79c6">name</span>: Update new version in krew-index
+      <span style="color:#ff79c6">uses</span>: rajatjindal/krew-release-bot@v0.0.38
+</code></pre></div><p>之后每次 Release 都会自动推送更新 PR，效果如下：</p>
 <p><img src="https://tva1.sinaimg.cn/large/ad5fbf65gy1gomu9xo7gij21ym1rgdu7.jpg" alt="PR 自动合并"></p>
 <h2 id="注意事项">注意事项</h2>
 <p>官方提供了<a href="https://krew.sigs.k8s.io/docs/developer-guide/develop/naming-guide/">插件命名指南</a>，大致有以下内容：</p>

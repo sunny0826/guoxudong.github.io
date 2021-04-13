@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -236,6 +236,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -243,8 +245,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -650,21 +650,21 @@ if (!doNotTrack) {
 <p><img src="https://tvax2.sinaimg.cn/large/ad5fbf65gy1gf05j7h9uzj20ty07ywfd.jpg" alt="image"></p>
 <p><strong>本地配置</strong></p>
 <p>在项目 fork 好之后，将其拉取到本地：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git clone https://github.com/sunny0826/kubernetes.git
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git clone https://github.com/sunny0826/kubernetes.git
 </code></pre></div><p>为了保持与上游仓库代码一致，添加上游仓库：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git remote add upstream https://github.com/kubernetes/kubernetes.git
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git remote add upstream https://github.com/kubernetes/kubernetes.git
 </code></pre></div><p>上游仓库添加好之后，之后都可以通过以下命令来使本地仓库与上游仓库保持同步：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># 切换分支</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># 切换分支</span>
 $ git checkout master
-<span style="color:#999;font-style:italic"># 更新上游代码</span>
+<span style="color:#6272a4"># 更新上游代码</span>
 $ git fetch upstream
-<span style="color:#999;font-style:italic"># 合并代码到 master 分支</span>
+<span style="color:#6272a4"># 合并代码到 master 分支</span>
 $ git merge upstream/master
-<span style="color:#999;font-style:italic"># 上传代码</span>
+<span style="color:#6272a4"># 上传代码</span>
 $ git push
 </code></pre></div><p><strong>新建开发分支</strong></p>
 <p>在同步上游仓库之后，就可以新建分支，添加自己的修改了：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git checkout -b xxx
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git checkout -b xxx
 </code></pre></div><p><strong>提交 PR</strong></p>
 <p>在开发完成后，就可以 push 代码，然后提交 PR 了。一般需要在提交 PR 时，将关联的 ISSUE 标出，并说明该 PR 解决了什么问题。</p>
 <p>而一些大的开源组织会有一些其他要求，比如 CNCF 的项目，在提交 PR 后 <a href="https://github.com/k8s-ci-robot">k8s-ci-robot</a> 会检测你是否签署了 Linux 基金会的<a href="https://identity.linuxfoundation.org/projects/cncf">贡献许可协议</a>（如果没有，就会要求你先签署一下该协议），同时还会做一些其他操作，比如根据内容打一些标签、做一些简单的测试，确保代码无冲突，并给你分配 reviewer（当然也可以使用 <code>/assign</code> 命令自己指定）。</p>
@@ -675,7 +675,7 @@ $ git push
 <p>PR 被成功合并后，就可以对之前开发的分支进行清理了，因为在 review 中，会提交多个 commit，而合并一般会将这些 commit 压缩为一个 commit 然后合并到 <code>master</code> 分支，这就导致了 commit 信息的不一致，这也是为什么在前文要求不要使用 <code>master</code> 分支的原因，如果使用 <code>master</code> 分支，在提交几次 PR 后，就会多出很多很多的 commit&hellip;</p>
 <p><img src="https://tvax4.sinaimg.cn/large/ad5fbf65gy1gf07ejzdglj20mb04fdg6.jpg" alt="image"></p>
 <p>清理本地分支：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git branch -d xxx
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git branch -d xxx
 </code></pre></div><p>这种方式就是通过分支管理，让 <code>master</code> 分支始终与上游仓库的 commit 信息一致，而从 <code>master</code> 分支 checkout 出开发分支，在开发分支内容合并入上游之后，只需同步 <code>master</code> 分支内容，然后重复上面的步骤就可以开始新的开发了。</p>
 <h2 id="总结">总结</h2>
 <p>以上就是这些年我参与开源项目的一些经验，是对网上一些文章的补充，其实不同开源组织的贡献方式不尽相同，在参与之前一定要先阅读<strong>贡献指南（Contributing Guidelines）</strong>，这样会少走很多弯路。还有就是在 ISSUE 中的交流请尽量使用英语，哪怕你知道和你交流的是一名可以读懂汉语的人，这样做的原因是为了让其他不懂汉语的社区成员可以读懂你们交流，从而参与进来，而不是让人以为你们在“密谋”着什么。</p>

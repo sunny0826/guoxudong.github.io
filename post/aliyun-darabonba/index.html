@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -251,6 +251,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -258,8 +260,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -692,14 +692,14 @@ if (!doNotTrack) {
 <p><img src="https://tva3.sinaimg.cn/large/ad5fbf65ly1gibatrt4puj21ao1e8tet.jpg" alt=""></p>
 <h3 id="安装">安装</h3>
 <p>阿里云提供了Darabonba 的 Web UI 界面，但是在网页上不好调试，我们选择本地安装 CLI 命令行工具。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#999;font-style:italic"># Darabonba CLI 是由 Node.js 开发的，使用 npm 来安装</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#6272a4"># Darabonba CLI 是由 Node.js 开发的，使用 npm 来安装</span>
 $ npm install -g @darabonba/cli
 </code></pre></div><h3 id="构建-darabonba-模块">构建 Darabonba 模块</h3>
 <p>我们假设要创建一个模块为 <code>sample_ecs</code>，用来生成查询 ECS 信息的 SDK 代码。首先创建一个目录：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ mkdir sample_ecs
-$ <span style="color:#24909d">cd</span> sample_ecs
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ mkdir sample_ecs
+$ <span style="color:#8be9fd;font-style:italic">cd</span> sample_ecs
 </code></pre></div><p>初始化模块，输入相关信息：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ dara init
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ dara init
 package scope: guoxudong.io
 package name: sample_ecs
 package version: 0.0.1
@@ -712,35 +712,35 @@ main entry: main.dara
 <h3 id="安装-vs-code-插件">安装 VS Code 插件</h3>
 <p>打开 VS Code，按 <code>F1</code> 或 <code>Ctrl + Shift + P</code> 打开命令面板，选择 Install Extension 并输入 <code>darabonba</code>。</p>
 <p>或启动VS Code 快速打开（<code>Ctrl + P</code>），粘贴以下命令，然后按 Enter。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">ext install darabonba.darabonba
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">ext install darabonba.darabonba
 </code></pre></div><p>之后就可以使用语法高亮、代码提示、代码格式化、语法检查等功能了。</p>
 <p><img src="https://tva2.sinaimg.cn/large/ad5fbf65ly1gibbkgjhc5j20q80l3wh7.jpg" alt="代码高亮"></p>
 <h3 id="安装依赖模块">安装依赖模块</h3>
 <p>首先需要设置依赖仓库地址：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ dara config <span style="color:#24909d">set</span> registry https://darabonba.api.aliyun.com
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ dara config <span style="color:#8be9fd;font-style:italic">set</span> registry https://darabonba.api.aliyun.com
 </code></pre></div><p>之后就是将依赖写入 <code>Darafile</code> 中：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
-  <span style="color:#6ab825;font-weight:bold">&#34;scope&#34;</span>: <span style="color:#ed9d13">&#34;guoxudong.io&#34;</span>,
-  <span style="color:#6ab825;font-weight:bold">&#34;name&#34;</span>: <span style="color:#ed9d13">&#34;sample_ecs&#34;</span>,
-  <span style="color:#6ab825;font-weight:bold">&#34;version&#34;</span>: <span style="color:#ed9d13">&#34;0.0.1&#34;</span>,
-  <span style="color:#6ab825;font-weight:bold">&#34;main&#34;</span>: <span style="color:#ed9d13">&#34;main.dara&#34;</span>,
-  <span style="color:#6ab825;font-weight:bold">&#34;libraries&#34;</span>: {
-    <span style="color:#6ab825;font-weight:bold">&#34;Console&#34;</span>: <span style="color:#ed9d13">&#34;darabonba:Console:*&#34;</span>,
-    <span style="color:#6ab825;font-weight:bold">&#34;ECS&#34;</span>: <span style="color:#ed9d13">&#34;alibabacloud:Ecs20140526:*&#34;</span>,
-    <span style="color:#6ab825;font-weight:bold">&#34;RPC&#34;</span>: <span style="color:#ed9d13">&#34;alibabacloud:RPC:*&#34;</span>,
-    <span style="color:#6ab825;font-weight:bold">&#34;Util&#34;</span>: <span style="color:#ed9d13">&#34;darabonba:Util:*&#34;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#ff79c6">&#34;scope&#34;</span>: <span style="color:#f1fa8c">&#34;guoxudong.io&#34;</span>,
+  <span style="color:#ff79c6">&#34;name&#34;</span>: <span style="color:#f1fa8c">&#34;sample_ecs&#34;</span>,
+  <span style="color:#ff79c6">&#34;version&#34;</span>: <span style="color:#f1fa8c">&#34;0.0.1&#34;</span>,
+  <span style="color:#ff79c6">&#34;main&#34;</span>: <span style="color:#f1fa8c">&#34;main.dara&#34;</span>,
+  <span style="color:#ff79c6">&#34;libraries&#34;</span>: {
+    <span style="color:#ff79c6">&#34;Console&#34;</span>: <span style="color:#f1fa8c">&#34;darabonba:Console:*&#34;</span>,
+    <span style="color:#ff79c6">&#34;ECS&#34;</span>: <span style="color:#f1fa8c">&#34;alibabacloud:Ecs20140526:*&#34;</span>,
+    <span style="color:#ff79c6">&#34;RPC&#34;</span>: <span style="color:#f1fa8c">&#34;alibabacloud:RPC:*&#34;</span>,
+    <span style="color:#ff79c6">&#34;Util&#34;</span>: <span style="color:#f1fa8c">&#34;darabonba:Util:*&#34;</span>
   },
-  <span style="color:#6ab825;font-weight:bold">&#34;java&#34;</span>: {
-    <span style="color:#6ab825;font-weight:bold">&#34;package&#34;</span>: <span style="color:#ed9d13">&#34;aliyun.com.alibabacloud.sample&#34;</span>
+  <span style="color:#ff79c6">&#34;java&#34;</span>: {
+    <span style="color:#ff79c6">&#34;package&#34;</span>: <span style="color:#f1fa8c">&#34;aliyun.com.alibabacloud.sample&#34;</span>
   },
-  <span style="color:#6ab825;font-weight:bold">&#34;csharp&#34;</span>: {
-    <span style="color:#6ab825;font-weight:bold">&#34;namespace&#34;</span>: <span style="color:#ed9d13">&#34;Alibabacloud.Sample&#34;</span>
+  <span style="color:#ff79c6">&#34;csharp&#34;</span>: {
+    <span style="color:#ff79c6">&#34;namespace&#34;</span>: <span style="color:#f1fa8c">&#34;Alibabacloud.Sample&#34;</span>
   },
-  <span style="color:#6ab825;font-weight:bold">&#34;php&#34;</span>: {
-    <span style="color:#6ab825;font-weight:bold">&#34;package&#34;</span>: <span style="color:#ed9d13">&#34;Alibabacloud.Sample&#34;</span>
+  <span style="color:#ff79c6">&#34;php&#34;</span>: {
+    <span style="color:#ff79c6">&#34;package&#34;</span>: <span style="color:#f1fa8c">&#34;Alibabacloud.Sample&#34;</span>
   },
-  <span style="color:#6ab825;font-weight:bold">&#34;python&#34;</span>: {
-    <span style="color:#6ab825;font-weight:bold">&#34;package&#34;</span>: <span style="color:#ed9d13">&#34;alibabacloud_sample&#34;</span>
+  <span style="color:#ff79c6">&#34;python&#34;</span>: {
+    <span style="color:#ff79c6">&#34;package&#34;</span>: <span style="color:#f1fa8c">&#34;alibabacloud_sample&#34;</span>
   }
 }
 
@@ -759,7 +759,7 @@ main entry: main.dara
 </div>
 
 <p>修改完 <code>Darafile</code> 之后，安装这些依赖：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ dara install
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ dara install
 </code></pre></div><p>之后就可以看到多了一个 <code>.libraries.json</code> 文件和一个 <code>libraries</code> 目录，需要的所有依赖模块就都已经安装好了。</p>
 <h3 id="查看模块内容">查看模块内容</h3>
 <p>更多的模块，可在<a href="https://darabonba.api.aliyun.com/module">模块仓库</a>中搜索。这里以 ECS 模块为例</p>
@@ -767,67 +767,67 @@ main entry: main.dara
 <p>可以在 <code>Detail</code> 中看到所有可以调用的接口，通过还可以点击其他 tab 可以查看版本、安装方法等内容：</p>
 <p><img src="https://tvax2.sinaimg.cn/large/ad5fbf65ly1gibbruwd1zj21at0pqadt.jpg" alt=""></p>
 <p>也可通过命令单独安装模块：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ dara install alibabacloud:Ecs20140526
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ dara install alibabacloud:Ecs20140526
 </code></pre></div><h3 id="代码编写">代码编写</h3>
 <p>现在就可以编写 Darabonba 代码了，Darabonba 代码的整体风格偏向于 Java，不是很难懂，这里贴上一段简单的代码：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">ECS</span>;
-<span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">RPC</span>;
-<span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">Util</span>;
-<span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">Console</span>;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#ff79c6">import</span> ECS<span style="color:#ff79c6">;</span>
+<span style="color:#ff79c6">import</span> RPC<span style="color:#ff79c6">;</span>
+<span style="color:#ff79c6">import</span> Util<span style="color:#ff79c6">;</span>
+<span style="color:#ff79c6">import</span> Console<span style="color:#ff79c6">;</span>
 
-<span style="color:#999;font-style:italic">/**
-</span><span style="color:#999;font-style:italic">* Initialization  初始化公共请求参数
-</span><span style="color:#999;font-style:italic">*/</span>
-<span style="color:#6ab825;font-weight:bold">static</span> function <span style="color:#447fcf">Initialization</span>(regionId: string)<span style="color:#6ab825;font-weight:bold">throws</span> : ECS{
+<span style="color:#6272a4">/**
+</span><span style="color:#6272a4">* Initialization  初始化公共请求参数
+</span><span style="color:#6272a4">*/</span>
+<span style="color:#8be9fd;font-style:italic">static</span> function <span style="color:#50fa7b">Initialization</span><span style="color:#ff79c6">(</span>regionId<span style="color:#ff79c6">:</span> string<span style="color:#ff79c6">)</span><span style="color:#8be9fd;font-style:italic">throws</span> <span style="color:#ff79c6">:</span> ECS<span style="color:#ff79c6">{</span>
 
-    var config = <span style="color:#6ab825;font-weight:bold">new</span> RPC.<span style="color:#bbb">Config</span>{};
-    <span style="color:#999;font-style:italic">// 您的AccessKey ID
-</span><span style="color:#999;font-style:italic"></span>    config.<span style="color:#bbb">accessKeyId</span> = <span style="color:#ed9d13">&#34;&lt;accessKeyId&gt;&#34;</span>;
-    <span style="color:#999;font-style:italic">// 您的AccessKey Secret
-</span><span style="color:#999;font-style:italic"></span>    config.<span style="color:#bbb">accessKeySecret</span> = <span style="color:#ed9d13">&#34;&lt;accessKeySecret&gt;&#34;</span>;
-    <span style="color:#999;font-style:italic">// 您的可用区ID
-</span><span style="color:#999;font-style:italic"></span>    config.<span style="color:#bbb">regionId</span> = regionId;
+    var config <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> RPC<span style="color:#ff79c6">.</span><span style="color:#50fa7b">Config</span><span style="color:#ff79c6">{};</span>
+    <span style="color:#6272a4">// 您的AccessKey ID
+</span><span style="color:#6272a4"></span>    config<span style="color:#ff79c6">.</span><span style="color:#50fa7b">accessKeyId</span> <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;&lt;accessKeyId&gt;&#34;</span><span style="color:#ff79c6">;</span>
+    <span style="color:#6272a4">// 您的AccessKey Secret
+</span><span style="color:#6272a4"></span>    config<span style="color:#ff79c6">.</span><span style="color:#50fa7b">accessKeySecret</span> <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;&lt;accessKeySecret&gt;&#34;</span><span style="color:#ff79c6">;</span>
+    <span style="color:#6272a4">// 您的可用区ID
+</span><span style="color:#6272a4"></span>    config<span style="color:#ff79c6">.</span><span style="color:#50fa7b">regionId</span> <span style="color:#ff79c6">=</span> regionId<span style="color:#ff79c6">;</span>
 
-    <span style="color:#6ab825;font-weight:bold">return</span> <span style="color:#6ab825;font-weight:bold">new</span> ECS(config);
-}
+    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">new</span> ECS<span style="color:#ff79c6">(</span>config<span style="color:#ff79c6">);</span>
+<span style="color:#ff79c6">}</span>
 
-<span style="color:#999;font-style:italic">/**
-</span><span style="color:#999;font-style:italic">* DescribeZones    查询一个阿里云地域下的可用区
-</span><span style="color:#999;font-style:italic">*/</span>
-<span style="color:#6ab825;font-weight:bold">static</span> async function <span style="color:#447fcf">DescribeZones</span>(client: ECS, regionId: string)<span style="color:#6ab825;font-weight:bold">throws</span>: <span style="color:#6ab825;font-weight:bold">void</span>{
-    var req = <span style="color:#6ab825;font-weight:bold">new</span> ECS.<span style="color:#bbb">DescribeZonesRequest</span>{};
-    <span style="color:#999;font-style:italic">// 可用区所在的地域ID。您可以调用DescribeRegions查看最新的阿里云地域列表
-</span><span style="color:#999;font-style:italic"></span>    req.<span style="color:#bbb">regionId</span> = regionId;
-    <span style="color:#999;font-style:italic">// 根据汉语、英语和日语筛选返回结果。更多详情，请参见RFC7231
-</span><span style="color:#999;font-style:italic"></span>    <span style="color:#999;font-style:italic">// 取值范围：
-</span><span style="color:#999;font-style:italic"></span>    <span style="color:#999;font-style:italic">// zh-CN
-</span><span style="color:#999;font-style:italic"></span>    <span style="color:#999;font-style:italic">// en-US
-</span><span style="color:#999;font-style:italic"></span>    <span style="color:#999;font-style:italic">// ja
-</span><span style="color:#999;font-style:italic"></span>    <span style="color:#999;font-style:italic">// 默认值：zh-CN。
-</span><span style="color:#999;font-style:italic"></span>    req.<span style="color:#bbb">acceptLanguage</span> = <span style="color:#ed9d13">&#34;zh-CN&#34;</span>;
-    var resp = client.<span style="color:#bbb">describeZones</span>(req);
-    Console.<span style="color:#bbb">log</span>(<span style="color:#ed9d13">&#34;--------------------查询地域下的可用区--------------------&#34;</span>);
-    Console.<span style="color:#bbb">log</span>(Util.<span style="color:#bbb">toJSONString</span>(resp));
-}
+<span style="color:#6272a4">/**
+</span><span style="color:#6272a4">* DescribeZones    查询一个阿里云地域下的可用区
+</span><span style="color:#6272a4">*/</span>
+<span style="color:#8be9fd;font-style:italic">static</span> async function <span style="color:#50fa7b">DescribeZones</span><span style="color:#ff79c6">(</span>client<span style="color:#ff79c6">:</span> ECS<span style="color:#ff79c6">,</span> regionId<span style="color:#ff79c6">:</span> string<span style="color:#ff79c6">)</span><span style="color:#8be9fd;font-style:italic">throws</span><span style="color:#ff79c6">:</span> <span style="color:#8be9fd">void</span><span style="color:#ff79c6">{</span>
+    var req <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> ECS<span style="color:#ff79c6">.</span><span style="color:#50fa7b">DescribeZonesRequest</span><span style="color:#ff79c6">{};</span>
+    <span style="color:#6272a4">// 可用区所在的地域ID。您可以调用DescribeRegions查看最新的阿里云地域列表
+</span><span style="color:#6272a4"></span>    req<span style="color:#ff79c6">.</span><span style="color:#50fa7b">regionId</span> <span style="color:#ff79c6">=</span> regionId<span style="color:#ff79c6">;</span>
+    <span style="color:#6272a4">// 根据汉语、英语和日语筛选返回结果。更多详情，请参见RFC7231
+</span><span style="color:#6272a4"></span>    <span style="color:#6272a4">// 取值范围：
+</span><span style="color:#6272a4"></span>    <span style="color:#6272a4">// zh-CN
+</span><span style="color:#6272a4"></span>    <span style="color:#6272a4">// en-US
+</span><span style="color:#6272a4"></span>    <span style="color:#6272a4">// ja
+</span><span style="color:#6272a4"></span>    <span style="color:#6272a4">// 默认值：zh-CN。
+</span><span style="color:#6272a4"></span>    req<span style="color:#ff79c6">.</span><span style="color:#50fa7b">acceptLanguage</span> <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;zh-CN&#34;</span><span style="color:#ff79c6">;</span>
+    var resp <span style="color:#ff79c6">=</span> client<span style="color:#ff79c6">.</span><span style="color:#50fa7b">describeZones</span><span style="color:#ff79c6">(</span>req<span style="color:#ff79c6">);</span>
+    Console<span style="color:#ff79c6">.</span><span style="color:#50fa7b">log</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;--------------------查询地域下的可用区--------------------&#34;</span><span style="color:#ff79c6">);</span>
+    Console<span style="color:#ff79c6">.</span><span style="color:#50fa7b">log</span><span style="color:#ff79c6">(</span>Util<span style="color:#ff79c6">.</span><span style="color:#50fa7b">toJSONString</span><span style="color:#ff79c6">(</span>resp<span style="color:#ff79c6">));</span>
+<span style="color:#ff79c6">}</span>
 
 
-<span style="color:#6ab825;font-weight:bold">static</span> async function <span style="color:#447fcf">main</span>(args: [string]) <span style="color:#6ab825;font-weight:bold">throws</span>: <span style="color:#6ab825;font-weight:bold">void</span> {
-    <span style="color:#999;font-style:italic">// 可用区域Id （请自行配置）
-</span><span style="color:#999;font-style:italic"></span>    var regionId = <span style="color:#ed9d13">&#34;&lt;regionId&gt;&#34;</span>;
+<span style="color:#8be9fd;font-style:italic">static</span> async function <span style="color:#50fa7b">main</span><span style="color:#ff79c6">(</span>args<span style="color:#ff79c6">:</span> <span style="color:#ff79c6">[</span>string<span style="color:#ff79c6">])</span> <span style="color:#8be9fd;font-style:italic">throws</span><span style="color:#ff79c6">:</span> <span style="color:#8be9fd">void</span> <span style="color:#ff79c6">{</span>
+    <span style="color:#6272a4">// 可用区域Id （请自行配置）
+</span><span style="color:#6272a4"></span>    var regionId <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;&lt;regionId&gt;&#34;</span><span style="color:#ff79c6">;</span>
 
-    var client = Initialization(regionId);
+    var client <span style="color:#ff79c6">=</span> Initialization<span style="color:#ff79c6">(</span>regionId<span style="color:#ff79c6">);</span>
 
-    <span style="color:#999;font-style:italic">// 查询阿里云地域下的可用区
-</span><span style="color:#999;font-style:italic"></span>    DescribeZones(client, regionId)
-}
+    <span style="color:#6272a4">// 查询阿里云地域下的可用区
+</span><span style="color:#6272a4"></span>    DescribeZones<span style="color:#ff79c6">(</span>client<span style="color:#ff79c6">,</span> regionId<span style="color:#ff79c6">)</span>
+<span style="color:#ff79c6">}</span>
 </code></pre></div><p>这个代码注释很完善，这里就不多讲解了，本示例在官网有<a href="https://api.aliyun.com/?spm=a2c6h.17640777.J_1935739830.2.8f9a54e1V4j8vN#/codesample">完整示例</a>，有兴趣的同学可以研究一下。而 Darabonba 的文档，可以在 <a href="https://github.com/aliyun/darabonba">Github</a> 上找到。</p>
 <h3 id="代码生成">代码生成</h3>
 <p>现在就可以生成代码了，下面以生成 Python 代码为例，执行命令：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ dara codegen python ./tmp
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ dara codegen python ./tmp
 </code></pre></div><p>命令执行成功后，就可以看到 Python 代码已经生成了：</p>
 <p><img src="https://tva4.sinaimg.cn/large/ad5fbf65gy1gic21suu35j208a05h3yh.jpg" alt=""></p>
 <p>如果代码还没有写完，想检查是否有语法错误，可以使用 <code>check</code> 命令检查：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ dara check main.dara
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ dara check main.dara
 Check success !
 </code></pre></div><p>到这我们的代码就生成成功了，但是这还不是结束，我们需要去测试一下生成的代码能否正常运行，在实践中就出现过代码生成成功，但是运行报错的情况。</p>
 

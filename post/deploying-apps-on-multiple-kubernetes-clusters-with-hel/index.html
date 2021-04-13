@@ -42,7 +42,7 @@
       "datePublished": "2019-07-14 14:16:56 \u002b0800 \u002b0800",
       "dateModified" : "2019-07-14 14:16:56 \u002b0800 \u002b0800",
       "url" : "https:\/\/guoxudong.io\/post\/deploying-apps-on-multiple-kubernetes-clusters-with-hel\/",
-      "wordCount" : "431",
+      "wordCount" : "564",
       "keywords" : [ "翻译","kubernetes","Guoxudong" ]
   }
   </script>
@@ -56,7 +56,7 @@
 <meta itemprop="name" content="使用 Helm 在多集群部署应用">
 <meta itemprop="description" content="本文将重点介绍我们如何在全球多个 Kubernetes 集群上部署我们的应用程序。为了将应用一次部署到多个 Kubernetes 集群，我们使用了 Helm ，并将所有 chart 存储在一个 git 仓库中。"><meta itemprop="datePublished" content="2019-07-14T14:16:56&#43;08:00" />
 <meta itemprop="dateModified" content="2020-12-14T18:33:04&#43;08:00" />
-<meta itemprop="wordCount" content="431">
+<meta itemprop="wordCount" content="564">
 <meta itemprop="keywords" content="翻译,kubernetes," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="使用 Helm 在多集群部署应用"/>
 <meta name="twitter:description" content="本文将重点介绍我们如何在全球多个 Kubernetes 集群上部署我们的应用程序。为了将应用一次部署到多个 Kubernetes 集群，我们使用了 Helm ，并将所有 chart 存储在一个 git 仓库中。"/>
@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -252,6 +252,8 @@ preview_only: false</a>
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -259,8 +261,6 @@ preview_only: false</a>
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -719,12 +719,12 @@ preview_only: false</h2>
 <p>Helm global values</p>
 </blockquote>
 <p>4个全局的 Helm value 定义集群间的差异。这些是我们所有 chart 的最小默认值。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">global</span>:<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">cloud</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">True</span><span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">env</span>:<span style="color:#666"> </span>staging<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">region</span>:<span style="color:#666"> </span>us-central1<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">clusterName</span>:<span style="color:#666"> </span>staging-us-central1<span style="color:#666">
-</span></code></pre></div><center>global values</center>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">    <span style="color:#ff79c6">global</span>:
+        <span style="color:#ff79c6">cloud</span>: <span style="color:#ff79c6">True</span>
+        <span style="color:#ff79c6">env</span>: staging
+        <span style="color:#ff79c6">region</span>: us-central1
+        <span style="color:#ff79c6">clusterName</span>: staging-us-central1
+</code></pre></div><center>global values</center>
 <p>这些信息有助于我们为应用程序定义上下文，它们可用于监控，跟踪，记录，进行外部调用，扩展等许多内容&hellip;&hellip;</p>
 <ul>
 <li><strong>cloud</strong>：我们有一个混合 Kubernetes 集群。例如，我们的 API 部署在 GCP 和我们自己的数据中心。</li>
@@ -733,42 +733,42 @@ preview_only: false</h2>
 <li><strong>clusterName</strong>：如果我们想要为每个群集定义一个值。</li>
 </ul>
 <p>下面是一个具体的示例：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">{{/* Returns Horizontal Pod Autoscaler replicas for GraphQL*/}}<span style="color:#666">
-</span><span style="color:#666"></span>{{- define &#34;graphql.hpaReplicas&#34; -}}<span style="color:#666">
-</span><span style="color:#666"></span>{{- if eq .Values.global.env &#34;prod&#34; }}<span style="color:#666">
-</span><span style="color:#666"></span>{{- if eq .Values.global.region &#34;europe-west1&#34; }}<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">minReplicas</span>:<span style="color:#666"> </span><span style="color:#3677a9">40</span><span style="color:#666">
-</span><span style="color:#666"></span>{{- else }}<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">minReplicas</span>:<span style="color:#666"> </span><span style="color:#3677a9">150</span><span style="color:#666">
-</span><span style="color:#666"></span>{{- end }}<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">maxReplicas</span>:<span style="color:#666"> </span><span style="color:#3677a9">1400</span><span style="color:#666">
-</span><span style="color:#666"></span>{{- else }}<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">minReplicas</span>:<span style="color:#666"> </span><span style="color:#3677a9">4</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">maxReplicas</span>:<span style="color:#666"> </span><span style="color:#3677a9">20</span><span style="color:#666">
-</span><span style="color:#666"></span>{{- end }}<span style="color:#666">
-</span><span style="color:#666"></span>{{- end -}}<span style="color:#666">
-</span></code></pre></div><center>helm template example</center>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">{{/* Returns Horizontal Pod Autoscaler replicas for GraphQL*/}}
+{{- define &#34;graphql.hpaReplicas&#34; -}}
+{{- if eq .Values.global.env &#34;prod&#34; }}
+{{- if eq .Values.global.region &#34;europe-west1&#34; }}
+<span style="color:#ff79c6">minReplicas</span>: <span style="color:#bd93f9">40</span>
+{{- else }}
+<span style="color:#ff79c6">minReplicas</span>: <span style="color:#bd93f9">150</span>
+{{- end }}
+<span style="color:#ff79c6">maxReplicas</span>: <span style="color:#bd93f9">1400</span>
+{{- else }}
+<span style="color:#ff79c6">minReplicas</span>: <span style="color:#bd93f9">4</span>
+<span style="color:#ff79c6">maxReplicas</span>: <span style="color:#bd93f9">20</span>
+{{- end }}
+{{- end -}}
+</code></pre></div><center>helm template example</center>
 <p>请注意，此逻辑在帮助模板中定义，以保持 Kubernetes YAML 的可读性。</p>
 <blockquote>
 <p>声明应用</p>
 </blockquote>
 <p>我们的部署工具基于几个 YAML 文件，下面是我们声明服务及其每个集群的扩展拓扑（副本数量）的示例。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">releases</span>:<span style="color:#666">
-</span><span style="color:#666">  </span>- foo.world<span style="color:#666">
-</span><span style="color:#666"> 
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">foo.world</span>:<span style="color:#666">                </span><span style="color:#999;font-style:italic"># Release name</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">services</span>:<span style="color:#666">               </span><span style="color:#999;font-style:italic"># List of dailymotion&#39;s apps/projects</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">foobar</span>:<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">chart_name</span>:<span style="color:#666"> </span>foo-foobar<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">repo</span>:<span style="color:#666"> </span>git@github.com:dailymotion/foobar<span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">contexts</span>:<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">prod-europe-west1</span>:<span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">deployments</span>:<span style="color:#666">
-</span><span style="color:#666">            </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>foo-bar-baz<span style="color:#666">
-</span><span style="color:#666">              </span><span style="color:#6ab825;font-weight:bold">replicas</span>:<span style="color:#666"> </span><span style="color:#3677a9">18</span><span style="color:#666">
-</span><span style="color:#666">            </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>another-deployment<span style="color:#666">
-</span><span style="color:#666">              </span><span style="color:#6ab825;font-weight:bold">replicas</span>:<span style="color:#666"> </span><span style="color:#3677a9">3</span><span style="color:#666">
-</span></code></pre></div><center>service definition</center>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">releases</span>:
+  - foo.world
+ 
+<span style="color:#ff79c6">foo.world</span>:                <span style="color:#6272a4"># Release name</span>
+  <span style="color:#ff79c6">services</span>:               <span style="color:#6272a4"># List of dailymotion&#39;s apps/projects</span>
+    <span style="color:#ff79c6">foobar</span>:
+      <span style="color:#ff79c6">chart_name</span>: foo-foobar
+      <span style="color:#ff79c6">repo</span>: git@github.com:dailymotion/foobar
+      <span style="color:#ff79c6">contexts</span>:
+        <span style="color:#ff79c6">prod-europe-west1</span>:
+          <span style="color:#ff79c6">deployments</span>:
+            - <span style="color:#ff79c6">name</span>: foo-bar-baz
+              <span style="color:#ff79c6">replicas</span>: <span style="color:#bd93f9">18</span>
+            - <span style="color:#ff79c6">name</span>: another-deployment
+              <span style="color:#ff79c6">replicas</span>: <span style="color:#bd93f9">3</span>
+</code></pre></div><center>service definition</center>
 <p>这是部署工作流的所有步骤，最后一步将在多个生产集群上同时部署应用程序。</p>
 <p><img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1g50ldllp33j20mw0bxglz.jpg" alt=""></p>
 <center>Jenkins deployment steps</center>
@@ -776,34 +776,34 @@ preview_only: false</h2>
 <p>在安全领域，我们专注于跟踪可能在不同位置传播的所有的 Secrets ，并将其存储在巴黎的 <a href="https://www.vaultproject.io/">Vault</a> 。</p>
 <p>我们的部署工具负责从 Vault 检索加密的值，并在部署时将其注入 Helm 。</p>
 <p>为此，我们定义了存储在 Vault 中的 Secrets 与我们的应用程序所需的 Secrets 之间的映射，如下所示：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">secrets</span>:<span style="color:#666"> 
-</span><span style="color:#666">     </span>- <span style="color:#6ab825;font-weight:bold">secret_id</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;stack1-app1-password&#34;</span><span style="color:#666">
-</span><span style="color:#666">       </span><span style="color:#6ab825;font-weight:bold">contexts</span>:<span style="color:#666">
-</span><span style="color:#666">         </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;default&#34;</span><span style="color:#666">
-</span><span style="color:#666">           </span><span style="color:#6ab825;font-weight:bold">vaultPath</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;/kv/dev/stack1/app1/test&#34;</span><span style="color:#666">
-</span><span style="color:#666">           </span><span style="color:#6ab825;font-weight:bold">vaultKey</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;password&#34;</span><span style="color:#666">
-</span><span style="color:#666">         </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;cluster1&#34;</span><span style="color:#666">
-</span><span style="color:#666">           </span><span style="color:#6ab825;font-weight:bold">vaultPath</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;/kv/dev/stack1/app1/test&#34;</span><span style="color:#666">
-</span><span style="color:#666">           </span><span style="color:#6ab825;font-weight:bold">vaultKey</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;password&#34;</span><span style="color:#666">
-</span></code></pre></div><ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">secrets</span>: 
+     - <span style="color:#ff79c6">secret_id</span>: <span style="color:#f1fa8c">&#34;stack1-app1-password&#34;</span>
+       <span style="color:#ff79c6">contexts</span>:
+         - <span style="color:#ff79c6">name</span>: <span style="color:#f1fa8c">&#34;default&#34;</span>
+           <span style="color:#ff79c6">vaultPath</span>: <span style="color:#f1fa8c">&#34;/kv/dev/stack1/app1/test&#34;</span>
+           <span style="color:#ff79c6">vaultKey</span>: <span style="color:#f1fa8c">&#34;password&#34;</span>
+         - <span style="color:#ff79c6">name</span>: <span style="color:#f1fa8c">&#34;cluster1&#34;</span>
+           <span style="color:#ff79c6">vaultPath</span>: <span style="color:#f1fa8c">&#34;/kv/dev/stack1/app1/test&#34;</span>
+           <span style="color:#ff79c6">vaultKey</span>: <span style="color:#f1fa8c">&#34;password&#34;</span>
+</code></pre></div><ul>
 <li>定义将 Secrets 写入 Vault 时要遵循的通用规则。</li>
 <li>如果 Secrets 有特定的上下文/集群，则必须添加特定条目。</li>
 <li>否则，将使用默认值。</li>
 <li>对于此列表中的每个项目，将在 Kubernetes Secrets 中插入一个 key/value 。这样我们 chart 中的 Secrets 模板非常简单。</li>
 </ul>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>v1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">data</span>:<span style="color:#666">
-</span><span style="color:#666"></span>{{- range $key,$value := .Values.secrets }}<span style="color:#666">
-</span><span style="color:#666">  </span>{{<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">$key }}</span>:<span style="color:#666"> </span>{{<span style="color:#666"> </span>$value | b64enc | quote }}<span style="color:#666">
-</span><span style="color:#666"></span>{{<span style="color:#666"> </span>end }}<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>Secret<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;{{ .Chart.Name }}&#34;</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">labels</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">chartVersion</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;{{ .Chart.Version }}&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">tillerVersion</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;{{ .Capabilities.TillerVersion.SemVer }}&#34;</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">type</span>:<span style="color:#666"> </span>Opaque<span style="color:#666">
-</span></code></pre></div><h2 id="警告与限制">警告与限制</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">apiVersion</span>: v1
+<span style="color:#ff79c6">data</span>:
+{{- range $key,$value := .Values.secrets }}
+  {{ <span style="color:#ff79c6">$key }}</span>: {{ $value | b64enc | quote }}
+{{ end }}
+<span style="color:#ff79c6">kind</span>: Secret
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#ff79c6">name</span>: <span style="color:#f1fa8c">&#34;{{ .Chart.Name }}&#34;</span>
+  <span style="color:#ff79c6">labels</span>:
+    <span style="color:#ff79c6">chartVersion</span>: <span style="color:#f1fa8c">&#34;{{ .Chart.Version }}&#34;</span>
+    <span style="color:#ff79c6">tillerVersion</span>: <span style="color:#f1fa8c">&#34;{{ .Capabilities.TillerVersion.SemVer }}&#34;</span>
+<span style="color:#ff79c6">type</span>: Opaque
+</code></pre></div><h2 id="警告与限制">警告与限制</h2>
 <h2 id="preview_only-false-1">image:
 caption: &ldquo;Image from: <a href="https://www.pexels.com"><strong>Pexels</strong></a>&rdquo;
 focal_point: &quot;&quot;
@@ -840,34 +840,34 @@ preview_only: false</h2>
 <ul>
 <li>我们将保留一个类似的结构来配置我们的应用程序部署，但是在名为 “DailymotionRelease” 的单个对象中</li>
 </ul>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;v1&#34;</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;DailymotionRelease&#34;</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;app1.ns1&#34;</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">environment</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;dev&#34;</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">branch</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;mybranch&#34;</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">slack_channel</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;#admin&#34;</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">chart_name</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;app1&#34;</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">scaling</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">context</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;dev-us-central1-0&#34;</span><span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">replicas</span>:<span style="color:#666">
-</span><span style="color:#666">        </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;hermes&#34;</span><span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">count</span>:<span style="color:#666"> </span><span style="color:#3677a9">2</span><span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">context</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;dev-europe-west1-0&#34;</span><span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">replicas</span>:<span style="color:#666">
-</span><span style="color:#666">        </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;app1-deploy&#34;</span><span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">count</span>:<span style="color:#666"> </span><span style="color:#3677a9">2</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">secrets</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">secret_id</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;app1&#34;</span><span style="color:#666">
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">contexts</span>:<span style="color:#666">
-</span><span style="color:#666">        </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;default&#34;</span><span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">vaultPath</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;/kv/dev/ns1/app1/test&#34;</span><span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">vaultKey</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;password&#34;</span><span style="color:#666">
-</span><span style="color:#666">        </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;dev-europe-west1-0&#34;</span><span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">vaultPath</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;/kv/dev/ns1/app1/test&#34;</span><span style="color:#666">
-</span><span style="color:#666">          </span><span style="color:#6ab825;font-weight:bold">vaultKey</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;password&#34;</span><span style="color:#666">
-</span></code></pre></div><ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">apiVersion</span>: <span style="color:#f1fa8c">&#34;v1&#34;</span>
+<span style="color:#ff79c6">kind</span>: <span style="color:#f1fa8c">&#34;DailymotionRelease&#34;</span>
+<span style="color:#ff79c6">metadata</span>:
+  <span style="color:#ff79c6">name</span>: <span style="color:#f1fa8c">&#34;app1.ns1&#34;</span>
+  <span style="color:#ff79c6">environment</span>: <span style="color:#f1fa8c">&#34;dev&#34;</span>
+  <span style="color:#ff79c6">branch</span>: <span style="color:#f1fa8c">&#34;mybranch&#34;</span>
+<span style="color:#ff79c6">spec</span>:
+  <span style="color:#ff79c6">slack_channel</span>: <span style="color:#f1fa8c">&#34;#admin&#34;</span>
+  <span style="color:#ff79c6">chart_name</span>: <span style="color:#f1fa8c">&#34;app1&#34;</span>
+  <span style="color:#ff79c6">scaling</span>:
+    - <span style="color:#ff79c6">context</span>: <span style="color:#f1fa8c">&#34;dev-us-central1-0&#34;</span>
+      <span style="color:#ff79c6">replicas</span>:
+        - <span style="color:#ff79c6">name</span>: <span style="color:#f1fa8c">&#34;hermes&#34;</span>
+          <span style="color:#ff79c6">count</span>: <span style="color:#bd93f9">2</span>
+    - <span style="color:#ff79c6">context</span>: <span style="color:#f1fa8c">&#34;dev-europe-west1-0&#34;</span>
+      <span style="color:#ff79c6">replicas</span>:
+        - <span style="color:#ff79c6">name</span>: <span style="color:#f1fa8c">&#34;app1-deploy&#34;</span>
+          <span style="color:#ff79c6">count</span>: <span style="color:#bd93f9">2</span>
+  <span style="color:#ff79c6">secrets</span>:
+    - <span style="color:#ff79c6">secret_id</span>: <span style="color:#f1fa8c">&#34;app1&#34;</span>
+      <span style="color:#ff79c6">contexts</span>:
+        - <span style="color:#ff79c6">name</span>: <span style="color:#f1fa8c">&#34;default&#34;</span>
+          <span style="color:#ff79c6">vaultPath</span>: <span style="color:#f1fa8c">&#34;/kv/dev/ns1/app1/test&#34;</span>
+          <span style="color:#ff79c6">vaultKey</span>: <span style="color:#f1fa8c">&#34;password&#34;</span>
+        - <span style="color:#ff79c6">name</span>: <span style="color:#f1fa8c">&#34;dev-europe-west1-0&#34;</span>
+          <span style="color:#ff79c6">vaultPath</span>: <span style="color:#f1fa8c">&#34;/kv/dev/ns1/app1/test&#34;</span>
+          <span style="color:#ff79c6">vaultKey</span>: <span style="color:#f1fa8c">&#34;password&#34;</span>
+</code></pre></div><ul>
 <li>每个应用程序一个版本（不再使用 umbrella charts ）</li>
 <li>将 chart 加入应用程序 git 存储库中</li>
 </ul>

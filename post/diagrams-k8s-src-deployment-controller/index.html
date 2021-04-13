@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -239,6 +239,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -246,8 +248,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -661,21 +661,21 @@ if (!doNotTrack) {
 <p><img src="https://tvax4.sinaimg.cn/large/ad5fbf65gy1gj6twofn24j20es09s43a.jpg" alt="deployment-controller"></p>
 <p>Deployment 通过控制 ReplicaSet，ReplicaSet 再控制 Pod，最终由 Controller 驱动达到期望状态。在控制器模式下，每次操作对象都会触发一次事件，然后 controller 会进行一次 syncLoop 操作，controller 是通过 informer 监听事件以及进行 ListWatch 操作的。</p>
 <p>Deployment Controller 会监听 DeploymentInformer、ReplicaSetInformer、PodInformer 三种资源。这三种资源变化时，都会触发 syncLoop 也就是下面代码 <code>dc.Run()</code> 中的 <code>dc.syncDeployment</code> 操作，来进行状态更新逻辑。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#6ab825;font-weight:bold">func</span> <span style="color:#447fcf">startDeploymentController</span>(ctx ControllerContext) (http.Handler, <span style="color:#6ab825;font-weight:bold">bool</span>, <span style="color:#6ab825;font-weight:bold">error</span>) {
-    <span style="color:#6ab825;font-weight:bold">if</span> !ctx.AvailableResources[schema.GroupVersionResource{Group: <span style="color:#ed9d13">&#34;apps&#34;</span>, Version: <span style="color:#ed9d13">&#34;v1&#34;</span>, Resource: <span style="color:#ed9d13">&#34;deployments&#34;</span>}] {
-      <span style="color:#6ab825;font-weight:bold">return</span> <span style="color:#6ab825;font-weight:bold">nil</span>, <span style="color:#6ab825;font-weight:bold">false</span>, <span style="color:#6ab825;font-weight:bold">nil</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">startDeploymentController</span>(ctx ControllerContext) (http.Handler, <span style="color:#8be9fd">bool</span>, <span style="color:#8be9fd">error</span>) {
+    <span style="color:#ff79c6">if</span> !ctx.AvailableResources[schema.GroupVersionResource{Group: <span style="color:#f1fa8c">&#34;apps&#34;</span>, Version: <span style="color:#f1fa8c">&#34;v1&#34;</span>, Resource: <span style="color:#f1fa8c">&#34;deployments&#34;</span>}] {
+      <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>, <span style="color:#ff79c6">false</span>, <span style="color:#ff79c6">nil</span>
     }
-    dc, err := deployment.<span style="color:#447fcf">NewDeploymentController</span>(
-      ctx.InformerFactory.<span style="color:#447fcf">Apps</span>().<span style="color:#447fcf">V1</span>().<span style="color:#447fcf">Deployments</span>(),
-      ctx.InformerFactory.<span style="color:#447fcf">Apps</span>().<span style="color:#447fcf">V1</span>().<span style="color:#447fcf">ReplicaSets</span>(),
-      ctx.InformerFactory.<span style="color:#447fcf">Core</span>().<span style="color:#447fcf">V1</span>().<span style="color:#447fcf">Pods</span>(),
-      ctx.ClientBuilder.<span style="color:#447fcf">ClientOrDie</span>(<span style="color:#ed9d13">&#34;deployment-controller&#34;</span>),
+    dc, err <span style="color:#ff79c6">:=</span> deployment.<span style="color:#50fa7b">NewDeploymentController</span>(
+      ctx.InformerFactory.<span style="color:#50fa7b">Apps</span>().<span style="color:#50fa7b">V1</span>().<span style="color:#50fa7b">Deployments</span>(),
+      ctx.InformerFactory.<span style="color:#50fa7b">Apps</span>().<span style="color:#50fa7b">V1</span>().<span style="color:#50fa7b">ReplicaSets</span>(),
+      ctx.InformerFactory.<span style="color:#50fa7b">Core</span>().<span style="color:#50fa7b">V1</span>().<span style="color:#50fa7b">Pods</span>(),
+      ctx.ClientBuilder.<span style="color:#50fa7b">ClientOrDie</span>(<span style="color:#f1fa8c">&#34;deployment-controller&#34;</span>),
     )
-    <span style="color:#6ab825;font-weight:bold">if</span> err != <span style="color:#6ab825;font-weight:bold">nil</span> {
-      <span style="color:#6ab825;font-weight:bold">return</span> <span style="color:#6ab825;font-weight:bold">nil</span>, <span style="color:#6ab825;font-weight:bold">true</span>, fmt.<span style="color:#447fcf">Errorf</span>(<span style="color:#ed9d13">&#34;error creating Deployment controller: %v&#34;</span>, err)
+    <span style="color:#ff79c6">if</span> err <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">nil</span> {
+      <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>, <span style="color:#ff79c6">true</span>, fmt.<span style="color:#50fa7b">Errorf</span>(<span style="color:#f1fa8c">&#34;error creating Deployment controller: %v&#34;</span>, err)
     }
-    <span style="color:#6ab825;font-weight:bold">go</span> dc.<span style="color:#447fcf">Run</span>(<span style="color:#24909d">int</span>(ctx.ComponentConfig.DeploymentController.ConcurrentDeploymentSyncs), ctx.Stop)
-    <span style="color:#6ab825;font-weight:bold">return</span> <span style="color:#6ab825;font-weight:bold">nil</span>, <span style="color:#6ab825;font-weight:bold">true</span>, <span style="color:#6ab825;font-weight:bold">nil</span>
+    <span style="color:#ff79c6">go</span> dc.<span style="color:#50fa7b">Run</span>(<span style="color:#8be9fd;font-style:italic">int</span>(ctx.ComponentConfig.DeploymentController.ConcurrentDeploymentSyncs), ctx.Stop)
+    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">nil</span>, <span style="color:#ff79c6">true</span>, <span style="color:#ff79c6">nil</span>
 }
 </code></pre></div><h3 id="deployment-controller-启动流程">Deployment Controller 启动流程</h3>
 <p>那么先从启动逻辑开始，Kube-Controller-Manager 中所有的 Controller 的启动逻辑都差不多，都是在 <code>Run()</code> 方法中完成初始化并启动，<code>NewControllerInitializers</code> 会初始化所有 Controller，而 <code>startXXXXController()</code> 则会启动对应的 Controller。</p>

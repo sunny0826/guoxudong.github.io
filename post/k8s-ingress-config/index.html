@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -263,6 +263,8 @@ preview_only: false</a></li>
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -270,8 +272,6 @@ preview_only: false</a></li>
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -691,28 +691,28 @@ focal_point: &quot;&quot;
 preview_only: false</h2>
 <h4 id="现象">现象</h4>
 <p>微信小程序需要调用后端接口，需要在header中传一段很长的token参数，直接使用浏览器访问该端口可以访问通，但是在加上token访问之后，会报“400 Request Header Or Cookie Too Large”</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#6ab825;font-weight:bold">html</span>&gt;
-    &lt;<span style="color:#6ab825;font-weight:bold">head</span>&gt;
-        &lt;<span style="color:#6ab825;font-weight:bold">title</span>&gt;400 Request Header Or Cookie Too Large&lt;/<span style="color:#6ab825;font-weight:bold">title</span>&gt;
-    &lt;/<span style="color:#6ab825;font-weight:bold">head</span>&gt;
-    &lt;<span style="color:#6ab825;font-weight:bold">body</span>&gt;
-        &lt;<span style="color:#6ab825;font-weight:bold">center</span>&gt;
-            &lt;<span style="color:#6ab825;font-weight:bold">h1</span>&gt;400 Bad Request&lt;/<span style="color:#6ab825;font-weight:bold">h1</span>&gt;
-        &lt;/<span style="color:#6ab825;font-weight:bold">center</span>&gt;
-        &lt;<span style="color:#6ab825;font-weight:bold">center</span>&gt;Request Header Or Cookie Too Large&lt;/<span style="color:#6ab825;font-weight:bold">center</span>&gt;
-        &lt;<span style="color:#6ab825;font-weight:bold">hr</span>&gt;
-        &lt;<span style="color:#6ab825;font-weight:bold">center</span>&gt;nginx/1.15.6&lt;/<span style="color:#6ab825;font-weight:bold">center</span>&gt;
-    &lt;/<span style="color:#6ab825;font-weight:bold">body</span>&gt;
-&lt;/<span style="color:#6ab825;font-weight:bold">html</span>&gt;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#ff79c6">html</span>&gt;
+    &lt;<span style="color:#ff79c6">head</span>&gt;
+        &lt;<span style="color:#ff79c6">title</span>&gt;400 Request Header Or Cookie Too Large&lt;/<span style="color:#ff79c6">title</span>&gt;
+    &lt;/<span style="color:#ff79c6">head</span>&gt;
+    &lt;<span style="color:#ff79c6">body</span>&gt;
+        &lt;<span style="color:#ff79c6">center</span>&gt;
+            &lt;<span style="color:#ff79c6">h1</span>&gt;400 Bad Request&lt;/<span style="color:#ff79c6">h1</span>&gt;
+        &lt;/<span style="color:#ff79c6">center</span>&gt;
+        &lt;<span style="color:#ff79c6">center</span>&gt;Request Header Or Cookie Too Large&lt;/<span style="color:#ff79c6">center</span>&gt;
+        &lt;<span style="color:#ff79c6">hr</span>&gt;
+        &lt;<span style="color:#ff79c6">center</span>&gt;nginx/1.15.6&lt;/<span style="color:#ff79c6">center</span>&gt;
+    &lt;/<span style="color:#ff79c6">body</span>&gt;
+&lt;/<span style="color:#ff79c6">html</span>&gt;
 </code></pre></div><h4 id="问题定位">问题定位</h4>
 <p>直接修改Service使用nodeport的形式访问，则没有报错，初步定位需要在ingress中nginx配置客户端的请求头，进入Ingress Controller的Pod查询配置，果然是请求头空间不足。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ cat nginx.conf | grep client_header_buffer_size
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ cat nginx.conf | grep client_header_buffer_size
     client_header_buffer_size       1k;
 $ cat nginx.conf | grep large_client_header_buffers
-    large_client_header_buffers     <span style="color:#3677a9">4</span> 8k;
+    large_client_header_buffers     <span style="color:#bd93f9">4</span> 8k;
 </code></pre></div><h4 id="解决方法">解决方法</h4>
 <p>在ingress中添加注释</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nginx" data-lang="nginx"><span style="color:#6ab825;font-weight:bold">nginx.ingress.kubernetes.io/server-snippet:</span> <span style="color:#ed9d13">client_header_buffer_size</span> <span style="color:#3677a9">2046k</span>;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nginx" data-lang="nginx"><span style="color:#ff79c6">nginx.ingress.kubernetes.io/server-snippet:</span> <span style="color:#f1fa8c">client_header_buffer_size</span> <span style="color:#bd93f9">2046k</span>;
 </code></pre></div><h2 id="preview_only-false-1">image:
 caption: &ldquo;Image from: <a href="https://www.pexels.com"><strong>Pexels</strong></a>&rdquo;
 focal_point: &quot;&quot;
@@ -730,7 +730,7 @@ preview_only: false</h2>
 <h4 id="解决方法-1">解决方法</h4>
 <p>调整proxy_read_timeout，连接成功后_等候后端服务器响应时间_其实已经进入后端的排队之中等候处理
 在ingress中添加注释</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nginx" data-lang="nginx"><span style="color:#6ab825;font-weight:bold">nginx.ingress.kubernetes.io/proxy-read-timeout:</span> <span style="color:#3677a9">600</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nginx" data-lang="nginx"><span style="color:#ff79c6">nginx.ingress.kubernetes.io/proxy-read-timeout:</span> <span style="color:#bd93f9">600</span>
 </code></pre></div><blockquote>
 <p>这里需要注意的事该注释的value需要时number类型，不能加s，否则将不生效</p>
 </blockquote>
@@ -745,7 +745,7 @@ preview_only: false</h2>
 <p>You can specify allowed client IP source ranges through the nginx.ingress.kubernetes.io/whitelist-source-range annotation. The value is a comma separated list of CIDRs, e.g. 10.0.0.0/24,172.10.0.1.</p>
 </blockquote>
 <p>在 ingress 里配置 <code>nginx.ingress.kubernetes.io/whitelist-source-range</code> ，如有多个ip段，用逗号分隔即可</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nginx" data-lang="nginx"><span style="color:#6ab825;font-weight:bold">nginx.ingress.kubernetes.io/whitelist-source-range:</span> <span style="color:#3677a9">10</span><span style="color:#ed9d13">.0.0.0/24</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nginx" data-lang="nginx"><span style="color:#ff79c6">nginx.ingress.kubernetes.io/whitelist-source-range:</span> <span style="color:#bd93f9">10</span><span style="color:#f1fa8c">.0.0.0/24</span>
 </code></pre></div><p>如果想全局适用，可以在阿里云 SLB 里操作，也可以将该配置加入到 <code>NGINX ConfigMap</code> 中。</p>
 <h2 id="preview_only-false-3">image:
 caption: &ldquo;Image from: <a href="https://www.pexels.com"><strong>Pexels</strong></a>&rdquo;

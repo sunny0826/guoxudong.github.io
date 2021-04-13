@@ -42,7 +42,7 @@
       "datePublished": "2019-05-21 08:59:00 \u002b0800 \u002b0800",
       "dateModified" : "2019-05-21 08:59:00 \u002b0800 \u002b0800",
       "url" : "https:\/\/guoxudong.io\/post\/drone-ci\/",
-      "wordCount" : "389",
+      "wordCount" : "474",
       "keywords" : [ "devops","drone","工具","Guoxudong" ]
   }
   </script>
@@ -56,7 +56,7 @@
 <meta itemprop="name" content="轻量快速的 CI 工具 Drone">
 <meta itemprop="description" content="本文介绍一款轻量级的 CI 工具 Drone ，同时也介绍在实践中遇到的一些坑，帮助你快速搭建持续集成流水线。"><meta itemprop="datePublished" content="2019-05-21T08:59:00&#43;08:00" />
 <meta itemprop="dateModified" content="2020-12-15T17:21:10&#43;08:00" />
-<meta itemprop="wordCount" content="389">
+<meta itemprop="wordCount" content="474">
 <meta itemprop="keywords" content="devops,drone,工具," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="轻量快速的 CI 工具 Drone"/>
 <meta name="twitter:description" content="本文介绍一款轻量级的 CI 工具 Drone ，同时也介绍在实践中遇到的一些坑，帮助你快速搭建持续集成流水线。"/>
@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -237,6 +237,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -244,8 +246,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -585,7 +585,7 @@ if (!doNotTrack) {
 	<div class="td-byline mb-4">
 		<span>By  <b>guoxudong</b> </span> ·
 		<span>
-			2 分钟阅读时间
+			3 分钟阅读时间
 		</span> ·
 		<span>发布于 </span><time datetime=" 2019-05-21" 
 			class="text-muted">2019年05月21日</time> ·
@@ -725,23 +725,23 @@ if (!doNotTrack) {
 </tbody>
 </table>
 <p>上面只是列举了部分官方文档和网上流产版本的不同，所以在使用之前一定要仔细阅读官方文档。下附运行 drone 的命令：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker run <span style="color:#ed9d13">\
-</span><span style="color:#ed9d13"></span>  --volume=/var/run/docker.sock:/var/run/docker.sock <span style="color:#ed9d13">\
-</span><span style="color:#ed9d13"></span>  --volume=/var/lib/drone:/data <span style="color:#ed9d13">\
-</span><span style="color:#ed9d13"></span>  --env=<span style="color:#40ffff">DRONE_GIT_ALWAYS_AUTH</span>=<span style="color:#24909d">false</span> <span style="color:#ed9d13">\
-</span><span style="color:#ed9d13"></span>  --env=<span style="color:#40ffff">DRONE_GITLAB_SERVER</span>={your-gitlab-url} <span style="color:#ed9d13">\ </span> <span style="color:#999;font-style:italic"># gitlab 的 URL</span>
-  --env=<span style="color:#40ffff">DRONE_GITLAB_CLIENT_ID</span>={your-gitlab-applications-id} <span style="color:#ed9d13">\ </span> <span style="color:#999;font-style:italic">#GitLab的Application中的id</span>
-  --env=<span style="color:#40ffff">DRONE_GITLAB_CLIENT_SECRET</span>={your-gitlab-applicati-secret} <span style="color:#ed9d13">\ </span><span style="color:#999;font-style:italic">#GitLab的Application中的secret</span>
-  --env=<span style="color:#40ffff">DRONE_SERVER_HOST</span>={your-drone-url} <span style="color:#ed9d13">\ </span>   <span style="color:#999;font-style:italic"># drone 的URl</span>
-  --env=<span style="color:#40ffff">DRONE_SERVER_PROTO</span>=http <span style="color:#ed9d13">\
-</span><span style="color:#ed9d13"></span>  --env=<span style="color:#40ffff">DRONE_TLS_AUTOCERT</span>=<span style="color:#24909d">false</span> <span style="color:#ed9d13">\
-</span><span style="color:#ed9d13"></span>  --env=<span style="color:#40ffff">DRONE_USER_CREATE</span>=username:{your-admin-username},admin:true <span style="color:#ed9d13">\ </span>  <span style="color:#999;font-style:italic"># Drone的管理员</span>
-  --publish=8000:80 <span style="color:#ed9d13">\
-</span><span style="color:#ed9d13"></span>  --publish=443:443 <span style="color:#ed9d13">\
-</span><span style="color:#ed9d13"></span>  --restart=always <span style="color:#ed9d13">\
-</span><span style="color:#ed9d13"></span>  --detach=<span style="color:#24909d">true</span> <span style="color:#ed9d13">\
-</span><span style="color:#ed9d13"></span>  --name=drone <span style="color:#ed9d13">\
-</span><span style="color:#ed9d13"></span>  drone/drone:1.1
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker run <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>  --volume<span style="color:#ff79c6">=</span>/var/run/docker.sock:/var/run/docker.sock <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>  --volume<span style="color:#ff79c6">=</span>/var/lib/drone:/data <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>  --env<span style="color:#ff79c6">=</span><span style="color:#8be9fd;font-style:italic">DRONE_GIT_ALWAYS_AUTH</span><span style="color:#ff79c6">=</span><span style="color:#8be9fd;font-style:italic">false</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>  --env<span style="color:#ff79c6">=</span><span style="color:#8be9fd;font-style:italic">DRONE_GITLAB_SERVER</span><span style="color:#ff79c6">={</span>your-gitlab-url<span style="color:#ff79c6">}</span> <span style="color:#f1fa8c">\ </span> <span style="color:#6272a4"># gitlab 的 URL</span>
+  --env<span style="color:#ff79c6">=</span><span style="color:#8be9fd;font-style:italic">DRONE_GITLAB_CLIENT_ID</span><span style="color:#ff79c6">={</span>your-gitlab-applications-id<span style="color:#ff79c6">}</span> <span style="color:#f1fa8c">\ </span> <span style="color:#6272a4">#GitLab的Application中的id</span>
+  --env<span style="color:#ff79c6">=</span><span style="color:#8be9fd;font-style:italic">DRONE_GITLAB_CLIENT_SECRET</span><span style="color:#ff79c6">={</span>your-gitlab-applicati-secret<span style="color:#ff79c6">}</span> <span style="color:#f1fa8c">\ </span><span style="color:#6272a4">#GitLab的Application中的secret</span>
+  --env<span style="color:#ff79c6">=</span><span style="color:#8be9fd;font-style:italic">DRONE_SERVER_HOST</span><span style="color:#ff79c6">={</span>your-drone-url<span style="color:#ff79c6">}</span> <span style="color:#f1fa8c">\ </span>   <span style="color:#6272a4"># drone 的URl</span>
+  --env<span style="color:#ff79c6">=</span><span style="color:#8be9fd;font-style:italic">DRONE_SERVER_PROTO</span><span style="color:#ff79c6">=</span>http <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>  --env<span style="color:#ff79c6">=</span><span style="color:#8be9fd;font-style:italic">DRONE_TLS_AUTOCERT</span><span style="color:#ff79c6">=</span><span style="color:#8be9fd;font-style:italic">false</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>  --env<span style="color:#ff79c6">=</span><span style="color:#8be9fd;font-style:italic">DRONE_USER_CREATE</span><span style="color:#ff79c6">=</span>username:<span style="color:#ff79c6">{</span>your-admin-username<span style="color:#ff79c6">}</span>,admin:true <span style="color:#f1fa8c">\ </span>  <span style="color:#6272a4"># Drone的管理员</span>
+  --publish<span style="color:#ff79c6">=</span>8000:80 <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>  --publish<span style="color:#ff79c6">=</span>443:443 <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>  --restart<span style="color:#ff79c6">=</span>always <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>  --detach<span style="color:#ff79c6">=</span><span style="color:#8be9fd;font-style:italic">true</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>  --name<span style="color:#ff79c6">=</span>drone <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>  drone/drone:1.1
 </code></pre></div><p>关于 <code>gitlab Application</code> 的配置和 Drone 其他参数含义请参考<a href="https://docs.drone.io/installation/gitlab/single-machine/">官方文档</a>，这里只展示单节点办的运行方式。</p>
 <h2 id="核心文件-droneyml">核心文件 <code>.drone.yml</code></h2>
 <p>要使用 Drone 只需在项目根创建一个 <code>.drone.yml</code> 文件即可，这个是 Drone 构建脚本的配置文件，它随项目一块进行版本管理，开发者不需要额外再去维护一个配置脚本。其实现代 CI 程序都是这么做了，这个主要是相对于 Jekins 来说的。虽然 Jekins 也有插件支持，但毕竟还是需要配置。</p>
@@ -750,68 +750,68 @@ if (!doNotTrack) {
 </blockquote>
 <p>这里放一个 Java 的 .drone.yml ，这个项目是 fork 别人的项目用作演示，记得要修改 <code>deployment.yaml</code> 中的镜像仓库地址修改为自己的私有仓库。</p>
 <p>示例项目源码：https://github.com/sunny0826/pipeline-example-maven</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-YAML" data-lang="YAML"><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>pipeline<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>pipeline-example-maven<span style="color:#666">
-</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">steps</span>:<span style="color:#666">
-</span><span style="color:#666"></span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>Maven编译<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666"> </span>maven:3-jdk-7<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">volumes</span>:<span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>cache<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">path</span>:<span style="color:#666"> </span>/root/.m2<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">commands</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- mvn clean install<span style="color:#666">
-</span><span style="color:#666">
-</span><span style="color:#666"></span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>构建镜像  <span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666"> </span>plugins/docker<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">volumes</span>:<span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>docker<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">path</span>:<span style="color:#666"> </span>/var/run/docker.sock<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">settings</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">username</span>:<span style="color:#666"> 
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">from_secret</span>:<span style="color:#666"> </span>docker_user<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">password</span>:<span style="color:#666"> 
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">from_secret</span>:<span style="color:#666"> </span>docker_pass<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">repo</span>:<span style="color:#666"> </span>{your-repo}<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">registry</span>:<span style="color:#666"> </span>{your-registry}<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">tags</span>:<span style="color:#666"> </span>${DRONE_BUILD_NUMBER}<span style="color:#666">
-</span><span style="color:#666">
-</span><span style="color:#666"></span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>Kubernetes 部署<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666"> </span>guoxudongdocker/kubectl:v1.14.1 <span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">volumes</span>:<span style="color:#666">
-</span><span style="color:#666">  </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>kube<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">path</span>:<span style="color:#666"> </span>/root/.kube<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">commands</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- sed -i &#34;s/#Tag/${DRONE_BUILD_NUMBER}/g&#34; deployment.yaml<span style="color:#666">
-</span><span style="color:#666">    </span>- kubectl apply -f deployment.yaml<span style="color:#666">
-</span><span style="color:#666">
-</span><span style="color:#666"></span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>钉钉通知<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666"> </span>guoxudongdocker/drone-dingtalk <span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">settings</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">token</span>:<span style="color:#666"> 
-</span><span style="color:#666">      </span><span style="color:#6ab825;font-weight:bold">from_secret</span>:<span style="color:#666"> </span>dingding<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">type</span>:<span style="color:#666"> </span>markdown<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">message_color</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">true</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">message_pic</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">true</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">sha_link</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">true</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">when</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">status</span>:<span style="color:#666"> </span>[failure, success]<span style="color:#666">
-</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">volumes</span>:<span style="color:#666">
-</span><span style="color:#666"></span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>cache<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">host</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">path</span>:<span style="color:#666"> </span>/tmp/cache/.m2<span style="color:#666">
-</span><span style="color:#666"></span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>kube<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">host</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">path</span>:<span style="color:#666"> </span>/tmp/cache/.kube/.test_kube<span style="color:#666">
-</span><span style="color:#666"></span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>docker<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">host</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">path</span>:<span style="color:#666"> </span>/var/run/docker.sock<span style="color:#666">
-</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">trigger</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">branch</span>:<span style="color:#666">
-</span><span style="color:#666">  </span>- master<span style="color:#666">
-</span></code></pre></div><p>值得注意的事：上面的这个 <code>.drone.yml</code> 文件将本地的<code>.m2</code>文件、kubeconfig文件、<code>docker.sock</code> 文件挂载到 pipeline 中以实现 maven 打包缓存，k8s 部署、docker 缓存的作用，以提高 CI 速度。而是用挂载需要管理员在项目 settings 中勾选 <code>Trusted</code> ，这个操作只能管理员进行，普通用户是看不到这个选项的。而管理员就是在docker运行时候 <code>--env=DRONE_USER_CREATE=username:{your-admin-username},admin:true </code> 设置的。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-YAML" data-lang="YAML"><span style="color:#ff79c6">kind</span>: pipeline
+<span style="color:#ff79c6">name</span>: pipeline-example-maven
+
+<span style="color:#ff79c6">steps</span>:
+- <span style="color:#ff79c6">name</span>: Maven编译
+  <span style="color:#ff79c6">image</span>: maven:3-jdk-7
+  <span style="color:#ff79c6">volumes</span>:
+  - <span style="color:#ff79c6">name</span>: cache
+    <span style="color:#ff79c6">path</span>: /root/.m2
+  <span style="color:#ff79c6">commands</span>:
+    - mvn clean install
+
+- <span style="color:#ff79c6">name</span>: 构建镜像  
+  <span style="color:#ff79c6">image</span>: plugins/docker
+  <span style="color:#ff79c6">volumes</span>:
+  - <span style="color:#ff79c6">name</span>: docker
+    <span style="color:#ff79c6">path</span>: /var/run/docker.sock
+  <span style="color:#ff79c6">settings</span>:
+    <span style="color:#ff79c6">username</span>: 
+      <span style="color:#ff79c6">from_secret</span>: docker_user
+    <span style="color:#ff79c6">password</span>: 
+      <span style="color:#ff79c6">from_secret</span>: docker_pass
+    <span style="color:#ff79c6">repo</span>: {your-repo}
+    <span style="color:#ff79c6">registry</span>: {your-registry}
+    <span style="color:#ff79c6">tags</span>: ${DRONE_BUILD_NUMBER}
+
+- <span style="color:#ff79c6">name</span>: Kubernetes 部署
+  <span style="color:#ff79c6">image</span>: guoxudongdocker/kubectl:v1.14.1 
+  <span style="color:#ff79c6">volumes</span>:
+  - <span style="color:#ff79c6">name</span>: kube
+    <span style="color:#ff79c6">path</span>: /root/.kube
+  <span style="color:#ff79c6">commands</span>:
+    - sed -i &#34;s/#Tag/${DRONE_BUILD_NUMBER}/g&#34; deployment.yaml
+    - kubectl apply -f deployment.yaml
+
+- <span style="color:#ff79c6">name</span>: 钉钉通知
+  <span style="color:#ff79c6">image</span>: guoxudongdocker/drone-dingtalk 
+  <span style="color:#ff79c6">settings</span>:
+    <span style="color:#ff79c6">token</span>: 
+      <span style="color:#ff79c6">from_secret</span>: dingding
+    <span style="color:#ff79c6">type</span>: markdown
+    <span style="color:#ff79c6">message_color</span>: <span style="color:#ff79c6">true</span>
+    <span style="color:#ff79c6">message_pic</span>: <span style="color:#ff79c6">true</span>
+    <span style="color:#ff79c6">sha_link</span>: <span style="color:#ff79c6">true</span>
+  <span style="color:#ff79c6">when</span>:
+    <span style="color:#ff79c6">status</span>: [failure, success]
+
+<span style="color:#ff79c6">volumes</span>:
+- <span style="color:#ff79c6">name</span>: cache
+  <span style="color:#ff79c6">host</span>:
+    <span style="color:#ff79c6">path</span>: /tmp/cache/.m2
+- <span style="color:#ff79c6">name</span>: kube
+  <span style="color:#ff79c6">host</span>:
+    <span style="color:#ff79c6">path</span>: /tmp/cache/.kube/.test_kube
+- <span style="color:#ff79c6">name</span>: docker
+  <span style="color:#ff79c6">host</span>:
+    <span style="color:#ff79c6">path</span>: /var/run/docker.sock
+
+<span style="color:#ff79c6">trigger</span>:
+  <span style="color:#ff79c6">branch</span>:
+  - master
+</code></pre></div><p>值得注意的事：上面的这个 <code>.drone.yml</code> 文件将本地的<code>.m2</code>文件、kubeconfig文件、<code>docker.sock</code> 文件挂载到 pipeline 中以实现 maven 打包缓存，k8s 部署、docker 缓存的作用，以提高 CI 速度。而是用挂载需要管理员在项目 settings 中勾选 <code>Trusted</code> ，这个操作只能管理员进行，普通用户是看不到这个选项的。而管理员就是在docker运行时候 <code>--env=DRONE_USER_CREATE=username:{your-admin-username},admin:true </code> 设置的。</p>
 <p><img src="https://ws3.sinaimg.cn/large/ad5fbf65gy1g38qvifxwij21d40tk76s.jpg" alt="WX20190521-104717@2x"></p>
 <p>而上传镜像和钉钉同时需要在 settings 设置中添加 secret</p>
 <ul>

@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -239,6 +239,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -246,8 +248,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -660,117 +660,117 @@ if (!doNotTrack) {
 <p><img src="https://tva2.sinaimg.cn/large/ad5fbf65ly1gjotxqvm4uj20mr0aw78n.jpg" alt="Qos"></p>
 <h3 id="qos-分类">QoS 分类</h3>
 <p>以下代码用来获取 Pod 的 QoS 类，用于区分不同 Pod 的 QoS。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#999;font-style:italic">// github/kubernetes/pkg/apis/core/v1/helper/qos/qos.go
-</span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">func</span> <span style="color:#447fcf">GetPodQOS</span>(pod *v1.Pod) v1.PodQOSClass {
-  requests := v1.ResourceList{}
-  limits := v1.ResourceList{}
-  zeroQuantity := resource.<span style="color:#447fcf">MustParse</span>(<span style="color:#ed9d13">&#34;0&#34;</span>)
-  isGuaranteed := <span style="color:#6ab825;font-weight:bold">true</span>
-  allContainers := []v1.Container{}
-  allContainers = <span style="color:#24909d">append</span>(allContainers, pod.Spec.Containers...)
-  <span style="color:#999;font-style:italic">// InitContainers 容器也会被加入 QoS 的计算中
-</span><span style="color:#999;font-style:italic"></span>  allContainers = <span style="color:#24909d">append</span>(allContainers, pod.Spec.InitContainers...)
-  <span style="color:#6ab825;font-weight:bold">for</span> _, container := <span style="color:#6ab825;font-weight:bold">range</span> allContainers {
-    <span style="color:#999;font-style:italic">// 遍历 requests 中的 CPU 和 memory 值
-</span><span style="color:#999;font-style:italic"></span>    <span style="color:#6ab825;font-weight:bold">for</span> name, quantity := <span style="color:#6ab825;font-weight:bold">range</span> container.Resources.Requests {
-      <span style="color:#6ab825;font-weight:bold">if</span> !<span style="color:#447fcf">isSupportedQoSComputeResource</span>(name) {
-        <span style="color:#6ab825;font-weight:bold">continue</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#6272a4">// github/kubernetes/pkg/apis/core/v1/helper/qos/qos.go
+</span><span style="color:#6272a4"></span><span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">GetPodQOS</span>(pod <span style="color:#ff79c6">*</span>v1.Pod) v1.PodQOSClass {
+  requests <span style="color:#ff79c6">:=</span> v1.ResourceList{}
+  limits <span style="color:#ff79c6">:=</span> v1.ResourceList{}
+  zeroQuantity <span style="color:#ff79c6">:=</span> resource.<span style="color:#50fa7b">MustParse</span>(<span style="color:#f1fa8c">&#34;0&#34;</span>)
+  isGuaranteed <span style="color:#ff79c6">:=</span> <span style="color:#ff79c6">true</span>
+  allContainers <span style="color:#ff79c6">:=</span> []v1.Container{}
+  allContainers = <span style="color:#8be9fd;font-style:italic">append</span>(allContainers, pod.Spec.Containers<span style="color:#ff79c6">...</span>)
+  <span style="color:#6272a4">// InitContainers 容器也会被加入 QoS 的计算中
+</span><span style="color:#6272a4"></span>  allContainers = <span style="color:#8be9fd;font-style:italic">append</span>(allContainers, pod.Spec.InitContainers<span style="color:#ff79c6">...</span>)
+  <span style="color:#ff79c6">for</span> _, container <span style="color:#ff79c6">:=</span> <span style="color:#ff79c6">range</span> allContainers {
+    <span style="color:#6272a4">// 遍历 requests 中的 CPU 和 memory 值
+</span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">for</span> name, quantity <span style="color:#ff79c6">:=</span> <span style="color:#ff79c6">range</span> container.Resources.Requests {
+      <span style="color:#ff79c6">if</span> !<span style="color:#50fa7b">isSupportedQoSComputeResource</span>(name) {
+        <span style="color:#ff79c6">continue</span>
       }
-      <span style="color:#6ab825;font-weight:bold">if</span> quantity.<span style="color:#447fcf">Cmp</span>(zeroQuantity) == <span style="color:#3677a9">1</span> {
-        delta := quantity.<span style="color:#447fcf">DeepCopy</span>()
-        <span style="color:#6ab825;font-weight:bold">if</span> _, exists := requests[name]; !exists {
+      <span style="color:#ff79c6">if</span> quantity.<span style="color:#50fa7b">Cmp</span>(zeroQuantity) <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">1</span> {
+        delta <span style="color:#ff79c6">:=</span> quantity.<span style="color:#50fa7b">DeepCopy</span>()
+        <span style="color:#ff79c6">if</span> _, exists <span style="color:#ff79c6">:=</span> requests[name]; !exists {
           requests[name] = delta
-        } <span style="color:#6ab825;font-weight:bold">else</span> {
-          delta.<span style="color:#447fcf">Add</span>(requests[name])
+        } <span style="color:#ff79c6">else</span> {
+          delta.<span style="color:#50fa7b">Add</span>(requests[name])
           requests[name] = delta
         }
       }
     }
-    <span style="color:#999;font-style:italic">// 遍历 limits 中的 CPU 和 memory 值
-</span><span style="color:#999;font-style:italic"></span>    qosLimitsFound := sets.<span style="color:#447fcf">NewString</span>()
-    <span style="color:#6ab825;font-weight:bold">for</span> name, quantity := <span style="color:#6ab825;font-weight:bold">range</span> container.Resources.Limits {
-      <span style="color:#6ab825;font-weight:bold">if</span> !<span style="color:#447fcf">isSupportedQoSComputeResource</span>(name) {
-        <span style="color:#6ab825;font-weight:bold">continue</span>
+    <span style="color:#6272a4">// 遍历 limits 中的 CPU 和 memory 值
+</span><span style="color:#6272a4"></span>    qosLimitsFound <span style="color:#ff79c6">:=</span> sets.<span style="color:#50fa7b">NewString</span>()
+    <span style="color:#ff79c6">for</span> name, quantity <span style="color:#ff79c6">:=</span> <span style="color:#ff79c6">range</span> container.Resources.Limits {
+      <span style="color:#ff79c6">if</span> !<span style="color:#50fa7b">isSupportedQoSComputeResource</span>(name) {
+        <span style="color:#ff79c6">continue</span>
       }
-      <span style="color:#6ab825;font-weight:bold">if</span> quantity.<span style="color:#447fcf">Cmp</span>(zeroQuantity) == <span style="color:#3677a9">1</span> {
-        qosLimitsFound.<span style="color:#447fcf">Insert</span>(<span style="color:#24909d">string</span>(name))
-        delta := quantity.<span style="color:#447fcf">DeepCopy</span>()
-        <span style="color:#6ab825;font-weight:bold">if</span> _, exists := limits[name]; !exists {
+      <span style="color:#ff79c6">if</span> quantity.<span style="color:#50fa7b">Cmp</span>(zeroQuantity) <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">1</span> {
+        qosLimitsFound.<span style="color:#50fa7b">Insert</span>(<span style="color:#8be9fd;font-style:italic">string</span>(name))
+        delta <span style="color:#ff79c6">:=</span> quantity.<span style="color:#50fa7b">DeepCopy</span>()
+        <span style="color:#ff79c6">if</span> _, exists <span style="color:#ff79c6">:=</span> limits[name]; !exists {
           limits[name] = delta
-        } <span style="color:#6ab825;font-weight:bold">else</span> {
-          delta.<span style="color:#447fcf">Add</span>(limits[name])
+        } <span style="color:#ff79c6">else</span> {
+          delta.<span style="color:#50fa7b">Add</span>(limits[name])
           limits[name] = delta
         }
       }
     }
 
-    <span style="color:#999;font-style:italic">// 判断是否同时设置了 limits 和 requests，如果没有则不是 Guaranteed
-</span><span style="color:#999;font-style:italic"></span>    <span style="color:#6ab825;font-weight:bold">if</span> !qosLimitsFound.<span style="color:#447fcf">HasAll</span>(<span style="color:#24909d">string</span>(v1.ResourceMemory), <span style="color:#24909d">string</span>(v1.ResourceCPU)) {
-      isGuaranteed = <span style="color:#6ab825;font-weight:bold">false</span>
+    <span style="color:#6272a4">// 判断是否同时设置了 limits 和 requests，如果没有则不是 Guaranteed
+</span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">if</span> !qosLimitsFound.<span style="color:#50fa7b">HasAll</span>(<span style="color:#8be9fd;font-style:italic">string</span>(v1.ResourceMemory), <span style="color:#8be9fd;font-style:italic">string</span>(v1.ResourceCPU)) {
+      isGuaranteed = <span style="color:#ff79c6">false</span>
     }
   }
-  <span style="color:#999;font-style:italic">// 如果 requests 和 limits 都没有设置，则为 BestEffort
-</span><span style="color:#999;font-style:italic"></span>  <span style="color:#6ab825;font-weight:bold">if</span> <span style="color:#24909d">len</span>(requests) == <span style="color:#3677a9">0</span> &amp;&amp; <span style="color:#24909d">len</span>(limits) == <span style="color:#3677a9">0</span> {
-    <span style="color:#6ab825;font-weight:bold">return</span> v1.PodQOSBestEffort
+  <span style="color:#6272a4">// 如果 requests 和 limits 都没有设置，则为 BestEffort
+</span><span style="color:#6272a4"></span>  <span style="color:#ff79c6">if</span> <span style="color:#8be9fd;font-style:italic">len</span>(requests) <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0</span> <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#8be9fd;font-style:italic">len</span>(limits) <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0</span> {
+    <span style="color:#ff79c6">return</span> v1.PodQOSBestEffort
   }
-  <span style="color:#999;font-style:italic">// 检查所有资源的 requests 和 limits 是否都相等
-</span><span style="color:#999;font-style:italic"></span>  <span style="color:#6ab825;font-weight:bold">if</span> isGuaranteed {
-    <span style="color:#6ab825;font-weight:bold">for</span> name, req := <span style="color:#6ab825;font-weight:bold">range</span> requests {
-      <span style="color:#6ab825;font-weight:bold">if</span> lim, exists := limits[name]; !exists || lim.<span style="color:#447fcf">Cmp</span>(req) != <span style="color:#3677a9">0</span> {
-        isGuaranteed = <span style="color:#6ab825;font-weight:bold">false</span>
-        <span style="color:#6ab825;font-weight:bold">break</span>
+  <span style="color:#6272a4">// 检查所有资源的 requests 和 limits 是否都相等
+</span><span style="color:#6272a4"></span>  <span style="color:#ff79c6">if</span> isGuaranteed {
+    <span style="color:#ff79c6">for</span> name, req <span style="color:#ff79c6">:=</span> <span style="color:#ff79c6">range</span> requests {
+      <span style="color:#ff79c6">if</span> lim, exists <span style="color:#ff79c6">:=</span> limits[name]; !exists <span style="color:#ff79c6">||</span> lim.<span style="color:#50fa7b">Cmp</span>(req) <span style="color:#ff79c6">!=</span> <span style="color:#bd93f9">0</span> {
+        isGuaranteed = <span style="color:#ff79c6">false</span>
+        <span style="color:#ff79c6">break</span>
       }
     }
   }
-  <span style="color:#999;font-style:italic">// 都设置了 requests 和 limits，则为 Guaranteed
-</span><span style="color:#999;font-style:italic"></span>  <span style="color:#6ab825;font-weight:bold">if</span> isGuaranteed &amp;&amp;
-    <span style="color:#24909d">len</span>(requests) == <span style="color:#24909d">len</span>(limits) {
-    <span style="color:#6ab825;font-weight:bold">return</span> v1.PodQOSGuaranteed
+  <span style="color:#6272a4">// 都设置了 requests 和 limits，则为 Guaranteed
+</span><span style="color:#6272a4"></span>  <span style="color:#ff79c6">if</span> isGuaranteed <span style="color:#ff79c6">&amp;&amp;</span>
+    <span style="color:#8be9fd;font-style:italic">len</span>(requests) <span style="color:#ff79c6">==</span> <span style="color:#8be9fd;font-style:italic">len</span>(limits) {
+    <span style="color:#ff79c6">return</span> v1.PodQOSGuaranteed
   }
-  <span style="color:#6ab825;font-weight:bold">return</span> v1.PodQOSBurstable
+  <span style="color:#ff79c6">return</span> v1.PodQOSBurstable
 }
 </code></pre></div><h3 id="qos-打分">QoS 打分</h3>
 <p>QoS 会根据不同的分类进行 OOMScore 打分，当宿主机上内存不足时，系统会优先 kill 掉 OOMScore 分数高的进程。</p>
 <p><img src="https://tvax3.sinaimg.cn/large/ad5fbf65ly1gjoqlfe8cgj20mr0pcqmy.jpg" alt="QoS 打分"></p>
 <p>值得注意的是不久之前 <code>guaranteedOOMScoreAdj</code> 的值还是 <code>-998</code>，今年 9 月 22 日才合并 <a href="https://github.com/kubernetes/kubernetes/pull/71269">PR</a> 将其修改为 <code>-997</code>，而修改的 PR 及 <a href="https://github.com/kubernetes/kubernetes/issues/72294">相关 ISSUE</a> 在 2018 年就已经提出了，感兴趣的同学可以去看看。这里附上源码：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#999;font-style:italic">// github/kubernetes/pkg/kubelet/qos/policy.go
-</span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">const</span> (
-  <span style="color:#999;font-style:italic">// KubeletOOMScoreAdj is the OOM score adjustment for Kubelet
-</span><span style="color:#999;font-style:italic"></span>  KubeletOOMScoreAdj <span style="color:#6ab825;font-weight:bold">int</span> = -<span style="color:#3677a9">999</span>
-  <span style="color:#999;font-style:italic">// KubeProxyOOMScoreAdj is the OOM score adjustment for kube-proxy
-</span><span style="color:#999;font-style:italic"></span>  KubeProxyOOMScoreAdj  <span style="color:#6ab825;font-weight:bold">int</span> = -<span style="color:#3677a9">999</span>
-  guaranteedOOMScoreAdj <span style="color:#6ab825;font-weight:bold">int</span> = -<span style="color:#3677a9">997</span>
-  besteffortOOMScoreAdj <span style="color:#6ab825;font-weight:bold">int</span> = <span style="color:#3677a9">1000</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#6272a4">// github/kubernetes/pkg/kubelet/qos/policy.go
+</span><span style="color:#6272a4"></span><span style="color:#8be9fd;font-style:italic">const</span> (
+  <span style="color:#6272a4">// KubeletOOMScoreAdj is the OOM score adjustment for Kubelet
+</span><span style="color:#6272a4"></span>  KubeletOOMScoreAdj <span style="color:#8be9fd">int</span> = <span style="color:#ff79c6">-</span><span style="color:#bd93f9">999</span>
+  <span style="color:#6272a4">// KubeProxyOOMScoreAdj is the OOM score adjustment for kube-proxy
+</span><span style="color:#6272a4"></span>  KubeProxyOOMScoreAdj  <span style="color:#8be9fd">int</span> = <span style="color:#ff79c6">-</span><span style="color:#bd93f9">999</span>
+  guaranteedOOMScoreAdj <span style="color:#8be9fd">int</span> = <span style="color:#ff79c6">-</span><span style="color:#bd93f9">997</span>
+  besteffortOOMScoreAdj <span style="color:#8be9fd">int</span> = <span style="color:#bd93f9">1000</span>
 )
 
-<span style="color:#6ab825;font-weight:bold">func</span> <span style="color:#447fcf">GetContainerOOMScoreAdjust</span>(pod *v1.Pod, container *v1.Container, memoryCapacity <span style="color:#6ab825;font-weight:bold">int64</span>) <span style="color:#6ab825;font-weight:bold">int</span> {
-  <span style="color:#999;font-style:italic">// 高优先级 Pod 直接返回 guaranteedOOMScoreAdj
-</span><span style="color:#999;font-style:italic"></span>  <span style="color:#6ab825;font-weight:bold">if</span> types.<span style="color:#447fcf">IsCriticalPod</span>(pod) {
-    <span style="color:#999;font-style:italic">// Critical pods should be the last to get killed.
-</span><span style="color:#999;font-style:italic"></span>    <span style="color:#6ab825;font-weight:bold">return</span> guaranteedOOMScoreAdj
+<span style="color:#8be9fd;font-style:italic">func</span> <span style="color:#50fa7b">GetContainerOOMScoreAdjust</span>(pod <span style="color:#ff79c6">*</span>v1.Pod, container <span style="color:#ff79c6">*</span>v1.Container, memoryCapacity <span style="color:#8be9fd">int64</span>) <span style="color:#8be9fd">int</span> {
+  <span style="color:#6272a4">// 高优先级 Pod 直接返回 guaranteedOOMScoreAdj
+</span><span style="color:#6272a4"></span>  <span style="color:#ff79c6">if</span> types.<span style="color:#50fa7b">IsCriticalPod</span>(pod) {
+    <span style="color:#6272a4">// Critical pods should be the last to get killed.
+</span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">return</span> guaranteedOOMScoreAdj
   }
 
-  <span style="color:#999;font-style:italic">// 根据 QoS 等级，返回 guaranteedOOMScoreAdj 或 besteffortOOMScoreAdj 的分数，这里只处理 Guaranteed 与 BestEffort
-</span><span style="color:#999;font-style:italic"></span>  <span style="color:#6ab825;font-weight:bold">switch</span> v1qos.<span style="color:#447fcf">GetPodQOS</span>(pod) {
-  <span style="color:#6ab825;font-weight:bold">case</span> v1.PodQOSGuaranteed:
-    <span style="color:#999;font-style:italic">// Guaranteed containers should be the last to get killed.
-</span><span style="color:#999;font-style:italic"></span>    <span style="color:#6ab825;font-weight:bold">return</span> guaranteedOOMScoreAdj
-  <span style="color:#6ab825;font-weight:bold">case</span> v1.PodQOSBestEffort:
-    <span style="color:#6ab825;font-weight:bold">return</span> besteffortOOMScoreAdj
+  <span style="color:#6272a4">// 根据 QoS 等级，返回 guaranteedOOMScoreAdj 或 besteffortOOMScoreAdj 的分数，这里只处理 Guaranteed 与 BestEffort
+</span><span style="color:#6272a4"></span>  <span style="color:#ff79c6">switch</span> v1qos.<span style="color:#50fa7b">GetPodQOS</span>(pod) {
+  <span style="color:#ff79c6">case</span> v1.PodQOSGuaranteed:
+    <span style="color:#6272a4">// Guaranteed containers should be the last to get killed.
+</span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">return</span> guaranteedOOMScoreAdj
+  <span style="color:#ff79c6">case</span> v1.PodQOSBestEffort:
+    <span style="color:#ff79c6">return</span> besteffortOOMScoreAdj
   }
 
-  memoryRequest := container.Resources.Requests.<span style="color:#447fcf">Memory</span>().<span style="color:#447fcf">Value</span>()
-  <span style="color:#999;font-style:italic">// 内存占用越少，分数越高
-</span><span style="color:#999;font-style:italic"></span>  oomScoreAdjust := <span style="color:#3677a9">1000</span> - (<span style="color:#3677a9">1000</span>*memoryRequest)/memoryCapacity
-  <span style="color:#999;font-style:italic">// 保证 Burstable 分数高于 Guaranteed
-</span><span style="color:#999;font-style:italic"></span>  <span style="color:#6ab825;font-weight:bold">if</span> <span style="color:#24909d">int</span>(oomScoreAdjust) &lt; (<span style="color:#3677a9">1000</span> + guaranteedOOMScoreAdj) {
-    <span style="color:#6ab825;font-weight:bold">return</span> (<span style="color:#3677a9">1000</span> + guaranteedOOMScoreAdj)
+  memoryRequest <span style="color:#ff79c6">:=</span> container.Resources.Requests.<span style="color:#50fa7b">Memory</span>().<span style="color:#50fa7b">Value</span>()
+  <span style="color:#6272a4">// 内存占用越少，分数越高
+</span><span style="color:#6272a4"></span>  oomScoreAdjust <span style="color:#ff79c6">:=</span> <span style="color:#bd93f9">1000</span> <span style="color:#ff79c6">-</span> (<span style="color:#bd93f9">1000</span><span style="color:#ff79c6">*</span>memoryRequest)<span style="color:#ff79c6">/</span>memoryCapacity
+  <span style="color:#6272a4">// 保证 Burstable 分数高于 Guaranteed
+</span><span style="color:#6272a4"></span>  <span style="color:#ff79c6">if</span> <span style="color:#8be9fd;font-style:italic">int</span>(oomScoreAdjust) &lt; (<span style="color:#bd93f9">1000</span> <span style="color:#ff79c6">+</span> guaranteedOOMScoreAdj) {
+    <span style="color:#ff79c6">return</span> (<span style="color:#bd93f9">1000</span> <span style="color:#ff79c6">+</span> guaranteedOOMScoreAdj)
   }
-  <span style="color:#999;font-style:italic">// 保证 Burstable 分数低于 BestEffect
-</span><span style="color:#999;font-style:italic"></span>  <span style="color:#6ab825;font-weight:bold">if</span> <span style="color:#24909d">int</span>(oomScoreAdjust) == besteffortOOMScoreAdj {
-    <span style="color:#6ab825;font-weight:bold">return</span> <span style="color:#24909d">int</span>(oomScoreAdjust - <span style="color:#3677a9">1</span>)
+  <span style="color:#6272a4">// 保证 Burstable 分数低于 BestEffect
+</span><span style="color:#6272a4"></span>  <span style="color:#ff79c6">if</span> <span style="color:#8be9fd;font-style:italic">int</span>(oomScoreAdjust) <span style="color:#ff79c6">==</span> besteffortOOMScoreAdj {
+    <span style="color:#ff79c6">return</span> <span style="color:#8be9fd;font-style:italic">int</span>(oomScoreAdjust <span style="color:#ff79c6">-</span> <span style="color:#bd93f9">1</span>)
   }
-  <span style="color:#6ab825;font-weight:bold">return</span> <span style="color:#24909d">int</span>(oomScoreAdjust)
+  <span style="color:#ff79c6">return</span> <span style="color:#8be9fd;font-style:italic">int</span>(oomScoreAdjust)
 }
 </code></pre></div><h3 id="qos-的本质区别">QoS 的本质区别</h3>
 <p>三种 QoS 在调度和实现都存在着区别：</p>

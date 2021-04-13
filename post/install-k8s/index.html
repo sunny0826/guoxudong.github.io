@@ -42,7 +42,7 @@
       "datePublished": "2018-08-14 20:07:03 \u002b0800 \u002b0800",
       "dateModified" : "2018-08-14 20:07:03 \u002b0800 \u002b0800",
       "url" : "https:\/\/guoxudong.io\/post\/install-k8s\/",
-      "wordCount" : "1203",
+      "wordCount" : "1438",
       "keywords" : [ "容器","kubernetes","Guoxudong" ]
   }
   </script>
@@ -56,7 +56,7 @@
 <meta itemprop="name" content="centos7.2 安装k8s v1.11.0">
 <meta itemprop="description" content="最近由于公司业务发展到了瓶颈，原有的技术架构已经逐渐无法满足业务开发和测试的需求，出现了应用测试环境搭建复杂，有许多套（真的很多很多）应用环境，应用在持续集成/持续交付也遇到了很大的困难，经过讨论研究决定对应用和微服务进行容器化，这就是我首次直面docker和k8s的契机。"><meta itemprop="datePublished" content="2018-08-14T20:07:03&#43;08:00" />
 <meta itemprop="dateModified" content="2020-08-04T11:59:33&#43;08:00" />
-<meta itemprop="wordCount" content="1203">
+<meta itemprop="wordCount" content="1438">
 <meta itemprop="keywords" content="容器,kubernetes," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="centos7.2 安装k8s v1.11.0"/>
 <meta name="twitter:description" content="最近由于公司业务发展到了瓶颈，原有的技术架构已经逐渐无法满足业务开发和测试的需求，出现了应用测试环境搭建复杂，有许多套（真的很多很多）应用环境，应用在持续集成/持续交付也遇到了很大的困难，经过讨论研究决定对应用和微服务进行容器化，这就是我首次直面docker和k8s的契机。"/>
@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -223,6 +223,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -230,8 +232,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -563,7 +563,7 @@ if (!doNotTrack) {
 	<div class="td-byline mb-4">
 		<span>By  <b>guoxudong</b> </span> ·
 		<span>
-			6 分钟阅读时间
+			7 分钟阅读时间
 		</span> ·
 		<span>发布于 </span><time datetime=" 2018-08-14" 
 			class="text-muted">2018年08月14日</time> ·
@@ -651,67 +651,67 @@ Kubernetes的特点：</p>
 </li>
 <li>
 <p>安装Kubeadm</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic">#安装 Kubeadm 首先我们要配置好阿里云的国内源，执行如下命令：</span>
-cat <span style="color:#ed9d13">&lt;&lt;EOF &gt; /etc/yum.repos.d/kubernetes.repo
-</span><span style="color:#ed9d13">[kubernetes]
-</span><span style="color:#ed9d13">name=Kubernetes
-</span><span style="color:#ed9d13">baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64
-</span><span style="color:#ed9d13">enabled=1
-</span><span style="color:#ed9d13">gpgcheck=0
-</span><span style="color:#ed9d13">EOF</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4">#安装 Kubeadm 首先我们要配置好阿里云的国内源，执行如下命令：</span>
+cat <span style="color:#f1fa8c">&lt;&lt;EOF &gt; /etc/yum.repos.d/kubernetes.repo
+</span><span style="color:#f1fa8c">[kubernetes]
+</span><span style="color:#f1fa8c">name=Kubernetes
+</span><span style="color:#f1fa8c">baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64
+</span><span style="color:#f1fa8c">enabled=1
+</span><span style="color:#f1fa8c">gpgcheck=0
+</span><span style="color:#f1fa8c">EOF</span>
 
-<span style="color:#999;font-style:italic">#之后，执行以下命令来重建yum缓存：</span>
+<span style="color:#6272a4">#之后，执行以下命令来重建yum缓存：</span>
 yum -y install epel-releaseyum
 clean all
 yum makecache
 </code></pre></div><p>接下来需要安装指定版本的Kubeadm（这里要安装指定版本，因为后续依赖的镜像由于有墙无法拉取，这里我们只有指定版本的镜像），注意：<strong>这里是安装指定版本的Kubeadm，k8s的版本更新之快完全超出你的想象！</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum -y install kubelet-1.11.0-0
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum -y install kubelet-1.11.0-0
 yum -y install kubeadm-1.11.0-0
 yum -y install kubectl-1.11.0-0
 yum -y install kubernetes-cni
    
-<span style="color:#999;font-style:italic">#执行命令启动Kubeadm服务：</span>
-systemctl <span style="color:#24909d">enable</span> kubelet &amp;&amp; systemctl start kubelet
+<span style="color:#6272a4">#执行命令启动Kubeadm服务：</span>
+systemctl <span style="color:#8be9fd;font-style:italic">enable</span> kubelet <span style="color:#ff79c6">&amp;&amp;</span> systemctl start kubelet
 </code></pre></div></li>
 <li>
 <p>配置 Kubeadm 所用到的镜像
 这里是重中之重，因为在国内的原因，无法访问到 Google 的镜像库，所以我们需要执行以下脚本来从 Docker Hub 仓库中获取相同的镜像，并且更改 TAG 让其变成与 Google 拉去镜像一致。</p>
 <p><strong>新建一个 Shell 脚本，填入以下代码之后保存</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim">#docker.sh<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>#!<span style="color:#ed9d13">/bin/</span>bash<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>images=(kube-proxy-amd64:v1.<span style="color:#3677a9">11</span>.<span style="color:#3677a9">0</span> kube-scheduler-amd64:v1.<span style="color:#3677a9">11</span>.<span style="color:#3677a9">0</span> kube-controller-manager-amd64:v1.<span style="color:#3677a9">11</span>.<span style="color:#3677a9">0</span> kube-apiserver-amd64:v1.<span style="color:#3677a9">11</span>.<span style="color:#3677a9">0</span> etcd-amd64:<span style="color:#3677a9">3</span>.<span style="color:#3677a9">2</span>.<span style="color:#3677a9">18</span> coredns:<span style="color:#3677a9">1</span>.<span style="color:#3677a9">1</span>.<span style="color:#3677a9">3</span> pause-amd64:<span style="color:#3677a9">3</span>.<span style="color:#3677a9">1</span> kubernetes-dashboard-amd64:v1.<span style="color:#3677a9">8</span>.<span style="color:#3677a9">3</span> k8s-dns-sidecar-amd64:<span style="color:#3677a9">1</span>.<span style="color:#3677a9">14</span>.<span style="color:#3677a9">9</span> k8s-dns-kube-dns-amd64:<span style="color:#3677a9">1</span>.<span style="color:#3677a9">14</span>.<span style="color:#3677a9">9</span> k8s-dns-dnsmasq-nanny-amd64:<span style="color:#3677a9">1</span>.<span style="color:#3677a9">14</span>.<span style="color:#3677a9">9</span> )<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>for imageName in ${images[@]} ; do<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>docker pull keveon/$imageName<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>docker tag keveon<span style="color:#ed9d13">/$imageName k8s.gcr.io/</span>$imageName<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>docker rmi keveon/$imageName<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>done<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span># 个人新加的一句，V <span style="color:#3677a9">1</span>.<span style="color:#3677a9">11</span>.<span style="color:#3677a9">0</span> 必加<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>docker tag da86e6ba6ca1 k8s.gcr.io/pause:<span style="color:#3677a9">3</span>.<span style="color:#3677a9">1</span><span style="color:#a61717;background-color:#e3d2d2">
-</span></code></pre></div><p><strong>保存后使用chmod命令赋予脚本执行权限</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chmod -R <span style="color:#3677a9">777</span> ./docker.sh
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim">#docker.sh
+#!<span style="color:#f1fa8c">/bin/</span>bash
+images=(kube-proxy-amd64:v1.<span style="color:#bd93f9">11</span>.<span style="color:#bd93f9">0</span> kube-scheduler-amd64:v1.<span style="color:#bd93f9">11</span>.<span style="color:#bd93f9">0</span> kube-controller-manager-amd64:v1.<span style="color:#bd93f9">11</span>.<span style="color:#bd93f9">0</span> kube-apiserver-amd64:v1.<span style="color:#bd93f9">11</span>.<span style="color:#bd93f9">0</span> etcd-amd64:<span style="color:#bd93f9">3</span>.<span style="color:#bd93f9">2</span>.<span style="color:#bd93f9">18</span> coredns:<span style="color:#bd93f9">1</span>.<span style="color:#bd93f9">1</span>.<span style="color:#bd93f9">3</span> pause-amd64:<span style="color:#bd93f9">3</span>.<span style="color:#bd93f9">1</span> kubernetes-dashboard-amd64:v1.<span style="color:#bd93f9">8</span>.<span style="color:#bd93f9">3</span> k8s-dns-sidecar-amd64:<span style="color:#bd93f9">1</span>.<span style="color:#bd93f9">14</span>.<span style="color:#bd93f9">9</span> k8s-dns-kube-dns-amd64:<span style="color:#bd93f9">1</span>.<span style="color:#bd93f9">14</span>.<span style="color:#bd93f9">9</span> k8s-dns-dnsmasq-nanny-amd64:<span style="color:#bd93f9">1</span>.<span style="color:#bd93f9">14</span>.<span style="color:#bd93f9">9</span> )
+for imageName in ${images[@]} ; do
+docker pull keveon/$imageName
+docker tag keveon<span style="color:#f1fa8c">/$imageName k8s.gcr.io/</span>$imageName
+docker rmi keveon/$imageName
+done
+# 个人新加的一句，V <span style="color:#bd93f9">1</span>.<span style="color:#bd93f9">11</span>.<span style="color:#bd93f9">0</span> 必加
+docker tag da86e6ba6ca1 k8s.gcr.io/pause:<span style="color:#bd93f9">3</span>.<span style="color:#bd93f9">1</span>
+</code></pre></div><p><strong>保存后使用chmod命令赋予脚本执行权限</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chmod -R <span style="color:#bd93f9">777</span> ./docker.sh
 </code></pre></div><p><strong>执行脚本拉取镜像</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sh docker.sh
-<span style="color:#999;font-style:italic">#这里就开始了漫长的拉取镜像之路</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sh docker.sh
+<span style="color:#6272a4">#这里就开始了漫长的拉取镜像之路</span>
 </code></pre></div><p><strong>关闭掉swap</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo swapoff -a
-<span style="color:#999;font-style:italic">#要永久禁掉swap分区，打开如下文件注释掉swap那一行</span>
-<span style="color:#999;font-style:italic"># sudo vi /etc/stab</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo swapoff -a
+<span style="color:#6272a4">#要永久禁掉swap分区，打开如下文件注释掉swap那一行</span>
+<span style="color:#6272a4"># sudo vi /etc/stab</span>
 </code></pre></div><p><strong>关闭SELinux的</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># 临时禁用selinux</span>
-<span style="color:#999;font-style:italic"># 永久关闭 修改/etc/sysconfig/selinux文件设置</span>
-sed -i <span style="color:#ed9d13">&#39;s/SELINUX=permissive/SELINUX=disabled/&#39;</span> /etc/sysconfig/selinux
-<span style="color:#999;font-style:italic"># 这里按回车，下面是第二条命令</span>
-setenforce <span style="color:#3677a9">0</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># 临时禁用selinux</span>
+<span style="color:#6272a4"># 永久关闭 修改/etc/sysconfig/selinux文件设置</span>
+sed -i <span style="color:#f1fa8c">&#39;s/SELINUX=permissive/SELINUX=disabled/&#39;</span> /etc/sysconfig/selinux
+<span style="color:#6272a4"># 这里按回车，下面是第二条命令</span>
+setenforce <span style="color:#bd93f9">0</span>
 </code></pre></div><p><strong>关闭防火墙</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl disable firewalld.service &amp;&amp; systemctl stop firewalld.service
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl disable firewalld.service <span style="color:#ff79c6">&amp;&amp;</span> systemctl stop firewalld.service
 </code></pre></div><p><strong>配置转发参数</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># 配置转发相关参数，否则可能会出错</span>
-cat <span style="color:#ed9d13">&lt;&lt;EOF &gt; /etc/sysctl.d/k8s.conf
-</span><span style="color:#ed9d13">net.bridge.bridge-nf-call-ip6tables = 1
-</span><span style="color:#ed9d13">net.bridge.bridge-nf-call-iptables = 1
-</span><span style="color:#ed9d13">vm.swappiness=0
-</span><span style="color:#ed9d13">EOF</span>
-<span style="color:#999;font-style:italic"># 这里按回车，下面是第二条命令</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># 配置转发相关参数，否则可能会出错</span>
+cat <span style="color:#f1fa8c">&lt;&lt;EOF &gt; /etc/sysctl.d/k8s.conf
+</span><span style="color:#f1fa8c">net.bridge.bridge-nf-call-ip6tables = 1
+</span><span style="color:#f1fa8c">net.bridge.bridge-nf-call-iptables = 1
+</span><span style="color:#f1fa8c">vm.swappiness=0
+</span><span style="color:#f1fa8c">EOF</span>
+<span style="color:#6272a4"># 这里按回车，下面是第二条命令</span>
 sysctl --system
 </code></pre></div><p><strong>这里就完成了k8s集群搭建的准备工作，集群搭建的话以上操作结束后将操作完的系统制作成系统镜像，方便集群搭建</strong></p>
 </li>
@@ -719,310 +719,310 @@ sysctl --system
 <h1 id="正式安装">正式安装</h1>
 <p><strong>以下的操作都只在主节点上进行：</strong></p>
 <p><strong>初始化镜像</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubeadm init --kubernetes-version=v1.11.0 --pod-network-cidr=10.10.0.0/16  <span style="color:#999;font-style:italic">#这里填写集群所在网段</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubeadm init --kubernetes-version<span style="color:#ff79c6">=</span>v1.11.0 --pod-network-cidr<span style="color:#ff79c6">=</span>10.10.0.0/16  <span style="color:#6272a4">#这里填写集群所在网段</span>
 </code></pre></div><p><strong>之后的输出会是这样：</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">I0712 <span style="color:#3677a9">10</span>:<span style="color:#3677a9">46</span>:<span style="color:#3677a9">30.938979</span>   <span style="color:#3677a9">13461</span> feature_gate.<span style="color:#6ab825;font-weight:bold">go</span>:<span style="color:#3677a9">230</span>] feature gates: &amp;{<span style="color:#6ab825;font-weight:bold">map</span>[]}
-[init] using Kubernetes version: v1<span style="color:#3677a9">.11.0</span>
-[preflight] running pre-flight checks
-I0712 <span style="color:#3677a9">10</span>:<span style="color:#3677a9">46</span>:<span style="color:#3677a9">30.961005</span>   <span style="color:#3677a9">13461</span> kernel_validator.<span style="color:#6ab825;font-weight:bold">go</span>:<span style="color:#3677a9">81</span>] Validating kernel version
-I0712 <span style="color:#3677a9">10</span>:<span style="color:#3677a9">46</span>:<span style="color:#3677a9">30.961061</span>   <span style="color:#3677a9">13461</span> kernel_validator.<span style="color:#6ab825;font-weight:bold">go</span>:<span style="color:#3677a9">96</span>] Validating kernel config
-    [WARNING SystemVerification]: docker version is greater than the most recently validated version. Docker version: <span style="color:#3677a9">18.03.1</span>-ce. Max validated version: <span style="color:#3677a9">17.03</span>
-    [WARNING Hostname]: hostname <span style="color:#ed9d13">&#34;g2-apigateway&#34;</span> could not be reached
-    [WARNING Hostname]: hostname <span style="color:#ed9d13">&#34;g2-apigateway&#34;</span> lookup g2-apigateway on <span style="color:#3677a9">100.100.2.138</span>:<span style="color:#3677a9">53</span>: no such host
-[preflight/images] Pulling images required <span style="color:#6ab825;font-weight:bold">for</span> setting up a Kubernetes cluster
-[preflight/images] This might take a minute or two, depending on the speed of your internet connection
-[preflight/images] You can also perform this action in beforehand using <span style="color:#a61717;background-color:#e3d2d2">&#39;</span>kubeadm config images pull<span style="color:#a61717;background-color:#e3d2d2">&#39;</span>
-[kubelet] Writing kubelet environment file with flags to file <span style="color:#ed9d13">&#34;/var/lib/kubelet/kubeadm-flags.env&#34;</span>
-[kubelet] Writing kubelet configuration to file <span style="color:#ed9d13">&#34;/var/lib/kubelet/config.yaml&#34;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">I0712 <span style="color:#bd93f9">10</span>:<span style="color:#bd93f9">46</span>:<span style="color:#bd93f9">30.938979</span>   <span style="color:#bd93f9">13461</span> feature_gate.<span style="color:#ff79c6">go</span>:<span style="color:#bd93f9">230</span>] feature gates: <span style="color:#ff79c6">&amp;</span>{<span style="color:#8be9fd;font-style:italic">map</span>[]}
+[init] using Kubernetes version: v1<span style="color:#bd93f9">.11.0</span>
+[preflight] running pre<span style="color:#ff79c6">-</span>flight checks
+I0712 <span style="color:#bd93f9">10</span>:<span style="color:#bd93f9">46</span>:<span style="color:#bd93f9">30.961005</span>   <span style="color:#bd93f9">13461</span> kernel_validator.<span style="color:#ff79c6">go</span>:<span style="color:#bd93f9">81</span>] Validating kernel version
+I0712 <span style="color:#bd93f9">10</span>:<span style="color:#bd93f9">46</span>:<span style="color:#bd93f9">30.961061</span>   <span style="color:#bd93f9">13461</span> kernel_validator.<span style="color:#ff79c6">go</span>:<span style="color:#bd93f9">96</span>] Validating kernel config
+    [WARNING SystemVerification]: docker version is greater than the most recently validated version. Docker version: <span style="color:#bd93f9">18.03.1</span><span style="color:#ff79c6">-</span>ce. Max validated version: <span style="color:#bd93f9">17.03</span>
+    [WARNING Hostname]: hostname <span style="color:#f1fa8c">&#34;g2-apigateway&#34;</span> could not be reached
+    [WARNING Hostname]: hostname <span style="color:#f1fa8c">&#34;g2-apigateway&#34;</span> lookup g2<span style="color:#ff79c6">-</span>apigateway on <span style="color:#bd93f9">100.100.2.138</span>:<span style="color:#bd93f9">53</span>: no such host
+[preflight<span style="color:#ff79c6">/</span>images] Pulling images required <span style="color:#ff79c6">for</span> setting up a Kubernetes cluster
+[preflight<span style="color:#ff79c6">/</span>images] This might take a minute or two, depending on the speed of your internet connection
+[preflight<span style="color:#ff79c6">/</span>images] You can also perform this action in beforehand using &#39;kubeadm config images pull&#39;
+[kubelet] Writing kubelet environment file with flags to file <span style="color:#f1fa8c">&#34;/var/lib/kubelet/kubeadm-flags.env&#34;</span>
+[kubelet] Writing kubelet configuration to file <span style="color:#f1fa8c">&#34;/var/lib/kubelet/config.yaml&#34;</span>
 [preflight] Activating the kubelet service
 [certificates] Generated ca certificate and key.
 [certificates] Generated apiserver certificate and key.
-[certificates] apiserver serving cert is signed <span style="color:#6ab825;font-weight:bold">for</span> DNS names [g2-apigateway kubernetes kubernetes.<span style="color:#6ab825;font-weight:bold">default</span> kubernetes.<span style="color:#6ab825;font-weight:bold">default</span>.svc kubernetes.<span style="color:#6ab825;font-weight:bold">default</span>.svc.cluster.local] and IPs [<span style="color:#3677a9">10.96.0.1</span> <span style="color:#3677a9">172.16.8.62</span>]
-[certificates] Generated apiserver-kubelet-client certificate and key.
+[certificates] apiserver serving cert is signed <span style="color:#ff79c6">for</span> DNS names [g2<span style="color:#ff79c6">-</span>apigateway kubernetes kubernetes.<span style="color:#ff79c6">default</span> kubernetes.<span style="color:#ff79c6">default</span>.svc kubernetes.<span style="color:#ff79c6">default</span>.svc.cluster.local] and IPs [<span style="color:#bd93f9">10.96.0.1</span> <span style="color:#bd93f9">172.16.8.62</span>]
+[certificates] Generated apiserver<span style="color:#ff79c6">-</span>kubelet<span style="color:#ff79c6">-</span>client certificate and key.
 [certificates] Generated sa key and public key.
-[certificates] Generated front-proxy-ca certificate and key.
-[certificates] Generated front-proxy-client certificate and key.
-[certificates] Generated etcd/ca certificate and key.
-[certificates] Generated etcd/server certificate and key.
-[certificates] etcd/server serving cert is signed <span style="color:#6ab825;font-weight:bold">for</span> DNS names [g2-apigateway localhost] and IPs [<span style="color:#3677a9">127.0.0.1</span> ::<span style="color:#3677a9">1</span>]
-[certificates] Generated etcd/peer certificate and key.
-[certificates] etcd/peer serving cert is signed <span style="color:#6ab825;font-weight:bold">for</span> DNS names [g2-apigateway localhost] and IPs [<span style="color:#3677a9">172.16.8.62</span> <span style="color:#3677a9">127.0.0.1</span> ::<span style="color:#3677a9">1</span>]
-[certificates] Generated etcd/healthcheck-client certificate and key.
-[certificates] Generated apiserver-etcd-client certificate and key.
-[certificates] valid certificates and keys now exist in <span style="color:#ed9d13">&#34;/etc/kubernetes/pki&#34;</span>
-[kubeconfig] Wrote KubeConfig file to disk: <span style="color:#ed9d13">&#34;/etc/kubernetes/admin.conf&#34;</span>
-[kubeconfig] Wrote KubeConfig file to disk: <span style="color:#ed9d13">&#34;/etc/kubernetes/kubelet.conf&#34;</span>
-[kubeconfig] Wrote KubeConfig file to disk: <span style="color:#ed9d13">&#34;/etc/kubernetes/controller-manager.conf&#34;</span>
-[kubeconfig] Wrote KubeConfig file to disk: <span style="color:#ed9d13">&#34;/etc/kubernetes/scheduler.conf&#34;</span>
-[controlplane] wrote Static Pod manifest <span style="color:#6ab825;font-weight:bold">for</span> component kube-apiserver to <span style="color:#ed9d13">&#34;/etc/kubernetes/manifests/kube-apiserver.yaml&#34;</span>
-[controlplane] wrote Static Pod manifest <span style="color:#6ab825;font-weight:bold">for</span> component kube-controller-manager to <span style="color:#ed9d13">&#34;/etc/kubernetes/manifests/kube-controller-manager.yaml&#34;</span>
-[controlplane] wrote Static Pod manifest <span style="color:#6ab825;font-weight:bold">for</span> component kube-scheduler to <span style="color:#ed9d13">&#34;/etc/kubernetes/manifests/kube-scheduler.yaml&#34;</span>
-[etcd] Wrote Static Pod manifest <span style="color:#6ab825;font-weight:bold">for</span> a local etcd instance to <span style="color:#ed9d13">&#34;/etc/kubernetes/manifests/etcd.yaml&#34;</span>
-[init] waiting <span style="color:#6ab825;font-weight:bold">for</span> the kubelet to boot up the control plane as Static Pods from directory <span style="color:#ed9d13">&#34;/etc/kubernetes/manifests&#34;</span>
-[init] this might take a minute or longer <span style="color:#6ab825;font-weight:bold">if</span> the control plane images have to be pulled
-[apiclient] All control plane components are healthy after <span style="color:#3677a9">41.001672</span> seconds
-[uploadconfig] storing the configuration used in ConfigMap <span style="color:#ed9d13">&#34;kubeadm-config&#34;</span> in the <span style="color:#ed9d13">&#34;kube-system&#34;</span> Namespace
-[kubelet] Creating a ConfigMap <span style="color:#ed9d13">&#34;kubelet-config-1.11&#34;</span> in namespace kube-system with the configuration <span style="color:#6ab825;font-weight:bold">for</span> the kubelets in the cluster
-[markmaster] Marking the node g2-apigateway as master by adding the label <span style="color:#ed9d13">&#34;node-role.kubernetes.io/master=&#39;&#39;&#34;</span>
-[markmaster] Marking the node g2-apigateway as master by adding the taints [node-role.kubernetes.io/master:NoSchedule]
-[patchnode] Uploading the CRI Socket information <span style="color:#ed9d13">&#34;/var/run/dockershim.sock&#34;</span> to the Node API object <span style="color:#ed9d13">&#34;g2-apigateway&#34;</span> as an annotation
+[certificates] Generated front<span style="color:#ff79c6">-</span>proxy<span style="color:#ff79c6">-</span>ca certificate and key.
+[certificates] Generated front<span style="color:#ff79c6">-</span>proxy<span style="color:#ff79c6">-</span>client certificate and key.
+[certificates] Generated etcd<span style="color:#ff79c6">/</span>ca certificate and key.
+[certificates] Generated etcd<span style="color:#ff79c6">/</span>server certificate and key.
+[certificates] etcd<span style="color:#ff79c6">/</span>server serving cert is signed <span style="color:#ff79c6">for</span> DNS names [g2<span style="color:#ff79c6">-</span>apigateway localhost] and IPs [<span style="color:#bd93f9">127.0.0.1</span> ::<span style="color:#bd93f9">1</span>]
+[certificates] Generated etcd<span style="color:#ff79c6">/</span>peer certificate and key.
+[certificates] etcd<span style="color:#ff79c6">/</span>peer serving cert is signed <span style="color:#ff79c6">for</span> DNS names [g2<span style="color:#ff79c6">-</span>apigateway localhost] and IPs [<span style="color:#bd93f9">172.16.8.62</span> <span style="color:#bd93f9">127.0.0.1</span> ::<span style="color:#bd93f9">1</span>]
+[certificates] Generated etcd<span style="color:#ff79c6">/</span>healthcheck<span style="color:#ff79c6">-</span>client certificate and key.
+[certificates] Generated apiserver<span style="color:#ff79c6">-</span>etcd<span style="color:#ff79c6">-</span>client certificate and key.
+[certificates] valid certificates and keys now exist in <span style="color:#f1fa8c">&#34;/etc/kubernetes/pki&#34;</span>
+[kubeconfig] Wrote KubeConfig file to disk: <span style="color:#f1fa8c">&#34;/etc/kubernetes/admin.conf&#34;</span>
+[kubeconfig] Wrote KubeConfig file to disk: <span style="color:#f1fa8c">&#34;/etc/kubernetes/kubelet.conf&#34;</span>
+[kubeconfig] Wrote KubeConfig file to disk: <span style="color:#f1fa8c">&#34;/etc/kubernetes/controller-manager.conf&#34;</span>
+[kubeconfig] Wrote KubeConfig file to disk: <span style="color:#f1fa8c">&#34;/etc/kubernetes/scheduler.conf&#34;</span>
+[controlplane] wrote Static Pod manifest <span style="color:#ff79c6">for</span> component kube<span style="color:#ff79c6">-</span>apiserver to <span style="color:#f1fa8c">&#34;/etc/kubernetes/manifests/kube-apiserver.yaml&#34;</span>
+[controlplane] wrote Static Pod manifest <span style="color:#ff79c6">for</span> component kube<span style="color:#ff79c6">-</span>controller<span style="color:#ff79c6">-</span>manager to <span style="color:#f1fa8c">&#34;/etc/kubernetes/manifests/kube-controller-manager.yaml&#34;</span>
+[controlplane] wrote Static Pod manifest <span style="color:#ff79c6">for</span> component kube<span style="color:#ff79c6">-</span>scheduler to <span style="color:#f1fa8c">&#34;/etc/kubernetes/manifests/kube-scheduler.yaml&#34;</span>
+[etcd] Wrote Static Pod manifest <span style="color:#ff79c6">for</span> a local etcd instance to <span style="color:#f1fa8c">&#34;/etc/kubernetes/manifests/etcd.yaml&#34;</span>
+[init] waiting <span style="color:#ff79c6">for</span> the kubelet to boot up the control plane as Static Pods from directory <span style="color:#f1fa8c">&#34;/etc/kubernetes/manifests&#34;</span>
+[init] this might take a minute or longer <span style="color:#ff79c6">if</span> the control plane images have to be pulled
+[apiclient] All control plane components are healthy after <span style="color:#bd93f9">41.001672</span> seconds
+[uploadconfig] storing the configuration used in ConfigMap <span style="color:#f1fa8c">&#34;kubeadm-config&#34;</span> in the <span style="color:#f1fa8c">&#34;kube-system&#34;</span> Namespace
+[kubelet] Creating a ConfigMap <span style="color:#f1fa8c">&#34;kubelet-config-1.11&#34;</span> in namespace kube<span style="color:#ff79c6">-</span>system with the configuration <span style="color:#ff79c6">for</span> the kubelets in the cluster
+[markmaster] Marking the node g2<span style="color:#ff79c6">-</span>apigateway as master by adding the label <span style="color:#f1fa8c">&#34;node-role.kubernetes.io/master=&#39;&#39;&#34;</span>
+[markmaster] Marking the node g2<span style="color:#ff79c6">-</span>apigateway as master by adding the taints [node<span style="color:#ff79c6">-</span>role.kubernetes.io<span style="color:#ff79c6">/</span>master:NoSchedule]
+[patchnode] Uploading the CRI Socket information <span style="color:#f1fa8c">&#34;/var/run/dockershim.sock&#34;</span> to the Node API object <span style="color:#f1fa8c">&#34;g2-apigateway&#34;</span> as an annotation
 [bootstraptoken] using token: o337m9.ceq32wg9g2gro7gx
-[bootstraptoken] configured RBAC rules to allow Node Bootstrap tokens to post CSRs in order <span style="color:#6ab825;font-weight:bold">for</span> nodes to get long term certificate credentials
+[bootstraptoken] configured RBAC rules to allow Node Bootstrap tokens to post CSRs in order <span style="color:#ff79c6">for</span> nodes to get long term certificate credentials
 [bootstraptoken] configured RBAC rules to allow the csrapprover controller automatically approve CSRs from a Node Bootstrap Token
-[bootstraptoken] configured RBAC rules to allow certificate rotation <span style="color:#6ab825;font-weight:bold">for</span> all node client certificates in the cluster
-[bootstraptoken] creating the <span style="color:#ed9d13">&#34;cluster-info&#34;</span> ConfigMap in the <span style="color:#ed9d13">&#34;kube-public&#34;</span> namespace
+[bootstraptoken] configured RBAC rules to allow certificate rotation <span style="color:#ff79c6">for</span> all node client certificates in the cluster
+[bootstraptoken] creating the <span style="color:#f1fa8c">&#34;cluster-info&#34;</span> ConfigMap in the <span style="color:#f1fa8c">&#34;kube-public&#34;</span> namespace
 [addons] Applied essential addon: CoreDNS
-[addons] Applied essential addon: kube-proxy
+[addons] Applied essential addon: kube<span style="color:#ff79c6">-</span>proxy
 
 Your Kubernetes master has initialized successfully!
 
 To start using your cluster, you need to run the following as a regular user:
 
-mkdir -p <span style="color:#a61717;background-color:#e3d2d2">$</span>HOME/.kube
-sudo cp -i /etc/kubernetes/admin.conf <span style="color:#a61717;background-color:#e3d2d2">$</span>HOME/.kube/config
-sudo chown <span style="color:#a61717;background-color:#e3d2d2">$</span>(id -u):<span style="color:#a61717;background-color:#e3d2d2">$</span>(id -g) <span style="color:#a61717;background-color:#e3d2d2">$</span>HOME/.kube/config
+mkdir <span style="color:#ff79c6">-</span>p $HOME<span style="color:#ff79c6">/</span>.kube
+sudo cp <span style="color:#ff79c6">-</span>i <span style="color:#ff79c6">/</span>etc<span style="color:#ff79c6">/</span>kubernetes<span style="color:#ff79c6">/</span>admin.conf $HOME<span style="color:#ff79c6">/</span>.kube<span style="color:#ff79c6">/</span>config
+sudo chown $(id <span style="color:#ff79c6">-</span>u):$(id <span style="color:#ff79c6">-</span>g) $HOME<span style="color:#ff79c6">/</span>.kube<span style="color:#ff79c6">/</span>config
 
 You should now deploy a pod network to the cluster.
-Run <span style="color:#ed9d13">&#34;kubectl apply -f [podnetwork].yaml&#34;</span> with one of the options listed at:
-https:<span style="color:#999;font-style:italic">//kubernetes.io/docs/concepts/cluster-administration/addons/
-</span><span style="color:#999;font-style:italic"></span>
+Run <span style="color:#f1fa8c">&#34;kubectl apply -f [podnetwork].yaml&#34;</span> with one of the options listed at:
+https:<span style="color:#6272a4">//kubernetes.io/docs/concepts/cluster-administration/addons/
+</span><span style="color:#6272a4"></span>
 You can now join any number of machines by running the following on each node
 as root:
 
-kubeadm join <span style="color:#3677a9">10.10.207.253</span>:<span style="color:#3677a9">6443</span> --token t69z6h.lr2etdbg9mfx5r15 --discovery-token-ca-cert-hash sha256:<span style="color:#3677a9">90e3</span>a748c0eb4cb7058f3d0ee8870ee5d746214ab0589b5e841fd5d68fec8f00
+kubeadm join <span style="color:#bd93f9">10.10.207.253</span>:<span style="color:#bd93f9">6443</span> <span style="color:#ff79c6">--</span>token t69z6h.lr2etdbg9mfx5r15 <span style="color:#ff79c6">--</span>discovery<span style="color:#ff79c6">-</span>token<span style="color:#ff79c6">-</span>ca<span style="color:#ff79c6">-</span>cert<span style="color:#ff79c6">-</span>hash sha256:<span style="color:#bd93f9">90e3</span>a748c0eb4cb7058f3d0ee8870ee5d746214ab0589b5e841fd5d68fec8f00
 </code></pre></div><p><strong>这里注意最后一行：</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">kubeadm join <span style="color:#3677a9">10.10.207.253</span>:<span style="color:#3677a9">6443</span> --token t69z6h.lr2etdbg9mfx5r15 --discovery-token-ca-cert-hash sha256:<span style="color:#3677a9">90e3</span>a748c0eb4cb7058f3d0ee8870ee5d746214ab0589b5e841fd5d68fec8f00
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">kubeadm join <span style="color:#bd93f9">10.10.207.253</span>:<span style="color:#bd93f9">6443</span> <span style="color:#ff79c6">--</span>token t69z6h.lr2etdbg9mfx5r15 <span style="color:#ff79c6">--</span>discovery<span style="color:#ff79c6">-</span>token<span style="color:#ff79c6">-</span>ca<span style="color:#ff79c6">-</span>cert<span style="color:#ff79c6">-</span>hash sha256:<span style="color:#bd93f9">90e3</span>a748c0eb4cb7058f3d0ee8870ee5d746214ab0589b5e841fd5d68fec8f00
 </code></pre></div><p>证明集群主节点安装成功，这里要记得保存这条命令，以便之后各个节点加入集群</p>
 <p><strong>配置kubetl认证信息</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#24909d">export</span> <span style="color:#40ffff">KUBECONFIG</span>=/etc/kubernetes/admin.conf
-<span style="color:#999;font-style:italic"># 如果你想持久化的话，直接执行以下命令【推荐】</span>
-<span style="color:#24909d">echo</span> <span style="color:#ed9d13">&#34;export KUBECONFIG=/etc/kubernetes/admin.conf&#34;</span> &gt;&gt; ~/.bash_profile
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#8be9fd;font-style:italic">export</span> <span style="color:#8be9fd;font-style:italic">KUBECONFIG</span><span style="color:#ff79c6">=</span>/etc/kubernetes/admin.conf
+<span style="color:#6272a4"># 如果你想持久化的话，直接执行以下命令【推荐】</span>
+<span style="color:#8be9fd;font-style:italic">echo</span> <span style="color:#f1fa8c">&#34;export KUBECONFIG=/etc/kubernetes/admin.conf&#34;</span> &gt;&gt; ~/.bash_profile
 </code></pre></div><p><strong>安装flanel网络</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -p /etc/cni/net.d/
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -p /etc/cni/net.d/
 
-cat <span style="color:#ed9d13">&lt;&lt;EOF&gt; /etc/cni/net.d/10-flannel.conf
-</span><span style="color:#ed9d13">{
-</span><span style="color:#ed9d13">&#34;name&#34;: &#34;cbr0&#34;,
-</span><span style="color:#ed9d13">&#34;type&#34;: &#34;flannel&#34;,
-</span><span style="color:#ed9d13">&#34;delegate&#34;: {
-</span><span style="color:#ed9d13">&#34;isDefaultGateway&#34;: true
-</span><span style="color:#ed9d13">}
-</span><span style="color:#ed9d13">}
-</span><span style="color:#ed9d13">EOF</span>
+cat <span style="color:#f1fa8c">&lt;&lt;EOF&gt; /etc/cni/net.d/10-flannel.conf
+</span><span style="color:#f1fa8c">{
+</span><span style="color:#f1fa8c">&#34;name&#34;: &#34;cbr0&#34;,
+</span><span style="color:#f1fa8c">&#34;type&#34;: &#34;flannel&#34;,
+</span><span style="color:#f1fa8c">&#34;delegate&#34;: {
+</span><span style="color:#f1fa8c">&#34;isDefaultGateway&#34;: true
+</span><span style="color:#f1fa8c">}
+</span><span style="color:#f1fa8c">}
+</span><span style="color:#f1fa8c">EOF</span>
 
 mkdir /usr/share/oci-umount/oci-umount.d -p
 
 mkdir /run/flannel/
 
-cat <span style="color:#ed9d13">&lt;&lt;EOF&gt; /run/flannel/subnet.env
-</span><span style="color:#ed9d13">FLANNEL_NETWORK=10.244.0.0/16
-</span><span style="color:#ed9d13">FLANNEL_SUBNET=10.244.1.0/24
-</span><span style="color:#ed9d13">FLANNEL_MTU=1450
-</span><span style="color:#ed9d13">FLANNEL_IPMASQ=true
-</span><span style="color:#ed9d13">EOF</span>
+cat <span style="color:#f1fa8c">&lt;&lt;EOF&gt; /run/flannel/subnet.env
+</span><span style="color:#f1fa8c">FLANNEL_NETWORK=10.244.0.0/16
+</span><span style="color:#f1fa8c">FLANNEL_SUBNET=10.244.1.0/24
+</span><span style="color:#f1fa8c">FLANNEL_MTU=1450
+</span><span style="color:#f1fa8c">FLANNEL_IPMASQ=true
+</span><span style="color:#f1fa8c">EOF</span>
 </code></pre></div><p><strong>最后需要新建一个flannel.yml文件：</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">caption</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;Image from: [**Pexels**](https://www.pexels.com)&#34;</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">focal_point</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;&#34;</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">preview_only</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#447fcf;text-decoration:underline">---</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ClusterRole<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>rbac.authorization.k8s.io/v1beta1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>flannel<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">rules</span>:<span style="color:#666">
-</span><span style="color:#666"></span>- <span style="color:#6ab825;font-weight:bold">apiGroups</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#ed9d13">&#34;&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">resources</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- pods<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">verbs</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- get<span style="color:#666">
-</span><span style="color:#666"></span>- <span style="color:#6ab825;font-weight:bold">apiGroups</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#ed9d13">&#34;&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">resources</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- nodes<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">verbs</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- list<span style="color:#666">
-</span><span style="color:#666">    </span>- watch<span style="color:#666">
-</span><span style="color:#666"></span>- <span style="color:#6ab825;font-weight:bold">apiGroups</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#ed9d13">&#34;&#34;</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">resources</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- nodes/status<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">verbs</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- patch<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">caption</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;Image from: [**Pexels**](https://www.pexels.com)&#34;</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">focal_point</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;&#34;</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">preview_only</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#447fcf;text-decoration:underline">---</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ClusterRoleBinding<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>rbac.authorization.k8s.io/v1beta1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>flannel<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">roleRef</span>:<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">apiGroup</span>:<span style="color:#666"> </span>rbac.authorization.k8s.io<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ClusterRole<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>flannel<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">subjects</span>:<span style="color:#666">
-</span><span style="color:#666"></span>- <span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ServiceAccount<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>flannel<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">namespace</span>:<span style="color:#666"> </span>kube-system<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">caption</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;Image from: [**Pexels**](https://www.pexels.com)&#34;</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">focal_point</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;&#34;</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">preview_only</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#447fcf;text-decoration:underline">---</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>v1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ServiceAccount<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>flannel<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">namespace</span>:<span style="color:#666"> </span>kube-system<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">caption</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;Image from: [**Pexels**](https://www.pexels.com)&#34;</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">focal_point</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;&#34;</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">preview_only</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#447fcf;text-decoration:underline">---</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>ConfigMap<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>v1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>kube-flannel-cfg<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">namespace</span>:<span style="color:#666"> </span>kube-system<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">labels</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">tier</span>:<span style="color:#666"> </span>node<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">app</span>:<span style="color:#666"> </span>flannel<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">data</span>:<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">cni-conf.json</span>:<span style="color:#666"> </span>|<span style="color:#ed9d13">
-</span><span style="color:#ed9d13">    {
-</span><span style="color:#ed9d13">    &#34;name&#34;: &#34;cbr0&#34;,
-</span><span style="color:#ed9d13">    &#34;type&#34;: &#34;flannel&#34;,
-</span><span style="color:#ed9d13">    &#34;delegate&#34;: {
-</span><span style="color:#ed9d13">        &#34;isDefaultGateway&#34;: true
-</span><span style="color:#ed9d13">    }
-</span><span style="color:#ed9d13">    }</span><span style="color:#666">    
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">net-conf.json</span>:<span style="color:#666"> </span>|<span style="color:#ed9d13">
-</span><span style="color:#ed9d13">    {
-</span><span style="color:#ed9d13">    &#34;Network&#34;: &#34;10.10.0.0/16&#34;,    #这里换成集群所在的网段
-</span><span style="color:#ed9d13">    &#34;Backend&#34;: {
-</span><span style="color:#ed9d13">        &#34;Type&#34;: &#34;vxlan&#34;
-</span><span style="color:#ed9d13">    }
-</span><span style="color:#ed9d13">    }</span><span style="color:#666">    
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">caption</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;Image from: [**Pexels**](https://www.pexels.com)&#34;</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">focal_point</span>:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;&#34;</span><span style="color:#666">
-</span><span style="color:#666">  </span><span style="color:#6ab825;font-weight:bold">preview_only</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">false</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#447fcf;text-decoration:underline">---</span><span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>extensions/v1beta1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>DaemonSet<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>kube-flannel-ds<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">namespace</span>:<span style="color:#666"> </span>kube-system<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">labels</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">tier</span>:<span style="color:#666"> </span>node<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">app</span>:<span style="color:#666"> </span>flannel<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">template</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">labels</span>:<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">tier</span>:<span style="color:#666"> </span>node<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">app</span>:<span style="color:#666"> </span>flannel<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">hostNetwork</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">true</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">nodeSelector</span>:<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">beta.kubernetes.io/arch</span>:<span style="color:#666"> </span>amd64<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">tolerations</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">key</span>:<span style="color:#666"> </span>node-role.kubernetes.io/master<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">operator</span>:<span style="color:#666"> </span>Exists<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">effect</span>:<span style="color:#666"> </span>NoSchedule<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">serviceAccountName</span>:<span style="color:#666"> </span>flannel<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">initContainers</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>install-cni<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666"> </span>quay.io/coreos/flannel:v0.9.1-amd64<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">command</span>:<span style="color:#666">
-</span><span style="color:#666">        </span>- cp<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">args</span>:<span style="color:#666">
-</span><span style="color:#666">        </span>- -f<span style="color:#666">
-</span><span style="color:#666">        </span>- /etc/kube-flannel/cni-conf.json<span style="color:#666">
-</span><span style="color:#666">        </span>- /etc/cni/net.d/10-flannel.conf<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">volumeMounts</span>:<span style="color:#666">
-</span><span style="color:#666">        </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>cni<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">mountPath</span>:<span style="color:#666"> </span>/etc/cni/net.d<span style="color:#666">
-</span><span style="color:#666">        </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>flannel-cfg<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">mountPath</span>:<span style="color:#666"> </span>/etc/kube-flannel/<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">containers</span>:<span style="color:#666">
-</span><span style="color:#666">    </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>kube-flannel<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666"> </span>quay.io/coreos/flannel:v0.9.1-amd64<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">command</span>:<span style="color:#666"> </span>[<span style="color:#666"> </span><span style="color:#ed9d13">&#34;/opt/bin/flanneld&#34;</span>,<span style="color:#666"> </span><span style="color:#ed9d13">&#34;--ip-masq&#34;</span>,<span style="color:#666"> </span><span style="color:#ed9d13">&#34;--kube-subnet-mgr&#34;</span><span style="color:#666"> </span>]<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">securityContext</span>:<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">privileged</span>:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">true</span><span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">env</span>:<span style="color:#666">
-</span><span style="color:#666">        </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>POD_NAME<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">valueFrom</span>:<span style="color:#666">
-</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">fieldRef</span>:<span style="color:#666">
-</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">fieldPath</span>:<span style="color:#666"> </span>metadata.name<span style="color:#666">
-</span><span style="color:#666">        </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>POD_NAMESPACE<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">valueFrom</span>:<span style="color:#666">
-</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">fieldRef</span>:<span style="color:#666">
-</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">fieldPath</span>:<span style="color:#666"> </span>metadata.namespace<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">volumeMounts</span>:<span style="color:#666">
-</span><span style="color:#666">        </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>run<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">mountPath</span>:<span style="color:#666"> </span>/run<span style="color:#666">
-</span><span style="color:#666">        </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>flannel-cfg<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">mountPath</span>:<span style="color:#666"> </span>/etc/kube-flannel/<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">volumes</span>:<span style="color:#666">
-</span><span style="color:#666">        </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>run<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">hostPath</span>:<span style="color:#666">
-</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">path</span>:<span style="color:#666"> </span>/run<span style="color:#666">
-</span><span style="color:#666">        </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>cni<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">hostPath</span>:<span style="color:#666">
-</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">path</span>:<span style="color:#666"> </span>/etc/cni/net.d<span style="color:#666">
-</span><span style="color:#666">        </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>flannel-cfg<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">configMap</span>:<span style="color:#666">
-</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>kube-flannel-cfg<span style="color:#666">
-</span></code></pre></div><p><strong>执行：</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create -f ./flannel.yml
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">image</span>:
+  <span style="color:#ff79c6">caption</span>: <span style="color:#f1fa8c">&#34;Image from: [**Pexels**](https://www.pexels.com)&#34;</span>
+  <span style="color:#ff79c6">focal_point</span>: <span style="color:#f1fa8c">&#34;&#34;</span>
+  <span style="color:#ff79c6">preview_only</span>: <span style="color:#ff79c6">false</span>
+---
+<span style="color:#ff79c6">kind</span>: ClusterRole
+<span style="color:#ff79c6">apiVersion</span>: rbac.authorization.k8s.io/v1beta1
+<span style="color:#ff79c6">metadata</span>:
+<span style="color:#ff79c6">name</span>: flannel
+<span style="color:#ff79c6">rules</span>:
+- <span style="color:#ff79c6">apiGroups</span>:
+    - <span style="color:#f1fa8c">&#34;&#34;</span>
+    <span style="color:#ff79c6">resources</span>:
+    - pods
+    <span style="color:#ff79c6">verbs</span>:
+    - get
+- <span style="color:#ff79c6">apiGroups</span>:
+    - <span style="color:#f1fa8c">&#34;&#34;</span>
+    <span style="color:#ff79c6">resources</span>:
+    - nodes
+    <span style="color:#ff79c6">verbs</span>:
+    - list
+    - watch
+- <span style="color:#ff79c6">apiGroups</span>:
+    - <span style="color:#f1fa8c">&#34;&#34;</span>
+    <span style="color:#ff79c6">resources</span>:
+    - nodes/status
+    <span style="color:#ff79c6">verbs</span>:
+    - patch
+<span style="color:#ff79c6">image</span>:
+  <span style="color:#ff79c6">caption</span>: <span style="color:#f1fa8c">&#34;Image from: [**Pexels**](https://www.pexels.com)&#34;</span>
+  <span style="color:#ff79c6">focal_point</span>: <span style="color:#f1fa8c">&#34;&#34;</span>
+  <span style="color:#ff79c6">preview_only</span>: <span style="color:#ff79c6">false</span>
+---
+<span style="color:#ff79c6">kind</span>: ClusterRoleBinding
+<span style="color:#ff79c6">apiVersion</span>: rbac.authorization.k8s.io/v1beta1
+<span style="color:#ff79c6">metadata</span>:
+<span style="color:#ff79c6">name</span>: flannel
+<span style="color:#ff79c6">roleRef</span>:
+<span style="color:#ff79c6">apiGroup</span>: rbac.authorization.k8s.io
+<span style="color:#ff79c6">kind</span>: ClusterRole
+<span style="color:#ff79c6">name</span>: flannel
+<span style="color:#ff79c6">subjects</span>:
+- <span style="color:#ff79c6">kind</span>: ServiceAccount
+<span style="color:#ff79c6">name</span>: flannel
+<span style="color:#ff79c6">namespace</span>: kube-system
+<span style="color:#ff79c6">image</span>:
+  <span style="color:#ff79c6">caption</span>: <span style="color:#f1fa8c">&#34;Image from: [**Pexels**](https://www.pexels.com)&#34;</span>
+  <span style="color:#ff79c6">focal_point</span>: <span style="color:#f1fa8c">&#34;&#34;</span>
+  <span style="color:#ff79c6">preview_only</span>: <span style="color:#ff79c6">false</span>
+---
+<span style="color:#ff79c6">apiVersion</span>: v1
+<span style="color:#ff79c6">kind</span>: ServiceAccount
+<span style="color:#ff79c6">metadata</span>:
+<span style="color:#ff79c6">name</span>: flannel
+<span style="color:#ff79c6">namespace</span>: kube-system
+<span style="color:#ff79c6">image</span>:
+  <span style="color:#ff79c6">caption</span>: <span style="color:#f1fa8c">&#34;Image from: [**Pexels**](https://www.pexels.com)&#34;</span>
+  <span style="color:#ff79c6">focal_point</span>: <span style="color:#f1fa8c">&#34;&#34;</span>
+  <span style="color:#ff79c6">preview_only</span>: <span style="color:#ff79c6">false</span>
+---
+<span style="color:#ff79c6">kind</span>: ConfigMap
+<span style="color:#ff79c6">apiVersion</span>: v1
+<span style="color:#ff79c6">metadata</span>:
+<span style="color:#ff79c6">name</span>: kube-flannel-cfg
+<span style="color:#ff79c6">namespace</span>: kube-system
+<span style="color:#ff79c6">labels</span>:
+    <span style="color:#ff79c6">tier</span>: node
+    <span style="color:#ff79c6">app</span>: flannel
+<span style="color:#ff79c6">data</span>:
+<span style="color:#ff79c6">cni-conf.json</span>: |<span style="color:#f1fa8c">
+</span><span style="color:#f1fa8c">    {
+</span><span style="color:#f1fa8c">    &#34;name&#34;: &#34;cbr0&#34;,
+</span><span style="color:#f1fa8c">    &#34;type&#34;: &#34;flannel&#34;,
+</span><span style="color:#f1fa8c">    &#34;delegate&#34;: {
+</span><span style="color:#f1fa8c">        &#34;isDefaultGateway&#34;: true
+</span><span style="color:#f1fa8c">    }
+</span><span style="color:#f1fa8c">    }</span>    
+<span style="color:#ff79c6">net-conf.json</span>: |<span style="color:#f1fa8c">
+</span><span style="color:#f1fa8c">    {
+</span><span style="color:#f1fa8c">    &#34;Network&#34;: &#34;10.10.0.0/16&#34;,    #这里换成集群所在的网段
+</span><span style="color:#f1fa8c">    &#34;Backend&#34;: {
+</span><span style="color:#f1fa8c">        &#34;Type&#34;: &#34;vxlan&#34;
+</span><span style="color:#f1fa8c">    }
+</span><span style="color:#f1fa8c">    }</span>    
+<span style="color:#ff79c6">image</span>:
+  <span style="color:#ff79c6">caption</span>: <span style="color:#f1fa8c">&#34;Image from: [**Pexels**](https://www.pexels.com)&#34;</span>
+  <span style="color:#ff79c6">focal_point</span>: <span style="color:#f1fa8c">&#34;&#34;</span>
+  <span style="color:#ff79c6">preview_only</span>: <span style="color:#ff79c6">false</span>
+---
+<span style="color:#ff79c6">apiVersion</span>: extensions/v1beta1
+<span style="color:#ff79c6">kind</span>: DaemonSet
+<span style="color:#ff79c6">metadata</span>:
+<span style="color:#ff79c6">name</span>: kube-flannel-ds
+<span style="color:#ff79c6">namespace</span>: kube-system
+<span style="color:#ff79c6">labels</span>:
+    <span style="color:#ff79c6">tier</span>: node
+    <span style="color:#ff79c6">app</span>: flannel
+<span style="color:#ff79c6">spec</span>:
+<span style="color:#ff79c6">template</span>:
+    <span style="color:#ff79c6">metadata</span>:
+    <span style="color:#ff79c6">labels</span>:
+        <span style="color:#ff79c6">tier</span>: node
+        <span style="color:#ff79c6">app</span>: flannel
+    <span style="color:#ff79c6">spec</span>:
+    <span style="color:#ff79c6">hostNetwork</span>: <span style="color:#ff79c6">true</span>
+    <span style="color:#ff79c6">nodeSelector</span>:
+        <span style="color:#ff79c6">beta.kubernetes.io/arch</span>: amd64
+    <span style="color:#ff79c6">tolerations</span>:
+    - <span style="color:#ff79c6">key</span>: node-role.kubernetes.io/master
+        <span style="color:#ff79c6">operator</span>: Exists
+        <span style="color:#ff79c6">effect</span>: NoSchedule
+    <span style="color:#ff79c6">serviceAccountName</span>: flannel
+    <span style="color:#ff79c6">initContainers</span>:
+    - <span style="color:#ff79c6">name</span>: install-cni
+        <span style="color:#ff79c6">image</span>: quay.io/coreos/flannel:v0.9.1-amd64
+        <span style="color:#ff79c6">command</span>:
+        - cp
+        <span style="color:#ff79c6">args</span>:
+        - -f
+        - /etc/kube-flannel/cni-conf.json
+        - /etc/cni/net.d/10-flannel.conf
+        <span style="color:#ff79c6">volumeMounts</span>:
+        - <span style="color:#ff79c6">name</span>: cni
+        <span style="color:#ff79c6">mountPath</span>: /etc/cni/net.d
+        - <span style="color:#ff79c6">name</span>: flannel-cfg
+        <span style="color:#ff79c6">mountPath</span>: /etc/kube-flannel/
+    <span style="color:#ff79c6">containers</span>:
+    - <span style="color:#ff79c6">name</span>: kube-flannel
+        <span style="color:#ff79c6">image</span>: quay.io/coreos/flannel:v0.9.1-amd64
+        <span style="color:#ff79c6">command</span>: [ <span style="color:#f1fa8c">&#34;/opt/bin/flanneld&#34;</span>, <span style="color:#f1fa8c">&#34;--ip-masq&#34;</span>, <span style="color:#f1fa8c">&#34;--kube-subnet-mgr&#34;</span> ]
+        <span style="color:#ff79c6">securityContext</span>:
+        <span style="color:#ff79c6">privileged</span>: <span style="color:#ff79c6">true</span>
+        <span style="color:#ff79c6">env</span>:
+        - <span style="color:#ff79c6">name</span>: POD_NAME
+        <span style="color:#ff79c6">valueFrom</span>:
+            <span style="color:#ff79c6">fieldRef</span>:
+            <span style="color:#ff79c6">fieldPath</span>: metadata.name
+        - <span style="color:#ff79c6">name</span>: POD_NAMESPACE
+        <span style="color:#ff79c6">valueFrom</span>:
+            <span style="color:#ff79c6">fieldRef</span>:
+            <span style="color:#ff79c6">fieldPath</span>: metadata.namespace
+        <span style="color:#ff79c6">volumeMounts</span>:
+        - <span style="color:#ff79c6">name</span>: run
+        <span style="color:#ff79c6">mountPath</span>: /run
+        - <span style="color:#ff79c6">name</span>: flannel-cfg
+        <span style="color:#ff79c6">mountPath</span>: /etc/kube-flannel/
+    <span style="color:#ff79c6">volumes</span>:
+        - <span style="color:#ff79c6">name</span>: run
+        <span style="color:#ff79c6">hostPath</span>:
+            <span style="color:#ff79c6">path</span>: /run
+        - <span style="color:#ff79c6">name</span>: cni
+        <span style="color:#ff79c6">hostPath</span>:
+            <span style="color:#ff79c6">path</span>: /etc/cni/net.d
+        - <span style="color:#ff79c6">name</span>: flannel-cfg
+        <span style="color:#ff79c6">configMap</span>:
+            <span style="color:#ff79c6">name</span>: kube-flannel-cfg
+</code></pre></div><p><strong>执行：</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create -f ./flannel.yml
 </code></pre></div><p>默认情况下，master节点不参与工作负载，但如果希望安装出一个all-in-one的k8s环境，则可以执行以下命令：</p>
 <p><strong>让master节点成为一个node节点：</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl taint nodes --all node-role.kubernetes.io/master-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl taint nodes --all node-role.kubernetes.io/master-
 </code></pre></div><p><strong>查看节点信息：</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl get nodes
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl get nodes
 </code></pre></div><p><strong>会看到如下的输出：</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">NAME            STATUS     ROLES     AGE       VERSION
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">NAME            STATUS     ROLES     AGE       VERSION
 k8s-master      Ready      master    18h       v1.11.0
 </code></pre></div><p><strong>以下是节点配置</strong></p>
 <p>在配置好主节点之后，就可以配置集群的其他节点了，这里建议直接安装之前做好准备工作的系统镜像
 进入节点机器之后，直接执行之前保存好的命令</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubeadm join 10.10.207.253:6443 --token t69z6h.lr2etdbg9mfx5r15 --discovery-token-ca-cert-hash sha256:90e3a748c0eb4cb7058f3d0ee8870ee5d746214ab0589b5e841fd5d68fec8f00
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubeadm join 10.10.207.253:6443 --token t69z6h.lr2etdbg9mfx5r15 --discovery-token-ca-cert-hash sha256:90e3a748c0eb4cb7058f3d0ee8870ee5d746214ab0589b5e841fd5d68fec8f00
 </code></pre></div><p>执行完后会看到：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">[preflight] running pre-flight checks
-        [WARNING RequiredIPVSKernelModulesAvailable]: the IPVS proxier will not be used, because the following required kernel modules are not loaded: [ip_vs_wrr ip_vs_sh ip_vs ip_vs_rr] or no builtin kernel ipvs support: <span style="color:#6ab825;font-weight:bold">map</span>[ip_vs_rr:{} ip_vs_wrr:{} ip_vs_sh:{} nf_conntrack_ipv4:{} ip_vs:{}]
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">[preflight] running pre<span style="color:#ff79c6">-</span>flight checks
+        [WARNING RequiredIPVSKernelModulesAvailable]: the IPVS proxier will not be used, because the following required kernel modules are not loaded: [ip_vs_wrr ip_vs_sh ip_vs ip_vs_rr] or no builtin kernel ipvs support: <span style="color:#8be9fd;font-style:italic">map</span>[ip_vs_rr:{} ip_vs_wrr:{} ip_vs_sh:{} nf_conntrack_ipv4:{} ip_vs:{}]
 you can solve this problem with following methods:
-<span style="color:#3677a9">1.</span> Run <span style="color:#a61717;background-color:#e3d2d2">&#39;</span>modprobe -- <span style="color:#a61717;background-color:#e3d2d2">&#39;</span> to load missing kernel modules;
-<span style="color:#3677a9">2.</span> Provide the missing builtin kernel ipvs support
+<span style="color:#bd93f9">1.</span> Run &#39;modprobe <span style="color:#ff79c6">--</span> &#39; to load missing kernel modules;
+<span style="color:#bd93f9">2.</span> Provide the missing builtin kernel ipvs support
 
-I0725 <span style="color:#3677a9">09</span>:<span style="color:#3677a9">59</span>:<span style="color:#3677a9">27.929247</span>   <span style="color:#3677a9">10196</span> kernel_validator.<span style="color:#6ab825;font-weight:bold">go</span>:<span style="color:#3677a9">81</span>] Validating kernel version
-I0725 <span style="color:#3677a9">09</span>:<span style="color:#3677a9">59</span>:<span style="color:#3677a9">27.929356</span>   <span style="color:#3677a9">10196</span> kernel_validator.<span style="color:#6ab825;font-weight:bold">go</span>:<span style="color:#3677a9">96</span>] Validating kernel config
-[discovery] Trying to connect to API Server <span style="color:#ed9d13">&#34;10.10.207.253:6443&#34;</span>
-[discovery] Created cluster-info discovery client, requesting info from <span style="color:#ed9d13">&#34;https://10.10.207.253:6443&#34;</span>
-[discovery] Requesting info from <span style="color:#ed9d13">&#34;https://10.10.207.253:6443&#34;</span> again to validate TLS against the pinned public key
-[discovery] Cluster info signature and contents are valid and TLS certificate validates against pinned roots, will use API Server <span style="color:#ed9d13">&#34;10.10.207.253:6443&#34;</span>
-[discovery] Successfully established connection with API Server <span style="color:#ed9d13">&#34;10.10.207.253:6443&#34;</span>
-[kubelet] Downloading configuration <span style="color:#6ab825;font-weight:bold">for</span> the kubelet from the <span style="color:#ed9d13">&#34;kubelet-config-1.11&#34;</span> ConfigMap in the kube-system namespace
-[kubelet] Writing kubelet configuration to file <span style="color:#ed9d13">&#34;/var/lib/kubelet/config.yaml&#34;</span>
-[kubelet] Writing kubelet environment file with flags to file <span style="color:#ed9d13">&#34;/var/lib/kubelet/kubeadm-flags.env&#34;</span>
+I0725 <span style="color:#bd93f9">09</span>:<span style="color:#bd93f9">59</span>:<span style="color:#bd93f9">27.929247</span>   <span style="color:#bd93f9">10196</span> kernel_validator.<span style="color:#ff79c6">go</span>:<span style="color:#bd93f9">81</span>] Validating kernel version
+I0725 <span style="color:#bd93f9">09</span>:<span style="color:#bd93f9">59</span>:<span style="color:#bd93f9">27.929356</span>   <span style="color:#bd93f9">10196</span> kernel_validator.<span style="color:#ff79c6">go</span>:<span style="color:#bd93f9">96</span>] Validating kernel config
+[discovery] Trying to connect to API Server <span style="color:#f1fa8c">&#34;10.10.207.253:6443&#34;</span>
+[discovery] Created cluster<span style="color:#ff79c6">-</span>info discovery client, requesting info from <span style="color:#f1fa8c">&#34;https://10.10.207.253:6443&#34;</span>
+[discovery] Requesting info from <span style="color:#f1fa8c">&#34;https://10.10.207.253:6443&#34;</span> again to validate TLS against the pinned public key
+[discovery] Cluster info signature and contents are valid and TLS certificate validates against pinned roots, will use API Server <span style="color:#f1fa8c">&#34;10.10.207.253:6443&#34;</span>
+[discovery] Successfully established connection with API Server <span style="color:#f1fa8c">&#34;10.10.207.253:6443&#34;</span>
+[kubelet] Downloading configuration <span style="color:#ff79c6">for</span> the kubelet from the <span style="color:#f1fa8c">&#34;kubelet-config-1.11&#34;</span> ConfigMap in the kube<span style="color:#ff79c6">-</span>system namespace
+[kubelet] Writing kubelet configuration to file <span style="color:#f1fa8c">&#34;/var/lib/kubelet/config.yaml&#34;</span>
+[kubelet] Writing kubelet environment file with flags to file <span style="color:#f1fa8c">&#34;/var/lib/kubelet/kubeadm-flags.env&#34;</span>
 [preflight] Activating the kubelet service
-[tlsbootstrap] Waiting <span style="color:#6ab825;font-weight:bold">for</span> the kubelet to perform the TLS Bootstrap...
-[patchnode] Uploading the CRI Socket information <span style="color:#ed9d13">&#34;/var/run/dockershim.sock&#34;</span> to the Node API object <span style="color:#ed9d13">&#34;k8s-node1&#34;</span> as an annotation
+[tlsbootstrap] Waiting <span style="color:#ff79c6">for</span> the kubelet to perform the TLS Bootstrap<span style="color:#ff79c6">...</span>
+[patchnode] Uploading the CRI Socket information <span style="color:#f1fa8c">&#34;/var/run/dockershim.sock&#34;</span> to the Node API object <span style="color:#f1fa8c">&#34;k8s-node1&#34;</span> as an annotation
 
 This node has joined the cluster:
-* Certificate signing request was sent to master and a response
+<span style="color:#ff79c6">*</span> Certificate signing request was sent to master and a response
 was received.
-* The Kubelet was informed of the new secure connection details.
+<span style="color:#ff79c6">*</span> The Kubelet was informed of the new secure connection details.
 
-Run <span style="color:#a61717;background-color:#e3d2d2">&#39;</span>kubectl get nodes<span style="color:#a61717;background-color:#e3d2d2">&#39;</span> on the master to see this node join the cluster.
+Run &#39;kubectl get nodes&#39; on the master to see this node join the cluster.
 </code></pre></div><p><strong>这里就表示执行完毕了，可以去主节点执行命令：</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl get nodes
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl get nodes
 </code></pre></div><p><strong>可以看到节点已加入集群：</strong></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">NAME        STATUS    ROLES     AGE       VERSION
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">NAME        STATUS    ROLES     AGE       VERSION
 k8s-master  Ready     master    20h       v1.11.0
 k8s-node1   Ready     &lt;none&gt;    20h       v1.11.0
 k8s-node2   Ready     &lt;none&gt;    20h       v1.11.0
@@ -1031,7 +1031,7 @@ k8s-node2   Ready     &lt;none&gt;    20h       v1.11.0
 <p>详见：<a href="/2018/dashboard-k8s">kubernetes安装dashboard</a></p>
 <h1 id="采坑指南">采坑指南</h1>
 <p>有时会出现master节点一直处于notready的状态，这里可能是没有启动flannel，只需要按照上面的教程配置好flannel，然后执行：</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create -f ./flannel.yml
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create -f ./flannel.yml
 </code></pre></div>
 	<br>
 	

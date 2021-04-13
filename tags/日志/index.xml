@@ -44,7 +44,7 @@
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;执行命令，将${your_k8s_cluster_id}替换为集群id&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;wget http://logtail-release-cn-hangzhou.oss-cn-hangzhou.aliyuncs.com/kubernetes/alicloud-log-k8s-install.sh -O alicloud-log-k8s-install.sh; chmod &lt;span style=&#34;color:#3677a9&#34;&gt;744&lt;/span&gt; ./alicloud-log-k8s-install.sh; sh ./alicloud-log-k8s-install.sh &lt;span style=&#34;color:#ed9d13&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#40ffff&#34;&gt;your_k8s_cluster_id&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;}&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;wget http://logtail-release-cn-hangzhou.oss-cn-hangzhou.aliyuncs.com/kubernetes/alicloud-log-k8s-install.sh -O alicloud-log-k8s-install.sh; chmod &lt;span style=&#34;color:#bd93f9&#34;&gt;744&lt;/span&gt; ./alicloud-log-k8s-install.sh; sh ./alicloud-log-k8s-install.sh &lt;span style=&#34;color:#f1fa8c&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;your_k8s_cluster_id&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;Project k8s-log-${your_k8s_cluster_id}下会自动创建名为config-operation-log的Logstore，用于存储alibaba-log-controller的运行日志。请勿删除此Logstore，否则无法为alibaba-log-controller排查问题。&lt;/li&gt;
 &lt;li&gt;若您需要将日志采集到已有的Project，请执行安装命令sh ./alicloud-log-k8s-install.sh${your_k8s_cluster_id} ${your_project_name} ，并确保日志服务Project和您的Kubernetes集群在同一地域。&lt;/li&gt;
@@ -52,112 +52,112 @@
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;该条命令其实就是执行了一个shell脚本，使用helm安装了采集kubernetes集群日志的组件&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-vim&#34; data-lang=&#34;vim&#34;&gt;#!&lt;span style=&#34;color:#ed9d13&#34;&gt;/bin/&lt;/span&gt;bash&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; [ $# -eq &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt; ] ; then&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;    echo &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;[Invalid Param], use sudo ./install-k8s-log.sh {your-k8s-cluster-id}&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;    exit &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;fi&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;clusterName=$(echo $&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt; | tr &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;[A-Z]&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#39;[a-z]&amp;#39;&lt;/span&gt;)&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;curl --connect-timeout &lt;span style=&#34;color:#3677a9&#34;&gt;5&lt;/span&gt;  http:&lt;span style=&#34;color:#ed9d13&#34;&gt;//&lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;100&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;100&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;100&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;200&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;/latest/&lt;/span&gt;meta-data/region-id&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; [ $? != &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt; ]; then&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;    echo &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;[FAIL] ECS meta server connect fail, only support alibaba cloud k8s service&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;    exit &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;fi&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;regionId=`curl http:&lt;span style=&#34;color:#ed9d13&#34;&gt;//&lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;100&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;100&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;100&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;200&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;/latest/&lt;/span&gt;meta-data/region-id`&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;aliuid=`curl http:&lt;span style=&#34;color:#ed9d13&#34;&gt;//&lt;/span&gt;&lt;span style=&#34;color:#3677a9&#34;&gt;100&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;100&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;100&lt;/span&gt;.&lt;span style=&#34;color:#3677a9&#34;&gt;200&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;/latest/&lt;/span&gt;meta-data/owner-account-id`&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;helmPackageUrl=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;http://logtail-release-$regionId.oss-$regionId.aliyuncs.com/kubernetes/alibaba-cloud-log.tgz&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;wget $helmPackageUrl -O alibaba-cloud-log.tgz&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; [ $? != &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt; ]; then&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;    echo &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;[FAIL] download alibaba-cloud-log.tgz from $helmPackageUrl failed&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;    exit &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;fi&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;project=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;k8s-log-&amp;#34;&lt;/span&gt;$clusterName&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; [ $# -ge &lt;span style=&#34;color:#3677a9&#34;&gt;2&lt;/span&gt; ]; then&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;    project=$&lt;span style=&#34;color:#3677a9&#34;&gt;2&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;fi&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;echo [INFO] your k8s is using project : $project&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;helm install alibaba-cloud-log.tgz --name alibaba-log-controller \&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;    --set ProjectName=$project \&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;    --set RegionId=$regionId \&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;    --set InstallParam=$regionId \&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;    --set MachineGroupId=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;k8s-group-&amp;#34;&lt;/span&gt;$clusterName \&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;    --set Endpoint=$regionId&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;-intranet.log.aliyuncs.com&amp;#34;&lt;/span&gt; \&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;    --set AlibabaCloudUserId=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;:&amp;#34;&lt;/span&gt;$aliuid \&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;    --set LogtailImage.Repository=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;registry.$regionId.aliyuncs.com/log-service/logtail&amp;#34;&lt;/span&gt; \&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;    --set ControllerImage.Repository=&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;registry.$regionId.aliyuncs.com/log-service/alibabacloud-log-controller&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;installRst=$?&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; [ $installRst -eq &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt; ]; then&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;    echo &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;[SUCCESS] install helm package : alibaba-log-controller success.&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;    exit &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;else&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;    echo &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;[FAIL] install helm package failed, errno &amp;#34;&lt;/span&gt; $installRst&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;    exit &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;&lt;/span&gt;fi&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-vim&#34; data-lang=&#34;vim&#34;&gt;#!&lt;span style=&#34;color:#f1fa8c&#34;&gt;/bin/&lt;/span&gt;bash
+
+&lt;span style=&#34;color:#ff79c6&#34;&gt;if&lt;/span&gt; [ $# -eq &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; ] ; then
+    echo &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;[Invalid Param], use sudo ./install-k8s-log.sh {your-k8s-cluster-id}&amp;#34;&lt;/span&gt;
+    exit &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt;
+fi
+  
+clusterName=$(echo $&lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt; | tr &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;[A-Z]&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#39;[a-z]&amp;#39;&lt;/span&gt;)
+curl --connect-timeout &lt;span style=&#34;color:#bd93f9&#34;&gt;5&lt;/span&gt;  http:&lt;span style=&#34;color:#f1fa8c&#34;&gt;//&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;100&lt;/span&gt;.&lt;span style=&#34;color:#bd93f9&#34;&gt;100&lt;/span&gt;.&lt;span style=&#34;color:#bd93f9&#34;&gt;100&lt;/span&gt;.&lt;span style=&#34;color:#bd93f9&#34;&gt;200&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;/latest/&lt;/span&gt;meta-data/region-id
+  
+&lt;span style=&#34;color:#ff79c6&#34;&gt;if&lt;/span&gt; [ $? != &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; ]; then
+    echo &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;[FAIL] ECS meta server connect fail, only support alibaba cloud k8s service&amp;#34;&lt;/span&gt;
+    exit &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt;
+fi
+  
+regionId=`curl http:&lt;span style=&#34;color:#f1fa8c&#34;&gt;//&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;100&lt;/span&gt;.&lt;span style=&#34;color:#bd93f9&#34;&gt;100&lt;/span&gt;.&lt;span style=&#34;color:#bd93f9&#34;&gt;100&lt;/span&gt;.&lt;span style=&#34;color:#bd93f9&#34;&gt;200&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;/latest/&lt;/span&gt;meta-data/region-id`
+aliuid=`curl http:&lt;span style=&#34;color:#f1fa8c&#34;&gt;//&lt;/span&gt;&lt;span style=&#34;color:#bd93f9&#34;&gt;100&lt;/span&gt;.&lt;span style=&#34;color:#bd93f9&#34;&gt;100&lt;/span&gt;.&lt;span style=&#34;color:#bd93f9&#34;&gt;100&lt;/span&gt;.&lt;span style=&#34;color:#bd93f9&#34;&gt;200&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;/latest/&lt;/span&gt;meta-data/owner-account-id`
+  
+helmPackageUrl=&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;http://logtail-release-$regionId.oss-$regionId.aliyuncs.com/kubernetes/alibaba-cloud-log.tgz&amp;#34;&lt;/span&gt;
+wget $helmPackageUrl -O alibaba-cloud-log.tgz
+&lt;span style=&#34;color:#ff79c6&#34;&gt;if&lt;/span&gt; [ $? != &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; ]; then
+    echo &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;[FAIL] download alibaba-cloud-log.tgz from $helmPackageUrl failed&amp;#34;&lt;/span&gt;
+    exit &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt;
+fi
+  
+project=&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;k8s-log-&amp;#34;&lt;/span&gt;$clusterName
+&lt;span style=&#34;color:#ff79c6&#34;&gt;if&lt;/span&gt; [ $# -ge &lt;span style=&#34;color:#bd93f9&#34;&gt;2&lt;/span&gt; ]; then
+    project=$&lt;span style=&#34;color:#bd93f9&#34;&gt;2&lt;/span&gt;
+fi
+  
+echo [INFO] your k8s is using project : $project
+  
+helm install alibaba-cloud-log.tgz --name alibaba-log-controller \
+    --set ProjectName=$project \
+    --set RegionId=$regionId \
+    --set InstallParam=$regionId \
+    --set MachineGroupId=&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;k8s-group-&amp;#34;&lt;/span&gt;$clusterName \
+    --set Endpoint=$regionId&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;-intranet.log.aliyuncs.com&amp;#34;&lt;/span&gt; \
+    --set AlibabaCloudUserId=&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;:&amp;#34;&lt;/span&gt;$aliuid \
+    --set LogtailImage.Repository=&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;registry.$regionId.aliyuncs.com/log-service/logtail&amp;#34;&lt;/span&gt; \
+    --set ControllerImage.Repository=&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;registry.$regionId.aliyuncs.com/log-service/alibabacloud-log-controller&amp;#34;&lt;/span&gt;
+  
+installRst=$?
+  
+&lt;span style=&#34;color:#ff79c6&#34;&gt;if&lt;/span&gt; [ $installRst -eq &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt; ]; then
+    echo &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;[SUCCESS] install helm package : alibaba-log-controller success.&amp;#34;&lt;/span&gt;
+    exit &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;else&lt;/span&gt;
+    echo &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;[FAIL] install helm package failed, errno &amp;#34;&lt;/span&gt; $installRst
+    exit &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;
+fi
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;命令执行后，会在kubernetes集群中的每个节点运行一个日志采集的pod：logatail-ds，该pod位于kube-system&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://guoxudong.io/images/source/log_detail.png&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;安装完成后，可使用以下命令来查看pod状态，若状态全部成功后，则表示安装完成&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ helm status alibaba-log-controller
-LAST DEPLOYED: Thu Nov &lt;span style=&#34;color:#3677a9&#34;&gt;22&lt;/span&gt; 15:09:35 &lt;span style=&#34;color:#3677a9&#34;&gt;2018&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ helm status alibaba-log-controller
+LAST DEPLOYED: Thu Nov &lt;span style=&#34;color:#bd93f9&#34;&gt;22&lt;/span&gt; 15:09:35 &lt;span style=&#34;color:#bd93f9&#34;&gt;2018&lt;/span&gt;
 NAMESPACE: default
 STATUS: DEPLOYED
   
 RESOURCES:
-==&amp;gt; v1/ServiceAccount
+&lt;span style=&#34;color:#ff79c6&#34;&gt;==&lt;/span&gt;&amp;gt; v1/ServiceAccount
 NAME                    SECRETS  AGE
-alibaba-log-controller  &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;        &lt;span style=&#34;color:#40ffff&#34;&gt;6d&lt;/span&gt;
+alibaba-log-controller  &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt;        &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;6d&lt;/span&gt;
   
-==&amp;gt; v1beta1/CustomResourceDefinition
+&lt;span style=&#34;color:#ff79c6&#34;&gt;==&lt;/span&gt;&amp;gt; v1beta1/CustomResourceDefinition
 NAME                                   AGE
-aliyunlogconfigs.log.alibabacloud.com  &lt;span style=&#34;color:#40ffff&#34;&gt;6d&lt;/span&gt;
+aliyunlogconfigs.log.alibabacloud.com  &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;6d&lt;/span&gt;
   
-==&amp;gt; v1beta1/ClusterRole
-alibaba-log-controller  &lt;span style=&#34;color:#40ffff&#34;&gt;6d&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;==&lt;/span&gt;&amp;gt; v1beta1/ClusterRole
+alibaba-log-controller  &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;6d&lt;/span&gt;
   
-==&amp;gt; v1beta1/ClusterRoleBinding
+&lt;span style=&#34;color:#ff79c6&#34;&gt;==&lt;/span&gt;&amp;gt; v1beta1/ClusterRoleBinding
 NAME                    AGE
-alibaba-log-controller  &lt;span style=&#34;color:#40ffff&#34;&gt;6d&lt;/span&gt;
+alibaba-log-controller  &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;6d&lt;/span&gt;
   
-==&amp;gt; v1beta1/DaemonSet
+&lt;span style=&#34;color:#ff79c6&#34;&gt;==&lt;/span&gt;&amp;gt; v1beta1/DaemonSet
 NAME        DESIRED  CURRENT  READY  UP-TO-DATE  AVAILABLE  NODE SELECTOR  AGE
-logtail-ds  &lt;span style=&#34;color:#3677a9&#34;&gt;16&lt;/span&gt;       &lt;span style=&#34;color:#3677a9&#34;&gt;16&lt;/span&gt;       &lt;span style=&#34;color:#3677a9&#34;&gt;16&lt;/span&gt;     &lt;span style=&#34;color:#3677a9&#34;&gt;16&lt;/span&gt;          &lt;span style=&#34;color:#3677a9&#34;&gt;16&lt;/span&gt;         &amp;lt;none&amp;gt;         &lt;span style=&#34;color:#40ffff&#34;&gt;6d&lt;/span&gt;
+logtail-ds  &lt;span style=&#34;color:#bd93f9&#34;&gt;16&lt;/span&gt;       &lt;span style=&#34;color:#bd93f9&#34;&gt;16&lt;/span&gt;       &lt;span style=&#34;color:#bd93f9&#34;&gt;16&lt;/span&gt;     &lt;span style=&#34;color:#bd93f9&#34;&gt;16&lt;/span&gt;          &lt;span style=&#34;color:#bd93f9&#34;&gt;16&lt;/span&gt;         &amp;lt;none&amp;gt;         &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;6d&lt;/span&gt;
   
-==&amp;gt; v1beta1/Deployment
+&lt;span style=&#34;color:#ff79c6&#34;&gt;==&lt;/span&gt;&amp;gt; v1beta1/Deployment
 NAME                    DESIRED  CURRENT  UP-TO-DATE  AVAILABLE  AGE
-alibaba-log-controller  &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;        &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;        &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;           &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;          &lt;span style=&#34;color:#40ffff&#34;&gt;6d&lt;/span&gt;
+alibaba-log-controller  &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt;        &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt;        &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt;           &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt;          &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;6d&lt;/span&gt;
   
-==&amp;gt; v1/Pod(related)
+&lt;span style=&#34;color:#ff79c6&#34;&gt;==&lt;/span&gt;&amp;gt; v1/Pod&lt;span style=&#34;color:#ff79c6&#34;&gt;(&lt;/span&gt;related&lt;span style=&#34;color:#ff79c6&#34;&gt;)&lt;/span&gt;
 NAME                                     READY  STATUS   RESTARTS  AGE
-logtail-ds-2fqs4                         1/1    Running  &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;         6d
-logtail-ds-4bz7w                         1/1    Running  &lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;         6d
-logtail-ds-6vg88                         1/1    Running  &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;         6d
-logtail-ds-7tp6v                         1/1    Running  &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;         6d
-logtail-ds-9575c                         1/1    Running  &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;         6d
-logtail-ds-bgq84                         1/1    Running  &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;         6d
-logtail-ds-kdlhr                         1/1    Running  &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;         6d
-logtail-ds-lknxw                         1/1    Running  &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;         6d
-logtail-ds-pdxfk                         1/1    Running  &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;         6d
-logtail-ds-pf4dz                         1/1    Running  &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;         6d
-logtail-ds-rzsnw                         1/1    Running  &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;         6d
-logtail-ds-sqhbv                         1/1    Running  &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;         6d
-logtail-ds-vvtwn                         1/1    Running  &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;         6d
-logtail-ds-wwmhg                         1/1    Running  &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;         6d
-logtail-ds-xbp4j                         1/1    Running  &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;         6d
-logtail-ds-zpld9                         1/1    Running  &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;         6d
-alibaba-log-controller-85f8fbb498-nzhc8  1/1    Running  &lt;span style=&#34;color:#3677a9&#34;&gt;0&lt;/span&gt;         6d
+logtail-ds-2fqs4                         1/1    Running  &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;         6d
+logtail-ds-4bz7w                         1/1    Running  &lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt;         6d
+logtail-ds-6vg88                         1/1    Running  &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;         6d
+logtail-ds-7tp6v                         1/1    Running  &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;         6d
+logtail-ds-9575c                         1/1    Running  &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;         6d
+logtail-ds-bgq84                         1/1    Running  &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;         6d
+logtail-ds-kdlhr                         1/1    Running  &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;         6d
+logtail-ds-lknxw                         1/1    Running  &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;         6d
+logtail-ds-pdxfk                         1/1    Running  &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;         6d
+logtail-ds-pf4dz                         1/1    Running  &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;         6d
+logtail-ds-rzsnw                         1/1    Running  &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;         6d
+logtail-ds-sqhbv                         1/1    Running  &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;         6d
+logtail-ds-vvtwn                         1/1    Running  &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;         6d
+logtail-ds-wwmhg                         1/1    Running  &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;         6d
+logtail-ds-xbp4j                         1/1    Running  &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;         6d
+logtail-ds-zpld9                         1/1    Running  &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;         6d
+alibaba-log-controller-85f8fbb498-nzhc8  1/1    Running  &lt;span style=&#34;color:#bd93f9&#34;&gt;0&lt;/span&gt;         6d
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h1 id=&#34;配置日志组件展示&#34;&gt;配置日志组件展示&lt;/h1&gt;

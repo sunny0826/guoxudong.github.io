@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -259,6 +259,8 @@ preview_only: false</a>
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -266,8 +268,6 @@ preview_only: false</a>
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -735,65 +735,65 @@ preview_only: false</a>
 <p>然后配置代码仓库即可</p>
 <p><img src="https://ws3.sinaimg.cn/large/ad5fbf65gy1g2sij1xlb2j214w0nw0uw.jpg" alt="WX20190507-094958"></p>
 <h2 id="pipeline">Pipeline</h2>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">podTemplate(label: <span style="color:#ed9d13">&#39;jnlp-slave&#39;</span>, cloud: <span style="color:#ed9d13">&#39;kubernetes&#39;</span>,
-  containers: [
-    containerTemplate(
-        name: <span style="color:#ed9d13">&#39;jnlp&#39;</span>,
-        image: <span style="color:#ed9d13">&#39;guoxudongdocker/jenkins-slave&#39;</span>,
-        alwaysPullImage: <span style="color:#6ab825;font-weight:bold">true</span>
-    ),
-    containerTemplate(name: <span style="color:#ed9d13">&#39;kubectl&#39;</span>, image: <span style="color:#ed9d13">&#39;guoxudongdocker/kubectl:v1.14.1&#39;</span>, command: <span style="color:#ed9d13">&#39;cat&#39;</span>, ttyEnabled: <span style="color:#6ab825;font-weight:bold">true</span>),
-  ],
-  nodeSelector:<span style="color:#ed9d13">&#39;ci=jenkins&#39;</span>,
-  volumes: [
-    hostPathVolume(mountPath: <span style="color:#ed9d13">&#39;/var/run/docker.sock&#39;</span>, hostPath: <span style="color:#ed9d13">&#39;/var/run/docker.sock&#39;</span>),
-    hostPathVolume(mountPath: <span style="color:#ed9d13">&#39;/usr/bin/docker&#39;</span>, hostPath: <span style="color:#ed9d13">&#39;/usr/bin/docker&#39;</span>),
-    hostPathVolume(mountPath: <span style="color:#ed9d13">&#39;/usr/local/jdk&#39;</span>, hostPath: <span style="color:#ed9d13">&#39;/usr/local/jdk&#39;</span>),
-    hostPathVolume(mountPath: <span style="color:#ed9d13">&#39;/usr/local/maven&#39;</span>, hostPath: <span style="color:#ed9d13">&#39;/usr/local/maven&#39;</span>),
-    secretVolume(mountPath: <span style="color:#ed9d13">&#39;/home/jenkins/.kube&#39;</span>, secretName: <span style="color:#ed9d13">&#39;devops-ctl&#39;</span>),
-  ],
-)
-{
-    node(<span style="color:#ed9d13">&#34;jnlp-slave&#34;</span>){
-        stage(<span style="color:#ed9d13">&#39;Git Checkout&#39;</span>){
-            git branch: <span style="color:#ed9d13">&#39;${branch}&#39;</span>, url: <span style="color:#ed9d13">&#39;https://github.com/sunny0826/flask-python.git&#39;</span>
-        }
-        stage(<span style="color:#ed9d13">&#39;Build and Push Image&#39;</span>){
-            withCredentials([usernamePassword(credentialsId: <span style="color:#ed9d13">&#39;docker-register&#39;</span>, passwordVariable: <span style="color:#ed9d13">&#39;dockerPassword&#39;</span>, usernameVariable: <span style="color:#ed9d13">&#39;dockerUser&#39;</span>)]) {
-                sh <span style="color:#ed9d13">&#39;&#39;&#39;
-</span><span style="color:#ed9d13">                docker login -u ${dockerUser} -p ${dockerPassword}
-</span><span style="color:#ed9d13">                docker build -t guoxudongdocker/flask-python:${Tag} .
-</span><span style="color:#ed9d13">                docker push guoxudongdocker/flask-python:${Tag}
-</span><span style="color:#ed9d13">                &#39;&#39;&#39;</span>
-            }
-        }
-        stage(<span style="color:#ed9d13">&#39;Deploy to K8s&#39;</span>){
-            <span style="color:#6ab825;font-weight:bold">if</span> (<span style="color:#ed9d13">&#39;true&#39;</span> == <span style="color:#ed9d13">&#34;${deploy}&#34;</span>) {
-                container(<span style="color:#ed9d13">&#39;kubectl&#39;</span>) {
-                    sh <span style="color:#ed9d13">&#39;&#39;&#39;
-</span><span style="color:#ed9d13">                    cd deploy/base
-</span><span style="color:#ed9d13">                    kustomize edit set image guoxudongdocker/flask-python:${Tag}
-</span><span style="color:#ed9d13">                    &#39;&#39;&#39;</span>
-                    echo <span style="color:#ed9d13">&#34;部署到 Kubernetes&#34;</span>
-                    <span style="color:#6ab825;font-weight:bold">if</span> (<span style="color:#ed9d13">&#39;prod&#39;</span> == <span style="color:#ed9d13">&#34;${ENV}&#34;</span>) {
-                        sh <span style="color:#ed9d13">&#39;&#39;&#39;
-</span><span style="color:#ed9d13">                        # kustomize build deploy/overlays/prod | kubectl apply -f -
-</span><span style="color:#ed9d13">                        kubectl applt -k deploy/overlays/prod
-</span><span style="color:#ed9d13">                        &#39;&#39;&#39;</span>
-                    }<span style="color:#6ab825;font-weight:bold">else</span> {
-                        sh <span style="color:#ed9d13">&#39;&#39;&#39;
-</span><span style="color:#ed9d13">                        # kustomize build deploy/overlays/dev | kubectl apply -f -
-</span><span style="color:#ed9d13">                        kubectl applt -k deploy/overlays/dev
-</span><span style="color:#ed9d13">                        &#39;&#39;&#39;</span>
-                    }	
-                }
-            }<span style="color:#6ab825;font-weight:bold">else</span>{
-                echo <span style="color:#ed9d13">&#34;跳过Deploy to K8s&#34;</span>
-            }
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">podTemplate<span style="color:#ff79c6">(</span><span style="color:#8be9fd;font-style:italic">label:</span> <span style="color:#f1fa8c">&#39;jnlp-slave&#39;</span><span style="color:#ff79c6">,</span> <span style="color:#8be9fd;font-style:italic">cloud:</span> <span style="color:#f1fa8c">&#39;kubernetes&#39;</span><span style="color:#ff79c6">,</span>
+  <span style="color:#8be9fd;font-style:italic">containers:</span> <span style="color:#ff79c6">[</span>
+    containerTemplate<span style="color:#ff79c6">(</span>
+        <span style="color:#8be9fd;font-style:italic">name:</span> <span style="color:#f1fa8c">&#39;jnlp&#39;</span><span style="color:#ff79c6">,</span>
+        <span style="color:#8be9fd;font-style:italic">image:</span> <span style="color:#f1fa8c">&#39;guoxudongdocker/jenkins-slave&#39;</span><span style="color:#ff79c6">,</span>
+        <span style="color:#8be9fd;font-style:italic">alwaysPullImage:</span> <span style="color:#ff79c6">true</span>
+    <span style="color:#ff79c6">),</span>
+    containerTemplate<span style="color:#ff79c6">(</span><span style="color:#8be9fd;font-style:italic">name:</span> <span style="color:#f1fa8c">&#39;kubectl&#39;</span><span style="color:#ff79c6">,</span> <span style="color:#8be9fd;font-style:italic">image:</span> <span style="color:#f1fa8c">&#39;guoxudongdocker/kubectl:v1.14.1&#39;</span><span style="color:#ff79c6">,</span> <span style="color:#8be9fd;font-style:italic">command:</span> <span style="color:#f1fa8c">&#39;cat&#39;</span><span style="color:#ff79c6">,</span> <span style="color:#8be9fd;font-style:italic">ttyEnabled:</span> <span style="color:#ff79c6">true</span><span style="color:#ff79c6">),</span>
+  <span style="color:#ff79c6">],</span>
+  <span style="color:#8be9fd;font-style:italic">nodeSelector:</span><span style="color:#f1fa8c">&#39;ci=jenkins&#39;</span><span style="color:#ff79c6">,</span>
+  <span style="color:#8be9fd;font-style:italic">volumes:</span> <span style="color:#ff79c6">[</span>
+    hostPathVolume<span style="color:#ff79c6">(</span><span style="color:#8be9fd;font-style:italic">mountPath:</span> <span style="color:#f1fa8c">&#39;/var/run/docker.sock&#39;</span><span style="color:#ff79c6">,</span> <span style="color:#8be9fd;font-style:italic">hostPath:</span> <span style="color:#f1fa8c">&#39;/var/run/docker.sock&#39;</span><span style="color:#ff79c6">),</span>
+    hostPathVolume<span style="color:#ff79c6">(</span><span style="color:#8be9fd;font-style:italic">mountPath:</span> <span style="color:#f1fa8c">&#39;/usr/bin/docker&#39;</span><span style="color:#ff79c6">,</span> <span style="color:#8be9fd;font-style:italic">hostPath:</span> <span style="color:#f1fa8c">&#39;/usr/bin/docker&#39;</span><span style="color:#ff79c6">),</span>
+    hostPathVolume<span style="color:#ff79c6">(</span><span style="color:#8be9fd;font-style:italic">mountPath:</span> <span style="color:#f1fa8c">&#39;/usr/local/jdk&#39;</span><span style="color:#ff79c6">,</span> <span style="color:#8be9fd;font-style:italic">hostPath:</span> <span style="color:#f1fa8c">&#39;/usr/local/jdk&#39;</span><span style="color:#ff79c6">),</span>
+    hostPathVolume<span style="color:#ff79c6">(</span><span style="color:#8be9fd;font-style:italic">mountPath:</span> <span style="color:#f1fa8c">&#39;/usr/local/maven&#39;</span><span style="color:#ff79c6">,</span> <span style="color:#8be9fd;font-style:italic">hostPath:</span> <span style="color:#f1fa8c">&#39;/usr/local/maven&#39;</span><span style="color:#ff79c6">),</span>
+    secretVolume<span style="color:#ff79c6">(</span><span style="color:#8be9fd;font-style:italic">mountPath:</span> <span style="color:#f1fa8c">&#39;/home/jenkins/.kube&#39;</span><span style="color:#ff79c6">,</span> <span style="color:#8be9fd;font-style:italic">secretName:</span> <span style="color:#f1fa8c">&#39;devops-ctl&#39;</span><span style="color:#ff79c6">),</span>
+  <span style="color:#ff79c6">],</span>
+<span style="color:#ff79c6">)</span>
+<span style="color:#ff79c6">{</span>
+    node<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;jnlp-slave&#34;</span><span style="color:#ff79c6">){</span>
+        stage<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#39;Git Checkout&#39;</span><span style="color:#ff79c6">){</span>
+            git <span style="color:#8be9fd;font-style:italic">branch:</span> <span style="color:#f1fa8c">&#39;${branch}&#39;</span><span style="color:#ff79c6">,</span> <span style="color:#8be9fd;font-style:italic">url:</span> <span style="color:#f1fa8c">&#39;https://github.com/sunny0826/flask-python.git&#39;</span>
+        <span style="color:#ff79c6">}</span>
+        stage<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#39;Build and Push Image&#39;</span><span style="color:#ff79c6">){</span>
+            withCredentials<span style="color:#ff79c6">([</span>usernamePassword<span style="color:#ff79c6">(</span><span style="color:#8be9fd;font-style:italic">credentialsId:</span> <span style="color:#f1fa8c">&#39;docker-register&#39;</span><span style="color:#ff79c6">,</span> <span style="color:#8be9fd;font-style:italic">passwordVariable:</span> <span style="color:#f1fa8c">&#39;dockerPassword&#39;</span><span style="color:#ff79c6">,</span> <span style="color:#8be9fd;font-style:italic">usernameVariable:</span> <span style="color:#f1fa8c">&#39;dockerUser&#39;</span><span style="color:#ff79c6">)])</span> <span style="color:#ff79c6">{</span>
+                sh <span style="color:#f1fa8c">&#39;&#39;&#39;
+</span><span style="color:#f1fa8c">                docker login -u ${dockerUser} -p ${dockerPassword}
+</span><span style="color:#f1fa8c">                docker build -t guoxudongdocker/flask-python:${Tag} .
+</span><span style="color:#f1fa8c">                docker push guoxudongdocker/flask-python:${Tag}
+</span><span style="color:#f1fa8c">                &#39;&#39;&#39;</span>
+            <span style="color:#ff79c6">}</span>
+        <span style="color:#ff79c6">}</span>
+        stage<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#39;Deploy to K8s&#39;</span><span style="color:#ff79c6">){</span>
+            <span style="color:#ff79c6">if</span> <span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#39;true&#39;</span> <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;${deploy}&#34;</span><span style="color:#ff79c6">)</span> <span style="color:#ff79c6">{</span>
+                container<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#39;kubectl&#39;</span><span style="color:#ff79c6">)</span> <span style="color:#ff79c6">{</span>
+                    sh <span style="color:#f1fa8c">&#39;&#39;&#39;
+</span><span style="color:#f1fa8c">                    cd deploy/base
+</span><span style="color:#f1fa8c">                    kustomize edit set image guoxudongdocker/flask-python:${Tag}
+</span><span style="color:#f1fa8c">                    &#39;&#39;&#39;</span>
+                    echo <span style="color:#f1fa8c">&#34;部署到 Kubernetes&#34;</span>
+                    <span style="color:#ff79c6">if</span> <span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#39;prod&#39;</span> <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;${ENV}&#34;</span><span style="color:#ff79c6">)</span> <span style="color:#ff79c6">{</span>
+                        sh <span style="color:#f1fa8c">&#39;&#39;&#39;
+</span><span style="color:#f1fa8c">                        # kustomize build deploy/overlays/prod | kubectl apply -f -
+</span><span style="color:#f1fa8c">                        kubectl applt -k deploy/overlays/prod
+</span><span style="color:#f1fa8c">                        &#39;&#39;&#39;</span>
+                    <span style="color:#ff79c6">}</span><span style="color:#ff79c6">else</span> <span style="color:#ff79c6">{</span>
+                        sh <span style="color:#f1fa8c">&#39;&#39;&#39;
+</span><span style="color:#f1fa8c">                        # kustomize build deploy/overlays/dev | kubectl apply -f -
+</span><span style="color:#f1fa8c">                        kubectl applt -k deploy/overlays/dev
+</span><span style="color:#f1fa8c">                        &#39;&#39;&#39;</span>
+                    <span style="color:#ff79c6">}</span>	
+                <span style="color:#ff79c6">}</span>
+            <span style="color:#ff79c6">}</span><span style="color:#ff79c6">else</span><span style="color:#ff79c6">{</span>
+                echo <span style="color:#f1fa8c">&#34;跳过Deploy to K8s&#34;</span>
+            <span style="color:#ff79c6">}</span>
 
-        }
-    }
-}
+        <span style="color:#ff79c6">}</span>
+    <span style="color:#ff79c6">}</span>
+<span style="color:#ff79c6">}</span>
 
 
 </code></pre></div><p>这里要注意几点：</p>
@@ -840,10 +840,10 @@ preview_only: false</h2>
 <p>那么， Kustomize 在整个流程中又扮演了一个什么角色呢？</p>
 <h3 id="更新镜像">更新镜像</h3>
 <p>在 <code>jenkinsfile</code> 中可以看到， kustomize 更新了基础配置的镜像版本，这里我们之前一直是使用 <code>sed -i &quot;s/#Tag/${Tag}/g&quot; deploy.yaml</code> 来进行替换了，但是不同环境存在比较多的差异，需要替换的越来越多，导致 Jekninsfile 也越来越臃肿和难以维护。 kustomize 解决了这个问题。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kustomize edit <span style="color:#24909d">set</span> image guoxudongdocker/flask-python:<span style="color:#ed9d13">${</span><span style="color:#40ffff">Tag</span><span style="color:#ed9d13">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kustomize edit <span style="color:#8be9fd;font-style:italic">set</span> image guoxudongdocker/flask-python:<span style="color:#f1fa8c">${</span><span style="color:#8be9fd;font-style:italic">Tag</span><span style="color:#f1fa8c">}</span>
 </code></pre></div><h3 id="环境区分">环境区分</h3>
 <p>上面也提到了，不同的环境我们存在这许多差异，虽然看上去大致类似，但是很多细节都需要修改。这时 kustomize 就起到了很大的作用，不同环境相同的配置都放在 <code>base</code> 中，而差异就可以在 <code>overlays</code> 中实现。</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">.
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">.
 ├── base
 │   ├── deployment.yaml
 │   ├── kustomization.yaml
@@ -860,7 +860,7 @@ preview_only: false</h2>
 </code></pre></div><p>可以看到， <code>base</code> 中维护了项目共同的基础配置，如果有镜像版本等基础配置需要修改，可以使用 <code>kustomize edit set image ...</code> 来直接修改基础配置，而真正不同环境，或者不同使用情况的配置则在 <code>overlays</code> 中 以 patch 的形式添加配置。这里我的配置是 prod 环境部署的副本为2，同时给到的资源也更多，详情可以在 <a href="https://github.com/sunny0826/flask-python">Github</a> 上查看。</p>
 <h3 id="与-kubectl-的集成">与 kubectl 的集成</h3>
 <p>在 jenkinsfile 中可以看到</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># kustomize build deploy/overlays/dev | kubectl apply -f -</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># kustomize build deploy/overlays/dev | kubectl apply -f -</span>
 kubectl apply -k deploy/overlays/dev
 </code></pre></div><p>这两条命令的执行效果是一样的，在 <code>kubectl v1.14.0</code> 以上的版本中，已经集成了 kustomize ，可以直接使用 <code>kubectl</code> 进行部署。</p>
 <h2 id="结语">结语</h2>

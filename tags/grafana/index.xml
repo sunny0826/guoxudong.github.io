@@ -31,22 +31,22 @@
 &lt;p&gt;不止于此，Grabana 还支持使用 yaml 文件来生成 Dashboard。并且完全不需要像 Jsonnet 那样先生成 json 配置，再将配置导入 Grafana，而是直接基于写好的代码或者 yaml 文件，通过封装好的 Grafana API 直接将 Dashboard 发布到指定 Grafana 中，省去了繁琐的操作，实现了完全的自动化。&lt;/p&gt;
 &lt;h3 id=&#34;dashboard-as-code&#34;&gt;Dashboard as code&lt;/h3&gt;
 &lt;p&gt;使用 Golang 可以通过如下方式构建 Dashboard 配置：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;builder := dashboard.&lt;span style=&#34;color:#447fcf&#34;&gt;New&lt;/span&gt;(
-    &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Awesome dashboard&amp;#34;&lt;/span&gt;,
-    dashboard.&lt;span style=&#34;color:#447fcf&#34;&gt;AutoRefresh&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;5s&amp;#34;&lt;/span&gt;),
-    dashboard.&lt;span style=&#34;color:#447fcf&#34;&gt;Tags&lt;/span&gt;([]&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;{&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;generated&amp;#34;&lt;/span&gt;}),
-    dashboard.&lt;span style=&#34;color:#447fcf&#34;&gt;VariableAsInterval&lt;/span&gt;(
-        &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;interval&amp;#34;&lt;/span&gt;,
-        interval.&lt;span style=&#34;color:#447fcf&#34;&gt;Values&lt;/span&gt;([]&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;string&lt;/span&gt;{&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;30s&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;1m&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;5m&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;10m&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;30m&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;1h&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;6h&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;12h&amp;#34;&lt;/span&gt;}),
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;builder &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; dashboard.&lt;span style=&#34;color:#50fa7b&#34;&gt;New&lt;/span&gt;(
+    &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;Awesome dashboard&amp;#34;&lt;/span&gt;,
+    dashboard.&lt;span style=&#34;color:#50fa7b&#34;&gt;AutoRefresh&lt;/span&gt;(&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;5s&amp;#34;&lt;/span&gt;),
+    dashboard.&lt;span style=&#34;color:#50fa7b&#34;&gt;Tags&lt;/span&gt;([]&lt;span style=&#34;color:#8be9fd&#34;&gt;string&lt;/span&gt;{&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;generated&amp;#34;&lt;/span&gt;}),
+    dashboard.&lt;span style=&#34;color:#50fa7b&#34;&gt;VariableAsInterval&lt;/span&gt;(
+        &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;interval&amp;#34;&lt;/span&gt;,
+        interval.&lt;span style=&#34;color:#50fa7b&#34;&gt;Values&lt;/span&gt;([]&lt;span style=&#34;color:#8be9fd&#34;&gt;string&lt;/span&gt;{&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;30s&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;1m&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;5m&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;10m&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;30m&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;1h&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;6h&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;12h&amp;#34;&lt;/span&gt;}),
     ),
-    dashboard.&lt;span style=&#34;color:#447fcf&#34;&gt;Row&lt;/span&gt;(
-        &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Prometheus&amp;#34;&lt;/span&gt;,
-        row.&lt;span style=&#34;color:#447fcf&#34;&gt;WithGraph&lt;/span&gt;(
-            &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;HTTP Rate&amp;#34;&lt;/span&gt;,
-            graph.&lt;span style=&#34;color:#447fcf&#34;&gt;DataSource&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;prometheus-default&amp;#34;&lt;/span&gt;),
-            graph.&lt;span style=&#34;color:#447fcf&#34;&gt;WithPrometheusTarget&lt;/span&gt;(
-                &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;rate(prometheus_http_requests_total[30s])&amp;#34;&lt;/span&gt;,
-                prometheus.&lt;span style=&#34;color:#447fcf&#34;&gt;Legend&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;{{handler}} - {{ code }}&amp;#34;&lt;/span&gt;),
+    dashboard.&lt;span style=&#34;color:#50fa7b&#34;&gt;Row&lt;/span&gt;(
+        &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;Prometheus&amp;#34;&lt;/span&gt;,
+        row.&lt;span style=&#34;color:#50fa7b&#34;&gt;WithGraph&lt;/span&gt;(
+            &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;HTTP Rate&amp;#34;&lt;/span&gt;,
+            graph.&lt;span style=&#34;color:#50fa7b&#34;&gt;DataSource&lt;/span&gt;(&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;prometheus-default&amp;#34;&lt;/span&gt;),
+            graph.&lt;span style=&#34;color:#50fa7b&#34;&gt;WithPrometheusTarget&lt;/span&gt;(
+                &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;rate(prometheus_http_requests_total[30s])&amp;#34;&lt;/span&gt;,
+                prometheus.&lt;span style=&#34;color:#50fa7b&#34;&gt;Legend&lt;/span&gt;(&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;{{handler}} - {{ code }}&amp;#34;&lt;/span&gt;),
             ),
         ),
     ),
@@ -63,74 +63,74 @@
 &lt;/div&gt;
 
 &lt;p&gt;创建好 API Key 之后，将其填入 &lt;code&gt;grabana.WithAPIToken()&lt;/code&gt; 中即可，创建/更新 Dashboard 代码如下：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;ctx := context.&lt;span style=&#34;color:#447fcf&#34;&gt;Background&lt;/span&gt;()
-client := grabana.&lt;span style=&#34;color:#447fcf&#34;&gt;NewClient&lt;/span&gt;(&amp;amp;http.Client{}, grafanaHost, grabana.&lt;span style=&#34;color:#447fcf&#34;&gt;WithAPIToken&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;such secret, much wow&amp;#34;&lt;/span&gt;))
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;ctx &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; context.&lt;span style=&#34;color:#50fa7b&#34;&gt;Background&lt;/span&gt;()
+client &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; grabana.&lt;span style=&#34;color:#50fa7b&#34;&gt;NewClient&lt;/span&gt;(&lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;amp;&lt;/span&gt;http.Client{}, grafanaHost, grabana.&lt;span style=&#34;color:#50fa7b&#34;&gt;WithAPIToken&lt;/span&gt;(&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;such secret, much wow&amp;#34;&lt;/span&gt;))
 
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// create the folder holding the dashboard for the service
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;folder, err := client.&lt;span style=&#34;color:#447fcf&#34;&gt;FindOrCreateFolder&lt;/span&gt;(ctx, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Test Folder&amp;#34;&lt;/span&gt;)
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
-    fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Could not find or create folder: %s\n&amp;#34;&lt;/span&gt;, err)
-    os.&lt;span style=&#34;color:#447fcf&#34;&gt;Exit&lt;/span&gt;(&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;)
+&lt;span style=&#34;color:#6272a4&#34;&gt;// create the folder holding the dashboard for the service
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;folder, err &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; client.&lt;span style=&#34;color:#50fa7b&#34;&gt;FindOrCreateFolder&lt;/span&gt;(ctx, &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;Test Folder&amp;#34;&lt;/span&gt;)
+&lt;span style=&#34;color:#ff79c6&#34;&gt;if&lt;/span&gt; err &lt;span style=&#34;color:#ff79c6&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;nil&lt;/span&gt; {
+    fmt.&lt;span style=&#34;color:#50fa7b&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;Could not find or create folder: %s\n&amp;#34;&lt;/span&gt;, err)
+    os.&lt;span style=&#34;color:#50fa7b&#34;&gt;Exit&lt;/span&gt;(&lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt;)
 }
 
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; _, err := client.&lt;span style=&#34;color:#447fcf&#34;&gt;UpsertDashboard&lt;/span&gt;(ctx, folder, builder); err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
-    fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Could not create dashboard: %s\n&amp;#34;&lt;/span&gt;, err)
-    os.&lt;span style=&#34;color:#447fcf&#34;&gt;Exit&lt;/span&gt;(&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;)
+&lt;span style=&#34;color:#ff79c6&#34;&gt;if&lt;/span&gt; _, err &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; client.&lt;span style=&#34;color:#50fa7b&#34;&gt;UpsertDashboard&lt;/span&gt;(ctx, folder, builder); err &lt;span style=&#34;color:#ff79c6&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;nil&lt;/span&gt; {
+    fmt.&lt;span style=&#34;color:#50fa7b&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;Could not create dashboard: %s\n&amp;#34;&lt;/span&gt;, err)
+    os.&lt;span style=&#34;color:#50fa7b&#34;&gt;Exit&lt;/span&gt;(&lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt;)
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;当然官方还提供了一个比较完整的 &lt;a href=&#34;https://github.com/K-Phoen/grabana/blob/master/cmd/example&#34;&gt;example&lt;/a&gt;，直接使用 &lt;code&gt;go run main.go&lt;/code&gt; 即可体验一键创建 Dashboard。&lt;/p&gt;
 &lt;h3 id=&#34;dashboard-as-yaml&#34;&gt;Dashboard as YAML&lt;/h3&gt;
 &lt;p&gt;Grabana 的特别之处还在于他还提供了使用 yaml 创建 Dashboard 的方式，作为一名资深 yaml 工程师，每当看到 yaml 都会感到格外的亲切。&lt;/p&gt;
 &lt;p&gt;同样的 Dashboard ，yaml 配置如下：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# dashboard.yaml&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;title&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Awesome dashboard&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;editable&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;tags&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;[generated]&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;auto_refresh&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;5s&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;variables&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;interval&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;interval&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;label&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Interval&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;values&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;[&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;30s&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;1m&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;5m&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;10m&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;30m&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;1h&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;6h&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;12h&amp;#34;&lt;/span&gt;]&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;rows&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;Prometheus&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;panels&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;graph&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;title&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;HTTP Rate&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;height&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;400px&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;datasource&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;prometheus-default&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;targets&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;            &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;prometheus&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;                &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;query&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;rate(promhttp_metric_handler_requests_total[$interval])&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;                &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;legend&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;{{handler}} - {{ code }}&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;目前官方还没有提供类似 &lt;code&gt;grabana apply -f dashboard.yaml&lt;/code&gt; 这样的 CLI 命令来发布 Dashboard，还是要使用 Golang 代码才能将其发布，代码如下：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;content, err := ioutil.&lt;span style=&#34;color:#447fcf&#34;&gt;ReadFile&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;dashboard.yaml&amp;#34;&lt;/span&gt;)
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
-    fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Fprintf&lt;/span&gt;(os.Stderr, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Could not read file: %s\n&amp;#34;&lt;/span&gt;, err)
-    os.&lt;span style=&#34;color:#447fcf&#34;&gt;Exit&lt;/span&gt;(&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;)
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;# dashboard.yaml&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;title&lt;/span&gt;: Awesome dashboard
+
+&lt;span style=&#34;color:#ff79c6&#34;&gt;editable&lt;/span&gt;: &lt;span style=&#34;color:#ff79c6&#34;&gt;true&lt;/span&gt;
+&lt;span style=&#34;color:#ff79c6&#34;&gt;tags&lt;/span&gt;: [generated]
+&lt;span style=&#34;color:#ff79c6&#34;&gt;auto_refresh&lt;/span&gt;: 5s
+
+&lt;span style=&#34;color:#ff79c6&#34;&gt;variables&lt;/span&gt;:
+  - &lt;span style=&#34;color:#ff79c6&#34;&gt;interval&lt;/span&gt;:
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: interval
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;label&lt;/span&gt;: Interval
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;values&lt;/span&gt;: [&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;30s&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;1m&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;5m&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;10m&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;30m&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;1h&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;6h&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;12h&amp;#34;&lt;/span&gt;]
+
+&lt;span style=&#34;color:#ff79c6&#34;&gt;rows&lt;/span&gt;:
+  - &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: Prometheus
+    &lt;span style=&#34;color:#ff79c6&#34;&gt;panels&lt;/span&gt;:
+      - &lt;span style=&#34;color:#ff79c6&#34;&gt;graph&lt;/span&gt;:
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;title&lt;/span&gt;: HTTP Rate
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;height&lt;/span&gt;: 400px
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;datasource&lt;/span&gt;: prometheus-default
+          &lt;span style=&#34;color:#ff79c6&#34;&gt;targets&lt;/span&gt;:
+            - &lt;span style=&#34;color:#ff79c6&#34;&gt;prometheus&lt;/span&gt;:
+                &lt;span style=&#34;color:#ff79c6&#34;&gt;query&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;rate(promhttp_metric_handler_requests_total[$interval])&amp;#34;&lt;/span&gt;
+                &lt;span style=&#34;color:#ff79c6&#34;&gt;legend&lt;/span&gt;: &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;{{handler}} - {{ code }}&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;目前官方还没有提供类似 &lt;code&gt;grabana apply -f dashboard.yaml&lt;/code&gt; 这样的 CLI 命令来发布 Dashboard，还是要使用 Golang 代码才能将其发布，代码如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;content, err &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; ioutil.&lt;span style=&#34;color:#50fa7b&#34;&gt;ReadFile&lt;/span&gt;(&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;dashboard.yaml&amp;#34;&lt;/span&gt;)
+&lt;span style=&#34;color:#ff79c6&#34;&gt;if&lt;/span&gt; err &lt;span style=&#34;color:#ff79c6&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;nil&lt;/span&gt; {
+    fmt.&lt;span style=&#34;color:#50fa7b&#34;&gt;Fprintf&lt;/span&gt;(os.Stderr, &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;Could not read file: %s\n&amp;#34;&lt;/span&gt;, err)
+    os.&lt;span style=&#34;color:#50fa7b&#34;&gt;Exit&lt;/span&gt;(&lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt;)
 }
 
-dashboard, err := decoder.&lt;span style=&#34;color:#447fcf&#34;&gt;UnmarshalYAML&lt;/span&gt;(bytes.&lt;span style=&#34;color:#447fcf&#34;&gt;NewBuffer&lt;/span&gt;(content))
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
-    fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Fprintf&lt;/span&gt;(os.Stderr, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Could not parse file: %s\n&amp;#34;&lt;/span&gt;, err)
-    os.&lt;span style=&#34;color:#447fcf&#34;&gt;Exit&lt;/span&gt;(&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;)
+dashboard, err &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; decoder.&lt;span style=&#34;color:#50fa7b&#34;&gt;UnmarshalYAML&lt;/span&gt;(bytes.&lt;span style=&#34;color:#50fa7b&#34;&gt;NewBuffer&lt;/span&gt;(content))
+&lt;span style=&#34;color:#ff79c6&#34;&gt;if&lt;/span&gt; err &lt;span style=&#34;color:#ff79c6&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;nil&lt;/span&gt; {
+    fmt.&lt;span style=&#34;color:#50fa7b&#34;&gt;Fprintf&lt;/span&gt;(os.Stderr, &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;Could not parse file: %s\n&amp;#34;&lt;/span&gt;, err)
+    os.&lt;span style=&#34;color:#50fa7b&#34;&gt;Exit&lt;/span&gt;(&lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt;)
 }
 
-ctx := context.&lt;span style=&#34;color:#447fcf&#34;&gt;Background&lt;/span&gt;()
-client := grabana.&lt;span style=&#34;color:#447fcf&#34;&gt;NewClient&lt;/span&gt;(&amp;amp;http.Client{}, grafanaHost, grabana.&lt;span style=&#34;color:#447fcf&#34;&gt;WithAPIToken&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;such secret, much wow&amp;#34;&lt;/span&gt;))
+ctx &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; context.&lt;span style=&#34;color:#50fa7b&#34;&gt;Background&lt;/span&gt;()
+client &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; grabana.&lt;span style=&#34;color:#50fa7b&#34;&gt;NewClient&lt;/span&gt;(&lt;span style=&#34;color:#ff79c6&#34;&gt;&amp;amp;&lt;/span&gt;http.Client{}, grafanaHost, grabana.&lt;span style=&#34;color:#50fa7b&#34;&gt;WithAPIToken&lt;/span&gt;(&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;such secret, much wow&amp;#34;&lt;/span&gt;))
 
-&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;// create the folder holding the dashboard for the service
-&lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;&lt;/span&gt;folder, err := client.&lt;span style=&#34;color:#447fcf&#34;&gt;FindOrCreateFolder&lt;/span&gt;(ctx, &lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Test Folder&amp;#34;&lt;/span&gt;)
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
-    fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Could not find or create folder: %s\n&amp;#34;&lt;/span&gt;, err)
-    os.&lt;span style=&#34;color:#447fcf&#34;&gt;Exit&lt;/span&gt;(&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;)
+&lt;span style=&#34;color:#6272a4&#34;&gt;// create the folder holding the dashboard for the service
+&lt;/span&gt;&lt;span style=&#34;color:#6272a4&#34;&gt;&lt;/span&gt;folder, err &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; client.&lt;span style=&#34;color:#50fa7b&#34;&gt;FindOrCreateFolder&lt;/span&gt;(ctx, &lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;Test Folder&amp;#34;&lt;/span&gt;)
+&lt;span style=&#34;color:#ff79c6&#34;&gt;if&lt;/span&gt; err &lt;span style=&#34;color:#ff79c6&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;nil&lt;/span&gt; {
+    fmt.&lt;span style=&#34;color:#50fa7b&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;Could not find or create folder: %s\n&amp;#34;&lt;/span&gt;, err)
+    os.&lt;span style=&#34;color:#50fa7b&#34;&gt;Exit&lt;/span&gt;(&lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt;)
 }
 
-&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;if&lt;/span&gt; _, err := client.&lt;span style=&#34;color:#447fcf&#34;&gt;UpsertDashboard&lt;/span&gt;(ctx, folder, dashboard); err != &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
-    fmt.&lt;span style=&#34;color:#447fcf&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#ed9d13&#34;&gt;&amp;#34;Could not create dashboard: %s\n&amp;#34;&lt;/span&gt;, err)
-    os.&lt;span style=&#34;color:#447fcf&#34;&gt;Exit&lt;/span&gt;(&lt;span style=&#34;color:#3677a9&#34;&gt;1&lt;/span&gt;)
+&lt;span style=&#34;color:#ff79c6&#34;&gt;if&lt;/span&gt; _, err &lt;span style=&#34;color:#ff79c6&#34;&gt;:=&lt;/span&gt; client.&lt;span style=&#34;color:#50fa7b&#34;&gt;UpsertDashboard&lt;/span&gt;(ctx, folder, dashboard); err &lt;span style=&#34;color:#ff79c6&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#ff79c6&#34;&gt;nil&lt;/span&gt; {
+    fmt.&lt;span style=&#34;color:#50fa7b&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#f1fa8c&#34;&gt;&amp;#34;Could not create dashboard: %s\n&amp;#34;&lt;/span&gt;, err)
+    os.&lt;span style=&#34;color:#50fa7b&#34;&gt;Exit&lt;/span&gt;(&lt;span style=&#34;color:#bd93f9&#34;&gt;1&lt;/span&gt;)
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;同样也可以找到比较完整的 &lt;a href=&#34;https://github.com/K-Phoen/grabana/tree/master/cmd/yaml&#34;&gt;example&lt;/a&gt;，这些示例都可以在官方 GitHub 仓库中找到，有兴趣的同学可以看一下。&lt;/p&gt;
 &lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
@@ -242,18 +242,18 @@ client := grabana.&lt;span style=&#34;color:#447fcf&#34;&gt;NewClient&lt;/span&g
 &lt;p&gt;首先 Grafana 服务的部署方式这里就不做介绍了，请使用较新版本的 Grafana，最好是 5.5.0+。后文中也有我开源的基于阿里云云监控的 Grafana 的 helm chart，可以使用 helm 安装，并会直接导入云监控的指标，这个会在后文中介绍。&lt;/p&gt;
 &lt;h3 id=&#34;安装阿里云监控插件&#34;&gt;安装阿里云监控插件&lt;/h3&gt;
 &lt;p&gt;进入插件目录进行安装&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#24909d&#34;&gt;cd&lt;/span&gt; /var/lib/grafana/plugins/
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;cd&lt;/span&gt; /var/lib/grafana/plugins/
 git clone https://github.com/aliyun/aliyun-cms-grafana.git 
 service grafana-server restart
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如果是使用 docker 或者部署在 k8s 集群，这里也可以使用环境变量在 Grafana 部署的时候进行安装&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;...&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;spec&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;containers&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;  &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;env&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;name&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;GF_INSTALL_PLUGINS &lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#999;font-style:italic&#34;&gt;# 多个插件请使用,隔开&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#6ab825;font-weight:bold&#34;&gt;value&lt;/span&gt;:&lt;span style=&#34;color:#666&#34;&gt; &lt;/span&gt;grafana-simple-json-datasource,https://github.com/aliyun/aliyun-cms-grafana/archive/master.zip;aliyun-cms-grafana&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#447fcf;text-decoration:underline&#34;&gt;...&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;您也可以下载 aliyun-cms-grafana.zip 插件解压后，上传服务器的 Grafana 的 plugins 目录下，重启 grafana-server 即可。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;...
+&lt;span style=&#34;color:#ff79c6&#34;&gt;spec&lt;/span&gt;:
+  &lt;span style=&#34;color:#ff79c6&#34;&gt;containers&lt;/span&gt;:
+  - &lt;span style=&#34;color:#ff79c6&#34;&gt;env&lt;/span&gt;:
+    - &lt;span style=&#34;color:#ff79c6&#34;&gt;name&lt;/span&gt;: GF_INSTALL_PLUGINS  &lt;span style=&#34;color:#6272a4&#34;&gt;# 多个插件请使用,隔开&lt;/span&gt;
+      &lt;span style=&#34;color:#ff79c6&#34;&gt;value&lt;/span&gt;: grafana-simple-json-datasource,https://github.com/aliyun/aliyun-cms-grafana/archive/master.zip;aliyun-cms-grafana
+...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;您也可以下载 aliyun-cms-grafana.zip 插件解压后，上传服务器的 Grafana 的 plugins 目录下，重启 grafana-server 即可。&lt;/p&gt;
 &lt;h3 id=&#34;配置云监控-datasource&#34;&gt;配置云监控 DataSource&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;Grafana 启动后，进入 &lt;code&gt;Configuration&lt;/code&gt; 页面，选择 &lt;code&gt;DataSource&lt;/code&gt; Tab 页，单击右上方的&lt;code&gt;Add data source&lt;/code&gt;，添加数据源。&lt;/li&gt;
@@ -277,12 +277,12 @@ service grafana-server restart
 &lt;p&gt;这就是我开发这个 Grafana 指标参数生成器的原因，起初只是一个 python 脚本，用来将我们要监控的指标组装成一个 Grafana 可以使用 json 文件，之后结合 Grafana 的容器化部署方法，将其做成了一个 helm chart。可以在启动的时候自动将需要的参数生成，并且每日会对所有指标进行更新，这样就不用每次新购或者释放掉资源后还需要再跑一遍脚本。&lt;/p&gt;
 &lt;h3 id=&#34;部署&#34;&gt;部署&lt;/h3&gt;
 &lt;p&gt;只需要将项目拉取下来运行 &lt;code&gt;helm install&lt;/code&gt; 命令&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;helm install my-release kk-grafana-cms &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;--namespace {your_namespace} &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;--set &lt;span style=&#34;color:#40ffff&#34;&gt;access_key_id&lt;/span&gt;={your_access_key_id} &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;--set &lt;span style=&#34;color:#40ffff&#34;&gt;access_secret&lt;/span&gt;={your_access_secret} &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;--set &lt;span style=&#34;color:#40ffff&#34;&gt;region_id&lt;/span&gt;={your_aliyun_region_id} &lt;span style=&#34;color:#ed9d13&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ed9d13&#34;&gt;&lt;/span&gt;--set &lt;span style=&#34;color:#40ffff&#34;&gt;password&lt;/span&gt;={admin_password}
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;helm install my-release kk-grafana-cms &lt;span style=&#34;color:#f1fa8c&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&lt;/span&gt;--namespace &lt;span style=&#34;color:#ff79c6&#34;&gt;{&lt;/span&gt;your_namespace&lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&lt;/span&gt;--set &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;access_key_id&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;={&lt;/span&gt;your_access_key_id&lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&lt;/span&gt;--set &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;access_secret&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;={&lt;/span&gt;your_access_secret&lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&lt;/span&gt;--set &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;region_id&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;={&lt;/span&gt;your_aliyun_region_id&lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt; &lt;span style=&#34;color:#f1fa8c&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#f1fa8c&#34;&gt;&lt;/span&gt;--set &lt;span style=&#34;color:#8be9fd;font-style:italic&#34;&gt;password&lt;/span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;={&lt;/span&gt;admin_password&lt;span style=&#34;color:#ff79c6&#34;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;更多详情见 &lt;a href=&#34;https://github.com/sunny0826/cms-grafana-builder&#34;&gt;github README&lt;/a&gt;，欢迎提 issue 交流。&lt;/p&gt;
 &lt;h3 id=&#34;指标选择&#34;&gt;指标选择&lt;/h3&gt;
 &lt;p&gt;在部署成功后，可修改 ConfigMap：&lt;code&gt;grafana-cms-metric&lt;/code&gt;，然后修改对应的监控指标项。&lt;/p&gt;

@@ -42,7 +42,7 @@
       "datePublished": "2019-01-30 20:18:13 \u002b0800 \u002b0800",
       "dateModified" : "2019-01-30 20:18:13 \u002b0800 \u002b0800",
       "url" : "https:\/\/guoxudong.io\/post\/pod-timezone\/",
-      "wordCount" : "15",
+      "wordCount" : "51",
       "keywords" : [ "kubernetes","Guoxudong" ]
   }
   </script>
@@ -56,7 +56,7 @@
 <meta itemprop="name" content="kubernetes中pod同步时区问题">
 <meta itemprop="description" content="解决容器中时区问题。"><meta itemprop="datePublished" content="2019-01-30T20:18:13&#43;08:00" />
 <meta itemprop="dateModified" content="2020-08-04T11:59:33&#43;08:00" />
-<meta itemprop="wordCount" content="15">
+<meta itemprop="wordCount" content="51">
 <meta itemprop="keywords" content="kubernetes," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="kubernetes中pod同步时区问题"/>
 <meta name="twitter:description" content="解决容器中时区问题。"/>
@@ -78,8 +78,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" as="style">
-<link href="/scss/main.min.45e3edca7249ba2cad0b2c4d5719f3998aa8dbe0bacef49deb2c5a3fa2eae353.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" as="style">
+<link href="/scss/main.min.c2000b5439daee579c0de42c0eb0a63c13f8b0927d06aaba0f2b905a1e816a7f.css" rel="stylesheet" integrity="">
 
 <link href="/css/donate.css" rel="stylesheet">  
 
@@ -177,7 +177,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.7e5a2f4b0d7914dc434b301735045b21cbc33e13e2beeb5011e7efafc43fe946b6fb7344cb89273dcb5a07ea354fdbf746ec5c1314216fbb4452b09f0c494686.json"
+  data-offline-search-index-json-src="/offline-search-index.872c10c91fa011ff7e9f00486818f1231f960500e8d1469a1d3476d859810132012bebf8cdef50e2369d624958fe4762a61a44528e676dccb02df04ad61ed046.json"
   data-offline-search-base-href="/"
 >
 
@@ -223,6 +223,8 @@ if (!doNotTrack) {
               <h5>最新博客</h5>
               <ul>
                 
+                <li><a href="/post/kubenav/">Kubenav: 使用手机管理你的 K8S 集群</a></li>
+                
                 <li><a href="/post/kubevela-1-0/">让云原生应用的交付变得更简单 | KubeVela v1.0 正式发布</a></li>
                 
                 <li><a href="/post/open-source-license/">如何选择开源许可证</a></li>
@@ -230,8 +232,6 @@ if (!doNotTrack) {
                 <li><a href="/post/kubectl-plugin-recommended-3/">Kubectl Plugin 推荐（三）| 插件开发篇</a></li>
                 
                 <li><a href="/post/kubectl-plugin-recommended-2/">Kubectl Plugin 推荐（二）| 简化操作篇</a></li>
-                
-                <li><a href="/post/kubectl-plugin-recommended/">Kubectl Plugin 推荐（一）| 可观测性篇</a></li>
                 
               </ul>
             </div>
@@ -648,32 +648,32 @@ if (!doNotTrack) {
 </ul>
 <h1 id="问题的解决">问题的解决</h1>
 <p>这里我们选择第二种方法，即修改部署应用的yaml文件，创建pod时同步时区</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#6ab825;font-weight:bold">apiVersion</span>:<span style="color:#666"> </span>extensions/v1beta1<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">kind</span>:<span style="color:#666"> </span>Deployment<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>myweb<span style="color:#666">
-</span><span style="color:#666"></span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">replicas</span>:<span style="color:#666"> </span><span style="color:#3677a9">2</span><span style="color:#666">
-</span><span style="color:#666">    </span><span style="color:#6ab825;font-weight:bold">template</span>:<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">metadata</span>:<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">labels</span>:<span style="color:#666">
-</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">app</span>:<span style="color:#666"> </span>myweb<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">spec</span>:<span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">containers</span>:<span style="color:#666">
-</span><span style="color:#666">        </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>myweb<span style="color:#666">
-</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">image</span>:<span style="color:#666"> </span>nginx:apline<span style="color:#666">
-</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">ports</span>:<span style="color:#666">
-</span><span style="color:#666">            </span>- <span style="color:#6ab825;font-weight:bold">containerPort</span>:<span style="color:#666"> </span><span style="color:#3677a9">80</span><span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#999;font-style:italic">#挂载到pod中</span><span style="color:#666">
-</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">volumeMounts</span>:<span style="color:#666">
-</span><span style="color:#666">            </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>host-time<span style="color:#666">
-</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">mountPath</span>:<span style="color:#666"> </span>/etc/localtime    <span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#999;font-style:italic">#需要被挂载的宿主机的时区文件</span><span style="color:#666">
-</span><span style="color:#666">        </span><span style="color:#6ab825;font-weight:bold">volumes</span>:<span style="color:#666">
-</span><span style="color:#666">        </span>- <span style="color:#6ab825;font-weight:bold">name</span>:<span style="color:#666"> </span>host-time<span style="color:#666">
-</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">hostPath</span>:<span style="color:#666">
-</span><span style="color:#666">            </span><span style="color:#6ab825;font-weight:bold">path</span>:<span style="color:#666"> </span>/etc/localtime<span style="color:#666">
-</span></code></pre></div><h1 id="效果对比">效果对比</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">apiVersion</span>: extensions/v1beta1
+<span style="color:#ff79c6">kind</span>: Deployment
+<span style="color:#ff79c6">metadata</span>:
+    <span style="color:#ff79c6">name</span>: myweb
+<span style="color:#ff79c6">spec</span>:
+    <span style="color:#ff79c6">replicas</span>: <span style="color:#bd93f9">2</span>
+    <span style="color:#ff79c6">template</span>:
+        <span style="color:#ff79c6">metadata</span>:
+        <span style="color:#ff79c6">labels</span>:
+            <span style="color:#ff79c6">app</span>: myweb
+        <span style="color:#ff79c6">spec</span>:
+        <span style="color:#ff79c6">containers</span>:
+        - <span style="color:#ff79c6">name</span>: myweb
+            <span style="color:#ff79c6">image</span>: nginx:apline
+            <span style="color:#ff79c6">ports</span>:
+            - <span style="color:#ff79c6">containerPort</span>: <span style="color:#bd93f9">80</span>
+        <span style="color:#6272a4">#挂载到pod中</span>
+            <span style="color:#ff79c6">volumeMounts</span>:
+            - <span style="color:#ff79c6">name</span>: host-time
+            <span style="color:#ff79c6">mountPath</span>: /etc/localtime    
+        <span style="color:#6272a4">#需要被挂载的宿主机的时区文件</span>
+        <span style="color:#ff79c6">volumes</span>:
+        - <span style="color:#ff79c6">name</span>: host-time
+            <span style="color:#ff79c6">hostPath</span>:
+            <span style="color:#ff79c6">path</span>: /etc/localtime
+</code></pre></div><h1 id="效果对比">效果对比</h1>
 <h2 id="修改时区前">修改时区前</h2>
 <p><img src="/images/source/time-1.png" alt="image"></p>
 <h2 id="修改时区后">修改时区后</h2>
