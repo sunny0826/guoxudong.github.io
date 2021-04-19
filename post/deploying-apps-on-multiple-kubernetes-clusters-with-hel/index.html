@@ -51,11 +51,11 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://guoxudong.io/post/deploying-apps-on-multiple-kubernetes-clusters-with-hel/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2019-07-14T14:16:56&#43;08:00" />
-<meta property="article:modified_time" content="2020-12-14T18:33:04&#43;08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
+<meta property="article:modified_time" content="2021-04-19T10:30:24&#43;08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
 
 <meta itemprop="name" content="使用 Helm 在多集群部署应用">
 <meta itemprop="description" content="本文将重点介绍我们如何在全球多个 Kubernetes 集群上部署我们的应用程序。为了将应用一次部署到多个 Kubernetes 集群，我们使用了 Helm ，并将所有 chart 存储在一个 git 仓库中。"><meta itemprop="datePublished" content="2019-07-14T14:16:56&#43;08:00" />
-<meta itemprop="dateModified" content="2020-12-14T18:33:04&#43;08:00" />
+<meta itemprop="dateModified" content="2021-04-19T10:30:24&#43;08:00" />
 <meta itemprop="wordCount" content="564">
 <meta itemprop="keywords" content="翻译,kubernetes," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="使用 Helm 在多集群部署应用"/>
@@ -604,8 +604,8 @@ preview_only: false</a>
 		</span> ·
 		<span>发布于 </span><time datetime=" 2019-07-14" 
 			class="text-muted">2019年07月14日</time> ·
-		<span>最近更新于 </span><time datetime="2020-12-14"
-			class="text-muted">2020年12月14日</time> ·
+		<span>最近更新于 </span><time datetime="2021-04-19"
+			class="text-muted">2021年04月19日</time> ·
 		
 		<a href="/categories/%e7%bf%bb%e8%af%91">
 			翻译</a>
@@ -687,7 +687,7 @@ preview_only: false</h2>
 <li>最终，我们将 PR 请求提交的修改合并到 <strong>prod</strong> 分支，将这个修改应用于生产环境。</li>
 </ul>
 <p>我们使用 <a href="https://chartmuseum.com/">Chartmuseum</a> 作为私有仓库来存储 chart ，每个环境都有一个 。这样我们就可以在__环境之间实现明确的隔离__，并且确保该 chart 在生产环境中使用之前已经过测试。</p>
-<p><img src="https://wx2.sinaimg.cn/large/ad5fbf65gy1g50h10d4xbj20ys0ee75e.jpg" alt=""></p>
+<p><img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1g50h10d4xbj20ys0ee75e.jpg" alt=""></p>
 <center>每个环境的 Chart 仓库</center>
 <p>值得注意的是，当开发人员 push 代码到他们的 dev 分支时，他们的 chart 版本也会自动 push 到 dev 环境的 Chartmuseum 。因此，所有开发人员都使用相同的 dev 存储库，他们必须小心的指定自己的 chart 版本，以避免使用其他人的对 chart 的更改。</p>
 <p>此外，我们的 python 脚本通过使用 <a href="https://kubeval.instrumenta.dev/">Kubeval</a> 在它们推送到 Chartmusem 之前验证 Kubernetes 对象与 Kubernetes OpenAPI 规范。</p>

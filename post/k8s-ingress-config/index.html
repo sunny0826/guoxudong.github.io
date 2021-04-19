@@ -51,11 +51,11 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://guoxudong.io/post/k8s-ingress-config/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2019-03-06T14:42:05&#43;08:00" />
-<meta property="article:modified_time" content="2020-08-04T11:59:33&#43;08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
+<meta property="article:modified_time" content="2021-04-19T10:30:24&#43;08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
 
 <meta itemprop="name" content="解决kubernetes中ingress-nginx配置问题">
 <meta itemprop="description" content="随着公司容器化的深入，越来越多的服务陆续迁移到kubernetes集群中，有些问题在测试环境并未凸显，但是在生产环境中这些问题就显得格外的扎眼。这里就对实践中kubernetes集群中的7层负载均衡器ingress遇到的问题进行总结。"><meta itemprop="datePublished" content="2019-03-06T14:42:05&#43;08:00" />
-<meta itemprop="dateModified" content="2020-08-04T11:59:33&#43;08:00" />
+<meta itemprop="dateModified" content="2021-04-19T10:30:24&#43;08:00" />
 <meta itemprop="wordCount" content="203">
 <meta itemprop="keywords" content="kubernetes,容器," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="解决kubernetes中ingress-nginx配置问题"/>
@@ -615,8 +615,8 @@ preview_only: false</a></li>
 		</span> ·
 		<span>发布于 </span><time datetime=" 2019-03-06" 
 			class="text-muted">2019年03月06日</time> ·
-		<span>最近更新于 </span><time datetime="2020-08-04"
-			class="text-muted">2020年08月04日</time> ·
+		<span>最近更新于 </span><time datetime="2021-04-19"
+			class="text-muted">2021年04月19日</time> ·
 		
 		<a href="/categories/kubernetes">
 			Kubernetes</a>
@@ -682,7 +682,7 @@ preview_only: false</a></li>
 <h2 id="https负载均衡器-ingress">HTTP(S)负载均衡器-ingress</h2>
 <p>Ingress是kubernetes API的标准资源类型之一，其本质就是一组基于DNS名称(host)或URL路径把请求转发至指定的Service资源的规则，<strong>用于将集群外的请求流量转发至集群内部完成服务发布</strong>。</p>
 <p>Ingress控制器(Ingress Controller)可以由任何具有反向代理(HTTP/HTTPS)功能的服务程序实现，如Nginx、Envoy、HAProxy、Vulcand和Traefik等。Ingress控制器本身也作为Pod对象与被代理的运行为Pod资源的应用运行于同一网络中。我们在这里选择了NGINX Ingress Controller，由于对NGINX的配置较为熟悉，同时我们使用的kubernetes是阿里云的容器服务，构建集群的时候，容器服务会自带NGINX Ingress Controller。</p>
-<p><img src="http://wx2.sinaimg.cn/large/ad5fbf65ly1g0t3yj7wecj20w50doab9.jpg" alt="image"></p>
+<p><img src="http://tva2.sinaimg.cn/large/ad5fbf65ly1g0t3yj7wecj20w50doab9.jpg" alt="image"></p>
 <h2 id="根据实际情况ingress调优">根据实际情况Ingress调优</h2>
 <h3 id="1-解决400-request-header-or-cookie-too-large问题">1. 解决400 Request Header Or Cookie Too Large问题</h3>
 <h2 id="preview_only-false">image:
@@ -726,7 +726,7 @@ preview_only: false</h2>
 <h3 id="2-解决请求超时问题">2. 解决请求超时问题</h3>
 <h4 id="现象-1">现象</h4>
 <p>有一个数据导出功能，需要将大量数据进行处理，然后以Excel格式返回，在导出一个大约3W条数据的时候，出现访问超时情况。</p>
-<p><img src="https://ws2.sinaimg.cn/mw690/ad5fbf65ly1g0ubdwwzo5j21b30bjaat.jpg" alt="image"></p>
+<p><img src="https://tva2.sinaimg.cn/mw690/ad5fbf65ly1g0ubdwwzo5j21b30bjaat.jpg" alt="image"></p>
 <h4 id="解决方法-1">解决方法</h4>
 <p>调整proxy_read_timeout，连接成功后_等候后端服务器响应时间_其实已经进入后端的排队之中等候处理
 在ingress中添加注释</p>

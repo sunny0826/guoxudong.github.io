@@ -51,11 +51,11 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://guoxudong.io/post/golang-project/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2019-07-19T10:38:26&#43;08:00" />
-<meta property="article:modified_time" content="2020-08-04T11:59:33&#43;08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
+<meta property="article:modified_time" content="2021-04-19T10:30:24&#43;08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
 
 <meta itemprop="name" content="Golang 装逼指南：在 GitHub 上构建一个看上去正规的 Golang 项目">
 <meta itemprop="description" content="接触 golang 时间很长，但是真正动手开始写 golang 也就是在最近。跟着我在 GitHub 上构建一个看上去正规的 Golang 项目。"><meta itemprop="datePublished" content="2019-07-19T10:38:26&#43;08:00" />
-<meta itemprop="dateModified" content="2020-08-04T11:59:33&#43;08:00" />
+<meta itemprop="dateModified" content="2021-04-19T10:30:24&#43;08:00" />
 <meta itemprop="wordCount" content="358">
 <meta itemprop="keywords" content="go," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Golang 装逼指南：在 GitHub 上构建一个看上去正规的 Golang 项目"/>
@@ -577,8 +577,8 @@ if (!doNotTrack) {
 		</span> ·
 		<span>发布于 </span><time datetime=" 2019-07-19" 
 			class="text-muted">2019年07月19日</time> ·
-		<span>最近更新于 </span><time datetime="2020-08-04"
-			class="text-muted">2020年08月04日</time> ·
+		<span>最近更新于 </span><time datetime="2021-04-19"
+			class="text-muted">2021年04月19日</time> ·
 		
 		<a href="/categories/go">
 			Go</a>
@@ -648,7 +648,7 @@ if (!doNotTrack) {
 <ol>
 <li>
 <p>开启 <code>vgo</code>，<code>GoLand</code>-&gt;<code>Preferences</code>-&gt;<code>GO</code>-&gt;<code>Go Modules(vgo)</code>
-<img src="https://ws2.sinaimg.cn/large/ad5fbf65gy1g556yudwh8j20s20jhgn4.jpg" alt="image"></p>
+<img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1g556yudwh8j20s20jhgn4.jpg" alt="image"></p>
 </li>
 <li>
 <p>手动修改 <code>go.mod</code></p>
@@ -684,7 +684,7 @@ if (!doNotTrack) {
 <h3 id="配置代理">配置代理</h3>
 <p>如果要选出 golang 最劝退一个原因，那么依赖下载难肯定得票最高！这个时候一个合适的梯子就很重要了，如果没有这个梯子，上面的这步就完全无法完成。这里主要介绍 GoLand 上的配置，Shadowsocks 的安装和配置就不做介绍了。</p>
 <p><code>GoLand</code>-&gt;<code>Preferences</code>-&gt;<code>Appearance &amp; Behavior</code>-&gt;<code>System Settings</code>-&gt;<code>HTTP Proxy</code> 这里设置好之后，别忘了点击 <code>Check connection</code> 测试一下梯子搭成没有。
-<img src="https://ws4.sinaimg.cn/large/ad5fbf65gy1g557j6it07j20s20je40p.jpg" alt="image"></p>
+<img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1g557j6it07j20s20je40p.jpg" alt="image"></p>
 <h3 id="配置-go-fmt-goimports-和-golangci-lint">配置 <code>go fmt</code>、 <code>goimports</code> 和 <code>golangci-lint</code></h3>
 <p>这三个工具都是 GoLand 自带的，设置起来十分简单:<code>GoLand</code>-&gt;<code>Preferences</code>-&gt;<code>Tools</code>-&gt;<code>File Watchers</code>，点击添加即可。之后在写完代码之后就会自动触发这3个工具的自动检测，工具作用：</p>
 <ul>
@@ -703,7 +703,7 @@ git clone https://github.com/golang/tools.git
 go install
 </code></pre></div><p>安装成功之后将会在 <code>$GOPATH/bin</code> 目录下看到自动生成了 <code>golint</code> 二进制工具文件。</p>
 <p>GoLand 配置 <code>golint</code>，修改 <code>Name</code>, <code>Program</code>, <code>Arguments</code> 三项配置，其中 <code>Arguments</code> 需要加上 <code>-set_exit_status</code> 参数，如图所示：</p>
-<p><img src="https://wx4.sinaimg.cn/large/ad5fbf65gy1g557z8a5jgj20ln0i0t9z.jpg" alt="image"></p>
+<p><img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1g557z8a5jgj20ln0i0t9z.jpg" alt="image"></p>
 <h2 id="travis-ci-持续集成">Travis CI 持续集成</h2>
 <p>在 Github 上装逼怎么能少的了 Travis CI ，直接登录 <a href="https://travis-ci.org/">Travis CI</a>，使用 GitHub 登录，然后选择需要使用 Travis CI 的项目，在项目根目录添加 <code>.travis.yml</code> ，内容如下：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ff79c6">language</span>: go
@@ -720,7 +720,7 @@ go install
   - echo &#34;script&#34;
 </code></pre></div><p>这里只是一个示例，在每次 push 代码之后，都会触发 CI，具体语法可以参看<a href="https://docs.travis-ci.com/">官方文档</a>。</p>
 <p><strong>装逼重点：</strong> 你以为使用 Travis CI 就是为了持续集成吗？那就太天真了！使用 Travis CI 当然为了他的 Badges ，将 <code>RESULT</code> 拷贝到你的 <code>README.md</code> 里面就好了。</p>
-<p><img src="https://ws2.sinaimg.cn/large/ad5fbf65gy1g558xf6io4j22dk15an4t.jpg" alt="image"></p>
+<p><img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1g558xf6io4j22dk15an4t.jpg" alt="image"></p>
 <h2 id="go-report-card">GO Report Card</h2>
 <p><strong>又一装逼重点</strong>：我们在 GoLand 上安装了 <code>golint</code> 等工具进行代码质量检测，在撸码的时候就能进行代码检查，那么这个就是为了纯装逼了。<a href="https://goreportcard.com/">GO Report Card</a> 是一个 golang 代码检测网站，你只需把 Github 地址填上去即可。获取 Badges 的方法和 Travis CI 类似，将 MarkDown 中的内容拷贝到 <code>RERADME.md</code> 中就好。</p>
 <p><img src="https://ws3.sinaimg.cn/large/ad5fbf65gy1g559flsl3xj21t410ok1a.jpg" alt="image"></p>
@@ -744,10 +744,10 @@ git push origin v0.0.3
 </code></pre></div><p>全部搞定后，一行命令起飞：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">goreleaser
 </code></pre></div><p><code>goreleaser</code> 配合 CI 食用，效果更佳，这里就不做介绍了。
-<img src="https://wx2.sinaimg.cn/large/ad5fbf65gy1g55a7t8bq4j20sq0liacm.jpg" alt="image"></p>
+<img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1g55a7t8bq4j20sq0liacm.jpg" alt="image"></p>
 <h2 id="badges-展示神器">Badges 展示神器</h2>
 <p>这里介绍一个展示 Badges 的神器：<a href="https://shields.io/">https://shields.io/</a> 。这个网站提供各种各样的 Badges ，如果你愿意，完全可以把你的 GitHub README.md 填满，有兴趣的同学可以自取。
-<img src="https://wx4.sinaimg.cn/large/ad5fbf65gy1g55aendhrwj22fg19igz0.jpg" alt="image"></p>
+<img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1g55aendhrwj22fg19igz0.jpg" alt="image"></p>
 <h2 id="后记">后记</h2>
 <p>到这里可以在 GitHub 上装逼的 golang 配置已经介绍的差不多了，其实还有 <a href="https://codecov.io/">Codecov</a>、<a href="https://circleci.com/">CircleCI</a> 等工具，这里就不做介绍了。这里要介绍的是我们的第一个 golang 项目 <a href="https://github.com/sunny0826/hamal">Hamal</a>，该项目是一个命令行工具，用来在不同的镜像仓库之间同步镜像。由于我司推行混合云，使用了阿里云与华为云，而在阿里云或华为云环境互相推镜像的时候时间都比较长，所以开发这个小工具用于在办公网络镜像同步，同时也可以用来将我在 dockerhub 上托管的镜像同步到我们的私有仓库，欢迎拍砖。</p>
 

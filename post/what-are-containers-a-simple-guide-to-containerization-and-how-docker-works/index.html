@@ -51,11 +51,11 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://guoxudong.io/post/what-are-containers-a-simple-guide-to-containerization-and-how-docker-works/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2019-04-20T19:54:50&#43;08:00" />
-<meta property="article:modified_time" content="2020-08-04T11:59:33&#43;08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
+<meta property="article:modified_time" content="2021-04-19T10:30:24&#43;08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
 
 <meta itemprop="name" content="什么的容器？Docker 工作原理及容器化简易指南">
 <meta itemprop="description" content="Docker 非常棒！ 它使软件开发者无需担心配置和依赖性，在任何地方打包，发送和运行他们的应用程序。而在与 kubernetes 相结合后，它使应用集群部署和管理变得更方便。这使得 Docker 深受软件开发者的喜爱，越来越多的开发者开始使用 Docker。"><meta itemprop="datePublished" content="2019-04-20T19:54:50&#43;08:00" />
-<meta itemprop="dateModified" content="2020-08-04T11:59:33&#43;08:00" />
+<meta itemprop="dateModified" content="2021-04-19T10:30:24&#43;08:00" />
 <meta itemprop="wordCount" content="299">
 <meta itemprop="keywords" content="翻译,Docker,容器," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="什么的容器？Docker 工作原理及容器化简易指南"/>
@@ -575,8 +575,8 @@ if (!doNotTrack) {
 		</span> ·
 		<span>发布于 </span><time datetime=" 2019-04-20" 
 			class="text-muted">2019年04月20日</time> ·
-		<span>最近更新于 </span><time datetime="2020-08-04"
-			class="text-muted">2020年08月04日</time> ·
+		<span>最近更新于 </span><time datetime="2021-04-19"
+			class="text-muted">2021年04月19日</time> ·
 		
 		<a href="/categories/%e7%bf%bb%e8%af%91">
 			翻译</a>
@@ -655,7 +655,7 @@ if (!doNotTrack) {
 </ol>
 <p>到这，您可能已经猜到 Docker 的工作原理了。当您请求 Docker 运行容器时，Docker 会在您的计算机上设置一个资源隔离的环境。然后 Docker 会将打包的应用程序和关联的文件复制到 namespace 内的文件系统中，此时环境的配置就完成了。之后 Docker 会执行您指定的命令运行应用程序。</p>
 <p>简而言之，Docker 通过使用 Linux namespace 和 cgroup（以及其他一些命令）来协调配置容器，将应用程序文件复制到为容器分配的磁盘，然后运行启动命令。Docker 还附带了许多其他用于管理容器的工具，例如：列出正在运行的容器，停止容器，发布容器镜像等许多其他工具。</p>
-<p><img src="http://wx4.sinaimg.cn/large/ad5fbf65gy1g2a8h1rc6lj211a0rcjsu.jpg" alt="image"></p>
+<p><img src="http://tva2.sinaimg.cn/large/ad5fbf65gy1g2a8h1rc6lj211a0rcjsu.jpg" alt="image"></p>
 <p>与虚拟机相比，容器更轻量且速度更快，因为它利用了 Linux 底层操作系统在隔离的环境中运行。虚拟机的 hypervisor 创建了一个非常牢固的边界，以防止应用程序突破它，而<a href="https://sysdig.com/blog/container-isolation-gone-wrong/">容器的边界不那么强大</a>。另一个区别是，由于 namespace 和 cgroups 功能仅在 Linux 上可用，因此容器无法在其他操作系统上运行。此时您可能想知道 Docker 如何在 macOS 或 Windows 上运行？ Docker 实际上使用了一个技巧，并在非 Linux 操作系统上安装 Linux 虚拟机，然后在虚拟机内运行容器。</p>
 <p>让我们利用目前为止学到的所有内容，从头开始创建和运行 Docker 容器。如果你还没有将 Docker 安装在你的机器上，可以参考<a href="https://docs.docker.com/install/">这里</a>安装 Docker 。在这个示例中，我们将创建一个 Docker 容器，下载一个用 C语言 写的 Web 服务，编译并运行它，然后使用浏览器访问这个 Web 服务。</p>
 <p>我们将从所有 Docker 项目开始的地方：创建一个 <code>Dockerfile</code> 开始。此文件描述了如何创建用于运行容器的 docker 镜像。既然我们还没有聊到镜像，那么让我们看一下<a href="https://docs.docker.com/get-started/#images-and-containers">镜像的官方定义</a>：</p>
@@ -699,12 +699,12 @@ if (!doNotTrack) {
 <li>文件系统快照（Alpine Linux 和 我们安装的 Web 服务）</li>
 <li>启动命令（<code>./tiny 8092</code>）</li>
 </ol>
-<p><img src="http://wx4.sinaimg.cn/large/ad5fbf65gy1g2aakgpe16j20zo0bqjt5.jpg" alt="image"></p>
+<p><img src="http://tva2.sinaimg.cn/large/ad5fbf65gy1g2aakgpe16j20zo0bqjt5.jpg" alt="image"></p>
 <p>既然成功构建了镜像，那么我们可以使用如下命令运行容器。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">umermansoor:dockerprj$ docker run -p 8082:8082 codeahoydocker:latest
 </code></pre></div><p>让我们了解下这里发生了什么。</p>
 <p>通过 <code>docker run</code> 命令，我们请求 Docker 基于 <code>codeahoydocker:latest</code> 镜像创建和启动一个容器。<code>-p 8082:8082</code> 将本地的8082端口映射到容器的8082端口（容器内的 Web 服务器正在监听8082端口上的连接）。打开你的浏览器并访问 localhost:8082/index.html 。你将可以看到 <em><strong>Hello World</strong></em> 信息。</p>
-<p><img src="http://wx4.sinaimg.cn/large/ad5fbf65gy1g2aazadeamj20yo0rcq5e.jpg" alt="image"></p>
+<p><img src="http://tva2.sinaimg.cn/large/ad5fbf65gy1g2aazadeamj20yo0rcq5e.jpg" alt="image"></p>
 <p>最后我想补充一点，虽然 Docker 非常棒，而且对于大多数项目来说它是一个不错的选择，但我们并非处处都要使用它。在我的工作中，Docker 与 Kubernetes 结合使用，可以非常轻松地部署和管理后端微服务，我们不必为每个服务配置新的运行环境。另一方面，对于性能密集型应用程序，Docker 可能不是最佳选择。我经手的其中一个项目必须处理来自移动游戏客户端的 TCP 长连接（每台机器1000个），这时 Docker 网络出现了很多问题，导致无法将它用于该项目。</p>
 <p>希望上面这些内容有用。</p>
 <blockquote>

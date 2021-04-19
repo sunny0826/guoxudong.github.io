@@ -118,7 +118,7 @@ istio-ingressgateway   LoadBalancer   10.11.18.83   xxx.xxx.xxx.xxx   80:xxx/TCP
 &lt;/ol&gt;
 &lt;h3 id=&#34;查看效果&#34;&gt;查看效果&lt;/h3&gt;
 &lt;p&gt;访问 http://{EXTERNAL-IP}/productpage 注意：这里最后不能有/，否则将找不到页面
-&lt;img src=&#34;http://wx4.sinaimg.cn/large/ad5fbf65ly1g1ad2jg6p3j21g90mxgo7.jpg&#34; alt=&#34;image&#34;&gt;
+&lt;img src=&#34;http://tva2.sinaimg.cn/large/ad5fbf65ly1g1ad2jg6p3j21g90mxgo7.jpg&#34; alt=&#34;image&#34;&gt;
 多次刷新浏览器，将在 &lt;code&gt;productpage&lt;/code&gt; 中看到评论的不同的版本，它们会按照 round robin（红星、黑星、没有星星）的方式展现，这三个展示分来来自&lt;code&gt;v1&lt;/code&gt;、&lt;code&gt;v2&lt;/code&gt;和&lt;code&gt;v3&lt;/code&gt;版本，因为还没有使用 Istio 来控制版本的路由，所以这里显示的是以轮询的负载均衡算法进行展示。&lt;/p&gt;
 &lt;h3 id=&#34;请求路由&#34;&gt;请求路由&lt;/h3&gt;
 &lt;p&gt;BookInfo示例部署了三个版本的reviews服务，因此需要设置一个缺省路由。否则当多次访问该应用程序时，会发现有时输出会包含带星级的评价内容，有时又没有。出现该现象的原因是当没有为应用显式指定缺省路由时，Istio会将请求随机路由到该服务的所有可用版本上。&lt;/p&gt;
@@ -156,7 +156,7 @@ reviews       8s
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ kubectl get virtualservices -o yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;由于路由规则是通过异步方式分发到代理的，过一段时间后规则才会同步到所有pod上。因此需要等几秒钟后再尝试访问应用。&lt;/p&gt;
 &lt;p&gt;在浏览器中打开 Bookinfo 应用程序的URL: http://{EXTERNAL-IP}/productpage。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://wx4.sinaimg.cn/large/ad5fbf65ly1g1adqyf9dej21g70oitbd.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://tva2.sinaimg.cn/large/ad5fbf65ly1g1adqyf9dej21g70oitbd.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;p&gt;可以看到 Bookinfo 应用程序的 &lt;code&gt;productpage&lt;/code&gt; 页面，显示的内容中不包含带星的评价信息，这是因为 &lt;code&gt;reviews:v1&lt;/code&gt; 服务不会访问ratings服务。&lt;/p&gt;
 &lt;h3 id=&#34;将来自特定用户的请求路由到reviewsv2&#34;&gt;将来自特定用户的请求路由到reviews:v2&lt;/h3&gt;
 &lt;p&gt;本例中，首先使用 Istio 将100%的请求流量都路由到了 Bookinfo 服务的&lt;code&gt;v1&lt;/code&gt;版本；然后再设置了一条路由规则，路由规则基于请求的 header（例如一个用户cookie）选择性地将特定的流量路由到了 &lt;code&gt;reviews&lt;/code&gt; 服务的&lt;code&gt;v2&lt;/code&gt;版本。&lt;/p&gt;
@@ -196,7 +196,7 @@ http:
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;确认规则已创建之后，在浏览器中打开BookInfo应用程序的URL: http://{EXTERNAL-IP}/productpage。&lt;/p&gt;
 &lt;p&gt;以&amp;quot;jason&amp;quot;用户登录 &lt;code&gt;productpage&lt;/code&gt; 页面，您可以在每条评价后面看到星级信息。&lt;/p&gt;
 &lt;p&gt;这里登录用户名为 &lt;code&gt;jason&lt;/code&gt; ，密码随便输入即可&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://wx4.sinaimg.cn/large/ad5fbf65ly1g1adtjugp3j21gb0iygoa.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://tva2.sinaimg.cn/large/ad5fbf65ly1g1adtjugp3j21gb0iygoa.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;流量转移&#34;&gt;流量转移&lt;/h3&gt;
 &lt;p&gt;除了基于内容的路由，Istio还支持基于权重的路由规则。&lt;/p&gt;
 &lt;p&gt;首先，将所有微服务的缺省版本设置为v1：&lt;/p&gt;
@@ -210,21 +210,21 @@ http:
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;在华为云cce上运行&#34;&gt;在华为云（CCE）上运行&lt;/h2&gt;
 &lt;p&gt;华为云率先将 Istio 作为产品投入到公有云中进行商业应用，开通方式十分简单，只要在华为云CCE上创建集群，然后申请 Istio 公测即可。&lt;/p&gt;
 &lt;p&gt;为了方便测试 Bookinfo 应用在华为云上提供了一键体验应用，点击即可省去刚刚那一系列的 &lt;code&gt;kubectl&lt;/code&gt; 操作&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://wx4.sinaimg.cn/large/ad5fbf65ly1g1afbs7oq4j21g90id0vv.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://tva2.sinaimg.cn/large/ad5fbf65ly1g1afbs7oq4j21g90id0vv.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;center&gt;一键创建体验应用&lt;/center&gt;
-&lt;p&gt;&lt;img src=&#34;http://wx4.sinaimg.cn/large/ad5fbf65ly1g1afgth1cgj219b0a7tb1.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://tva2.sinaimg.cn/large/ad5fbf65ly1g1afgth1cgj219b0a7tb1.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;center&gt;点击灰度发布即可&lt;/center&gt;
-&lt;p&gt;&lt;img src=&#34;http://wx4.sinaimg.cn/large/ad5fbf65ly1g1afjc5hvgj21fv0o1q6q.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://tva2.sinaimg.cn/large/ad5fbf65ly1g1afjc5hvgj21fv0o1q6q.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;center&gt;创建金丝雀发布&lt;/center&gt;
-&lt;p&gt;&lt;img src=&#34;http://wx4.sinaimg.cn/large/ad5fbf65ly1g1afnqyqlhj20ze0o00vl.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://tva2.sinaimg.cn/large/ad5fbf65ly1g1afnqyqlhj20ze0o00vl.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;center&gt;选择灰度发布的组件&lt;/center&gt;
-&lt;p&gt;&lt;img src=&#34;http://wx4.sinaimg.cn/large/ad5fbf65ly1g1afp1c5ltj20zk0le765.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://tva2.sinaimg.cn/large/ad5fbf65ly1g1afp1c5ltj20zk0le765.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;center&gt;填写版本号&lt;/center&gt;
-&lt;p&gt;&lt;img src=&#34;http://wx4.sinaimg.cn/large/ad5fbf65ly1g1afq846bjj20z80nowgl.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://tva2.sinaimg.cn/large/ad5fbf65ly1g1afq846bjj20z80nowgl.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;center&gt;选择镜像版本&lt;/center&gt;
-&lt;p&gt;&lt;img src=&#34;http://wx4.sinaimg.cn/large/ad5fbf65ly1g1afra8rmhj21050mfgpb.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://tva2.sinaimg.cn/large/ad5fbf65ly1g1afra8rmhj21050mfgpb.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;center&gt;版本创建完成后配置灰度策略&lt;/center&gt;
-&lt;p&gt;&lt;img src=&#34;http://wx4.sinaimg.cn/large/ad5fbf65ly1g1afwpan6qj21090mste1.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://tva2.sinaimg.cn/large/ad5fbf65ly1g1afwpan6qj21090mste1.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;center&gt;选择相应策略，策略下发即可&lt;/center&gt;
 &lt;p&gt;总的来说，华为云的 Istio 确实已经是商业化应用，这里只是展示了部分灰度发布的功能。其他比如流量治理，流量监控等功能还没展示，这些功能做的十分细致，值得尝试。&lt;/p&gt;
 &lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;

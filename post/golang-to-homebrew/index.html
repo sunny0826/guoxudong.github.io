@@ -51,11 +51,11 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://guoxudong.io/post/golang-to-homebrew/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2019-07-25T16:27:57&#43;08:00" />
-<meta property="article:modified_time" content="2020-12-15T11:01:02&#43;08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
+<meta property="article:modified_time" content="2021-04-19T10:30:24&#43;08:00" /><meta property="og:site_name" content="Guo Xudong&#39;s Blog·郭旭东的博客" />
 
 <meta itemprop="name" content="Golang 装逼指南 Ⅱ：在 Homwebrew 上发布 Golang 项目">
 <meta itemprop="description" content="本文介绍如何在 Homebrew 上发布 Golang 项目。"><meta itemprop="datePublished" content="2019-07-25T16:27:57&#43;08:00" />
-<meta itemprop="dateModified" content="2020-12-15T11:01:02&#43;08:00" />
+<meta itemprop="dateModified" content="2021-04-19T10:30:24&#43;08:00" />
 <meta itemprop="wordCount" content="444">
 <meta itemprop="keywords" content="go," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Golang 装逼指南 Ⅱ：在 Homwebrew 上发布 Golang 项目"/>
@@ -586,8 +586,8 @@ if (!doNotTrack) {
 		</span> ·
 		<span>发布于 </span><time datetime=" 2019-07-25" 
 			class="text-muted">2019年07月25日</time> ·
-		<span>最近更新于 </span><time datetime="2020-12-15"
-			class="text-muted">2020年12月15日</time> ·
+		<span>最近更新于 </span><time datetime="2021-04-19"
+			class="text-muted">2021年04月19日</time> ·
 		
 		<a href="/categories/go">
 			Go</a>
@@ -664,7 +664,7 @@ if (!doNotTrack) {
 </ul>
 <h3 id="创建-formula">创建 Formula</h3>
 <p>首先进入 release 页面，拷贝 macOS 的 Darwin 包地址</p>
-<p><img src="https://ws4.sinaimg.cn/large/ad5fbf65gy1g5c7b4mi5fj21lq0se4ck.jpg" alt="image"></p>
+<p><img src="https://tva2.sinaimg.cn/large/ad5fbf65gy1g5c7b4mi5fj21lq0se4ck.jpg" alt="image"></p>
 <p>然后通过命令在本地创建 Formula</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">brew create https://github.com/sunny0826/kubecm/releases/download/v0.0.1/kubecm_0.0.1_Darwin_x86_64.tar.gz
 </code></pre></div><p>通过这个命令，<code>brew</code> 会创建一个名为 <code>kubecm.rb</code> 的文件在 <code>/usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula/</code> 目录。</p>

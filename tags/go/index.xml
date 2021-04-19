@@ -686,7 +686,7 @@ Completion ended with directive: ShellCompDirectiveNoFileComp &lt;span style=&#3
 &lt;/ul&gt;
 &lt;h3 id=&#34;创建-formula&#34;&gt;创建 Formula&lt;/h3&gt;
 &lt;p&gt;首先进入 release 页面，拷贝 macOS 的 Darwin 包地址&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ws4.sinaimg.cn/large/ad5fbf65gy1g5c7b4mi5fj21lq0se4ck.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g5c7b4mi5fj21lq0se4ck.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;p&gt;然后通过命令在本地创建 Formula&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;brew create https://github.com/sunny0826/kubecm/releases/download/v0.0.1/kubecm_0.0.1_Darwin_x86_64.tar.gz
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;通过这个命令，&lt;code&gt;brew&lt;/code&gt; 会创建一个名为 &lt;code&gt;kubecm.rb&lt;/code&gt; 的文件在 &lt;code&gt;/usr/local/Homebrew/Library/Taps/homebrew/homebrew-core/Formula/&lt;/code&gt; 目录。&lt;/p&gt;
@@ -796,7 +796,7 @@ Uninstalling /usr/local/Cellar/kubecm/86.64... &lt;span style=&#34;color:#ff79c6
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;开启 &lt;code&gt;vgo&lt;/code&gt;，&lt;code&gt;GoLand&lt;/code&gt;-&amp;gt;&lt;code&gt;Preferences&lt;/code&gt;-&amp;gt;&lt;code&gt;GO&lt;/code&gt;-&amp;gt;&lt;code&gt;Go Modules(vgo)&lt;/code&gt;
-&lt;img src=&#34;https://ws2.sinaimg.cn/large/ad5fbf65gy1g556yudwh8j20s20jhgn4.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g556yudwh8j20s20jhgn4.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;手动修改 &lt;code&gt;go.mod&lt;/code&gt;&lt;/p&gt;
@@ -832,7 +832,7 @@ Uninstalling /usr/local/Cellar/kubecm/86.64... &lt;span style=&#34;color:#ff79c6
 &lt;h3 id=&#34;配置代理&#34;&gt;配置代理&lt;/h3&gt;
 &lt;p&gt;如果要选出 golang 最劝退一个原因，那么依赖下载难肯定得票最高！这个时候一个合适的梯子就很重要了，如果没有这个梯子，上面的这步就完全无法完成。这里主要介绍 GoLand 上的配置，Shadowsocks 的安装和配置就不做介绍了。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;GoLand&lt;/code&gt;-&amp;gt;&lt;code&gt;Preferences&lt;/code&gt;-&amp;gt;&lt;code&gt;Appearance &amp;amp; Behavior&lt;/code&gt;-&amp;gt;&lt;code&gt;System Settings&lt;/code&gt;-&amp;gt;&lt;code&gt;HTTP Proxy&lt;/code&gt; 这里设置好之后，别忘了点击 &lt;code&gt;Check connection&lt;/code&gt; 测试一下梯子搭成没有。
-&lt;img src=&#34;https://ws4.sinaimg.cn/large/ad5fbf65gy1g557j6it07j20s20je40p.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g557j6it07j20s20je40p.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;配置-go-fmt-goimports-和-golangci-lint&#34;&gt;配置 &lt;code&gt;go fmt&lt;/code&gt;、 &lt;code&gt;goimports&lt;/code&gt; 和 &lt;code&gt;golangci-lint&lt;/code&gt;&lt;/h3&gt;
 &lt;p&gt;这三个工具都是 GoLand 自带的，设置起来十分简单:&lt;code&gt;GoLand&lt;/code&gt;-&amp;gt;&lt;code&gt;Preferences&lt;/code&gt;-&amp;gt;&lt;code&gt;Tools&lt;/code&gt;-&amp;gt;&lt;code&gt;File Watchers&lt;/code&gt;，点击添加即可。之后在写完代码之后就会自动触发这3个工具的自动检测，工具作用：&lt;/p&gt;
 &lt;ul&gt;
@@ -851,7 +851,7 @@ git clone https://github.com/golang/tools.git
 go install
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;安装成功之后将会在 &lt;code&gt;$GOPATH/bin&lt;/code&gt; 目录下看到自动生成了 &lt;code&gt;golint&lt;/code&gt; 二进制工具文件。&lt;/p&gt;
 &lt;p&gt;GoLand 配置 &lt;code&gt;golint&lt;/code&gt;，修改 &lt;code&gt;Name&lt;/code&gt;, &lt;code&gt;Program&lt;/code&gt;, &lt;code&gt;Arguments&lt;/code&gt; 三项配置，其中 &lt;code&gt;Arguments&lt;/code&gt; 需要加上 &lt;code&gt;-set_exit_status&lt;/code&gt; 参数，如图所示：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://wx4.sinaimg.cn/large/ad5fbf65gy1g557z8a5jgj20ln0i0t9z.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g557z8a5jgj20ln0i0t9z.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;travis-ci-持续集成&#34;&gt;Travis CI 持续集成&lt;/h2&gt;
 &lt;p&gt;在 Github 上装逼怎么能少的了 Travis CI ，直接登录 &lt;a href=&#34;https://travis-ci.org/&#34;&gt;Travis CI&lt;/a&gt;，使用 GitHub 登录，然后选择需要使用 Travis CI 的项目，在项目根目录添加 &lt;code&gt;.travis.yml&lt;/code&gt; ，内容如下：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;language&lt;/span&gt;: go
@@ -868,7 +868,7 @@ go install
   - echo &amp;#34;script&amp;#34;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里只是一个示例，在每次 push 代码之后，都会触发 CI，具体语法可以参看&lt;a href=&#34;https://docs.travis-ci.com/&#34;&gt;官方文档&lt;/a&gt;。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;装逼重点：&lt;/strong&gt; 你以为使用 Travis CI 就是为了持续集成吗？那就太天真了！使用 Travis CI 当然为了他的 Badges ，将 &lt;code&gt;RESULT&lt;/code&gt; 拷贝到你的 &lt;code&gt;README.md&lt;/code&gt; 里面就好了。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://ws2.sinaimg.cn/large/ad5fbf65gy1g558xf6io4j22dk15an4t.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g558xf6io4j22dk15an4t.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;go-report-card&#34;&gt;GO Report Card&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;又一装逼重点&lt;/strong&gt;：我们在 GoLand 上安装了 &lt;code&gt;golint&lt;/code&gt; 等工具进行代码质量检测，在撸码的时候就能进行代码检查，那么这个就是为了纯装逼了。&lt;a href=&#34;https://goreportcard.com/&#34;&gt;GO Report Card&lt;/a&gt; 是一个 golang 代码检测网站，你只需把 Github 地址填上去即可。获取 Badges 的方法和 Travis CI 类似，将 MarkDown 中的内容拷贝到 &lt;code&gt;RERADME.md&lt;/code&gt; 中就好。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://ws3.sinaimg.cn/large/ad5fbf65gy1g559flsl3xj21t410ok1a.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
@@ -892,10 +892,10 @@ git push origin v0.0.3
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;全部搞定后，一行命令起飞：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;goreleaser
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;goreleaser&lt;/code&gt; 配合 CI 食用，效果更佳，这里就不做介绍了。
-&lt;img src=&#34;https://wx2.sinaimg.cn/large/ad5fbf65gy1g55a7t8bq4j20sq0liacm.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g55a7t8bq4j20sq0liacm.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;badges-展示神器&#34;&gt;Badges 展示神器&lt;/h2&gt;
 &lt;p&gt;这里介绍一个展示 Badges 的神器：&lt;a href=&#34;https://shields.io/&#34;&gt;https://shields.io/&lt;/a&gt; 。这个网站提供各种各样的 Badges ，如果你愿意，完全可以把你的 GitHub README.md 填满，有兴趣的同学可以自取。
-&lt;img src=&#34;https://wx4.sinaimg.cn/large/ad5fbf65gy1g55aendhrwj22fg19igz0.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;img src=&#34;https://tva2.sinaimg.cn/large/ad5fbf65gy1g55aendhrwj22fg19igz0.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;后记&#34;&gt;后记&lt;/h2&gt;
 &lt;p&gt;到这里可以在 GitHub 上装逼的 golang 配置已经介绍的差不多了，其实还有 &lt;a href=&#34;https://codecov.io/&#34;&gt;Codecov&lt;/a&gt;、&lt;a href=&#34;https://circleci.com/&#34;&gt;CircleCI&lt;/a&gt; 等工具，这里就不做介绍了。这里要介绍的是我们的第一个 golang 项目 &lt;a href=&#34;https://github.com/sunny0826/hamal&#34;&gt;Hamal&lt;/a&gt;，该项目是一个命令行工具，用来在不同的镜像仓库之间同步镜像。由于我司推行混合云，使用了阿里云与华为云，而在阿里云或华为云环境互相推镜像的时候时间都比较长，所以开发这个小工具用于在办公网络镜像同步，同时也可以用来将我在 dockerhub 上托管的镜像同步到我们的私有仓库，欢迎拍砖。&lt;/p&gt;
 
